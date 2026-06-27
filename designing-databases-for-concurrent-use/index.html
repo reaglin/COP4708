@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing Databases for Concurrent Use – COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      background-color: #f4f6f9;
+      color: #1e2a3a;
+    }
+
+    /* ── Page Shell ── */
+    .page-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    /* ── Course Label ── */
+    .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5a7fa8;
+      background-color: #e4edf7;
+      border-radius: 4px;
+      padding: 0.25rem 0.65rem;
+      margin-bottom: 0.9rem;
+    }
+
+    /* ── Header ── */
+    .module-header {
+      border-left: 5px solid #2c6fad;
+      padding-left: 1.1rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .module-header h1 {
+      font-size: clamp(1.55rem, 3.5vw, 2.1rem);
+      font-weight: 700;
+      color: #152841;
+      margin-bottom: 0.55rem;
+    }
+
+    .module-header p {
+      font-size: 0.97rem;
+      color: #3f536e;
+      max-width: 72ch;
+    }
+
+    /* ── Section Heading ── */
+    .section-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #5a7fa8;
+      margin-bottom: 1rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #d0dcea;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* ── Artifact Card ── */
+    .card {
+      background: #ffffff;
+      border: 1px solid #d6e1ee;
+      border-radius: 8px;
+      padding: 1.3rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 18px rgba(44, 111, 173, 0.12);
+      border-color: #a8c4e0;
+    }
+
+    /* ── Card Header Row ── */
+    .card-title-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #152841;
+    }
+
+    .card-name a {
+      color: #1a5fa3;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .card-name a:hover,
+    .card-name a:focus {
+      color: #0d3f70;
+      border-bottom-color: #0d3f70;
+      outline: none;
+    }
+
+    .source-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #5a7fa8;
+      text-decoration: none;
+      border: 1px solid #b0c9e4;
+      border-radius: 3px;
+      padding: 0.1rem 0.4rem;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background-color: #e4edf7;
+      color: #0d3f70;
+      outline: none;
+    }
+
+    /* ── Badges Row ── */
+    .card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+      padding: 0.18rem 0.55rem;
+    }
+
+    .badge-type {
+      background-color: #e8f0fb;
+      color: #2c5f9e;
+    }
+
+    .badge-filetype {
+      background-color: #edf7f0;
+      color: #276b43;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.88rem;
+      color: #3f536e;
+      line-height: 1.55;
+      flex-grow: 1;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      margin-top: 3.5rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #8aa0ba;
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+  <div class="page-wrapper">
+
+    <!-- ── Header ── -->
+    <header class="module-header">
+      <span class="course-label">COP4708</span>
+      <h1>Designing Databases for Concurrent Use</h1>
+      <p>
+        Explore the principles and techniques required to build robust database systems
+        that support multiple simultaneous users. This module covers ACID transaction
+        properties, common concurrency problems—including dirty reads and phantom
+        reads—and the locking mechanisms used to maintain data integrity in shared
+        environments.
+      </p>
+    </header>
+
+    <!-- ── Artifacts ── -->
+    <section aria-label="Module Artifacts">
+      <h2 class="section-heading">Module Artifacts</h2>
+      <div class="card-grid">
+
+        <!-- Card: Module Topics -->
+        <article class="card">
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/module_topics.html">Module Topics</a>
+            </span>
+            <a
+              class="source-link"
+              href="source/hierarchy.json"
+              aria-label="Source file for Module Topics"
+            >source file</a>
+          </div>
+
+          <div class="card-badges">
+            <span class="badge badge-type">Module Topics</span>
+            <span class="badge badge-filetype">.json</span>
+          </div>
+
+          <p class="card-description">
+            Outlines the module's topic sequence covering multi-user database
+            environments, ACID transaction properties, concurrency problems such as
+            dirty reads and phantom reads, and locking mechanisms, serving as a
+            navigation guide for learners and instructors to understand the scope
+            and order of the module's content.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="page-footer">
+      <p>COP4708 &mdash; Designing Databases for Concurrent Use</p>
+    </footer>
+
+  </div>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section></body>
+</html>

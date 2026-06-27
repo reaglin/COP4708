@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQL Data Modeling Language – COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6f9;
+      color: #1e2530;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header / Hero ── */
+    header {
+      background: linear-gradient(135deg, #0d3b6e 0%, #1a5fa8 60%, #1e7abf 100%);
+      color: #fff;
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    header .course-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.88);
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5a6a82;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #d8e0eb;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #dce4ef;
+      border-radius: 10px;
+      padding: 1.5rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      box-shadow: 0 2px 8px rgba(13,59,110,0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(13,59,110,0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Header Row ── */
+    .card-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 0.75rem;
+    }
+
+    .card-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0d3b6e;
+    }
+
+    .card-name a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 2px solid #1a5fa8;
+      padding-bottom: 1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .card-name a:hover {
+      color: #1a5fa8;
+      border-color: #1e7abf;
+    }
+
+    .source-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+      background: #5a6a82;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+      align-self: center;
+    }
+
+    .source-link:hover {
+      background: #3e4f65;
+    }
+
+    /* ── Badges Row ── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 5px;
+      padding: 0.2rem 0.6rem;
+    }
+
+    .badge-type {
+      background: #e8f0fb;
+      color: #1a5fa8;
+      border: 1px solid #c0d4f5;
+    }
+
+    .badge-filetype {
+      background: #eef7ee;
+      color: #2a7a3b;
+      border: 1px solid #b6deba;
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.88rem;
+      color: #3d4f66;
+      line-height: 1.65;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.78rem;
+      color: #8a97ab;
+      border-top: 1px solid #dce4ef;
+      background: #f4f6f9;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      header { padding: 2rem 1.2rem 2rem; }
+      main { padding: 1.8rem 1rem 3rem; }
+      .card { padding: 1.2rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="course-label">COP4708</div>
+    <h1>SQL Data Modeling Language</h1>
+    <p>
+      Explore the foundational concepts of SQL as a data modeling language, covering
+      relational database fundamentals, logical modeling, schema creation, and key
+      definitions that underpin modern database design.
+    </p>
+  </header>
+
+  <main>
+    <p class="section-label">Module Artifacts</p>
+
+    <div class="card-grid">
+
+      <!-- Artifact: Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-name">
+            <!-- viewHref is non-empty → hyperlink -->
+            <a href="content/module_topics.html">Module Topics</a>
+          </span>
+          <!-- sourceHref is non-empty → secondary link -->
+          <a class="source-link" href="source/hierarchy.json" title="Raw source file">source file</a>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+
+        <p class="card-description">
+          A structured outline of the module's learning topics, progressing from SQL's role
+          as a data modeling language and relational database fundamentals through logical
+          modeling concepts, schema creation, and related definitions, used by instructors
+          to organize content and by learners to navigate what will be covered.
+        </p>
+      </div>
+
+    </div><!-- /.card-grid -->
+  </main>
+
+  <footer>
+    COP4708 &mdash; SQL Data Modeling Language &mdash; Course Module Index
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section></body>
+</html>

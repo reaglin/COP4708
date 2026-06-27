@@ -1,0 +1,1306 @@
+{
+  "ModuleFolderName": "SQL_Data_Definition",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T15:05:46.7887084-04:00",
+  "ModifiedDate": "2026-06-27T15:08:18.6195212-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "e27848d8-3460-4cf2-9aaa-96756421c389",
+      "Title": "Introduction to SQL DDL",
+      "Summary": "Overview of Data Definition Language and its role in database management. Students learn how DDL differs from other SQL sublanguages and why it is essential for defining database structures.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "6181a8c9-8358-47d5-86e1-eb638bb770ae",
+          "TopicId": "e27848d8-3460-4cf2-9aaa-96756421c389",
+          "Title": "What is SQL DDL?",
+          "BodyText": "Data Definition Language (DDL) is a subset of SQL used to define, create, and manage the structure of database objects.",
+          "Notes": "DDL is distinct from the data itself \u2014 it describes the containers and rules that hold data, not the data values stored within them.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "ModifiedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "Items": [
+            {
+              "Id": "bdbac13c-90a2-49d2-9e76-70a5a064ecec",
+              "Text": "DDL commands operate on database objects such as tables, schemas, indexes, and constraints.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "15e69571-d132-4777-af3f-ab1a1f894eeb",
+              "Text": "DDL instructions tell the database engine how data should be organized and stored.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7681461c-2d08-4836-bd10-26cfc4fd21e0",
+              "Text": "Common DDL commands include CREATE, ALTER, DROP, and TRUNCATE.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "cac5f88d-3ff8-4e61-8dbd-0904952fd77f",
+          "TopicId": "e27848d8-3460-4cf2-9aaa-96756421c389",
+          "Title": "DDL vs. Other SQL Sublanguages",
+          "BodyText": "SQL is divided into several sublanguages, each serving a distinct purpose in database management.",
+          "Notes": "Understanding these distinctions helps developers choose the right command category for each task and avoid errors such as accidentally using a DML command when a DDL command is needed.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "ModifiedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "Items": [
+            {
+              "Id": "2de1144a-f7fa-45f3-8ba1-7a42f76f806d",
+              "Text": "Data Manipulation Language (DML) \u2014 commands like SELECT, INSERT, UPDATE, and DELETE \u2014 works with the data stored inside structures, whereas DDL defines those structures.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6a9e7e0f-445a-4080-bbec-0c623ff886b1",
+              "Text": "Data Control Language (DCL) manages permissions and access rights, which is separate from DDL\u0027s structural focus.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "544032a3-0e7e-4d6e-ac02-7c7179ba4deb",
+              "Text": "DDL changes are typically auto-committed, meaning they cannot be rolled back in most database systems, unlike many DML operations.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "bd9986cc-e4a0-46c6-9569-eed1403731f1",
+          "TopicId": "e27848d8-3460-4cf2-9aaa-96756421c389",
+          "Title": "The Role of DDL in Database Management",
+          "BodyText": "DDL is essential for establishing the blueprint of a database before any data can be stored or queried.",
+          "Notes": "Without DDL, there would be no structure for data to reside in; every database project begins with DDL commands to set up its foundational schema.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "ModifiedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "Items": [
+            {
+              "Id": "308f3013-b3da-4178-b0b9-66fa830bd3ad",
+              "Text": "DDL allows database administrators and developers to create the initial schema that reflects business requirements.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c2576f91-1244-4d32-a36f-420164bb677b",
+              "Text": "It enables ongoing structural changes to accommodate evolving application needs, such as adding new columns or modifying data types.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "bfd91ccc-f275-4cfe-9146-f087440d943b",
+              "Text": "Properly defined DDL structures enforce data integrity rules at the database level.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0387c50d-2a7b-47c8-be1a-e378456221f4",
+          "TopicId": "e27848d8-3460-4cf2-9aaa-96756421c389",
+          "Title": "Database Objects Defined by DDL",
+          "BodyText": "DDL commands can create and manage a variety of database objects beyond just tables.",
+          "Notes": "Each object type serves a specific organizational or performance purpose within the overall database architecture.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "ModifiedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "Items": [
+            {
+              "Id": "ae274b4d-ebdd-4a27-a926-8858922dfd5d",
+              "Text": "Tables are the primary objects created with DDL, serving as the main storage units for structured data.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7cfab17e-de30-4ae4-bcec-cc82a431345d",
+              "Text": "Schemas are logical groupings or namespaces that organize related tables and other objects together.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6735990d-2788-4121-abb5-54c4f951ee62",
+              "Text": "Constraints, such as primary keys and foreign keys, are also defined using DDL and enforce rules on the data.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c17cf243-89ae-434f-a687-08d2ce0c1dc7",
+          "TopicId": "e27848d8-3460-4cf2-9aaa-96756421c389",
+          "Title": "Why DDL Skills Are Essential for Developers",
+          "BodyText": "Proficiency in DDL is a foundational skill for anyone who designs, builds, or maintains relational databases.",
+          "Notes": "Hands-on practice with DDL commands builds the confidence needed to set up real-world database environments from scratch.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "ModifiedDate": "2026-06-27T15:06:02.9481569-04:00",
+          "Items": [
+            {
+              "Id": "783f36d4-51a0-4fe0-a96a-e39c2e810d54",
+              "Text": "Developers must use DDL to translate data models and entity-relationship diagrams into working database structures.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c591a0dc-b519-42e8-90fc-5559ebcaf9f8",
+              "Text": "Database administrators rely on DDL to safely modify production schemas while minimizing disruption to running applications.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "de9dd49e-0289-4e02-b246-0ae836959138",
+              "Text": "Understanding DDL enables teams to version-control their database structure alongside application code.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+      "Title": "The CREATE Command",
+      "Summary": "Covers how to use the CREATE statement to build new databases, schemas, and tables. Students practice defining table structures with appropriate column names and data types.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "7f490e40-d9ab-4a0f-9931-2f7f8e57d07d",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Introduction to the CREATE Statement",
+          "BodyText": "The CREATE statement is a foundational DDL command used to build new database objects such as databases, schemas, and tables.",
+          "Notes": "CREATE is a non-transactional statement in most database systems, meaning it takes effect immediately and cannot be rolled back in many environments.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "cd2be8f1-d419-4e9d-95bb-456fb0e4afc3",
+              "Text": "CREATE is one of the core SQL DDL commands alongside ALTER, DROP, and TRUNCATE.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "bc1fe281-7762-43f7-a4ac-0629531827aa",
+              "Text": "It defines the structure of a new object without inserting or manipulating any data.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d2ed8a47-1b96-4e78-b13c-136d542802b1",
+              "Text": "The CREATE statement is used at the beginning of database design to establish the framework for storing data.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5f1a3a04-095a-4242-a5a9-c957db2cf058",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Creating a New Database",
+          "BodyText": "Before creating tables, a database must exist as the top-level container for all related schemas and tables.",
+          "Notes": "Example syntax: CREATE DATABASE company_db; \u2014 This creates a new, empty database named company_db.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "b29cfff0-e5c0-49b1-9f36-59a91cccb199",
+              "Text": "The syntax CREATE DATABASE database_name; is used to initialize a new database instance.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4aa7a656-e8fc-4178-9d7d-7e1f1e055f85",
+              "Text": "Database names should be descriptive, concise, and free of spaces, typically using underscores as separators.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "aa54950e-cb54-4671-85ab-2b48a5a9ba3c",
+              "Text": "Once created, the database must be selected or referenced before objects such as tables can be added inside it.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0a0d0132-56c4-40ad-89a4-c104316ecc84",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Creating a Schema",
+          "BodyText": "A schema is a logical namespace within a database that groups related tables and objects together.",
+          "Notes": "Example syntax: CREATE SCHEMA hr; \u2014 This creates a schema named \u0027hr\u0027 that could contain all human resources-related tables.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "ea9f720f-d97d-47f8-9d13-ae13153ecdaf",
+              "Text": "The syntax CREATE SCHEMA schema_name; creates a new schema within the current database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7e117f08-f2d8-4ba8-9c3f-490329ada2d0",
+              "Text": "Schemas help organize large databases by separating objects into logical domains such as sales, hr, or finance.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "325336a8-c127-4426-87d0-a781c968ccf7",
+              "Text": "Tables and other objects can be referenced using dot notation, such as schema_name.table_name.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "db61089c-1626-463b-b130-57296779aa59",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Creating a Table with Column Definitions",
+          "BodyText": "The CREATE TABLE statement defines a new table by specifying its name, column names, and associated data types.",
+          "Notes": "Example: CREATE TABLE employees (employee_id INT, first_name VARCHAR(50), hire_date DATE); \u2014 Each column is separated by a comma within the parentheses.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "4c1d7cc3-b593-406d-8a2f-aeefe1cd97da",
+              "Text": "The basic syntax is CREATE TABLE table_name (column1 datatype, column2 datatype, ...);",
+              "SortOrder": 0
+            },
+            {
+              "Id": "bc4aba3d-df85-4af4-8420-5392fd1fd075",
+              "Text": "Every column definition must include at minimum a column name and a data type.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "da7057b6-f866-4a5b-9f71-f3e98a8759ec",
+              "Text": "Table and column names should clearly reflect the data they store and follow consistent naming conventions.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "e29b9601-f51d-4c28-a5a8-d3b15e0532f0",
+              "Text": "The number of columns and their order are fixed at creation, though they can be modified later with the ALTER command.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "91336009-bb81-486d-b236-facfbbf510fc",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Choosing Appropriate Data Types",
+          "BodyText": "Selecting the correct data type for each column is critical to ensuring data integrity, storage efficiency, and query performance.",
+          "Notes": "Common data types include INT for whole numbers, VARCHAR(n) for variable-length text, DATE for calendar dates, DECIMAL(p,s) for precise numeric values, and BOOLEAN for true/false values.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "9710234a-8fbc-4c0d-8853-e8820cbc124c",
+              "Text": "Numeric types such as INT, SMALLINT, and DECIMAL are used for columns storing numbers or calculations.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cfd05a43-54b8-4c1e-83b9-14c449728ce6",
+              "Text": "Character types such as CHAR(n) and VARCHAR(n) store text, with VARCHAR being more storage-efficient for variable-length strings.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "20eee918-a409-41fa-8b4b-1971bd39ed46",
+              "Text": "Date and time types such as DATE, TIME, and DATETIME store temporal data for scheduling or record-keeping.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "88b08cef-a9de-4c0a-833d-d8688421ab1c",
+              "Text": "Choosing an overly large data type wastes storage, while choosing too small a type can cause data truncation or errors.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "82ce12f9-ffa0-403a-8328-7164499936c1",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Defining a Table Within a Specific Schema",
+          "BodyText": "When working with multiple schemas, tables should be created explicitly within the intended schema using dot notation.",
+          "Notes": "Example: CREATE TABLE hr.employees (employee_id INT, last_name VARCHAR(100)); \u2014 This places the employees table inside the hr schema.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "40c7ce78-19cb-43fc-8995-763795581f01",
+              "Text": "The syntax CREATE TABLE schema_name.table_name (...) assigns the table to a specific schema at creation time.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "01511358-fb3e-47c5-9796-9004d83535ab",
+              "Text": "Explicitly specifying the schema prevents tables from being created in an unintended default schema.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b9dee69c-f105-412f-8d40-bff612f7573c",
+              "Text": "This practice is especially important in enterprise environments where multiple schemas share a single database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4de1d284-2f52-4042-a235-9a5ecbd16c89",
+          "TopicId": "984fb9c9-037d-4ddd-8e71-ab88521f0b19",
+          "Title": "Best Practices for Writing CREATE Statements",
+          "BodyText": "Following consistent conventions when writing CREATE statements improves readability, maintainability, and collaboration across database projects.",
+          "Notes": "Many development teams maintain a data dictionary or schema documentation that mirrors the CREATE statements used to build the database.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "ModifiedDate": "2026-06-27T15:06:24.7083293-04:00",
+          "Items": [
+            {
+              "Id": "7980378d-191f-4ecb-ad5d-1f4905164326",
+              "Text": "Use meaningful, descriptive names for databases, schemas, tables, and columns to make the structure self-documenting.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4c151fc8-e5d0-48d1-b0d8-f489c1bf92f8",
+              "Text": "Format CREATE TABLE statements with each column definition on its own line for easier reading and editing.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e1532640-950f-478f-a271-a441bff20eff",
+              "Text": "Plan and finalize column names and data types before executing the CREATE statement to minimize the need for later alterations.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "4078b65e-a12c-4362-8219-879d12580cc7",
+              "Text": "Avoid using reserved SQL keywords as object names to prevent syntax conflicts and errors.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+      "Title": "Data Types and Column Definitions",
+      "Summary": "Explores the common SQL data types used when defining table columns, such as integers, strings, dates, and decimals. Students learn how to choose appropriate data types to ensure data integrity and storage efficiency.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "3d09b0f9-2292-4715-9303-188388fac120",
+          "TopicId": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+          "Title": "Numeric Data Types",
+          "BodyText": "SQL provides several numeric data types to store whole numbers and decimal values efficiently depending on the range and precision required.",
+          "Notes": "Choosing the wrong numeric type can waste storage or cause overflow errors. For example, using BIGINT when SMALLINT suffices wastes space.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:06:50.720416-04:00",
+          "ModifiedDate": "2026-06-27T15:06:50.720416-04:00",
+          "Items": [
+            {
+              "Id": "20619074-a6b2-433e-9256-de63902671b3",
+              "Text": "INT or INTEGER stores whole numbers within a standard range, typically \u20132,147,483,648 to 2,147,483,647.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "10d54c76-c5ac-4ba8-89da-12ceb1df5bd8",
+              "Text": "SMALLINT and BIGINT offer smaller or larger integer ranges respectively, allowing storage optimization.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "229bcc9a-02a3-42d9-a717-328bf94fcdaf",
+              "Text": "DECIMAL(p, s) or NUMERIC(p, s) store exact fixed-point numbers where p is total precision and s is the scale (digits after the decimal point).",
+              "SortOrder": 2
+            },
+            {
+              "Id": "e17f6458-52af-4d01-a4e6-4dcc4ba93d66",
+              "Text": "FLOAT and REAL store approximate floating-point numbers and are suitable for scientific calculations where minor rounding is acceptable.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "b7011bbc-55ee-4d01-8449-08aa00682149",
+          "TopicId": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+          "Title": "Character and String Data Types",
+          "BodyText": "String data types are used to store text values such as names, descriptions, and codes, and differ primarily in how they handle length.",
+          "Notes": "CHAR pads values with spaces to fill the defined length, making it efficient for fixed-length fields like country codes. VARCHAR avoids this padding, saving space for variable-length content.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:06:50.720416-04:00",
+          "ModifiedDate": "2026-06-27T15:06:50.720416-04:00",
+          "Items": [
+            {
+              "Id": "531f8157-496e-4e3f-b48a-b01e41cdb5cc",
+              "Text": "CHAR(n) stores a fixed-length string of exactly n characters, padding with spaces if the value is shorter.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "feda5a40-748c-4f6e-9920-f84691729663",
+              "Text": "VARCHAR(n) stores a variable-length string up to n characters, using only as much space as the actual content requires.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "48f5624c-19a5-4e8c-b333-e0aa48dd22c7",
+              "Text": "TEXT (available in many databases) stores large amounts of character data without a defined length limit, suitable for long descriptions or notes.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ba5fe3db-b6ba-46ce-b0a0-9a005683bc5c",
+              "Text": "Choosing between CHAR and VARCHAR depends on whether the data consistently occupies the same length, such as two-letter state codes versus full addresses.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "a3fca157-203c-4057-99e0-9ed3a191e2ee",
+          "TopicId": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+          "Title": "Date and Time Data Types",
+          "BodyText": "Date and time data types allow columns to store temporal information such as birth dates, timestamps, and durations in a structured, queryable format.",
+          "Notes": "Storing dates as plain strings prevents proper sorting and date arithmetic. Using proper date/time types enables functions like DATEDIFF and date-based filtering.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:06:50.720416-04:00",
+          "ModifiedDate": "2026-06-27T15:06:50.720416-04:00",
+          "Items": [
+            {
+              "Id": "837ba059-fe53-4e8e-bf2b-73a3a3a705d2",
+              "Text": "DATE stores a calendar date (year, month, day) with no time component, such as \u00272024-06-15\u0027.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "3074d7db-396a-4c05-bced-941f454647a8",
+              "Text": "TIME stores the time of day (hours, minutes, seconds) without any date component.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "456eb1db-cc52-468c-a0c9-0ee83e07ecac",
+              "Text": "DATETIME or TIMESTAMP stores both date and time together, commonly used for recording when records were created or updated.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ee2ed777-bb4d-491a-b169-170aa48fedef",
+              "Text": "TIMESTAMP often automatically tracks the current system time and may support time zone awareness depending on the database system.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "b9fc06ff-817c-435a-ba12-8e00738ebb17",
+          "TopicId": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+          "Title": "Boolean and Binary Data Types",
+          "BodyText": "Beyond text and numbers, SQL supports Boolean types for true/false logic and binary types for storing raw data such as images or files.",
+          "Notes": "Some databases like MySQL use TINYINT(1) to represent Boolean values since a native BOOLEAN type may internally map to an integer.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:06:50.720416-04:00",
+          "ModifiedDate": "2026-06-27T15:06:50.720416-04:00",
+          "Items": [
+            {
+              "Id": "590907e0-c68a-4bec-87d3-e5057e280f2b",
+              "Text": "BOOLEAN (or BOOL) stores a truth value, typically TRUE or FALSE, and is useful for flags such as is_active or is_deleted.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a0a74443-790c-4b0d-ba5b-d1e7025bf238",
+              "Text": "BINARY and VARBINARY store fixed-length or variable-length binary data, analogous to CHAR and VARCHAR but for raw byte sequences.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0dd56543-988f-42af-a119-ca420b0313cc",
+              "Text": "BLOB (Binary Large Object) stores large binary data such as images, audio, or documents directly within the database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "62fd11be-fb2c-4fa7-b7d9-ae5d282469e7",
+          "TopicId": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+          "Title": "Choosing Appropriate Data Types for Data Integrity",
+          "BodyText": "Selecting the correct data type for each column is a foundational practice that enforces data integrity by restricting the kind of data that can be stored.",
+          "Notes": "For example, defining a price column as VARCHAR instead of DECIMAL would allow text to be inserted, breaking calculations and reports.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:06:50.720416-04:00",
+          "ModifiedDate": "2026-06-27T15:06:50.720416-04:00",
+          "Items": [
+            {
+              "Id": "754dac74-86d8-4db4-a5ce-d0092c6ca1bf",
+              "Text": "Matching the data type to the real-world nature of the data (e.g., DECIMAL for currency) prevents invalid values from being stored.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0e2d6553-ce63-4e2e-8c1d-b9f837d8d6e8",
+              "Text": "Using appropriately sized types, such as SMALLINT instead of BIGINT for a column storing values 1\u2013100, improves storage efficiency.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ccabaf7d-29a6-470f-ad5f-1dcbf3457b09",
+              "Text": "Numeric types enforce that only numbers are inserted, while date types enforce valid date formats, reducing application-level validation needs.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "cfdeb0a6-951d-447e-89bc-2af4074d207c",
+              "Text": "Overly permissive types like TEXT or VARCHAR(MAX) should be avoided when a stricter type accurately represents the expected data.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "d8338c21-7ad1-4e19-bb3c-91e4a552abf6",
+          "TopicId": "2c3d0781-6ebb-43cb-ac90-7f6261fc198c",
+          "Title": "Defining Columns in a CREATE TABLE Statement",
+          "BodyText": "When creating a table, each column definition specifies the column name, its data type, and any additional constraints or default values.",
+          "Notes": "Example: CREATE TABLE Employees (EmployeeID INT, FirstName VARCHAR(50), HireDate DATE, Salary DECIMAL(10,2));",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:06:50.720416-04:00",
+          "ModifiedDate": "2026-06-27T15:06:50.720416-04:00",
+          "Items": [
+            {
+              "Id": "1700dd91-b7c7-44fe-a57c-e0362af18eac",
+              "Text": "Each column definition follows the syntax: column_name data_type [constraints], listed within the CREATE TABLE parentheses.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "10204373-5159-4a94-aecc-60d2dcfbd0e8",
+              "Text": "A column can be assigned a DEFAULT value so that rows inserted without specifying that column automatically receive a predefined value.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "be97c6ee-0e9e-47f7-b07a-258ab19e5121",
+              "Text": "NULL or NOT NULL constraints are specified at the column level to indicate whether the column must always contain a value.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "91cb11e8-949a-4695-bd1f-5fedc9351ae6",
+              "Text": "Multiple columns are separated by commas, and the data type chosen directly determines the validation and storage behavior for that column.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+      "Title": "Constraints in SQL",
+      "Summary": "Introduces key constraints including PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, and DEFAULT that enforce rules on table data. Students apply constraints during table creation to maintain data accuracy and relational integrity.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "d0a3849e-0050-41a3-97f9-0c4e07db183a",
+          "TopicId": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+          "Title": "PRIMARY KEY Constraint",
+          "BodyText": "A PRIMARY KEY constraint uniquely identifies each record in a table and ensures no two rows have the same value in the designated column(s).",
+          "Notes": "A table can have only one PRIMARY KEY, which may consist of a single column or a combination of columns (composite key). Example: CREATE TABLE Students (StudentID INT PRIMARY KEY, Name VARCHAR(50));",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "ModifiedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "Items": [
+            {
+              "Id": "6a5f0d29-b50b-4d90-a0ab-76921e99d3fb",
+              "Text": "The PRIMARY KEY column automatically enforces both UNIQUE and NOT NULL constraints.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "198dcf96-fe0f-40ad-b0da-c69238f8f6c2",
+              "Text": "Composite primary keys are defined at the table level using PRIMARY KEY (col1, col2) syntax.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "149c1686-5c2b-4c95-bb4f-7bfbe57e9cb3",
+              "Text": "Primary keys are essential for establishing relational links between tables.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d2d41d62-2c7a-4a47-9761-e853e8db8557",
+          "TopicId": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+          "Title": "FOREIGN KEY Constraint",
+          "BodyText": "A FOREIGN KEY constraint creates a relational link between two tables by referencing the PRIMARY KEY of another table, enforcing referential integrity.",
+          "Notes": "Example: CREATE TABLE Enrollments (EnrollmentID INT PRIMARY KEY, StudentID INT, FOREIGN KEY (StudentID) REFERENCES Students(StudentID)); This ensures only valid StudentIDs from the Students table can be inserted.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "ModifiedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "Items": [
+            {
+              "Id": "1582c795-f479-4f4a-909a-8967c39ce502",
+              "Text": "The foreign key column in the child table must match values that exist in the referenced parent table\u0027s primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c15dad3d-9093-4a25-92c3-a2dfcf8258aa",
+              "Text": "Attempting to insert a value that does not exist in the parent table will result in a referential integrity error.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0c5aa63c-7f0a-4ce1-a92e-ed83572396b9",
+              "Text": "Foreign keys can be configured with ON DELETE or ON UPDATE actions such as CASCADE or SET NULL to manage related records automatically.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8275b5a0-4e39-448d-9615-90076da062fa",
+          "TopicId": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+          "Title": "NOT NULL Constraint",
+          "BodyText": "The NOT NULL constraint ensures that a column cannot store a NULL value, requiring every inserted or updated row to provide a value for that column.",
+          "Notes": "Example: CREATE TABLE Employees (EmployeeID INT NOT NULL, LastName VARCHAR(50) NOT NULL); This guarantees that critical fields always contain data.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "ModifiedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "Items": [
+            {
+              "Id": "9f8a8bdb-a2e0-415b-bf22-6b0213c29554",
+              "Text": "By default, columns in SQL accept NULL values unless NOT NULL is explicitly specified.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ab06fe54-c263-4219-b1d8-48b29c47f196",
+              "Text": "NOT NULL is commonly applied to columns that are essential for business logic, such as names, dates, or identifiers.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "93cafa69-d1b0-495f-a208-e6dd999b0044",
+              "Text": "This constraint helps maintain data completeness and prevents incomplete records from entering the database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "86eac3d8-f0e4-43fd-b2f3-b1fab11d5727",
+          "TopicId": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+          "Title": "UNIQUE Constraint",
+          "BodyText": "The UNIQUE constraint ensures that all values in a column or combination of columns are distinct across all rows in the table.",
+          "Notes": "Example: CREATE TABLE Users (UserID INT PRIMARY KEY, Email VARCHAR(100) UNIQUE); This prevents two users from registering with the same email address.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "ModifiedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "Items": [
+            {
+              "Id": "e46d14f3-c5ac-49f3-aa97-c5ef480eab48",
+              "Text": "Unlike PRIMARY KEY, a table can have multiple UNIQUE constraints applied to different columns.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "65816e51-2d26-48e0-82f1-7b9e21ecfe21",
+              "Text": "UNIQUE columns can accept NULL values unless also paired with a NOT NULL constraint, depending on the database system.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1463c866-355d-4d47-8123-6539b65846dc",
+              "Text": "UNIQUE constraints are useful for columns like email addresses, usernames, or national identification numbers that must be distinct.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "411f3310-44ba-480f-bb4b-e70a10cd2585",
+          "TopicId": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+          "Title": "DEFAULT Constraint",
+          "BodyText": "The DEFAULT constraint assigns a predefined value to a column automatically when no value is explicitly provided during an INSERT operation.",
+          "Notes": "Example: CREATE TABLE Orders (OrderID INT PRIMARY KEY, OrderDate DATE DEFAULT GETDATE(), Status VARCHAR(20) DEFAULT \u0027Pending\u0027); This ensures sensible default values are stored without requiring explicit input.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "ModifiedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "Items": [
+            {
+              "Id": "2f3b5683-bf46-4745-a4e0-99964aca2acb",
+              "Text": "DEFAULT values can be literal values such as numbers, strings, or date functions supported by the database system.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6c102e83-7546-46fe-b42e-500e536a5590",
+              "Text": "When an INSERT statement omits a column that has a DEFAULT, the database automatically uses the defined default value.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7df27e51-db30-4f54-9391-6e9588a710dc",
+              "Text": "Using DEFAULT constraints reduces application-level logic and helps enforce consistent data entry standards.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "88b94138-f289-436d-8e28-9b5f4fd4c8de",
+          "TopicId": "57b4a648-9f9a-4ab1-a986-5ad5acf35fef",
+          "Title": "Applying Constraints During Table Creation",
+          "BodyText": "Constraints can be defined inline with column definitions or at the table level within the CREATE TABLE statement, giving developers flexibility in how rules are structured.",
+          "Notes": "Inline example: col INT NOT NULL UNIQUE. Table-level example: CONSTRAINT fk_dept FOREIGN KEY (DeptID) REFERENCES Departments(DeptID). Named constraints make it easier to identify and manage them later with ALTER TABLE.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "ModifiedDate": "2026-06-27T15:07:10.6083226-04:00",
+          "Items": [
+            {
+              "Id": "e1064ac7-ae4a-4ba2-b0ca-3343015cbba2",
+              "Text": "Inline constraints are written directly after the column data type and are suitable for single-column constraints.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5df4c95a-3d39-469a-a3e3-c338fa9f7bba",
+              "Text": "Table-level constraints are declared after all column definitions and are required for composite keys or foreign keys spanning multiple columns.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "716c4698-0329-46ae-ac28-a26132600b03",
+              "Text": "Naming constraints explicitly using the CONSTRAINT keyword makes it easier to reference them when using ALTER TABLE to modify or drop them.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "259437bf-41fe-44d3-a386-ec75a250c212",
+              "Text": "Combining multiple constraints on a single column, such as NOT NULL and UNIQUE together, provides stronger data integrity guarantees.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+      "Title": "The ALTER Command",
+      "Summary": "Explains how to modify existing database structures using ALTER TABLE to add, modify, or drop columns and constraints. Students practice evolving table designs without losing existing data.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "5372c2a3-77e7-4224-9ee7-866e137b7445",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Introduction to ALTER TABLE",
+          "BodyText": "The ALTER TABLE command is used to modify the structure of an existing database table without deleting or recreating it.",
+          "Notes": "This is especially valuable in production environments where dropping and recreating a table would result in data loss.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "afb884f6-41b0-4288-b062-da0139bba34e",
+              "Text": "ALTER TABLE allows structural changes to a table after it has been created and populated with data.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e2d9a0a9-6900-475b-9d26-cb5a1ccbd8f0",
+              "Text": "It is a DDL command, meaning its changes are applied immediately to the table\u0027s schema.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1551d9b8-46ba-4a0b-aa22-273275e21fc8",
+              "Text": "Using ALTER TABLE preserves existing rows of data while updating the table\u0027s definition.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8d9343b8-2339-44e9-ad8b-32ca1853e944",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Adding Columns with ALTER TABLE",
+          "BodyText": "New columns can be added to an existing table using the ADD clause within an ALTER TABLE statement.",
+          "Notes": "Example: ALTER TABLE employees ADD email VARCHAR(100); \u2014 this adds an \u0027email\u0027 column to the existing \u0027employees\u0027 table.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "1280a73b-3dda-4eb4-9403-dcaa40a6c886",
+              "Text": "The ADD clause specifies the new column name along with its data type and any optional constraints.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8b3492ac-5c12-4094-b657-a56420cf22f5",
+              "Text": "Newly added columns are appended to the end of the table structure by default.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "50deb8bf-2eb7-4771-9baf-a614f8bfbc5f",
+              "Text": "Existing rows will have a NULL value (or a defined DEFAULT value) in the newly added column.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c4684a6b-2e70-4df3-93a0-ee93c99c7953",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Modifying Existing Columns",
+          "BodyText": "The MODIFY or ALTER COLUMN clause (syntax varies by database system) allows you to change a column\u0027s data type, size, or default value.",
+          "Notes": "In MySQL, the syntax is MODIFY COLUMN; in SQL Server and PostgreSQL, ALTER COLUMN is used instead. Example: ALTER TABLE employees MODIFY COLUMN salary DECIMAL(10,2);",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "36a17ce4-d4cd-4214-9d53-51e1ff29a5df",
+              "Text": "You can widen a column\u0027s data type (e.g., VARCHAR(50) to VARCHAR(100)) safely without data loss.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5b59526c-037c-4fa5-b3f9-f04a57778b41",
+              "Text": "Narrowing a data type or changing it incompatibly may cause errors if existing data does not conform.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "517c5723-9e62-44cd-92bc-097c903733d5",
+              "Text": "Default values and nullability constraints can also be updated using column modification syntax.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "46beb62b-5463-4b75-a3d8-10016dea24f1",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Dropping Columns with ALTER TABLE",
+          "BodyText": "The DROP COLUMN clause removes an existing column and all of its data permanently from the table.",
+          "Notes": "Example: ALTER TABLE employees DROP COLUMN middle_name; \u2014 this permanently removes the \u0027middle_name\u0027 column and all its stored values.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "20c06868-b99d-4e70-9df9-b402572e334f",
+              "Text": "Dropping a column is irreversible; all data stored in that column is permanently deleted.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "aed348ef-10d0-4717-9f32-cd38470f6715",
+              "Text": "Some databases restrict dropping a column that is referenced by a constraint, index, or foreign key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "af056eff-e3fb-4bb5-9658-8ca12805ef33",
+              "Text": "It is good practice to back up data or verify dependencies before dropping any column.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a94dbada-a99c-469a-be7e-3674373b2208",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Adding Constraints with ALTER TABLE",
+          "BodyText": "Constraints such as PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, and CHECK can be added to existing tables using ALTER TABLE.",
+          "Notes": "Example: ALTER TABLE orders ADD CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customers(id); \u2014 this links the orders table to the customers table.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "20d75011-67b7-4dc1-9211-362b176baf88",
+              "Text": "Adding a constraint to an existing table will fail if current data violates the constraint being applied.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "461c80ed-405a-4465-8ca4-b865d127f0b5",
+              "Text": "Named constraints are preferred because they are easier to reference when modifying or dropping them later.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "735efeca-032a-4e3c-8b7c-f0588ca44398",
+              "Text": "Foreign key constraints added via ALTER TABLE enforce referential integrity between two existing tables.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "75909bcf-46c9-4409-ba97-cfb2f3f7fc27",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Dropping Constraints with ALTER TABLE",
+          "BodyText": "Existing constraints can be removed from a table using the DROP CONSTRAINT clause within an ALTER TABLE statement.",
+          "Notes": "Syntax varies slightly by database: MySQL uses DROP FOREIGN KEY or DROP INDEX, while SQL Server and PostgreSQL use DROP CONSTRAINT followed by the constraint name.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "1bc8a93e-55d7-451c-9d46-b187efc240b4",
+              "Text": "To drop a named constraint, you reference it by the name assigned when it was created.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4fb3dfe6-3a3e-489e-8062-87c4c8e86bd8",
+              "Text": "Removing a PRIMARY KEY constraint may also require dropping related FOREIGN KEY constraints in other tables first.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c8b83f79-3a4b-41a1-b1b3-3f3423fc517c",
+              "Text": "Dropping a NOT NULL or CHECK constraint relaxes the rules on what data can be stored in that column going forward.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "83fc1cd2-1b1f-4169-9c09-e04bbd18bb2e",
+          "TopicId": "c49dbfab-0f6b-4b5d-97f3-48891494cab1",
+          "Title": "Evolving Table Designs Without Losing Data",
+          "BodyText": "A key advantage of ALTER TABLE is the ability to iteratively refine a table\u0027s structure as application requirements change, while keeping existing data intact.",
+          "Notes": "Best practice is to script all ALTER TABLE changes and test them in a development environment before applying to production databases.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "ModifiedDate": "2026-06-27T15:07:31.1548146-04:00",
+          "Items": [
+            {
+              "Id": "c902baed-de25-4bc2-b433-7ae62e85a7a2",
+              "Text": "Planning schema changes carefully minimizes the risk of data loss or application downtime.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c45abc70-d5b3-466a-b8f3-dffff75bcfb1",
+              "Text": "Multiple ALTER TABLE operations can be combined in a single statement in some databases to reduce table-locking overhead.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "26e10da3-f62d-4abb-ba40-5fa209bf8d1c",
+              "Text": "Version-controlled migration scripts help teams track and reproduce schema evolution across different environments.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+      "Title": "The DROP and TRUNCATE Commands",
+      "Summary": "Covers the DROP command for permanently removing database objects and TRUNCATE for quickly clearing all rows from a table. Students learn the differences, use cases, and risks associated with each command.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "1eb366c1-24bc-4dac-83e0-2a3e2025ebdc",
+          "TopicId": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+          "Title": "Introduction to the DROP Command",
+          "BodyText": "The DROP command is a DDL statement used to permanently remove an entire database object, such as a table, view, index, or database, from the system.",
+          "Notes": "For example, DROP TABLE Employees; removes the Employees table and all its data, structure, and associated constraints entirely from the database.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "ModifiedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "Items": [
+            {
+              "Id": "4dbf9d4e-3970-45d7-8b1d-ec40bc41bec8",
+              "Text": "DROP can be applied to various objects including tables, views, indexes, schemas, and entire databases.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2e0090ef-dd17-4ebe-b886-ae1aa8c582a5",
+              "Text": "Once executed, the DROP command is irreversible \u2014 the object and all its data are permanently deleted.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "de2aa91c-4dd5-4fba-a3cf-38351a0e752f",
+              "Text": "Unlike DML delete operations, DROP removes the object definition itself, not just the rows within it.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "7fef1cf7-c49b-4f0c-965a-3818579e37ce",
+          "TopicId": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+          "Title": "Syntax and Usage of DROP",
+          "BodyText": "The DROP command follows a straightforward syntax: DROP OBJECT_TYPE object_name, where OBJECT_TYPE specifies what kind of database object is being removed.",
+          "Notes": "Examples: DROP TABLE Orders; removes the Orders table. DROP DATABASE SalesDB; removes the entire database. DROP INDEX idx_name ON TableName; removes a specific index.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "ModifiedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "Items": [
+            {
+              "Id": "36591edf-ac3c-41dd-8935-9dcebf6a485b",
+              "Text": "The basic syntax is: DROP TABLE table_name; to remove a specific table from the database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "56758e7b-6e1c-4dce-aef1-4975d96daa8e",
+              "Text": "The IF EXISTS clause can be added (e.g., DROP TABLE IF EXISTS table_name;) to prevent errors when the object does not exist.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "15b8bb3e-bac3-485f-8c39-1478eaf1999c",
+              "Text": "Dropping a table that is referenced by a foreign key constraint in another table will typically raise an error unless dependencies are handled first.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "13618078-6d98-4c4b-9a86-d1ac214a37e8",
+          "TopicId": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+          "Title": "Introduction to the TRUNCATE Command",
+          "BodyText": "The TRUNCATE command is a DDL statement used to quickly remove all rows from a table while preserving the table\u0027s structure, columns, and constraints.",
+          "Notes": "For example, TRUNCATE TABLE Orders; clears all data from the Orders table but leaves the table itself intact and ready for new data to be inserted.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "ModifiedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "Items": [
+            {
+              "Id": "7b45c2e0-78e7-4bcf-b49d-7cf9a52184df",
+              "Text": "TRUNCATE removes all rows from a table in a single operation without logging individual row deletions, making it faster than a DELETE with no WHERE clause.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "beaa75b7-2010-4624-8842-b29abe75a574",
+              "Text": "The table schema, including column definitions, data types, and constraints, remains completely intact after a TRUNCATE operation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "726f61b4-471d-4f44-a815-ecf63abea605",
+              "Text": "TRUNCATE resets any auto-increment or identity columns back to their starting seed value in most database systems.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c8853878-847b-4380-92e6-046eebf3feed",
+          "TopicId": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+          "Title": "Key Differences Between DROP and TRUNCATE",
+          "BodyText": "Although both DROP and TRUNCATE remove data, they operate at fundamentally different levels \u2014 DROP removes the object entirely while TRUNCATE only clears the rows within it.",
+          "Notes": "A useful analogy: TRUNCATE is like emptying a container while keeping the container; DROP is like destroying the container along with everything inside it.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "ModifiedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "Items": [
+            {
+              "Id": "87818484-ec2c-49c3-a125-487e652ed6cc",
+              "Text": "DROP removes the table structure along with all data, while TRUNCATE removes only the data and keeps the structure in place.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e0df9c9a-8ce3-4a90-bb51-a0de761dab74",
+              "Text": "After a DROP, the table must be recreated with a CREATE TABLE statement before it can be used again; after TRUNCATE, data can be inserted immediately.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "bf414259-f8b7-4c76-b359-543d6c989e07",
+              "Text": "Both commands are DDL operations and are typically auto-committed, meaning they cannot be rolled back in most database systems once executed.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "a04ef114-47a1-4863-8208-15944da361c3",
+              "Text": "TRUNCATE cannot be used on tables that are referenced by active foreign key constraints, similar to DROP restrictions.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "56907eb8-2b24-466e-b4da-8d0120c0e6b0",
+          "TopicId": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+          "Title": "TRUNCATE vs. DELETE: Understanding the Distinction",
+          "BodyText": "TRUNCATE is often compared to the DELETE command, but there are important differences in how they operate and when each should be used.",
+          "Notes": "DELETE FROM Orders WHERE order_date \u003C \u00272020-01-01\u0027; removes only specific rows and is logged row by row. TRUNCATE TABLE Orders; removes all rows instantly with minimal logging.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "ModifiedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "Items": [
+            {
+              "Id": "00bd4c0d-2307-4719-ad83-320a32004a92",
+              "Text": "DELETE is a DML command that can remove specific rows using a WHERE clause, while TRUNCATE is a DDL command that always removes all rows.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a613bbce-2263-4961-a755-2c1e67f3a743",
+              "Text": "DELETE operations are logged individually for each row, allowing for rollback in a transaction; TRUNCATE uses minimal logging and typically cannot be rolled back.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c0780c3d-35ec-43a6-ac78-86bbbab1186c",
+              "Text": "TRUNCATE is significantly faster than DELETE on large tables because it does not scan and log each individual row deletion.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "2c329b6a-f247-421a-8910-39c0b915178c",
+              "Text": "DELETE fires row-level triggers defined on the table, whereas TRUNCATE does not activate triggers in most database systems.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "22d5fe3c-fbb0-48a2-b98d-0c49d848bcc7",
+          "TopicId": "e19fe3ad-074a-41c5-ad5e-2c63a883a4ec",
+          "Title": "Risks and Best Practices for DROP and TRUNCATE",
+          "BodyText": "Both DROP and TRUNCATE are powerful and potentially destructive commands that require careful consideration before execution, especially in production environments.",
+          "Notes": "Best practice in production: always take a database backup before executing DROP or TRUNCATE statements, and use IF EXISTS guards to prevent accidental errors on non-existent objects.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "ModifiedDate": "2026-06-27T15:07:57.6636855-04:00",
+          "Items": [
+            {
+              "Id": "5d3d01c8-bfe9-4976-b12b-2302d928427f",
+              "Text": "Always verify the correct object name before executing DROP or TRUNCATE to avoid accidentally removing the wrong table or database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "213554e4-6491-46eb-8dd0-a820be404211",
+              "Text": "Because both commands are generally irreversible, it is strongly recommended to back up data before running either command in a live environment.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "65c2b09a-0d5d-423a-a21f-79a1bdf13c15",
+              "Text": "Use TRUNCATE when you need to quickly reset a table\u0027s data for testing, staging, or reloading purposes without altering the schema.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "552cbb37-b047-4b97-8a1f-7cd47a269fac",
+              "Text": "Use DROP only when the table or object is no longer needed and its definition, along with all its data, should be completely removed from the database.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "ac93a983-c10f-42c1-9d44-ddba3393bccf",
+              "Text": "In multi-user environments, ensure no active transactions or dependencies exist on the object before executing DROP or TRUNCATE to avoid conflicts or errors.",
+              "SortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+      "Title": "Working with Schemas",
+      "Summary": "Introduces database schemas as logical containers for organizing related tables and objects. Students learn how to create and manage schemas to structure a database effectively.",
+      "SortOrder": 6,
+      "CreatedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "ModifiedDate": "2026-06-27T15:05:46.7887084-04:00",
+      "Elements": [
+        {
+          "Id": "7c358190-7c61-45a3-aecd-705e60a8113b",
+          "TopicId": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+          "Title": "What Is a Database Schema?",
+          "BodyText": "A database schema is a logical container that groups related tables, views, and other database objects together under a single namespace.",
+          "Notes": "Think of a schema as a folder within a database. For example, a company database might have separate schemas such as \u0027sales\u0027, \u0027hr\u0027, and \u0027inventory\u0027 to keep each department\u0027s objects organized and distinct.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "ModifiedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "Items": [
+            {
+              "Id": "96332112-95d7-4e50-ac9e-0ede0d3cd8e0",
+              "Text": "Schemas help organize database objects into meaningful, logical groupings rather than storing everything in one flat namespace.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "931b532f-3b88-4998-823e-24ad35134425",
+              "Text": "A single database can contain multiple schemas, allowing different teams or application modules to manage their own objects independently.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f0c628f5-da97-4706-8c8b-71fc1f891fe2",
+              "Text": "Schemas also provide a layer of access control, enabling administrators to grant or restrict permissions at the schema level.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "1d441a4e-ad68-4993-afe9-3abd37de5218",
+          "TopicId": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+          "Title": "Creating a Schema",
+          "BodyText": "The CREATE SCHEMA statement is used to define a new schema within a database, establishing the namespace under which objects will be organized.",
+          "Notes": "Example syntax: CREATE SCHEMA sales; \u2014 This creates a schema named \u0027sales\u0027. In some database systems such as PostgreSQL, you can also specify an owner: CREATE SCHEMA sales AUTHORIZATION username;",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "ModifiedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "Items": [
+            {
+              "Id": "71d4ad7c-d902-4620-9c06-3f0432319267",
+              "Text": "The basic syntax is CREATE SCHEMA schema_name; where schema_name is a unique identifier within the database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f66c7023-1a9b-4aff-9cc2-e4b13bcca57b",
+              "Text": "An optional AUTHORIZATION clause can assign ownership of the schema to a specific database user.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "09057624-ba8f-4949-bbce-e33af3d4cf9b",
+              "Text": "Once created, objects such as tables and views can be placed inside the schema by prefixing their names with the schema name (e.g., sales.customers).",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "b0bb87c8-34b0-4c48-a32c-69b1b8c3e9cd",
+          "TopicId": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+          "Title": "Using Schema-Qualified Object Names",
+          "BodyText": "Objects within a schema are referenced using dot notation, combining the schema name and the object name to form a fully qualified identifier.",
+          "Notes": "For example, to query a table named \u0027orders\u0027 inside the \u0027sales\u0027 schema, you would write: SELECT * FROM sales.orders; This prevents naming conflicts when the same table name exists in multiple schemas.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "ModifiedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "Items": [
+            {
+              "Id": "6b03b01c-8946-4fe5-9b0b-8edb2164560e",
+              "Text": "The format schema_name.object_name uniquely identifies any object regardless of other schemas in the same database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2712c554-c389-408f-9a70-fa75579b739d",
+              "Text": "Schema-qualified names are especially important when multiple schemas contain tables with identical names.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2bf5589a-1628-4198-a86e-d5a1adf7622f",
+              "Text": "Most SQL databases have a default schema (often called \u0027public\u0027 or \u0027dbo\u0027) that is used when no schema qualifier is provided.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c8b1a411-2f53-4d13-aff1-fdce164bea5c",
+          "TopicId": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+          "Title": "Creating Tables Within a Schema",
+          "BodyText": "When creating a table, you can assign it to a specific schema by including the schema name as part of the table name in the CREATE TABLE statement.",
+          "Notes": "Example: CREATE TABLE sales.customers (customer_id INT PRIMARY KEY, name VARCHAR(100)); \u2014 This places the \u0027customers\u0027 table inside the \u0027sales\u0027 schema rather than the default schema.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "ModifiedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "Items": [
+            {
+              "Id": "7811d920-b3c9-4879-b8d1-5973e393133b",
+              "Text": "Specifying the schema during table creation ensures the object is organized correctly from the start.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c8094067-f00d-42bf-8be7-a9ba875e6062",
+              "Text": "If no schema is specified, the table is created in the user\u0027s default schema, which may not always be the intended location.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8a5d7ea6-8ff3-4c3e-b667-456e38fcf8a8",
+              "Text": "Tables in different schemas can share the same name without conflict, supporting modular database design.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "bfddfa9c-dea3-4e5e-a826-1c9e73708279",
+          "TopicId": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+          "Title": "Dropping a Schema",
+          "BodyText": "The DROP SCHEMA statement removes a schema from the database, and its behavior depends on whether the schema still contains objects.",
+          "Notes": "Example: DROP SCHEMA sales; will fail if the schema contains objects. To remove the schema along with all its contents, use DROP SCHEMA sales CASCADE; \u2014 use this option with caution as it permanently deletes all contained objects.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "ModifiedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "Items": [
+            {
+              "Id": "f1cf7a71-8fcc-49fc-aacf-e5bc522e4674",
+              "Text": "DROP SCHEMA schema_name; will only succeed if the schema is empty; otherwise, the database engine returns an error.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f59d5ab4-7f59-4fb4-8c02-2f377c363557",
+              "Text": "The CASCADE option automatically drops all objects contained within the schema before removing it.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c1df22a2-9c18-4568-a6ca-8b30028db32e",
+              "Text": "The RESTRICT option (the default in many systems) prevents deletion if any objects exist within the schema, protecting against accidental data loss.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8fa3cb28-6a41-427a-837d-96a6235646ad",
+          "TopicId": "d26135a0-5fc2-48fc-9302-e3065b9b1f42",
+          "Title": "Schema Benefits for Database Organization",
+          "BodyText": "Using schemas to structure a database provides significant advantages for maintainability, security, and multi-team development environments.",
+          "Notes": "In large enterprise databases, schemas are commonly used to separate concerns \u2014 for example, keeping application data, audit logs, and reporting objects in distinct schemas so teams can work independently without interference.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "ModifiedDate": "2026-06-27T15:08:18.6189318-04:00",
+          "Items": [
+            {
+              "Id": "38c206af-aa19-49a4-88d2-137721472371",
+              "Text": "Schemas reduce naming conflicts by providing separate namespaces for different application modules or teams.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "77892e13-5f71-49e2-bcfe-da8b4005b3fe",
+              "Text": "Access control is simplified because permissions can be granted at the schema level, applying to all objects within it at once.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "22f8c71d-0a1f-419b-becd-0b225c9af293",
+              "Text": "Logical separation through schemas makes databases easier to document, navigate, and maintain over time.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 43
+}

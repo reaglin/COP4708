@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hierarchical Databases</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Introduction to Databases, Types, and Applications</a></div>
+  <header>
+    <h1>Hierarchical Databases</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Hierarchical Databases</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>A <strong>hierarchical database</strong> is one of the earliest formal approaches to organizing and storing data in a computer system. Rather than arranging data as a flat collection of records with no inherent relationship, a hierarchical database imposes a strict <em>tree-shaped structure</em> on all stored information. Every piece of data occupies a specific position within this tree, and the position itself carries meaning — it tells you who owns the data, what context surrounds it, and how you navigate to reach it. Understanding hierarchical databases is essential not only for appreciating the history of data management, but also for recognizing why certain modern systems — from XML document stores to organizational directory services like LDAP — still rely on fundamentally hierarchical ideas.</p>
+
+<p>To picture the structure concretely, imagine an upside-down tree. At the very top sits a single node called the <strong>root</strong>. Every other node in the entire database descends from this root through a series of defined connections called <em>branches</em>. Each node in the tree represents a record or a segment of related data, and branches represent the logical relationships between those records. You read the tree from the top downward: the root leads to its immediate children, each of those children may lead to their own children, and so on, level by level, until you reach the bottommost nodes — called <strong>leaf nodes</strong> — which have no children of their own.</p>
+
+<p>The single most important structural rule in a hierarchical database is this: <strong>every child node has exactly one parent, but a parent node may have many children.</strong> This constraint defines what database theorists call a <em>one-to-many relationship</em>. A company has many departments; a department has many employees; an employee may have many dependents. Each of these is a clean one-to-many link, and the hierarchical model captures them naturally by placing the "one" side as the parent and the "many" side as children beneath it. The relationship is made concrete through <em>pointer links</em> — physical or logical references stored in the database that directly connect a parent record to each of its child records.</p>
+
+<p>Consider a classic example: a university database. At the root sits the university itself. Beneath it are the individual colleges (College of Engineering, College of Arts, and so on). Each college node has multiple department nodes as its children (Electrical Engineering, Computer Science, Mechanical Engineering). Each department node has multiple course nodes as its children, and each course node may have multiple enrolled-student nodes beneath it. The resulting structure looks like this:</p>
+
+<pre><code>University
+├── College of Engineering
+│   ├── Department: Computer Science
+│   │   ├── Course: Data Structures
+│   │   │   ├── Student: Alice
+│   │   │   └── Student: Bob
+│   │   └── Course: Algorithms
+│   │       └── Student: Carol
+│   └── Department: Electrical Engineering
+│       └── Course: Circuit Theory
+│           └── Student: Dave
+└── College of Arts
+    └── Department: History
+        └── Course: Ancient Civilizations
+            └── Student: Eve
+</code></pre>
+
+<p>In this example, Student Alice belongs to the Data Structures course, which belongs to Computer Science, which belongs to the College of Engineering, which belongs to the University. Her <em>meaning</em> in the database is inseparable from her position in the tree. This is a key characteristic: <strong>child nodes inherit the context of their parent.</strong> A student record stored under "Data Structures → Computer Science → College of Engineering" is meaningfully different from an identically named record stored under a different branch, because position defines context.</p>
+
+<p><strong>Navigating data</strong> in a hierarchical database means traversing this tree along its branches. To retrieve Alice's record, the system starts at the root (University), follows the branch to College of Engineering, then to Department: Computer Science, then to Course: Data Structures, and finally arrives at Student: Alice. There is no shortcut that jumps directly to Alice without tracing the path from the root. This traversal relies on the pointer links mentioned earlier — each node stores explicit references to its children, so moving from parent to child is a fast, direct operation rather than a search.</p>
+
+<p>This navigation model has a profound implication: <strong>access patterns must be anticipated at design time.</strong> When you lay out the tree, you are effectively baking in the most natural way to query your data. If your application almost always asks "give me all courses in a given department," the tree structure described above answers that question beautifully and quickly. The path is direct, the pointers are followed, and the result is retrieved without scanning unrelated records. However, if a query arrives that does not follow the natural hierarchy — for example, "find all students named Alice regardless of department" — the system may need to traverse large portions of the tree or even the entire tree to collect the answer. The rigidity of the hierarchy is simultaneously its greatest strength and its most significant limitation.</p>
+
+<p>Historically, hierarchical databases represent a landmark achievement in computing. Before their emergence in the 1960s, data was typically stored in <em>flat files</em> — sequential records with no built-in relationships, like rows in a spreadsheet with no notion of which rows belonged together. If you wanted related data, you had to write custom application code to link files together, and that logic lived entirely outside the data store. Hierarchical databases changed this by <strong>embedding relationship structure directly into the database itself.</strong> The relationships became a first-class feature of the storage system, not an afterthought left to the programmer.</p>
+
+<p>The most famous hierarchical database system is <strong>IBM's Information Management System (IMS)</strong>, first developed in the late 1960s to support NASA's Apollo program and subsequently adopted across banking, insurance, manufacturing, and government. IMS organized data into segments (its term for nodes) arranged in hierarchical trees, and it used physical disk pointers to link related segments. At its peak, IMS managed some of the largest and most mission-critical datasets in the world. Many IMS installations remain in production today — decades later — inside financial institutions and government agencies, a testament to both the model's performance characteristics and the difficulty of migrating deeply embedded systems.</p>
+
+<p>Hierarchical databases dominated enterprise computing through the 1960s and 1970s. Their reign began to end when <strong>Edgar F. Codd</strong> published his landmark 1970 paper introducing the relational model, and when systems implementing that model — Oracle, DB2, and others — became commercially viable through the late 1970s and into the 1980s. The relational model's ability to express arbitrary relationships through joins, without constraining the designer to a single fixed tree, made it far more flexible. Nonetheless, the work done on hierarchical databases was not wasted: it forced researchers and practitioners to think rigorously about <em>how data relates to other data</em>, what it means to navigate between records, and how physical storage structures affect query performance — questions that remain central to database science today.</p>
+
+<p>The <strong>strengths</strong> of the hierarchical model are most apparent when the real-world domain naturally fits a tree. Consider a bill of materials in manufacturing: a finished product is made of assemblies, each assembly is made of sub-assemblies, each sub-assembly consists of individual parts. This is an inherently hierarchical relationship with no ambiguity about ownership or parentage. Storing it in a hierarchical database yields excellent performance because every query of the form "what parts make up this assembly?" is answered by simply following pointers down one branch — no joins, no index scans across the entire table, just a direct traversal of an already-organized structure. The same logic applies to organizational charts, file system directories, and taxonomic classification systems in biology or library science.</p>
+
+<p>The <strong>limitations</strong> of the hierarchical model become apparent as soon as a domain introduces complexity that a single tree cannot express cleanly. The core problem is the <em>many-to-many relationship</em>. Suppose a student can enroll in courses offered by multiple departments — say, a Computer Science student taking a History elective. In a strict hierarchical model, the student record can have only one parent. If the student must appear under both Computer Science courses and History courses, the only solution within the model's rules is to <strong>duplicate the student record</strong> — storing one copy under Computer Science and another under History. This duplication creates data redundancy: if Alice changes her address, you must update every copy of her record wherever it appears in the tree, and failing to do so consistently produces <em>update anomalies</em> where different parts of the database disagree about the same fact.</p>
+
+<p>Restructuring a hierarchical database to accommodate new or changed relationships is another serious challenge. Because the tree structure constrains all possible access paths, adding a new type of relationship often means redesigning large portions of the tree and rewriting the application code that navigates it. In a relational database, you might simply add a new table and write a new join query. In a hierarchical database, the structural rigidity means that what seems like a simple requirement change can cascade into a major reorganization of the database schema and its associated traversal logic.</p>
+
+<p>A useful way to summarize the model is through contrast. In a relational database, data is stored in tables, and relationships are expressed dynamically at query time through join operations. The structure is flexible and queries can be written after the fact to answer questions the original designer never anticipated. In a hierarchical database, relationships are hardwired into the tree structure at design time, and queries are fast precisely because the data is pre-organized along those anticipated paths. This trade-off — <strong>flexibility versus speed along a fixed path</strong> — is the central design tension that shaped the evolution from hierarchical databases toward the relational model, and that continues to influence how modern systems are designed for specific workloads.</p>
+        <div class="notes"><strong>Notes</strong>The university enrollment example and the bill-of-materials example effectively illustrate both the natural fit of the hierarchical model and its breakdown under many-to-many scenarios. The ASCII tree diagram can be rendered in a monospace font via the pre/code tags as specified and provides a clear visual anchor for the structural explanation.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

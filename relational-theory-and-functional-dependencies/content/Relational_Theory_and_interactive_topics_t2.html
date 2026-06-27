@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relations, Tuples, and Attributes</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Theory and Functional Dependencies</a></div>
+  <header>
+    <h1>Relations, Tuples, and Attributes</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Relations, Tuples, and Attributes</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>The relational model is the theoretical foundation underlying virtually every mainstream database system in use today — from PostgreSQL and MySQL to Oracle and SQL Server. At its heart, the model organises all data into a surprisingly simple structure built from just three interlocking concepts: <strong>relations</strong>, <strong>tuples</strong>, and <strong>attributes</strong>. Understanding these three building blocks in depth — not just as convenient metaphors but as precise, mathematically grounded ideas — is essential for anyone who wants to design databases correctly, write effective queries, or reason clearly about data integrity.</p>
+
+<p>Before diving into each component, it helps to appreciate where these ideas come from. The relational model was formally introduced by Edgar F. Codd in his landmark 1970 paper <em>A Relational Model of Data for Large Shared Data Banks</em>. Codd borrowed heavily from set theory and first-order predicate logic, which is why the model carries such strong mathematical guarantees. A relation in Codd's sense is not merely a spreadsheet or a CSV file — it is a mathematical set with well-defined properties, and those properties are what give relational databases their power.</p>
+
+<p><strong>Relations as Tables</strong></p>
+
+<p>A <strong>relation</strong> is a named, two-dimensional structure that stores data about a particular real-world entity or concept. Visually, you can think of it as a table: it has a fixed set of named columns and a collection of rows. But the analogy to an ordinary table is imprecise in several important ways, and understanding those differences is crucial.</p>
+
+<p>First, a relation has a <strong>unique name</strong> within its database schema. That name is not decorative — it is the identifier the database engine and application code use to reference the relation. In a university database you might have relations named <code>Student</code>, <code>Course</code>, and <code>Enrollment</code>. Each name corresponds to a distinct real-world concept, and no two relations in the same schema share a name.</p>
+
+<p>Second, and most importantly from a mathematical standpoint, a relation is a <strong>set of tuples</strong>. Because it is a set, it has two fundamental properties inherited directly from set theory:</p>
+<ul>
+  <li><strong>No duplicate tuples.</strong> Every row must be unique. A set cannot contain the same element twice, so a relation cannot contain two identical tuples. This is not merely a convention — it is a definitional requirement of the relational model.</li>
+  <li><strong>No inherent ordering.</strong> The rows of a relation have no built-in top-to-bottom sequence, and neither do the columns. A set is unordered, so asking "which is the first row?" is meaningless in the strict relational sense. When a database engine returns results in a particular order, that ordering is imposed by a query clause (like <code>ORDER BY</code>), not stored in the relation itself.</li>
+</ul>
+
+<p>These two properties distinguish a true relation from an ordinary spreadsheet or flat file, both of which typically allow duplicate rows and attach meaning to row order. In practice, relational database engines sometimes tolerate tables without a primary key (which technically allows duplicates at the storage level), but such tables violate the relational model and should be avoided.</p>
+
+<p>The <strong>structure</strong> of a relation is described by its schema. Think of the schema as the blueprint: it names the relation and enumerates the attributes (columns) that every tuple in the relation must provide. The schema itself is a static, time-independent description — it tells you what the relation <em>looks like</em>, not what data it currently holds.</p>
+
+<p>Consider a concrete example. A <code>Student</code> relation might be described schematically as:</p>
+<pre><code>Student(StudentID, FirstName, LastName, DateOfBirth, Email, Major)</code></pre>
+<p>This tells us that any instance of the <code>Student</code> relation will consist of tuples, each carrying exactly these six pieces of information. The schema says nothing about <em>which</em> students are currently enrolled — that depends on the data at a given moment in time.</p>
+
+<p><strong>Tuples as Rows</strong></p>
+
+<p>A <strong>tuple</strong> is a single row in a relation — one complete record representing a single instance of the entity the relation models. If the <code>Student</code> relation models university students, then each tuple represents one student.</p>
+
+<p>Formally, a tuple is an ordered list of values, one for each attribute defined in the relation's schema. For the <code>Student</code> schema above, a tuple might look like:</p>
+<pre><code>(10423, 'Maria', 'Santos', '2002-03-14', 'msantos@uni.edu', 'Computer Science')</code></pre>
+<p>Each position in this ordered list corresponds to one attribute: <code>StudentID</code> is <code>10423</code>, <code>FirstName</code> is <code>'Maria'</code>, and so on. The correspondence between position and attribute name is defined by the schema.</p>
+
+<p>Several critical rules govern tuples in a relation:</p>
+<ul>
+  <li><strong>Every tuple must supply exactly one value per attribute.</strong> There are no missing columns, no extra columns, and no multi-valued entries (in first normal form — more on that shortly). If a value is genuinely unknown, a special <code>NULL</code> marker may be used, but the slot still exists and must be accounted for.</li>
+  <li><strong>All tuples in a relation must be unique.</strong> No two tuples can agree on every single attribute value simultaneously. This is the row-level manifestation of the set property discussed above. In practice, uniqueness is typically enforced through a <strong>primary key</strong> — one or more attributes whose values together uniquely identify each tuple — but conceptually the uniqueness requirement covers all attributes collectively.</li>
+  <li><strong>Tuples have no inherent order.</strong> Just as the relation itself is a set, the tuples within it form an unordered collection. Relying on "the third row" or "the row I inserted last" has no rigorous meaning unless an explicit ordering attribute (like a timestamp or sequence number) is part of the schema.</li>
+</ul>
+
+<p>The <strong>cardinality</strong> of a relation is the total count of tuples it contains at a given moment. A newly created relation has cardinality zero (it is empty). As records are inserted, the cardinality grows; as records are deleted, it shrinks. Cardinality is a property of the relation <em>instance</em> (the actual data), not of the schema. A relation's cardinality can vary enormously over the lifetime of a database — a <code>Transaction</code> relation in a banking system might have a cardinality of billions after years of operation.</p>
+
+<p>Here is a small instance of the <code>Student</code> relation to make this concrete:</p>
+<pre><code>StudentID | FirstName | LastName | DateOfBirth | Email               | Major
+----------+-----------+----------+-------------+---------------------+------------------
+10423     | Maria     | Santos   | 2002-03-14  | msantos@uni.edu     | Computer Science
+10424     | James     | Okafor   | 2001-11-29  | jokafor@uni.edu     | Mathematics
+10425     | Priya     | Nair     | 2003-06-05  | pnair@uni.edu       | Computer Science</code></pre>
+<p>This instance has a cardinality of 3. The schema (degree 6) has not changed; only the data has been populated.</p>
+
+<p><strong>Attributes as Columns</strong></p>
+
+<p>An <strong>attribute</strong> is a named property or characteristic tracked for every tuple in the relation. Visually, attributes correspond to columns. In the <code>Student</code> example, <code>StudentID</code>, <code>FirstName</code>, <code>LastName</code>, <code>DateOfBirth</code>, <code>Email</code>, and <code>Major</code> are all attributes.</p>
+
+<p>Key properties of attributes include:</p>
+<ul>
+  <li><strong>Unique names within the relation.</strong> No two attributes in the same relation may share a name. However, the same attribute name can (and very often does) appear in different relations. For example, both <code>Student</code> and <code>Instructor</code> might have a <code>Email</code> attribute. This is perfectly valid and, as we will see, is actually the basis for linking relations together.</li>
+  <li><strong>Associated domain.</strong> Every attribute is tied to a <strong>domain</strong> — a set of permissible values. The domain constrains what can be stored in that column. The <code>DateOfBirth</code> attribute's domain is the set of valid calendar dates; the <code>StudentID</code> attribute's domain might be positive integers in a specified range. Any attempt to store a value outside the domain is a constraint violation.</li>
+  <li><strong>Atomicity (First Normal Form).</strong> Each attribute value must be <strong>atomic</strong> — indivisible and single-valued. An attribute cannot store a list, a set, or a nested structure. For example, a student cannot have a <code>PhoneNumbers</code> attribute that stores multiple phone numbers as a single comma-separated string — that would violate atomicity. Instead, a separate relation would be used to model multiple phone numbers. This requirement is known as <strong>First Normal Form (1NF)</strong>, and it is a foundational constraint of the classical relational model.</li>
+  <li><strong>Degree or arity.</strong> The total number of attributes in a relation is its <strong>degree</strong> (also called <em>arity</em>). A relation with one attribute has degree 1 (a <em>unary</em> relation); with two attributes, degree 2 (a <em>binary</em> relation); and so on. The <code>Student</code> relation has degree 6. Degree is a property of the schema and does not change when data is inserted or deleted — only a schema alteration (like adding or dropping a column) changes the degree.</li>
+</ul>
+
+<p><strong>Domains and Attribute Values</strong></p>
+
+<p>The concept of a <strong>domain</strong> deserves careful attention because it is one of the most important integrity mechanisms in the relational model, yet it is often under-explained in introductory treatments.</p>
+
+<p>A domain is a named set of possible values that an attribute is permitted to hold. Domains can be:</p>
+<ul>
+  <li><strong>Primitive data types:</strong> integers, floating-point numbers, fixed-length strings, variable-length strings, dates, timestamps, Booleans, and so on. These are the domains most directly supported by SQL database engines.</li>
+  <li><strong>Constrained subsets:</strong> a domain defined as "integers between 1 and 100", or "strings matching a particular regular expression (like a valid email address)", or "one of the enumerated values {'Freshman', 'Sophomore', 'Junior', 'Senior'}". These are implemented in SQL via <code>CHECK</code> constraints, <code>ENUM</code> types, or domain objects.</li>
+</ul>
+
+<p>The domain of an attribute acts as a type system for the data. When you declare that <code>StudentID</code> has domain <em>positive integer</em>, you are asserting that no tuple may ever carry a non-integer or non-positive value in that position. The database engine enforces this automatically, relieving application developers from having to check it manually.</p>
+
+<p>A particularly important and subtle point: <strong>two attributes from different relations may share the same underlying domain even if their names differ</strong>. For instance, a <code>Course</code> relation might have a <code>InstructorID</code> attribute, and an <code>Instructor</code> relation might have an <code>InstructorID</code> attribute, both drawing from the domain of positive integers that represent instructor identifiers. This shared domain is precisely what makes a <strong>join operation</strong> meaningful: you can combine tuples from both relations when their <code>InstructorID</code> values agree, because both values live in the same domain and are therefore directly comparable.</p>
+
+<p>Conversely, comparing attributes from incompatible domains — say, joining on <code>StudentID</code> and <code>CourseCode</code> — would be semantically nonsensical even if both happened to be stored as integers. Domain awareness prevents such logical errors.</p>
+
+<p>The <strong>NULL value</strong> deserves special mention. NULL is not a value in the ordinary sense — it is a marker indicating that a value is missing, unknown, or not applicable. Most relational systems permit NULL in any domain unless explicitly prohibited by a <code>NOT NULL</code> constraint. NULL introduces significant complexity: arithmetic involving NULL propagates NULL, and comparisons with NULL do not return true or false but a third logical state, <em>unknown</em>. For these reasons, the relational model advises that NULL be used sparingly and only where genuinely necessary. Overuse of NULL often signals a design problem, such as an entity that should have been modelled as a separate relation.</p>
+
+<p><strong>The Relation Schema</strong></p>
+
+<p>A <strong>relation schema</strong> is the formal, time-stable description of a relation's structure. It specifies the relation's name and the complete list of its attributes along with their domains. A schema is typically written in a compact notation:</p>
+<pre><code>Student(StudentID: Integer, FirstName: VarChar, LastName: VarChar,
+        DateOfBirth: Date, Email: VarChar, Major: VarChar)</code></pre>
+<p>Or, more informally (omitting explicit domain annotations when they are obvious from context):</p>
+<pre><code>Student(StudentID, FirstName, LastName, DateOfBirth, Email, Major)</code></pre>
+
+<p>The schema is <strong>static</strong>: it changes only when a designer or database administrator deliberately alters the database structure — adding a column, dropping a column, renaming an attribute, or changing a domain. In SQL, these changes are made with <code>ALTER TABLE</code> statements. In most production systems, schema changes are infrequent and carefully managed because they can affect every application that uses the database.</p>
+
+<p>Distinct from the schema is the <strong>relation instance</strong> (also called the <em>relation state</em> or <em>extension</em>). The instance is the actual set of tuples currently stored in the relation. While the schema is fixed until explicitly changed, the instance is highly dynamic — it changes every time a row is inserted, updated, or deleted. At any given moment, the instance must conform to the schema: every tuple must have exactly the right number of attributes, and every attribute value must belong to its declared domain.</p>
+
+<p>The analogy of a class and its objects from object-oriented programming is instructive here: the schema is like a class definition (it describes the structure), and each tuple is like an instance of that class (it holds actual values). The full set of tuples at any moment is the relation instance.</p>
+
+<p>A <strong>database schema</strong> is the collection of all relation schemas in a database, together with any inter-relation constraints (such as foreign key relationships, which express that an attribute in one relation must reference a valid primary key in another relation). Designing a coherent database schema — one in which every important real-world concept has a home, every relationship between concepts is correctly captured, and every integrity constraint is enforced — is the central challenge of relational database design.</p>
+
+<p><strong>How Relations, Tuples, and Attributes Work Together</strong></p>
+
+<p>The three concepts are mutually dependent and only make full sense in combination. The <strong>relation</strong> provides the named container and the structural blueprint (schema). The <strong>attributes</strong> define exactly which properties of the modelled entity are recorded. The <strong>tuples</strong> supply the actual data — one tuple per real-world instance being tracked.</p>
+
+<p>To see how they work together, consider a small but realistic example involving two relations:</p>
+<pre><code>Student(StudentID, FirstName, LastName, Email, Major)
+Enrollment(StudentID, CourseID, Semester, Grade)</code></pre>
+
+<p>The <code>Student</code> relation holds information about individual students. The <code>Enrollment</code> relation records the fact that a particular student (identified by <code>StudentID</code>) is enrolled in a particular course (identified by <code>CourseID</code>) in a given semester and has received a particular grade.</p>
+
+<p>Notice that <code>StudentID</code> appears in both relations. This shared attribute — drawn from the same domain — is how the two relations are <strong>linked</strong>. A query asking "What are the names of all students enrolled in Course CS101 in Fall 2024?" would:</p>
+<ul>
+  <li>Look into the <code>Enrollment</code> relation and identify tuples where <code>CourseID = 'CS101'</code> and <code>Semester = 'Fall 2024'</code>, retrieving the corresponding <code>StudentID</code> values.</li>
+  <li>Look into the <code>Student</code> relation and retrieve the <code>FirstName</code> and <code>LastName</code> attributes for tuples whose <code>StudentID</code> matches those found in the previous step.</li>
+</ul>
+
+<p>In SQL this is expressed as a join:</p>
+<pre><code>SELECT s.FirstName, s.LastName
+FROM   Student s
+JOIN   Enrollment e ON s.StudentID = e.StudentID
+WHERE  e.CourseID = 'CS101'
+AND    e.Semester = 'Fall 2024';</code></pre>
+
+<p>This query illustrates the power of the relational model: by sharing a common attribute (and thus a common domain), two relations that independently model different real-world concepts (<em>students</em> and <em>enrolments</em>) can be combined at query time to answer complex questions. No data duplication is necessary — the student's name is stored only once (in <code>Student</code>), yet it can be retrieved in the context of any enrolment query.</p>
+
+<p>The <strong>uniformity</strong> of this structure is one of its greatest strengths. Because every tuple in a relation conforms to exactly the same set of attributes, the database engine can make strong assumptions about the data: it knows where to find each piece of information, what type it will be, and what range of values it can take. This uniformity makes relational data predictable and queryable in a general way — the same query language (SQL, or relational algebra at the theoretical level) works across any relational database regardless of what real-world entities it models.</p>
+
+<p>It also makes the data <strong>mathematically tractable</strong>. Because relations are sets, operations from set theory — union, intersection, difference — apply directly. Additional relational-specific operations — selection (filtering rows), projection (choosing columns), join (combining relations) — are defined rigorously in relational algebra. Every SQL query you write has a precise mathematical meaning expressible in these terms, which is why query optimisers can transform and rewrite queries confidently without changing their results.</p>
+
+<p>In summary: a relation is a named set whose structure is defined by its schema; each attribute in the schema describes one property of the modelled entity and is constrained to a specific domain; and each tuple is a complete, unique record providing exactly one domain-conforming value for every attribute. Together, these three components give the relational model its rigour, its expressive power, and its enduring relevance across more than five decades of database research and practice.</p>
+        <div class="notes"><strong>Notes</strong>The topic covers all listed subtopics: relations as tables (set properties, schema), tuples as rows (uniqueness, cardinality, ordering), attributes as columns (domains, degree, atomicity/1NF), domains and NULLs, relation schema vs. instance, and the integrative worked example with a join. The SQL join example was added to make the &quot;working together&quot; section concrete and accessible.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

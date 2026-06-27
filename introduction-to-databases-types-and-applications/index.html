@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction to Databases, Types, and Applications — COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #2c3e50;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Hero ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #ffffff;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+
+    header .course-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background-color: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      padding: 0.25rem 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    header p.intro {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.75;
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .section-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5a7a9f;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #d8e3ef;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dce6f0;
+      border-radius: 10px;
+      padding: 1.4rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #2563a8, #5a9fd4);
+      border-radius: 10px 0 0 10px;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 24px rgba(37, 99, 168, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Badges ── */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+
+    .badge-type {
+      background-color: #eaf1fb;
+      color: #1e5ba8;
+      border: 1px solid #c3d9f5;
+    }
+
+    .badge-filetype {
+      background-color: #f0f4f0;
+      color: #2e6b3e;
+      border: 1px solid #b6d9c0;
+    }
+
+    /* ── Card Title Row ── */
+    .card-title-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a2f47;
+      line-height: 1.35;
+    }
+
+    .card-title a {
+      color: #1a5eb8;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .card-title a:hover,
+    .card-title a:focus {
+      color: #0d3d82;
+      border-bottom-color: #0d3d82;
+      outline: none;
+    }
+
+    .card-title a:focus-visible {
+      outline: 2px solid #2563a8;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ── Source File Link ── */
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a7a9f;
+      text-decoration: none;
+      background-color: #f0f4fa;
+      border: 1px solid #c8d9ee;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background-color: #ddeaf8;
+      color: #1a3a5c;
+      outline: none;
+    }
+
+    .source-link:focus-visible {
+      outline: 2px solid #2563a8;
+      outline-offset: 2px;
+    }
+
+    .source-link svg {
+      flex-shrink: 0;
+    }
+
+    /* ── Card Description ── */
+    .card-description {
+      font-size: 0.88rem;
+      color: #4a5e72;
+      line-height: 1.65;
+      flex-grow: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: #8a9bb0;
+      border-top: 1px solid #dce6f0;
+      background-color: #f4f6f9;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 540px) {
+      header {
+        padding: 2.25rem 1rem 2rem;
+      }
+
+      .card {
+        padding: 1.2rem 1.2rem 1.35rem;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="course-label">COP4708</div>
+    <h1>Introduction to Databases, Types, and Applications</h1>
+    <p class="intro">
+      This module introduces the core concepts of databases — what they are, how they are structured,
+      and where they are used in the real world. Explore foundational database models including
+      relational, NoSQL, and hierarchical systems, and learn how to compare them to make informed
+      architectural decisions.
+    </p>
+  </header>
+
+  <main>
+    <p class="section-heading">Module Artifacts</p>
+
+    <div class="card-grid" role="list">
+
+      <!-- Card 1: Module Topics -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/module_topics.html">Module Topics</a>
+          </span>
+          <a class="source-link" href="source/hierarchy.json" aria-label="Source file for Module Topics">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M4.5 3a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7zM2 6.5A1.5 1.5 0 0 1 3.5 5h9A1.5 1.5 0 0 1 14 6.5v5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11.5v-5zm1.5-.5a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-5a.5.5 0 0 0-.5-.5h-9z"/>
+            </svg>
+            source file
+          </a>
+        </div>
+        <p class="card-description">
+          This file outlines the full scope of the Introduction to Databases module, listing all topics covered —
+          including what a database is, relational, NoSQL, and hierarchical databases, and a comparison of database
+          types — serving as a navigational overview for learners and instructors planning their study path.
+        </p>
+      </article>
+
+      <!-- Card 2: Real-World Applications (interactive) -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/_interactive.html">Real-World Applications of Databases</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading explains how databases power everyday digital systems such as e-commerce, healthcare, banking,
+          and social media, helping learners connect abstract database concepts to familiar, real-world technology
+          they encounter daily.
+        </p>
+      </article>
+
+      <!-- Card 3: What is a Database? -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/Introduction_to_Databases_interactive_topics_t1.html">What is a Database?</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading introduces the foundational concept of a database — what it is, why it exists, and how it
+          stores and organizes information — giving learners the essential vocabulary and conceptual grounding needed
+          before exploring specific database types.
+        </p>
+      </article>
+
+      <!-- Card 4: Relational Databases -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/Introduction_to_Databases_interactive_topics_t2.html">Relational Databases</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading covers relational databases in depth, explaining how data is organized into tables
+          representing real-world entities, and introducing core concepts such as relations, schemas, and primary
+          keys for learners new to structured data management.
+        </p>
+      </article>
+
+      <!-- Card 5: NoSQL Databases -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/Introduction_to_Databases_interactive_topics_t3.html">NoSQL Databases</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading explains NoSQL databases — what distinguishes them from relational systems, the variety of
+          data models they use (such as document, key-value, and graph), and how their flexible schema design suits
+          modern, large-scale applications.
+        </p>
+      </article>
+
+      <!-- Card 6: Hierarchical Databases -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/Introduction_to_Databases_interactive_topics_t4.html">Hierarchical Databases</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading describes hierarchical databases, covering their tree-based structure, parent-child data
+          relationships, and historical role as one of the earliest formal database models, giving learners context
+          for how database design has evolved over time.
+        </p>
+      </article>
+
+      <!-- Card 7: Comparing Database Types -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/Introduction_to_Databases_interactive_topics_t5.html">Comparing Database Types</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading guides learners through a structured comparison of relational, NoSQL, and hierarchical
+          database types, examining their structural differences to help developers and data engineers make informed
+          architectural decisions when selecting a database.
+        </p>
+      </article>
+
+      <!-- Card 8: Real-World Applications (t6) -->
+      <article class="card" role="listitem">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-title">
+            <a href="content/Introduction_to_Databases_interactive_topics_t6.html">Real-World Applications of Databases</a>
+          </span>
+        </div>
+        <p class="card-description">
+          This reading explains how databases power everyday digital systems such as e-commerce, healthcare, banking,
+          and social media, helping learners connect abstract database concepts to familiar, real-world technology
+          they encounter daily.
+        </p>
+      </article>
+
+    </div><!-- /.card-grid -->
+  </main>
+
+  <footer>
+    <p>COP4708 &mdash; Introduction to Databases, Types, and Applications</p>
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section></body>
+</html>

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relational Theory and Functional Dependencies — Module Topics</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.2rem;margin-top:28px;color:#1a3c6e}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.empty{color:#888}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Theory and Functional Dependencies</a></div>
+<h1>Relational Theory and Functional Dependencies — Module Topics</h1>
+<h2>Mathematical Foundations of Relational Theory</h2>
+<div class="summary">Introduces the core mathematical concepts underlying relational theory, including sets, domains, and the formal definition of a relation. Establishes the theoretical basis upon which relational databases are built.</div>
+<ul>
+<li><strong>Sets as the Building Blocks of Relational Theory</strong> <span class="el-body">— Relational theory is grounded in set theory, which provides the mathematical language for defining and manipulating data collections.</span></li>
+<li><strong>Domains: The Universe of Attribute Values</strong> <span class="el-body">— A domain is a named, finite or infinite set of atomic values from which the actual values appearing in a column of a relation are drawn.</span></li>
+<li><strong>Tuples: Ordered Lists of Attribute Values</strong> <span class="el-body">— A tuple is a single, ordered sequence of values, one drawn from each corresponding domain, representing a single entity or relationship instance.</span></li>
+<li><strong>The Formal Definition of a Relation</strong> <span class="el-body">— A relation is formally defined as a subset of the Cartesian product of one or more domains, represented as a set of tuples that all conform to the same attribute structure.</span></li>
+<li><strong>Attributes: Named Columns with Semantic Meaning</strong> <span class="el-body">— An attribute is a named column of a relation, pairing a human-readable name with a specific domain to give semantic meaning to each position in a tuple.</span></li>
+<li><strong>The Relational Model as a Mathematical Framework</strong> <span class="el-body">— The relational model, introduced by E.F. Codd, applies these mathematical constructs—sets, domains, tuples, and relations—to provide a rigorous, declarative foundation for database design and querying.</span></li>
+</ul>
+<h2>Relations, Tuples, and Attributes</h2>
+<div class="summary">Examines the fundamental building blocks of the relational model: relations as tables, tuples as rows, and attributes as columns. Explores how these components work together to represent structured data.</div>
+<ul>
+<li><strong>Relations as Tables</strong> <span class="el-body">— In the relational model, a relation is a mathematical structure represented as a two-dimensional table containing structured data.</span></li>
+<li><strong>Tuples as Rows</strong> <span class="el-body">— A tuple is a single row within a relation, representing one instance or record of the entity that the relation describes.</span></li>
+<li><strong>Attributes as Columns</strong> <span class="el-body">— Attributes are the named columns of a relation, each describing a specific property or characteristic of the entity being modeled.</span></li>
+<li><strong>Domains and Attribute Values</strong> <span class="el-body">— Every attribute in a relation is associated with a domain, which is the complete set of valid values that the attribute may hold.</span></li>
+<li><strong>The Relation Schema</strong> <span class="el-body">— A relation schema formally defines the structure of a relation by specifying its name and the complete list of its attributes along with their domains.</span></li>
+<li><strong>How Relations, Tuples, and Attributes Work Together</strong> <span class="el-body">— Relations, tuples, and attributes form an interconnected hierarchy that provides a complete framework for organizing and representing structured data.</span></li>
+</ul>
+<h2>Introduction to Functional Dependencies</h2>
+<div class="summary">Defines functional dependencies and explains how they capture constraints between data attributes within a relation. Covers notation, terminology, and basic examples of attribute relationships.</div>
+<ul>
+<li><strong>What Is a Functional Dependency?</strong> <span class="el-body">— A functional dependency (FD) is a constraint between two sets of attributes in a relation, expressing that the value of one set of attributes uniquely determines the value of another.</span></li>
+<li><strong>Notation and Terminology</strong> <span class="el-body">— Functional dependencies are expressed using a standard arrow notation, where the left-hand side is called the determinant and the right-hand side is the dependent attribute set.</span></li>
+<li><strong>Attributes and Relations as the Context for FDs</strong> <span class="el-body">— Functional dependencies are always defined within the context of a specific relation, operating over its attributes and the tuples that populate it.</span></li>
+<li><strong>Basic Examples of Functional Dependencies</strong> <span class="el-body">— Concrete examples help illustrate how functional dependencies reflect real-world relationships between data attributes in everyday database scenarios.</span></li>
+<li><strong>Trivial vs. Non-Trivial Functional Dependencies</strong> <span class="el-body">— Not all functional dependencies carry meaningful information — a distinction is made between trivial dependencies, which are always true by definition, and non-trivial ones, which express real constraints.</span></li>
+<li><strong>Why Functional Dependencies Matter</strong> <span class="el-body">— Functional dependencies serve as the mathematical basis for making principled decisions about relational database schema design, particularly in the normalization process.</span></li>
+</ul>
+<h2>Types and Properties of Functional Dependencies</h2>
+<div class="summary">Explores the different categories of functional dependencies, including trivial and non-trivial dependencies, as well as key properties such as Armstrong&#39;s Axioms. Demonstrates how these properties are used to reason about data relationships.</div>
+<ul>
+<li><strong>Trivial Functional Dependencies</strong> <span class="el-body">— A functional dependency is considered trivial when the dependent attribute is already contained within the determinant set, making it always true by definition.</span></li>
+<li><strong>Non-Trivial Functional Dependencies</strong> <span class="el-body">— A non-trivial functional dependency exists when the dependent attribute is not contained within the determinant set, revealing a meaningful constraint on the data.</span></li>
+<li><strong>Armstrong&#39;s Axiom: Reflexivity</strong> <span class="el-body">— Reflexivity is the first of Armstrong&#39;s Axioms and states that if Y is a subset of X, then X functionally determines Y.</span></li>
+<li><strong>Armstrong&#39;s Axiom: Augmentation</strong> <span class="el-body">— Augmentation states that if X functionally determines Y, then adding the same set of attributes Z to both sides preserves the dependency.</span></li>
+<li><strong>Armstrong&#39;s Axiom: Transitivity</strong> <span class="el-body">— Transitivity states that if X determines Y and Y determines Z, then X must also functionally determine Z.</span></li>
+<li><strong>Derived Rules from Armstrong&#39;s Axioms</strong> <span class="el-body">— From the three primary axioms, additional useful inference rules — such as union, decomposition, and pseudotransitivity — can be derived to simplify reasoning about functional dependencies.</span></li>
+<li><strong>Using Functional Dependency Properties to Reason About Data</strong> <span class="el-body">— Armstrong&#39;s Axioms and derived rules provide a complete and sound system for inferring all valid functional dependencies that follow from a given set, enabling systematic analysis of database schemas.</span></li>
+</ul>
+<h2>Functional Dependencies and Database Design</h2>
+<div class="summary">Connects functional dependency theory to practical database design decisions, showing how dependencies guide schema construction and refinement. Illustrates the role of functional dependencies as a foundation for normalization.</div>
+<ul>
+<li><strong>Functional Dependencies as Design Blueprints</strong> <span class="el-body">— Functional dependencies (FDs) serve as the primary analytical tool for understanding how attributes relate to one another within a schema, guiding initial design decisions before a single table is created.</span></li>
+<li><strong>Inferring Schema Structure from Dependencies</strong> <span class="el-body">— The set of functional dependencies present in a domain directly suggests how relations should be structured, with each dependency pointing toward a natural grouping of attributes.</span></li>
+<li><strong>Redundancy and Anomalies Caused by Ignored Dependencies</strong> <span class="el-body">— When functional dependencies are not properly respected in a schema, data redundancy and update, insertion, and deletion anomalies emerge as direct consequences.</span></li>
+<li><strong>Functional Dependencies as the Foundation for Normalization</strong> <span class="el-body">— Normalization is the systematic process of restructuring relations to eliminate redundancy, and each normal form is defined directly in terms of which functional dependencies are or are not permitted within a relation.</span></li>
+<li><strong>Lossless Decomposition and Dependency Preservation</strong> <span class="el-body">— When splitting a relation into smaller ones to satisfy normalization goals, designers must ensure the decomposition is lossless and, where possible, preserves all original functional dependencies.</span></li>
+<li><strong>Using Closure and Keys to Validate Schema Decisions</strong> <span class="el-body">— The attribute closure of a set of attributes under a given FD set allows designers to verify candidate keys and assess whether a proposed schema correctly captures all required constraints.</span></li>
+</ul>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

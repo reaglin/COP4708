@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Functional Dependencies and Database Design</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Theory and Functional Dependencies</a></div>
+  <header>
+    <h1>Functional Dependencies and Database Design</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Functional Dependencies and Database Design</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Functional dependencies are among the most powerful conceptual tools available to a database designer. Rather than treating a schema as a collection of tables invented ad hoc, a designer who works with functional dependencies treats the schema as a <em>logical consequence</em> of the real-world rules that govern the data. Every attribute relationship that matters in the business domain — every constraint that says "this value determines that value" — can be expressed as a functional dependency, and once expressed, it acts as a precise blueprint for how relations should be structured. Understanding this connection between dependencies and design decisions is what separates principled database engineering from guesswork.</p>
+
+<p>A <strong>functional dependency</strong> is a constraint between two sets of attributes in a relation. We write <code>X → Y</code> and read it as "X functionally determines Y," meaning that for any two tuples in the relation, if they agree on all attributes in X, they must also agree on all attributes in Y. This is not a statistical observation about the current data — it is a semantic rule that must hold for every possible state of the database, now and forever. That distinction is critical: you cannot discover a functional dependency simply by looking at the data in front of you; you must understand the business rules that produced that data.</p>
+
+<p><strong>Functional Dependencies as Design Blueprints</strong></p>
+
+<p>When a designer sits down to model a domain before a single table has been defined, cataloging the functional dependencies that apply in that domain is one of the most productive first steps possible. These dependencies reveal which attributes logically belong together, which attributes are independent of one another, and where the true keys of the data reside.</p>
+
+<p>Consider a simple order-management domain. Before creating any tables, a designer might observe the following real-world rules:</p>
+
+<ul>
+  <li>Each order has exactly one customer.</li>
+  <li>Each customer has exactly one billing address.</li>
+  <li>Each product has exactly one price and one product name.</li>
+  <li>Each order line (identified by an order and a product together) has exactly one quantity.</li>
+</ul>
+
+<p>Translating these rules into functional dependencies produces:</p>
+
+<pre><code>OrderID         → CustomerID
+CustomerID      → BillingAddress, CustomerName
+ProductID       → ProductName, UnitPrice
+OrderID, ProductID → Quantity
+</code></pre>
+
+<p>These four dependencies immediately suggest a schema. <code>OrderID → CustomerID</code> tells us that orders and customers are related, but that their attributes belong in separate structures. <code>CustomerID → BillingAddress, CustomerName</code> tells us that customer information forms a natural grouping with <code>CustomerID</code> as its key. <code>ProductID → ProductName, UnitPrice</code> defines a product entity. <code>OrderID, ProductID → Quantity</code> defines a line-item entity whose key is composite.</p>
+
+<p>Without this exercise, a designer might combine all these attributes into one large flat table, or make arbitrary grouping decisions based on what "feels right." The FDs eliminate that arbitrariness. They expose the <em>implicit business rules embedded in the data</em> and translate those rules into structural guidance. A business rule such as "each order belongs to exactly one customer" is not just a description of reality — it is a constraint on the data model, and functional dependency notation gives that constraint a precise, actionable form.</p>
+
+<p>Using FDs as blueprints also reduces the risk of creating tables that reflect programmer convenience rather than domain logic. A table that mixes order-level information with customer-level information is convenient to query in some cases, but it violates the dependency structure of the domain and will cause serious problems as the database evolves.</p>
+
+<p><strong>Inferring Schema Structure from Dependencies</strong></p>
+
+<p>Once the functional dependencies are on paper, the process of inferring a schema structure from them follows a systematic logic. Each dependency of the form <code>X → Y</code> suggests a candidate relation in which X is the key and Y consists of dependent attributes. When multiple dependencies share the same left-hand side, their right-hand sides can be combined into a single relation governed by that shared determinant.</p>
+
+<p>Suppose we have the following set of functional dependencies for a university enrollment system:</p>
+
+<pre><code>StudentID       → StudentName, Major, AdvisorID
+AdvisorID       → AdvisorName, Department
+CourseID        → CourseName, Credits, DepartmentID
+DepartmentID    → DepartmentName
+StudentID, CourseID → Grade, Semester
+</code></pre>
+
+<p>Grouping by determinant, we immediately see four natural relations:</p>
+
+<ul>
+  <li><strong>Student</strong>(<em>StudentID</em>, StudentName, Major, AdvisorID)</li>
+  <li><strong>Advisor</strong>(<em>AdvisorID</em>, AdvisorName, Department)</li>
+  <li><strong>Course</strong>(<em>CourseID</em>, CourseName, Credits, DepartmentID)</li>
+  <li><strong>Department</strong>(<em>DepartmentID</em>, DepartmentName)</li>
+  <li><strong>Enrollment</strong>(<em>StudentID, CourseID</em>, Grade, Semester)</li>
+</ul>
+
+<p>Notice that <code>AdvisorID</code> appears in the Student relation as a foreign key, reflecting the dependency chain <code>StudentID → AdvisorID → AdvisorName, Department</code>. If we had instead placed <code>AdvisorName</code> and <code>Department</code> directly in the Student relation, we would be mixing two different dependency levels — attributes determined by <code>StudentID</code> sitting alongside attributes determined by <code>AdvisorID</code> — and that mixture is precisely the source of anomalies, as we will see shortly.</p>
+
+<p>Overlapping dependencies are also revealing. If two different functional dependencies share some right-hand-side attributes, the designer should ask whether those attributes truly belong to both determinants or whether one of the dependencies is a derived consequence of the other. Similarly, when a single attribute appears on the right-hand side of dependencies with different left-hand sides, that often signals that the attribute is playing multiple roles and the schema needs to separate those roles into distinct relations.</p>
+
+<p>Grouping attributes by their determinants is therefore not just a mechanical exercise — it is a process of aligning the schema with the real-world entity boundaries that the data is meant to represent. A relation whose attributes are all determined by its key, and nothing else, corresponds to a coherent real-world concept. A relation that mixes attributes from different determinants is an artificial construction that the data model will eventually be punished for.</p>
+
+<p><strong>Redundancy and Anomalies Caused by Ignored Dependencies</strong></p>
+
+<p>When functional dependencies are ignored during schema design, the resulting relations almost always contain redundancy, and redundancy leads directly to anomalies. There are three classical anomaly types, and each one can be traced to a specific kind of dependency violation.</p>
+
+<p>Imagine that instead of the separate Student and Advisor relations above, we store everything in one flat relation:</p>
+
+<pre><code>StudentAdvisor(StudentID, StudentName, Major, AdvisorID, AdvisorName, Department)
+</code></pre>
+
+<p>Because <code>AdvisorID → AdvisorName, Department</code>, the same advisor's name and department will appear in every row for every student that advisor supervises. If Dr. Smith supervises 200 students and changes departments, we must update 200 rows — and if even one update is missed, the database now contains a contradiction. This is an <strong>update anomaly</strong>: a single real-world fact governed by a functional dependency must be changed in multiple places simultaneously, and inconsistency is the price of failure.</p>
+
+<p>An <strong>insertion anomaly</strong> arises when we try to add new information that cannot be represented without the presence of unrelated data. Suppose we want to record a new advisor who has just been hired but has not yet been assigned any students. In the flat <code>StudentAdvisor</code> relation, there is no row in which to store that advisor's information, because the primary key requires a <code>StudentID</code>. The advisor's existence cannot be recorded until at least one student is assigned — a logically absurd constraint that the schema imposes artificially.</p>
+
+<p>A <strong>deletion anomaly</strong> is the mirror image of the insertion anomaly. Suppose an advisor's last student graduates and their enrollment record is deleted. If <code>AdvisorName</code> and <code>Department</code> exist only in rows associated with that advisor's students, deleting those rows destroys the only copy of the advisor's information. A record of a real-world entity — the advisor — vanishes as a side effect of deleting a different fact entirely.</p>
+
+<p>All three anomalies share the same root cause: the relation contains attributes that are determined by something other than the relation's primary key. The functional dependency <code>AdvisorID → AdvisorName, Department</code> holds within the relation, but <code>AdvisorID</code> is not the key — <code>StudentID</code> is. This mismatch between the actual determinant and the declared key is the structural flaw that normalization is designed to correct.</p>
+
+<p><strong>Functional Dependencies as the Foundation for Normalization</strong></p>
+
+<p>Normalization is the process of restructuring a schema to eliminate redundancy and anomalies by ensuring that relations satisfy progressively stricter constraints. Each normal form defines which types of functional dependencies are permissible within a single relation, and violations of those constraints are resolved by decomposing the offending relation into two or more relations that together hold the same information without the problematic dependency structure.</p>
+
+<p><strong>First Normal Form (1NF)</strong> requires that all attributes be atomic — no repeating groups, no multi-valued attributes. While 1NF does not explicitly reference functional dependencies in the same way later forms do, it establishes the relational foundation on which dependency analysis can operate.</p>
+
+<p><strong>Second Normal Form (2NF)</strong> eliminates <em>partial dependencies</em>: a non-key attribute must not be functionally dependent on a proper subset of a composite primary key. For example, if a relation has a composite key <code>(StudentID, CourseID)</code> and also contains <code>StudentName</code>, which depends only on <code>StudentID</code>, then <code>StudentName</code> is partially dependent on the key. 2NF requires that <code>StudentName</code> be moved to a separate relation keyed by <code>StudentID</code> alone.</p>
+
+<p><strong>Third Normal Form (3NF)</strong> eliminates <em>transitive dependencies</em>: a non-key attribute must not be functionally dependent on another non-key attribute. In the <code>StudentAdvisor</code> example, <code>AdvisorName</code> depends on <code>AdvisorID</code>, which in turn depends on <code>StudentID</code> — a transitive chain. 3NF requires that transitive dependencies be broken by extracting the intermediate determinant and its dependents into their own relation.</p>
+
+<p><strong>Boyce-Codd Normal Form (BCNF)</strong> is a stricter version of 3NF: for every functional dependency <code>X → Y</code> that holds in a relation, X must be a superkey of that relation. BCNF eliminates certain anomalies that 3NF allows in edge cases involving overlapping candidate keys.</p>
+
+<p>The key insight is that <em>you cannot diagnose or fix these problems without first cataloging the functional dependencies</em>. Normalization is not a procedure for making tables "cleaner" in some vague aesthetic sense — it is a precise mathematical process of identifying FD violations and resolving them through decomposition. A designer who has not identified the FDs present in a relation cannot determine which normal form the relation satisfies, cannot identify which attributes need to be extracted, and cannot verify that a proposed decomposition achieves the intended result. Functional dependencies are not merely relevant to normalization — they are the language in which normalization is conducted.</p>
+
+<p><strong>Lossless Decomposition and Dependency Preservation</strong></p>
+
+<p>When a relation is decomposed to eliminate a dependency violation, two critical properties must be evaluated: whether the decomposition is <em>lossless</em> and whether it <em>preserves dependencies</em>.</p>
+
+<p>A decomposition of relation R into relations R1 and R2 is <strong>lossless</strong> (also called lossless-join) if the natural join of R1 and R2 produces exactly R — no more tuples and no fewer. The condition for a lossless decomposition when splitting R into R1 and R2 is that the attributes common to both resulting relations (their intersection) must functionally determine at least one of the two relations. Formally, if <code>R1 ∩ R2 → R1</code> or <code>R1 ∩ R2 → R2</code> holds, the decomposition is lossless.</p>
+
+<p>For example, suppose we decompose:</p>
+
+<pre><code>StudentAdvisor(StudentID, StudentName, AdvisorID, AdvisorName, Department)
+</code></pre>
+
+<p>into:</p>
+
+<pre><code>Student(StudentID, StudentName, AdvisorID)
+Advisor(AdvisorID, AdvisorName, Department)
+</code></pre>
+
+<p>The intersection of the two result sets is <code>{AdvisorID}</code>. Since <code>AdvisorID → AdvisorName, Department</code>, the intersection determines the Advisor relation. Therefore the decomposition is lossless — joining Student and Advisor on <code>AdvisorID</code> will reconstruct the original relation exactly, with no spurious tuples introduced.</p>
+
+<p>A <strong>lossy</strong> decomposition, by contrast, introduces extra tuples when the pieces are joined — tuples that were not in the original relation. This means information has been corrupted: the decomposed schema cannot faithfully represent the original data, making the design worse than useless for query purposes.</p>
+
+<p><strong>Dependency preservation</strong> is a separate but equally important property. A decomposition preserves dependencies if every functional dependency in the original relation can be enforced within at least one of the decomposed relations, without needing to join relations back together. If enforcing a dependency requires a join, then the database system cannot check that dependency using a simple constraint on a single table — it would require a complex trigger or a join-based check that the DBMS may not efficiently support.</p>
+
+<p>The tension between BCNF and dependency preservation is a well-known design challenge. It is sometimes <em>impossible</em> to achieve BCNF while preserving all dependencies. In such cases, the designer must choose: accept 3NF (which guarantees dependency preservation) instead of BCNF, or accept BCNF while acknowledging that some dependencies must be enforced through application logic or triggers rather than table-level constraints. This is not a failure of the theory — it is a meaningful trade-off that the theory makes explicit and quantifiable, allowing the designer to make an informed decision rather than stumbling into one accidentally.</p>
+
+<p>Consider a classic example involving a relation <code>Teaches(Student, Course, Teacher)</code> where the following FDs hold:</p>
+
+<pre><code>Teacher → Course        (each teacher teaches exactly one course)
+Student, Course → Teacher
+</code></pre>
+
+<p>The candidate keys are <code>{Student, Course}</code> and <code>{Student, Teacher}</code>. The dependency <code>Teacher → Course</code> violates BCNF because <code>Teacher</code> is not a superkey. Decomposing to achieve BCNF gives us:</p>
+
+<pre><code>TeacherCourse(Teacher, Course)
+StudentTeacher(Student, Teacher)
+</code></pre>
+
+<p>But now the dependency <code>Student, Course → Teacher</code> cannot be enforced within either of these two relations alone — it requires joining them. The decomposition achieves BCNF but sacrifices dependency preservation. Depending on the application's requirements, a designer might choose to remain at 3NF to keep all dependencies locally enforceable.</p>
+
+<p><strong>Using Closure and Keys to Validate Schema Decisions</strong></p>
+
+<p>Once a set of functional dependencies has been identified and a proposed schema has been sketched out, the designer needs a rigorous method for validating that schema decisions are correct. The primary tool for this validation is <strong>attribute closure</strong>.</p>
+
+<p>The closure of a set of attributes X under a set of functional dependencies F, written <code>X⁺</code>, is the set of all attributes that are functionally determined by X given F. To compute it, we start with <code>X⁺ = X</code> and repeatedly apply each dependency in F: if the left-hand side of a dependency is a subset of <code>X⁺</code>, we add the right-hand side attributes to <code>X⁺</code>. We repeat until no more attributes can be added.</p>
+
+<p>For example, given the dependencies:</p>
+
+<pre><code>A → B
+B → C
+C → D
+</code></pre>
+
+<p>The closure of <code>{A}</code> is computed as follows:</p>
+
+<ul>
+  <li>Start: <code>{A}</code></li>
+  <li>Apply <code>A → B</code>: <code>{A, B}</code></li>
+  <li>Apply <code>B → C</code>: <code>{A, B, C}</code></li>
+  <li>Apply <code>C → D</code>: <code>{A, B, C, D}</code></li>
+</ul>
+
+<p>So <code>{A}⁺ = {A, B, C, D}</code>. If the relation contains only attributes A, B, C, and D, then A is a candidate key — it determines all other attributes.</p>
+
+<p>Computing closure is the standard method for <strong>confirming whether a proposed key is truly a key</strong>. If the closure of the proposed key equals the set of all attributes in the relation, the key is valid. If not, the proposed key does not functionally determine all attributes and must be augmented or reconsidered.</p>
+
+<p>Closure is also used to <strong>identify all candidate keys</strong>, which is essential because a relation may have multiple minimal sets of attributes that each determine the whole relation. Missing a candidate key has practical consequences: it may mean the designer imposes an artificial primary key when a natural one exists, or fails to enforce a uniqueness constraint that the business rules require.</p>
+
+<p>The algorithm for finding all candidate keys involves systematically testing subsets of attributes for superkey status (using closure) and then checking minimality (ensuring no proper subset is also a superkey). While this can be computationally intensive for large attribute sets, it guarantees that no valid key is overlooked.</p>
+
+<p>Closure also validates <strong>whether a specific functional dependency follows from the known set of FDs</strong> — a check that is necessary when determining whether a decomposition preserves a particular dependency. To test whether <code>X → Y</code> is implied by F, compute <code>X⁺</code> under F and check whether Y is a subset of <code>X⁺</code>. If it is, the dependency is logically entailed by F; if not, F does not imply that dependency.</p>
+
+<p>For instance, suppose a designer is unsure whether the dependency <code>A → D</code> is implied by the FDs above. Computing <code>{A}⁺</code> gives <code>{A, B, C, D}</code>, which contains D, so yes — <code>A → D</code> is implied, even though it was not listed explicitly. This kind of reasoning prevents designers from either over-specifying dependencies (listing redundant ones) or under-specifying them (missing implied constraints).</p>
+
+<p>Together, these tools — dependency cataloging, anomaly analysis, normalization, decomposition evaluation, and closure computation — form a complete methodology for principled database design. A designer equipped with this methodology does not need to rely on intuition or convention. Every structural decision can be justified by an explicit dependency, every anomaly can be traced to a specific violation, every decomposition can be tested for losslessness and dependency preservation, and every key claim can be verified mathematically. Functional dependencies are not just a theoretical formalism — they are the working language of rigorous relational database design.</p>
+        <div class="notes"><strong>Notes</strong>Connects FD theory to practical schema design. Covers the full arc from identifying FDs in the domain through anomaly analysis, normalization motivation, decomposition properties, and closure-based validation. Examples progress from order management through university enrollment to illustrate each concept concretely.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Normalization, Denormalization, and Practical Database Design — Topics &amp; Learning Outcomes</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.25rem;margin-top:30px;color:#1a3c6e;border-bottom:1px solid #ececec;padding-bottom:4px}
+h3{font-size:1.05rem;margin-top:22px;color:#1a3c6e}
+.toc{border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:14px 0 6px;display:flex;gap:18px;flex-wrap:wrap}
+.toc a{color:#1a3c6e;font-weight:600;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.prefix{color:#555;font-style:italic;margin:6px 0 14px}
+.mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
+.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .statement{font-weight:600;margin:4px 0 8px}
+.meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
+.meta .map{background:#eaf6ec;color:#137333}
+.co{margin:7px 0}
+.co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
+.empty{color:#888}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Normalization, Denormalization, and Practical Database Design</a></div>
+<h1>Normalization, Denormalization, and Practical Database Design — Topics &amp; Learning Outcomes</h1>
+<div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
+
+<h2 id="topics">Module Topics</h2>
+<h3>Review of Normalization Principles</h3>
+<div class="summary">Revisits the core normal forms (1NF through BCNF) and their theoretical foundations. Reinforces why normalization eliminates redundancy and maintains data integrity in relational databases.</div>
+<ul>
+<li><strong>What Is Normalization?</strong> <span class="el-body">— Normalization is the process of organizing a relational database to reduce data redundancy and improve data integrity by applying a series of formal rules called normal forms.</span></li>
+<li><strong>First Normal Form (1NF)</strong> <span class="el-body">— A table is in First Normal Form when every column contains only atomic (indivisible) values and each row is uniquely identifiable.</span></li>
+<li><strong>Second Normal Form (2NF)</strong> <span class="el-body">— A table is in Second Normal Form when it is already in 1NF and every non-key attribute is fully functionally dependent on the entire primary key, not just part of it.</span></li>
+<li><strong>Third Normal Form (3NF)</strong> <span class="el-body">— A table is in Third Normal Form when it is in 2NF and no non-key attribute is transitively dependent on the primary key through another non-key attribute.</span></li>
+<li><strong>Boyce-Codd Normal Form (BCNF)</strong> <span class="el-body">— BCNF is a stricter version of 3NF that requires every determinant in a table to be a candidate key, closing edge cases that 3NF can miss when multiple overlapping candidate keys exist.</span></li>
+<li><strong>Functional Dependencies as the Theoretical Foundation</strong> <span class="el-body">— All normal forms from 1NF through BCNF are grounded in the concept of functional dependency, which formally describes how the value of one attribute determines the value of another.</span></li>
+<li><strong>Why Normalization Preserves Data Integrity</strong> <span class="el-body">— By eliminating redundancy, normalization ensures that a single logical fact is recorded once, which prevents contradictory states from arising when data is inserted, updated, or deleted.</span></li>
+</ul>
+<h3>Normalization in a Practical Context</h3>
+<div class="summary">Explores how normalization principles are applied when designing real-world database schemas. Examines common challenges and trade-offs that arise when moving from theory to production environments.</div>
+<ul>
+<li><strong>Revisiting Normalization Theory in Production Settings</strong> <span class="el-body">— Normalization theory provides a rigorous framework for eliminating redundancy and ensuring data integrity, but applying it in production environments requires pragmatic judgment.</span></li>
+<li><strong>Translating Entity-Relationship Models into Normalized Schemas</strong> <span class="el-body">— Moving from an ER diagram to a fully normalized relational schema involves a series of structured decisions about how entities, attributes, and relationships map to tables.</span></li>
+<li><strong>Identifying and Resolving Functional Dependencies</strong> <span class="el-body">— Functional dependencies are the analytical backbone of normalization, revealing how attributes within a table relate to one another and to the primary key.</span></li>
+<li><strong>Common Challenges When Normalizing Real-World Data</strong> <span class="el-body">— Real business data frequently contains irregularities, exceptions, and historical quirks that complicate straightforward normalization.</span></li>
+<li><strong>Trade-offs Between Normalization and Query Performance</strong> <span class="el-body">— A fully normalized schema minimizes redundancy but can require numerous joins to answer common queries, which may introduce performance costs in high-throughput systems.</span></li>
+<li><strong>Normalization as an Iterative Design Process</strong> <span class="el-body">— Rather than a one-time activity, normalization in practice is an ongoing process that evolves alongside the application and its data requirements.</span></li>
+</ul>
+<h3>Introduction to Denormalization</h3>
+<div class="summary">Defines denormalization as a deliberate design strategy rather than a design flaw. Explains when and why a database designer might intentionally introduce redundancy to meet performance goals.</div>
+<ul>
+<li><strong>What Denormalization Actually Means</strong> <span class="el-body">— Denormalization is the intentional introduction of redundancy into a database design to improve read performance and simplify query structures.</span></li>
+<li><strong>Denormalization as a Design Strategy, Not a Flaw</strong> <span class="el-body">— In production systems, denormalization is recognized as a legitimate architectural decision made by experienced database designers to meet defined performance goals.</span></li>
+<li><strong>The Core Trade-Off: Read Performance vs. Write Complexity</strong> <span class="el-body">— Denormalization typically improves read speed and query simplicity at the cost of increased complexity during write operations and a higher risk of data inconsistency.</span></li>
+<li><strong>When Denormalization Is Appropriate</strong> <span class="el-body">— Denormalization is most justified in scenarios where read operations vastly outnumber writes, query performance is a bottleneck, or reporting and analytics demands require fast access to aggregated data.</span></li>
+<li><strong>The Role of Normalization Knowledge in Denormalization</strong> <span class="el-body">— A database designer must fully understand normalization before making sound denormalization decisions, because you must know the rules before you can break them responsibly.</span></li>
+<li><strong>Redundancy in Denormalization: Controlled and Purposeful</strong> <span class="el-body">— Unlike accidental redundancy, the redundancy in a denormalized design is bounded, intentional, and managed through application logic or database constraints.</span></li>
+</ul>
+<h3>Denormalization Techniques and Patterns</h3>
+<div class="summary">Covers common denormalization approaches such as storing precomputed values, merging tables, and adding redundant columns. Illustrates each technique with practical schema examples.</div>
+<ul>
+<li><strong>Storing Precomputed (Derived) Values</strong> <span class="el-body">— Precomputed values are calculated results stored directly in the database rather than recalculated at query time, trading storage space for read performance.</span></li>
+<li><strong>Merging Tables (Table Collapsing)</strong> <span class="el-body">— Table merging combines two or more normalized tables into a single, wider table to eliminate expensive JOIN operations at query time.</span></li>
+<li><strong>Adding Redundant Columns</strong> <span class="el-body">— Redundant columns duplicate data from a related table into a frequently queried table so that lookups can be satisfied without a JOIN.</span></li>
+<li><strong>Storing Aggregates and Summary Tables</strong> <span class="el-body">— Summary tables persist precomputed aggregates — such as counts, sums, or averages — so that dashboard and reporting queries can read a single row instead of scanning millions of detail records.</span></li>
+<li><strong>Vertical Partitioning as a Denormalization Pattern</strong> <span class="el-body">— Vertical partitioning splits a wide table into two narrower tables, placing frequently accessed columns in one table and rarely accessed or large columns in another to improve cache efficiency.</span></li>
+<li><strong>Schema Examples and Choosing the Right Pattern</strong> <span class="el-body">— Selecting a denormalization technique requires analyzing query patterns, update frequency, and acceptable data consistency trade-offs for the specific use case.</span></li>
+</ul>
+<h3>Performance Implications of Normalization vs. Denormalization</h3>
+<div class="summary">Analyzes how normalization and denormalization each affect query performance, write overhead, and storage costs. Provides a framework for evaluating the performance impact of design decisions.</div>
+<ul>
+<li><strong>Read Performance: The Cost of Joins in Normalized Schemas</strong> <span class="el-body">— Highly normalized databases require multiple table joins to reconstruct meaningful data, which can significantly increase query execution time for read-heavy workloads.</span></li>
+<li><strong>Write Performance: The Advantage of Normalization</strong> <span class="el-body">— Normalized schemas excel at write performance because data is stored in one place, meaning insert, update, and delete operations affect only a single row in a single table.</span></li>
+<li><strong>Read Performance: The Speed Advantage of Denormalization</strong> <span class="el-body">— Denormalization pre-computes or co-locates data that is frequently queried together, allowing the database to retrieve results with fewer or no joins.</span></li>
+<li><strong>Write Overhead and Update Anomalies in Denormalized Schemas</strong> <span class="el-body">— Denormalization introduces redundant data, which means every write operation must update multiple copies of the same information to maintain consistency.</span></li>
+<li><strong>Storage Costs: Normalization vs. Denormalization Trade-offs</strong> <span class="el-body">— Normalization minimizes storage by eliminating duplicate data, while denormalization trades additional storage space for faster retrieval.</span></li>
+<li><strong>Workload Profiling: Matching Design to Access Patterns</strong> <span class="el-body">— The performance impact of any schema design decision depends heavily on the specific read/write ratio and access patterns of the application workload.</span></li>
+<li><strong>A Framework for Evaluating Design Performance Trade-offs</strong> <span class="el-body">— Effective database design decisions require a structured evaluation of competing performance factors rather than defaulting to either full normalization or full denormalization.</span></li>
+</ul>
+<h3>Balancing Theoretical Purity with Real-World Needs</h3>
+<div class="summary">Guides students in making informed decisions about when to normalize strictly and when to denormalize strategically. Emphasizes aligning database design choices with application requirements, workload patterns, and scalability goals.</div>
+<ul>
+<li><strong>Understanding the Normalization-Denormalization Spectrum</strong> <span class="el-body">— Database design exists on a spectrum between strict theoretical normalization and pragmatic denormalization, and most production systems land somewhere in between.</span></li>
+<li><strong>Identifying When Strict Normalization Is the Right Choice</strong> <span class="el-body">— Strict normalization is most appropriate in write-heavy systems where data integrity, consistency, and ease of updates are the primary concerns.</span></li>
+<li><strong>Recognizing When Denormalization Is Strategically Justified</strong> <span class="el-body">— Denormalization becomes a valid strategy when read performance is the dominant requirement and the cost of joins or repeated queries outweighs the risks of redundancy.</span></li>
+<li><strong>Aligning Design Choices with Workload Patterns</strong> <span class="el-body">— Effective database design requires a clear understanding of actual workload patterns — specifically the ratio of reads to writes and the nature of the most critical queries.</span></li>
+<li><strong>Considering Scalability Goals in Design Decisions</strong> <span class="el-body">— Database structure choices made today directly affect how easily a system can scale tomorrow, making scalability a critical factor when balancing normalization and denormalization.</span></li>
+<li><strong>Applying a Decision Framework for Practical Design</strong> <span class="el-body">— A structured decision framework helps designers move beyond intuition and apply consistent, repeatable criteria when choosing how much to normalize or denormalize a schema.</span></li>
+<li><strong>Revisiting and Iterating on Design Choices Over Time</strong> <span class="el-body">— Database design is not a one-time decision; application requirements, data volumes, and workload patterns change, and schema strategies should evolve accordingly.</span></li>
+</ul>
+<h2 id="outcomes">Student Learning Outcomes</h2>
+<p class="prefix">By the end of this module, students will be able to:</p>
+<div class="mo">
+<div class="code">MO1</div>
+<div class="statement">Classify a given relational table according to its highest satisfied normal form (1NF, 2NF, 3NF, or BCNF) by identifying functional dependencies and their violations</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO2</div>
+<div class="statement">Translate an entity-relationship diagram into a fully normalized relational schema that eliminates redundancy and preserves data integrity</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO3</div>
+<div class="statement">Select an appropriate denormalization technique — such as storing precomputed values, merging tables, adding redundant columns, or creating summary tables — for a given query performance scenario</div>
+<div class="meta"><span>Level: Evaluate</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO4</div>
+<div class="statement">Compare the read performance, write overhead, and storage cost implications of a normalized schema versus a denormalized schema for a specified application workload profile</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO5</div>
+<div class="statement">Justify a database design decision — choosing the appropriate degree of normalization or denormalization — by applying a structured decision framework aligned with defined workload patterns and scalability goals</div>
+<div class="meta"><span>Level: Evaluate</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<h3>Course Outcomes (reference)</h3>
+<div class="co"><span class="code">CO1</span>Analyze a problem and identify computing and user requirements to implement the proper solution capturing the impact of the implementation on the local and the global levels.</div>
+<div class="co"><span class="code">CO2</span>Design, normalize, and implement database systems</div>
+<div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
+<div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

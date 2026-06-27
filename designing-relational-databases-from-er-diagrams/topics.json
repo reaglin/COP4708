@@ -1,0 +1,1203 @@
+{
+  "ModuleFolderName": "Designing_Relational_Databas",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T15:00:55.7711082-04:00",
+  "ModifiedDate": "2026-06-27T15:03:32.6663437-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+      "Title": "Introduction to ER Diagrams and Relational Schemas",
+      "Summary": "An overview of Entity-Relationship diagrams and their role as a blueprint for relational database design. This topic establishes the foundational concepts and terminology needed before conversion begins.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "ModifiedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "Elements": [
+        {
+          "Id": "fbe3762d-0fb5-40fb-b5e0-deb24c2a9fda",
+          "TopicId": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+          "Title": "What Is an Entity-Relationship (ER) Diagram?",
+          "BodyText": "An ER diagram is a visual blueprint that models the data requirements of a system by depicting entities, their attributes, and the relationships between them.",
+          "Notes": "ER diagrams were originally proposed by Peter Chen in 1976 and remain the most widely used conceptual data modeling technique today.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "ModifiedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "Items": [
+            {
+              "Id": "9822b048-b711-4a21-996b-ae293a5445dc",
+              "Text": "Entities represent real-world objects or concepts about which data is stored, such as a Student or a Course.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6e835b8f-690c-4464-a692-05b9d2d5379d",
+              "Text": "Attributes describe properties of an entity, for example a Student entity might have attributes like StudentID, Name, and DateOfBirth.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4f6fbaf9-2ca5-4787-b1f3-678ba9865c28",
+              "Text": "Relationships capture how two or more entities are associated, such as a Student \u0027enrolls in\u0027 a Course.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ee122eb0-f0f6-4148-bed1-4099667fb15e",
+              "Text": "ER diagrams serve as a communication tool between database designers and stakeholders before any tables are created.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "ca429f1a-857c-4a85-b24e-b93fd834f3ad",
+          "TopicId": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+          "Title": "Core ER Diagram Notation and Symbols",
+          "BodyText": "ER diagrams use a standardized set of symbols to represent each modeling concept, making them readable across teams and tools.",
+          "Notes": "Different notations exist (Chen, Crow\u0027s Foot, UML), but the underlying concepts are the same; this module uses Chen notation as the baseline.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "ModifiedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "Items": [
+            {
+              "Id": "82be38ff-1e4d-484f-b529-d448672c9346",
+              "Text": "Rectangles represent entity sets, while ellipses represent attributes attached to those entities.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8cf81c37-42e2-4c80-a329-3ad861654588",
+              "Text": "Diamonds represent relationship sets that connect two or more entity rectangles.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ea636e46-a195-42e4-b66e-2e9c717312a7",
+              "Text": "Underlined attributes within an ellipse indicate the primary identifier, known as the key attribute.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "7e33030f-b955-4f13-be22-4d312b3f01d4",
+              "Text": "Double rectangles and double ellipses are used for weak entities and their partial-key attributes, respectively.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "1ba14cb1-b446-4720-996d-2274f7dc7ce1",
+          "TopicId": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+          "Title": "What Is a Relational Schema?",
+          "BodyText": "A relational schema is the formal description of a relational database\u0027s structure, specifying each table, its columns, data types, and constraints.",
+          "Notes": "A schema is analogous to a blueprint for a building \u2014 it defines the structure without containing the actual data.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "ModifiedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "Items": [
+            {
+              "Id": "b9bd8cf6-25ae-4fc6-800b-f38186a94d3e",
+              "Text": "A relational schema is composed of one or more relation schemas, each corresponding to a table in the database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "df97aa2c-9672-488d-a8c4-43f250e6ad52",
+              "Text": "Each relation schema lists the relation name followed by its attributes in parentheses, for example: Student(StudentID, Name, DateOfBirth).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9fb4575d-9e97-4dd7-b1fd-7c4cb31f2c0a",
+              "Text": "Primary keys are typically denoted by underlining the key attribute(s) within the schema notation.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "45433613-e8f4-4e99-bc44-fc6cdfbaecb2",
+              "Text": "Foreign keys are attributes whose values must match a primary key in another relation, enforcing referential integrity.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "ea57fc98-af7b-4c5d-b646-88acd3d34276",
+          "TopicId": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+          "Title": "The Role of ER Diagrams in Database Design",
+          "BodyText": "ER diagrams occupy the conceptual design phase, acting as an intermediary step between understanding business requirements and implementing physical tables.",
+          "Notes": "Skipping the conceptual design phase often leads to poorly structured databases that are difficult to query, maintain, or scale.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "ModifiedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "Items": [
+            {
+              "Id": "81efef5e-acab-46e2-a56e-80a19e1fe211",
+              "Text": "The design process flows from requirements gathering, to ER diagram creation, to relational schema conversion, and finally to physical implementation.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "9e13e41f-c08e-434e-8128-591c3d10b35b",
+              "Text": "ER diagrams allow designers to validate data requirements with non-technical stakeholders before committing to a schema.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "457d115a-d022-4fac-8b7b-0f4cff309b98",
+              "Text": "Errors caught at the ER diagram stage are far cheaper to fix than errors discovered after tables have been populated with data.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d13065b6-152f-41d6-9841-d75a663b9390",
+          "TopicId": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+          "Title": "Key Terminology: Entities, Attributes, and Relationships",
+          "BodyText": "Precise terminology is essential for translating ER diagrams into relational schemas without ambiguity or loss of meaning.",
+          "Notes": "Confusing an entity with an attribute is a common beginner mistake; the rule of thumb is that if something needs multiple pieces of information to describe it, it is likely an entity.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "ModifiedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "Items": [
+            {
+              "Id": "f7a1cd55-abe2-4d0a-9a81-9e8b50a8f8e9",
+              "Text": "An entity set is a collection of similar entities, analogous to a table, while a single entity is analogous to a row.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "66a5d46d-b36a-4a58-9d1c-a7c5bc0b8a85",
+              "Text": "A relationship set groups all instances of a particular association between entity sets.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "86c53b17-3a11-4927-a454-faf37aab43b3",
+              "Text": "Cardinality (one-to-one, one-to-many, many-to-many) describes how many entity instances participate on each side of a relationship.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "cc948513-6506-477a-ba3d-533feafefe2b",
+              "Text": "Participation constraints (total vs. partial) indicate whether every entity must participate in a relationship or only some entities do.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "fde06938-63ed-45a6-bbd1-11db9fc593ab",
+              "Text": "Understanding these terms precisely is a prerequisite for applying conversion rules correctly in subsequent topics.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "4685504f-fa2b-49d2-ad16-720f46cd977f",
+          "TopicId": "3f21ed7a-04c2-4168-86ec-943757f3aa46",
+          "Title": "Weak Entities and Their Dependence on Strong Entities",
+          "BodyText": "A weak entity is one that cannot be uniquely identified by its own attributes alone and must rely on a related strong entity for its identification.",
+          "Notes": "A classic example is an OrderItem entity that depends on an Order entity \u2014 an item number alone is not unique across all orders, but it is unique within a given order.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "ModifiedDate": "2026-06-27T15:01:21.0358795-04:00",
+          "Items": [
+            {
+              "Id": "503020e2-9a58-4fe6-b1fe-3b7122b200cb",
+              "Text": "Weak entities are depicted with a double rectangle in Chen notation and have a partial key, shown with a dashed underline.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a03fc567-ecf4-4452-b164-61ed3dd5f165",
+              "Text": "The relationship connecting a weak entity to its identifying strong entity is called an identifying relationship, shown as a double diamond.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "5076efb3-0cbb-43a6-9196-2978c4374279",
+              "Text": "The full key of a weak entity is formed by combining the strong entity\u0027s primary key with the weak entity\u0027s partial key.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "7c68ed35-b3ea-4796-996c-d68ed9bceeaf",
+              "Text": "Recognizing weak entities in an ER diagram is critical because they require a special conversion rule when building the relational schema.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+      "Title": "Mapping Strong Entities and Attributes to Tables",
+      "Summary": "Covers the process of converting strong entities and their attributes into relational tables with appropriate columns. Students learn how to identify and assign primary keys during this mapping step.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "ModifiedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "Elements": [
+        {
+          "Id": "690c19fd-fcb9-46a1-85ad-f573cb4f3bd2",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "What Is a Strong Entity?",
+          "BodyText": "A strong entity is an entity type that has a unique identifier and can exist independently in the database without relying on any other entity.",
+          "Notes": "For example, a CUSTOMER entity with a CustomerID attribute is a strong entity because each customer can be uniquely identified on its own.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "cc9a37fd-5425-4ce3-9369-c9e791393ce8",
+              "Text": "Strong entities are represented in ER diagrams as rectangles and always possess a key attribute that distinguishes each instance.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "58ff3e0c-33ce-48b8-9873-b12b5641f480",
+              "Text": "Unlike weak entities, strong entities do not depend on another entity for their identification or existence.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f2c6bcbe-727f-4eee-8319-7e3c91aaf5ec",
+              "Text": "Recognizing strong entities is the first step before attempting any table mapping.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8c1d6887-5d48-472c-a3a8-658f8d1e37b0",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "Converting a Strong Entity to a Relational Table",
+          "BodyText": "Each strong entity in an ER diagram maps directly to a single relational table in the database schema.",
+          "Notes": "For instance, a PRODUCT entity with attributes ProductID, Name, and Price becomes a PRODUCT table with columns ProductID, Name, and Price.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "5c69f610-2433-4cc3-9a5b-9c5dae29bfe1",
+              "Text": "The name of the strong entity typically becomes the name of the relational table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a830cf72-b39f-486f-a7b7-e07d1a225b4e",
+              "Text": "Each instance (row) of the entity in the ER diagram corresponds to a record (tuple) in the resulting table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "898eb534-db4e-4fbf-8dfb-8b0309876890",
+              "Text": "This one-to-one correspondence between entities and tables is a foundational rule of ER-to-relational mapping.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c10ab870-f4c8-477b-af96-51c8cef05aa3",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "Mapping Simple Attributes to Columns",
+          "BodyText": "Each simple (single-valued, atomic) attribute of a strong entity becomes a column in the corresponding relational table.",
+          "Notes": "For example, attributes like FirstName, LastName, and DateOfBirth on an EMPLOYEE entity each become their own column in the EMPLOYEE table.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "89c55dc9-3aae-45c7-89ad-adda375fda85",
+              "Text": "Simple attributes translate directly into columns with an appropriate data type (e.g., VARCHAR, INTEGER, DATE).",
+              "SortOrder": 0
+            },
+            {
+              "Id": "35436453-9569-465b-82b1-99cff94ceed4",
+              "Text": "Each column should store one atomic value per row, consistent with first normal form principles.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "85ff017c-6e27-4add-a683-8d108a2c2fd4",
+              "Text": "Attribute names from the ER diagram are typically preserved as column names for clarity and traceability.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "175880e9-54bb-4519-aa4e-8e6582978e12",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "Handling Composite Attributes",
+          "BodyText": "Composite attributes, which are made up of multiple sub-attributes, require a decision about how they are represented in the relational table.",
+          "Notes": "An Address attribute composed of Street, City, State, and ZipCode can either be stored as separate columns (Street, City, State, ZipCode) or as a single combined column, depending on query needs.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "31885b8d-aba8-43db-915e-2d4aa930822f",
+              "Text": "The most common approach is to decompose a composite attribute into its individual component attributes, each becoming its own column.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "244ff311-f4f2-4216-8d8b-1346e4fd548a",
+              "Text": "Storing components separately allows for more precise querying, sorting, and filtering on individual parts of the composite value.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "20f6f04c-6e26-4598-8d5e-a1df82a4a7d8",
+              "Text": "If decomposition is not needed for the application, the composite attribute may be stored as a single column, though this reduces flexibility.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "2a839d39-580b-4e83-8307-4e6c0d92ff02",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "Identifying and Assigning the Primary Key",
+          "BodyText": "The key attribute of a strong entity, identified in the ER diagram by an underlined attribute name, becomes the primary key of the corresponding table.",
+          "Notes": "For example, if StudentID is the key attribute of the STUDENT entity, then StudentID becomes the PRIMARY KEY constraint on the STUDENT table.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "41823a45-003a-40f5-81dd-0aa96ed9cf63",
+              "Text": "The primary key column must contain unique, non-null values for every row in the table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "91d09aaa-37e7-4fc7-b72f-a0f872648b70",
+              "Text": "If the ER diagram shows a composite key (multiple attributes together forming the identifier), all involved attributes are combined into a composite primary key in the table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3874197b-f01b-4c80-8a2a-c94d91077c9f",
+              "Text": "Choosing an appropriate primary key is critical because it enforces entity integrity and supports relationships with other tables through foreign keys.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "445fcdb2-5d80-40f3-a78c-9154e154c26c",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "Dealing with Multi-Valued Attributes",
+          "BodyText": "Multi-valued attributes, which can hold more than one value for a single entity instance, cannot be directly stored as a single column in a relational table.",
+          "Notes": "For example, if an EMPLOYEE can have multiple PhoneNumbers, storing all numbers in one column would violate atomicity rules.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "645eb3ea-8aff-42fe-88ce-40564117ab42",
+              "Text": "The standard approach is to create a separate table for the multi-valued attribute, linked back to the original entity\u0027s table via a foreign key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fd9120b2-78e0-4c44-89b9-126a83d4234e",
+              "Text": "This new table typically has a primary key composed of the foreign key (referencing the strong entity) plus the attribute value itself.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "df7a62ca-da88-4376-89ea-dc56bac6a0ab",
+              "Text": "This strategy preserves relational integrity and allows any number of values to be associated with a single entity instance.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ab5be4c6-2d7e-4d24-a2e4-e83820b5240e",
+          "TopicId": "5a4b7094-a669-4e16-8ad5-7207383d568d",
+          "Title": "Derived Attributes and Their Treatment",
+          "BodyText": "Derived attributes are values that can be calculated from other stored data and are typically not stored as columns in the relational table.",
+          "Notes": "For example, an Age attribute derived from DateOfBirth is usually omitted from the table because it can be computed at query time, keeping the data consistent and reducing redundancy.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "ModifiedDate": "2026-06-27T15:01:45.1877701-04:00",
+          "Items": [
+            {
+              "Id": "ac020954-3df6-4228-a8ca-4d31f81e220c",
+              "Text": "Derived attributes are shown in ER diagrams with a dashed oval and signal that the value does not need to be physically stored.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "209999b8-81da-4213-99ce-b6fc5b7561fa",
+              "Text": "In some cases, derived values are stored as columns for performance reasons (materialized), but this requires careful maintenance to avoid data inconsistency.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "90f21556-b3b4-49c9-a8eb-8ffee86e6e17",
+              "Text": "The decision to store or compute a derived attribute depends on how frequently it is accessed and the performance requirements of the application.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+      "Title": "Handling One-to-Many Relationships",
+      "Summary": "Explains how to represent one-to-many relationships between entities by incorporating foreign keys into the appropriate table. Students practice determining which side of the relationship holds the foreign key reference.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "ModifiedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "Elements": [
+        {
+          "Id": "04787423-139b-4db3-a4f6-4c465e3d9983",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "Understanding One-to-Many Relationships in ER Diagrams",
+          "BodyText": "A one-to-many (1:N) relationship means that one instance of an entity on the \u0027one\u0027 side can be associated with multiple instances of the entity on the \u0027many\u0027 side, but not vice versa.",
+          "Notes": "Example: One Department can have many Employees, but each Employee belongs to only one Department. In an ER diagram, this is typically represented with a single line on the \u0027one\u0027 side and a crow\u0027s foot or double line on the \u0027many\u0027 side.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "2f271b12-97c9-4eed-a01f-35815e6fce31",
+              "Text": "The entity on the \u0027one\u0027 side is the parent entity, while the entity on the \u0027many\u0027 side is the child entity.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7bd284d5-7fc9-4cb1-827e-ddc13ad7113a",
+              "Text": "Recognizing which side is \u0027one\u0027 and which is \u0027many\u0027 is the critical first step before translating the relationship into tables.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "747e8f0b-9e07-45a9-9254-293f712b4efd",
+              "Text": "Common real-world examples include Customer to Orders, Author to Books, and Department to Employees.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ce2a22f6-0390-468a-9b9a-e38674054da1",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "The Foreign Key Placement Rule",
+          "BodyText": "In a one-to-many relationship, the foreign key is always placed in the table representing the \u0027many\u0027 side of the relationship, referencing the primary key of the \u0027one\u0027 side.",
+          "Notes": "Placing the foreign key on the \u0027many\u0027 side avoids data redundancy and maintains referential integrity. For example, the Employees table would contain a DepartmentID foreign key rather than storing employee lists inside the Department table.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "eba90696-9642-4fcc-bb08-38481899788d",
+              "Text": "The foreign key column in the child table stores the primary key value of the related parent record.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7b397c2a-7a10-4816-948c-ae0bb5f3863a",
+              "Text": "Placing the foreign key on the \u0027one\u0027 side would require storing multiple values in a single column, which violates first normal form.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c4fcfb89-6f01-4471-ba32-6458f17d5c21",
+              "Text": "The foreign key creates a link between rows in two tables, enabling JOIN operations during queries.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4ca31ccd-476d-48fd-b956-19d3f8f70144",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "Translating the \u0027One\u0027 Side Entity to a Table",
+          "BodyText": "The entity on the \u0027one\u0027 side of the relationship is converted into a table whose primary key will serve as the reference point for the foreign key in the child table.",
+          "Notes": "For a Department\u2013Employee example, the Department table might be defined as: Department(DepartmentID PK, DepartmentName, Location). All attributes of the \u0027one\u0027 side entity become columns in this table.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "4f82b766-34dd-44f8-a607-c0acd81c0a55",
+              "Text": "Identify the primary key of the parent entity from the ER diagram and designate it as the primary key in the parent table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "975331df-a4fb-4039-9a2f-fb6fb5df97d6",
+              "Text": "All simple attributes of the parent entity become columns in the parent table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "66aa4099-6b99-4a25-b86c-f09750455821",
+              "Text": "The parent table does not contain any column referencing the child entity; the relationship is captured entirely on the child side.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5f7a48d5-af6d-4047-82bb-6fcbf1e08549",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "Translating the \u0027Many\u0027 Side Entity to a Table",
+          "BodyText": "The entity on the \u0027many\u0027 side is converted into a table that includes both its own attributes and an additional foreign key column referencing the parent table.",
+          "Notes": "Continuing the example: Employee(EmployeeID PK, EmployeeName, Salary, DepartmentID FK). The DepartmentID column links each employee record to exactly one department row.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "9d328ac9-a6bc-4d7e-bf1e-342d046c839d",
+              "Text": "Add a foreign key column to the child table whose data type matches the primary key of the parent table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8094c1fb-422e-4d74-b4de-e5d36dee25ec",
+              "Text": "Name the foreign key column clearly, often mirroring the parent\u0027s primary key name, to make relationships self-documenting.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "333d81b7-3382-4a43-9ea3-d2017d0c7f95",
+              "Text": "Apply a FOREIGN KEY constraint to enforce referential integrity, preventing orphaned child records.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "421fbd31-08ca-4775-8eb0-fc7223dd09d9",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "Determining Which Side Holds the Foreign Key: A Decision Process",
+          "BodyText": "Students must practice a systematic approach to determine the correct placement of the foreign key when reading an ER diagram.",
+          "Notes": "A helpful question to ask: \u0027Which entity instance can exist multiple times for a single instance of the other entity?\u0027 That entity\u0027s table receives the foreign key.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "745ec276-9a36-4da7-a6ab-26b8db36f36f",
+              "Text": "Step 1 \u2014 Identify the cardinality labels or crow\u0027s foot notation on both ends of the relationship line.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "daf9bfe1-5a80-4f36-948a-fdae443c308f",
+              "Text": "Step 2 \u2014 Label the ends clearly as \u0027one\u0027 (parent) and \u0027many\u0027 (child) before touching any table structure.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2b9a3f96-fddd-4855-bff3-b2f010b99b85",
+              "Text": "Step 3 \u2014 Add the foreign key column exclusively to the child (\u0027many\u0027 side) table, referencing the parent\u0027s primary key.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "54a0206f-b919-4f3f-bd3e-ff1d9fc2d234",
+              "Text": "Practicing with varied ER diagrams reinforces the rule and helps avoid the common mistake of placing the foreign key on the wrong side.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "facb538b-b784-446c-bc55-500b18df573b",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "Handling Participation Constraints (Optional vs. Mandatory)",
+          "BodyText": "Participation constraints in an ER diagram indicate whether every entity instance must participate in the relationship, which affects how the foreign key column is defined.",
+          "Notes": "Total participation on the \u0027many\u0027 side means the foreign key column should be NOT NULL. Partial participation means the column can allow NULL values, representing optional association.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "8664869c-9c10-42d2-af80-170c69170e2b",
+              "Text": "A double line (total participation) on the child side means every child record must reference a parent, so the foreign key is NOT NULL.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a8bf47c1-9ad1-4c2f-b987-ad03f0134d3d",
+              "Text": "A single line (partial participation) on the child side means the foreign key column can be NULL, allowing child records without a parent.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c63c8e2a-4cdb-49c9-8d05-7c62a573a175",
+              "Text": "Always check participation constraints in the ER diagram before finalizing the NULL/NOT NULL property of the foreign key column.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "9c614db4-a968-414e-9362-0d0566f758b6",
+          "TopicId": "10a42c78-291d-47ad-a4c0-22986d9ac478",
+          "Title": "Common Mistakes and Best Practices",
+          "BodyText": "Several frequent errors arise when mapping one-to-many relationships, and following best practices ensures a clean, normalized schema.",
+          "Notes": "A well-named foreign key and a properly declared constraint make the schema easier to maintain and query correctly.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "ModifiedDate": "2026-06-27T15:02:12.7567371-04:00",
+          "Items": [
+            {
+              "Id": "8798582c-07dc-44ce-a70d-3aa5604aaf59",
+              "Text": "Mistake: Placing the foreign key in the parent (\u0027one\u0027 side) table \u2014 this forces storing multiple child key values in one cell, breaking atomicity.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ca7b163e-98a5-4737-8227-1247ce0d0af8",
+              "Text": "Mistake: Forgetting to declare the FOREIGN KEY constraint, which leaves referential integrity unenforced at the database level.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "023fd2eb-f3e3-4254-9bfd-d4c132e1bede",
+              "Text": "Best practice: Always verify the relationship direction in the ER diagram before writing any CREATE TABLE statement.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "bed5668b-d0d5-4fb5-9b01-72d42dfcc5e0",
+              "Text": "Best practice: Use consistent naming conventions (e.g., TableName_ID) for foreign key columns to make the schema self-explanatory.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+      "Title": "Handling Many-to-Many Relationships",
+      "Summary": "Describes the creation of junction tables to resolve many-to-many relationships between entities in a relational schema. Students learn how composite primary keys and foreign keys are used within these associative tables.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "ModifiedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "Elements": [
+        {
+          "Id": "2441e81d-d721-405c-a18e-a9c08ff0ccfb",
+          "TopicId": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+          "Title": "Why Many-to-Many Relationships Cannot Be Directly Mapped",
+          "BodyText": "A many-to-many relationship between two entities cannot be represented by simply adding a foreign key to either participating table.",
+          "Notes": "For example, a Student can enroll in many Courses, and a Course can have many Students. Placing a Course foreign key in the Student table \u2014 or vice versa \u2014 would require storing multiple values in a single column, violating first normal form.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "ModifiedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "Items": [
+            {
+              "Id": "c821c818-6347-4e1c-9c0f-f55d875815c8",
+              "Text": "Each row in a relational table must hold a single, atomic value per column, making multi-valued foreign keys invalid.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "576fd5d0-f380-48e9-a2b9-2201fb84ac79",
+              "Text": "Attempting to store repeated groups in one table leads to data redundancy and update anomalies.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d14b1c50-b49a-46bc-ad4c-52cd13e6fe41",
+              "Text": "A separate structure is required to properly capture the association between two entities in a many-to-many relationship.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f1b78022-3e3b-4354-aa48-ee8d6427c7c9",
+          "TopicId": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+          "Title": "Introducing the Junction Table",
+          "BodyText": "A junction table (also called an associative table, bridge table, or linking table) is created to resolve a many-to-many relationship by representing each pairing of related entities as its own row.",
+          "Notes": "Using the Student-Course example, an Enrollment junction table would contain one row for every (Student, Course) combination, cleanly separating the association from the entities themselves.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "ModifiedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "Items": [
+            {
+              "Id": "1f292bc4-e784-47fe-80c9-33a079919397",
+              "Text": "The junction table is derived directly from the many-to-many relationship identified in the ER diagram.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6cc3ffcd-99dc-4867-9bb2-01794dac7015",
+              "Text": "It sits between the two entity tables, referencing each with a foreign key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b659738e-cdd4-49d0-8fa8-868421b238d8",
+              "Text": "Each row in the junction table records one specific instance of the relationship between the two entities.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "3c93dead-b78a-4648-8f44-bd3cd67ef100",
+          "TopicId": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+          "Title": "Defining Foreign Keys in the Junction Table",
+          "BodyText": "The junction table includes at least two foreign key columns, each referencing the primary key of one of the participating entity tables.",
+          "Notes": "In an Enrollment table, StudentID references the Student table and CourseID references the Course table. Both columns are necessary to uniquely identify which student is linked to which course.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "ModifiedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "Items": [
+            {
+              "Id": "2ac4f582-3b92-4098-8f44-afd08398738b",
+              "Text": "Each foreign key in the junction table enforces referential integrity back to its respective parent table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "80b4db44-6582-4b11-b558-998798a75f02",
+              "Text": "A row in the junction table can only exist if matching rows exist in both parent entity tables.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "81f98077-f925-479a-b479-439d3b528e31",
+              "Text": "Foreign keys in the junction table must use the same data type and domain as the primary keys they reference.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "7947d243-5952-4117-a432-9ff36cafb2d6",
+          "TopicId": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+          "Title": "Forming the Composite Primary Key",
+          "BodyText": "The combination of the two foreign key columns in a junction table typically forms a composite primary key, uniquely identifying each relationship instance.",
+          "Notes": "For example, the pair (StudentID, CourseID) together serves as the primary key of the Enrollment table, ensuring that the same student cannot be enrolled in the same course more than once.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "ModifiedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "Items": [
+            {
+              "Id": "eec5ecbb-5fcf-4cae-aa54-823dfc01b743",
+              "Text": "A composite primary key uses two or more columns together to guarantee uniqueness, rather than relying on a single column.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ba08b45c-b4c8-486e-88f1-d3e02486c2fa",
+              "Text": "Neither foreign key column alone is sufficient as a primary key, since each value may repeat across many rows.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "424e040f-64ea-4a08-9b92-76dc08dca1a4",
+              "Text": "The composite key naturally enforces that duplicate relationship instances \u2014 the same pair of entities \u2014 cannot be recorded twice.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d92c69a7-e2ce-4b43-b8ef-425ff93728ac",
+          "TopicId": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+          "Title": "Adding Relationship Attributes to the Junction Table",
+          "BodyText": "When the many-to-many relationship in the ER diagram carries its own attributes, those attributes become additional columns in the junction table.",
+          "Notes": "In the Student-Course example, an attribute such as Grade belongs to the enrollment relationship itself rather than to either entity alone, so it is stored as a column in the Enrollment junction table.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "ModifiedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "Items": [
+            {
+              "Id": "62f3af3f-6952-4776-9d85-edc0fb84dcfe",
+              "Text": "Relationship attributes in an ER diagram describe properties of the association, not of either individual entity.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "49dc4927-95c1-450f-a958-b54f0091ed6f",
+              "Text": "Storing relationship attributes in the junction table keeps data correctly associated with the specific pairing it describes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7e9ab0a9-e541-423f-8cc9-db8daac2c54e",
+              "Text": "Common relationship attributes include dates, statuses, quantities, or scores that only make sense in the context of the link between two entities.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "e55ad136-5bf2-4fe7-8f6a-5ae02c7c36aa",
+          "TopicId": "c9541fc2-cb45-42e1-9a56-181cc376ddb5",
+          "Title": "Mapping the ER Diagram to the Junction Table Schema",
+          "BodyText": "Converting a many-to-many relationship from an ER diagram follows a consistent set of steps to produce the correct relational schema.",
+          "Notes": "Consistent application of these steps ensures that every many-to-many relationship found in an ER diagram is resolved correctly before the schema is implemented.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "ModifiedDate": "2026-06-27T15:02:34.5929906-04:00",
+          "Items": [
+            {
+              "Id": "527f5ea5-fb59-4b9b-92de-c6e8dc78a50f",
+              "Text": "Identify both entity types participating in the many-to-many relationship and confirm each has its own table with a defined primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5913a3d9-1820-4c3b-b1e3-88d5be3fcf79",
+              "Text": "Create a new junction table named to reflect the relationship (e.g., Enrollment, ProjectAssignment).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "db2d4ec2-ebd4-499f-854e-5b18fd20249a",
+              "Text": "Add a foreign key column for each participating entity\u0027s primary key, then declare those columns together as the composite primary key.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "b2cb5149-dd14-40f1-a62a-5cdf8e7143b0",
+              "Text": "Add any additional columns for relationship attributes identified in the ER diagram.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+      "Title": "Mapping Weak Entities and Their Relationships",
+      "Summary": "Addresses the special considerations required when converting weak entities, which depend on a parent entity for their identification. Students learn how partial keys and foreign keys combine to form the primary key of a weak entity\u0027s table.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "ModifiedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "Elements": [
+        {
+          "Id": "2b9df183-58ca-4867-b2c6-2baab95e8d77",
+          "TopicId": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+          "Title": "Understanding Weak Entities",
+          "BodyText": "A weak entity is one that cannot be uniquely identified by its own attributes alone and must rely on a related parent (owner) entity for its full identification.",
+          "Notes": "A classic example is an ORDER_ITEM entity that depends on an ORDER entity \u2014 an item number alone may repeat across orders, but the combination of order ID and item number is unique.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "ModifiedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "Items": [
+            {
+              "Id": "83c33314-8c62-4c8f-879d-6a6aa4611aa9",
+              "Text": "Weak entities are represented in ER diagrams with a double rectangle, distinguishing them from regular (strong) entities.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8a7ecb4e-190e-494e-9498-48cf294f3403",
+              "Text": "Because weak entities lack a full primary key on their own, they must participate in an identifying relationship with their owner entity.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "aee412a4-3474-4ce4-81a5-954a9b2046b9",
+              "Text": "The identifying relationship is typically mandatory and total on the weak entity\u0027s side, meaning every weak entity instance must be associated with an owner.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f03d1ea6-50ca-4747-b298-4673fdcaccba",
+          "TopicId": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+          "Title": "Partial Keys and Their Role",
+          "BodyText": "A partial key is the attribute or set of attributes that partially distinguishes weak entity instances among those belonging to the same owner entity instance.",
+          "Notes": "In an ER diagram, partial keys are depicted with a dashed underline rather than the solid underline used for full primary keys.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "ModifiedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "Items": [
+            {
+              "Id": "4b9dab19-a8c5-44a5-90f0-f3a9b0aa1794",
+              "Text": "A partial key is only unique within the context of a single owner entity instance, not across the entire table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e7d82f96-73ef-4ea9-826d-696d2ceec1fe",
+              "Text": "For example, a DEPENDENT\u0027s name might serve as a partial key \u2014 two employees could each have a dependent named \u0027Alex,\u0027 but no single employee has two dependents with the same name.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2f71bf57-06ed-4baf-8c07-ede51e04337d",
+              "Text": "Identifying the partial key in the ER diagram is the first step before constructing the weak entity\u0027s relational table.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "3a8524f7-3fde-49c4-8191-275d831afa26",
+          "TopicId": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+          "Title": "Creating the Weak Entity\u0027s Table",
+          "BodyText": "When mapping a weak entity to a relational table, you include all of its own attributes plus the primary key of its owner entity as a foreign key.",
+          "Notes": "The resulting table inherits the owner\u0027s primary key column(s), which must be included explicitly even if they are not attributes of the weak entity in the ER diagram.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "ModifiedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "Items": [
+            {
+              "Id": "94cc0987-7097-41cc-b458-474fdf1c8b03",
+              "Text": "All descriptive attributes of the weak entity become regular columns in the new table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "27bc7f2f-cbd4-4651-b5c3-c1fe0388b775",
+              "Text": "The owner entity\u0027s primary key is added as a foreign key column in the weak entity\u0027s table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8bf7e5fb-f2dc-4f6b-9394-3ce1f7299488",
+              "Text": "The foreign key column references the owner entity\u0027s table to enforce the dependency relationship at the database level.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "89535026-057f-4b85-869b-7d72caedd7d1",
+          "TopicId": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+          "Title": "Forming the Composite Primary Key",
+          "BodyText": "The primary key of a weak entity\u0027s table is a composite key formed by combining the partial key of the weak entity with the foreign key inherited from the owner entity.",
+          "Notes": "For a DEPENDENT table that depends on EMPLOYEE, if EMPLOYEE_ID is the owner\u0027s key and DEPENDENT_NAME is the partial key, then {EMPLOYEE_ID, DEPENDENT_NAME} together form the primary key of DEPENDENT.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "ModifiedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "Items": [
+            {
+              "Id": "d5da71ed-1829-4218-804b-2d56e1163885",
+              "Text": "Neither the partial key alone nor the foreign key alone is sufficient to serve as the primary key of the weak entity\u0027s table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c4da3ffa-5a6d-4bf1-9d30-8d5fcf07392d",
+              "Text": "The combination of both guarantees global uniqueness across all rows in the table, satisfying the requirements of a relational primary key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "054ab39b-5f07-478e-b07d-53f8d1d53a2f",
+              "Text": "Declaring this composite key enforces that no two dependents of the same employee share the same partial key value.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "93bff4b2-2113-4642-8ac1-9114d169e1fb",
+          "TopicId": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+          "Title": "Mapping the Identifying Relationship",
+          "BodyText": "The identifying relationship between a weak entity and its owner does not always require a separate junction table; instead, it is captured directly through the foreign key embedded in the weak entity\u0027s table.",
+          "Notes": "This contrasts with many-to-many relationships, which do require a separate association table. The identifying relationship is inherently one-to-many from the owner to the weak entity.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "ModifiedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "Items": [
+            {
+              "Id": "1d0185a0-1e43-4c1a-8a85-190b3acde61e",
+              "Text": "Because the foreign key is already part of the weak entity\u0027s composite primary key, the relationship is fully represented without an additional table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "84e36bd8-b859-4319-9223-b2205dc1be4f",
+              "Text": "Referential integrity constraints should be applied so that deleting an owner entity instance also cascades to remove its associated weak entity instances.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a6588eb5-78aa-4dc5-a085-58858f23494e",
+              "Text": "Any non-key attributes that belong to the identifying relationship itself can be added as additional columns in the weak entity\u0027s table.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ceee3618-cd32-48f7-9511-b6aa85664d17",
+          "TopicId": "bc31d53f-c0c5-4949-9009-b530ecc2ce37",
+          "Title": "Referential Integrity and Deletion Behavior",
+          "BodyText": "Weak entities have an existential dependency on their owner, meaning that if the owner entity is deleted, the weak entity instances associated with it should also be removed.",
+          "Notes": "Most relational database systems implement this through CASCADE DELETE on the foreign key constraint, automating the removal of dependent rows.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "ModifiedDate": "2026-06-27T15:02:59.8185018-04:00",
+          "Items": [
+            {
+              "Id": "d267dac3-4834-4a19-adab-a8f582fa9b50",
+              "Text": "Setting the foreign key constraint to ON DELETE CASCADE ensures that weak entity rows are automatically deleted when their owner row is removed.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "10699ce6-3353-4c0e-8725-20abf0c6f5cb",
+              "Text": "Without proper referential integrity, orphaned weak entity records could remain in the table, violating the logical dependency modeled in the ER diagram.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e52877ee-f454-4ec2-98cc-83b2bb6aaa6b",
+              "Text": "Designers must explicitly configure this constraint during schema implementation rather than assuming the database will enforce it by default.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+      "Title": "Validating and Refining the Relational Schema",
+      "Summary": "Guides students through reviewing the completed schema for correctness, consistency, and integrity constraints derived from the original ER diagram. This topic reinforces best practices for ensuring the schema accurately reflects the intended data model.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "ModifiedDate": "2026-06-27T15:00:55.7711082-04:00",
+      "Elements": [
+        {
+          "Id": "36acdaa6-dfef-45a1-9e66-91368a046565",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Cross-Checking Tables Against ER Entities and Relationships",
+          "BodyText": "The first step in validation is verifying that every entity and relationship in the original ER diagram has been correctly represented as a table or foreign key in the schema.",
+          "Notes": "A common checklist approach: list all ER entities, all relationships, and all attributes, then confirm each appears correctly in the schema. Missing tables or columns often trace back to overlooked weak entities or multi-valued attributes.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "76df3311-81c9-44db-b3d9-f1c830ace3aa",
+              "Text": "Every strong entity in the ER diagram should correspond to exactly one table with a defined primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "9efc5b3e-4058-4305-a79c-4b1f9d9aeb70",
+              "Text": "Every relationship (one-to-many, many-to-many, identifying) should be reflected either as a foreign key or as a dedicated junction table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "36a02739-f559-41c2-939d-84867cc12112",
+              "Text": "Attributes from the ER diagram, including derived and multi-valued ones, must be accounted for \u2014 either as columns or as separate tables.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "abc377fe-cbed-410d-b9d0-b30abcf44b96",
+              "Text": "Discrepancies between the ER diagram and the schema indicate mapping errors that must be corrected before implementation.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "51992706-5380-43d3-8e80-a467ac8193b6",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Verifying Primary Key Integrity",
+          "BodyText": "Each table in the schema must have a clearly defined primary key that uniquely identifies every row, consistent with the identifiers specified in the ER diagram.",
+          "Notes": "For weak entities, the primary key is a composite of the partial key and the foreign key from the owner entity \u2014 a frequent source of errors during initial mapping.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "970d7ba8-d854-47b7-b228-52961ce1e261",
+              "Text": "Strong entity tables should use the key attribute from the ER diagram as the primary key, avoiding surrogate keys unless explicitly justified.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0f07654d-5fe6-46a7-ad36-e8001f035486",
+              "Text": "Junction tables representing many-to-many relationships typically require a composite primary key made up of the foreign keys of the participating entities.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "54c3e9b1-d9fc-4cba-8ab7-e686c29d98cb",
+              "Text": "Weak entity tables must combine the partial key with the owner entity\u0027s primary key to form a valid composite primary key.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "807506e9-323c-489d-88fb-6286e4d68501",
+              "Text": "Primary keys must be minimal \u2014 no attribute in a composite key should be removable while still maintaining uniqueness.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "8c015d19-08d1-4294-854a-dc32ad690cb3",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Validating Foreign Key Constraints and Referential Integrity",
+          "BodyText": "Foreign keys enforce referential integrity by ensuring that values in a referencing column always correspond to an existing row in the referenced table.",
+          "Notes": "Referential integrity rules derived from ER participation constraints should be documented alongside the schema, as they guide the use of ON DELETE and ON UPDATE behaviors in SQL.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "97bbbbfa-7015-400e-9026-b506a855363e",
+              "Text": "Every foreign key in the schema must reference the primary key of an existing table, matching the relationships defined in the ER diagram.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0145744b-299f-489b-ae34-cc42826f06bc",
+              "Text": "Total participation constraints in the ER diagram (double lines) suggest that the foreign key column should be NOT NULL in the relational schema.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "eca63567-f49c-4b88-9847-c5ce52203610",
+              "Text": "Cascade rules (CASCADE, SET NULL, RESTRICT) should be chosen based on the semantics of the original ER relationship.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "d0ba3b0f-9c02-46da-9064-f0b82a493332",
+              "Text": "Self-referencing foreign keys, arising from unary relationships in the ER diagram, require special attention to avoid circular dependency issues.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "32c52492-216d-44bf-b731-93d8d7fee908",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Checking for Consistency and Naming Conventions",
+          "BodyText": "A consistent, readable schema uses uniform naming conventions for tables, columns, primary keys, and foreign keys throughout, reducing ambiguity and maintenance errors.",
+          "Notes": "Teams often adopt conventions such as singular table names, snake_case column names, and a pattern like entity_id for primary keys. Enforcing these during review prevents confusion during development.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "840840c3-a638-4e3a-98a5-46e85470058a",
+              "Text": "Table and column names should be consistent in format (e.g., all lowercase, snake_case) and should clearly reflect the entity or attribute they represent.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "67dbe8cb-813e-4ffc-b7b4-285fc0e2119b",
+              "Text": "Foreign key columns should be named in a way that indicates both the referenced table and the nature of the relationship (e.g., customer_id in an Orders table).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6eefef13-4647-4012-af5f-784186668160",
+              "Text": "Duplicate column names across tables should only appear intentionally as foreign keys, not as accidental redundancy.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "6f2b09e0-63e0-43af-9b0a-cb3f563f5e04",
+              "Text": "Reviewing the schema as a team or against a written standard helps catch inconsistencies that automated tools may miss.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "69affd09-7d0d-409f-902f-c82aefc85d4b",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Applying Normalization Checks to the Schema",
+          "BodyText": "After mapping the ER diagram, the schema should be reviewed against normalization principles \u2014 at minimum up to Third Normal Form (3NF) \u2014 to eliminate redundancy and update anomalies.",
+          "Notes": "ER diagrams that are well-constructed typically produce schemas already in 3NF, but errors in the original diagram or during mapping can introduce functional dependency violations.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "e0994b29-535d-4048-956f-3d21b953749a",
+              "Text": "First Normal Form (1NF) requires that all columns contain atomic values \u2014 multi-valued attributes from the ER diagram must have been converted to separate tables.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "08721236-b9ec-4c0b-b87f-df749659e483",
+              "Text": "Second Normal Form (2NF) requires that in tables with composite primary keys, every non-key attribute depends on the whole key, not just part of it.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9c088829-8ca4-4d66-9624-260c4037255d",
+              "Text": "Third Normal Form (3NF) requires that non-key attributes depend only on the primary key and not on other non-key attributes (no transitive dependencies).",
+              "SortOrder": 2
+            },
+            {
+              "Id": "c63ae30a-a90f-4c0d-93ec-9b9a63dc2997",
+              "Text": "Identifying normalization violations during validation is preferable to discovering them after the database has been populated with data.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "38709728-7e0e-4431-8377-92fc4b77f65c",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Confirming Completeness of Integrity Constraints",
+          "BodyText": "Beyond primary and foreign keys, the schema should encode all integrity constraints implied by the ER diagram, including domain constraints, uniqueness constraints, and participation rules.",
+          "Notes": "Constraints that cannot be expressed in DDL (e.g., complex business rules) should be documented as application-level or trigger-based constraints so they are not lost.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "c78d4b06-63ad-444a-9fc0-2a6534448763",
+              "Text": "UNIQUE constraints should be added to columns that represent alternate keys or unique attributes identified in the ER diagram.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f2fe359b-09fa-4433-aedd-743b899375d3",
+              "Text": "CHECK constraints can enforce domain restrictions on column values (e.g., age \u003E 0, status IN (\u0027active\u0027, \u0027inactive\u0027)).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7f554cf3-0e12-46c8-b145-366e28a986dd",
+              "Text": "NOT NULL constraints must be applied wherever total participation or mandatory attributes are specified in the ER diagram.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "8aca9777-f2e0-4cfa-a9c1-b8171ee71b80",
+              "Text": "Documenting all constraints \u2014 both those implemented in the schema and those deferred to application logic \u2014 ensures nothing is overlooked during development or testing.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "cee97009-dcbf-4b51-b0cf-3eb1f8b1d8b1",
+          "TopicId": "38301f6a-662a-48bf-8cb0-cf6e12d638f9",
+          "Title": "Iterating and Finalizing the Schema",
+          "BodyText": "Schema validation is an iterative process; findings from the review steps should feed back into corrections, followed by re-verification until the schema fully and accurately reflects the ER diagram.",
+          "Notes": "Keeping a version-controlled record of schema changes and the rationale for each revision is a best practice in professional database design projects.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "ModifiedDate": "2026-06-27T15:03:32.6661682-04:00",
+          "Items": [
+            {
+              "Id": "84ccfda2-f9c5-458e-a3b7-3b2906ef4c8c",
+              "Text": "Each validation finding \u2014 a missing table, a misplaced foreign key, a normalization violation \u2014 should be logged and corrected systematically rather than addressed ad hoc.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "9bf26081-7a6a-485c-85f9-05a2994075a9",
+              "Text": "After each correction, the relevant portion of the schema should be re-checked to confirm the fix did not introduce new inconsistencies.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ebe6e015-8c72-4c1d-96df-a8d32caf5b43",
+              "Text": "A final walkthrough that traces each ER construct to its schema representation confirms completeness before the schema is handed off for implementation.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "b593c18e-0db3-43d2-9325-251ad925a60c",
+              "Text": "Stakeholder or peer review of the finalized schema against the original ER diagram provides an independent confirmation of correctness.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 39
+}

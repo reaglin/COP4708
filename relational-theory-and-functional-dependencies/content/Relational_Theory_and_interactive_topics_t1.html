@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathematical Foundations of Relational Theory</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Theory and Functional Dependencies</a></div>
+  <header>
+    <h1>Mathematical Foundations of Relational Theory</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Mathematical Foundations of Relational Theory</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>The relational model, first articulated by Edgar F. Codd in his landmark 1970 paper "A Relational Model of Data for Large Shared Data Banks," is not merely a practical engineering convention for organizing data — it is a rigorous mathematical framework. Every concept at its core, from the way rows are stored to the way queries are expressed, derives its meaning and its correctness guarantees from well-established branches of mathematics, principally set theory and first-order predicate logic. Understanding these mathematical foundations is essential not only for designing databases correctly but for reasoning precisely about what a database means, what guarantees it can offer, and why certain operations behave the way they do. This topic builds that foundation systematically, beginning with sets and working upward through domains, tuples, attributes, and finally the formal definition of a relation itself.</p>
+
+<p><strong>Sets as the Building Blocks of Relational Theory</strong></p>
+
+<p>A set, in the mathematical sense, is a well-defined collection of distinct objects considered as a whole. The two properties that define a set are fundamental and consequential: first, a set contains <em>no duplicate elements</em>; second, a set has <em>no inherent ordering</em> among its elements. These two properties are not incidental details — they flow directly into the structure of the relational model and explain behaviors that might otherwise seem arbitrary.</p>
+
+<p>The prohibition on duplicates means that if you attempt to add an element to a set that is already present, the set is unchanged. In relational terms, this is precisely why a relation cannot contain two identical rows. A relation is formally a <em>set of tuples</em>, and since sets do not allow duplicate members, no two tuples in a relation may be identical in all their attribute values simultaneously. This is not merely a convention imposed by database vendors; it is a mathematical necessity that falls out of treating relations as sets. Consider a set of employee records: if two rows were identical in every column — same employee identifier, same name, same salary — they would represent the same set element, and by definition only one copy can exist. This constraint enforces a kind of informational clarity: every tuple in a relation is a distinct fact.</p>
+
+<p>The unordered nature of sets carries an equally important implication. Because the elements of a set have no positional relationship to one another, the order in which tuples appear in a relation is mathematically meaningless. There is no "first row" or "third row" in a relation in the same way there is a first element in a list or an array. When a database system displays query results in a particular order, that ordering is a presentation choice or the result of an explicit <code>ORDER BY</code> directive — it is not a property of the relation itself. Two relations are equal if and only if they contain exactly the same set of tuples, regardless of any display order. This is why writing queries that depend on an implicit row ordering, without an explicit <code>ORDER BY</code> clause, produces undefined and unreliable behavior: the underlying mathematical model provides no ordering to depend on.</p>
+
+<p>Set operations — union, intersection, and set difference — have direct and precise counterparts in relational algebra. The <em>union</em> of two sets A and B is the set of all elements belonging to A, to B, or to both, with no duplicates. The <em>intersection</em> of A and B is the set of elements belonging to both. The <em>set difference</em> A minus B is the set of elements in A that are not in B. In relational algebra, these operations apply to compatible relations (relations with matching schemas) and produce new relations. Because the results are also sets of tuples, the no-duplicate and no-ordering properties are automatically preserved. This mathematical closure — the property that applying set operations to relations yields relations — is one of the features that makes relational algebra a clean and compositional query language.</p>
+
+<p><strong>Domains: The Universe of Attribute Values</strong></p>
+
+<p>A <em>domain</em> is a named, atomic set of permissible values from which attribute values are drawn. You can think of a domain as a pool of all the values that could possibly appear in a particular kind of data field. Common examples include the domain of all valid calendar dates, the domain of all non-negative integers, the domain of all strings of up to 50 characters, or a custom enumerated domain such as <code>{Active, Inactive, Suspended}</code> for an account status field.</p>
+
+<p>Each attribute in a relation schema is associated with exactly one domain. This association constrains the type of data that may appear in that attribute's column across every tuple in the relation. If the domain of the <code>Age</code> attribute is the set of positive integers between 0 and 150, then no tuple may contain a value like <code>'hello'</code> or <code>-5</code> in that column. This constraint is sometimes called <em>domain integrity</em> or <em>data type integrity</em>, and it is the most fundamental layer of semantic enforcement in the relational model.</p>
+
+<p>Beyond mere type enforcement, domains enforce <em>semantic integrity</em> — the idea that values assigned to an attribute must be meaningful in the context of what that attribute represents. Consider a database for a hospital. The attribute <code>PatientAge</code> and the attribute <code>WardNumber</code> might both draw from the domain of integers, but they are semantically different attributes representing entirely different real-world concepts. Assigning a ward number as a patient age would be a domain violation only if the domains are defined to exclude such values; more importantly, it would be a semantic error even if both happen to be integers. Thoughtful domain design, where domains are named and described in terms of the concepts they represent rather than merely their data types, helps prevent such category errors.</p>
+
+<p>A critically important and subtle point is that <strong>two attributes may share the same underlying domain while remaining semantically distinct</strong>. The attributes <code>HireDate</code> and <code>BirthDate</code> in an employee relation might both be drawn from the domain of valid calendar dates. Mathematically, both are subsets of the same universe of date values. Yet they mean entirely different things: one records when an employee joined the company, the other records when they were born. Comparing <code>HireDate</code> values from one tuple with <code>BirthDate</code> values from another tuple — say, to check whether an employee was hired before they were born — is meaningful precisely because they share a common domain and can be compared. But conflating the two as if they were interchangeable would be a semantic error. This distinction between the syntactic domain (the set of permissible values) and the semantic meaning (what the attribute represents about the world) is why attribute names, not domain names alone, carry semantic weight.</p>
+
+<p>In practical database systems, domains correspond closely to data types (<code>INTEGER</code>, <code>DATE</code>, <code>VARCHAR(100)</code>, and so on), sometimes augmented with check constraints. A column declared as <code>DATE</code> with a constraint <code>CHECK (hire_date >= '1900-01-01')</code> is an approximation of the formal concept of a domain. Some database systems, such as PostgreSQL, allow the creation of named domain types with <code>CREATE DOMAIN</code>, which is a closer reflection of the theoretical construct.</p>
+
+<p><strong>Tuples: Ordered Lists of Attribute Values</strong></p>
+
+<p>A <em>tuple</em> is the fundamental data-bearing unit of a relation. Formally, given a relation schema with attributes <em>A₁, A₂, …, Aₙ</em> having corresponding domains <em>D₁, D₂, …, Dₙ</em>, a tuple <em>t</em> is a function that maps each attribute name <em>Aᵢ</em> to a value <em>vᵢ</em> drawn from domain <em>Dᵢ</em>. Each component of the tuple corresponds to one specific attribute, and the value placed there must come from that attribute's domain.</p>
+
+<p>The word "ordered" in the phrase "ordered list of attribute values" can cause confusion in the context of sets. The ordering within a tuple refers to the positional correspondence between attribute slots and their values — that is, the first slot corresponds to the first attribute, the second slot to the second attribute, and so on. This positional ordering is what makes a tuple different from a set: a tuple <code>(Alice, 30, Engineering)</code> is not the same as the tuple <code>(30, Alice, Engineering)</code>, because the positions carry meaning. However, as noted above, tuples themselves — as elements of the relation's set — have no ordering relative to one another.</p>
+
+<p>The <em>degree</em> of a tuple is the number of attributes it contains. In a well-formed relation, every tuple has exactly the same degree, and that degree matches the number of attributes defined in the relation schema. This uniformity is non-negotiable: you cannot have one tuple with three attribute values and another with four in the same relation. This constraint, which again flows from the mathematical definition, ensures that every tuple can be interpreted against the same schema and that operations across tuples are well-defined.</p>
+
+<p>Conceptually, a tuple encapsulates all the known facts about a single entity instance at a given moment. In an <code>Employee</code> relation, each tuple represents one employee and records all the attributes the schema tracks for that employee — their identifier, name, department, salary, hire date, and so on. The tuple is the row-level unit of meaning in a relational database. If you want to know everything the database records about a particular employee, you retrieve their tuple. If the real-world entity changes — say, an employee is promoted and their salary increases — the tuple is updated to reflect the new state of that entity instance.</p>
+
+<p>Consider a concrete example. Suppose an <code>Employee</code> relation has the schema:</p>
+
+<pre><code>Employee(EmployeeID: INTEGER, Name: VARCHAR(100), Department: VARCHAR(50), Salary: DECIMAL)</code></pre>
+
+<p>A valid tuple in this relation might be:</p>
+
+<pre><code>(1042, 'Maria Kovacs', 'Research', 85000.00)</code></pre>
+
+<p>Here, <code>1042</code> is drawn from the domain of integers (satisfying the <code>EmployeeID</code> attribute), <code>'Maria Kovacs'</code> is a character string (satisfying the <code>Name</code> attribute), <code>'Research'</code> is a character string (satisfying <code>Department</code>), and <code>85000.00</code> is a decimal number (satisfying <code>Salary</code>). A value like <code>'hello'</code> in the <code>Salary</code> position would violate the domain constraint and would not constitute a valid tuple for this schema.</p>
+
+<p><strong>The Formal Definition of a Relation</strong></p>
+
+<p>Bringing together sets, domains, and tuples, we can now state the formal definition of a relation. A <em>relation</em> consists of two components: a <em>relation schema</em> and a <em>relation instance</em>.</p>
+
+<p>The <strong>relation schema</strong>, sometimes written as <em>R(A₁: D₁, A₂: D₂, …, Aₙ: Dₙ)</em>, specifies the name of the relation, the names of its attributes, and the domain associated with each attribute. The schema is the structural blueprint — it defines what kind of data the relation holds and what constraints govern its values. The schema is relatively stable over time; it changes only when the design of the database changes (for instance, when a new attribute is added or a domain constraint is tightened).</p>
+
+<p>The <strong>relation instance</strong>, by contrast, is the current set of tuples that conform to the schema at a specific point in time. The instance changes frequently as data is inserted, updated, and deleted. Because it is a set, the instance cannot contain two identical tuples, and it has no inherent ordering. When we speak of "the relation <code>Employee</code>" in everyday database discourse, we usually mean both the schema (the column definitions) and the current instance (the actual rows) together, though the distinction matters when precision is required.</p>
+
+<p>Two important measures characterize a relation instance. The <em>cardinality</em> of a relation is the number of tuples it currently contains — it is a dynamic property that changes as rows are inserted or deleted. A relation might have zero tuples (an empty relation), thousands, or billions. The <em>degree</em> (also called the <em>arity</em>) of a relation is the number of attributes in its schema — it is a static property determined at design time and changed only through schema modifications. A relation with four attributes has degree 4, regardless of how many tuples it contains.</p>
+
+<p>Because a relation is a set of tuples with no inherent ordering and no duplicates, many familiar database behaviors follow as mathematical consequences rather than implementation decisions. The fact that <code>SELECT * FROM Employee</code> without an <code>ORDER BY</code> may return rows in any order is not a quirk of the database engine — it is a correct implementation of a mathematical model where the result is a set of tuples with no defined sequence. The fact that inserting a duplicate primary key is rejected is not merely a constraint rule — it is a direct consequence of a relation being a set, which by definition cannot contain duplicate elements.</p>
+
+<p><strong>Attributes: Named Columns with Semantic Meaning</strong></p>
+
+<p>While domains define the permissible values for an attribute, and tuples assign concrete values to attribute positions, <em>attributes</em> themselves are the named, semantically interpreted columns that give those values meaning. In the formal framework, an attribute is a named role within a relation schema, tied to exactly one domain.</p>
+
+<p>Each attribute name must be unique within a given relation schema. You cannot have two attributes both called <code>Date</code> in the same relation, even if they would have different meanings, because there would be no way to distinguish them unambiguously in queries and formal expressions. This uniqueness requirement is what makes attribute names — rather than positional indices — the primary means of referencing columns in relational algebra and SQL. Referencing columns by name rather than by position is both more readable and more robust: if the schema is reordered or a new column is added, name-based references continue to work correctly.</p>
+
+<p>Attributes provide the <em>semantic layer</em> that transforms raw domain values into interpretable facts. The integer <code>85000</code> sitting alone in a vacuum tells you nothing. The attribute named <code>Salary</code> in a relation named <code>Employee</code>, holding the value <code>85000</code>, tells you that a specific employee earns a salary of 85,000 (in whatever currency the database documents). The attribute name is the label that connects a raw value to its real-world meaning. This is why relational schema design is fundamentally a modeling exercise: choosing good attribute names that clearly reflect the real-world properties they represent is as important as choosing correct data types.</p>
+
+<p>The combination of attribute name and domain together constrains a column along two complementary dimensions. The domain constrains <em>what values are syntactically and type-theoretically permissible</em>; the attribute name constrains <em>what values are semantically appropriate</em> and how they are interpreted. For example, the domain of positive integers permits the value <code>999</code>. Whether <code>999</code> is a meaningful <code>Salary</code> or a meaningful <code>EmployeeID</code> depends on the attribute context. Both constraints working together — domain for structural validity and attribute name for semantic clarity — are what make the relational model capable of representing real-world information faithfully.</p>
+
+<p>In practical terms, it is common to see the interplay of attributes and domains in foreign key relationships. When the <code>Department</code> attribute in an <code>Employee</code> relation references the <code>DepartmentID</code> attribute in a <code>Department</code> relation, both attributes must draw from the same domain (they must be type-compatible), but they may have different names. The shared domain is what makes the join operation mathematically meaningful — you are comparing values from the same universe. The different attribute names reflect their different roles in their respective schemas.</p>
+
+<p><strong>The Relational Model as a Mathematical Framework</strong></p>
+
+<p>The value of grounding the relational model in mathematics goes far beyond providing a clean theoretical description. Mathematical precision enables formal reasoning about database properties in ways that would be impossible with purely ad-hoc or intuitive models.</p>
+
+<p>One major benefit is the ability to formally specify and verify <em>correctness properties</em> such as consistency and integrity. Integrity constraints — primary key constraints, foreign key constraints, domain constraints, and more complex business rules — can be expressed as mathematical predicates that every valid relation instance must satisfy. A database is in a consistent state if and only if all its relation instances simultaneously satisfy all defined constraints. This formal characterization makes it possible to prove that a particular set of operations will or will not preserve consistency, and to build database management systems that enforce consistency as a mathematical guarantee rather than merely a best effort.</p>
+
+<p><em>Relational algebra</em> and <em>relational calculus</em> are the two formal query languages that emerge from the mathematical foundation. Relational algebra defines queries as sequences of operations on relations — selection, projection, join, union, intersection, difference, and others — each of which takes one or more relations as input and produces a relation as output. The closure property (every operation produces a relation) means operations can be composed freely, enabling arbitrarily complex queries. Relational calculus, by contrast, expresses queries as logical formulas: a query result is the set of all tuples satisfying a given first-order predicate. Both languages are equivalent in expressive power (a result known as Codd's theorem), and together they define the theoretical standard for what a complete relational query language must be able to express. SQL, the practical query language used by virtually all relational database systems, is based on and largely equivalent to relational algebra and calculus, inheriting its expressive foundations from this mathematical heritage.</p>
+
+<p>Perhaps the deepest benefit of the mathematical framework is that it enables principled reasoning about <em>data structure, redundancy, and dependency</em>. The theory of <em>functional dependencies</em> — the formal study of which attribute values determine which other attribute values within a relation — is built directly on relational theory and leads to the normalization framework. Normal forms (First Normal Form through Boyce-Codd Normal Form and beyond) are mathematically defined conditions on relation schemas that, when satisfied, guarantee the elimination of specific classes of redundancy and the anomalies (insertion, update, and deletion anomalies) that redundancy causes. Without the mathematical precision of the relational model, these concepts could not be stated rigorously enough to be applied systematically.</p>
+
+<p>To see the contrast, consider what a purely file-based or network-database approach offers: data is stored in programmer-defined structures, navigation is procedural, and there is no formal model guaranteeing anything about consistency or redundancy. The relational model replaced this with a framework where you can ask — and answer — precise questions: Is this schema in third normal form? Does this set of constraints guarantee referential integrity? Is this query equivalent to that query? Are these two schemas semantically equivalent despite having different attribute names? All of these questions have rigorous mathematical answers within the relational framework, and none of them can even be precisely formulated without it.</p>
+
+<p>Understanding the mathematical foundations of relational theory is therefore not an abstract academic exercise. It is the conceptual infrastructure that explains why relational databases behave as they do, why they offer the reliability and consistency guarantees they do, and how to design them correctly. Every table in a database is a relation in the mathematical sense; every row is a tuple; every column is an attribute tied to a domain; every schema is a formal specification. Keeping this mathematical reality in view leads to better design decisions, fewer bugs, and a deeper understanding of what your data truly means.</p>
+        <div class="notes"><strong>Notes</strong>Instructors may wish to supplement this content with a formal worked example: define a small relation schema explicitly (attribute names + domains), enumerate a few valid tuples, and then show one invalid tuple and explain which domain or structural rule it violates. This concretizes the abstract definitions. Additionally, the connection between set theory no-duplicates rule and the requirement for a primary key can be surfaced here as a preview of keys: if every tuple must be unique, there must exist some attribute or combination of attributes that identifies each tuple — which is the definition of a primary key.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

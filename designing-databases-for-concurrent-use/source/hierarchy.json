@@ -1,0 +1,1317 @@
+{
+  "ModuleFolderName": "Designing_Databases_for",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T15:17:08.7224694-04:00",
+  "ModifiedDate": "2026-06-27T15:20:03.2302047-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "ca73b6b9-551e-4708-83f8-1d03cc3849d4",
+      "Title": "Introduction to Multi-User Database Environments",
+      "Summary": "Explores the unique challenges that arise when multiple users access and modify a database simultaneously. Establishes the foundational need for concurrency control strategies.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "1982b56e-3b31-4092-879a-88eb23380f65",
+          "TopicId": "ca73b6b9-551e-4708-83f8-1d03cc3849d4",
+          "Title": "What is a Multi-User Database Environment?",
+          "BodyText": "A multi-user database environment is one in which two or more users can access and interact with the same database at the same time.",
+          "Notes": "Common examples include banking systems, e-commerce platforms, and hospital record systems where hundreds or thousands of users may query or update records simultaneously.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "ModifiedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "Items": [
+            {
+              "Id": "5e60eddb-ea7e-4bab-9081-2fef225ee702",
+              "Text": "Modern databases are almost always designed to support concurrent access from multiple clients or applications.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6e2141eb-daee-4569-ad38-abd5f6eaee33",
+              "Text": "Each user may be reading, inserting, updating, or deleting records at the same moment as others.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a9a45c56-62c0-418d-9cae-037b56bbadb5",
+              "Text": "The database management system (DBMS) must coordinate these simultaneous operations without requiring users to take turns.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "343958cc-c598-4c7c-a399-8dc7ab551a0e",
+          "TopicId": "ca73b6b9-551e-4708-83f8-1d03cc3849d4",
+          "Title": "The Core Challenge: Simultaneous Data Modification",
+          "BodyText": "When multiple users attempt to read and write the same data at the same time, conflicts can arise that corrupt or misrepresent the stored information.",
+          "Notes": "A classic example is two bank tellers simultaneously withdrawing from the same account \u2014 without coordination, both may read the same balance and each subtract an amount, resulting in an incorrect final balance.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "ModifiedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "Items": [
+            {
+              "Id": "9c3fee02-1c29-48a4-ac86-92401b589ad8",
+              "Text": "Simultaneous writes to the same record can cause one user\u0027s changes to overwrite another\u0027s, known as a lost update.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5d62abdb-aed5-4dfb-bb25-4c8755943737",
+              "Text": "A user may read a value mid-transaction that another user is in the process of changing, leading to inconsistent results.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9975b117-4cea-4205-842d-a3e63b9d52bf",
+              "Text": "These conflicts are not edge cases \u2014 they occur regularly in any system with meaningful concurrent load.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4e3029ae-891e-4925-9b94-129aae498f38",
+          "TopicId": "ca73b6b9-551e-4708-83f8-1d03cc3849d4",
+          "Title": "Common Concurrency Problems",
+          "BodyText": "Database researchers have identified several recurring categories of problems that emerge specifically from concurrent access.",
+          "Notes": "Understanding these named problems helps designers choose the right safeguards and communicate precisely about the risks in a given system.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "ModifiedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "Items": [
+            {
+              "Id": "892e8643-024f-4adb-adc6-aba0b1ceb4dc",
+              "Text": "A dirty read occurs when a transaction reads data that has been modified by another transaction that has not yet committed.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "35fd2263-bb9f-4bf3-81b8-dd191fb8ea5b",
+              "Text": "A non-repeatable read happens when a transaction reads the same row twice and gets different values because another transaction modified it in between.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7c2ecc66-2850-4a80-8042-5b551852d1ee",
+              "Text": "A phantom read arises when a transaction re-executes a query and finds new rows that were inserted by another transaction since the first execution.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "bd25b309-6568-486a-a2af-f2460c2f6b6f",
+              "Text": "Lost updates occur when two transactions read the same value and both write back updated versions, with one overwriting the other\u0027s change.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "b3b271ef-37d4-4032-ba04-107ab38888e8",
+          "TopicId": "ca73b6b9-551e-4708-83f8-1d03cc3849d4",
+          "Title": "Why Single-User Design Assumptions Break Down",
+          "BodyText": "Database schemas and queries designed with a single user in mind often implicitly assume that data does not change between successive operations, an assumption that is invalid under concurrent use.",
+          "Notes": "For example, application logic that reads a stock count and then writes a decremented value may work perfectly in isolation but fail unpredictably when ten users execute it at the same moment.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "ModifiedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "Items": [
+            {
+              "Id": "61ae1fb6-ca3f-44a5-90cc-accce774daa8",
+              "Text": "Sequential, single-user logic treats the database as a stable snapshot, but concurrent environments make that snapshot immediately stale.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "688e9170-b352-4a97-9895-fb0e57f29eac",
+              "Text": "Constraints and business rules enforced at the application layer may be bypassed when multiple sessions interact with the database simultaneously.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1329bec7-08da-4670-b0fb-ade166c5341a",
+              "Text": "Performance optimizations valid for one user, such as caching a value for reuse, can introduce correctness errors when data is concurrently modified.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "77e21cc4-1d92-42d1-834e-e9c6f4c3799d",
+          "TopicId": "ca73b6b9-551e-4708-83f8-1d03cc3849d4",
+          "Title": "The Foundational Need for Concurrency Control",
+          "BodyText": "Concurrency control is the set of mechanisms a DBMS uses to manage simultaneous operations so that data remains accurate and consistent for all users.",
+          "Notes": "Without concurrency control, even a well-designed schema can produce incorrect results under realistic workloads, making it an essential design concern rather than an optional add-on.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "ModifiedDate": "2026-06-27T15:17:28.7831316-04:00",
+          "Items": [
+            {
+              "Id": "e01d2ccd-1f29-49bd-aab1-00c0e0e56ebb",
+              "Text": "Concurrency control strategies aim to allow as much parallelism as possible while preventing the data anomalies described above.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "292a8311-df2f-4262-b472-009cd5b48385",
+              "Text": "The goal is not to eliminate simultaneous access \u2014 which would destroy performance \u2014 but to coordinate it safely.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "51c22e31-bcdc-4b9d-9c58-ac164b20d299",
+              "Text": "Core tools for concurrency control include transactions, locking mechanisms, and isolation levels, each of which addresses different aspects of the problem.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+      "Title": "Transactions and ACID Properties",
+      "Summary": "Defines database transactions and examines the four ACID properties: Atomicity, Consistency, Isolation, and Durability. Explains how these properties guarantee reliable and predictable database operations.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "e29c8912-d10c-44bf-8692-463dff0352cc",
+          "TopicId": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+          "Title": "What Is a Database Transaction?",
+          "BodyText": "A database transaction is a logical unit of work that groups one or more database operations into a single, indivisible sequence.",
+          "Notes": "A classic example is a bank transfer: debiting one account and crediting another must both succeed or both fail \u2014 they form a single transaction.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:17:49.887604-04:00",
+          "ModifiedDate": "2026-06-27T15:17:49.887604-04:00",
+          "Items": [
+            {
+              "Id": "79a28a46-eec2-4a45-b225-17b79f0f7ce7",
+              "Text": "Transactions treat multiple SQL statements as a single cohesive operation, ensuring they are processed together.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "9b3157c8-3da2-497f-82cc-a4131b018bca",
+              "Text": "A transaction begins explicitly or implicitly and ends with either a COMMIT (saving changes) or a ROLLBACK (undoing changes).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "db9f09fe-dbd2-4edc-a8e5-a50a42071aca",
+              "Text": "Transactions provide a structured way to manage data changes safely in multi-user environments.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f3fe907a-f5b6-4abb-b4b2-80b0a2ceafdf",
+          "TopicId": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+          "Title": "Atomicity: All or Nothing",
+          "BodyText": "Atomicity guarantees that every operation within a transaction is completed fully, or none of them are applied to the database.",
+          "Notes": "If a system failure occurs mid-transaction \u2014 for example, after a debit but before a credit \u2014 atomicity ensures the partial debit is rolled back automatically.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:17:49.887604-04:00",
+          "ModifiedDate": "2026-06-27T15:17:49.887604-04:00",
+          "Items": [
+            {
+              "Id": "e367ce1e-7689-4ef0-b078-e227030b08b4",
+              "Text": "If any single statement within a transaction fails, the entire transaction is rolled back, leaving the database unchanged.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f7f512db-4427-44ef-a448-3c78621536b8",
+              "Text": "Atomicity prevents partial updates, which could leave data in an inconsistent or corrupt state.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3f4ce00e-18d1-44b7-b86d-ba2d7e60242c",
+              "Text": "Database engines implement atomicity using transaction logs that record operations and support undo actions.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a92e02ba-0051-42ce-8226-e08a732e6b31",
+          "TopicId": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+          "Title": "Consistency: Preserving Valid Data States",
+          "BodyText": "Consistency ensures that a transaction brings the database from one valid state to another, always respecting all defined rules, constraints, and integrity conditions.",
+          "Notes": "Consistency relies on both the database engine enforcing constraints (e.g., foreign keys, unique constraints) and application logic being correctly written.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:17:49.887604-04:00",
+          "ModifiedDate": "2026-06-27T15:17:49.887604-04:00",
+          "Items": [
+            {
+              "Id": "91402df1-ee99-43cc-9918-d06bcd04d48a",
+              "Text": "Before and after every transaction, all data integrity rules \u2014 such as referential integrity and check constraints \u2014 must hold true.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cbefb541-1025-4766-aafa-c3221ef8fbf0",
+              "Text": "A transaction that would violate a constraint is rejected, preventing invalid data from ever being committed.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "67b5b3f0-b926-49bd-b40a-8f76f76101f6",
+              "Text": "Consistency is a shared responsibility between the database system and the application developer.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "961c79cc-bb2f-4845-baa5-58e65235b53a",
+          "TopicId": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+          "Title": "Isolation: Shielding Concurrent Transactions",
+          "BodyText": "Isolation ensures that the operations of one transaction are not visible to other concurrent transactions until the transaction has been committed.",
+          "Notes": "Full isolation (serializable level) prevents all concurrency anomalies but can reduce performance; lower isolation levels trade some protection for greater throughput.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:17:49.887604-04:00",
+          "ModifiedDate": "2026-06-27T15:17:49.887604-04:00",
+          "Items": [
+            {
+              "Id": "a3723029-f0d3-4ae9-8223-65696b389bb4",
+              "Text": "Without isolation, concurrent transactions could read intermediate, uncommitted data from each other, leading to anomalies like dirty reads or phantom reads.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "77c9182a-5267-4194-b2db-11647b06366e",
+              "Text": "Isolation makes concurrent transactions appear as though they execute sequentially, even when they run simultaneously.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "82779a95-12a9-407d-9535-7bef7a69458d",
+              "Text": "Database systems implement isolation through locking mechanisms and multi-version concurrency control (MVCC).",
+              "SortOrder": 2
+            },
+            {
+              "Id": "3943c684-ae34-4866-8077-11a6568c7f17",
+              "Text": "The degree of isolation can be configured using isolation levels, allowing designers to balance consistency and performance.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "9d257b6c-958a-4bb2-a1a6-77df11ed0bc0",
+          "TopicId": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+          "Title": "Durability: Surviving System Failures",
+          "BodyText": "Durability guarantees that once a transaction has been committed, its changes are permanently recorded and will survive system crashes, power failures, or other disruptions.",
+          "Notes": "Durability is typically achieved through write-ahead logging (WAL), where changes are recorded to a durable log before being applied to the main data files.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:17:49.887604-04:00",
+          "ModifiedDate": "2026-06-27T15:17:49.887604-04:00",
+          "Items": [
+            {
+              "Id": "4b165839-950d-4ef0-8611-33684387a20a",
+              "Text": "Committed data is persisted to non-volatile storage, ensuring it is not lost even if the database server restarts immediately after the commit.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "81d22a9b-aa9e-4854-ad75-3202e22af24f",
+              "Text": "Transaction logs are central to durability, enabling the database to replay committed transactions during recovery.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f834e4bc-e228-4595-ab24-94e473a4f91c",
+              "Text": "Durability gives applications and users confidence that successfully committed operations are permanent.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "b09879f4-67a1-4db6-8028-c8032dfd4225",
+          "TopicId": "ed24b9dd-7f24-45d5-9280-1cee2bfd3ef0",
+          "Title": "How ACID Properties Work Together",
+          "BodyText": "The four ACID properties are interdependent and collectively guarantee that database transactions are processed reliably and predictably, even in multi-user environments.",
+          "Notes": "Together, ACID properties form the foundational contract between a database system and its applications, making reliable concurrent data management possible.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:17:49.887604-04:00",
+          "ModifiedDate": "2026-06-27T15:17:49.887604-04:00",
+          "Items": [
+            {
+              "Id": "e7cab429-80dd-4016-90ea-d39277f62c09",
+              "Text": "Atomicity and Consistency work together to ensure that only complete, rule-abiding changes are ever stored in the database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6b411c7e-530d-4e65-9c16-971fc76dd407",
+              "Text": "Isolation prevents concurrent transactions from undermining each other\u0027s consistency guarantees while they are still in progress.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "47c87a9e-3b02-4885-b9ca-be4d184046cc",
+              "Text": "Durability ensures that the results protected by Atomicity, Consistency, and Isolation are not lost once a transaction is finalized.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "58f68807-0227-4473-b872-9c5ffcf6ea20",
+              "Text": "ACID compliance is a key criterion when selecting a database system for applications that require high data reliability.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "ba220bf1-344f-47b9-b6bf-7d25fa3d14da",
+      "Title": "Concurrency Problems and Data Conflicts",
+      "Summary": "Identifies common concurrency issues such as dirty reads, non-repeatable reads, phantom reads, and lost updates. Illustrates how these conflicts can compromise data integrity in multi-user environments.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "783c9477-3e90-4687-b598-39793f7dbbe0",
+          "TopicId": "ba220bf1-344f-47b9-b6bf-7d25fa3d14da",
+          "Title": "Dirty Reads",
+          "BodyText": "A dirty read occurs when one transaction reads data that has been modified by another transaction that has not yet been committed.",
+          "Notes": "Example: Transaction A updates a customer balance from $500 to $800 but has not committed. Transaction B reads the $800 value. If Transaction A rolls back, Transaction B has acted on data that never officially existed.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "ModifiedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "Items": [
+            {
+              "Id": "60be93cc-11f0-4f65-b554-0250afb1023e",
+              "Text": "Dirty reads expose uncommitted, potentially temporary changes to other concurrent transactions.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "1a3e848a-2d66-4d48-bbd0-dd35de95c471",
+              "Text": "If the originating transaction rolls back, any decisions made based on that data are built on invalid information.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9c9693a0-bf18-4e4b-a472-a87a87bf2eba",
+              "Text": "This problem can lead to incorrect calculations, erroneous reports, or flawed business logic in multi-user systems.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "6f3d6a29-4dd7-4c11-8436-0b0ec8a83114",
+          "TopicId": "ba220bf1-344f-47b9-b6bf-7d25fa3d14da",
+          "Title": "Non-Repeatable Reads",
+          "BodyText": "A non-repeatable read happens when a transaction reads the same row twice but gets different values because another transaction modified and committed that row in between.",
+          "Notes": "Example: Transaction A reads a product price as $20. Transaction B then updates the price to $25 and commits. When Transaction A reads the price again, it sees $25, creating an inconsistency within the same transaction.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "ModifiedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "Items": [
+            {
+              "Id": "d7bc2e78-d8c9-45b0-99a7-fef7232d26d3",
+              "Text": "Non-repeatable reads undermine the assumption that data remains stable throughout a single transaction.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "45c396dc-4b13-422c-b12e-4ce379ae7b97",
+              "Text": "They differ from dirty reads in that the conflicting transaction has already been committed, making the change legitimate but still disruptive.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7fefb3f5-cf40-438f-ab32-a2601eabd77a",
+              "Text": "Calculations or comparisons that span multiple reads within one transaction can produce incorrect results.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "62eff1a5-64c6-447d-8d70-de8e5b0ea4d7",
+          "TopicId": "ba220bf1-344f-47b9-b6bf-7d25fa3d14da",
+          "Title": "Phantom Reads",
+          "BodyText": "Phantom reads occur when a transaction re-executes a query and finds additional rows that were inserted by another committed transaction since the first execution.",
+          "Notes": "Example: Transaction A queries all orders totaling over $1,000 and retrieves 10 rows. Transaction B inserts a new qualifying order and commits. When Transaction A reruns the same query, it now retrieves 11 rows, seeing a \u0027phantom\u0027 row.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "ModifiedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "Items": [
+            {
+              "Id": "00dadf7d-1da0-4a45-96bc-618fff03c55d",
+              "Text": "Phantom reads involve newly inserted or deleted rows rather than changes to existing row values.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4426cc80-56c7-4fb9-838d-306e8a8d9b2f",
+              "Text": "They can cause aggregate results such as counts, sums, or averages to differ across executions within the same transaction.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "79157dda-0a38-4da7-970f-0b7945ecc337",
+              "Text": "Phantom reads are among the hardest concurrency problems to prevent, typically requiring the highest isolation levels to eliminate.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "799256b3-8653-4cab-b724-351872b592e0",
+          "TopicId": "ba220bf1-344f-47b9-b6bf-7d25fa3d14da",
+          "Title": "Lost Updates",
+          "BodyText": "A lost update occurs when two transactions read the same value and then both write back updated versions, causing the first transaction\u0027s changes to be silently overwritten by the second.",
+          "Notes": "Example: Transaction A and Transaction B both read an inventory count of 100. Transaction A subtracts 10 and writes 90. Transaction B, working from the original value, subtracts 5 and writes 95, overwriting Transaction A\u0027s change. The net result should be 85, but the database shows 95.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "ModifiedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "Items": [
+            {
+              "Id": "82cae329-90ab-48d2-afab-05f9e31f9587",
+              "Text": "Lost updates are particularly dangerous because no error is raised \u2014 one transaction\u0027s committed work simply disappears.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "20eeb6de-ad95-4f7c-8039-7c8ffdd90204",
+              "Text": "They typically occur when applications read data, perform calculations externally, and then write results back without checking for intermediate changes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c0b2a32f-ef9e-4ba8-b0ca-46326fc6e19f",
+              "Text": "This conflict can lead to inventory inaccuracies, double-bookings, or financial discrepancies in high-traffic systems.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "9ff643ac-aafc-417a-88ba-69dc2cab232f",
+          "TopicId": "ba220bf1-344f-47b9-b6bf-7d25fa3d14da",
+          "Title": "How Data Conflicts Compromise Integrity",
+          "BodyText": "Each concurrency problem represents a specific way that interleaved transaction execution can violate the accuracy and reliability of a database.",
+          "Notes": "In multi-user environments, the likelihood of these conflicts increases proportionally with transaction volume and frequency, making their identification critical during database design.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "ModifiedDate": "2026-06-27T15:18:10.1103379-04:00",
+          "Items": [
+            {
+              "Id": "e2235f32-2e79-41ee-8ca8-35be07297be8",
+              "Text": "Data integrity violations from concurrency issues can cascade \u2014 one erroneous read or lost write can corrupt subsequent operations that depend on it.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6a2b5df8-33db-4854-afbb-036e7a8f481c",
+              "Text": "Unlike hardware failures, concurrency conflicts are logical errors that may go undetected without deliberate controls and testing.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e53be033-682f-48f6-a63a-7c4d6483c15f",
+              "Text": "Understanding each conflict type is a prerequisite for selecting appropriate locking strategies and isolation levels to mitigate them.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "1dea24fe-3e5e-43ba-a40e-8b988c9136f7",
+              "Text": "The business impact ranges from minor reporting inconsistencies to severe financial or operational errors depending on the system context.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "663a028a-fd65-47c2-8a84-f988f6d3cee2",
+      "Title": "Locking Mechanisms",
+      "Summary": "Covers the types of locks used to manage concurrent access, including shared, exclusive, and intent locks. Explains lock granularity, lock escalation, and the trade-offs between concurrency and data protection.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "9b5a3772-7d5d-4635-9182-990656e2ad36",
+          "TopicId": "663a028a-fd65-47c2-8a84-f988f6d3cee2",
+          "Title": "Shared and Exclusive Locks",
+          "BodyText": "Shared and exclusive locks are the two fundamental lock types that control how transactions access data simultaneously.",
+          "Notes": "Example: Two users can both hold shared locks to read the same row at the same time, but a transaction attempting to update that row must wait until all shared locks are released before acquiring an exclusive lock.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "ModifiedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "Items": [
+            {
+              "Id": "e6c78c68-f5f0-4704-9116-b8a3545202b8",
+              "Text": "A shared lock (S-lock) allows multiple transactions to read a resource concurrently but prevents any transaction from modifying it while the lock is held.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "78378d0c-67b0-4a68-8515-97814f9ff678",
+              "Text": "An exclusive lock (X-lock) is acquired when a transaction intends to modify data, preventing all other transactions from reading or writing the locked resource.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9a59686a-8b22-4000-99a6-f903f0b505ce",
+              "Text": "Shared locks are compatible with other shared locks but incompatible with exclusive locks, forming the basis of read/write conflict prevention.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "b420e0db-f722-4f06-b3eb-c4cea9781e70",
+              "Text": "Exclusive locks are incompatible with all other lock types, ensuring that write operations are fully isolated until committed.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "ef61a64d-4835-4869-aff7-77c53056b6a9",
+          "TopicId": "663a028a-fd65-47c2-8a84-f988f6d3cee2",
+          "Title": "Intent Locks",
+          "BodyText": "Intent locks signal a transaction\u0027s intention to acquire finer-grained locks lower in the resource hierarchy, enabling efficient compatibility checks at higher levels.",
+          "Notes": "For example, before placing a row-level exclusive lock, a transaction places an Intent Exclusive (IX) lock on the containing table, so other transactions can quickly determine a conflict exists without scanning every row.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "ModifiedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "Items": [
+            {
+              "Id": "eccc33e5-9fad-42fa-9137-e3869e7eb0aa",
+              "Text": "Intent Shared (IS) locks indicate that shared locks will be placed on child resources such as rows within a table or page.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b47b09eb-ed3c-48a8-bc17-e99e75092a74",
+              "Text": "Intent Exclusive (IX) locks signal that exclusive locks will be placed on child resources, warning other transactions of impending modifications.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "53013ff2-d264-4b99-8b10-06511a2582b1",
+              "Text": "Shared with Intent Exclusive (SIX) locks combine a shared lock on the current resource with intent to exclusively lock child resources.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "a4b9503f-0480-4c66-bf46-9f5df960c084",
+              "Text": "Intent locks reduce overhead by allowing the database engine to detect conflicts at a high level without inspecting every lower-level resource.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "48300128-52cf-4a9c-ae26-8bc9aa16a452",
+          "TopicId": "663a028a-fd65-47c2-8a84-f988f6d3cee2",
+          "Title": "Lock Granularity",
+          "BodyText": "Lock granularity refers to the size or scope of the resource being locked, ranging from individual rows up to entire tables or databases.",
+          "Notes": "Common granularity levels in relational databases include row-level, page-level, extent-level, and table-level locks, each representing a progressively larger unit of data.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "ModifiedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "Items": [
+            {
+              "Id": "d1a1d2dd-6c4b-4d45-aa99-90ab6e6a271e",
+              "Text": "Fine-grained locks (e.g., row-level) allow high concurrency because transactions only block access to the specific rows they need.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c8c6efed-ac50-4bcb-a00a-26bb6cca3936",
+              "Text": "Coarse-grained locks (e.g., table-level) are simpler to manage but significantly reduce concurrency by blocking all other transactions from the entire table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "867b9822-98b2-47f3-b0c7-79766b37ad57",
+              "Text": "Choosing the appropriate granularity requires balancing the overhead of managing many fine-grained locks against the reduced throughput of coarse-grained locks.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "1866d5b4-6a07-4cb0-b260-beaf05de4e9f",
+              "Text": "Most modern database engines support multiple granularity levels and select them dynamically based on the query and data access patterns.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "5e42348f-2d61-4221-ae39-84df8a2e14b3",
+          "TopicId": "663a028a-fd65-47c2-8a84-f988f6d3cee2",
+          "Title": "Lock Escalation",
+          "BodyText": "Lock escalation is the process by which a database engine automatically converts many fine-grained locks into a single coarser-grained lock to conserve system memory and management overhead.",
+          "Notes": "SQL Server, for instance, escalates row or page locks to a table lock when the number of locks held by a single transaction exceeds a configurable threshold, often around 5,000 locks.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "ModifiedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "Items": [
+            {
+              "Id": "4561fd76-aad4-4f7b-94eb-da7ab90e6aa7",
+              "Text": "When a transaction accumulates a large number of row or page locks, the engine may escalate them to a single table lock to reduce memory consumption.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0800c280-9e2d-4234-987c-dc73e3faf79e",
+              "Text": "Lock escalation reduces the bookkeeping cost of tracking thousands of individual locks but can significantly decrease concurrency for other transactions.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e79d3642-2654-4309-9ca8-695f5b12514b",
+              "Text": "Escalation thresholds are often configurable, allowing database administrators to tune behavior for specific workloads.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "fd3b016d-b8fa-4ca2-a73d-0d1b2c5b998e",
+              "Text": "Applications with high-concurrency requirements should be designed to minimize the chance of triggering escalation, such as by processing data in smaller batches.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "45e1df23-cfff-4e5c-a58b-194aacd92062",
+          "TopicId": "663a028a-fd65-47c2-8a84-f988f6d3cee2",
+          "Title": "Trade-offs Between Concurrency and Data Protection",
+          "BodyText": "Every locking decision involves a fundamental trade-off: stronger data protection typically comes at the cost of reduced concurrency, and vice versa.",
+          "Notes": "A highly protective strategy might serialize all access to critical data, eliminating conflicts entirely but creating a bottleneck; a permissive strategy maximizes throughput but risks dirty reads, lost updates, or other anomalies.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "ModifiedDate": "2026-06-27T15:18:34.2338119-04:00",
+          "Items": [
+            {
+              "Id": "eb5f9af6-0547-4992-9a65-0fddaffcf2a8",
+              "Text": "Holding locks for shorter durations increases concurrency but may expose transactions to intermediate states if isolation is not carefully managed.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "44f03aff-b530-4cb9-81a9-7f13636b39ef",
+              "Text": "Acquiring locks on larger resources simplifies conflict detection but forces unrelated transactions to wait, reducing overall system throughput.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "08dab1c2-415e-4e5a-92ec-70eba3ef8eaa",
+              "Text": "Optimistic locking strategies defer conflict detection to commit time, improving concurrency in low-contention scenarios but requiring rollback when conflicts are discovered.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "e4d41d54-6498-46e9-b397-8b831dec09f2",
+              "Text": "Pessimistic locking acquires locks upfront to guarantee data integrity, which is preferable in high-contention environments where conflicts are frequent.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "f68735f7-76e1-4a49-bb3f-fe1eda9ab678",
+              "Text": "Database designers must analyze workload patterns, conflict rates, and consistency requirements to select the locking strategy that best balances these competing concerns.",
+              "SortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+      "Title": "Deadlocks and Conflict Resolution",
+      "Summary": "Examines how deadlocks occur when transactions mutually block each other and presents strategies for detection, prevention, and resolution. Discusses timeout policies and deadlock victim selection.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "e51f2bbb-2fe4-4b07-b536-7f6360d319e4",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "What Is a Deadlock?",
+          "BodyText": "A deadlock occurs when two or more transactions are each waiting for the other to release a lock, creating a cycle of dependency that prevents any of them from proceeding.",
+          "Notes": "Classic example: Transaction A holds a lock on Table 1 and waits for Table 2, while Transaction B holds a lock on Table 2 and waits for Table 1. Neither can move forward without the other releasing its lock.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "3c4c42da-f242-473f-a029-edd39cd134ad",
+              "Text": "Deadlocks are a natural consequence of concurrent transactions acquiring multiple locks in different orders.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "56c0a49c-72d5-46b7-a7c7-fa7a80bda5f7",
+              "Text": "No transaction involved in a deadlock can complete until the cycle is broken by an external intervention.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a9b87e59-d365-4fa7-9fd4-47e9e4dd2fc0",
+              "Text": "Deadlocks differ from simple lock contention \u2014 contention resolves on its own, while deadlocks do not.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "b9f1255d-4417-4087-8d4f-0071ec0fd6e9",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "How Deadlocks Form: The Mutual Blocking Cycle",
+          "BodyText": "Deadlocks arise from a specific set of conditions involving resource holding, waiting, and circular dependency among transactions.",
+          "Notes": "These conditions mirror the classic \u0027four conditions for deadlock\u0027 from operating systems theory: mutual exclusion, hold and wait, no preemption, and circular wait. Eliminating any one condition can prevent deadlocks.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "ded7bbd4-6db5-48c5-968a-14697b318c3b",
+              "Text": "Mutual exclusion means only one transaction can hold an exclusive lock on a resource at a time.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e7c62e9b-0195-4a25-bb3e-b9f1cb521c2f",
+              "Text": "Hold-and-wait occurs when a transaction retains its current locks while requesting additional ones.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a18a754e-ffd0-4e1b-8438-7970ba994bef",
+              "Text": "Circular wait is the defining feature of a deadlock, where a chain of transactions each waits on the next in a closed loop.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "04ae89fc-e453-4898-866b-17e3ec489cc7",
+              "Text": "The probability of deadlocks increases as the number of concurrent transactions and the number of locks each requires grows.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "612bd2f6-edb6-4a24-aa84-1b1016720e29",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "Deadlock Detection",
+          "BodyText": "Detection-based strategies allow deadlocks to occur but identify them after the fact using tools such as wait-for graphs, then resolve them by breaking the cycle.",
+          "Notes": "A wait-for graph represents transactions as nodes and lock-wait relationships as directed edges. A cycle in this graph indicates a deadlock. Database engines typically run detection algorithms periodically or on demand.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "d28c2623-595a-448f-8de0-ac0cd3f0d13a",
+              "Text": "The database engine constructs a wait-for graph to track which transactions are waiting on which other transactions.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "eebb3683-4bc3-404a-a1cc-dea0bacf1ef2",
+              "Text": "A cycle detected in the wait-for graph confirms the presence of a deadlock.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "35ee0060-098a-446e-86ed-7c4746184b8d",
+              "Text": "Detection is reactive \u2014 the deadlock must already exist before it can be found and resolved.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "668074c4-ad35-4e5c-a803-ca8a07934398",
+              "Text": "Frequent detection cycles add overhead, so the interval must be tuned to balance responsiveness and performance.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "31efad00-99fb-45d5-a0d0-a1922cc5ce7f",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "Deadlock Prevention Strategies",
+          "BodyText": "Prevention strategies restructure how transactions request locks or order resources so that the conditions necessary for a deadlock can never be met.",
+          "Notes": "Prevention is proactive and eliminates deadlocks before they happen, but it may reduce concurrency or require application-level discipline in how transactions are written.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "99a5f7d3-1f54-4afc-955c-fb466a31b916",
+              "Text": "Enforcing a consistent lock-acquisition order across all transactions eliminates the possibility of circular waits.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e24f5edc-cb47-446d-bc94-f1aa42503510",
+              "Text": "Requiring transactions to acquire all needed locks at once (lock pre-claiming) removes the hold-and-wait condition.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f18c8c65-a5e2-4b55-8cab-2207037ed5be",
+              "Text": "Using optimistic concurrency control defers conflict checking to commit time, avoiding locks altogether during execution.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "9a0b19e3-215e-4a92-98c5-e5a342fe2205",
+              "Text": "Prevention strategies often trade some degree of concurrency or flexibility for the guarantee of deadlock-free operation.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "b84aeab0-2570-4137-a9d3-30605a7080a9",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "Timeout Policies for Deadlock Resolution",
+          "BodyText": "Timeout-based resolution automatically aborts a transaction that has been waiting for a lock beyond a configured threshold, breaking potential deadlocks without requiring explicit detection.",
+          "Notes": "Timeouts are simple to implement and widely supported, but they can abort transactions that are merely slow rather than deadlocked, leading to unnecessary rollbacks and retry overhead.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "f71419a9-84fd-430e-bb7f-71e2ff28ac05",
+              "Text": "A lock-wait timeout defines the maximum time a transaction will wait before being automatically rolled back.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "703278b6-8e67-4b89-9ea1-ba0f5ede5fdd",
+              "Text": "Timeouts provide a safety net that prevents indefinite blocking even when deadlock detection is not in use.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a100c1ae-2ae9-462c-9ccb-8b18b10ededb",
+              "Text": "Setting the timeout too short causes premature aborts of legitimate slow transactions; too long delays deadlock resolution.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "28293a6a-aab3-45c1-b2aa-daa9e05cd1bb",
+              "Text": "Timed-out transactions must be retried by the application, so retry logic is an important companion to timeout policies.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "a589b018-4ea1-415e-9494-0e14a0b4c3fe",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "Deadlock Victim Selection",
+          "BodyText": "When a deadlock is detected, the database must choose one transaction to abort \u2014 the \u0027victim\u0027 \u2014 in order to break the cycle and allow the remaining transactions to proceed.",
+          "Notes": "Different systems use different criteria for victim selection. SQL Server, for example, uses a cost-based approach but also allows applications to set a DEADLOCK_PRIORITY to influence which transaction is chosen.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "1fd3276e-18fc-4ef0-8f26-5d9a98d66b76",
+              "Text": "The victim transaction is rolled back so that other transactions in the deadlock cycle can acquire the locks they need.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b68dc55c-e33e-4640-aa6e-33bee1c8fc2c",
+              "Text": "Common victim-selection criteria include the transaction with the least work done, the fewest locks held, or the lowest assigned priority.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "22af7aca-a4c9-4c94-bfd7-5cb607664e87",
+              "Text": "Selecting the least-costly victim minimizes the amount of work that must be redone after the rollback.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "f0f41345-efdd-47f1-8057-86ec920ec80c",
+              "Text": "Applications should anticipate being chosen as a deadlock victim and implement retry logic to resubmit the aborted transaction.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "7f8f5fe2-2811-44c1-97a8-dc8c412676e0",
+              "Text": "Some systems allow developers to explicitly set deadlock priority so that critical transactions are less likely to be selected as victims.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "356f1b48-5ce8-4f45-96b8-a73d422fb53b",
+          "TopicId": "55046a02-5798-4f07-8058-4e3d4b4a017f",
+          "Title": "Best Practices for Minimizing Deadlocks",
+          "BodyText": "While deadlocks cannot always be fully eliminated, thoughtful database and application design can significantly reduce their frequency and impact.",
+          "Notes": "Monitoring deadlock frequency through database logs or extended events is essential for identifying hotspots and tuning locking behavior over time.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "ModifiedDate": "2026-06-27T15:19:04.9171905-04:00",
+          "Items": [
+            {
+              "Id": "a28ec286-0b97-4c23-89e1-06e40fc1a024",
+              "Text": "Keep transactions short and focused to reduce the window during which locks are held.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2361c278-cfae-4fc6-89fb-279c91f47401",
+              "Text": "Access tables and rows in a consistent order across all transactions to avoid circular wait conditions.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3522d35c-56c3-4933-8f93-a6916c8e874e",
+              "Text": "Use the least restrictive lock type necessary \u2014 for example, prefer shared locks over exclusive locks where reads suffice.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "70cd70e5-3b7e-4366-a9ea-2cd3969cec7b",
+              "Text": "Break large batch operations into smaller transactions to limit the number of resources locked simultaneously.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "a6580642-e09d-45f2-89f0-b1eef6d7d292",
+              "Text": "Regularly review deadlock logs to identify recurring patterns and refactor the transactions or indexes involved.",
+              "SortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "863db893-5cc6-49f3-898a-486dd3b74866",
+      "Title": "Transaction Isolation Levels",
+      "Summary": "Describes the standard isolation levels defined by SQL standards, from Read Uncommitted to Serializable. Explains how each level balances data consistency against system performance and concurrency.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "61c19709-ada9-4ce5-b0a2-5c4562971578",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Overview of Transaction Isolation",
+          "BodyText": "Transaction isolation defines the degree to which the operations of one transaction are shielded from those of other concurrent transactions. The SQL standard formalizes four distinct isolation levels, each offering a different trade-off between data consistency and system performance.",
+          "Notes": "Higher isolation improves correctness but typically reduces concurrency and throughput; lower isolation improves performance but exposes transactions to various anomalies.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "2d2a1bf3-75a8-483c-812c-9085bfdbde3a",
+              "Text": "Isolation is one of the four ACID properties, ensuring that concurrent transactions do not interfere with each other in unexpected ways.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "eece179a-5709-4b91-9bba-2037c781a767",
+              "Text": "Choosing an isolation level is a deliberate design decision that depends on the consistency requirements and performance goals of the application.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "dc93924f-e400-4749-873c-0cfa3d430464",
+              "Text": "The SQL standard defines four levels: Read Uncommitted, Read Committed, Repeatable Read, and Serializable.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5f04d6cd-e52d-4254-9fda-f10d73df323b",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Read Uncommitted",
+          "BodyText": "Read Uncommitted is the lowest isolation level, allowing a transaction to read data that has been modified but not yet committed by another transaction. This can lead to dirty reads, where a transaction sees intermediate or rolled-back data.",
+          "Notes": "Example: Transaction A updates a row but has not committed; Transaction B reads that row and sees the uncommitted value. If A rolls back, B has acted on data that never officially existed.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "6c678e08-f5b5-4dbe-9292-fcbfb0c4b537",
+              "Text": "Dirty reads are the primary risk: a transaction may read data that is subsequently rolled back, leading to decisions based on invalid information.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e9f845a1-3817-463e-95a1-696bd440884f",
+              "Text": "This level offers the highest concurrency and lowest overhead because it requires minimal locking.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c01a1dfb-5b14-4466-b3a1-ad45cc148452",
+              "Text": "Read Uncommitted is rarely appropriate for production systems where data accuracy is important.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5849644a-07ef-403f-be5b-37086b30e2b0",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Read Committed",
+          "BodyText": "Read Committed ensures that a transaction can only read data that has been permanently committed, eliminating dirty reads. It is the default isolation level in many popular database systems, including PostgreSQL and Oracle.",
+          "Notes": "While dirty reads are prevented, non-repeatable reads are still possible: if Transaction A reads a row, Transaction B commits a change to that row, and then Transaction A reads it again, the two reads may differ.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "355b621d-defd-46bb-9ce7-c3419200ef0f",
+              "Text": "Only committed data is visible to a reading transaction, providing a basic level of consistency.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "031b9427-eb98-47c8-b800-3ea65147e3ce",
+              "Text": "Non-repeatable reads remain a risk because committed changes from other transactions can appear between two reads within the same transaction.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3795b9a5-fb36-4343-9f03-56e224d83bf3",
+              "Text": "This level balances reasonable consistency with good concurrency and is suitable for many general-purpose workloads.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "fb5c5a69-90ce-4c0a-9c18-f926d9aaa3f1",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Repeatable Read",
+          "BodyText": "Repeatable Read guarantees that if a transaction reads a row, any subsequent reads of that same row within the same transaction will return the same data. This prevents both dirty reads and non-repeatable reads.",
+          "Notes": "Example: Transaction A reads a set of rows matching a condition. Transaction B inserts a new row satisfying that condition and commits. Transaction A re-executes the same query and may now see the new row \u2014 this is called a phantom read, which Repeatable Read does not prevent in the SQL standard (though some databases handle it differently).",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "534c017a-9d6a-4b43-bac4-b2e56fcc9040",
+              "Text": "Row-level locks or snapshot mechanisms ensure that previously read rows cannot be modified by other transactions until the current transaction ends.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5f95b894-c643-48d3-93ec-4d0bb05a540b",
+              "Text": "Phantom reads are still possible: new rows inserted by other transactions that match a query\u0027s search condition may appear in repeated executions of that query.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6eb2ffcd-cbc1-45ae-a60b-4237bfdaa49a",
+              "Text": "Repeatable Read is appropriate when consistent re-reads of specific rows are critical, such as in multi-step calculations within a single transaction.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "31b1b185-dc6f-4006-873a-27997b561b46",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Serializable",
+          "BodyText": "Serializable is the strictest isolation level, ensuring that the outcome of concurrent transactions is identical to some sequential execution of those same transactions. It prevents dirty reads, non-repeatable reads, and phantom reads.",
+          "Notes": "Achieving serializability typically requires range locks or predicate locks to block insertions of rows that would affect a transaction\u0027s query results, or alternatively, an optimistic concurrency control approach with conflict detection at commit time.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "d8cda50b-16aa-485e-927e-f7f3b0a8add9",
+              "Text": "All three concurrency anomalies \u2014 dirty reads, non-repeatable reads, and phantom reads \u2014 are fully prevented.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4bca2100-dc86-477d-ad2a-e3c2e3c09b17",
+              "Text": "This level carries the highest performance cost due to extensive locking or conflict detection, which can reduce throughput and increase the likelihood of transaction aborts.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "fe839e76-da7a-4a02-bd35-47c42a8dcabd",
+              "Text": "Serializable isolation is essential for scenarios where complete correctness is non-negotiable, such as financial transactions or inventory management.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "e1de2706-acd8-4772-8ac3-b0ee1f47c6dc",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Concurrency Anomalies Compared Across Levels",
+          "BodyText": "Each isolation level is characterized by which concurrency anomalies it permits or prevents. Understanding these anomalies helps designers select the appropriate isolation level for a given use case.",
+          "Notes": "A common reference is a matrix showing which anomalies (dirty read, non-repeatable read, phantom read) are possible at each level: Read Uncommitted allows all three; Read Committed prevents dirty reads; Repeatable Read also prevents non-repeatable reads; Serializable prevents all three.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "b59ebd1e-5d63-4e87-a462-4a0f280c5939",
+              "Text": "Dirty reads occur when a transaction reads uncommitted changes from another transaction that may later be rolled back.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "35a6edcd-3e78-423d-af85-6dd987af60d0",
+              "Text": "Non-repeatable reads occur when the same row returns different values within a single transaction due to a committed update by another transaction.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6db0c9e2-31e1-46cc-a871-0cadbfa26429",
+              "Text": "Phantom reads occur when a repeated query returns a different set of rows because another transaction has inserted or deleted rows matching the query\u0027s condition.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "4588de79-f351-478e-bb97-2812f58e7528",
+              "Text": "Selecting a lower isolation level is a conscious trade-off: accepting some risk of anomalies in exchange for better performance and higher concurrency.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "eefd3b47-2ef7-4774-b4e0-6cbd58a22016",
+          "TopicId": "863db893-5cc6-49f3-898a-486dd3b74866",
+          "Title": "Practical Considerations for Choosing an Isolation Level",
+          "BodyText": "Selecting the right isolation level requires balancing the application\u0027s tolerance for data anomalies against its performance and concurrency requirements. Most applications do not need the strongest level for every transaction.",
+          "Notes": "Many systems allow isolation levels to be set per transaction or per session, enabling fine-grained control. For example, a reporting query might use Read Committed for speed, while a financial transfer uses Serializable for correctness.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "ModifiedDate": "2026-06-27T15:19:34.7174073-04:00",
+          "Items": [
+            {
+              "Id": "948ae548-5a83-4d7d-8b23-94312b2979b5",
+              "Text": "Analyze the specific read and write patterns of each transaction to determine which anomalies would be harmful versus acceptable.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cacee782-67dc-4c72-9a5a-834f0903b8cf",
+              "Text": "Higher isolation levels increase the chance of deadlocks and transaction retries, which must be handled gracefully in application code.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "15da8125-1160-45b8-bff9-e4071eb1ed57",
+              "Text": "Database systems sometimes implement isolation levels differently from the SQL standard; always consult the specific database documentation to understand actual behavior and available options.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+      "Title": "Concurrency Control Strategies and Best Practices",
+      "Summary": "Surveys optimistic and pessimistic concurrency control approaches and multiversion concurrency control (MVCC). Provides practical guidance for designing databases that maintain consistency without sacrificing performance.",
+      "SortOrder": 6,
+      "CreatedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "ModifiedDate": "2026-06-27T15:17:08.7224694-04:00",
+      "Elements": [
+        {
+          "Id": "7c43ab39-d53b-415a-bccf-9e24eeb6d5bb",
+          "TopicId": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+          "Title": "Optimistic Concurrency Control (OCC)",
+          "BodyText": "Optimistic concurrency control assumes that conflicts between concurrent transactions are rare, allowing transactions to proceed without locking resources upfront.",
+          "Notes": "OCC is well-suited for read-heavy workloads or environments where contention is genuinely low, such as reporting systems or certain web applications.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "ModifiedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "Items": [
+            {
+              "Id": "27661c98-ebcc-4a1f-82b1-dd755cda9b8c",
+              "Text": "Transactions execute freely and check for conflicts only at commit time, rolling back if a conflict is detected.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "61bec32c-0f6e-4257-8e0b-9b649d7c785a",
+              "Text": "Because no locks are held during execution, other transactions are never blocked, improving throughput in low-contention scenarios.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "698ae980-e10e-4246-8428-666e5b773568",
+              "Text": "A common implementation uses version numbers or timestamps on rows; a mismatch at commit time signals that another transaction modified the data.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "84730784-4d93-46af-92e0-29b15bb5d92f",
+              "Text": "The trade-off is potential wasted work: a long transaction that fails at commit must be retried from the beginning.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "43c541b7-7106-4b98-bdbc-75b2011868d3",
+          "TopicId": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+          "Title": "Pessimistic Concurrency Control (PCC)",
+          "BodyText": "Pessimistic concurrency control assumes conflicts are likely and prevents them by acquiring locks on data before any read or write operation occurs.",
+          "Notes": "PCC is appropriate for write-heavy workloads or financial systems where conflicting updates are frequent and retrying transactions is costly.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "ModifiedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "Items": [
+            {
+              "Id": "f6606483-444f-4bb9-a075-71ada4582169",
+              "Text": "Shared (read) locks allow multiple transactions to read the same resource simultaneously but block any writer.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "339a8d88-201b-467a-aebf-893b75e9304e",
+              "Text": "Exclusive (write) locks prevent all other transactions from reading or writing the locked resource until the lock is released.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "aa7439c9-6cf7-4e76-ae42-d2562656665e",
+              "Text": "Deadlocks can occur when two transactions each hold a lock the other needs; databases resolve this by detecting cycles and rolling back one transaction.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ef66346c-83b1-4205-827b-a42831c43eef",
+              "Text": "Lock granularity\u2014row-level, page-level, or table-level\u2014balances concurrency against the overhead of managing many individual locks.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "12aac3d9-5b71-4f9b-9e5b-bcace07135d7",
+          "TopicId": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+          "Title": "Multiversion Concurrency Control (MVCC)",
+          "BodyText": "MVCC maintains multiple versions of data simultaneously so that readers never block writers and writers never block readers, dramatically increasing concurrency.",
+          "Notes": "PostgreSQL and MySQL InnoDB are well-known examples of databases that implement MVCC natively. Understanding how old versions are cleaned up (vacuuming) is essential for operational health.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "ModifiedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "Items": [
+            {
+              "Id": "0a2b1b05-5a07-422b-9bd9-180652c783fa",
+              "Text": "When a row is updated, the database stores the new version alongside the old one rather than overwriting it immediately.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c478287c-1360-4c9d-adeb-44557c8ccc91",
+              "Text": "Each transaction sees a consistent snapshot of the database as it existed at the transaction\u0027s start time, isolating it from concurrent changes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ec0769f3-24b4-4b8e-98ec-3802a5c0c643",
+              "Text": "Old row versions are retained until no active transaction needs them, after which a background cleanup process (e.g., VACUUM in PostgreSQL) reclaims storage.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "30ac1a40-4ea0-4304-8922-f6727b27271a",
+              "Text": "MVCC naturally supports Snapshot Isolation, reducing the likelihood of read anomalies without imposing read locks.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "da2dcc27-4d43-40b0-8c3b-54fb3999fa4b",
+          "TopicId": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+          "Title": "Choosing the Right Strategy for Your Workload",
+          "BodyText": "Selecting between optimistic, pessimistic, and multiversion approaches depends on the ratio of reads to writes, acceptable latency, and the cost of conflict resolution.",
+          "Notes": "Many modern databases support all three mechanisms in different contexts, so designers often combine strategies\u2014for example, using MVCC for reads and pessimistic locking for critical write paths.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "ModifiedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "Items": [
+            {
+              "Id": "2bc98504-926b-48bc-9373-c268be54776d",
+              "Text": "Analyze your workload profile: high read-to-write ratios favor OCC or MVCC, while high contention on shared records favors PCC.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "dceac018-da68-43ff-8e46-be4225552b4e",
+              "Text": "Consider the cost of a rollback: if transactions are long or expensive to retry, pessimistic locking may be safer despite its throughput trade-offs.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9f5af527-efd3-42cc-883c-d7e01c93ebff",
+              "Text": "Evaluate the database engine\u0027s native support; forcing a strategy the engine does not optimize for can introduce unexpected overhead.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "5332adcc-d78f-4d98-8d98-03e96c9fcdc3",
+              "Text": "Test under realistic concurrent load rather than single-user benchmarks to reveal true contention patterns before committing to a strategy.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "379b513e-8409-4084-ad97-6816d7fab8e3",
+          "TopicId": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+          "Title": "Practical Design Patterns for Consistency Without Performance Loss",
+          "BodyText": "Good schema and application design can reduce contention and make any concurrency control strategy more effective.",
+          "Notes": "Small, focused transactions and narrow indexes that reduce hot-spot rows are among the highest-impact practices a designer can apply immediately.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "ModifiedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "Items": [
+            {
+              "Id": "951b2532-92ec-4f6f-adb5-c52f1105073c",
+              "Text": "Keep transactions as short as possible; long-running transactions hold locks longer or increase the chance of OCC conflicts.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e9e9f8bb-7a89-47cf-8dc8-49aa8526da73",
+              "Text": "Access tables and rows in a consistent order across all transactions to minimize the risk of deadlocks under pessimistic locking.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b2a1e460-03de-4820-a11d-d39e9f0e90ae",
+              "Text": "Use optimistic locking at the application layer (e.g., a version column checked in the WHERE clause of UPDATE statements) when the database does not natively support it.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "668f8922-82a2-4c4c-9b39-c56ee8e67fcd",
+              "Text": "Partition hot rows or use counter sharding to distribute write load across multiple rows instead of a single heavily contended record.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "cfc86cd2-e05f-4acd-9ff6-b0e5eae0e451",
+              "Text": "Choose the lowest isolation level that still meets correctness requirements, since higher isolation levels impose greater locking or versioning overhead.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "e3e2afc1-a12e-4530-8833-41aabc8bcf6f",
+          "TopicId": "83a0be53-571a-4fc9-8172-e70f4aba9e0d",
+          "Title": "Monitoring and Tuning Concurrency in Production",
+          "BodyText": "Even a well-designed concurrency strategy requires ongoing monitoring to detect lock contention, deadlock frequency, and version bloat before they degrade performance.",
+          "Notes": "Most enterprise databases expose concurrency metrics through system views or performance schema tables, making it practical to build dashboards that alert on thresholds.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "ModifiedDate": "2026-06-27T15:20:03.2301266-04:00",
+          "Items": [
+            {
+              "Id": "1aa81328-cbd5-49ee-b659-878b3d5ecc60",
+              "Text": "Track lock wait times and deadlock rates as key performance indicators; spikes often signal schema changes or new query patterns introducing contention.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c51729e3-f50f-40bd-be0d-b13900a7ebd2",
+              "Text": "In MVCC systems, monitor table bloat and vacuum lag to ensure old row versions are being cleaned up promptly.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4572e1f1-5cfb-45b3-a332-a30ea39159de",
+              "Text": "Use query-level profiling to identify transactions that hold locks for unusually long durations and refactor them to reduce lock scope.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "58daa7a6-ba85-45f6-ba76-2169da19447d",
+              "Text": "Establish baselines during normal operation so that anomalies caused by concurrency problems are distinguishable from general load increases.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 41
+}

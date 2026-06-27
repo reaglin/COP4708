@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Normal Forms: 1NF, 2NF, and 3NF — Module Topics</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.2rem;margin-top:28px;color:#1a3c6e}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.empty{color:#888}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Normal Forms: 1NF, 2NF, and 3NF</a></div>
+<h1>Normal Forms: 1NF, 2NF, and 3NF — Module Topics</h1>
+<h2>Introduction to Normalization</h2>
+<div class="summary">Overview of database normalization, its purpose, and why it is essential for reducing redundancy and improving data integrity. Establishes the foundation for understanding the first three normal forms.</div>
+<ul>
+<li><strong>What Is Database Normalization?</strong> <span class="el-body">— Database normalization is the process of organizing a relational database&#39;s structure to reduce redundancy and improve data integrity.</span></li>
+<li><strong>The Problem: Data Redundancy</strong> <span class="el-body">— Data redundancy occurs when the same piece of information is stored in multiple places within a database, leading to inconsistencies and wasted storage.</span></li>
+<li><strong>The Goal: Data Integrity</strong> <span class="el-body">— Data integrity ensures that the information stored in a database is accurate, consistent, and trustworthy throughout its lifecycle.</span></li>
+<li><strong>Types of Data Anomalies Normalization Prevents</strong> <span class="el-body">— Unnormalized databases are prone to three categories of anomalies: insertion anomalies, update anomalies, and deletion anomalies.</span></li>
+<li><strong>The Concept of Normal Forms</strong> <span class="el-body">— Normal forms are a progressive set of criteria used to evaluate and improve the structure of database tables, numbered from 1NF upward.</span></li>
+<li><strong>Key Dependencies Driving Normalization</strong> <span class="el-body">— Normalization is fundamentally about managing dependencies — specifically partial dependencies and transitive dependencies — between columns in a table.</span></li>
+</ul>
+<h2>First Normal Form (1NF)</h2>
+<div class="summary">Defines the rules of 1NF, focusing on atomicity and eliminating repeating groups. Walks through step-by-step examples of transforming unnormalized tables into 1NF-compliant structures.</div>
+<ul>
+<li><strong>What Is First Normal Form (1NF)?</strong> <span class="el-body">— First Normal Form (1NF) is the foundational level of database normalization that establishes the basic structural rules a table must satisfy.</span></li>
+<li><strong>The Atomicity Requirement</strong> <span class="el-body">— Atomicity means that each cell in a table must hold one and only one value — it cannot be split into smaller, meaningful parts.</span></li>
+<li><strong>Eliminating Repeating Groups</strong> <span class="el-body">— Repeating groups occur when a table contains multiple columns that capture the same type of information, effectively encoding a list horizontally rather than vertically.</span></li>
+<li><strong>Identifying a Primary Key</strong> <span class="el-body">— A valid primary key is required for a table to comply with 1NF, as it uniquely identifies each row in the table.</span></li>
+<li><strong>Transforming an Unnormalized Table into 1NF: Step-by-Step</strong> <span class="el-body">— Converting an unnormalized table to 1NF involves a systematic process of identifying violations and restructuring the data accordingly.</span></li>
+<li><strong>Before and After: A 1NF Example</strong> <span class="el-body">— Examining a concrete before-and-after comparison reinforces how 1NF rules apply in practice and what the transformed table should look like.</span></li>
+</ul>
+<h2>Second Normal Form (2NF)</h2>
+<div class="summary">Introduces the concept of partial dependencies and explains how 2NF builds upon 1NF by requiring full functional dependency on the primary key. Demonstrates how to identify and eliminate partial dependencies through table decomposition.</div>
+<ul>
+<li><strong>Prerequisites: 2NF Builds on 1NF</strong> <span class="el-body">— A table must already satisfy First Normal Form before it can be evaluated for Second Normal Form. 2NF adds an additional constraint on top of the atomicity and row uniqueness requirements established by 1NF.</span></li>
+<li><strong>Understanding Functional Dependency</strong> <span class="el-body">— A functional dependency exists when the value of one attribute (or set of attributes) uniquely determines the value of another attribute. Recognizing functional dependencies is the foundation for understanding both partial and full dependencies in 2NF.</span></li>
+<li><strong>Defining Partial Dependency</strong> <span class="el-body">— A partial dependency occurs when a non-key attribute is functionally dependent on only a subset (part) of a composite primary key, rather than on the full composite key. Partial dependencies are the specific problem that 2NF is designed to eliminate.</span></li>
+<li><strong>The 2NF Rule: Full Functional Dependency</strong> <span class="el-body">— Second Normal Form requires that every non-key attribute be fully functionally dependent on the entire primary key, not just a part of it. This means removing all partial dependencies from the relation.</span></li>
+<li><strong>Identifying Partial Dependencies in Practice</strong> <span class="el-body">— To identify partial dependencies, systematically test each non-key attribute against every proper subset of the composite primary key. If any non-key attribute is determined by a subset of the key, a partial dependency exists and must be resolved.</span></li>
+<li><strong>Eliminating Partial Dependencies Through Decomposition</strong> <span class="el-body">— The solution to partial dependencies is table decomposition: splitting the original table into two or more smaller tables so that each table contains only fully dependent attributes. This process preserves all original data while eliminating redundancy.</span></li>
+<li><strong>Benefits of Achieving 2NF</strong> <span class="el-body">— Eliminating partial dependencies through 2NF reduces data redundancy and prevents several common data anomalies that occur in tables with partial dependencies. These improvements make the database easier to maintain and more consistent.</span></li>
+</ul>
+<h2>Third Normal Form (3NF)</h2>
+<div class="summary">Defines transitive dependencies and explains how 3NF extends 2NF by removing them. Provides guided examples of restructuring tables to achieve 3NF compliance.</div>
+<ul>
+<li><strong>What Is a Transitive Dependency?</strong> <span class="el-body">— A transitive dependency occurs when a non-key column depends on another non-key column rather than directly on the primary key.</span></li>
+<li><strong>The 3NF Rule Defined</strong> <span class="el-body">— Third Normal Form (3NF) requires that a table already be in 2NF and that every non-key attribute depends only on the primary key — not on any other non-key attribute.</span></li>
+<li><strong>Recognizing 3NF Violations in a Table</strong> <span class="el-body">— To spot a 3NF violation, examine each non-key column and ask whether its value is dictated by the primary key or by a different non-key column.</span></li>
+<li><strong>Decomposing Tables to Achieve 3NF</strong> <span class="el-body">— Removing transitive dependencies requires splitting the original table into two or more tables so that each non-key attribute depends directly on a primary key.</span></li>
+<li><strong>Step-by-Step 3NF Transformation Example</strong> <span class="el-body">— Walking through a concrete restructuring example reinforces how to apply the 3NF rules systematically from start to finish.</span></li>
+<li><strong>Benefits of Achieving 3NF</strong> <span class="el-body">— Bringing a database to 3NF eliminates transitive dependencies and produces a cleaner, more maintainable schema with reduced redundancy.</span></li>
+</ul>
+<h2>Applying Normal Forms: End-to-End Practice</h2>
+<div class="summary">Consolidates learning by guiding students through the complete normalization process from an unnormalized table through 1NF, 2NF, and 3NF. Reinforces identification and elimination of both partial and transitive dependencies.</div>
+<ul>
+<li><strong>Starting Point: Recognizing an Unnormalized Table</strong> <span class="el-body">— The normalization journey begins by examining a raw, unnormalized table and identifying all the structural problems it contains.</span></li>
+<li><strong>Step 1 — Transforming to First Normal Form (1NF)</strong> <span class="el-body">— The first transformation eliminates repeating groups and multi-valued attributes so that every cell holds exactly one atomic value and every row is uniquely identifiable.</span></li>
+<li><strong>Step 2 — Identifying Partial Dependencies Before 2NF</strong> <span class="el-body">— Before converting to 2NF, students must carefully inspect every non-key column to determine whether it depends on the entire composite primary key or only on part of it.</span></li>
+<li><strong>Step 2 — Transforming to Second Normal Form (2NF)</strong> <span class="el-body">— Achieving 2NF means decomposing the 1NF table into smaller tables so that every non-key attribute is fully functionally dependent on the entire primary key of its table.</span></li>
+<li><strong>Step 3 — Identifying Transitive Dependencies Before 3NF</strong> <span class="el-body">— With 2NF achieved, the next analysis pass looks for transitive dependencies — cases where a non-key attribute determines another non-key attribute rather than being determined solely by the primary key.</span></li>
+<li><strong>Step 3 — Transforming to Third Normal Form (3NF)</strong> <span class="el-body">— Converting to 3NF removes transitive dependencies by extracting the determining non-key attribute and its dependents into a new table, leaving only direct key dependencies behind.</span></li>
+<li><strong>Validating the Final Schema and Reviewing the Full Journey</strong> <span class="el-body">— The final step is a structured review to confirm that the fully normalized schema satisfies all three normal forms and that no data has been lost or incorrectly restructured.</span></li>
+</ul>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

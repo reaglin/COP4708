@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relational Databases and Normalization Concepts — Module Topics</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.2rem;margin-top:28px;color:#1a3c6e}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.empty{color:#888}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Databases and Normalization Concepts</a></div>
+<h1>Relational Databases and Normalization Concepts — Module Topics</h1>
+<h2>Introduction to Relational Databases</h2>
+<div class="summary">This topic establishes the foundational concepts of relational databases, including how data is organized into tables with rows and columns. It explains the role of relationships between tables and why structured data management is essential.</div>
+<ul>
+<li><strong>What Is a Relational Database?</strong> <span class="el-body">— A relational database is a system for storing and managing data organized into structured tables that relate to one another.</span></li>
+<li><strong>Tables: Rows and Columns</strong> <span class="el-body">— The fundamental building block of a relational database is the table, which organizes data into rows and columns.</span></li>
+<li><strong>Primary Keys</strong> <span class="el-body">— A primary key is a column or combination of columns that uniquely identifies each row in a table.</span></li>
+<li><strong>Relationships Between Tables</strong> <span class="el-body">— Relational databases derive much of their power from the ability to define and enforce relationships between tables.</span></li>
+<li><strong>Why Structured Data Management Matters</strong> <span class="el-body">— Organizing data in a relational structure provides significant advantages over unstructured or flat-file storage approaches.</span></li>
+<li><strong>The Problem with Poorly Structured Data</strong> <span class="el-body">— When data is not organized into proper relational tables, redundancy and inconsistency can quickly emerge, creating serious data management challenges.</span></li>
+</ul>
+<h2>Problems with Poorly Structured Tables</h2>
+<div class="summary">This topic examines what happens when database tables are not properly designed, leading to redundant and inconsistent data. Students will see concrete examples of poorly structured schemas and understand why they create problems.</div>
+<ul>
+<li><strong>Data Redundancy in Poorly Structured Tables</strong> <span class="el-body">— When a database table is not properly designed, the same piece of information is often stored in multiple rows, creating unnecessary duplication.</span></li>
+<li><strong>Insertion Anomalies</strong> <span class="el-body">— An insertion anomaly occurs when adding new data to a table is impossible or requires entering fictitious values because of how the table is structured.</span></li>
+<li><strong>Update Anomalies</strong> <span class="el-body">— An update anomaly happens when changing a single real-world fact requires updating the same value in many rows, and missing even one creates inconsistency.</span></li>
+<li><strong>Deletion Anomalies</strong> <span class="el-body">— A deletion anomaly occurs when removing one piece of information unintentionally destroys other, unrelated information stored in the same row.</span></li>
+<li><strong>Inconsistent Data as a Consequence</strong> <span class="el-body">— All three types of anomalies ultimately lead to data inconsistency, a state in which the database contains contradictory or unreliable information.</span></li>
+<li><strong>Identifying a Poorly Structured Schema</strong> <span class="el-body">— Recognizing a poorly structured table involves spotting warning signs such as repeating groups of columns, mixed entity types, and columns whose values depend on only part of a composite key.</span></li>
+</ul>
+<h2>Insertion Anomalies</h2>
+<div class="summary">This topic explains insertion anomalies, which occur when adding new data to a table requires the presence of unrelated or unavailable data. Students will explore how poor table design forces incomplete or illogical data entries.</div>
+<ul>
+<li><strong>What Is an Insertion Anomaly?</strong> <span class="el-body">— An insertion anomaly occurs when adding new data to a table is impossible or illogical without also supplying unrelated or unavailable information.</span></li>
+<li><strong>The Role of Unwanted Dependencies</strong> <span class="el-body">— Insertion anomalies arise when a table design creates an unwanted dependency between two logically separate pieces of data.</span></li>
+<li><strong>NULL Values as a Symptom</strong> <span class="el-body">— A common workaround for insertion anomalies is to populate required fields with NULL values, which signals missing or inapplicable information.</span></li>
+<li><strong>Placeholder or Dummy Data</strong> <span class="el-body">— Another response to insertion anomalies is entering fictitious or placeholder data to satisfy table constraints, which pollutes the database with meaningless records.</span></li>
+<li><strong>Impact on Data Integrity</strong> <span class="el-body">— Insertion anomalies undermine data integrity by making it difficult to maintain accurate, complete, and consistent information in the database.</span></li>
+<li><strong>Normalization as the Solution</strong> <span class="el-body">— Normalization resolves insertion anomalies by reorganizing table structures so that each table captures information about one logical entity or relationship.</span></li>
+</ul>
+<h2>Update Anomalies</h2>
+<div class="summary">This topic covers update anomalies, where changing a single piece of information requires multiple row updates due to redundant data storage. Students will learn how this redundancy leads to inconsistencies when updates are only partially applied.</div>
+<ul>
+<li><strong>What Is an Update Anomaly?</strong> <span class="el-body">— An update anomaly occurs when changing a single piece of information requires modifications to multiple rows in a table due to redundant data storage.</span></li>
+<li><strong>Redundant Data Storage as the Root Cause</strong> <span class="el-body">— Redundancy arises when non-atomic or related data is stored repeatedly across multiple rows instead of being isolated in a single, dedicated location.</span></li>
+<li><strong>Partial Updates and Inconsistency</strong> <span class="el-body">— When an update is only partially applied — meaning some rows are changed but others are not — the database is left in an inconsistent state where the same fact has different values in different rows.</span></li>
+<li><strong>Identifying Update Anomaly Scenarios</strong> <span class="el-body">— Update anomalies are recognizable by patterns where one logical change in the real world demands multiple physical row-level changes in the database.</span></li>
+<li><strong>Impact of Update Anomalies on Data Integrity</strong> <span class="el-body">— Left unaddressed, update anomalies erode data integrity over time, causing the database to contain contradictory information that undermines application reliability.</span></li>
+<li><strong>How Normalization Resolves Update Anomalies</strong> <span class="el-body">— Normalization eliminates update anomalies by restructuring tables so that each fact is stored in exactly one place, meaning a single update is sufficient to reflect any real-world change.</span></li>
+</ul>
+<h2>Deletion Anomalies</h2>
+<div class="summary">This topic addresses deletion anomalies, which arise when removing a record unintentionally destroys other valuable data stored in the same row. Students will understand how tightly coupled data in a single table creates unintended data loss.</div>
+<ul>
+<li><strong>What Is a Deletion Anomaly?</strong> <span class="el-body">— A deletion anomaly occurs when removing a record from a table unintentionally destroys other valuable information stored in the same row.</span></li>
+<li><strong>How Tightly Coupled Data Creates the Problem</strong> <span class="el-body">— When a single table stores data about multiple distinct entities or relationships in the same row, those pieces of data become tightly coupled and dependent on each other&#39;s existence.</span></li>
+<li><strong>A Concrete Example of a Deletion Anomaly</strong> <span class="el-body">— Consider a table that stores student names, course IDs, and instructor names all in one row. If the last student enrolled in a course drops out and that row is deleted, all information about that course and its instructor is lost.</span></li>
+<li><strong>Consequences of Deletion Anomalies</strong> <span class="el-body">— Deletion anomalies can have serious consequences for data integrity, leading to incomplete records and unreliable databases over time.</span></li>
+<li><strong>How Normalization Prevents Deletion Anomalies</strong> <span class="el-body">— Normalization resolves deletion anomalies by separating data about distinct entities into their own dedicated tables, so that deleting one record does not affect unrelated data.</span></li>
+</ul>
+<h2>Introduction to Normalization</h2>
+<div class="summary">This topic introduces normalization as a systematic approach to eliminating data anomalies by organizing tables according to defined rules. Students will learn the core motivation behind normalization and how it improves database integrity and efficiency.</div>
+<ul>
+<li><strong>What Is Normalization?</strong> <span class="el-body">— Normalization is a systematic, rule-driven process for organizing relational database tables to reduce redundancy and improve data integrity.</span></li>
+<li><strong>The Core Motivation: Data Anomalies</strong> <span class="el-body">— Poorly structured tables give rise to data anomalies — inconsistencies or errors that occur when data is inserted, updated, or deleted.</span></li>
+<li><strong>Redundancy and Its Consequences</strong> <span class="el-body">— Data redundancy — storing the same piece of information in more than one place — is the root cause of most anomalies normalization aims to eliminate.</span></li>
+<li><strong>How Normalization Improves Database Integrity</strong> <span class="el-body">— By eliminating redundancy and anomalies, normalization enforces data integrity — ensuring that the data stored accurately and consistently represents real-world facts.</span></li>
+<li><strong>Normal Forms as a Progressive Framework</strong> <span class="el-body">— Normalization is not a single step but a progressive framework composed of sequential levels called normal forms, each satisfying increasingly strict criteria.</span></li>
+<li><strong>Normalization and Database Efficiency</strong> <span class="el-body">— Beyond integrity, normalization contributes to database efficiency by producing leaner, more focused tables that are easier to maintain and query predictably.</span></li>
+</ul>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>
