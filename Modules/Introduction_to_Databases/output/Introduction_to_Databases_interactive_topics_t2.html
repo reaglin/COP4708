@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relational Databases</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Relational Databases</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Relational Databases</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>A <strong>relational database</strong> is one of the most foundational and widely used technologies in modern software development and data management. At its core, a relational database organizes information into a structured collection of <strong>tables</strong>, where each table represents a distinct real-world entity or concept. The term "relational" comes from the mathematical concept of a <em>relation</em>, which is essentially a two-dimensional table of data formalized by mathematician E.F. Codd in his landmark 1970 paper. This model revolutionized how data is stored, accessed, and maintained, replacing earlier hierarchical and network database models with something far more flexible and logically coherent.</p>
+
+<p>Each <strong>table</strong> in a relational database is devoted to a single subject. For example, a retail business might have separate tables for <em>customers</em>, <em>orders</em>, <em>products</em>, and <em>suppliers</em>. Rather than cramming all information into one giant, unwieldy spreadsheet, the relational model breaks complex data down into organized, manageable structures. This separation reduces redundancy and makes the data far easier to maintain and query accurately.</p>
+
+<p>Within a table, each <strong>row</strong> — also called a <em>record</em> or <em>tuple</em> — represents a single instance of the entity that the table describes. A row in a <em>customers</em> table, for instance, represents one specific customer. Each <strong>column</strong> — also called an <em>attribute</em> or <em>field</em> — represents a specific piece of information about that entity. In a <em>customers</em> table, columns might include <code>customer_id</code>, <code>first_name</code>, <code>last_name</code>, <code>email</code>, and <code>date_of_birth</code>. The intersection of a row and a column holds a single data value, such as the email address of a particular customer.</p>
+
+<p>Consider this simplified example of what a <em>customers</em> table might look like:</p>
+
+<pre><code>customers
+----------------------------------------------------------
+customer_id | first_name | last_name  | email
+----------------------------------------------------------
+1           | Alice      | Johnson    | alice@example.com
+2           | Bob        | Martinez   | bob@example.com
+3           | Clara      | Chen       | clara@example.com
+</code></pre>
+
+<p>Every row is a distinct customer, and every column captures a specific fact about each customer. This clean, grid-like structure is what makes relational databases so intuitive and powerful.</p>
+
+<p>A <strong>schema</strong> is the formal blueprint or definition of a database's structure. It describes every table that exists in the database, the columns each table contains, the data type of each column, and any constraints or rules that apply. Think of the schema as the architectural plan that governs how the database is built and what kinds of data it can hold. Before any actual data is stored, the schema is defined, and from that point forward, all data must conform to its rules.</p>
+
+<p>One of the most important aspects of a schema is <strong>data typing</strong>. Every column is assigned a specific data type that restricts what kind of value can be stored in it. Common data types include:</p>
+
+<ul>
+  <li><strong>INTEGER</strong> or <strong>INT</strong> — for whole numbers, such as a customer ID or quantity</li>
+  <li><strong>VARCHAR(n)</strong> or <strong>TEXT</strong> — for variable-length strings, such as names or email addresses</li>
+  <li><strong>DATE</strong> or <strong>DATETIME</strong> — for dates and timestamps</li>
+  <li><strong>DECIMAL</strong> or <strong>NUMERIC</strong> — for precise fractional numbers, such as prices</li>
+  <li><strong>BOOLEAN</strong> — for true/false values</li>
+</ul>
+
+<p>By enforcing data types, the database prevents nonsensical entries. You cannot accidentally store the string "hello" in a column defined as an integer. This enforcement happens automatically at the database level, independently of whatever application is writing data to it. Defining a careful, well-thought-out schema at the start of a project pays enormous dividends: it prevents data anomalies, makes queries more predictable, and ensures that the database remains a trustworthy source of truth over time.</p>
+
+<p>A <strong>primary key</strong> is a column, or sometimes a combination of columns, that uniquely identifies each row within a table. Every well-designed table should have a primary key. Its two defining rules are non-negotiable: primary key values must be <strong>unique</strong> (no two rows can share the same value) and <strong>non-null</strong> (the value cannot be absent or undefined). These constraints guarantee that every single record in a table can always be precisely and unambiguously referenced.</p>
+
+<p>Primary keys often take the form of a simple auto-incrementing integer, sometimes called a <em>surrogate key</em>. For example, the <code>customer_id</code> column in the table above is a classic surrogate primary key — a system-generated number that has no meaning outside the database itself, but serves perfectly as a unique identifier. In some cases, a <em>natural key</em> may be used instead: a column whose value is inherently unique in the real world, such as a national identification number or an ISBN for a book. However, natural keys can be risky because real-world data is not always as unique or stable as it first appears.</p>
+
+<p>Primary keys also play a critical structural role: they serve as the <strong>anchor point</strong> for building relationships between tables. When one table needs to refer to a record in another table, it does so by storing the primary key value of that other record. This is where <strong>foreign keys</strong> come in.</p>
+
+<p>A <strong>foreign key</strong> is a column in one table that holds values corresponding to the primary key of another table. Foreign keys are the mechanism by which separate tables are linked together, allowing the database to model real-world relationships between entities. The table that holds the foreign key is called the <em>child table</em> or <em>referencing table</em>, and the table whose primary key is being referenced is called the <em>parent table</em> or <em>referenced table</em>.</p>
+
+<p>Consider an <em>orders</em> table that needs to record which customer placed each order:</p>
+
+<pre><code>orders
+-----------------------------------------
+order_id | customer_id | order_date
+-----------------------------------------
+101      | 1           | 2024-03-15
+102      | 3           | 2024-03-16
+103      | 1           | 2024-03-18
+</code></pre>
+
+<p>Here, <code>customer_id</code> in the <em>orders</em> table is a foreign key referencing <code>customer_id</code> in the <em>customers</em> table. Order 101 and order 103 both belong to Alice (customer_id = 1), while order 102 belongs to Clara (customer_id = 3). Notice that Bob (customer_id = 2) has no orders at all — that is perfectly valid.</p>
+
+<p>Foreign keys enforce <strong>referential integrity</strong>, which is the guarantee that a foreign key value always points to a record that actually exists in the parent table. If you try to insert an order with a <code>customer_id</code> of 99, and no customer with that ID exists, the database will reject the operation. Similarly, referential integrity prevents deleting a customer who still has associated orders unless you explicitly define what should happen in that case — options typically include blocking the deletion, cascading it to also delete the child records, or setting the foreign key values to null.</p>
+
+<p>Relationships between tables can take several forms. The most common is the <strong>one-to-many</strong> relationship: one record in the parent table can be associated with many records in the child table, but each record in the child table points back to only one record in the parent. The customer-to-orders relationship above is a classic example — one customer can have many orders, but each order belongs to exactly one customer.</p>
+
+<p>A <strong>many-to-many</strong> relationship exists when records on both sides can be associated with multiple records on the other side. For example, a student can enroll in many courses, and a course can have many students. This is typically implemented using a <em>junction table</em> (also called a <em>bridge table</em> or <em>associative table</em>) that holds foreign keys from both sides:</p>
+
+<pre><code>enrollments (junction table)
+-------------------------------
+student_id | course_id
+-------------------------------
+1          | 101
+1          | 102
+2          | 101
+3          | 103
+</code></pre>
+
+<p>A <strong>one-to-one</strong> relationship, less common but occasionally useful, means each record in one table corresponds to at most one record in another. For example, a <em>users</em> table and a <em>user_profiles</em> table might have a one-to-one relationship, separating frequently accessed data from less-used details.</p>
+
+<p><strong>Normalization</strong> is the process of organizing a database schema to reduce data redundancy and prevent data anomalies. Without normalization, the same piece of information might be stored in multiple places across the database. This creates serious problems: if that information ever changes, it must be updated in every location simultaneously, and if even one location is missed, the database becomes inconsistent and unreliable. This kind of inconsistency is called an <em>update anomaly</em>.</p>
+
+<p>For example, imagine a poorly designed single table that stores order information along with customer details in every row:</p>
+
+<pre><code>bad_orders_table
+-----------------------------------------------------------------------
+order_id | customer_name | customer_email     | product    | quantity
+-----------------------------------------------------------------------
+101      | Alice Johnson | alice@example.com  | Widget A   | 2
+102      | Alice Johnson | alice@example.com  | Widget B   | 1
+103      | Bob Martinez  | bob@example.com    | Widget A   | 5
+</code></pre>
+
+<p>Alice's email address is stored twice. If she changes her email, both rows must be updated. If only one is updated, the data becomes inconsistent. This is exactly the kind of problem normalization is designed to eliminate. By splitting this data into separate, related tables — one for customers, one for orders, one for products — each fact is stored in exactly one place.</p>
+
+<p>Normalization is typically described through a series of <em>normal forms</em>:</p>
+
+<ul>
+  <li><strong>First Normal Form (1NF)</strong> — Each column holds atomic (indivisible) values, and each row is unique. No repeating groups or arrays within a single cell.</li>
+  <li><strong>Second Normal Form (2NF)</strong> — The table is in 1NF, and every non-key column is fully dependent on the entire primary key (relevant when primary keys span multiple columns).</li>
+  <li><strong>Third Normal Form (3NF)</strong> — The table is in 2NF, and no non-key column depends on another non-key column. Every non-key attribute depends only on the primary key.</li>
+</ul>
+
+<p>Most practical database designs aim for at least Third Normal Form. Properly normalized databases are easier to maintain, less prone to inconsistency, and more straightforward to extend as business requirements evolve. That said, in performance-critical read-heavy scenarios, a deliberate and controlled amount of <em>denormalization</em> — the reintroduction of some redundancy — is sometimes employed to speed up query performance. This is a trade-off that should be made consciously, not by accident.</p>
+
+<p><strong>SQL</strong> (Structured Query Language) is the standard language used to interact with relational databases. It is a <em>declarative</em> language, meaning you describe <em>what</em> data you want rather than specifying step-by-step <em>how</em> to retrieve it. The database engine figures out the most efficient execution path on your behalf. SQL covers four fundamental categories of operations, collectively known as <strong>CRUD</strong>:</p>
+
+<ul>
+  <li><strong>CREATE</strong> (using <code>INSERT INTO</code>) — Add new records to a table</li>
+  <li><strong>READ</strong> (using <code>SELECT</code>) — Retrieve data from one or more tables</li>
+  <li><strong>UPDATE</strong> (using <code>UPDATE</code>) — Modify existing records</li>
+  <li><strong>DELETE</strong> (using <code>DELETE FROM</code>) — Remove records from a table</li>
+</ul>
+
+<p>A basic SQL query to retrieve all orders placed by Alice would look like this:</p>
+
+<pre><code>SELECT orders.order_id, orders.order_date
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+WHERE customers.first_name = 'Alice';
+</code></pre>
+
+<p>This query demonstrates one of SQL's most powerful features: the <strong>JOIN</strong> clause. A JOIN allows you to combine data from two or more related tables into a single result set, connecting them through their shared key columns. In this case, the <em>orders</em> table and the <em>customers</em> table are joined on their shared <code>customer_id</code> column, producing a result that includes only Alice's orders.</p>
+
+<p>Several types of JOINs exist to handle different scenarios:</p>
+
+<ul>
+  <li><strong>INNER JOIN</strong> — Returns only rows where there is a matching record in both tables. Orders without a matching customer (which referential integrity should prevent anyway) would be excluded.</li>
+  <li><strong>LEFT JOIN</strong> — Returns all rows from the left table, plus any matching rows from the right table. Customers with no orders would still appear in the result, with null values for the order columns.</li>
+  <li><strong>RIGHT JOIN</strong> — The mirror of LEFT JOIN; returns all rows from the right table.</li>
+  <li><strong>FULL OUTER JOIN</strong> — Returns all rows from both tables, with nulls where no match exists on either side.</li>
+</ul>
+
+<p>SQL also supports powerful features beyond basic CRUD and JOINs: <code>GROUP BY</code> for aggregating data, <code>ORDER BY</code> for sorting results, <code>WHERE</code> and <code>HAVING</code> for filtering, subqueries, window functions, transactions, and much more. The richness of SQL is one of the primary reasons relational databases have remained dominant for over five decades.</p>
+
+<p>Several <strong>relational database management systems</strong> (RDBMS) are in widespread use today, each with distinct characteristics suited to different use cases:</p>
+
+<ul>
+  <li><strong>MySQL</strong> — One of the most popular open-source databases, widely used in web applications. It powers platforms like WordPress, Facebook (historically), and countless others. Known for speed and ease of setup.</li>
+  <li><strong>PostgreSQL</strong> — An advanced open-source RDBMS celebrated for strict standards compliance, robustness, and support for complex data types and queries. Often the choice for applications requiring data integrity and advanced features.</li>
+  <li><strong>Microsoft SQL Server</strong> — A full-featured enterprise RDBMS from Microsoft, tightly integrated with the Windows and Azure ecosystem. Commonly used in corporate environments.</li>
+  <li><strong>Oracle Database</strong> — A heavyweight enterprise system with a decades-long history, known for performance, scalability, and a rich feature set. Commonly found in large financial institutions and enterprises.</li>
+  <li><strong>SQLite</strong> — A lightweight, file-based database that requires no separate server process. It is embedded directly into applications and is ubiquitous in mobile apps, browsers, and desktop software where a full server-based database would be overkill.</li>
+</ul>
+
+<p>Despite their differences in features, performance, licensing, and target use cases, all of these systems share the same foundational relational model and support SQL as their primary query language. This common foundation means that skills and concepts learned in one system transfer readily to others, with only dialect-level syntax differences to navigate.</p>
+
+<p>Relational databases power an extraordinarily broad range of applications. E-commerce platforms use them to track customers, products, inventory, and orders. Banks rely on them to manage accounts, transactions, and balances with strict transactional guarantees. Healthcare systems store patient records, appointments, and prescriptions. Content management systems like those behind news websites and blogs are built on top of relational databases. The ubiquity of the relational model is a testament to its conceptual clarity, flexibility, and decades of proven reliability at every scale, from a simple SQLite file on a mobile device to a multi-terabyte Oracle cluster serving millions of concurrent users.</p>
+        <div class="notes"><strong>Notes</strong>Covers all listed subtopics in depth: definition and structure of relational databases, tables and schema, primary keys, foreign keys and relationship types, normalization and normal forms, SQL and CRUD/JOINs, and common RDBMS systems. Includes illustrative table examples and SQL code snippets throughout.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

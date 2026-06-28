@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud and Local Databases – COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f4f6f9;
+      color: #1e2a38;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Hero ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #ffffff;
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    header .course-label {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      color: #d4e6ff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    header p.intro {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1rem;
+      color: #cfe0f5;
+      line-height: 1.75;
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .section-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5a7190;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #dde4ed;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dde4ed;
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      box-shadow: 0 2px 8px rgba(30, 42, 56, 0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(30, 42, 56, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Header Row ── */
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e2a38;
+      flex: 1 1 auto;
+    }
+
+    .card-title a {
+      color: #1a5db5;
+      text-decoration: none;
+    }
+
+    .card-title a:hover,
+    .card-title a:focus {
+      text-decoration: underline;
+      color: #0e3d80;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a7190;
+      background: #edf2f8;
+      border: 1px solid #c8d5e6;
+      border-radius: 4px;
+      padding: 0.18rem 0.5rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+      align-self: flex-start;
+      margin-top: 0.1rem;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #d5e4f5;
+      color: #1a3a5c;
+    }
+
+    .source-link::before {
+      content: '⬇';
+      font-size: 0.65rem;
+    }
+
+    /* ── Badges ── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+    }
+
+    .badge-type {
+      background: #e8f0fc;
+      color: #1a4f9c;
+      border: 1px solid #b8d0f5;
+    }
+
+    .badge-filetype {
+      background: #f0faf2;
+      color: #1e7a3c;
+      border: 1px solid #9fd4ae;
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.875rem;
+      color: #4a5e72;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: #8a9baf;
+      border-top: 1px solid #dde4ed;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      header {
+        padding: 2rem 1.25rem 2rem;
+      }
+
+      .card {
+        padding: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="course-label">COP4708</div>
+    <h1>Cloud and Local Databases</h1>
+    <p class="intro">
+      This module explores the practical differences between locally hosted and cloud-based database
+      deployment models, covering infrastructure setup, management responsibilities, and managed
+      cloud services such as AWS RDS and Azure SQL. Use the artifacts below to navigate lessons,
+      review topics, and build a solid understanding of modern database deployment strategies.
+    </p>
+  </header>
+
+  <main>
+    <p class="section-heading">Module Artifacts</p>
+
+    <div class="card-grid">
+
+      <!-- Artifact: Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">
+            <a href="module_topics.html">Module Topics</a>
+          </span>
+          <a
+            class="source-link"
+            href="../hierarchy.json"
+            title="Download or view the source file"
+          >source file</a>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+
+        <p class="card-description">
+          Covers the core topics of the module—comparing locally hosted and cloud-based database
+          deployment models, including infrastructure setup, management responsibilities, and
+          specific managed services such as AWS RDS and Azure—serving as a navigational overview
+          that helps instructors sequence lessons and learners understand what concepts they will
+          study.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    COP4708 &mdash; Cloud and Local Databases &mdash; Course Module Index
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

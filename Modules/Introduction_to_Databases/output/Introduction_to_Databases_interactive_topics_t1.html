@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is a Database?</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>What is a Database?</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>What is a Database?</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>At the heart of nearly every modern application, organization, and digital service lies a database. Whether you are checking your bank balance, searching for a product online, or logging into a social media account, a database is working behind the scenes to store, organize, and retrieve the information you need. Understanding what a database is — and why it exists — is the essential first step in learning how data-driven systems are built and managed.</p>
+
+<p>A <strong>database</strong> is an organized collection of structured data stored electronically so that it can be accessed, managed, and updated efficiently. The word "organized" is critical here. Data in a database is not simply dumped into storage at random; it is arranged according to defined rules and structures that make retrieval fast, reliable, and consistent. Think of a well-organized filing cabinet where every folder has a label, every document belongs in a specific folder, and a clear system exists for finding anything you need. A database applies that same principle — but at a scale and speed that no physical filing system could ever match.</p>
+
+<p>Databases are remarkably versatile in what they can store. A retail company might use a database to track product inventories, recording the name, price, quantity, and supplier of every item it sells. A hospital might store patient records, appointment histories, and prescription data. A bank keeps financial transactions, account balances, and customer profiles. A streaming service tracks which users have watched which videos, what ratings they gave, and what their preferences suggest they might enjoy next. In every case, the organization of that data is <em>intentional</em> — it follows defined rules or structures decided upon by the designers of the database, ensuring the data can serve its purpose reliably over time.</p>
+
+<p>Understanding the <strong>purpose of a database</strong> requires thinking about the problems that arise when organizations try to manage large amounts of data without one. Imagine a company where each department keeps its own spreadsheet of customer information. The sales team has one version, the support team has another, and the billing department has a third. Each file may have been updated at different times, contain different spellings of names, or include customers the other files have never heard of. This is called <em>data redundancy</em> — the same information stored in multiple places — and it leads directly to data that contradicts itself. Databases solve this by <strong>centralizing information in one place</strong>, so there is a single authoritative source of truth that every department consults.</p>
+
+<p>Beyond eliminating redundancy, databases are engineered to support <strong>simultaneous multi-user access</strong>. A spreadsheet saved on one employee's desktop is essentially locked to that person. A database, by contrast, is designed so that dozens, hundreds, or even millions of users and applications can read and write data at the same time without stepping on each other's work. This is what makes it possible for thousands of people to book airline tickets concurrently, each seeing accurate seat availability in real time. Finally, databases actively support <strong>data integrity</strong> — the guarantee that information remains accurate and consistent over time. Through rules built into the database structure itself, invalid or contradictory data is rejected before it can cause problems.</p>
+
+<p>A foundational distinction in database thinking is the difference between <strong>data</strong> and <strong>information</strong>. <em>Data</em> refers to raw, unprocessed facts and figures that have no context on their own. The number <code>42</code>, the string <code>Johnson</code>, and the value <code>2024-03-15</code> are all data — individually, they tell us nothing meaningful. <em>Information</em>, by contrast, is data that has been processed, organized, or structured to give it meaning and make it useful. When those three pieces of data are combined and presented as "Customer Johnson made a purchase on March 15, 2024, for $42," they become actionable information. Databases are specifically designed to store raw data in a structured way so that it can be queried and transformed into meaningful information on demand. A well-designed database acts as an engine that converts stored facts into answers to real questions.</p>
+
+<p>To work effectively with databases, you need to understand the three most fundamental vocabulary terms: <strong>fields</strong>, <strong>records</strong>, and <strong>tables</strong>.</p>
+
+<ul>
+  <li><strong>Field:</strong> A field is the smallest unit of data storage — a single, specific piece of information. Examples include a customer's first name, their email address, their date of birth, or their phone number. Each field is defined to hold one particular type of data, such as text, a number, or a date.</li>
+  <li><strong>Record:</strong> A record is a complete, coherent set of related fields. If fields are individual answers, a record is the full form. For example, a single customer record might contain the fields: <code>FirstName</code>, <code>LastName</code>, <code>Email</code>, <code>PhoneNumber</code>, and <code>DateOfBirth</code> — all belonging to one specific customer. Every row in a database table represents one record.</li>
+  <li><strong>Table:</strong> A table groups related records together under a consistent structure. All the customer records in a business would live in a <code>Customers</code> table. All the product records would live in a <code>Products</code> table. You can think of a table as similar to a spreadsheet tab dedicated to one category of data, where every row is a record and every column is a field.</li>
+</ul>
+
+<p>To make this concrete, imagine a simple <code>Customers</code> table:</p>
+
+<pre><code>| CustomerID | FirstName | LastName | Email                  | PhoneNumber  |
+|------------|-----------|----------|------------------------|--------------|
+| 1001       | Maria     | Chen     | mchen@example.com      | 555-0192     |
+| 1002       | David     | Okafor   | dokafor@example.com    | 555-0381     |
+| 1003       | Sarah     | Patel    | spatel@example.com     | 555-0274     |
+</code></pre>
+
+<p>Here, <code>FirstName</code> is a field. The entire row for Maria Chen — CustomerID 1001, Maria, Chen, mchen@example.com, 555-0192 — is a record. And the entire structure containing all three customers is the <code>Customers</code> table. This hierarchy of field → record → table is the conceptual backbone of nearly all relational databases.</p>
+
+<p>A question that often arises at this stage is: <strong>why not just use a spreadsheet?</strong> Spreadsheets like Microsoft Excel or Google Sheets are powerful tools, and for a single person managing a small dataset, they can work well. But they have significant limitations compared to databases. Spreadsheets are fundamentally designed for <em>individual use and small data sets</em>. When multiple people need to edit the same spreadsheet simultaneously, conflicts and overwritten data quickly become a problem. Databases, on the other hand, are architected from the ground up to handle <em>concurrent multi-user access</em> safely and efficiently.</p>
+
+<p>Spreadsheets also offer very limited data validation. Anyone can type text into a cell that should contain a number, or leave a required field completely blank, and the spreadsheet will usually accept it without complaint. Databases enforce <strong>validation rules</strong> at a structural level — a field defined to hold dates cannot accept text, a required field cannot be left empty, and a field that must be unique (like a customer ID) will reject a duplicate automatically. This makes databases far more reliable for protecting data quality at scale.</p>
+
+<p>Perhaps most importantly, spreadsheets struggle to model <strong>complex relationships between different categories of data</strong>. A spreadsheet can show you a flat list of orders, but relating each order to a specific customer, and each customer to their address, and each order to the products it contained, becomes an unwieldy tangle of duplicated data and cross-referencing nightmares. Databases handle these relationships elegantly through linked tables, a concept that becomes central as you study relational database design.</p>
+
+<p>No discussion of databases would be complete without introducing the <strong>Database Management System</strong>, or <strong>DBMS</strong>. If the database itself is the organized collection of data, the DBMS is the software that manages and controls everything about how that data is stored, accessed, and protected. Users and applications do not interact directly with the raw files where data is stored — they send requests to the DBMS, which acts as an intelligent intermediary.</p>
+
+<p>When a user wants to find all customers who made a purchase in the last 30 days, they submit a query to the DBMS. The DBMS interprets the request, retrieves the relevant data from storage, and returns the result. When an application needs to add a new record or update an existing one, the DBMS handles that operation, ensuring it is carried out correctly and consistently. This covers the full range of fundamental data operations, often called <strong>CRUD</strong>: <em>Create</em>, <em>Read</em>, <em>Update</em>, and <em>Delete</em>.</p>
+
+<p>The DBMS also enforces <strong>security policies</strong>. Not every user should be able to see or modify every piece of data. A customer service representative might be authorized to view customer contact information but not to change pricing records. An accountant might need access to financial tables but not to HR records. The DBMS manages these permissions, ensuring that only authorized users can access or modify specific data — a critical function in any organization handling sensitive information.</p>
+
+<p>Finally, the DBMS solves the difficult technical problem of <strong>concurrent access</strong>. When many users are reading and writing data at the same time, there is a real risk that two operations will conflict — for example, two users simultaneously trying to update the same inventory count. The DBMS uses techniques such as locking and transaction management to coordinate these simultaneous operations, ensuring that each one completes correctly and that the database never ends up in an inconsistent state. Well-known examples of DBMS software include <em>MySQL</em>, <em>PostgreSQL</em>, <em>Microsoft SQL Server</em>, <em>Oracle Database</em>, and <em>SQLite</em>, each designed to manage databases for different scales and use cases.</p>
+
+<p>Taken together, these concepts — the structured organization of data, the purpose of centralizing and protecting information, the vocabulary of fields, records, and tables, the advantages over spreadsheets, and the role of the DBMS — form the essential foundation upon which all deeper database knowledge is built. Every topic that follows in the study of databases connects back to these core ideas.</p>
+        <div class="notes"><strong>Notes</strong>The CRUD acronym (Create, Read, Update, Delete) is introduced briefly in the DBMS section as a natural extension of the subtopic; instructors may wish to flag it as a term that will recur throughout the module. The spreadsheet vs. database comparison is particularly effective as a discussion prompt or a formative check-in question to gauge prior student experience.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

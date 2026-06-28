@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deletion Anomalies</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Deletion Anomalies</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Deletion Anomalies</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>A <strong>deletion anomaly</strong> is one of the most damaging consequences of poor relational database design. It occurs when removing a single row from a table — an action that seems straightforward and intentional — accidentally destroys other, completely unrelated pieces of information that happened to share that same row. Unlike a software crash or an error message, a deletion anomaly is silent: the database accepts the delete command without complaint, the operation completes successfully, and yet valuable data that nobody intended to remove is gone forever. Understanding why this happens, how to recognize it, and how to prevent it is fundamental to designing databases that remain reliable and trustworthy over time.</p>
+
+<p>To appreciate the problem fully, it helps to think about what a database row actually represents. In a well-designed table, every row represents a single, clearly defined fact about a single, clearly defined entity. A row in a <em>Customers</em> table describes one customer. A row in an <em>Orders</em> table describes one order. Each entity lives independently, and deleting one customer record says nothing about whether their orders should also disappear. The trouble begins when a database designer — often under time pressure, or without formal training in normalization — collapses multiple distinct entities into a single table, forcing unrelated facts to coexist in the same row.</p>
+
+<p><strong>What Is a Deletion Anomaly?</strong></p>
+
+<p>At its core, a deletion anomaly is an unintended side effect of a delete operation. The user or application wants to remove exactly one piece of information from the database, but because that information is physically stored alongside other, independent information in the same row, removing the row destroys everything in it simultaneously. There is no surgical option — the database does not offer a way to delete half a row.</p>
+
+<p>The word <em>unintentional</em> is important here. Nobody sets out to destroy useful data. The anomaly is a trap hidden inside the structure of the table itself, waiting for the moment when a legitimate delete operation is performed. Because relational databases do not warn the user that other meaningful data will be lost — they simply execute the delete — the loss can go unnoticed for days, weeks, or permanently. By the time someone realizes that a particular course, instructor, or supplier no longer exists anywhere in the system, the row is long gone and there may be no backup recent enough to recover it.</p>
+
+<p>This silent quality is what makes deletion anomalies particularly dangerous compared to, say, a program that throws an exception. A noisy failure gets noticed and fixed. A silent failure accumulates quietly, eroding the accuracy of the database until users stop trusting the data they retrieve from it.</p>
+
+<p><strong>How Tightly Coupled Data Creates the Problem</strong></p>
+
+<p>The technical root cause of deletion anomalies is <strong>tight coupling</strong> between independent pieces of information within a single table row. Two pieces of data are tightly coupled when the survival of one depends on the survival of the other — not because they are logically related, but simply because they happen to occupy the same physical row in the same table.</p>
+
+<p>Consider a table called <em>Enrollment</em> that is designed to track which students are registered for which courses, but also stores additional details about both the student and the course in every row:</p>
+
+<pre><code>Enrollment Table
+-----------------------------------------------------------
+StudentID | StudentName | CourseID | CourseName | Instructor
+-----------------------------------------------------------
+101       | Alice       | CS101    | Intro to CS | Dr. Patel
+102       | Bob         | CS101    | Intro to CS | Dr. Patel
+103       | Carol       | MA201    | Calculus II | Dr. Lim
+</code></pre>
+
+<p>In this design, every row carries three distinct categories of information simultaneously: facts about a student, facts about a course, and a fact about the enrollment relationship between them. As long as at least one student is enrolled in every course, this seems to work. But the moment the last student enrolled in a particular course withdraws or graduates, catastrophe follows. Deleting that student's enrollment record deletes the only row in the table that mentions that course — and with it, the course name, the instructor's name, and any other course-level details stored in that row.</p>
+
+<p>The underlying failure is a refusal to separate distinct entities. <em>Students</em> are one entity. <em>Courses</em> are a separate entity. <em>Enrollments</em> — the relationship between a student and a course — are a third entity. Each deserves its own table. When they are collapsed together, the information about each entity loses its independence: a course can only exist in the database as long as at least one student is enrolled in it, which is plainly absurd from a real-world perspective. A course can exist even when no students are currently enrolled. Tight coupling enforces a false dependency that does not reflect reality.</p>
+
+<p><strong>A Concrete Example of a Deletion Anomaly</strong></p>
+
+<p>Let us work through the enrollment example in careful detail to make the mechanics of the anomaly completely clear. Suppose the university decides that Bob has completed all requirements and officially removes him from the system. An administrator runs:</p>
+
+<pre><code>DELETE FROM Enrollment WHERE StudentID = 102;
+</code></pre>
+
+<p>The database executes this command. Bob's row is removed. The table now looks like this:</p>
+
+<pre><code>Enrollment Table (after deletion)
+-----------------------------------------------------------
+StudentID | StudentName | CourseID | CourseName | Instructor
+-----------------------------------------------------------
+101       | Alice       | CS101    | Intro to CS | Dr. Patel
+103       | Carol       | MA201    | Calculus II | Dr. Lim
+</code></pre>
+
+<p>So far no anomaly has occurred because Alice is still enrolled in CS101, keeping that course's row alive. But now suppose Alice also graduates and is removed:</p>
+
+<pre><code>DELETE FROM Enrollment WHERE StudentID = 101;
+</code></pre>
+
+<p>The table now looks like this:</p>
+
+<pre><code>Enrollment Table (after second deletion)
+-----------------------------------------------------------
+StudentID | StudentName | CourseID | CourseName | Instructor
+-----------------------------------------------------------
+103       | Carol       | MA201    | Calculus II | Dr. Lim
+</code></pre>
+
+<p>CS101 — <em>Intro to Computer Science</em>, taught by <em>Dr. Patel</em> — has vanished completely from the database. There is no other table holding this information. If someone queries the system asking which courses are offered, or who Dr. Patel teaches, the answer will be wrong. The course still exists in the real world. Dr. Patel is still an instructor. But the database no longer knows this. The administrator intended only to record that Alice had graduated. Nobody intended to erase CS101 or Dr. Patel's association with it.</p>
+
+<p>This is the deletion anomaly in action. It is not a software bug. The database behaved exactly as instructed. It is a <strong>structural flaw</strong> — a design decision that forced unrelated facts to share a row, making it impossible to delete one without potentially destroying the others.</p>
+
+<p><strong>Consequences of Deletion Anomalies</strong></p>
+
+<p>The consequences of repeated deletion anomalies accumulate over time and can affect an organization at multiple levels.</p>
+
+<ul>
+  <li><strong>Loss of institutional knowledge:</strong> Information about courses offered, products that were once sold, suppliers who were previously used, or projects that were completed may all disappear as soon as the last enrollment, order, contract, or assignment row is deleted. This history is often irreplaceable. A company may not realize until months later that it has lost the record of which vendor supplied a critical component, or which training course an employee completed.</li>
+  <li><strong>Compromised data integrity:</strong> The database is supposed to be an accurate model of reality. When it loses information that still corresponds to real-world facts — a course still being offered, an instructor still employed — the database diverges from reality. Queries return incomplete or misleading results. Reports generated from the database are unreliable. Decisions made on the basis of those reports may be flawed.</li>
+  <li><strong>Erosion of trust:</strong> Once users discover that the database has silently lost information, they begin to distrust it. They may start maintaining shadow spreadsheets or paper records as backups, defeating the entire purpose of having a centralized database. Rebuilding trust in a database that has suffered repeated data loss requires significant effort and often a complete redesign.</li>
+  <li><strong>Operational disruption:</strong> Downstream systems, reports, and application features that depend on the lost data may fail or produce errors. If a course record disappears from the database, any application feature that looks up course information by ID will return nothing, potentially crashing or producing confusing results for end users.</li>
+</ul>
+
+<p><strong>How Normalization Prevents Deletion Anomalies</strong></p>
+
+<p>The solution to deletion anomalies is <strong>normalization</strong> — the process of structuring a relational database according to formal rules that ensure each table represents exactly one entity and each row represents exactly one instance of that entity. The goal is to eliminate tight coupling by giving every independent entity its own table, so that deleting a record from one table has no effect on records in other tables unless an explicit, intentional relationship has been defined.</p>
+
+<p>Returning to the enrollment example, a normalized design splits the single flawed table into three separate tables:</p>
+
+<pre><code>Students Table
+----------------------
+StudentID | StudentName
+----------------------
+101       | Alice
+102       | Bob
+103       | Carol
+
+Courses Table
+-------------------------------------
+CourseID | CourseName   | Instructor
+-------------------------------------
+CS101    | Intro to CS  | Dr. Patel
+MA201    | Calculus II  | Dr. Lim
+
+Enrollments Table
+--------------------------
+StudentID | CourseID
+--------------------------
+101       | CS101
+102       | CS101
+103       | MA201
+</code></pre>
+
+<p>Now consider what happens when Alice and Bob both graduate and their student records are deleted. The <em>Students</em> table loses rows 101 and 102. The <em>Enrollments</em> table loses the rows linking those students to CS101. But the <em>Courses</em> table is completely untouched. CS101 still exists as a record in its own right. Dr. Patel is still associated with it. The course's independent existence no longer depends on whether any student happens to be enrolled in it at this moment.</p>
+
+<p>This is the power of normalization: it makes each entity <strong>self-sufficient</strong>. The survival of a course record is not held hostage by the enrollment table. The survival of an instructor's association with a course is not endangered by student withdrawals. Relationships between entities are captured through <strong>foreign keys</strong> in the <em>Enrollments</em> table — a foreign key referencing <em>StudentID</em> in the Students table and another referencing <em>CourseID</em> in the Courses table. These foreign keys record the associations without forcing the data from different entities to merge into the same row.</p>
+
+<p>Beyond preventing deletion anomalies specifically, normalization also prevents the related problems of <em>insertion anomalies</em> (the inability to add a course to the database until at least one student enrolls) and <em>update anomalies</em> (having to update an instructor's name in dozens of rows rather than one). All three anomaly types share the same root cause — tightly coupled, unnormalized data — and normalization addresses all of them together by enforcing a clean, disciplined separation of concerns across tables.</p>
+
+<p>In practice, applying normalization principles means asking a consistent question for every table: does every non-key attribute in this table describe the entity identified by the primary key, and nothing else? If a column in the <em>Enrollment</em> table describes a course rather than an enrollment, it does not belong there. Moving it to a dedicated <em>Courses</em> table is not just tidiness — it is what prevents the silent, destructive loss of data the next time a delete operation runs.</p>
+        <div class="notes"><strong>Notes</strong>The concrete before-and-after code examples showing the table state before and after each DELETE operation are central to making the anomaly tangible. The three-table normalized schema at the end provides a clear visual resolution. Instructors may wish to have students manually trace through additional delete scenarios on both the unnormalized and normalized schemas to reinforce the contrast.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

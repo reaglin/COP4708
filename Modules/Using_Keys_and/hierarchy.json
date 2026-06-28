@@ -1,0 +1,1256 @@
+{
+  "ModuleFolderName": "Using_Keys_and",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T15:08:34.0796496-04:00",
+  "ModifiedDate": "2026-06-27T15:11:08.1236262-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "68a4eae1-6464-47be-a38c-cdee44c2cb5e",
+      "Title": "Introduction to Keys in SQL",
+      "Summary": "An overview of what keys are in relational databases and why they are essential for organizing and identifying data. This topic establishes the foundational concepts that underpin all key types covered in the module.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "9d452a61-524e-4624-8ee9-0e961264b72a",
+          "TopicId": "68a4eae1-6464-47be-a38c-cdee44c2cb5e",
+          "Title": "What Is a Key in a Relational Database?",
+          "BodyText": "A key is one or more columns in a database table used to uniquely identify rows or establish relationships between tables.",
+          "Notes": "Think of a key like a unique label on a filing folder \u2014 it lets you find exactly the record you need without ambiguity.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "ModifiedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "Items": [
+            {
+              "Id": "29cb8779-fb6a-430f-a71b-74a97f2c9fb7",
+              "Text": "Keys ensure that each row in a table can be distinctly referenced, preventing duplicate or ambiguous records.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "289f7968-64eb-42d2-b38b-eb740a485d0a",
+              "Text": "A key can consist of a single column or a combination of columns, depending on the data and design requirements.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e456c4a5-6faf-4b1e-a9f3-588fc647a1a7",
+              "Text": "Keys are fundamental to the relational model, which organizes data into structured tables that relate to one another.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "2eee3bdd-0393-40af-a4a1-69eeee111a9f",
+          "TopicId": "68a4eae1-6464-47be-a38c-cdee44c2cb5e",
+          "Title": "Why Keys Are Essential for Data Organization",
+          "BodyText": "Keys provide the structural backbone of a relational database by enforcing order, uniqueness, and traceability across datasets.",
+          "Notes": "Without keys, a database would have no reliable way to distinguish between two customers named \u0027John Smith\u0027 or to link an order back to the correct customer.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "ModifiedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "Items": [
+            {
+              "Id": "848e6464-f8d4-4d24-b7d0-3e7d74907181",
+              "Text": "Keys allow databases to avoid redundancy by enabling data in one table to reference data in another rather than duplicating it.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fc8c8359-9ac4-4d1a-a5df-e0452a7165ed",
+              "Text": "They support efficient data retrieval, as database engines use keys \u2014 especially indexed ones \u2014 to locate records quickly.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "290af5d8-4d02-4d7a-a372-434acf84f3f1",
+              "Text": "Keys make it possible to maintain consistent, meaningful relationships among multiple tables in a schema.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d4117c57-b5f3-4388-a0c2-8376a82bf981",
+          "TopicId": "68a4eae1-6464-47be-a38c-cdee44c2cb5e",
+          "Title": "Keys and Data Integrity",
+          "BodyText": "One of the primary roles of keys is to enforce data integrity, ensuring that the information stored in a database remains accurate and consistent.",
+          "Notes": "Data integrity failures \u2014 such as orphaned records or duplicate entries \u2014 are among the most common sources of database errors in production systems.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "ModifiedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "Items": [
+            {
+              "Id": "1ac8b8fe-95a9-4d76-8639-0c2288e9c856",
+              "Text": "Key constraints prevent invalid or duplicate values from being inserted into critical columns.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4d62ed7d-7629-4a93-9d2c-1ea7ecde0354",
+              "Text": "Referential integrity, enforced through foreign keys, ensures that relationships between tables remain valid over time.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "79d985dd-ef83-4a63-8337-10216641b13a",
+              "Text": "Without key-based constraints, databases become prone to anomalies during insert, update, and delete operations.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d4d1681e-6d45-45e6-8e49-b14ed490cbcd",
+          "TopicId": "68a4eae1-6464-47be-a38c-cdee44c2cb5e",
+          "Title": "Overview of Key Types in SQL",
+          "BodyText": "SQL databases recognize several distinct key types, each serving a specific purpose in data identification and relationship management.",
+          "Notes": "Understanding the distinctions between key types helps developers choose the right constraint for each situation when designing a schema.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "ModifiedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "Items": [
+            {
+              "Id": "d7307ca8-2703-472e-a5da-f879ad28b8f5",
+              "Text": "Primary keys uniquely identify each row in a table and cannot contain null values.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "3102bd21-b957-4a35-b927-c03521d37722",
+              "Text": "Foreign keys link rows in one table to rows in another, establishing referential relationships.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "656ba6ac-a588-4643-85fb-826cee409fc8",
+              "Text": "Candidate, composite, and surrogate keys offer additional strategies for uniquely identifying records in varied scenarios.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "96424516-9c4e-4d25-a81d-b2be2c765f36",
+          "TopicId": "68a4eae1-6464-47be-a38c-cdee44c2cb5e",
+          "Title": "Keys as Constraints in SQL",
+          "BodyText": "In SQL, keys are implemented as constraints \u2014 rules applied to table columns that the database engine enforces automatically.",
+          "Notes": "Constraints are declared at table creation time using CREATE TABLE or added later with ALTER TABLE statements.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "ModifiedDate": "2026-06-27T15:08:50.6558957-04:00",
+          "Items": [
+            {
+              "Id": "95184504-570f-45a1-92cf-294fd1994461",
+              "Text": "Defining a key constraint tells the database to reject any data operation that would violate the key\u0027s uniqueness or referential rules.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b3e3183a-5c71-4605-92b8-0b0c8958d209",
+              "Text": "SQL key constraints are enforced at the database level, making them more reliable than application-level validation alone.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "cd1f435e-15fa-47a6-9e66-28cab161517a",
+              "Text": "Common SQL keywords used to define key constraints include PRIMARY KEY, FOREIGN KEY, UNIQUE, and REFERENCES.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "046455c0-0aae-4ffd-a684-da87523d778a",
+      "Title": "Primary Keys",
+      "Summary": "A detailed examination of primary keys, including how they uniquely identify each record in a table. Students will learn how to define and enforce primary key constraints in SQL.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "70fe0c0d-9aee-4266-b150-092713c7bc0f",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "What Is a Primary Key?",
+          "BodyText": "A primary key is a column or set of columns that uniquely identifies each record in a database table.",
+          "Notes": "For example, in a Customers table, a CustomerID column assigned a unique number to every customer serves as the primary key.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "d46e1e4b-c5e9-49c7-b2a8-d350de421b2e",
+              "Text": "Every value in a primary key column must be unique across all rows in the table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "421f9b24-2a8b-40e5-bd31-c92bc15df00b",
+              "Text": "A primary key column cannot contain NULL values, ensuring every record is always identifiable.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "61eb8653-039a-4cae-a5a9-34082d302a63",
+              "Text": "Each table can have only one primary key, though it may span multiple columns.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "733202ab-2efb-4067-802f-13c8f3de9b6c",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "Why Primary Keys Matter",
+          "BodyText": "Primary keys are fundamental to relational database design because they guarantee data integrity and provide a reliable way to reference individual records.",
+          "Notes": "Without a primary key, duplicate or ambiguous records can enter the table, making queries and data maintenance unreliable.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "6b7f8c3f-8196-41c2-803c-d1905e51c73f",
+              "Text": "They prevent duplicate records from being inserted into a table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "9455bec8-eea9-4d7a-b810-057b375a3d9b",
+              "Text": "They serve as the anchor point for relationships between tables via foreign keys.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0f724a37-e297-4698-b1d2-75cd2ad8ef8f",
+              "Text": "They enable efficient indexing, which speeds up data retrieval operations.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8d9c6170-4d38-4aac-bd2f-8ad5a6ca5636",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "Defining a Primary Key at Table Creation",
+          "BodyText": "A primary key constraint can be declared directly when creating a table using the CREATE TABLE statement in SQL.",
+          "Notes": "Example: CREATE TABLE Customers (CustomerID INT PRIMARY KEY, LastName VARCHAR(50), FirstName VARCHAR(50));",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "34918fc5-c2bd-4900-82c1-96f40e6e0c1e",
+              "Text": "The PRIMARY KEY constraint can be placed inline with a column definition for single-column keys.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "728188e9-c4d9-4f57-9df3-40c206b436b4",
+              "Text": "For clarity or multi-column keys, the constraint can also be declared as a separate clause at the end of the CREATE TABLE statement.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1c81f27f-a778-44d3-8b8e-8c47ea72cf6d",
+              "Text": "Most SQL databases automatically create a unique index on the primary key column when the table is created.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "e855f3c5-6810-4c55-bb43-be7a87cf3acc",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "Adding a Primary Key to an Existing Table",
+          "BodyText": "If a table was created without a primary key, you can add one later using the ALTER TABLE statement.",
+          "Notes": "Example: ALTER TABLE Customers ADD CONSTRAINT pk_CustomerID PRIMARY KEY (CustomerID); \u2014 This approach is useful when modifying legacy schemas.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "ca8c9424-6780-4a7e-8dc0-ce8ef7852793",
+              "Text": "Before adding a primary key, ensure the target column contains no NULL values and no duplicate entries.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b390cd99-d4d8-46ef-b6ce-954dcb30a054",
+              "Text": "The ALTER TABLE ... ADD CONSTRAINT syntax allows you to name the primary key constraint for easier management.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e40416a4-5685-41e9-9179-6df1885a43fc",
+              "Text": "Naming constraints explicitly makes it simpler to drop or modify them in the future.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5e6c63c1-b9f2-4493-ac36-92d7034dac61",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "Enforcing the Primary Key Constraint",
+          "BodyText": "Once defined, the database engine automatically enforces the primary key constraint on every INSERT and UPDATE operation.",
+          "Notes": "If an application attempts to insert a row with a duplicate or NULL primary key value, the database will raise a constraint violation error and reject the operation.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "864bc351-488a-4a4c-9270-a1cffe3caac7",
+              "Text": "The enforcement is automatic and requires no additional application-level code.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2c571ff3-d18e-4fa8-86f6-682270add8b3",
+              "Text": "Any attempt to insert a duplicate key value results in an error, protecting data uniqueness.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8d95fa59-61d3-4803-9de0-7a642c04ca65",
+              "Text": "Attempts to update a primary key value to NULL or to a value that already exists are also blocked by the constraint.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "fc45fce2-bda7-492d-a094-e8d60b1d0a3e",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "Dropping a Primary Key Constraint",
+          "BodyText": "Primary key constraints can be removed from a table when the schema needs to be restructured, using the ALTER TABLE statement.",
+          "Notes": "Example: ALTER TABLE Customers DROP CONSTRAINT pk_CustomerID; \u2014 Note that dropping a primary key may break foreign key relationships in other tables that reference it.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "dde80bc1-4735-4ff6-80a9-fd03d23e926c",
+              "Text": "You must resolve or drop any foreign key constraints that reference the primary key before removing it.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "1d0a4af5-c02d-4e32-9274-bc5b632e1575",
+              "Text": "After dropping the constraint, the column retains its data but no longer enforces uniqueness or non-null rules.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "11cd84a8-366f-4ca2-b437-74f9aaeadbf0",
+              "Text": "A new primary key can be re-added after making the necessary schema adjustments.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f823a181-aa68-4555-8d02-3d16554ab885",
+          "TopicId": "046455c0-0aae-4ffd-a684-da87523d778a",
+          "Title": "Best Practices for Choosing a Primary Key",
+          "BodyText": "Selecting the right column or columns as a primary key is a critical design decision that affects performance, maintainability, and data integrity.",
+          "Notes": "A surrogate key such as an auto-incrementing integer (e.g., INT IDENTITY or SERIAL) is often preferred over natural keys because it remains stable even if business data changes.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "ModifiedDate": "2026-06-27T15:09:12.1499518-04:00",
+          "Items": [
+            {
+              "Id": "51e7b3ad-7a94-4690-8543-ca3694b85c0b",
+              "Text": "Choose a column whose values will never change over the lifetime of the record to avoid cascading update issues.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a9f8c775-6254-49ec-8601-fcbbd8b59a52",
+              "Text": "Keep primary key columns as small in data type as practical (e.g., INT vs. VARCHAR) to improve index performance.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d368b033-7b34-46ba-ad3e-c924fc2708d2",
+              "Text": "Avoid using sensitive or personally identifiable information as a primary key to reduce exposure risk.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "2e83996f-6eda-4656-a979-040afe515f36",
+      "Title": "Foreign Keys and Referential Integrity",
+      "Summary": "An exploration of foreign keys and how they establish relationships between tables in a database. This topic covers how foreign key constraints support and enforce referential integrity.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "ce022547-c048-4d5b-87bc-846e9f533e30",
+          "TopicId": "2e83996f-6eda-4656-a979-040afe515f36",
+          "Title": "What Is a Foreign Key?",
+          "BodyText": "A foreign key is a column or set of columns in one table that references the primary key of another table, establishing a logical link between the two.",
+          "Notes": "For example, an Orders table might contain a CustomerID column that references the CustomerID primary key in a Customers table.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:09:33.391571-04:00",
+          "ModifiedDate": "2026-06-27T15:09:33.391571-04:00",
+          "Items": [
+            {
+              "Id": "59795d46-cd83-4507-b22d-1d58fa977cf7",
+              "Text": "A foreign key does not need to be unique in the referencing table, as many rows can share the same foreign key value.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "17ae04e3-40ad-44d1-9f93-b4e649b9b9de",
+              "Text": "The table containing the foreign key is called the child or referencing table, while the table it points to is called the parent or referenced table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2dae20ba-7e65-4670-9949-58b1038dfa12",
+              "Text": "Foreign keys can reference composite primary keys, in which case the foreign key must also be composite and match the same column structure.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5155c40c-1f7f-4bed-806b-39b4e5f50478",
+          "TopicId": "2e83996f-6eda-4656-a979-040afe515f36",
+          "Title": "Defining a Foreign Key Constraint in SQL",
+          "BodyText": "Foreign key constraints are declared using the FOREIGN KEY keyword either inline during column definition or as a table-level constraint in a CREATE TABLE or ALTER TABLE statement.",
+          "Notes": "Example: FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID) added within a CREATE TABLE statement establishes the relationship.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:09:33.391571-04:00",
+          "ModifiedDate": "2026-06-27T15:09:33.391571-04:00",
+          "Items": [
+            {
+              "Id": "6fa867b8-2a43-48cb-8db6-544f4c77c33c",
+              "Text": "The REFERENCES keyword specifies the parent table and the column being referenced.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cca440bf-2133-4290-b57a-2384e50b0ef2",
+              "Text": "Foreign key constraints can also be added to an existing table using ALTER TABLE ... ADD CONSTRAINT syntax.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "82defa9a-e3a1-4a9a-89e5-083fdc16ff6d",
+              "Text": "Both the foreign key column and the referenced primary key column must share compatible data types.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a09effe9-01d8-4394-a1da-3180b5ba2cea",
+          "TopicId": "2e83996f-6eda-4656-a979-040afe515f36",
+          "Title": "Understanding Referential Integrity",
+          "BodyText": "Referential integrity is the database principle that ensures every foreign key value in a child table corresponds to an existing value in the parent table.",
+          "Notes": "Without referential integrity, orphan records can exist \u2014 for example, an order referencing a customer that no longer exists in the database.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:09:33.391571-04:00",
+          "ModifiedDate": "2026-06-27T15:09:33.391571-04:00",
+          "Items": [
+            {
+              "Id": "d80be839-9d72-4ea0-8095-0c74f019a9ad",
+              "Text": "Referential integrity prevents inserting a row in the child table with a foreign key value that does not exist in the parent table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a217b0e1-a216-4497-bbd5-8ce4bd07ffa7",
+              "Text": "It also restricts deleting or updating a parent row when matching child rows still reference it, unless a specific action rule is defined.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6ea99d82-4e5d-4309-bd17-f3bc6ff0819b",
+              "Text": "Enforcing referential integrity helps maintain consistency and reliability across related tables in a relational database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "7ba74fb5-2739-4ee9-a809-ce933e9982b3",
+          "TopicId": "2e83996f-6eda-4656-a979-040afe515f36",
+          "Title": "Referential Actions: ON DELETE and ON UPDATE",
+          "BodyText": "SQL allows you to define referential actions that specify what happens to child rows when a referenced parent row is deleted or updated.",
+          "Notes": "Choosing the correct referential action depends on the business rules of the application, such as whether child records should be preserved or removed when a parent is deleted.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:09:33.391571-04:00",
+          "ModifiedDate": "2026-06-27T15:09:33.391571-04:00",
+          "Items": [
+            {
+              "Id": "223d33b5-4530-428f-99c6-f82d61d268e6",
+              "Text": "CASCADE automatically deletes or updates child rows when the corresponding parent row is deleted or updated.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "31548f1c-db9b-418e-b602-ef765bea4899",
+              "Text": "SET NULL sets the foreign key column in the child table to NULL when the parent row is deleted or updated, provided the column allows NULLs.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "fc9274f1-9b5b-4071-a6b6-e3f16906303d",
+              "Text": "RESTRICT or NO ACTION prevents the delete or update on the parent row if matching child rows exist.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "377ccd60-65e1-499f-92cc-2800545115c6",
+              "Text": "SET DEFAULT sets the foreign key column to its default value when the parent row is removed, if a default is defined.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "79ac97b8-d3d1-410d-837a-5bef92aca68c",
+          "TopicId": "2e83996f-6eda-4656-a979-040afe515f36",
+          "Title": "Foreign Keys and NULL Values",
+          "BodyText": "A foreign key column can be allowed to hold NULL values, which indicates that the relationship is optional rather than mandatory for that row.",
+          "Notes": "For instance, an Employee table might have a ManagerID foreign key that is NULL for top-level employees who have no manager.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:09:33.391571-04:00",
+          "ModifiedDate": "2026-06-27T15:09:33.391571-04:00",
+          "Items": [
+            {
+              "Id": "8a4a66d4-63df-4e2e-acd2-33d1be4f38f3",
+              "Text": "A NULL foreign key value is not treated as a referential integrity violation, since NULL represents the absence of a relationship.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2bcec4d3-ce33-4b1e-8f78-3c108db4c42c",
+              "Text": "If the relationship is required for every row, the foreign key column should be defined as NOT NULL.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6b9fefbc-0294-4912-afe7-084653dbd252",
+              "Text": "Allowing NULLs in foreign keys provides flexibility to model optional associations between entities.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "22f8c35f-4907-4b75-815e-da4408f3f99b",
+          "TopicId": "2e83996f-6eda-4656-a979-040afe515f36",
+          "Title": "Foreign Keys vs. Primary Keys: Roles in Relationships",
+          "BodyText": "Primary keys uniquely identify rows within their own table, while foreign keys create cross-table relationships by referencing those primary keys.",
+          "Notes": "Together, primary and foreign keys are the foundation of relational database design, enabling joins and ensuring data consistency across the schema.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:09:33.391571-04:00",
+          "ModifiedDate": "2026-06-27T15:09:33.391571-04:00",
+          "Items": [
+            {
+              "Id": "6dcb33b2-9385-45df-aaa3-ccbaa575bd77",
+              "Text": "A single table can have only one primary key but can contain multiple foreign keys referencing different parent tables.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "003e99a8-8f43-42e4-b435-73d27bd02cb1",
+              "Text": "Foreign keys enable SQL JOIN operations, allowing data from related tables to be queried and combined meaningfully.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "95a7a4b8-af12-4e08-8359-efd2566557e6",
+              "Text": "The combination of primary and foreign key constraints formalizes the entity relationships described in an entity-relationship (ER) model.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "156ce01f-1951-4c84-bfea-3173aa039408",
+      "Title": "Candidate Keys",
+      "Summary": "An explanation of candidate keys as columns or sets of columns that qualify to serve as a primary key. Students will learn how to identify candidate keys and understand their role in database design.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "c80b93e8-a2f2-48b5-ba94-a23051856b43",
+          "TopicId": "156ce01f-1951-4c84-bfea-3173aa039408",
+          "Title": "What Is a Candidate Key?",
+          "BodyText": "A candidate key is any column or combination of columns in a table that can uniquely identify every row and therefore qualifies to serve as the primary key.",
+          "Notes": "The term \u0027candidate\u0027 reflects that each such key is a contender for the role of primary key \u2014 only one will be chosen, but all qualify.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "ModifiedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "Items": [
+            {
+              "Id": "47df54a4-1346-41dc-a2cb-982a0aaca61f",
+              "Text": "A candidate key must contain unique values across all rows in the table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fe20c068-2ccd-4dde-9317-1d7902074675",
+              "Text": "A candidate key must never contain NULL values, ensuring every row is fully identifiable.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6f496251-ee90-4016-be73-65c7b8eb2b6c",
+              "Text": "A table can have one or more candidate keys, but exactly one is selected to become the primary key.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a02f8b38-4c10-4f5d-9e99-5ab0b7359356",
+          "TopicId": "156ce01f-1951-4c84-bfea-3173aa039408",
+          "Title": "Properties That Define a Candidate Key",
+          "BodyText": "For a column or set of columns to qualify as a candidate key, it must satisfy two core properties: uniqueness and irreducibility.",
+          "Notes": "Irreducibility is also called minimality \u2014 you cannot remove any column from a composite candidate key without losing the uniqueness property.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "ModifiedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "Items": [
+            {
+              "Id": "98101ee6-8380-4c2c-824b-6ad4243a7e1a",
+              "Text": "Uniqueness requires that no two rows share the same value (or combination of values) for the candidate key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0f2135a6-9ca0-43d7-a227-e1cc7dd68463",
+              "Text": "Irreducibility (minimality) means no subset of the key\u0027s columns can alone provide the same uniqueness guarantee.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2cbacb9b-d8b7-4434-b27b-00117593b96a",
+              "Text": "Both properties must hold at all times, not just for the current data, but as a structural guarantee.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f92e0135-dd05-48f1-ab07-4da871aeae9b",
+          "TopicId": "156ce01f-1951-4c84-bfea-3173aa039408",
+          "Title": "Identifying Candidate Keys in a Table",
+          "BodyText": "Finding candidate keys requires analyzing the data and business rules to determine which columns or column combinations reliably and uniquely identify each row.",
+          "Notes": "For example, in an Employees table, both EmployeeID and a combination of (Email, PhoneNumber) might each qualify as candidate keys if both are guaranteed unique and non-null.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "ModifiedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "Items": [
+            {
+              "Id": "2ce0d408-3bc7-495d-bc0f-61cd6326c107",
+              "Text": "Examine each column individually to check whether its values are unique across all rows.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "19015cce-0fb5-446e-a992-f1ef966290f0",
+              "Text": "Test combinations of columns when no single column qualifies on its own.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b7897e70-fcec-44a8-93b5-324d842b5aec",
+              "Text": "Use domain knowledge and business rules \u2014 not just current data \u2014 to confirm a key\u0027s uniqueness guarantee will hold over time.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "825762b1-5e9b-4e78-a9bd-f6278dd5f37e",
+          "TopicId": "156ce01f-1951-4c84-bfea-3173aa039408",
+          "Title": "Candidate Keys vs. Primary Keys",
+          "BodyText": "While all primary keys are candidate keys, not all candidate keys become the primary key \u2014 the designer selects the most suitable one for that role.",
+          "Notes": "Common selection criteria include preferring a single-column key over a composite one, choosing a stable value unlikely to change, and picking the most meaningful identifier for the context.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "ModifiedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "Items": [
+            {
+              "Id": "d117aa78-3cec-4ec9-8196-8686d7c0c8a1",
+              "Text": "The primary key is the one candidate key officially designated to enforce row uniqueness and support foreign key references.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "3739af43-f311-43af-ab32-ce57601cc0d3",
+              "Text": "Remaining candidate keys that are not chosen as the primary key are often enforced using UNIQUE constraints to preserve their integrity.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6e62bf6b-f205-42f5-928c-4fcb12ae453e",
+              "Text": "The choice of primary key from among candidates is a design decision influenced by simplicity, stability, and performance.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "517551db-6b37-4388-8551-0a2109ea1e85",
+          "TopicId": "156ce01f-1951-4c84-bfea-3173aa039408",
+          "Title": "Enforcing Candidate Keys with UNIQUE Constraints",
+          "BodyText": "In SQL, candidate keys that are not selected as the primary key should still be enforced using UNIQUE constraints to maintain their identifying integrity.",
+          "Notes": "Example: CREATE TABLE Employees (EmployeeID INT PRIMARY KEY, Email VARCHAR(100) UNIQUE, SSN CHAR(11) UNIQUE); Here Email and SSN are candidate keys enforced via UNIQUE.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "ModifiedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "Items": [
+            {
+              "Id": "642fb083-b0e6-4998-bf0f-a506310ba970",
+              "Text": "A UNIQUE constraint ensures no two rows can hold the same value in the designated column or column combination.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "819d2373-f288-4d25-95ab-5c2ef4e5b433",
+              "Text": "Unlike the PRIMARY KEY constraint, a UNIQUE constraint in most databases allows a single NULL value unless additional restrictions are applied.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "41753542-3011-49bd-b0fc-afb60461b05c",
+              "Text": "Defining UNIQUE constraints on all candidate keys protects data integrity even for keys not chosen as the primary key.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "50ef5346-4baa-479e-b73a-633e2e0d3b36",
+          "TopicId": "156ce01f-1951-4c84-bfea-3173aa039408",
+          "Title": "Role of Candidate Keys in Database Design",
+          "BodyText": "Understanding candidate keys is fundamental to good relational database design because they reveal all the natural ways rows can be uniquely identified.",
+          "Notes": "Identifying all candidate keys early in the design process helps designers make informed choices about primary keys, normalization, and indexing strategies.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "ModifiedDate": "2026-06-27T15:09:55.3128662-04:00",
+          "Items": [
+            {
+              "Id": "5e3e9a72-46b0-442b-a8d3-1eb369e66add",
+              "Text": "Candidate keys form the foundation for normalization, helping designers eliminate redundancy and dependency issues.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c6eab8bc-1664-481f-a43d-804ccbdca5db",
+              "Text": "Recognizing multiple candidate keys gives designers flexibility when choosing the most practical primary key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "44f1020c-6166-4760-8402-5c94e73c1cdb",
+              "Text": "Candidate keys also inform index creation, as uniquely identifying columns are strong candidates for indexed fields to improve query performance.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+      "Title": "Composite Keys",
+      "Summary": "A focused look at composite keys, which use two or more columns together to uniquely identify a record. This topic covers when and how to implement composite key constraints in SQL.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "ac26c4ff-b8a4-4272-8ca1-55af95dc35fc",
+          "TopicId": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+          "Title": "What Is a Composite Key?",
+          "BodyText": "A composite key is a primary key or unique constraint that consists of two or more columns working together to uniquely identify a row in a table.",
+          "Notes": "No single column in a composite key is required to be unique on its own; it is the combination of all participating columns that must be unique across all rows.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "ModifiedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "Items": [
+            {
+              "Id": "a792546a-9c3e-4743-b8c6-a4d75b9c2660",
+              "Text": "A composite key is used when no single column can reliably distinguish one record from another.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "9e1206ad-a36e-401e-8fae-3adc630e5101",
+              "Text": "All columns that form the composite key are treated as a single logical unit for uniqueness and identification purposes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3da2421f-9809-4216-8a91-ec833abe3467",
+              "Text": "Composite keys are common in junction or association tables that resolve many-to-many relationships.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d37a2dd5-6ce3-49d1-85ce-6f819eb00311",
+          "TopicId": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+          "Title": "When to Use a Composite Key",
+          "BodyText": "Composite keys are appropriate when the data model naturally requires more than one attribute to produce a unique identifier for each record.",
+          "Notes": "For example, an order line-item table might use both order_id and product_id together as a composite key, because the same product can appear in many orders and the same order can contain many products.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "ModifiedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "Items": [
+            {
+              "Id": "8823c722-d0b3-44ab-9456-3c1454777a8d",
+              "Text": "Use a composite key when a single-column surrogate key would obscure meaningful business logic encoded in multiple columns.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d580fec4-5dda-4a9d-b457-4c27cb044703",
+              "Text": "They are especially useful in intersection tables where each row represents a unique pairing of two foreign-key values.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ae1af0aa-192e-4571-8865-fba4dbc87423",
+              "Text": "Composite keys can also serve as natural keys when the combination of attributes has real-world uniqueness guarantees.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "9b4ca272-8686-4c04-ac57-71905fba2544",
+          "TopicId": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+          "Title": "Defining a Composite Primary Key in SQL",
+          "BodyText": "A composite primary key is declared using the PRIMARY KEY constraint at the table level, listing all participating columns inside parentheses.",
+          "Notes": "Example: CREATE TABLE order_items ( order_id INT, product_id INT, quantity INT, PRIMARY KEY (order_id, product_id) ); The constraint cannot be placed inline on a single column when more than one column is involved.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "ModifiedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "Items": [
+            {
+              "Id": "f03c4783-d4bf-4f54-9f24-b2434961ad13",
+              "Text": "The PRIMARY KEY clause must appear as a table-level constraint, not a column-level constraint, when multiple columns are involved.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fdd004a6-1eb1-4348-aa28-63fc980ef08d",
+              "Text": "Every column listed in the composite key is implicitly NOT NULL, because NULL values cannot participate in uniqueness evaluation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1651b3c9-6b2f-43a8-a4f7-22a91b705ec0",
+              "Text": "The order of columns in the PRIMARY KEY declaration can affect index performance and should reflect the most common query patterns.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ebbcfd71-62b9-4aaf-a556-5c1bf2203b7d",
+          "TopicId": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+          "Title": "Defining a Composite Unique Constraint",
+          "BodyText": "Beyond primary keys, composite uniqueness can also be enforced with a UNIQUE constraint spanning multiple columns, allowing the table to have a separate surrogate primary key.",
+          "Notes": "Example: ALTER TABLE schedules ADD CONSTRAINT uq_teacher_timeslot UNIQUE (teacher_id, timeslot_id); This ensures no teacher is double-booked without making those columns the primary key.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "ModifiedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "Items": [
+            {
+              "Id": "15d0ac7f-bced-45fa-b6ee-84d8d8aaec22",
+              "Text": "A composite UNIQUE constraint enforces that no two rows share the same combination of values in the specified columns.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f4943b3e-6702-4ff6-9ff4-2795f030db48",
+              "Text": "Unlike a composite primary key, a composite unique constraint permits NULL values in the participating columns in most SQL databases.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "017ee7b9-02fa-474f-8531-9ca9fd58c1f0",
+              "Text": "Multiple composite unique constraints can coexist on a single table to enforce different business rules simultaneously.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "59936988-e0da-4ca5-b0b8-fde3f43c96d7",
+          "TopicId": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+          "Title": "Referencing a Composite Key with Foreign Keys",
+          "BodyText": "When a composite primary key is referenced by another table, the foreign key declaration must include all the same columns in matching order.",
+          "Notes": "Example: FOREIGN KEY (order_id, product_id) REFERENCES order_items (order_id, product_id). Both the referencing and referenced column lists must have the same number of columns and compatible data types.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "ModifiedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "Items": [
+            {
+              "Id": "e6ed5871-b045-4ebe-8b41-014d04a017c9",
+              "Text": "A foreign key referencing a composite primary key must list every column of that key inside the REFERENCES clause.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f4222fc5-6ccf-4680-8001-55877ad627f2",
+              "Text": "The data types of all foreign key columns must exactly match the data types of the corresponding primary key columns.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b069a6a1-c936-4ed7-8055-b51b8d18a63d",
+              "Text": "Maintaining referential integrity with composite foreign keys requires that any update or delete on the parent table be handled through appropriate ON UPDATE and ON DELETE rules.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "2682553b-f75c-4838-87d9-a9f7639085d4",
+          "TopicId": "efff7ee2-8bd1-40a7-ab84-48b9cce64754",
+          "Title": "Advantages and Limitations of Composite Keys",
+          "BodyText": "Composite keys offer meaningful, naturally derived identifiers but also introduce complexity in querying, indexing, and referencing.",
+          "Notes": "Teams should weigh the semantic clarity of a composite key against the overhead of propagating multi-column keys through child tables and join conditions.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "ModifiedDate": "2026-06-27T15:10:18.0957311-04:00",
+          "Items": [
+            {
+              "Id": "f1ac2c51-6868-45d3-a94a-e2fdb67a5f85",
+              "Text": "Composite keys can eliminate the need for an extra surrogate column when the data already contains a naturally unique combination.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5631d3b6-b21d-4b33-a0dc-d5482384c8b8",
+              "Text": "They make the uniqueness rule self-documenting, clearly communicating business constraints directly in the schema.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "23923d13-083f-4ae2-9aa6-a165d3cf4142",
+              "Text": "Joins and foreign key references become more verbose because every participating column must be included in join and constraint clauses.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "24f2db75-5c6c-4335-be78-b0a211542b4e",
+              "Text": "Indexes on composite keys can grow large and may need careful column ordering to balance read performance across different query types.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+      "Title": "Surrogate Keys",
+      "Summary": "An introduction to surrogate keys as system-generated identifiers used as an alternative to natural keys. Students will explore the advantages and use cases of surrogate keys in modern database design.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "27f1a90b-a55f-443f-9757-a115afeace77",
+          "TopicId": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+          "Title": "What Is a Surrogate Key?",
+          "BodyText": "A surrogate key is a system-generated identifier assigned to each row in a table, with no inherent business meaning.",
+          "Notes": "Common examples include auto-incrementing integers (e.g., IDENTITY or AUTO_INCREMENT columns) and UUIDs generated by the database system.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "ModifiedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "Items": [
+            {
+              "Id": "43f6c96b-eb03-4d1e-844d-7c041c96e11b",
+              "Text": "Surrogate keys are artificially created by the database system, not derived from the actual data in the record.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "15beb019-6362-42b4-9b7c-25a907edb5e6",
+              "Text": "Because they carry no business meaning, they remain stable even when other attribute values in the row change.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "abe98d5a-26cc-4d04-8b01-37ae9ad7718b",
+              "Text": "They serve as the primary key for a table when no suitable natural key exists or when natural keys are deemed impractical.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4ece6e1f-d9c5-4071-9a7e-004ad355e6ac",
+          "TopicId": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+          "Title": "Surrogate Keys vs. Natural Keys",
+          "BodyText": "Understanding the difference between surrogate and natural keys helps designers choose the right approach for a given table.",
+          "Notes": "A natural key example is using a Social Security Number as a primary key; a surrogate alternative would be an auto-generated customer_id integer.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "ModifiedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "Items": [
+            {
+              "Id": "83aaea11-5f96-43b6-8cc3-ec2334f4cee2",
+              "Text": "Natural keys are derived from real-world data attributes (e.g., email address, SSN), while surrogate keys are generated solely for database use.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d305fbcd-473d-4b4a-9cf7-ba92ae8a5215",
+              "Text": "Natural keys can change over time or contain sensitive information, making surrogate keys a safer and more stable alternative.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "adef0c14-e28b-4d33-b105-4049d599e6fb",
+              "Text": "Surrogate keys decouple the database\u0027s internal record identification from the business domain, reducing dependency on external data formats.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "585cab04-98cd-417e-a82d-1780f89f47fe",
+          "TopicId": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+          "Title": "Advantages of Using Surrogate Keys",
+          "BodyText": "Surrogate keys offer several practical benefits that make them a preferred choice in modern relational database design.",
+          "Notes": "In large enterprise systems, surrogate keys simplify JOIN operations across many tables and reduce the risk of primary key violations caused by real-world data changes.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "ModifiedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "Items": [
+            {
+              "Id": "f399b2b5-b61b-4fc5-94b2-5172df4033d4",
+              "Text": "Surrogate keys are typically short integers or UUIDs, making index lookups and JOIN operations more efficient than using long composite or string-based natural keys.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "828f7b06-ea53-47c8-8d40-d1958a87be6c",
+              "Text": "They remain immutable because they have no real-world meaning, preventing cascading update problems in related tables.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a4352109-c378-4df1-a7f6-96db7d78e87f",
+              "Text": "Surrogate keys eliminate issues arising from null, duplicate, or changing natural key values, enforcing uniqueness at the system level.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "eced6cc0-4739-4098-86e2-86c6df3a3392",
+          "TopicId": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+          "Title": "Common Surrogate Key Implementations in SQL",
+          "BodyText": "SQL databases provide built-in mechanisms to automatically generate surrogate key values when new rows are inserted.",
+          "Notes": "Example: In MySQL, INT AUTO_INCREMENT is used; in SQL Server, INT IDENTITY(1,1); in PostgreSQL, the SERIAL type or GENERATED ALWAYS AS IDENTITY can be used.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "ModifiedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "Items": [
+            {
+              "Id": "c2bd568a-be4c-4c11-bc9e-fadcb3708c23",
+              "Text": "The AUTO_INCREMENT (MySQL) or IDENTITY (SQL Server) property automatically assigns the next sequential integer value as a new row is inserted.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c2953af2-5129-4143-a3d0-4d190c130190",
+              "Text": "UUIDs (Universally Unique Identifiers) are an alternative surrogate key type that guarantees global uniqueness, useful in distributed systems.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c59f1616-89a7-4bb4-84a9-dc57d099f394",
+              "Text": "Defining a surrogate key as the PRIMARY KEY ensures the column is both NOT NULL and UNIQUE, enforcing row-level integrity automatically.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c1cc3c94-9551-4551-9d76-6f847abec538",
+          "TopicId": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+          "Title": "When to Use Surrogate Keys",
+          "BodyText": "Surrogate keys are especially valuable in specific design scenarios where natural keys present challenges.",
+          "Notes": "For example, a customer table where email addresses can change over time benefits greatly from a stable surrogate customer_id as the primary key.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "ModifiedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "Items": [
+            {
+              "Id": "d7437a49-042d-4b3c-86ac-69f79365b0c6",
+              "Text": "Use surrogate keys when no single natural attribute or combination of attributes forms a reliable, stable unique identifier.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4c72ab8f-b657-4c66-9786-14922a756ee7",
+              "Text": "They are recommended when natural key columns contain sensitive data (e.g., government IDs) that should not be exposed in foreign key relationships.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8c878637-8504-44f9-85bd-704e6372f728",
+              "Text": "Surrogate keys are ideal for tables that will participate in many relationships, simplifying foreign key references across the schema.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "1952208a-7a6b-48d4-8d59-0a4c4f47028a",
+          "TopicId": "5b59e82f-6b8b-4cdf-af61-eb4cb6bb7369",
+          "Title": "Surrogate Keys and Referential Integrity",
+          "BodyText": "Surrogate keys work seamlessly with foreign key constraints to maintain referential integrity across related tables.",
+          "Notes": "Because surrogate keys do not change, foreign key references in child tables remain valid over the lifetime of the parent record without requiring cascading updates.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "ModifiedDate": "2026-06-27T15:10:40.8569325-04:00",
+          "Items": [
+            {
+              "Id": "5ebb889a-5dbb-4185-bf0e-6213a19c4a7e",
+              "Text": "A surrogate primary key in a parent table can be referenced as a foreign key in one or many child tables, establishing clear parent-child relationships.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "58a4bfb2-3f99-487d-a442-419baa028546",
+              "Text": "The immutability of surrogate keys means that UPDATE CASCADE rules are rarely needed, simplifying constraint management.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ea637b90-54a8-4588-9bb0-cbf2112dd0d2",
+              "Text": "Using surrogate keys consistently across a schema promotes uniformity in how relationships are defined and enforced.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+      "Title": "Enforcing Key Constraints for Data Integrity",
+      "Summary": "A practical guide to applying and managing key constraints across a database schema to maintain data accuracy and consistency. This topic brings together all key types to demonstrate best practices for constraint enforcement in SQL.",
+      "SortOrder": 6,
+      "CreatedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "ModifiedDate": "2026-06-27T15:08:34.0796496-04:00",
+      "Elements": [
+        {
+          "Id": "9ec1a240-a97a-47e2-840e-38fa8c8df802",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Understanding Why Key Constraints Matter",
+          "BodyText": "Key constraints are rules enforced by the database engine to ensure that data remains accurate, consistent, and free from duplication or orphaned records.",
+          "Notes": "Without constraints, tables can accumulate duplicate rows, null identifiers, or references to records that no longer exist \u2014 all of which undermine reporting and application logic.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "2149114a-5e3c-4bc5-b9fd-e4fea577ba20",
+              "Text": "Constraints shift data validation responsibility to the database layer, reducing reliance on application-level checks.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "72403787-0936-4db2-bb9f-b01a9c0c08d3",
+              "Text": "Enforcing constraints at schema design time prevents entire categories of data anomalies before they can occur.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f921cae4-bea1-4937-a941-ce68e549457a",
+              "Text": "A well-constrained schema makes the database self-documenting, clearly communicating relationships and uniqueness rules.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f26952c8-a984-4b16-adfb-d7505ad10b98",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Defining and Enforcing Primary Key Constraints",
+          "BodyText": "A primary key constraint guarantees that every row in a table has a unique, non-null identifier, forming the foundation of data integrity for that table.",
+          "Notes": "Primary keys can be defined inline during column declaration or as a separate table-level constraint, which is preferred for composite primary keys.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "e439436d-e415-4d36-b658-cc96359dfffc",
+              "Text": "Use PRIMARY KEY on a single column or on a group of columns to form a composite primary key that uniquely identifies each row.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "dea6d830-ea86-4a6f-bad3-fcfbb8d3315e",
+              "Text": "The database automatically creates a unique index on the primary key columns, enforcing uniqueness and speeding up lookups.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "88782a9d-3f74-4d4d-9a6b-0f6438825592",
+              "Text": "A table may have only one primary key, so choose the column or column combination that most naturally and stably identifies each record.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "784a9509-f2ab-4b9c-83ad-c2356ca0069a",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Applying Foreign Key Constraints for Referential Integrity",
+          "BodyText": "Foreign key constraints enforce referential integrity by ensuring that values in a child table\u0027s column always correspond to existing values in the referenced parent table.",
+          "Notes": "For example, an Orders table with a CustomerID foreign key prevents orders from being inserted for customers who do not exist in the Customers table.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "2dc669e2-8331-488b-8c51-972717565579",
+              "Text": "Declare a foreign key using REFERENCES followed by the parent table and column to establish the relationship.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ae7ac087-b86a-4384-85d1-0fe9ae682b7f",
+              "Text": "Configure ON DELETE and ON UPDATE actions \u2014 such as CASCADE, SET NULL, or RESTRICT \u2014 to control what happens to child rows when a parent row changes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0120e6ce-8909-4d31-b7a0-0d669e2caf9c",
+              "Text": "Foreign key constraints must reference a column that is either the primary key or has a unique constraint in the parent table.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0abe4e45-6f6a-463e-b870-2c92e8e5a4c4",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Using UNIQUE Constraints to Enforce Candidate Keys",
+          "BodyText": "Candidate keys are columns or column combinations that could serve as a primary key; those not chosen as the primary key should be enforced with UNIQUE constraints.",
+          "Notes": "An example is an Employees table where EmployeeID is the primary key, but Email is also a candidate key that must remain unique across all rows.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "aa5da962-b41d-4d55-a9fd-49802e8a76a1",
+              "Text": "Add a UNIQUE constraint to any column that must hold distinct values but is not the designated primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "be87a081-add9-4163-a700-df607b9dd823",
+              "Text": "Unlike primary keys, a unique-constrained column can contain NULL values in most databases, though behavior varies by SQL dialect.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "95e320e8-0043-4cff-95cc-32babd07b53a",
+              "Text": "Multiple UNIQUE constraints can exist on a single table, each protecting a different candidate key from duplicate data.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f8c79f58-1ca9-4c93-8cf0-051f2fd8dd8d",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Implementing Composite and Surrogate Keys Strategically",
+          "BodyText": "Choosing between composite keys and surrogate keys requires balancing naturalness of identification against simplicity and stability of the key column.",
+          "Notes": "A junction table for a many-to-many relationship often uses a composite primary key formed from two foreign keys, while entity tables typically benefit from a surrogate key such as an auto-incremented integer or UUID.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "c946f38d-766d-4d55-ae81-f02a2cad837a",
+              "Text": "Composite keys combine two or more columns to form a unique identifier and are most appropriate for associative or junction tables.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "49f311dd-0566-4ac1-81da-43fff9983907",
+              "Text": "Surrogate keys are system-generated values with no business meaning, making them stable even when business data changes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0a689130-b407-42ac-bf34-f2af1fa53c1b",
+              "Text": "When using surrogate keys, still enforce uniqueness on the natural key columns with a UNIQUE constraint to prevent logical duplicates.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "35ebe9e5-1e1d-4e7d-b51d-272a9d366651",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Managing Constraints: Adding, Disabling, and Dropping",
+          "BodyText": "Database administrators often need to modify existing constraints during schema evolution, bulk data loads, or migrations without permanently removing data integrity rules.",
+          "Notes": "Temporarily disabling foreign key checks during a large bulk insert can improve performance, but constraints must be re-enabled and validated immediately after the operation completes.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "5968b8cc-7999-498e-afd4-a36056712fd9",
+              "Text": "Use ALTER TABLE ... ADD CONSTRAINT to add a new primary key, foreign key, or unique constraint to an existing table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "14753298-1f59-470d-a2ce-6e000a086641",
+              "Text": "Use ALTER TABLE ... DROP CONSTRAINT to remove a constraint by name when a business rule changes or a schema refactor is needed.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "03e68062-14b5-42b8-a0c7-0c3b5d757416",
+              "Text": "Some databases support DISABLE and ENABLE constraint syntax, allowing temporary suspension of checks without permanent removal.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "01506a15-1d0d-4bc3-9dc1-fe1161e54b6f",
+          "TopicId": "96ab3d76-797d-42f9-bd0c-74f707710bff",
+          "Title": "Best Practices for Consistent Constraint Enforcement Across a Schema",
+          "BodyText": "Applying constraints consistently and systematically across all tables in a schema ensures holistic data integrity rather than isolated guarantees on individual tables.",
+          "Notes": "Establishing a naming convention for constraints \u2014 such as pk_TableName, fk_ChildTable_ParentTable, and uq_TableName_Column \u2014 makes it far easier to identify and manage constraints in large schemas.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "ModifiedDate": "2026-06-27T15:11:08.1234594-04:00",
+          "Items": [
+            {
+              "Id": "42a19874-52a9-4786-90b1-cb6a8ba34053",
+              "Text": "Define all key constraints at table creation time rather than adding them after data has been loaded, to catch design issues early.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "25bb0058-b9cd-4b64-a422-5631bc3f5b7a",
+              "Text": "Document every constraint in a data dictionary so that developers and analysts understand the rules governing each column.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7d715cd1-35d4-4127-997b-1caf846104c6",
+              "Text": "Regularly audit constraint definitions against business rules to ensure the schema continues to reflect current data requirements.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ea486bc5-9911-41a5-9dfc-f52118d3a1bc",
+              "Text": "Test constraint behavior explicitly with both valid and invalid data to confirm that the database engine enforces rules as expected.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 43
+}

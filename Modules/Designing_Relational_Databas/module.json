@@ -1,0 +1,9 @@
+{
+  "Id": "7e89d63a-e668-465f-badf-66ec43d4f7a9",
+  "Name": "Designing Relational Databases from ER Diagrams",
+  "Description": "This lesson covers the systematic process of converting ER diagrams into relational database schemas, including handling one-to-many, many-to-many, and weak entity relationships. Students will practice mapping ER constructs to tables, primary keys, and foreign keys.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.6939147-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.6947225-04:00",
+  "Actions": []
+}

@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Data Modeling and Entity-Relationship Modeling",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Data_Modeling_and",
+  "GeneratedUtc": "2026-06-28T17:17:45.339091Z",
+  "HtmlIndexSignature": "4F72546CA4A5BC61719456DE13BA39E7609B7BE6435E915291E54C8185AA1667",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Outlines the module\u0027s core topics\u2014data modeling concepts, entities and attributes, relationships and cardinality, and the Entity-Relationship (ER) model\u2014serving as a syllabus-style roadmap that helps learners and instructors understand what will be covered and in what order.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Data_Modeling_and\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181836406255189
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "A navigational overview of the Data Modeling and Entity-Relationship Modeling module that outlines each topic covered\u2014including what data modeling is, its purpose, and ER modeling concepts\u2014so learners can see the full scope of the module and instructors can use it as a syllabus reference.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Data_Modeling_and\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181876232120530
+    }
+  ]
+}

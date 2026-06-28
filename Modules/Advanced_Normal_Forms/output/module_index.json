@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Advanced Normal Forms: BCNF, 4NF, and 5NF",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Advanced_Normal_Forms",
+  "GeneratedUtc": "2026-06-28T17:17:12.3296972Z",
+  "HtmlIndexSignature": "B30F368DFB1093563BA8F20C0BE13BE577804915783383FA18835C5413B1685A",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "This file outlines the topics covered in the module\u2014including 3NF limitations, BCNF definition and violation detection, comparisons between normal forms, and higher normal forms such as 4NF and 5NF\u2014serving as a navigational overview for learners and instructors to understand the module\u0027s scope and sequence.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Advanced_Normal_Forms\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181834659153557
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "A topic outline covering the progression from 3NF through BCNF, 4NF, and 5NF, including their definitions, limitations, and decomposition techniques; instructors use it to plan lessons and learners use it as a roadmap for the module.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Advanced_Normal_Forms\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181875802694321
+    }
+  ]
+}

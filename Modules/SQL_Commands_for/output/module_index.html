@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Commands for Complex Queries – COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #2c3e50;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Hero ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #ffffff;
+      padding: 3rem 1.5rem 2.5rem;
+      text-align: center;
+    }
+
+    header .course-label {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    header p.intro {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 960px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    .section-heading {
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #5a6a7e;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #d8e2ee;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dce6f0;
+      border-radius: 10px;
+      padding: 1.5rem 1.4rem 1.4rem;
+      box-shadow: 0 2px 8px rgba(30, 60, 100, 0.07);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(30, 60, 100, 0.13);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Header Row ── */
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      flex: 1 1 auto;
+    }
+
+    .card-title a {
+      color: #1e5bb5;
+      text-decoration: none;
+    }
+
+    .card-title a:hover,
+    .card-title a:focus {
+      color: #0f3a80;
+      text-decoration: underline;
+    }
+
+    .card-title a:focus {
+      outline: 2px solid #2563a8;
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+
+    /* ── Source Link ── */
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #5a7fa8;
+      text-decoration: none;
+      background-color: #eaf1fb;
+      border: 1px solid #c2d6ef;
+      border-radius: 12px;
+      padding: 0.2rem 0.55rem;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 0.1rem;
+    }
+
+    .source-link::before {
+      content: '⬇';
+      font-size: 0.7rem;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background-color: #d0e4f7;
+      color: #1a3a5c;
+    }
+
+    .source-link:focus {
+      outline: 2px solid #2563a8;
+      outline-offset: 2px;
+      border-radius: 12px;
+    }
+
+    /* ── Meta Badges ── */
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .badge-type {
+      background-color: #e8f0fb;
+      color: #2458a3;
+      border: 1px solid #c2d4f2;
+    }
+
+    .badge-filetype {
+      background-color: #eef6ee;
+      color: #2a7a3b;
+      border: 1px solid #b6ddb9;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.9rem;
+      color: #4a5a6b;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.82rem;
+      color: #8a9bae;
+      border-top: 1px solid #dce6f0;
+      background-color: #f4f6f9;
+    }
+
+    /* ── Responsive Tweaks ── */
+    @media (max-width: 480px) {
+      header {
+        padding: 2.2rem 1rem 2rem;
+      }
+
+      .card {
+        padding: 1.2rem 1.1rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="course-label">COP4708</div>
+    <h1>SQL Commands for Complex Queries</h1>
+    <p class="intro">
+      Explore the foundational and advanced SQL techniques needed to construct complex database queries.
+      This module covers JOIN operations, WHERE clause filtering, comparison and logical operators,
+      and the structured thinking required to retrieve meaningful data from relational databases.
+    </p>
+  </header>
+
+  <main>
+    <p class="section-heading">Module Artifacts</p>
+
+    <div class="card-grid">
+
+      <!-- Artifact: Module Topics -->
+      <article class="card">
+        <div class="card-header">
+          <span class="card-title">
+            <a href="module_topics.html">Module Topics</a>
+          </span>
+          <a class="source-link" href="../hierarchy.json" aria-label="Source file for Module Topics">source file</a>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <p class="card-description">
+          Outlines the module's learning topics covering complex SQL queries, including JOIN types
+          (INNER, LEFT, and others), and WHERE clause filtering with comparison and logical operators,
+          serving as a roadmap for learners and instructors to understand what concepts will be taught
+          and in what order.
+        </p>
+      </article>
+
+    </div>
+  </main>
+
+  <footer>
+    COP4708 &mdash; SQL Commands for Complex Queries &nbsp;&bull;&nbsp; Course Module Index
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

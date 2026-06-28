@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "SQL Data Definition Language (DDL)",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "SQL_Data_Definition",
+  "GeneratedUtc": "2026-06-28T17:19:29.4408132Z",
+  "HtmlIndexSignature": "7352A8B179C2DECD6848662F265778B7C8A86E5E6F38410C47C608BF64F14A61",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Covers the core SQL DDL concepts\u2014including what DDL is and how it differs from other SQL sublanguages, the CREATE command for databases and schemas, numeric/string/date data types, and key constraints (PRIMARY KEY, FOREIGN KEY, NOT NULL)\u2014serving as the outline that organizes the module\u0027s learning topics for both learners navigating the content and instructors structuring their lessons.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\SQL_Data_Definition\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181840986214005
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "Outlines the topics covered in the SQL DDL module\u2014including what DDL is, how it differs from other SQL sublanguages, and how it is used to define and manage database structures\u2014serving as a navigational overview for learners to understand what they will study.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\SQL_Data_Definition\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181877259828450
+    }
+  ]
+}

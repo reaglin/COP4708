@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "SQL Data Modeling Language",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "SQL_Data_Modeling",
+  "GeneratedUtc": "2026-06-28T17:18:51.4434294Z",
+  "HtmlIndexSignature": "A5E719AA6D8D533B3A36CE65BAFAC5BAA546188DDEFB3EB163BC066242A2FAAD",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "A structured outline of the module\u0027s learning topics, progressing from SQL\u0027s role as a data modeling language and relational database fundamentals through logical modeling concepts, schema creation, and related definitions, used by instructors to organize content and by learners to navigate what will be covered.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\SQL_Data_Modeling\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181839330360494
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "Outlines the topics covered in the SQL Data Modeling Language module\u2014including SQL\u0027s role in data modeling beyond querying, and how it bridges logical design and physical database structure\u2014serving as a navigational overview for learners to understand what the module will cover.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\SQL_Data_Modeling\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181876954845683
+    }
+  ]
+}

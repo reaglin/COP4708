@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Normalization, Denormalization, and Practical Database Design",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Normalization_Denormalizatio",
+  "GeneratedUtc": "2026-06-28T17:21:10.551392Z",
+  "HtmlIndexSignature": "30E114E2D3091036DB70DE303649AE1550DA5617CFD8CF1CBA5E60F24383CF39",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Outlines the module\u0027s learning topics spanning normalization principles (1NF, 2NF, and beyond), practical application of normalization in production environments, ER-to-schema translation, functional dependencies, and an introduction to denormalization as a deliberate design strategy, serving as a roadmap for learners and instructors to navigate the module\u0027s scope and sequence.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Normalization_Denormalizatio\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181846124433753
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "An overview page listing and briefly explaining the module\u0027s topics\u2014covering normalization principles (1NF through BCNF), denormalization trade-offs, and practical database design considerations\u2014which learners use as a roadmap to understand what the module will teach and instructors use to confirm curricular coverage.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Normalization_Denormalizatio\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181878262390776
+    }
+  ]
+}

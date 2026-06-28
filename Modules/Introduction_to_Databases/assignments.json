@@ -1,0 +1,25 @@
+﻿{
+  "ModuleFolderName": "Introduction_to_Databases",
+  "CourseName": "COP4708",
+  "LastModified": "2026-06-27T16:43:38.2500795-04:00",
+  "NextAssignmentNumber": 2,
+  "Assignments": [
+    {
+      "Id": "A001",
+      "Title": "Research Paper: Foundations of Databases \u2014 Defining What a Database Really Is",
+      "Type": "ResearchPaper",
+      "Level": "Short",
+      "SubmissionFormat": "NotSpecified",
+      "TopicTitles": "What is a Database?",
+      "OutputFormat": "Html",
+      "ModuleStudentOutcomeIds": [
+        "20c87efc-217b-4e72-b08d-5dd124de4be8"
+      ],
+      "FileName": "A001_Research_Paper_Research_Paper_Foundations_of.html",
+      "GeneratedDate": "2026-06-27T16:43:23.0353169-04:00",
+      "TypeDisplayName": "Research Paper",
+      "LevelDisplayName": "Short  (\u003C 1 hour)",
+      "FormatDisplayName": "Not specified"
+    }
+  ]
+}

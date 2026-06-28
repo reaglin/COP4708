@@ -1,0 +1,85 @@
+{
+  "Id": "19f7c31c-5334-4545-9b41-de8afba7066a",
+  "Name": "COP4708",
+  "Description": "Applied Database",
+  "CreatedBy": "",
+  "CreatedDate": "2026-06-27T14:40:49.6316545-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.7611402-04:00",
+  "Modules": [
+    {
+      "ModuleName": "Introduction to Databases, Types, and Applications",
+      "FolderName": "Introduction_to_Databases",
+      "Order": 1
+    },
+    {
+      "ModuleName": "Relational Theory and Functional Dependencies",
+      "FolderName": "Relational_Theory_and",
+      "Order": 2
+    },
+    {
+      "ModuleName": "Relational Databases and Normalization Concepts",
+      "FolderName": "Relational_Databases_and",
+      "Order": 3
+    },
+    {
+      "ModuleName": "Normal Forms: 1NF, 2NF, and 3NF",
+      "FolderName": "Normal_Forms_1NF",
+      "Order": 4
+    },
+    {
+      "ModuleName": "Advanced Normal Forms: BCNF, 4NF, and 5NF",
+      "FolderName": "Advanced_Normal_Forms",
+      "Order": 5
+    },
+    {
+      "ModuleName": "Data Modeling and Entity-Relationship Modeling",
+      "FolderName": "Data_Modeling_and",
+      "Order": 6
+    },
+    {
+      "ModuleName": "Designing Relational Databases from ER Diagrams",
+      "FolderName": "Designing_Relational_Databas",
+      "Order": 7
+    },
+    {
+      "ModuleName": "SQL Data Modeling Language",
+      "FolderName": "SQL_Data_Modeling",
+      "Order": 8
+    },
+    {
+      "ModuleName": "SQL Data Definition Language (DDL)",
+      "FolderName": "SQL_Data_Definition",
+      "Order": 9
+    },
+    {
+      "ModuleName": "Using Keys and Key Types in SQL",
+      "FolderName": "Using_Keys_and",
+      "Order": 10
+    },
+    {
+      "ModuleName": "SQL Commands for Complex Queries",
+      "FolderName": "SQL_Commands_for",
+      "Order": 11
+    },
+    {
+      "ModuleName": "Normalization, Denormalization, and Practical Database Design",
+      "FolderName": "Normalization_Denormalizatio",
+      "Order": 12
+    },
+    {
+      "ModuleName": "Designing Databases for Concurrent Use",
+      "FolderName": "Designing_Databases_for",
+      "Order": 13
+    },
+    {
+      "ModuleName": "Cloud and Local Databases",
+      "FolderName": "Cloud_and_Local",
+      "Order": 14
+    },
+    {
+      "ModuleName": "Database Security Models, Users, and Application Connections",
+      "FolderName": "Database_Security_Models",
+      "Order": 15
+    }
+  ]
+}

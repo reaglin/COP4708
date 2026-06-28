@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "SQL Commands for Complex Queries",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "SQL_Commands_for",
+  "GeneratedUtc": "2026-06-28T17:20:35.3555945Z",
+  "HtmlIndexSignature": "0738754AF4949A0AC0F74BD6C5C3B912DC3598FF2EFBAE9A798940C091C58B56",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Outlines the module\u0027s learning topics covering complex SQL queries, including JOIN types (INNER, LEFT, and others), and WHERE clause filtering with comparison and logical operators, serving as a roadmap for learners and instructors to understand what concepts will be taught and in what order.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\SQL_Commands_for\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181844211262672
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "Introduces advanced SQL querying concepts\u2014including multi-table data extraction, joins, subqueries, and analysis techniques\u2014serving as a navigational overview that orients learners to the topics covered in the module.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\SQL_Commands_for\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181877899152604
+    }
+  ]
+}

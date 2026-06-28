@@ -1,0 +1,9 @@
+{
+  "Id": "f9807a5d-fb15-4a9e-8aad-b0b2131ecb86",
+  "Name": "SQL Data Modeling Language",
+  "Description": "This lesson introduces SQL as a data modeling language, focusing on how SQL is used to express and implement logical data models in a relational database system. Students will explore schema creation concepts and understand the role of SQL within the broader database design workflow.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.7010254-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.7016828-04:00",
+  "Actions": []
+}

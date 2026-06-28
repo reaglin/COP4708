@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Using Keys and Key Types in SQL",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Using_Keys_and",
+  "GeneratedUtc": "2026-06-28T17:20:02.2789927Z",
+  "HtmlIndexSignature": "0EB1EE97A897A3EA3F0FFD26AFB3A83B5810A0208080C77D773D9CB00E4713AF",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Outlines the module\u0027s learning topics\u2014covering SQL key concepts including primary keys, foreign keys, referential integrity, and candidate keys\u2014to guide learners and instructors through the sequence of content they will study or teach.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Using_Keys_and\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181842681347763
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "A navigation page listing the module\u0027s core topics\u2014such as what a key is, and the various key types in relational databases\u2014that helps learners understand the scope of the module and the order in which concepts like primary, foreign, and composite keys will be covered.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Using_Keys_and\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181877563202586
+    }
+  ]
+}

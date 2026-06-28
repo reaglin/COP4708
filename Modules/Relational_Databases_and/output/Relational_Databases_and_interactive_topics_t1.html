@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Relational Databases</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Introduction to Relational Databases</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Relational Databases</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>A <strong>relational database</strong> is one of the most important and enduring technologies in software development and data management. At its core, it is a system for storing, organizing, and retrieving structured information in a way that is consistent, efficient, and logically coherent. Understanding relational databases is foundational to nearly every area of software engineering, from building web applications to analyzing business data, because virtually every significant software system relies on some form of structured data storage.</p>
+
+<p>The term <em>relational</em> comes from the mathematical concept of a <strong>relation</strong>, introduced by mathematician E.F. Codd in his landmark 1970 paper. A relation, in this context, is essentially a table — a structured arrangement of data organized into rows and columns. The power of the relational model lies not just in how individual tables store data, but in how multiple tables can be connected through defined relationships, allowing complex real-world information to be represented cleanly and queried flexibly.</p>
+
+<p><strong>What Is a Relational Database?</strong></p>
+
+<p>A relational database stores data in <strong>tables</strong>, also referred to as <em>relations</em>. Each table is designed to hold information about a specific <em>entity</em> — a person, a thing, an event, or a concept that the system needs to track. For example, an e-commerce system might have a <code>Customers</code> table, an <code>Orders</code> table, and a <code>Products</code> table. Each of these tables captures the attributes relevant to that entity and nothing more. This separation of concerns keeps the database organized and avoids mixing unrelated information together.</p>
+
+<p>One of the defining features of a relational database is its use of <strong>Structured Query Language (SQL)</strong> to interact with data. SQL provides a standardized set of commands for creating tables, inserting records, retrieving data, updating values, and deleting records. Commands like <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> form the vocabulary that developers and analysts use to communicate with a relational database. Because SQL is declarative — you describe <em>what</em> data you want rather than <em>how</em> to retrieve it — it is accessible to both technical and non-technical users.</p>
+
+<p>An important principle underlying relational databases is the separation of <strong>physical storage</strong> from <strong>logical representation</strong>. Users and applications interact with data as tables of rows and columns, without needing to know how that data is actually stored on disk. The database engine handles all the low-level details of file storage, indexing, and memory management. This abstraction makes applications more portable and allows database administrators to optimize performance independently of how the application is written.</p>
+
+<p><strong>Tables: Rows and Columns</strong></p>
+
+<p>The fundamental building block of a relational database is the table. A table consists of two dimensions: <strong>columns</strong> and <strong>rows</strong>.</p>
+
+<p><strong>Columns</strong> — also called <em>attributes</em> or <em>fields</em> — define the categories of data that the table stores. Each column has a name and a <strong>data type</strong> that specifies what kind of value it can hold. Common data types include <code>INTEGER</code> for whole numbers, <code>VARCHAR</code> or <code>TEXT</code> for character strings, <code>DATE</code> for calendar dates, <code>DECIMAL</code> for precise numeric values, and <code>BOOLEAN</code> for true/false flags. Defining a data type for each column is not just a formality — it enforces consistency by preventing incompatible values from being stored. A column defined as <code>DATE</code> will reject a value like <code>"hello"</code>, protecting the integrity of the data.</p>
+
+<p>Consider the following example of a <code>Customers</code> table structure:</p>
+
+<pre><code>CustomerID | FirstName | LastName  | Email                  | DateJoined
+-----------|-----------|-----------|------------------------|------------
+1          | Alice     | Nguyen    | alice@example.com      | 2022-03-15
+2          | Bob       | Martínez  | bob@example.com        | 2023-07-02
+3          | Carol     | Smith     | carol@example.com      | 2021-11-28
+</code></pre>
+
+<p>Each <strong>column</strong> in this table represents a distinct attribute of a customer: their ID, first name, last name, email address, and the date they joined. Each <strong>row</strong> — also called a <em>record</em> or <em>tuple</em> — represents a single customer. Row 1 tells us everything stored about Alice Nguyen. Row 2 tells us everything stored about Bob Martínez. The table structure makes it immediately clear what information is being tracked and where to find it.</p>
+
+<p>The <em>intersection</em> of a row and a column holds a <strong>single data value</strong>. Alice's email address is found at the intersection of row 1 and the <code>Email</code> column. This predictable, grid-like structure is what makes relational data so easy to query. When you ask the database for all customers who joined after a certain date, it knows exactly which column to evaluate in every row, and it can return results systematically.</p>
+
+<p><strong>Primary Keys</strong></p>
+
+<p>Within any table, it must be possible to uniquely identify every row. This is the role of the <strong>primary key</strong>. A primary key is a column (or combination of columns) whose values are guaranteed to be <em>unique</em> across all rows in the table and are never <em>null</em> (empty or absent).</p>
+
+<p>In the <code>Customers</code> table above, <code>CustomerID</code> serves as the primary key. Every customer receives a distinct ID number — no two customers share the same ID, and every customer must have one. This means that even if two customers have identical names, their unique IDs still allow the database to distinguish between them unambiguously.</p>
+
+<p>Primary keys serve several critical purposes. First, they enable <strong>precise data retrieval</strong>: you can ask the database for the record where <code>CustomerID = 2</code> and be guaranteed to receive exactly one result. Second, they provide a stable <strong>reference point</strong> for other tables to link to. Third, database engines typically build an <em>index</em> on the primary key automatically, which dramatically speeds up lookups. A table without a primary key is structurally weaker — it may contain duplicate rows and becomes much harder to reference reliably from other tables.</p>
+
+<p>Primary keys are often implemented as auto-incrementing integers (1, 2, 3, ...) generated automatically by the database, though they can also be natural values like a government-issued ID or an email address, provided those values are truly unique and unlikely to change.</p>
+
+<p><strong>Relationships Between Tables</strong></p>
+
+<p>The true power of a relational database emerges when multiple tables are connected through <strong>relationships</strong>. Rather than storing all information in one massive table — which would lead to enormous amounts of repeated data — a relational database splits information across focused tables and then links them together as needed.</p>
+
+<p>Relationships are established using <strong>foreign keys</strong>. A foreign key is a column in one table that stores the primary key value of a related row in another table. Consider an <code>Orders</code> table:</p>
+
+<pre><code>OrderID | CustomerID | ProductID | OrderDate  | Quantity
+--------|------------|-----------|------------|--------
+101     | 1          | 55        | 2024-01-10 | 2
+102     | 3          | 82        | 2024-01-11 | 1
+103     | 1          | 55        | 2024-02-05 | 3
+</code></pre>
+
+<p>Here, <code>CustomerID</code> is a foreign key that references the <code>CustomerID</code> primary key in the <code>Customers</code> table. Order 101 was placed by the customer whose <code>CustomerID</code> is 1 — which we know from the <code>Customers</code> table is Alice Nguyen. Notice that Alice's name, email, and join date do not need to be repeated in the <code>Orders</code> table. Instead, they are looked up from the <code>Customers</code> table whenever needed. This is a fundamental principle of the relational model: store each piece of information once, in the appropriate place, and reference it from other tables.</p>
+
+<p>Foreign keys also enforce <strong>referential integrity</strong>. The database will refuse to insert an order with a <code>CustomerID</code> of 99 if no customer with that ID exists in the <code>Customers</code> table. Similarly, a customer cannot be deleted from the <code>Customers</code> table while orders still reference that customer, unless specific rules are defined to handle such deletions. This constraint ensures that the database never contains orphaned references — records that point to something that no longer exists.</p>
+
+<p>Relationships in relational databases generally fall into three categories:</p>
+
+<ul>
+  <li><strong>One-to-Many:</strong> One record in Table A can be related to many records in Table B. For example, one customer can place many orders, but each order belongs to exactly one customer. This is the most common type of relationship.</li>
+  <li><strong>Many-to-Many:</strong> Records in Table A can relate to many records in Table B and vice versa. For example, a single order can include many products, and the same product can appear in many orders. This is typically implemented using a third <em>junction table</em> (such as <code>OrderItems</code>) that holds pairs of foreign keys.</li>
+  <li><strong>One-to-One:</strong> One record in Table A corresponds to exactly one record in Table B. This is less common but useful for splitting a large table or securing sensitive columns in a separate table.</li>
+</ul>
+
+<p><strong>Why Structured Data Management Matters</strong></p>
+
+<p>The structured nature of relational databases provides significant practical advantages that have made them the dominant form of data storage for decades.</p>
+
+<p>First, structured tables make data <strong>easy to query, sort, and filter</strong>. Because every row follows the same column structure, a single SQL statement can scan millions of rows and return only the ones matching specific criteria. You can find all orders placed in January, all customers from a particular region, or the total revenue from a specific product — all with concise, standardized commands.</p>
+
+<p>Second, <strong>data types and constraints</strong> reduce errors at the point of entry. If a column is defined as <code>DATE</code>, the database will reject any attempt to store the text <code>"next Tuesday"</code> in it. If a column is marked <code>NOT NULL</code>, the database ensures every row always has a value for that column. These constraints act as a built-in layer of validation, complementing whatever checks exist in the application layer.</p>
+
+<p>Third, relational databases are designed to support <strong>concurrent access</strong>. Multiple users or application processes can read and write data simultaneously without corrupting it. This is managed through a system called <em>transaction control</em>, which groups related operations together and ensures they either all succeed or all fail together — a property known as <em>atomicity</em>. Banks, hospitals, retailers, and countless other organizations depend on this capability to serve large numbers of users at the same time without data collisions.</p>
+
+<p>Fourth, a well-designed relational database <strong>scales with growing complexity</strong>. As new features are added — new product categories, new types of users, new reporting requirements — new tables and relationships can be added to the existing structure without dismantling what already exists. The relational model's clarity and predictability make long-term maintenance far more manageable than ad-hoc data storage approaches.</p>
+
+<p><strong>The Problem with Poorly Structured Data</strong></p>
+
+<p>To fully appreciate why the relational model matters, it is helpful to consider what goes wrong when data is stored without proper structure. Imagine a single spreadsheet used to track orders, where every row contains not only the order details but also the full name, address, and phone number of the customer who placed it:</p>
+
+<pre><code>OrderID | CustomerName | CustomerEmail       | Product    | Quantity
+--------|--------------|---------------------|------------|--------
+101     | Alice Nguyen | alice@example.com   | Headphones | 2
+102     | Alice Nguyen | alice@example.com   | Cable      | 1
+103     | Alice Nguyen | alice@example.com   | Adapter    | 5
+</code></pre>
+
+<p>Alice's name and email appear on every row associated with her orders. If Alice changes her email address, every single row referencing her must be updated. Miss even one row, and the database now contains conflicting information about Alice — some rows have her old email, some have her new one. This is called an <strong>update anomaly</strong>.</p>
+
+<p>Similarly, if Alice's last order is deleted, all information about Alice disappears entirely — her name, her email, her history. This is a <strong>deletion anomaly</strong>. And if you want to record a new customer before they have placed any orders, there is no row to attach their information to. This is an <strong>insertion anomaly</strong>. These three types of anomalies are classic symptoms of poor data structure.</p>
+
+<p>Beyond anomalies, redundant storage of the same data wastes disk space and makes the database much harder to maintain as it grows. The more copies of a piece of information exist, the more places a developer must look when something changes, and the greater the risk that those copies fall out of sync with each other.</p>
+
+<p>These problems are the motivation behind <strong>normalization</strong> — a set of design principles for organizing tables so that each piece of information is stored exactly once, in the most logical place, with well-defined relationships connecting related data. Normalization is not about making databases more complicated; it is about making them more reliable, more maintainable, and more trustworthy over time. The relational model provides the structural foundation that makes normalization possible and meaningful.</p>
+        <div class="notes"><strong>Notes</strong>Consider pairing this topic with a hands-on exercise where learners sketch a simple entity-relationship diagram for a familiar domain (e.g., a library or a school), identifying tables, columns, primary keys, and foreign keys before writing any SQL. This reinforces conceptual understanding before syntax is introduced.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

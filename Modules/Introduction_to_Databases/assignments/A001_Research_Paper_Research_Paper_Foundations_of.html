@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Paper: Foundations of Databases — Introduction to Databases</title>
+  <style>
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #1a1a1a;
+      background-color: #ffffff;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+    h1 {
+      font-size: 1.75rem;
+      border-bottom: 3px solid #2c5f8a;
+      padding-bottom: 0.5rem;
+      color: #2c5f8a;
+    }
+    h2 {
+      font-size: 1.3rem;
+      color: #2c5f8a;
+      margin-top: 2rem;
+      border-left: 4px solid #2c5f8a;
+      padding-left: 0.6rem;
+    }
+    h3 {
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      margin-top: 1.4rem;
+    }
+    .meta-box {
+      background-color: #eef4fa;
+      border: 1px solid #b3cde0;
+      border-radius: 6px;
+      padding: 1rem 1.4rem;
+      margin: 1.2rem 0;
+    }
+    .meta-box p {
+      margin: 0.3rem 0;
+    }
+    .highlight-box {
+      background-color: #fff8e1;
+      border: 1px solid #f0c040;
+      border-radius: 6px;
+      padding: 1rem 1.4rem;
+      margin: 1.2rem 0;
+    }
+    .ai-box {
+      background-color: #fdecea;
+      border: 1px solid #e57373;
+      border-radius: 6px;
+      padding: 1rem 1.4rem;
+      margin: 1.2rem 0;
+    }
+    ul, ol {
+      margin: 0.5rem 0 0.5rem 1.5rem;
+    }
+    li {
+      margin-bottom: 0.4rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+    }
+    thead {
+      background-color: #2c5f8a;
+      color: #ffffff;
+    }
+    thead th {
+      padding: 0.65rem 0.8rem;
+      text-align: left;
+      border: 1px solid #1a4068;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f0f6fb;
+    }
+    tbody td {
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #b3cde0;
+      vertical-align: top;
+    }
+    .criterion-label {
+      font-weight: bold;
+    }
+    .points {
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .phase-step {
+      background-color: #f4f9f4;
+      border-left: 4px solid #4caf50;
+      padding: 0.6rem 1rem;
+      margin-bottom: 0.8rem;
+      border-radius: 0 4px 4px 0;
+    }
+    .phase-step strong {
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .footer-note {
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #ddd;
+      margin-top: 3rem;
+      padding-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Research Paper: Foundations of Databases — Defining What a Database Really Is</h1>
+
+  <div class="meta-box">
+    <p><strong>Module:</strong> Introduction to Databases</p>
+    <p><strong>Assignment Type:</strong> Short Research Paper</p>
+    <p><strong>Estimated Completion Time:</strong> Less than one hour</p>
+    <p><strong>Target Learning Outcome:</strong> MO1 — Define key database vocabulary as used in relational database systems</p>
+    <p><strong>Bloom's Taxonomy Level:</strong> Remember</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Section 1: Learning Outcomes</h2>
+
+  <p>By completing this assignment, you will demonstrate the ability to:</p>
+  <ol>
+    <li><strong>Define</strong> the key vocabulary of databases — including <em>database</em>, <em>record</em>, <em>field</em>, <em>table</em>, and <em>Database Management System (DBMS)</em> — accurately and in your own words. <em>(MO1 — Remember)</em></li>
+    <li><strong>Identify</strong> the primary purpose of a database and explain how it differs from a spreadsheet. <em>(MO1 — Remember)</em></li>
+    <li><strong>Distinguish</strong> between raw data and meaningful information by providing a concrete example of each. <em>(MO1 — Remember)</em></li>
+  </ol>
+
+  <!-- ============================================================ -->
+  <h2>Section 2: Purpose — Why This Assignment Matters</h2>
+
+  <h3>Connection to Course Goals</h3>
+  <p>
+    Every concept you will encounter in this course — from designing tables to writing queries to managing security — rests on the foundational vocabulary introduced in this first module. You cannot build on a foundation you cannot name. This assignment ensures you have a precise, working command of the terms that database professionals use every single day.
+  </p>
+
+  <h3>Real-World Application</h3>
+  <p>
+    Whether you become a software developer, a business analyst, a healthcare administrator, or a marketing specialist, you will encounter databases throughout your career. Being able to clearly define and explain concepts like tables, records, fields, and a DBMS allows you to communicate accurately with technical teams, evaluate software tools, and make informed decisions about how data is stored and managed in your organization.
+  </p>
+
+  <h3>Connection to Module Outcome MO1</h3>
+  <p>
+    This paper directly addresses <strong>MO1</strong>: the ability to define the key vocabulary of databases, including records, fields, tables, and related concepts, as used in relational database systems. Demonstrating that you can articulate these definitions clearly — not just recognize them on a quiz — is the first step toward everything else in this course.
+  </p>
+
+  <!-- ============================================================ -->
+  <h2>Section 3: The Task — Step-by-Step Instructions</h2>
+
+  <div class="highlight-box">
+    <p><strong>What does "research paper" mean here?</strong> For this short assignment, a "research paper" means a focused, organized, written explanation drawing on the module's assigned readings and content. You are not expected to search external academic databases or cite journal articles. Instead, you will use the module content as your primary source and present your findings in clearly written paragraphs — not bullet points.</p>
+  </div>
+
+  <p>Write a short research paper that addresses each of the following four sections. Each section is described in detail below.</p>
+
+  <h3>Part 1 — Define a Database and Explain Its Purpose</h3>
+  <p>
+    Write one to two paragraphs that: (a) provide a precise definition of a <em>database</em> — that is, state clearly what a database <em>is</em> in your own words, and (b) explain the primary <em>purpose</em> of a database — that is, describe what problem a database solves or what need it fulfills. Do not simply copy a definition word-for-word from the module. Paraphrase and demonstrate your understanding.
+  </p>
+  <p><strong>Key term to define in this section:</strong> <em>database</em></p>
+
+  <h3>Part 2 — Core Vocabulary: Records, Fields, and Tables</h3>
+  <p>
+    Write one paragraph defining each of the following three terms as they are used in relational database systems. For each term, provide a brief, original example (a short phrase or sentence is sufficient) that illustrates the concept in a realistic setting — for instance, a library system, a hospital, or an online store.
+  </p>
+  <ul>
+    <li><strong>Record:</strong> Define what a record is within a database table.</li>
+    <li><strong>Field:</strong> Define what a field is and how it relates to a record.</li>
+    <li><strong>Table:</strong> Define what a table is and how records and fields combine to form one.</li>
+  </ul>
+  <p>
+    <em>Tip — "define" means:</em> State what the term means precisely enough that someone who has never heard it before would understand it. Include what the term refers to, what it does or contains, and how it relates to the other two terms you are defining alongside it.
+  </p>
+
+  <h3>Part 3 — Data vs. Information</h3>
+  <p>
+    Write one paragraph that explains the difference between <em>raw data</em> and <em>meaningful information</em>. Provide one original example (different from the module's "92" example) that illustrates how a piece of raw data becomes meaningful information when placed in context. Clearly identify what the raw data is and what contextual information transforms it into something useful.
+  </p>
+
+  <h3>Part 4 — The Role of a DBMS and Databases vs. Spreadsheets</h3>
+  <p>
+    Write one to two paragraphs that: (a) define a <em>Database Management System (DBMS)</em> — explain what it is, what role it plays, and name at least two real-world examples of DBMS software, and (b) identify at least two specific ways in which a database differs from a spreadsheet, explaining why those differences matter for managing large or complex data.
+  </p>
+  <p><strong>Key terms to define in this section:</strong> <em>Database Management System (DBMS)</em></p>
+
+  <!-- ============================================================ -->
+  <h2>Section 4: Scaffolding — Suggested Work Phases</h2>
+
+  <p>Because this assignment is designed to be completed in under one hour, the phases below are short. Use them to stay on track.</p>
+
+  <div class="phase-step">
+    <strong>Phase 1 — Review (approximately 10 minutes)</strong>
+    Re-read the module content for this topic, paying close attention to the definitions of each key term. Jot down one or two phrases in your own words for each concept before you begin writing.
+  </div>
+
+  <div class="phase-step">
+    <strong>Phase 2 — Draft (approximately 25–30 minutes)</strong>
+    Write your four sections in order. Aim for complete sentences and clear paragraph structure. Do not worry about perfecting language at this stage — focus on accuracy and completeness.
+  </div>
+
+  <div class="phase-step">
+    <strong>Phase 3 — Revise and Proofread (approximately 10 minutes)</strong>
+    Read your paper aloud or have someone else read it. Check that every required term is defined, that your examples make sense, and that your sentences are clear. Verify your in-text citations and reference list (see Section 5 for formatting guidance).
+  </div>
+
+  <div class="phase-step">
+    <strong>Phase 4 — Reflection (approximately 5 minutes)</strong>
+    Complete the short reflection prompt in Section 7 before submitting.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Section 5: Parameters and Constraints</h2>
+
+  <h3>Length</h3>
+  <ul>
+    <li><strong>Minimum:</strong> 350 words (body text only; excludes title, headings, reference list, and reflection)</li>
+    <li><strong>Maximum:</strong> 600 words (body text only)</li>
+    <li>Responses significantly shorter than 350 words are unlikely to address all required content.</li>
+  </ul>
+
+  <h3>Structure</h3>
+  <ul>
+    <li>Use a title at the top of your document.</li>
+    <li>Use clear section headings that correspond to the four parts described above (e.g., "Part 1: Defining a Database").</li>
+    <li>Write in full paragraphs — do not use bullet points within your paper.</li>
+  </ul>
+
+  <h3>Formatting</h3>
+  <ul>
+    <li>Use a readable, standard font (e.g., Times New Roman 12pt or Arial 11pt) with standard margins.</li>
+    <li>Double-space the body of the paper.</li>
+    <li>Include a title block with your name, the date, and the module name.</li>
+  </ul>
+
+  <h3>Citation Style</h3>
+  <ul>
+    <li>Use <strong>APA 7th edition</strong> format for any sources you cite.</li>
+    <li>Your primary source will be the module content itself. Cite it as directed by your instructor or using the course materials citation format provided in your course syllabus.</li>
+    <li>If you consult any additional sources (optional), they must also be cited in APA format.</li>
+    <li>Include a reference list at the end of your paper (not counted in the word limit).</li>
+  </ul>
+
+  <h3>Submission Format</h3>
+  <p>
+    Submit your paper in the format specified by your instructor or your institution's learning management system. Ensure your file is clearly labeled with your last name, first name, and the assignment title (for example: <em>Smith_Jane_DatabaseFoundationsPaper</em>). If submitting digitally, save your file in a widely accessible format as directed.
+  </p>
+
+  <h3>Accessibility Note</h3>
+  <p>
+    If you use assistive technology or require an accommodation that affects how you produce or submit written work, please contact your instructor before the due date. All students are encouraged to use the writing and accessibility support services available through your institution.
+  </p>
+
+  <!-- ============================================================ -->
+  <h2>Section 6: Evaluation Rubric</h2>
+
+  <p>
+    This assignment is worth <strong>100 points</strong> total. It will be evaluated on four criteria. Read the descriptions for each performance level carefully before you submit.
+  </p>
+  <p>
+    <strong>Performance levels defined:</strong>
+  </p>
+  <ul>
+    <li><strong>Exemplary (4):</strong> Exceeds expectations; demonstrates clear mastery.</li>
+    <li><strong>Proficient (3):</strong> Meets all expectations; demonstrates solid understanding.</li>
+    <li><strong>Developing (2):</strong> Partially meets expectations; some gaps or inaccuracies.</li>
+    <li><strong>Beginning (1):</strong> Does not meet expectations; significant gaps or errors.</li>
+  </ul>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Criterion</th>
+        <th class="points">Points</th>
+        <th>Exemplary (4)</th>
+        <th>Proficient (3)</th>
+        <th>Developing (2)</th>
+        <th>Beginning (1)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="criterion-label">1. Accuracy and Completeness of Definitions<br><em>(MO1 — Remember)</em></td>
+        <td class="points">40 pts</td>
+        <td>All

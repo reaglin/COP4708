@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Databases, Types, and Applications — Module Topics</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.2rem;margin-top:28px;color:#1a3c6e}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.empty{color:#888}
+</style>
+</head>
+<body>
+<h1>Introduction to Databases, Types, and Applications — Module Topics</h1>
+<h2>What is a Database?</h2>
+<div class="summary">Introduces the core definition and purpose of a database, establishing foundational vocabulary and concepts essential for the rest of the module.</div>
+<ul>
+<li><strong>Defining a Database</strong> <span class="el-body">— A database is an organized collection of structured information or data, stored electronically so it can be easily accessed, managed, and updated.</span></li>
+<li><strong>Purpose of a Database</strong> <span class="el-body">— The primary purpose of a database is to provide a systematic way to store, retrieve, and manage large amounts of data efficiently.</span></li>
+<li><strong>Data vs. Information</strong> <span class="el-body">— Understanding the difference between raw data and meaningful information is a foundational concept in database study.</span></li>
+<li><strong>Key Vocabulary: Records, Fields, and Tables</strong> <span class="el-body">— Databases use specific terminology to describe how data is organized, and mastering this vocabulary is essential for understanding all database concepts.</span></li>
+<li><strong>Databases vs. Spreadsheets</strong> <span class="el-body">— While spreadsheets and databases both store data, they serve different purposes and have distinct capabilities that make databases better suited for complex, large-scale data management.</span></li>
+<li><strong>The Role of a Database Management System (DBMS)</strong> <span class="el-body">— A Database Management System, or DBMS, is the software layer that allows users and applications to interact with a database in a controlled and efficient way.</span></li>
+</ul>
+<h2>Relational Databases</h2>
+<div class="summary">Explores the structure and principles of relational databases, including how data is organized into tables and related through keys.</div>
+<ul>
+<li><strong>What Is a Relational Database?</strong> <span class="el-body">— A relational database is a type of database that organizes data into structured tables made up of rows and columns.</span></li>
+<li><strong>Tables and Schema</strong> <span class="el-body">— The structure of a relational database is defined by its schema, which specifies how tables are organized and what data types each column holds.</span></li>
+<li><strong>Primary Keys</strong> <span class="el-body">— A primary key is a column or set of columns that uniquely identifies each row within a table.</span></li>
+<li><strong>Foreign Keys and Relationships</strong> <span class="el-body">— Foreign keys are columns in one table that reference the primary key of another table, creating a link between the two.</span></li>
+<li><strong>Normalization</strong> <span class="el-body">— Normalization is the process of organizing a relational database to reduce data redundancy and improve data integrity.</span></li>
+<li><strong>Querying with SQL</strong> <span class="el-body">— Relational databases are typically queried and managed using Structured Query Language (SQL), a standardized language for interacting with relational data.</span></li>
+<li><strong>Common Relational Database Systems</strong> <span class="el-body">— Several widely used relational database management systems (RDBMS) implement these principles and are used across industries.</span></li>
+</ul>
+<h2>NoSQL Databases</h2>
+<div class="summary">Examines NoSQL database models, their flexible data structures, and the scenarios in which they offer advantages over relational systems.</div>
+<ul>
+<li><strong>What Is a NoSQL Database?</strong> <span class="el-body">— NoSQL databases are non-relational data stores designed to handle a wide variety of data models beyond the traditional table-based structure of relational systems.</span></li>
+<li><strong>Core NoSQL Data Models</strong> <span class="el-body">— NoSQL databases are not a single technology but a family of systems, each organized around a distinct data model suited to different use cases.</span></li>
+<li><strong>Flexible Schema Design</strong> <span class="el-body">— One of the defining characteristics of NoSQL databases is their schema flexibility, allowing data structures to evolve without requiring costly migrations.</span></li>
+<li><strong>Scalability and Performance Advantages</strong> <span class="el-body">— NoSQL databases are engineered to scale horizontally, distributing data across many servers to handle high volumes of reads and writes.</span></li>
+<li><strong>When NoSQL Outperforms Relational Systems</strong> <span class="el-body">— NoSQL databases offer meaningful advantages in specific scenarios where relational databases struggle with flexibility, speed, or scale.</span></li>
+<li><strong>Trade-offs and Limitations of NoSQL</strong> <span class="el-body">— While NoSQL databases offer significant benefits, they also come with trade-offs that must be carefully considered when selecting a database system.</span></li>
+</ul>
+<h2>Hierarchical Databases</h2>
+<div class="summary">Covers the tree-based structure of hierarchical databases, their historical significance, and how data relationships are defined through parent-child links.</div>
+<ul>
+<li><strong>Tree-Based Structure</strong> <span class="el-body">— Hierarchical databases organize data in a tree-like structure, where each record is called a node and relationships branch downward from a single root.</span></li>
+<li><strong>Parent-Child Relationships</strong> <span class="el-body">— The core mechanism of hierarchical databases is the parent-child link, which defines how records relate to one another within the tree.</span></li>
+<li><strong>Historical Significance</strong> <span class="el-body">— Hierarchical databases were among the earliest formal database models, developed in the 1960s to manage large volumes of structured data on mainframe systems.</span></li>
+<li><strong>Data Access and Navigation</strong> <span class="el-body">— Accessing data in a hierarchical database requires traversing the tree along predefined paths, starting from the root and moving toward the target node.</span></li>
+<li><strong>Strengths of Hierarchical Databases</strong> <span class="el-body">— Hierarchical databases offer notable performance and simplicity advantages for certain types of structured, well-defined data relationships.</span></li>
+<li><strong>Limitations of Hierarchical Databases</strong> <span class="el-body">— Despite their strengths, hierarchical databases have significant limitations that reduce their suitability for complex or flexible data relationships.</span></li>
+</ul>
+<h2>Comparing Database Types</h2>
+<div class="summary">Provides a side-by-side analysis of relational, NoSQL, and hierarchical databases to help students understand the trade-offs and selection criteria for each.</div>
+<ul>
+<li><strong>Structural Differences at a Glance</strong> <span class="el-body">— Relational, NoSQL, and hierarchical databases each organize data in fundamentally different ways, which drives nearly every trade-off between them.</span></li>
+<li><strong>Schema Flexibility vs. Rigidity</strong> <span class="el-body">— One of the most practical trade-offs when choosing a database type is how strictly data must conform to a predefined structure.</span></li>
+<li><strong>Query Power and Language</strong> <span class="el-body">— The ability to ask complex questions of stored data varies considerably across database types and is a key selection criterion.</span></li>
+<li><strong>Scalability and Performance Trade-offs</strong> <span class="el-body">— How each database type scales under growing data volumes and user loads is a critical factor for modern application design.</span></li>
+<li><strong>Data Integrity and Consistency</strong> <span class="el-body">— Guaranteeing that data remains accurate and consistent over time is handled very differently depending on the database type chosen.</span></li>
+<li><strong>Ideal Use Cases for Each Type</strong> <span class="el-body">— Understanding which real-world scenarios each database type handles best is the most direct way to apply selection criteria in practice.</span></li>
+<li><strong>Key Selection Criteria Summary</strong> <span class="el-body">— When comparing database types, decision-makers should evaluate a consistent set of criteria to make an informed and defensible choice.</span></li>
+</ul>
+<h2>Real-World Applications of Databases</h2>
+<div class="summary">Illustrates how databases are applied across industries and modern software systems, connecting theoretical concepts to practical, everyday use cases.</div>
+<ul>
+<li><strong>Databases in E-Commerce and Retail</strong> <span class="el-body">— E-commerce platforms rely heavily on databases to manage product catalogs, customer accounts, and transaction records in real time.</span></li>
+<li><strong>Healthcare and Medical Records Management</strong> <span class="el-body">— Hospitals and healthcare providers use databases to store, retrieve, and manage patient records, treatment histories, and medical research data.</span></li>
+<li><strong>Banking and Financial Services</strong> <span class="el-body">— The financial industry depends on databases to handle account management, transaction processing, and fraud detection at massive scale.</span></li>
+<li><strong>Social Media and Content Platforms</strong> <span class="el-body">— Social media platforms use large-scale databases to store user-generated content, social connections, and engagement activity for billions of users.</span></li>
+<li><strong>Education and Learning Management Systems</strong> <span class="el-body">— Educational institutions and online learning platforms use databases to manage student information, course content, and academic performance tracking.</span></li>
+<li><strong>Government and Public Services</strong> <span class="el-body">— Government agencies use databases to manage citizen records, public services, and large-scale administrative functions efficiently and securely.</span></li>
+<li><strong>Transportation and Logistics</strong> <span class="el-body">— Transportation companies and logistics providers use databases to coordinate vehicle fleets, shipment tracking, and supply chain operations globally.</span></li>
+</ul>
+</body>
+</html>

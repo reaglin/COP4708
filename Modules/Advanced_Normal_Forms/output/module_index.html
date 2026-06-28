@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Normal Forms: BCNF, 4NF, and 5NF | COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f4f6f9;
+      color: #1e2a38;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Hero ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #ffffff;
+      padding: 3rem 2rem 2.5rem;
+      border-bottom: 4px solid #f0a500;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #e0ecff;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 4px;
+      padding: 0.25rem 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.55rem, 3.5vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      font-size: 1.02rem;
+      color: #cde0f8;
+      max-width: 680px;
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #5a7290;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #dce4ed;
+    }
+
+    /* ── Artifact Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dce4ed;
+      border-radius: 10px;
+      padding: 1.5rem 1.6rem;
+      box-shadow: 0 2px 8px rgba(30, 42, 56, 0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 18px rgba(30, 42, 56, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Meta Row ── */
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      line-height: 1.4;
+    }
+
+    .badge-type {
+      background-color: #e8f0fb;
+      color: #2563a8;
+      border: 1px solid #b8d0f0;
+    }
+
+    .badge-filetype {
+      background-color: #f0f7ee;
+      color: #2e7d32;
+      border: 1px solid #b2dfb5;
+    }
+
+    /* ── Card Title Row ── */
+    .card-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+
+    .card-name {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #1e2a38;
+    }
+
+    .card-name a {
+      color: #1a5caa;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .card-name a:hover,
+    .card-name a:focus {
+      color: #0d3d7a;
+      border-bottom-color: #0d3d7a;
+      outline: none;
+    }
+
+    .source-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #5a7290;
+      text-decoration: none;
+      background-color: #f0f4f8;
+      border: 1px solid #c8d6e3;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background-color: #dce8f4;
+      color: #1a3a5c;
+      outline: none;
+    }
+
+    /* ── Card Description ── */
+    .card-description {
+      font-size: 0.93rem;
+      color: #3d4f62;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #8fa3ba;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dce4ed;
+    }
+
+    /* ── Responsive Tweaks ── */
+    @media (max-width: 520px) {
+      header {
+        padding: 2rem 1.25rem 2rem;
+      }
+
+      main {
+        padding: 0 1rem 3rem;
+        margin-top: 1.75rem;
+      }
+
+      .card {
+        padding: 1.25rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════ HEADER ════════════ -->
+  <header>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Advanced Normal Forms: BCNF, 4NF, and 5NF</h1>
+      <p>
+        This module extends your understanding of relational database normalization
+        beyond Third Normal Form, examining Boyce–Codd Normal Form (BCNF), Fourth
+        Normal Form (4NF), and Fifth Normal Form (5NF). You will learn to detect
+        violations, compare the trade-offs among normal forms, and apply
+        decomposition strategies to produce well-structured, anomaly-free schemas.
+      </p>
+    </div>
+  </header>
+
+  <!-- ════════════ MAIN ════════════ -->
+  <main>
+    <p class="section-title">Module Artifacts</p>
+
+    <div class="card-grid">
+
+      <!-- ── Artifact: Module Topics ── -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="module_topics.html">Module Topics</a>
+          </span>
+          <a
+            class="source-link"
+            href="../hierarchy.json"
+            title="View raw source file"
+          >source file</a>
+        </div>
+        <p class="card-description">
+          This file outlines the topics covered in the module—including 3NF
+          limitations, BCNF definition and violation detection, comparisons
+          between normal forms, and higher normal forms such as 4NF and 5NF—serving
+          as a navigational overview for learners and instructors to understand
+          the module's scope and sequence.
+        </p>
+      </article>
+
+    </div><!-- /.card-grid -->
+  </main>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <footer>
+    <p>COP4708 &mdash; Advanced Normal Forms: BCNF, 4NF, and 5NF</p>
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

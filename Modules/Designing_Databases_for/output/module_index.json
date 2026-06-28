@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Designing Databases for Concurrent Use",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Designing_Databases_for",
+  "GeneratedUtc": "2026-06-28T17:21:44.1931076Z",
+  "HtmlIndexSignature": "FDAB93C5AC865049273C32F31002D699035562D65FC95F9DC5BAE7CFBB5CDB84",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Outlines the module\u0027s topic sequence covering multi-user database environments, ACID transaction properties, concurrency problems such as dirty reads and phantom reads, and locking mechanisms, serving as a navigation guide for learners and instructors to understand the scope and order of the module\u0027s content.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Designing_Databases_for\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181848032327387
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "An HTML page listing and summarizing the topics covered in the module, including challenges of multi-user database environments and concurrency control strategies, which learners use as a navigational overview before engaging with detailed lesson content.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Designing_Databases_for\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181878655048174
+    }
+  ]
+}

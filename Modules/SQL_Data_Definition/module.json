@@ -1,0 +1,9 @@
+{
+  "Id": "70afee75-50e2-4855-9e72-812c8a287e8a",
+  "Name": "SQL Data Definition Language (DDL)",
+  "Description": "This lesson covers SQL DDL commands including CREATE, ALTER, DROP, and TRUNCATE, teaching students how to define and modify database structures. Students will build and manage tables, constraints, and schemas using hands-on DDL exercises.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.7119484-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.712691-04:00",
+  "Actions": []
+}

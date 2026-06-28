@@ -1,0 +1,9 @@
+{
+  "Id": "c2491037-a01d-4e74-b1fe-f10a47348339",
+  "Name": "Advanced Normal Forms: BCNF, 4NF, and 5NF",
+  "Description": "This lesson extends normalization to Boyce-Codd Normal Form and beyond, covering multivalued dependencies and join dependencies. Students will analyze edge cases where 3NF is insufficient and apply higher normal forms to complex schemas.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.6770668-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.6776659-04:00",
+  "Actions": []
+}

@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Database Security Models, Users, and Application Connections",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Database_Security_Models",
+  "GeneratedUtc": "2026-06-28T17:22:51.986871Z",
+  "HtmlIndexSignature": "F9117F65D1F241A22510F243BFA00F6C23DBAD8BBB91814715458F74189F610A",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Covers the core topics of the module\u2014including the CIA triad, user roles and permissions, authentication and authorization, and least-privilege principles\u2014serving as a navigational overview that helps learners and instructors understand what concepts will be taught and in what order.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Database_Security_Models\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181851778612948
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "An HTML page listing the module\u0027s topics\u2014covering database security fundamentals (CIA triad, data integrity, confidentiality, and availability), security models, user management, and application connection strategies\u2014which learners use to preview the scope of the module before diving into individual lessons.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Database_Security_Models\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181879281859648
+    }
+  ]
+}

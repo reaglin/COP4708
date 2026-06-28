@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problems with Poorly Structured Tables</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Problems with Poorly Structured Tables</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Problems with Poorly Structured Tables</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When a database table is designed without careful thought about what it truly represents, a cascade of practical problems follows. These problems are not merely theoretical inconveniences — they affect every application that reads from or writes to the database, they consume extra storage, they demand extra maintenance effort, and they erode confidence in the data itself. Understanding these problems in concrete terms is the essential first step toward designing databases that are reliable, efficient, and easy to maintain. The problems cluster around a central theme: a poorly structured table tries to represent more than one real-world concept at the same time, and that mixing of concerns creates friction at every operation — inserting new data, updating existing data, and deleting records.</p>
+
+<p>To make the discussion concrete, consider a single table used to track which students are enrolled in which courses, along with information about the instructor of each course. Suppose the table looks like this:</p>
+
+<pre><code>Enrollment
++------------+------------------+-------------------+------------------+--------------------+
+| StudentID  | StudentName      | CourseID          | CourseName       | InstructorName     |
++------------+------------------+-------------------+------------------+--------------------+
+| S001       | Alice Nguyen     | CS101             | Intro to CS      | Dr. Patel          |
+| S002       | Bob Martinez     | CS101             | Intro to CS      | Dr. Patel          |
+| S003       | Carol Smith      | CS101             | Intro to CS      | Dr. Patel          |
+| S001       | Alice Nguyen     | MATH201           | Calculus II      | Prof. Chen         |
+| S004       | David Kim        | MATH201           | Calculus II      | Prof. Chen         |
++------------+------------------+-------------------+------------------+--------------------+</code></pre>
+
+<p>This table will serve as a running example throughout this topic. It looks harmless at first glance — all the relevant information appears to be present and readable. But as you examine it closely, serious structural flaws emerge.</p>
+
+<p><strong>Data Redundancy in Poorly Structured Tables</strong></p>
+
+<p>Redundancy means that the same fact is stored in more than one place. In the <em>Enrollment</em> table above, the fact that course CS101 is called "Intro to CS" and is taught by Dr. Patel appears in three separate rows — once for each student enrolled in that course. Similarly, Alice Nguyen's name is stored twice, once for each course she is enrolled in. This repetition is the hallmark of a poorly structured table.</p>
+
+<p>Redundant data wastes storage space. In a small example this seems trivial, but consider a university with 20,000 students, each enrolled in an average of five courses. Every piece of course information — course name, instructor name, department, credit hours — would be duplicated 20,000 times or more across the table. The wasted space is real and measurable.</p>
+
+<p>More importantly, redundancy makes the database much harder to maintain. If you want to record the fact that Dr. Patel has retired and been replaced by Dr. Lopez as the instructor for CS101, you must find and update every single row that mentions Dr. Patel in connection with CS101. In a large table, that means hunting through potentially thousands of rows. If even one row is missed, the table now contains contradictory information — some rows say Dr. Patel, others say Dr. Lopez — and there is no way for the database itself to know which version is correct.</p>
+
+<p>Redundancy is also a diagnostic signal. When you notice that the same combination of values appears over and over in a table, it almost always means the table is conflating two or more distinct real-world concepts. In this example, the table is simultaneously describing <em>students</em>, <em>courses</em>, and <em>the relationship between students and courses</em>. Each of those is a separate concept that deserves its own table. When they are merged, redundancy is the unavoidable result.</p>
+
+<p><strong>Insertion Anomalies</strong></p>
+
+<p>An insertion anomaly occurs when you cannot record a piece of information in the database without also supplying other, unrelated information that you do not yet have — or that does not logically belong alongside it. These anomalies arise directly because unrelated facts have been bundled together in the same table.</p>
+
+<p>Consider the <em>Enrollment</em> table again. Suppose the university creates a brand-new course, CS202 Advanced Programming, to be taught by Dr. Rivera, but no students have enrolled yet. Can this fact be recorded? If you try to insert a row, you immediately hit a wall:</p>
+
+<pre><code>INSERT INTO Enrollment VALUES (???, ???, 'CS202', 'Advanced Programming', 'Dr. Rivera');
+-- What do you put for StudentID and StudentName?
+-- There are no students yet!</code></pre>
+
+<p>You have two bad options. First, you could simply not record the course at all, meaning the database does not reflect the reality that the course exists. Second, you could insert a fake, placeholder student — perhaps a row with StudentID set to <em>NULL</em> or a dummy value like <code>'NONE'</code> — just to satisfy the requirement that every row have student data. Both options are wrong. The first hides real information. The second pollutes the table with fictional data and creates its own complications downstream.</p>
+
+<p>The root cause is that the table forces a dependency between two concepts that are genuinely independent: a course can exist without any students enrolled in it. When the table design ties the existence of a course record to the existence of an enrollment record, it prevents the database from accurately reflecting real-world states. An empty classroom is a real thing. A course with no current students is a real thing. A well-structured schema can represent these states naturally; a poorly structured one cannot.</p>
+
+<p>Insertion anomalies also appear from the other direction. Suppose a new student, Eva Torres (S005), registers at the university but has not yet chosen any courses. You cannot record Eva's existence in the <em>Enrollment</em> table without also specifying a course — again requiring a dummy value or leaving the student completely invisible to the database.</p>
+
+<p><strong>Update Anomalies</strong></p>
+
+<p>An update anomaly is a direct consequence of data redundancy. The logic is straightforward: if the same fact is stored in <em>N</em> rows, then updating that fact correctly requires changing all <em>N</em> rows simultaneously and atomically. If any rows are missed — due to human error, a bug in an update query, or a partial transaction failure — the database ends up in an inconsistent state where different rows report different values for what should be a single, consistent fact.</p>
+
+<p>Returning to the example: suppose Prof. Chen leaves the university and MATH201 is taken over by Dr. Okafor. The correct update requires touching every row that references MATH201:</p>
+
+<pre><code>UPDATE Enrollment
+SET InstructorName = 'Dr. Okafor'
+WHERE CourseID = 'MATH201';</code></pre>
+
+<p>If this update runs successfully on all relevant rows, the table is momentarily consistent. But notice what has to happen: the database engine must scan the entire table looking for every row with CourseID = 'MATH201'. As the number of enrolled students grows, this scan grows with it. The effort required to update a single real-world fact — who teaches a course — scales linearly with the number of enrollments. In a well-structured database, changing the instructor of a course would require updating exactly <em>one row</em> in a dedicated Courses table.</p>
+
+<p>Now consider what happens if the update query has an error, or if a developer updates only some rows manually:</p>
+
+<pre><code>Enrollment (after partial update)
++------------+------------------+-------------------+------------------+--------------------+
+| StudentID  | StudentName      | CourseID          | CourseName       | InstructorName     |
++------------+------------------+-------------------+------------------+--------------------+
+| S001       | Alice Nguyen     | MATH201           | Calculus II      | Dr. Okafor         |  ← updated
+| S004       | David Kim        | MATH201           | Calculus II      | Prof. Chen         |  ← NOT updated
++------------+------------------+-------------------+------------------+--------------------+</code></pre>
+
+<p>The table now contains contradictory information. If you query "Who teaches MATH201?", the answer depends on <em>which row</em> the query happens to look at. Some application logic might return "Dr. Okafor", other logic might return "Prof. Chen", and queries that return both rows will show both names — neither of which can be trusted as definitively correct. The database has lost its status as a single, authoritative source of truth for this fact.</p>
+
+<p>Partial updates are more common than developers expect. Bulk updates can fail midway through. Developers working in different parts of a system may update rows through different code paths, each of which misses some rows. The more redundancy exists in a schema, the higher the probability of a partial update occurring, and the harder it is to detect and repair the resulting inconsistency.</p>
+
+<p><strong>Deletion Anomalies</strong></p>
+
+<p>A deletion anomaly occurs when deleting one piece of information causes the unintentional and permanent loss of a different, unrelated piece of information. Deletion anomalies reveal one of the most fundamental structural mistakes in table design: two distinct entities being merged into a single row.</p>
+
+<p>In the <em>Enrollment</em> table, consider what happens if David Kim (S004) withdraws from MATH201. You want to record that David is no longer enrolled in that course, so you delete the relevant row:</p>
+
+<pre><code>DELETE FROM Enrollment
+WHERE StudentID = 'S004' AND CourseID = 'MATH201';</code></pre>
+
+<p>This single deletion removes David's enrollment record — which is the intended effect. But look at what else disappears: if David Kim was the <em>only</em> student enrolled in MATH201, this deletion also destroys the only record that MATH201 exists at all, that it is called "Calculus II", and that it is taught by Prof. Chen. Information about the course — a genuinely separate real-world entity — has been permanently lost as a side effect of recording a student's withdrawal.</p>
+
+<p>This is not a recoverable situation unless the database has a backup or audit log. The course information is simply gone. If a new student wants to enroll in MATH201 the next day, there is no longer any record of what that course is or who teaches it.</p>
+
+<p>Deletion anomalies always indicate that two distinct entities — in this case, a <em>course</em> and an <em>enrollment event</em> — have been incorrectly merged into a single table row. A well-structured schema would store course information in a dedicated Courses table, completely independent of enrollment records. Deleting an enrollment would have no effect whatsoever on the Courses table.</p>
+
+<p>Recognizing which kinds of deletions in a schema trigger unintended data loss is one of the most important diagnostic skills in database design. A useful technique is to ask: "If I delete every row associated with entity X, does information about some other entity Y also disappear?" If the answer is yes, the schema is conflating two distinct concepts and should be redesigned.</p>
+
+<p><strong>Inconsistent Data as a Consequence</strong></p>
+
+<p>Inconsistency is the accumulated result of the anomalies described above. Once a database has experienced even one partial update, one deletion anomaly, or one insertion of placeholder data, it may no longer contain a single, authoritative version of the truth for the affected facts. Different parts of the database tell different stories, and there is often no automated way to determine which story is correct.</p>
+
+<p>The practical consequences for applications are serious. Consider an application that generates a class roster by querying the <em>Enrollment</em> table. If some rows say the instructor is "Prof. Chen" and others say "Dr. Okafor" for the same course, the roster might display both names, or it might display whichever name appears in the first row returned — which depends on the physical order of rows in the table, something that is not guaranteed to be stable. Either way, the output is wrong, and the wrongness may not be immediately obvious to the user.</p>
+
+<p>Inconsistency is particularly insidious because it is difficult to detect after the fact. There is no built-in database alarm that says "these two rows contradict each other." Detection requires either careful auditing logic written into the application, or manual review by someone who knows what the data should look like. In large databases with millions of rows, comprehensive manual review is not feasible. Automated detection requires knowing exactly what constraints should hold — and writing those checks takes time and expertise that might have been better spent designing the schema correctly from the start.</p>
+
+<p>Once inconsistency spreads — through automated processes that read incorrect data and use it to generate new records, through exports to downstream systems, or through caches that store stale values — it becomes extraordinarily difficult to repair. Each inconsistency may have propagated to dozens of dependent records. Repairing the database requires tracing those propagation paths, which may not even be fully documented.</p>
+
+<p><strong>Identifying a Poorly Structured Schema</strong></p>
+
+<p>Given the severe problems that poorly structured tables cause, it is valuable to be able to recognize warning signs in a schema before those problems fully materialize. Several patterns reliably indicate structural problems.</p>
+
+<p><em>Repeating groups</em> are one of the clearest warning signs. A repeating group occurs when a table contains multiple columns that represent the same kind of information, differentiated only by a number or index. For example:</p>
+
+<pre><code>Orders
++----------+------------+---------+---------+---------+
+| OrderID  | CustomerID | Item1   | Item2   | Item3   |
++----------+------------+---------+---------+---------+
+| O001     | C101       | Widget  | Gadget  | NULL    |
+| O002     | C102       | Gizmo   | NULL    | NULL    |
++----------+------------+---------+---------+---------+</code></pre>
+
+<p>This design has obvious problems. What if an order has four items? You either reject the order or add a fourth column — and then a fifth, sixth, and so on. The schema cannot gracefully accommodate variable-length data. The solution is always to move the repeating data to a separate, related table: an OrderItems table with one row per item per order.</p>
+
+<p><em>Mixed entity types</em> are another major warning sign. When you look at the columns of a table and find that some columns describe one kind of thing while other columns describe a completely different kind of thing, anomalies are almost guaranteed. In the Enrollment table, <em>StudentName</em> describes a person, while <em>CourseName</em> and <em>InstructorName</em> describe a course. A well-structured schema separates these into a Students table, a Courses table, and an Enrollment table that links them together.</p>
+
+<p>A useful diagnostic question is: <em>What is one row in this table actually describing?</em> If you cannot give a single, clear answer — if a row is simultaneously about a student AND a course AND an enrollment event — the table is trying to serve multiple purposes and should be decomposed.</p>
+
+<p><em>Columns that are frequently NULL</em> are a third warning sign, though a subtler one. When many rows in a table have NULL for certain columns, it often means the table is being used to represent multiple different types of entities, only some of which need those columns. For example:</p>
+
+<pre><code>People
++--------+------------------+----------------+--------------------+
+| ID     | Name             | StudentGrade   | InstructorOffice   |
++--------+------------------+----------------+--------------------+
+| P001   | Alice Nguyen     | A              | NULL               |
+| P002   | Dr. Patel        | NULL           | Room 204           |
+| P003   | Bob Martinez     | B+             | NULL               |
++--------+------------------+----------------+--------------------+</code></pre>
+
+<p>Here, <em>StudentGrade</em> is always NULL for instructors, and <em>InstructorOffice</em> is always NULL for students. The table is conflating two distinct entity types — students and instructors — into a single structure. This leads to wasted storage for all the NULLs, potential confusion in queries, and the same anomaly risks described throughout this topic.</p>
+
+<p>Together, these warning signs — redundant values across rows, mixed entity types in a single table, repeating column groups, and pervasive NULLs — form a practical checklist for diagnosing poorly structured schemas. Each warning sign points toward the same underlying problem: the table is doing too much, representing too many real-world concepts, and paying the price in anomalies, inconsistency, and maintenance burden.</p>
+        <div class="notes"><strong>Notes</strong>The running Enrollment table example is used consistently across all five anomaly subtopics to help students see how the same flawed schema manifests different problems in different operations. The Orders repeating-group example and the People mixed-entity example in the final section are brief supplementary illustrations to reinforce pattern recognition.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

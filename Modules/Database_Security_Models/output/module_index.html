@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database Security Models, Users, and Application Connections – COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f4f6f9;
+      color: #1e2a3a;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Hero ── */
+    header {
+      background: linear-gradient(135deg, #0d2b4e 0%, #1a4a7a 60%, #1e6091 100%);
+      color: #ffffff;
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    header .course-label {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #cfe4f7;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.55rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      max-width: 800px;
+      margin: 0 auto 1.1rem;
+    }
+
+    header p.intro {
+      font-size: 1rem;
+      color: #c8def4;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: #5a7490;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #dde4ed;
+    }
+
+    /* ── Artifact Grid ── */
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.35rem;
+    }
+
+    .artifact-card {
+      background: #ffffff;
+      border: 1px solid #dde4ed;
+      border-radius: 8px;
+      padding: 1.4rem 1.5rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .artifact-card:hover {
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Header Row ── */
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .artifact-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e2a3a;
+      flex: 1 1 auto;
+    }
+
+    .artifact-name a {
+      color: #1056a0;
+      text-decoration: none;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .artifact-name a:hover,
+    .artifact-name a:focus {
+      color: #0a3e7a;
+      border-bottom-color: #0a3e7a;
+      outline: none;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a7490;
+      text-decoration: none;
+      background: #eef3f9;
+      border: 1px solid #c9d8ea;
+      border-radius: 3px;
+      padding: 0.18rem 0.5rem;
+      white-space: nowrap;
+      align-self: flex-start;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #d8e6f5;
+      color: #0d2b4e;
+      outline: none;
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.65rem;
+    }
+
+    /* ── Metadata Badges ── */
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      padding: 0.18rem 0.55rem;
+    }
+
+    .badge-type {
+      background-color: #e8f0fb;
+      color: #2a5fa5;
+      border: 1px solid #b8d0f0;
+    }
+
+    .badge-filetype {
+      background-color: #f0f5e8;
+      color: #3a6a1a;
+      border: 1px solid #bdd9a0;
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.88rem;
+      color: #3d526a;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #8a9bb0;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dde4ed;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      header {
+        padding: 2.2rem 1.25rem 2rem;
+      }
+
+      main {
+        padding: 2rem 1rem 3rem;
+      }
+
+      .artifact-card {
+        padding: 1.2rem 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="course-label">COP4708</div>
+    <h1>Database Security Models, Users, and Application Connections</h1>
+    <p class="intro">
+      This module explores the foundational principles of database security, covering user management,
+      authentication and authorization mechanisms, role-based access control, and application-level
+      connection strategies. Use the artifacts below to navigate the module's content and resources.
+    </p>
+  </header>
+
+  <main>
+    <p class="section-label">Module Artifacts</p>
+
+    <div class="artifact-grid">
+
+      <!-- Artifact: Module Topics -->
+      <div class="artifact-card">
+        <div class="card-header">
+          <span class="artifact-name">
+            <a href="module_topics.html">Module Topics</a>
+          </span>
+          <a class="source-link" href="../hierarchy.json" aria-label="Source file for Module Topics">source file</a>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <p class="card-description">
+          Covers the core topics of the module—including the CIA triad, user roles and permissions,
+          authentication and authorization, and least-privilege principles—serving as a navigational
+          overview that helps learners and instructors understand what concepts will be taught and in
+          what order.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    COP4708 &mdash; Database Security Models, Users, and Application Connections
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

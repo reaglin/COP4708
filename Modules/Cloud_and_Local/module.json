@@ -1,0 +1,9 @@
+{
+  "Id": "90ebc837-f1f3-4f29-b2fe-2fde344b7290",
+  "Name": "Cloud and Local Databases",
+  "Description": "This lesson compares locally hosted database systems with cloud-based database services such as AWS RDS, Azure SQL, and Google Cloud SQL. Students will evaluate the trade-offs in cost, scalability, maintenance, and availability between deployment models.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.7524147-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.7529365-04:00",
+  "Actions": []
+}

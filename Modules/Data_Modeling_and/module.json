@@ -1,0 +1,9 @@
+{
+  "Id": "12e583fc-8c85-48b7-b86d-153a03e8d860",
+  "Name": "Data Modeling and Entity-Relationship Modeling",
+  "Description": "This lesson introduces data modeling concepts and the Entity-Relationship (ER) model, teaching students how to identify entities, attributes, and relationships in a problem domain. Students will create ER diagrams to visually represent database structure before implementation.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.6852852-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.6858887-04:00",
+  "Actions": []
+}

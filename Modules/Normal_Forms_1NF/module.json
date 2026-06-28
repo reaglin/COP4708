@@ -1,0 +1,9 @@
+{
+  "Id": "acae4b15-d9f8-4122-be27-7bcd7afa647c",
+  "Name": "Normal Forms: 1NF, 2NF, and 3NF",
+  "Description": "This lesson walks through the first three normal forms in detail, providing step-by-step examples of transforming unnormalized tables into 1NF, 2NF, and 3NF. Students will practice identifying and eliminating partial and transitive dependencies.",
+  "CreatedBy": "Ron Eaglin",
+  "CreatedDate": "2026-06-27T14:40:49.6687063-04:00",
+  "LastModifiedDate": "2026-06-27T14:40:49.6693432-04:00",
+  "Actions": []
+}

@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Normal Forms: 1NF, 2NF, and 3NF",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Normal_Forms_1NF",
+  "GeneratedUtc": "2026-06-28T17:16:40.2561649Z",
+  "HtmlIndexSignature": "ED0D207CB0EA42F833FB846219D68C05B87DC5F3AD1BA9F4F78EFB808E25DCB6",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Lists the lecture topics covered in the module\u2014spanning normalization basics, data redundancy, and data integrity through 1NF, 2NF, and 3NF concepts\u2014serving as a navigation guide for learners to see what will be taught and for instructors to verify curricular coverage.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Normal_Forms_1NF\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181832689211526
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "This page outlines the topics covered in the module, introducing database normalization and explaining the purpose, rules, and step-by-step application of 1NF, 2NF, and 3NF; learners use it as a navigational overview to understand what concepts will be taught and in what order.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Normal_Forms_1NF\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181875474911712
+    }
+  ]
+}

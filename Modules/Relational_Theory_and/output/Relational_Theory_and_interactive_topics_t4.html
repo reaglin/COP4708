@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Types and Properties of Functional Dependencies</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Types and Properties of Functional Dependencies</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Types and Properties of Functional Dependencies</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Functional dependencies are the cornerstone of relational database theory. They describe constraints between attributes in a relation, capturing the idea that knowing the value of one set of attributes uniquely determines the value of another set. To work effectively with functional dependencies — whether you are designing a schema, performing normalization, or verifying data integrity — you need to understand not just what a functional dependency <em>is</em>, but what <em>kind</em> it is and what <em>rules</em> govern how dependencies can be derived, combined, and reasoned about. This topic builds that understanding in full, covering the distinction between trivial and non-trivial dependencies, the foundational axioms introduced by William Armstrong, the derived rules that follow from those axioms, and the practical techniques used to reason about attribute relationships in a schema.</p>
+
+<p><strong>Trivial Functional Dependencies</strong></p>
+
+<p>A functional dependency X → Y is called <em>trivial</em> when Y is a subset of X, written Y ⊆ X. In plain terms, this means Y is already contained within the determinant side, so the dependency tells you nothing new about the data. For example, consider a relation with attributes {StudentID, CourseID, Grade}. The dependency {StudentID, CourseID} → {StudentID} is trivial because StudentID is already part of the left-hand side. Knowing a student's ID and a course ID obviously tells you the student's ID — no real-world constraint is being expressed here.</p>
+
+<p>More examples of trivial dependencies:</p>
+<ul>
+  <li><code>{A, B, C} → {A}</code> — trivial, since A is in the left-hand set.</li>
+  <li><code>{A, B} → {A, B}</code> — trivial, since the right-hand side equals the left-hand side exactly (and equality means Y ⊆ X).</li>
+  <li><code>{EmployeeID, Department} → {Department}</code> — trivial, since Department appears on the left.</li>
+</ul>
+
+<p>Although trivial dependencies carry no new information, they are important to recognize for two reasons. First, when you enumerate a set of all functional dependencies holding in a schema, trivial ones will always appear; filtering them out helps you focus on meaningful constraints. Second, they serve as the formal grounding for the Reflexivity axiom discussed below. A trivial dependency is <em>universally valid</em> — it holds in every possible instance of every relation, regardless of what actual data is stored, because it is a matter of pure logic rather than empirical observation.</p>
+
+<p><strong>Non-Trivial Functional Dependencies</strong></p>
+
+<p>A functional dependency X → Y is <em>non-trivial</em> when Y is not a subset of X — that is, Y contains at least one attribute that does not already appear in X. These are the dependencies that actually say something meaningful about the real-world constraints embedded in your data model.</p>
+
+<p>Consider a university enrollment table with attributes {StudentID, CourseID, InstructorID, Grade, CourseName}. Some non-trivial dependencies might include:</p>
+<ul>
+  <li><code>StudentID → {StudentName, Major}</code> — knowing the student ID tells you the student's name and major. Neither of those attributes is part of StudentID.</li>
+  <li><code>CourseID → CourseName</code> — a course ID uniquely determines the course name.</li>
+  <li><code>{StudentID, CourseID} → Grade</code> — together, a student and a course determine the grade earned.</li>
+</ul>
+
+<p>Non-trivial dependencies are the ones that drive key identification and normalization. When you identify that a non-key attribute depends only on <em>part</em> of a composite key (a partial dependency), or that a non-key attribute determines another non-key attribute (a transitive dependency), you have found violations that motivate moving from one normal form to a higher one. All the practical work of schema refinement is grounded in reasoning about non-trivial dependencies.</p>
+
+<p>There is also a stricter category sometimes called a <em>completely non-trivial</em> dependency, where X and Y share no attributes at all (Y ∩ X = ∅). For most practical purposes, the simpler definition — Y ⊄ X — is what matters.</p>
+
+<p><strong>Armstrong's Axioms: The Foundation for Deriving Dependencies</strong></p>
+
+<p>In 1974, William W. Armstrong published a set of inference rules that form a complete and sound axiomatic system for functional dependencies. "Sound" means the rules never derive a false dependency — every dependency they produce genuinely holds. "Complete" means that if a dependency logically follows from a given set F of functional dependencies, these rules are sufficient to derive it. These three axioms are the bedrock from which all further reasoning about functional dependencies is built.</p>
+
+<p><strong>Axiom 1 — Reflexivity</strong></p>
+
+<p>The Reflexivity axiom states: <em>if Y ⊆ X, then X → Y</em>. This is the formal axiom that captures trivial dependencies. If a set of attributes Y is already contained within X, then X trivially determines Y, because any two tuples that agree on every attribute in X certainly agree on every attribute in Y (which is just a subset of X).</p>
+
+<p>Example: In a relation with schema R(A, B, C, D):</p>
+<pre><code>{A, B, C} → {A, B}    — holds by Reflexivity since {A,B} ⊆ {A,B,C}
+{A, B}    → {A}       — holds by Reflexivity since {A} ⊆ {A,B}
+{A}       → {A}       — holds by Reflexivity since {A} ⊆ {A}
+</code></pre>
+
+<p>The critical insight is that Reflexivity requires <em>no evidence from the data</em>. You do not need to look at any rows in the table; the dependency is guaranteed purely by the logical structure of sets. This is why trivial dependencies are universally valid.</p>
+
+<p><strong>Axiom 2 — Augmentation</strong></p>
+
+<p>The Augmentation axiom states: <em>if X → Y, then XZ → YZ for any set of attributes Z</em>. Here XZ means the union of X and Z (written X ∪ Z), and similarly for YZ. In words: if X determines Y, then adding the same set of attributes Z to both sides of the dependency produces another valid dependency.</p>
+
+<p>Why does this hold? Suppose two tuples t1 and t2 agree on every attribute in X ∪ Z. Because they agree on X, and X → Y holds, they must also agree on Y. They already agree on Z by assumption. So they agree on Y ∪ Z. Therefore XZ → YZ.</p>
+
+<p>Examples, continuing with R(A, B, C, D, E):</p>
+<pre><code>Given:  A → B
+Derive: AC → BC   (augment both sides with C)
+Derive: AD → BD   (augment both sides with D)
+Derive: ACD → BCD (augment both sides with CD)
+</code></pre>
+
+<p>Augmentation is especially useful when building up from simple dependencies toward more complex ones. It is also used in proving other derived rules and in computing attribute closures. One practical caution: augmenting adds attributes to both sides simultaneously, keeping the dependency balanced. You cannot use Augmentation to add an attribute to only one side.</p>
+
+<p><strong>Axiom 3 — Transitivity</strong></p>
+
+<p>The Transitivity axiom states: <em>if X → Y and Y → Z, then X → Z</em>. This rule captures the idea that determinacy is transitive — if X pins down Y, and Y pins down Z, then X indirectly pins down Z as well.</p>
+
+<p>Formal justification: Take any two tuples t1 and t2 that agree on X. Since X → Y, they agree on Y. Since Y → Z, they agree on Z. Therefore X → Z.</p>
+
+<p>This is perhaps the most practically significant axiom because it surfaces <em>hidden dependencies</em>. Consider a staffing relation with attributes {EmployeeID, DepartmentID, DepartmentBudget}:</p>
+<pre><code>EmployeeID → DepartmentID
+DepartmentID → DepartmentBudget
+---
+By Transitivity: EmployeeID → DepartmentBudget
+</code></pre>
+
+<p>This transitive dependency — EmployeeID determining DepartmentBudget through DepartmentID — is exactly the kind of indirect relationship that causes update anomalies and motivates Third Normal Form (3NF). Transitivity is the tool that makes such hidden chains visible.</p>
+
+<p><strong>Derived Rules: Union, Decomposition, and Pseudotransitivity</strong></p>
+
+<p>Armstrong's three axioms are complete on their own, but for practical work it is convenient to derive additional rules that make reasoning faster and more direct. Each of these derived rules can be proven using only Reflexivity, Augmentation, and Transitivity.</p>
+
+<p><strong>Union Rule:</strong> If X → Y and X → Z, then X → YZ.</p>
+
+<p>This rule says that if a single determinant X determines two separate sets of attributes Y and Z, you can combine the right-hand sides. Proof sketch:</p>
+<pre><code>1. X → Y                    (given)
+2. X → Z                    (given)
+3. X → XZ                   (Augmentation on step 2: X → Z, augment with X)
+4. XZ → YZ                  (Augmentation on step 1: X → Y, augment with Z)
+5. X → YZ                   (Transitivity on steps 3 and 4)
+</code></pre>
+
+<p>Practical use: if you know {OrderID → CustomerID} and {OrderID → OrderDate}, you can immediately write {OrderID → CustomerID, OrderDate} without separate steps.</p>
+
+<p><strong>Decomposition Rule:</strong> If X → YZ, then X → Y and X → Z.</p>
+
+<p>This is the inverse of Union. If X determines a combined set of attributes, it determines each attribute (or subset) individually. Proof sketch:</p>
+<pre><code>1. X → YZ                   (given)
+2. YZ → Y                   (Reflexivity, since Y ⊆ YZ)
+3. X → Y                    (Transitivity on steps 1 and 2)
+Similarly, YZ → Z by Reflexivity, giving X → Z by Transitivity.
+</code></pre>
+
+<p>Decomposition is invaluable when checking whether a particular individual attribute is determined by some set X. You decompose the known dependency into its atomic parts and examine each one. It is also heavily used when computing attribute closures.</p>
+
+<p><strong>Pseudotransitivity Rule:</strong> If X → Y and WY → Z, then WX → Z.</p>
+
+<p>Pseudotransitivity generalizes Transitivity by allowing an extra set of attributes W to appear on the left. It captures situations where Y is only part of the determinant for Z, and W supplies the remaining needed attributes. Proof sketch:</p>
+<pre><code>1. X → Y                    (given)
+2. WY → Z                   (given)
+3. WX → WY                  (Augmentation on step 1: X → Y, augment with W)
+4. WX → Z                   (Transitivity on steps 3 and 2)
+</code></pre>
+
+<p>Example: Suppose you know {CourseID → InstructorID} and {InstructorID, Semester} → Classroom. By Pseudotransitivity with W = {Semester}, you can derive {CourseID, Semester} → Classroom — a useful composite dependency that neither of the original rules alone could produce.</p>
+
+<p>These derived rules do not extend the power of the axiom system; they are strictly shortcuts. Any dependency derivable with the Union, Decomposition, or Pseudotransitivity rules could also be derived, more laboriously, using only the three axioms.</p>
+
+<p><strong>Using These Properties to Reason About Data: Attribute Closure</strong></p>
+
+<p>The most direct application of all the rules above is the computation of an <em>attribute closure</em>. Given a set of functional dependencies F and a set of attributes X, the closure X<sup>+</sup> (read "X-plus") is the complete set of all attributes that are functionally determined by X under F. To compute it, you start with X itself and repeatedly apply every dependency in F whose left-hand side is already contained in the current closure, adding the right-hand side each time, until no more attributes can be added.</p>
+
+<p>Algorithm outline:</p>
+<pre><code>closure = X
+repeat:
+    for each dependency (L → R) in F:
+        if L ⊆ closure:
+            closure = closure ∪ R
+until closure does not change
+return closure
+</code></pre>
+
+<p>Worked example: Let R = (A, B, C, D, E, F) with F = {A → BC, BC → DE, D → F}. Compute {A}<sup>+</sup>:</p>
+<pre><code>Start:       closure = {A}
+Apply A→BC:  closure = {A, B, C}
+Apply BC→DE: closure = {A, B, C, D, E}
+Apply D→F:   closure = {A, B, C, D, E, F}
+No more rules apply.
+Result: {A}+ = {A, B, C, D, E, F}
+</code></pre>
+
+<p>Because {A}<sup>+</sup> contains every attribute in R, A is a <em>superkey</em>. If no proper subset of A is also a superkey, then A is a <em>candidate key</em>. This is how attribute closure connects directly to key identification — one of the most fundamental tasks in schema design.</p>
+
+<p>Attribute closure also answers the question of whether a specific functional dependency X → Y follows from a set F: simply compute X<sup>+</sup> under F, and check whether Y ⊆ X<sup>+</sup>. If yes, X → Y is entailed by F; if no, it is not. This test replaces the need to manually trace chains of axiom applications.</p>
+
+<p><strong>Soundness and Completeness of Armstrong's System</strong></p>
+
+<p>A critical theoretical property of Armstrong's axioms is that they are both <em>sound</em> and <em>complete</em> with respect to functional dependencies:</p>
+<ul>
+  <li><strong>Soundness</strong> means that every dependency derivable using the axioms genuinely holds in every relation that satisfies F. The axioms never generate false dependencies. This is why you can trust the closure computation: if X → Y appears in X<sup>+</sup>, it truly holds.</li>
+  <li><strong>Completeness</strong> means that if a dependency X → Y logically follows from F (i.e., it holds in every relation satisfying F), then it can be derived using the axioms. Nothing is missed. If X → Y does not appear in X<sup>+</sup>, then there exists some valid relation satisfying F in which X → Y is violated.</li>
+</ul>
+
+<p>Together, soundness and completeness mean that the axioms give you an exact characterization of logical consequence for functional dependencies. This makes them not just a convenient toolkit but a theoretically complete foundation — a rare and powerful property in any formal system.</p>
+
+<p>Understanding these types and properties of functional dependencies — trivial vs. non-trivial, the three axioms, the derived rules, and closure computation — equips you to work rigorously with any relational schema. Whether you are identifying keys, checking whether a proposed decomposition is lossless, or deciding whether a relation violates a particular normal form, all of those tasks reduce, at bottom, to reasoning about functional dependencies using exactly these tools.</p>
+        <div class="notes"><strong>Notes</strong>The worked closure example and proof sketches for derived rules help ground the abstract axioms in concrete procedural steps. Instructors may wish to supplement with exercises asking students to compute closures for varied schemas and to identify which axiom or derived rule justifies each step in a derivation chain.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

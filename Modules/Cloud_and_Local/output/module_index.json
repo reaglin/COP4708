@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Cloud and Local Databases",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Cloud_and_Local",
+  "GeneratedUtc": "2026-06-28T17:22:21.3169611Z",
+  "HtmlIndexSignature": "202749C0DA6BE7D23D7C85E5DC62B3202A2EACCBBA6F44B98C108D535E108C96",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Covers the core topics of the module\u2014comparing locally hosted and cloud-based database deployment models, including infrastructure setup, management responsibilities, and specific managed services such as AWS RDS and Azure\u2014serving as a navigational overview that helps instructors sequence lessons and learners understand what concepts they will study.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Cloud_and_Local\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181849957283090
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "Outlines the module\u0027s topics on cloud and local database deployment models\u2014covering definitions, infrastructure comparisons, and foundational concepts\u2014to help learners and instructors navigate what will be taught throughout the module.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Cloud_and_Local\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181878947660361
+    }
+  ]
+}

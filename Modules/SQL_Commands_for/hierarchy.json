@@ -1,0 +1,1136 @@
+{
+  "ModuleFolderName": "SQL_Commands_for",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T15:11:23.155612-04:00",
+  "ModifiedDate": "2026-06-27T15:13:41.1255884-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "36381981-6aa3-4c7b-a90b-31a3a3dddbd0",
+      "Title": "Introduction to Complex SQL Queries",
+      "Summary": "An overview of advanced SQL querying concepts and why they are essential for working with relational databases. This topic sets the foundation for multi-table data extraction and analysis.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T15:11:23.155612-04:00",
+      "ModifiedDate": "2026-06-27T15:11:23.155612-04:00",
+      "Elements": [
+        {
+          "Id": "1989affa-6d7a-41d1-ab1d-9a12db87229d",
+          "TopicId": "36381981-6aa3-4c7b-a90b-31a3a3dddbd0",
+          "Title": "What Are Complex SQL Queries?",
+          "BodyText": "Complex SQL queries go beyond simple single-table SELECT statements to retrieve, filter, and analyze data across multiple tables and conditions.",
+          "Notes": "For example, a simple query might fetch all rows from one table, while a complex query might join three tables, filter results by multiple conditions, and return aggregated totals.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "ModifiedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "Items": [
+            {
+              "Id": "4a5d95c2-27a7-458d-9695-10e7006007d9",
+              "Text": "Complex queries combine multiple SQL clauses and operations within a single statement.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e3259cde-1f83-467d-bc70-c5cde741e6c4",
+              "Text": "They are used when the required data is spread across more than one table or requires transformation before it is useful.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "72075cda-40c9-4ea5-9ac6-e376bda5e624",
+              "Text": "Examples include reporting total sales by region, finding customers with no orders, or ranking employees by department.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8c64409d-3874-4326-8bc0-9af5a6a674d8",
+          "TopicId": "36381981-6aa3-4c7b-a90b-31a3a3dddbd0",
+          "Title": "Why Complex Queries Are Essential",
+          "BodyText": "Relational databases store data across many related tables, making advanced querying skills necessary to extract meaningful insights.",
+          "Notes": "A business database might have separate tables for customers, orders, products, and inventory. Answering a question like \u0027Which customers spent the most last quarter?\u0027 requires combining all of these.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "ModifiedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "Items": [
+            {
+              "Id": "5559a864-f77b-444a-80d8-7f60af9c1c66",
+              "Text": "Real-world databases rarely store all needed information in a single table; normalization spreads it across related structures.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d9281453-34f6-4dd4-ad1f-772ca19f66e5",
+              "Text": "Without complex queries, analysts would need to manually combine data, introducing errors and inefficiency.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "bd2d965f-2818-4594-b95f-161df7684f3e",
+              "Text": "Mastering complex queries enables professionals to answer business questions directly from the database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a6294fa5-4dad-44d6-9290-6009a043fa19",
+          "TopicId": "36381981-6aa3-4c7b-a90b-31a3a3dddbd0",
+          "Title": "Core Building Blocks of Complex Queries",
+          "BodyText": "Several key SQL clauses work together to form complex queries, each serving a distinct role in shaping the final result set.",
+          "Notes": "",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "ModifiedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "Items": [
+            {
+              "Id": "6f1f61b1-0e53-442c-8357-9e9def8204d5",
+              "Text": "JOIN operations link rows from two or more tables based on related columns.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "684c8440-861b-44ac-881d-45f00c6765fc",
+              "Text": "WHERE filters individual rows before any grouping or aggregation occurs.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8adf32a8-8a7c-4cc9-a463-96d6868c74d2",
+              "Text": "GROUP BY organizes rows into summary groups, while HAVING filters those groups after aggregation.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "d0c9615c-6db9-4d27-a2bd-a19a12424fc5",
+              "Text": "ORDER BY controls the sort order of the final output.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "bbe52ced-b764-43ec-b435-35be7a61fd98",
+              "Text": "Subqueries allow a query to be nested inside another, enabling multi-step data retrieval.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "22a58087-28d2-49e1-b7b3-e870a1fb32de",
+          "TopicId": "36381981-6aa3-4c7b-a90b-31a3a3dddbd0",
+          "Title": "Understanding Relational Database Structure",
+          "BodyText": "To write effective complex queries, it is important to understand how relational databases organize data using tables, primary keys, and foreign keys.",
+          "Notes": "For instance, an Orders table might have a foreign key referencing the Customers table\u0027s primary key, establishing the relationship that a JOIN would later exploit.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "ModifiedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "Items": [
+            {
+              "Id": "84603f6d-ef53-4416-9d70-5fed47c26cf3",
+              "Text": "A primary key uniquely identifies each row within a table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "86613202-1d9c-4467-86ae-cc615e159437",
+              "Text": "A foreign key in one table references the primary key of another, establishing a relationship between them.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "06fae1ff-2a32-4531-8b2b-4446856b2ef2",
+              "Text": "Understanding these relationships is the prerequisite for writing accurate JOIN-based queries.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "09658b43-4cf3-4ae3-b877-852baac555a3",
+          "TopicId": "36381981-6aa3-4c7b-a90b-31a3a3dddbd0",
+          "Title": "From Simple to Complex: The Query Progression",
+          "BodyText": "Complex queries are built incrementally, starting from a basic SELECT and adding clauses to meet increasingly specific data requirements.",
+          "Notes": "A good practice is to start by querying one table, verify the result, then add a JOIN, verify again, and progressively layer in WHERE, GROUP BY, and HAVING conditions.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "ModifiedDate": "2026-06-27T15:11:40.5903665-04:00",
+          "Items": [
+            {
+              "Id": "b03118ff-b026-4afe-92ad-c58301f2e1f5",
+              "Text": "Beginning with a simple SELECT statement helps confirm the base data before adding complexity.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "68ff14ea-fa71-4baa-8249-1c952f2d56a9",
+              "Text": "Each additional clause \u2014 JOIN, WHERE, GROUP BY, HAVING \u2014 narrows, expands, or transforms the result set in a predictable way.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a9a787b5-ad8b-4527-aeba-2cb9f941a342",
+              "Text": "Incremental query building reduces errors and makes troubleshooting easier.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+      "Title": "JOIN Types and Multi-Table Queries",
+      "Summary": "Exploration of the four primary JOIN types \u2014 INNER, LEFT, RIGHT, and FULL \u2014 and how they combine data across multiple tables. Students learn when and how to apply each JOIN to retrieve the correct dataset.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T15:11:23.155612-04:00",
+      "ModifiedDate": "2026-06-27T15:11:23.155612-04:00",
+      "Elements": [
+        {
+          "Id": "4b148e63-8c92-40be-9f1e-645fb57a8cfa",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "Understanding the Purpose of JOINs",
+          "BodyText": "JOINs allow SQL queries to combine rows from two or more tables based on a related column, enabling retrieval of meaningful data spread across a relational database.",
+          "Notes": "For example, an Orders table and a Customers table can be joined on a shared CustomerID column to retrieve order details alongside customer names.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "b5c4b694-7d07-402c-8247-5913ed4c0da2",
+              "Text": "Relational databases store data across multiple tables to reduce redundancy, making JOINs essential for assembling complete datasets.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a4cf2e7d-fc64-45ba-9b41-91cdf38656ff",
+              "Text": "The ON clause specifies the condition that defines how two tables relate, typically matching primary and foreign keys.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "09b9e56d-4b9a-4fbe-8cf7-75f21d9b8e0e",
+              "Text": "Without JOINs, queries are limited to a single table and cannot leverage the relational structure of the database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d1bbb3ed-aa2c-41fe-b647-611d8066d031",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "INNER JOIN: Matching Records Only",
+          "BodyText": "An INNER JOIN returns only the rows where there is a matching value in both tables based on the specified join condition.",
+          "Notes": "Example: SELECT Orders.OrderID, Customers.Name FROM Orders INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID \u2014 returns only orders that have a matching customer record.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "54bb56b1-782e-4b09-8efe-3e80adcb4d3e",
+              "Text": "Rows that do not have a corresponding match in either table are excluded from the result set.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "111aada5-e982-453b-b632-b8d622eea722",
+              "Text": "INNER JOIN is the most commonly used JOIN type and is the default when the JOIN keyword is used without a qualifier.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "38e61a9a-395e-400b-b0c2-e1f3af68c17a",
+              "Text": "Use INNER JOIN when you only need records that exist in both tables and unmatched records are irrelevant to your query.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f7496806-f42a-40dd-bbf1-a98cc25695ae",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "LEFT JOIN: Preserving All Left-Table Records",
+          "BodyText": "A LEFT JOIN (also called LEFT OUTER JOIN) returns all rows from the left table and the matching rows from the right table, filling in NULL for any unmatched right-table columns.",
+          "Notes": "Example use case: retrieving all customers and their orders, including customers who have never placed an order \u2014 those customers will appear with NULL in the order columns.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "497ac779-a421-4ec9-8197-d7eef4907f4e",
+              "Text": "Every row from the left (first) table appears in the result, regardless of whether a match exists in the right table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ea661576-a36c-4059-be10-5da1e1f58cbd",
+              "Text": "Columns from the right table that have no matching row will contain NULL values in the output.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "33289832-c541-4354-ab36-ff1f11eb2d74",
+              "Text": "LEFT JOIN is useful when the left table is the primary dataset and right-table data is supplementary or optional.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "63ea4508-2bb8-49ba-9161-06efe4731b1d",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "RIGHT JOIN: Preserving All Right-Table Records",
+          "BodyText": "A RIGHT JOIN (also called RIGHT OUTER JOIN) returns all rows from the right table and only the matching rows from the left table, with NULLs filling unmatched left-table columns.",
+          "Notes": "RIGHT JOIN is logically the mirror image of LEFT JOIN. In practice, many developers rewrite RIGHT JOINs as LEFT JOINs by swapping table order for readability consistency.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "3910eae1-a980-471c-8b1e-891fdbfaa030",
+              "Text": "Every row from the right (second) table is included in the result, even if there is no matching row in the left table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "99f53324-f53b-42c1-a9ef-9c0bfc34327a",
+              "Text": "Left-table columns will contain NULL where no match exists in the left table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1af0c621-7c34-401d-bca2-9f1b5eeae5c7",
+              "Text": "RIGHT JOIN is helpful when the right table contains the authoritative list of records and left-table data may be incomplete.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a879d754-0df9-4dae-93fc-fee836e1b39c",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "FULL JOIN: Combining All Records from Both Tables",
+          "BodyText": "A FULL JOIN (also called FULL OUTER JOIN) returns all rows from both tables, placing NULLs wherever there is no matching row on either side.",
+          "Notes": "Example: A FULL JOIN between an Employees table and a Departments table would show all employees and all departments, with NULLs appearing for employees without a department and departments without any employees.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "a4629b61-a3fc-4197-92ef-2512dfd381cc",
+              "Text": "FULL JOIN is the union of LEFT JOIN and RIGHT JOIN \u2014 no row from either table is omitted.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "df1f725f-98e3-42d6-8085-a54b1f866bc4",
+              "Text": "NULLs appear in columns of whichever table lacks a matching row for a given record.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "433cef4d-e945-4544-ba97-06ab0a59941a",
+              "Text": "Use FULL JOIN when you need a complete picture of both datasets, including all unmatched records from each side.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "b9229e2f-9e4e-4374-9368-73e84910c8c0",
+              "Text": "FULL JOIN can help identify data integrity issues, such as orphaned records or missing relationships between tables.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "03a38530-adb3-4037-8d32-7b0a9dcd974a",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "Choosing the Right JOIN for Your Query",
+          "BodyText": "Selecting the appropriate JOIN type depends on which records must be preserved and whether unmatched rows carry meaningful information for the analysis.",
+          "Notes": "A common decision framework: ask \u0027Do I need only matched records (INNER), all from one side (LEFT/RIGHT), or everything from both sides (FULL)?\u0027",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "b9bd0d35-0dc0-4dfc-a531-7f6d2276d406",
+              "Text": "INNER JOIN is best when only fully matched records are meaningful and missing data on either side should be ignored.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d5cd013b-7427-4bcd-a67e-6cc51d5aeffb",
+              "Text": "LEFT or RIGHT JOIN is appropriate when one table is the primary reference and related data from the second table may be absent.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "549ce4af-d925-4fcb-a272-6be7eb765b6a",
+              "Text": "FULL JOIN is suited for reconciliation tasks, audits, or comparisons where gaps in either table are significant.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "c028f525-6e1c-4cc8-9018-b4387a64593a",
+              "Text": "Misapplying a JOIN type can cause missing records or inflated result sets, leading to incorrect analysis.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "c52ccd3d-a195-4046-9a39-08456ee7c1ed",
+          "TopicId": "3b607f6b-3f3b-45da-8d6d-cf7d0ddeb8b0",
+          "Title": "Writing Multi-Table Queries with JOINs",
+          "BodyText": "Multi-table queries can chain multiple JOIN clauses together, allowing a single SELECT statement to combine data from three or more tables simultaneously.",
+          "Notes": "Example: SELECT o.OrderID, c.Name, p.ProductName FROM Orders o INNER JOIN Customers c ON o.CustomerID = c.CustomerID INNER JOIN Products p ON o.ProductID = p.ProductID \u2014 joins three tables in one query.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "ModifiedDate": "2026-06-27T15:12:07.5081573-04:00",
+          "Items": [
+            {
+              "Id": "fe71a2de-c736-47a4-9b64-5b2575c88016",
+              "Text": "Each additional JOIN clause introduces another table and its corresponding ON condition to the query.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "46492dd5-c306-4835-b744-12b9608753cb",
+              "Text": "Table aliases (short labels like \u0027o\u0027, \u0027c\u0027, \u0027p\u0027) improve readability and reduce repetitive typing in complex multi-table queries.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4cd6515a-5f6c-4705-944f-bffbbe4f60c7",
+              "Text": "Column references in multi-table queries should be prefixed with the table name or alias to avoid ambiguity when the same column name exists in multiple tables.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "103281de-8d2c-42a5-a94d-7fc3b4d35210",
+              "Text": "The order of JOINs can affect performance; placing the most selective joins first is a common optimization strategy.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+      "Title": "Filtering Data with WHERE Clauses",
+      "Summary": "A deep dive into using WHERE clauses to filter query results based on specified conditions. This topic covers logical operators, comparison expressions, and combining multiple conditions effectively.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T15:11:23.155612-04:00",
+      "ModifiedDate": "2026-06-27T15:11:23.155612-04:00",
+      "Elements": [
+        {
+          "Id": "7cd6e56b-ebcc-403d-a25e-d7471301c5e1",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Introduction to the WHERE Clause",
+          "BodyText": "The WHERE clause is used in SQL SELECT statements to filter rows returned by a query based on one or more specified conditions.",
+          "Notes": "Without a WHERE clause, a query returns all rows from the specified table(s). Adding WHERE allows you to narrow results to only those rows that meet your criteria, improving both relevance and performance.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "63eee0e8-5ebe-4486-a738-d4ae08bcb59a",
+              "Text": "The WHERE clause appears after the FROM clause and before ORDER BY or GROUP BY clauses.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "84fbed1c-53d8-4081-a9b3-94167358fbf1",
+              "Text": "Only rows where the condition evaluates to TRUE are included in the result set.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3bfd4939-bf94-4d61-a43d-965b4a58b8b0",
+              "Text": "Example syntax: SELECT * FROM employees WHERE department = \u0027Sales\u0027;",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f33dd6e3-ab44-437b-8b04-17b138798922",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Comparison Operators in WHERE Conditions",
+          "BodyText": "Comparison operators allow you to evaluate relationships between a column value and a specified expression or literal.",
+          "Notes": "These operators work with numeric, string, and date data types, though behavior may vary slightly by data type. For example, string comparisons may be case-sensitive depending on the database system.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "7d278a7b-8f20-48d9-a840-ff21178e8342",
+              "Text": "Common operators include = (equal), \u003C\u003E or != (not equal), \u003E (greater than), \u003C (less than), \u003E= (greater than or equal), and \u003C= (less than or equal).",
+              "SortOrder": 0
+            },
+            {
+              "Id": "40377c41-795f-4fff-bbac-c9582fad1ebc",
+              "Text": "Example: SELECT * FROM orders WHERE total_amount \u003E 500; returns only orders exceeding $500.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "aa18cf21-53ac-4fcd-9389-4c901b9469e4",
+              "Text": "The BETWEEN operator is a shorthand for range comparisons: WHERE salary BETWEEN 40000 AND 80000.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "cffff283-e481-42aa-bed2-3f4286aea118",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Logical Operators: AND, OR, and NOT",
+          "BodyText": "Logical operators let you combine multiple conditions within a single WHERE clause to create more precise filters.",
+          "Notes": "Operator precedence matters: NOT is evaluated first, then AND, then OR. Using parentheses is strongly recommended when mixing AND and OR to make intent explicit and avoid logic errors.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "790535c1-e368-4a3a-828d-44644ad8f16a",
+              "Text": "AND requires all combined conditions to be TRUE for a row to be included in results.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "94792ce5-d9f9-4e36-b588-9a99d87e2340",
+              "Text": "OR requires at least one of the combined conditions to be TRUE for a row to be included.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9546d531-c5ac-4efb-a23b-065aa1cb9234",
+              "Text": "NOT negates a condition, returning rows where the specified condition is FALSE.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "cd09b995-5125-45d6-b7d9-c0c0d36c2e89",
+              "Text": "Example: SELECT * FROM employees WHERE department = \u0027Sales\u0027 AND hire_date \u003E \u00272020-01-01\u0027;",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "87eb0ed4-d505-48d8-9fd1-879155e05baa",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Pattern Matching with LIKE and Wildcards",
+          "BodyText": "The LIKE operator enables filtering based on partial string matches using wildcard characters, making it useful for searching text data.",
+          "Notes": "Performance can be impacted when using leading wildcards (e.g., \u0027%value\u0027) because the database cannot use indexes efficiently. Use pattern matching judiciously on large datasets.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "ff8de08c-9b59-40f5-afcc-bf3c7172fee5",
+              "Text": "The percent sign (%) wildcard matches zero or more characters: WHERE last_name LIKE \u0027Sm%\u0027 returns all names starting with \u0027Sm\u0027.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5496bdf0-f6a4-40b5-9b03-0e79a0031dda",
+              "Text": "The underscore (_) wildcard matches exactly one character: WHERE code LIKE \u0027A_1\u0027 matches \u0027AB1\u0027, \u0027AC1\u0027, etc.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "af2a62f8-d2aa-4618-a07a-c8cc8c6895ab",
+              "Text": "LIKE is often case-insensitive in some databases; use ILIKE in PostgreSQL for explicit case-insensitive matching.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "9e105074-8955-4e58-8ac8-0c20d5a8b647",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Filtering with IN and NOT IN",
+          "BodyText": "The IN operator allows you to filter rows where a column value matches any value within a specified list, serving as a concise alternative to multiple OR conditions.",
+          "Notes": "IN can also accept a subquery as its list source, making it a powerful tool for dynamic filtering. NOT IN excludes rows matching any value in the list, but be cautious when the list may contain NULL values, as this can produce unexpected results.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "6ecdb2a3-3d49-4d69-a256-e6d900f1ced2",
+              "Text": "Example: SELECT * FROM products WHERE category IN (\u0027Electronics\u0027, \u0027Furniture\u0027, \u0027Clothing\u0027); returns products in any of the three categories.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fc4c1016-9122-42de-9fca-b294a0288455",
+              "Text": "NOT IN excludes all rows matching the listed values: WHERE status NOT IN (\u0027cancelled\u0027, \u0027returned\u0027).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "5a8a4fbb-c7bb-43ca-90b8-0b1b3fc2210d",
+              "Text": "Using IN with a subquery: WHERE customer_id IN (SELECT customer_id FROM vip_customers).",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "7244bf55-cfea-4d82-9cd3-d6f9e859d821",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Handling NULL Values with IS NULL and IS NOT NULL",
+          "BodyText": "NULL represents missing or unknown data in SQL, and standard comparison operators cannot be used to test for NULL \u2014 dedicated IS NULL and IS NOT NULL operators must be used instead.",
+          "Notes": "A common mistake is writing WHERE column = NULL, which never returns results because NULL is not equal to anything, including itself. Always use IS NULL or IS NOT NULL when checking for missing values.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "e902d93e-a6e4-40d9-b58a-4b478671ee3a",
+              "Text": "IS NULL filters rows where a column contains no value: SELECT * FROM employees WHERE manager_id IS NULL;",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fac3e60d-2da7-494a-a3e9-450ea0499ebe",
+              "Text": "IS NOT NULL filters rows where a column does contain a value: WHERE phone_number IS NOT NULL.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "cb0ce90e-769e-4d9c-8c85-7a2915aa0c08",
+              "Text": "Understanding NULL behavior is critical when combining conditions with AND/OR, as NULL evaluations can affect the overall result unexpectedly.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "cf433dc7-6d5e-4441-8d2d-4c93cf70fefe",
+          "TopicId": "889e857f-d761-4fad-a9fe-d5fbee37e450",
+          "Title": "Combining Multiple Conditions Effectively",
+          "BodyText": "Complex queries often require combining several WHERE conditions using logical operators and parentheses to precisely define filtering logic.",
+          "Notes": "Well-structured WHERE clauses improve both query correctness and readability. Breaking complex conditions across multiple lines and using consistent indentation helps communicate intent to other developers.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "ModifiedDate": "2026-06-27T15:12:32.2028066-04:00",
+          "Items": [
+            {
+              "Id": "7253de85-69eb-47de-a3e5-fe0417024137",
+              "Text": "Use parentheses to explicitly group conditions and control evaluation order: WHERE (status = \u0027active\u0027 OR status = \u0027pending\u0027) AND region = \u0027North\u0027.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "734a37e5-2827-4dc1-88ab-8107621b85fd",
+              "Text": "Avoid redundant conditions that cancel each other out, such as WHERE age \u003E 30 AND age \u003E 25 (the second condition is implied by the first).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e30b1d06-8c8b-452a-91d9-42e31af09ad6",
+              "Text": "Test complex WHERE clauses incrementally by adding one condition at a time to verify each filter produces the expected result set.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "c4189784-03dd-4525-9a59-aebe320fd53e",
+      "Title": "Sorting Results with ORDER BY",
+      "Summary": "An examination of how the ORDER BY clause controls the sequence of query output by one or more columns. Students practice sorting results in ascending and descending order across various data types.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T15:11:23.155612-04:00",
+      "ModifiedDate": "2026-06-27T15:11:23.155612-04:00",
+      "Elements": [
+        {
+          "Id": "c8659a92-d18c-466b-af9e-9b65f66d7398",
+          "TopicId": "c4189784-03dd-4525-9a59-aebe320fd53e",
+          "Title": "Purpose of the ORDER BY Clause",
+          "BodyText": "The ORDER BY clause controls the sequence in which rows are returned by a SELECT query, making results easier to read and analyze.",
+          "Notes": "Without ORDER BY, SQL makes no guarantee about the order of returned rows, which can vary between executions.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:12:52.293822-04:00",
+          "ModifiedDate": "2026-06-27T15:12:52.293822-04:00",
+          "Items": [
+            {
+              "Id": "e2765e8f-dbe2-4148-84ed-9fb54134e50b",
+              "Text": "ORDER BY is always placed at the end of a SELECT statement, after WHERE and GROUP BY clauses.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "252d4efa-8292-4e40-9094-fac51a7d8554",
+              "Text": "It can reference any column that appears in the SELECT list or the underlying table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3a771d39-d10d-400a-80ca-e12c266217df",
+              "Text": "Sorting is applied after all filtering and grouping operations are complete.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8b3ff449-9398-44a8-b811-7ea8bd517c7d",
+          "TopicId": "c4189784-03dd-4525-9a59-aebe320fd53e",
+          "Title": "Ascending Order (ASC)",
+          "BodyText": "By default, ORDER BY sorts results in ascending order, meaning lowest to highest for numbers, earliest to latest for dates, and A to Z for text.",
+          "Notes": "Example: SELECT name, salary FROM employees ORDER BY salary ASC; \u2014 returns employees from lowest to highest salary.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:12:52.293822-04:00",
+          "ModifiedDate": "2026-06-27T15:12:52.293822-04:00",
+          "Items": [
+            {
+              "Id": "99192832-d75c-46f3-a5fd-07589d7f07d2",
+              "Text": "ASC is the default sort direction and does not need to be explicitly written, though including it improves readability.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b08b24bc-fb1a-42ef-b987-1bfe1f309bed",
+              "Text": "For text columns, ascending order follows alphabetical sequence based on the database\u0027s collation settings.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "861ec731-ce93-4a2b-9390-8b31de459f85",
+              "Text": "NULL values are typically sorted to the beginning in ascending order, though this behavior can vary by database system.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "699aa897-ffdc-4049-b1e1-4be38b728434",
+          "TopicId": "c4189784-03dd-4525-9a59-aebe320fd53e",
+          "Title": "Descending Order (DESC)",
+          "BodyText": "Adding the DESC keyword after a column name in ORDER BY reverses the sort, returning rows from highest to lowest value.",
+          "Notes": "Example: SELECT product_name, price FROM products ORDER BY price DESC; \u2014 lists the most expensive products first.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:12:52.293822-04:00",
+          "ModifiedDate": "2026-06-27T15:12:52.293822-04:00",
+          "Items": [
+            {
+              "Id": "d9e29fef-c1a3-4b76-b1ba-2d353ee748f1",
+              "Text": "DESC must be explicitly specified for each column that requires descending order.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a7e0c432-e01e-429a-bd75-c47bbbd44fea",
+              "Text": "For text columns, descending order produces a reverse-alphabetical (Z to A) sequence.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9ce1a839-e8ee-4995-bea3-58eb7078fd4c",
+              "Text": "For date columns, DESC places the most recent dates at the top of the result set.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "dd768f11-42eb-4214-8e6d-59e658429d80",
+          "TopicId": "c4189784-03dd-4525-9a59-aebe320fd53e",
+          "Title": "Sorting by Multiple Columns",
+          "BodyText": "ORDER BY can accept a comma-separated list of columns, applying each sort level sequentially to break ties from the previous column.",
+          "Notes": "Example: SELECT last_name, first_name, hire_date FROM employees ORDER BY last_name ASC, first_name ASC; \u2014 sorts by last name first, then by first name within matching last names.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:12:52.293822-04:00",
+          "ModifiedDate": "2026-06-27T15:12:52.293822-04:00",
+          "Items": [
+            {
+              "Id": "be609a4d-307f-4091-8013-80e693142d95",
+              "Text": "Each column in a multi-column ORDER BY can independently use ASC or DESC.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "068aa22d-a580-4095-9710-33bc808f8c8b",
+              "Text": "The database evaluates sort columns from left to right, using the next column only when values in the current column are equal.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b014780a-ec00-44e9-abbd-e0122260fc00",
+              "Text": "Combining multiple sort columns is essential when primary sort keys contain many duplicate values.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "2a231b82-6ea9-40f8-9433-c916add509b1",
+          "TopicId": "c4189784-03dd-4525-9a59-aebe320fd53e",
+          "Title": "Sorting by Column Position",
+          "BodyText": "Instead of naming a column, you can reference it by its numeric position in the SELECT list within ORDER BY.",
+          "Notes": "Example: SELECT name, age, city FROM users ORDER BY 2 DESC; \u2014 sorts by the second column (age) in descending order. This shorthand is useful for quick queries but can reduce readability in complex statements.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:12:52.293822-04:00",
+          "ModifiedDate": "2026-06-27T15:12:52.293822-04:00",
+          "Items": [
+            {
+              "Id": "0645c6f5-bffa-4b54-b6bc-ab24347a1055",
+              "Text": "Column positions are counted starting from 1, corresponding to the left-to-right order of columns in the SELECT clause.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d8f715b7-d5fa-4f4a-ba7e-71843145cb92",
+              "Text": "Using positional references can be error-prone if the SELECT column order changes, so named columns are generally preferred in production code.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "055fccf2-b239-4fda-b2e7-938145545de8",
+              "Text": "Positional ORDER BY is supported in most major relational database systems including MySQL, PostgreSQL, and SQL Server.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c33cb5fa-b502-4095-93e8-365d41fb8dbf",
+          "TopicId": "c4189784-03dd-4525-9a59-aebe320fd53e",
+          "Title": "Sorting Across Different Data Types",
+          "BodyText": "ORDER BY behaves differently depending on the data type of the column being sorted, requiring an understanding of how each type is compared.",
+          "Notes": "Sorting a numeric column stored as a text type (VARCHAR) produces unexpected results \u2014 \u002710\u0027 sorts before \u00279\u0027 alphabetically. Always ensure column data types match the intended sort behavior.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:12:52.293822-04:00",
+          "ModifiedDate": "2026-06-27T15:12:52.293822-04:00",
+          "Items": [
+            {
+              "Id": "c7e84d85-c51d-4665-b31c-b52a270d42f3",
+              "Text": "Numeric columns sort by mathematical value, so 10 correctly appears after 9 in ascending order.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b3876976-a7b2-4e4e-979c-68e2b36b7318",
+              "Text": "Date and timestamp columns sort chronologically, with earlier dates ranked lower in ascending order.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "112f3dd7-10e3-43f4-b1d8-ee86467c5d5f",
+              "Text": "String columns sort lexicographically, and case sensitivity depends on the collation defined for the database or column.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+      "Title": "Aggregating Data with GROUP BY and HAVING",
+      "Summary": "Coverage of how GROUP BY organizes rows into summary groups and how HAVING filters those groups based on aggregate conditions. Students apply these clauses together to produce meaningful statistical summaries from relational data.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T15:11:23.155612-04:00",
+      "ModifiedDate": "2026-06-27T15:11:23.155612-04:00",
+      "Elements": [
+        {
+          "Id": "adfcceac-2e40-4f4b-9665-7356bc494842",
+          "TopicId": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+          "Title": "Purpose of GROUP BY",
+          "BodyText": "The GROUP BY clause organizes rows that share the same values in one or more specified columns into summary groups, enabling aggregate calculations to be performed on each group independently.",
+          "Notes": "For example, grouping an orders table by customer_id allows you to calculate totals or counts per customer rather than across all rows.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:13:15.904375-04:00",
+          "ModifiedDate": "2026-06-27T15:13:15.904375-04:00",
+          "Items": [
+            {
+              "Id": "6f1ff5fa-9217-4e1d-8545-890a93392d0b",
+              "Text": "GROUP BY collapses multiple rows with identical values in the specified column(s) into a single representative group row.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d5df277d-7ca0-416a-b6b9-2e2740a78478",
+              "Text": "Every column in the SELECT list that is not part of an aggregate function must appear in the GROUP BY clause.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "383832f3-2097-4c25-9dc8-9f6354b73676",
+              "Text": "Multiple columns can be listed in GROUP BY to create more granular groupings, such as grouping by both region and product category.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "65e04fce-b9ac-433e-800e-3128c3bb341f",
+          "TopicId": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+          "Title": "Common Aggregate Functions Used with GROUP BY",
+          "BodyText": "Aggregate functions compute a single summary value from a set of rows within each group, forming the core output of GROUP BY queries.",
+          "Notes": "Example: SELECT department, COUNT(*) AS headcount, AVG(salary) AS avg_salary FROM employees GROUP BY department; returns one row per department with computed statistics.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:13:15.904375-04:00",
+          "ModifiedDate": "2026-06-27T15:13:15.904375-04:00",
+          "Items": [
+            {
+              "Id": "66bce630-bcdf-480f-9f8e-051ba505d52a",
+              "Text": "COUNT() tallies the number of rows in each group, COUNT(*) includes NULLs while COUNT(column) excludes them.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "516a39a6-c3db-4713-8078-753b3d015e7d",
+              "Text": "SUM() adds all non-NULL numeric values within a group, while AVG() divides that sum by the count of non-NULL values.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "cfa04f1e-599a-44ea-96fa-7d7ecb982662",
+              "Text": "MIN() and MAX() return the smallest and largest values within each group respectively, and work on numeric, date, and string data types.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "deca4aef-f591-4d25-8d79-1784b36bdfeb",
+          "TopicId": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+          "Title": "Filtering Groups with the HAVING Clause",
+          "BodyText": "HAVING is used to filter the results of a GROUP BY query based on conditions applied to aggregate values, acting as the group-level counterpart to the row-level WHERE clause.",
+          "Notes": "Example: HAVING COUNT(*) \u003E 5 would exclude any group that contains five or fewer rows from the final result set.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:13:15.904375-04:00",
+          "ModifiedDate": "2026-06-27T15:13:15.904375-04:00",
+          "Items": [
+            {
+              "Id": "a0c0869a-29ea-4bcf-8d3e-5f16408f99d9",
+              "Text": "HAVING is written after the GROUP BY clause and before ORDER BY in a SELECT statement.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e33b7b95-caec-4353-a233-d0c50898a791",
+              "Text": "Conditions in HAVING can reference aggregate functions such as SUM(), AVG(), or COUNT(), which are not permitted inside a WHERE clause.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e1ba0a64-f0bf-4d4d-8592-45c2a36f97bd",
+              "Text": "Multiple conditions can be combined in HAVING using AND and OR, just as in a WHERE clause.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d340ce53-d6b6-4288-872e-658ff349d5d9",
+          "TopicId": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+          "Title": "WHERE vs. HAVING: Knowing When to Use Each",
+          "BodyText": "WHERE and HAVING both filter data, but they operate at different stages of query execution and on different targets \u2014 individual rows versus aggregated groups.",
+          "Notes": "A practical pattern is to use WHERE to reduce the dataset before grouping (improving performance) and HAVING to refine which groups appear in the output.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:13:15.904375-04:00",
+          "ModifiedDate": "2026-06-27T15:13:15.904375-04:00",
+          "Items": [
+            {
+              "Id": "d405506d-67c9-4fc9-9724-9a65e8a637d4",
+              "Text": "WHERE filters individual rows before any grouping or aggregation occurs, so aggregate functions cannot be used inside a WHERE clause.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "1c6013f4-f02c-430b-837c-686514ac4c07",
+              "Text": "HAVING filters after GROUP BY has formed the groups, allowing conditions on computed aggregate results.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c21590ec-b714-415c-9388-4cf46fd6993b",
+              "Text": "Both clauses can appear in the same query: WHERE narrows the raw rows first, then GROUP BY aggregates them, then HAVING removes unwanted groups.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "29c60893-2d76-48a9-b69e-3bcd18fb7cf8",
+          "TopicId": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+          "Title": "Query Execution Order with GROUP BY and HAVING",
+          "BodyText": "Understanding the logical order in which SQL processes clauses helps explain why certain column references and aggregate functions are valid only in specific clauses.",
+          "Notes": "The logical order is: FROM \u2192 WHERE \u2192 GROUP BY \u2192 HAVING \u2192 SELECT \u2192 ORDER BY. Aliases defined in SELECT are not available to HAVING in most databases because HAVING is evaluated before SELECT.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:13:15.904375-04:00",
+          "ModifiedDate": "2026-06-27T15:13:15.904375-04:00",
+          "Items": [
+            {
+              "Id": "48802039-8080-4285-a788-afc1cfd94590",
+              "Text": "FROM and JOIN are processed first to assemble the full working dataset.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "1413afa8-67e7-46d0-8253-c8d6256db6a2",
+              "Text": "WHERE is applied next to filter individual rows, reducing the set before grouping.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ccdcad53-91ac-4cb5-bae8-e848405c947c",
+              "Text": "GROUP BY then organizes the remaining rows into groups, HAVING filters those groups, and finally SELECT and ORDER BY format the output.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d3f895b7-f05f-458c-8822-5c850bd9b11f",
+          "TopicId": "e469cd84-8391-4aa2-8e28-0b9b1efcc8ef",
+          "Title": "Writing Combined GROUP BY and HAVING Queries",
+          "BodyText": "Combining GROUP BY and HAVING in a single query allows analysts to produce targeted statistical summaries that include only the groups meeting specific aggregate criteria.",
+          "Notes": "Example: SELECT department, SUM(sales) AS total_sales FROM orders GROUP BY department HAVING SUM(sales) \u003E 100000 ORDER BY total_sales DESC; lists only departments whose total sales exceed 100,000.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:13:15.904375-04:00",
+          "ModifiedDate": "2026-06-27T15:13:15.904375-04:00",
+          "Items": [
+            {
+              "Id": "31d08a90-9873-4f4b-bfd8-070faeb0d170",
+              "Text": "Start by identifying the grouping column(s) and the aggregate measure required, then build the SELECT and GROUP BY clauses accordingly.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fc32cb6b-f6bc-474d-9e32-cd7f4d12d56f",
+              "Text": "Add the HAVING clause with the appropriate aggregate condition to exclude groups that do not meet the business requirement.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "305aa009-ea56-430e-80b6-8fcc7372f73c",
+              "Text": "Use ORDER BY after HAVING to sort the filtered group results, often by the aggregate value for ranked or top-N style reporting.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "10d18969-2598-47e5-a8d9-1202495882a5",
+              "Text": "Test incrementally by first running the query without HAVING to verify groupings are correct before adding the filter condition.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "7c553756-68ba-466b-8416-ceadad998b38",
+      "Title": "Writing and Using Subqueries",
+      "Summary": "An introduction to subqueries as nested SELECT statements embedded within a larger query. Students learn to use subqueries in WHERE, FROM, and SELECT clauses to solve complex data retrieval problems.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-06-27T15:11:23.155612-04:00",
+      "ModifiedDate": "2026-06-27T15:11:23.155612-04:00",
+      "Elements": [
+        {
+          "Id": "545355d4-189f-4d0b-a14e-3e036f41a7ce",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "What Is a Subquery?",
+          "BodyText": "A subquery is a SELECT statement nested inside another SQL query, allowing you to use the result of one query as input for another.",
+          "Notes": "Subqueries are enclosed in parentheses and can appear in several clauses of the outer query. They are sometimes called inner queries or nested queries.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "db45b645-9e41-4192-8b24-9c7eed89f95b",
+              "Text": "The inner (nested) query executes first, and its result is passed to the outer query.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "828ef40a-de7f-4330-885b-43d09c15a064",
+              "Text": "Subqueries can return a single value, a single row, multiple rows, or even a full table depending on their placement and purpose.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "bc1a59e1-8006-4e1c-8102-6f15529352a7",
+              "Text": "They provide a way to break complex data retrieval problems into logical, readable steps.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "7b19842b-4a81-4996-b0e4-d93bec44cc19",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "Subqueries in the WHERE Clause",
+          "BodyText": "Placing a subquery in the WHERE clause lets you filter rows based on values dynamically retrieved from another query.",
+          "Notes": "Example: SELECT name FROM employees WHERE department_id = (SELECT id FROM departments WHERE name = \u0027Sales\u0027); \u2014 this retrieves employees in the Sales department without hardcoding its ID.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "ee332b17-1a9f-4bdd-98a0-0d6a3620b336",
+              "Text": "Use the = operator when the subquery returns exactly one value (scalar subquery).",
+              "SortOrder": 0
+            },
+            {
+              "Id": "05d8a72f-63ea-4990-b5bc-06d338d2ad70",
+              "Text": "Use the IN operator when the subquery returns a list of values, allowing the outer query to match any value in that list.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ffd3e8c8-ee0a-4862-8f51-454c596a2d5a",
+              "Text": "Use comparison operators such as \u003E, \u003C, or \u003C\u003E combined with ANY or ALL for range-based filtering against subquery results.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a65f38a1-f9fe-474c-ae84-01128c199570",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "Subqueries in the FROM Clause (Derived Tables)",
+          "BodyText": "A subquery placed in the FROM clause acts as a temporary, inline table \u2014 often called a derived table \u2014 that the outer query can select from.",
+          "Notes": "Example: SELECT dept_avg.department, dept_avg.avg_salary FROM (SELECT department, AVG(salary) AS avg_salary FROM employees GROUP BY department) AS dept_avg WHERE dept_avg.avg_salary \u003E 60000;",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "0e9c328c-f97c-49db-8909-f7296776d8f7",
+              "Text": "Derived tables must be given an alias so the outer query can reference them by name.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7e80297b-0473-4968-9b32-a2e4ca67f776",
+              "Text": "This technique is useful when you need to perform aggregation first and then filter or join on those aggregated results.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4cdfc31c-7ff8-42d4-9b65-5aed891dd331",
+              "Text": "Derived tables exist only for the duration of the query and do not persist as database objects.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "8aef1b2a-5d34-4d6c-8fbb-762443775616",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "Subqueries in the SELECT Clause (Scalar Subqueries)",
+          "BodyText": "A subquery in the SELECT clause returns a single value for each row of the outer query, allowing computed or looked-up values to appear as columns in the result set.",
+          "Notes": "Example: SELECT name, (SELECT MAX(salary) FROM employees) AS max_salary FROM employees; \u2014 this appends the company-wide maximum salary to every row returned.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "18f449a5-03cd-4d66-8c48-1da1bf1e201d",
+              "Text": "Scalar subqueries must return exactly one column and one row per outer row; returning multiple rows causes a runtime error.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "99980d2a-0411-43d5-92d6-c18858c37070",
+              "Text": "They are useful for adding reference values, counts, or aggregates alongside each record without a JOIN.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f06a6a39-5f7e-419a-84c3-52c13dcd56e6",
+              "Text": "Performance can degrade on large datasets because the scalar subquery may execute once per row of the outer query.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4d8b6383-9c76-4b64-9472-1f460b3c40ce",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "Correlated vs. Non-Correlated Subqueries",
+          "BodyText": "Subqueries are classified as either non-correlated (independent of the outer query) or correlated (referencing columns from the outer query), each with different execution behavior.",
+          "Notes": "A correlated subquery example: SELECT name FROM employees e WHERE salary \u003E (SELECT AVG(salary) FROM employees WHERE department_id = e.department_id); \u2014 the inner query references e.department_id from the outer query.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "e400e4f3-0f41-4179-90dd-c9d881acf6ee",
+              "Text": "A non-correlated subquery runs once and its result is reused by the outer query, making it generally more efficient.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "64aeaba5-85bd-4792-bef0-093322cb6bdc",
+              "Text": "A correlated subquery re-executes for every row processed by the outer query, referencing values from that row.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d47e9fb5-118c-4290-8162-353d071de2c1",
+              "Text": "Correlated subqueries are powerful for row-by-row comparisons but can be slower; consider rewriting them as JOINs when performance is critical.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "1c3c8828-54fa-4985-88d7-9874af03d909",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "Using EXISTS and NOT EXISTS with Subqueries",
+          "BodyText": "The EXISTS operator tests whether a subquery returns any rows at all, enabling efficient conditional filtering based on the presence or absence of related data.",
+          "Notes": "Example: SELECT name FROM customers c WHERE EXISTS (SELECT 1 FROM orders WHERE customer_id = c.id); \u2014 returns only customers who have at least one order.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "ea454dc5-cd75-4f4b-bd3c-aa0351051aff",
+              "Text": "EXISTS returns TRUE if the subquery produces one or more rows, and FALSE if it returns no rows.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cb1ffc72-77f3-4919-ba4d-0bdec40f423f",
+              "Text": "NOT EXISTS is the logical inverse and is useful for finding records with no matching related records.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "41c2ae96-502e-4417-a700-aaccc5e058db",
+              "Text": "Because EXISTS stops processing as soon as one matching row is found, it is often faster than IN for large datasets.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4b463f7e-c084-44b0-94db-71581eef3116",
+          "TopicId": "7c553756-68ba-466b-8416-ceadad998b38",
+          "Title": "Best Practices for Writing Subqueries",
+          "BodyText": "Writing clear, efficient subqueries requires attention to readability, correctness, and query performance.",
+          "Notes": "Always test the inner query independently before embedding it to confirm it returns the expected data type and row count.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "ModifiedDate": "2026-06-27T15:13:41.1254986-04:00",
+          "Items": [
+            {
+              "Id": "16ae2569-c8f8-4c89-af36-b97259136cf5",
+              "Text": "Indent subqueries consistently and use aliases to make nested logic easier to read and maintain.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fdd797c8-37af-419e-8c76-8a2253c31953",
+              "Text": "Choose the appropriate operator (=, IN, EXISTS) based on whether the subquery returns a scalar, a list, or simply needs an existence check.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c26dbdf1-3cee-45ed-a0c6-eaf84a13d152",
+              "Text": "Consider replacing complex or correlated subqueries with JOINs or Common Table Expressions (CTEs) when readability or performance suffers.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "2476c83f-795c-4132-b7a4-42d81cb444ed",
+              "Text": "Verify that scalar subqueries cannot return more than one row to avoid runtime errors in production environments.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 38
+}

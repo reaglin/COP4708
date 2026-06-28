@@ -1,0 +1,900 @@
+{
+  "ModuleFolderName": "SQL_Data_Modeling",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T15:03:47.7660277-04:00",
+  "ModifiedDate": "2026-06-27T15:05:33.0340534-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+      "Title": "Introduction to SQL as a Data Modeling Language",
+      "Summary": "This topic establishes SQL\u0027s role beyond querying, positioning it as a language for expressing and implementing data models. Students are introduced to the core idea that SQL bridges logical design and physical database structure.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "ModifiedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "Elements": [
+        {
+          "Id": "e0159b4f-c1b2-4d61-a63e-be8c58b6e5c1",
+          "TopicId": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+          "Title": "SQL Beyond Querying",
+          "BodyText": "SQL is widely known for retrieving data, but its capabilities extend far beyond SELECT statements into the realm of data modeling and structure definition.",
+          "Notes": "Many beginners associate SQL exclusively with querying, but a significant portion of SQL\u0027s power lies in its ability to define and shape the structure of a database before any data is stored.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "ModifiedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "Items": [
+            {
+              "Id": "2253bf56-cea9-4c0c-afa3-7c44d7b1c786",
+              "Text": "SQL includes a subset of commands specifically designed to create, alter, and manage database structures rather than just retrieve data.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "41b2c319-f6be-47ee-a2c7-b7aa57a0474e",
+              "Text": "This structural capability makes SQL a complete language for both defining and interacting with relational databases.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "dc8bc96b-789c-47f9-bc05-f69e5e16396a",
+              "Text": "Recognizing SQL\u0027s dual role as both a query language and a modeling language is foundational to effective database design.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "e7678bbc-2f77-4152-91a4-f6d3c12ed852",
+          "TopicId": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+          "Title": "SQL as a Data Modeling Language",
+          "BodyText": "SQL serves as the primary tool for expressing and implementing data models within relational database systems.",
+          "Notes": "When a data architect designs a model on paper or in a design tool, SQL is the language used to translate that design into a working database structure.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "ModifiedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "Items": [
+            {
+              "Id": "c339b38e-f133-45ba-9937-1359a155f285",
+              "Text": "SQL allows designers to formally declare entities, attributes, and relationships in a form the database engine can enforce.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "aafcfaa4-01c1-496e-9e4c-ce0ad73935c1",
+              "Text": "Using SQL for modeling ensures that the intended structure is communicated precisely and unambiguously to the database system.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "cb8d8c4d-029f-4b67-9ecf-373a4490b8f9",
+              "Text": "SQL\u0027s modeling role makes it a bridge between abstract design thinking and concrete database implementation.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "66198d97-c130-4a23-a15c-edcd002c2bea",
+          "TopicId": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+          "Title": "Bridging Logical Design and Physical Structure",
+          "BodyText": "One of SQL\u0027s core functions is to translate logical data models\u2014conceived during the design phase\u2014into physical database structures that a system can store and manage.",
+          "Notes": "A logical model describes what data exists and how it relates; the physical structure is how that model is actually stored. SQL is the mechanism that connects these two layers.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "ModifiedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "Items": [
+            {
+              "Id": "c5c863c3-88a9-4da8-93e3-3d5b096430c5",
+              "Text": "Logical design captures business rules and relationships in an abstract form, independent of any specific database system.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "785b2d74-570b-4971-a11e-b12371452179",
+              "Text": "SQL DDL (Data Definition Language) commands convert that abstract design into tables, columns, keys, and constraints within a real database.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d77d9552-ecf2-4bb5-b26f-18a2f29fe986",
+              "Text": "This bridging role means that the quality of SQL modeling directly impacts how faithfully the physical database reflects the intended logical design.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "34278e66-9641-407e-aea5-d09ceed44560",
+          "TopicId": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+          "Title": "SQL Within the Database Design Workflow",
+          "BodyText": "SQL does not exist in isolation; it occupies a specific and critical stage within the broader database design and development workflow.",
+          "Notes": "Understanding where SQL fits in the overall process helps students appreciate why good modeling practices matter before writing a single SQL statement.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "ModifiedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "Items": [
+            {
+              "Id": "0db4a8d2-d78d-430b-abd4-c9a255554033",
+              "Text": "The typical workflow moves from requirements gathering to conceptual design, then to logical modeling, and finally to physical implementation using SQL.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "326f6c72-4175-41d6-9c74-55ab3b556885",
+              "Text": "SQL is applied at the physical implementation stage, where logical decisions are encoded into actual database schemas.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e44ac59d-a9bd-46fd-8f2f-7101dfb7c611",
+              "Text": "Errors made in earlier design stages are carried forward and amplified when translated into SQL, making pre-SQL design work essential.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a8e35a47-fcab-429d-8e3f-2b4a073cda87",
+          "TopicId": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+          "Title": "Introduction to Schema Creation",
+          "BodyText": "Schema creation is the practical expression of data modeling in SQL, involving the definition of the containers and structures that will hold an organization\u0027s data.",
+          "Notes": "A schema can be thought of as a blueprint for a database, grouping related tables and objects under a named organizational unit.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "ModifiedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "Items": [
+            {
+              "Id": "d579095c-470c-400b-8204-fe9dbe97ad06",
+              "Text": "In SQL, a schema provides a namespace that organizes tables, views, and other database objects into a coherent, manageable unit.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "edef7e1b-a150-48cb-a0ec-f5bdd953c310",
+              "Text": "Creating a schema is typically one of the first steps in implementing a data model, establishing the environment in which all subsequent structures will be built.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "10bae17a-dcb3-4f3e-be56-27c153bc75fa",
+              "Text": "Schema design decisions\u2014such as naming conventions and object grouping\u2014reflect and reinforce the underlying logical data model.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "2475c095-7abb-46c7-b3ef-55c2d8191029",
+          "TopicId": "2599941d-e653-4c4c-ad6e-7a74c3b36ea2",
+          "Title": "Relational Database Systems as the Target Environment",
+          "BodyText": "SQL modeling is carried out within the context of relational database systems, which provide the rules and infrastructure that make SQL\u0027s structural definitions meaningful.",
+          "Notes": "Different relational database systems (such as PostgreSQL, MySQL, or SQL Server) share core SQL standards while introducing some variation, but the fundamental modeling concepts remain consistent.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "ModifiedDate": "2026-06-27T15:04:09.9672818-04:00",
+          "Items": [
+            {
+              "Id": "1eb86f34-bbe4-4e5e-aa5f-089bdab21c13",
+              "Text": "Relational database systems store data in tables composed of rows and columns, a structure that SQL is specifically designed to define and manipulate.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "35812408-834f-421a-bb91-4f96bc30e431",
+              "Text": "The relational model enforces data integrity through constraints that SQL allows designers to declare explicitly during modeling.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "775308da-39e2-4ca0-b20f-d1bb58468bc1",
+              "Text": "Understanding the relational system as the target environment helps students write SQL models that leverage the system\u0027s full integrity and performance capabilities.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+      "Title": "Relational Database Fundamentals",
+      "Summary": "This topic covers the foundational concepts of relational database systems that underpin SQL data modeling. Students explore how data is organized into tables, rows, and columns within a relational framework.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "ModifiedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "Elements": [
+        {
+          "Id": "6ba0b412-a951-49ec-b89c-b2c7b2b40510",
+          "TopicId": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+          "Title": "What Is a Relational Database?",
+          "BodyText": "A relational database is a structured system for storing and managing data by organizing it into related tables.",
+          "Notes": "The relational model was introduced by Edgar F. Codd in 1970 and remains the dominant paradigm for structured data storage today.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "ModifiedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "Items": [
+            {
+              "Id": "03a2df0c-7fd8-4cbe-add3-8b7567bea4b9",
+              "Text": "Data is stored in two-dimensional tables consisting of rows and columns, similar in appearance to a spreadsheet.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b812e7c7-98e9-457e-b1c8-aa051cd9b66c",
+              "Text": "Tables can be related to one another through shared data values, enabling complex data organization without redundancy.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "557b53fa-c164-4600-aae7-0dbf1b9d2fde",
+              "Text": "The relational model provides a consistent, logical framework that separates how data is stored physically from how users interact with it.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f239ac81-1a26-4484-bccd-e5eff5a69bb1",
+          "TopicId": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+          "Title": "Tables: The Core Structure",
+          "BodyText": "Tables are the fundamental building blocks of a relational database, each representing a distinct entity or concept.",
+          "Notes": "For example, a business database might contain separate tables for Customers, Orders, and Products, each capturing a distinct subject area.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "ModifiedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "Items": [
+            {
+              "Id": "15353efe-1e85-4790-a471-606024841770",
+              "Text": "Each table has a unique name within a database schema and is defined by a fixed set of named columns.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c65d0f13-5b8b-401b-9c19-28518e3ee5dd",
+              "Text": "Every table is designed to store information about one specific type of entity, keeping data organized and purposeful.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0d9b6e62-dbef-40f8-b196-7aeda3441ef2",
+              "Text": "Multiple tables work together to represent the full complexity of a real-world domain.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a82a83a3-63c0-4486-a19f-df888f06d74e",
+          "TopicId": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+          "Title": "Rows and Records",
+          "BodyText": "Each row in a table, also called a record or tuple, represents a single instance of the entity that the table describes.",
+          "Notes": "For instance, in a Customers table, each row would hold the data for one individual customer.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "ModifiedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "Items": [
+            {
+              "Id": "01714a98-ac9e-403d-9875-410e5904071b",
+              "Text": "Rows are the horizontal entries in a table, containing one value for each column defined in that table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4cbf81bc-7097-4e04-8be6-2279d30dd694",
+              "Text": "Every row should be uniquely identifiable, which is enforced through the use of primary keys.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8c962703-5f5b-4fc3-b087-3406c2544d4b",
+              "Text": "The total number of rows in a table can grow or shrink as data is inserted, updated, or deleted.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ebe9ec2e-9791-42f4-ac1f-6c7ed2259275",
+          "TopicId": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+          "Title": "Columns and Attributes",
+          "BodyText": "Columns define the attributes or properties of the entity represented by a table, specifying what kind of data each field holds.",
+          "Notes": "A Customers table might have columns such as CustomerID, FirstName, LastName, Email, and PhoneNumber.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "ModifiedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "Items": [
+            {
+              "Id": "e3d8d757-65b2-40c5-a0be-0300808330d4",
+              "Text": "Each column has a defined name and a data type that constrains the kind of values it can store, such as integers, text, or dates.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "802a3b61-554c-4cf4-b226-c4a628ccfb6b",
+              "Text": "Columns are the vertical dimension of a table and are set at the time the table is created using SQL.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c17857c4-972d-498e-a2bc-a0760c7d26bb",
+              "Text": "Choosing appropriate columns is a critical part of data modeling, as it determines what information can be captured and queried.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4329374b-a563-4f0d-b29e-04d8e1a6ef4c",
+          "TopicId": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+          "Title": "Relationships Between Tables",
+          "BodyText": "The power of the relational model comes from the ability to define meaningful relationships between different tables.",
+          "Notes": "A foreign key in an Orders table that references the CustomerID column of the Customers table is a classic example of a relationship.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "ModifiedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "Items": [
+            {
+              "Id": "505e537b-4bab-4298-ad65-0977bc6649a7",
+              "Text": "Relationships are established by referencing a unique identifier from one table within another table, known as a foreign key relationship.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a5e98d5a-102a-4849-baf0-9418ff4cc5cf",
+              "Text": "Common relationship types include one-to-one, one-to-many, and many-to-many, each modeling a different real-world association.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "318eef12-40c2-46fe-b13e-d7d23f852bdb",
+              "Text": "Defining relationships correctly reduces data duplication and ensures that the database accurately reflects real-world connections.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0e653a8c-c55c-4012-96ce-0afc9bc6ae65",
+          "TopicId": "e1ad6024-2126-4bf4-ae17-13a50ca73c55",
+          "Title": "Schemas and Database Organization",
+          "BodyText": "A database schema is the logical blueprint of a relational database, defining its tables, columns, relationships, and constraints.",
+          "Notes": "SQL is the primary language used to create and modify schemas, using statements such as CREATE TABLE to define structure.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "ModifiedDate": "2026-06-27T15:04:28.0650467-04:00",
+          "Items": [
+            {
+              "Id": "a4c1f29d-d524-4b6e-8b89-349dc6a4b3a9",
+              "Text": "The schema acts as a container that groups related tables together and governs how the database is structured.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "efbc4e30-0db9-4941-9c74-c7d0ae1cdcf9",
+              "Text": "Designing a schema is a deliberate process that translates a logical data model into concrete database objects.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2acb0290-2334-4902-8672-04019304d496",
+              "Text": "A well-designed schema makes the database easier to query, maintain, and scale over time.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+      "Title": "Logical Data Modeling Concepts",
+      "Summary": "This topic examines how logical data models are constructed to represent business rules and data relationships before implementation. Students learn how these models serve as the blueprint that SQL will later express.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "ModifiedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "Elements": [
+        {
+          "Id": "4ba2e322-698e-4471-85df-dd9759d1b6ed",
+          "TopicId": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+          "Title": "Purpose of Logical Data Models",
+          "BodyText": "A logical data model is a structured representation of business data requirements and rules, independent of any specific database technology or implementation detail.",
+          "Notes": "Think of the logical model as the \u0027what\u0027 of your data design \u2014 what entities exist, what attributes they have, and how they relate \u2014 before deciding \u0027how\u0027 to store them.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "ModifiedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "Items": [
+            {
+              "Id": "caeb6b1c-8309-43b4-9b35-c5844e541041",
+              "Text": "Logical models capture business rules and data relationships in a technology-neutral way.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "98faf85e-c439-40c4-9140-a389e947ecaa",
+              "Text": "They serve as a communication bridge between business stakeholders and database developers.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "51a1b855-42db-4e8d-a891-e0f4b5a8432f",
+              "Text": "By separating design from implementation, logical models reduce errors introduced during the physical build phase.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "cc55ae6a-ad13-47da-88a6-4af702dcf88d",
+          "TopicId": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+          "Title": "Entities and Attributes",
+          "BodyText": "Entities represent the key objects or concepts a business needs to track, while attributes describe the specific properties or characteristics of each entity.",
+          "Notes": "For example, a retail business might define a \u0027Customer\u0027 entity with attributes such as CustomerID, Name, and Email. These directly inform the tables and columns created later in SQL.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "ModifiedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "Items": [
+            {
+              "Id": "8d82679d-18b6-48bc-9dd6-069f5092df64",
+              "Text": "An entity corresponds to a distinct, identifiable thing of importance to the business, such as a Product, Order, or Employee.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "71363f05-44e2-43b1-97d1-c3d05d0b67b2",
+              "Text": "Attributes are the data points collected about each entity and become column definitions in a relational table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "662c3e5f-739e-4f3d-b60b-0de54072423e",
+              "Text": "Choosing the right granularity of attributes ensures the model accurately reflects real-world business needs.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "66155c8b-d87c-432d-8825-f54369ff9e6e",
+          "TopicId": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+          "Title": "Relationships Between Entities",
+          "BodyText": "Relationships define how entities are connected to one another and are a core component of logical data modeling.",
+          "Notes": "Common relationship types include one-to-one, one-to-many, and many-to-many. For example, one Customer can place many Orders, representing a one-to-many relationship.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "ModifiedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "Items": [
+            {
+              "Id": "bb04369c-cd33-434a-ab8e-8b1cea8cbf54",
+              "Text": "Identifying relationships ensures that data dependencies between business concepts are explicitly captured in the model.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "028a7a0f-a0d2-459b-9093-efe41118bb8b",
+              "Text": "Cardinality (one-to-one, one-to-many, many-to-many) describes the numerical nature of the relationship between two entities.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a9e5a3b0-6466-45c4-9bbd-86c82cc28c3c",
+              "Text": "These relationships are later enforced in SQL through primary and foreign key constraints.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a0d0f7ed-7c0d-417e-a07f-e85b7fa1f5a4",
+          "TopicId": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+          "Title": "Business Rules in Logical Models",
+          "BodyText": "Business rules are constraints and policies that govern how data behaves, and logical models translate these rules into structural data requirements.",
+          "Notes": "A business rule such as \u0027every order must be associated with a customer\u0027 becomes a mandatory relationship in the model and a NOT NULL foreign key in SQL.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "ModifiedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "Items": [
+            {
+              "Id": "c998f4ae-f49e-4e4c-8d35-68776b8fefed",
+              "Text": "Business rules define what values are valid, what relationships are mandatory, and what actions trigger data changes.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "68bb0113-7ae1-4eb3-bd12-032ececf4763",
+              "Text": "Encoding business rules in the logical model ensures they are not overlooked or misapplied during SQL implementation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b868f613-0b29-451f-832d-6f34ad615a68",
+              "Text": "Rules about uniqueness, required fields, and allowable values directly shape the constraints added to a relational schema.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "571dacb5-fa13-46bb-972f-4018cb3dac6c",
+          "TopicId": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+          "Title": "Logical Model as a Blueprint for SQL",
+          "BodyText": "The logical data model acts as the definitive blueprint that SQL statements will later express when creating and structuring a relational database.",
+          "Notes": "Each element of the logical model \u2014 entities, attributes, relationships, and rules \u2014 maps to a corresponding SQL construct such as CREATE TABLE, column definitions, and constraint clauses.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "ModifiedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "Items": [
+            {
+              "Id": "44cb6c6b-cd0f-4287-b9b0-738702cc70f7",
+              "Text": "SQL schema creation is essentially a translation of the logical model into database-executable language.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "91d0243d-2fb1-454f-8eb1-40bd5ef265a6",
+              "Text": "A well-constructed logical model makes SQL implementation more predictable, consistent, and aligned with business intent.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "69b064f1-576a-4104-b715-bb8c9b19990b",
+              "Text": "Discrepancies between the logical model and SQL schema often lead to data integrity issues that are difficult to resolve after deployment.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "cdf0b9db-609c-417e-9b94-a4d7b5f9d529",
+          "TopicId": "2745fa20-dbb4-425b-aeef-32bc219f6cb8",
+          "Title": "Normalization in Logical Modeling",
+          "BodyText": "Normalization is the process of organizing entities and attributes in a logical model to minimize redundancy and ensure data integrity.",
+          "Notes": "Normal forms (1NF, 2NF, 3NF) provide systematic rules for structuring data. For instance, separating repeating groups into their own entities is a foundational normalization step.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "ModifiedDate": "2026-06-27T15:04:48.9983744-04:00",
+          "Items": [
+            {
+              "Id": "ca063c58-8e46-431d-abcc-2a637b25bef9",
+              "Text": "Normalization eliminates data duplication, reducing the risk of inconsistent or contradictory information across the database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5f490110-ce3a-4b23-9d60-283ccd153fad",
+              "Text": "Each normal form builds on the previous, progressively refining how data dependencies are organized among entities.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0acbc531-9691-485f-991d-e4a1f8e2b2f4",
+              "Text": "A normalized logical model produces a cleaner SQL schema that is easier to maintain and query efficiently.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+      "Title": "Schema Creation and Definition",
+      "Summary": "This topic focuses on how SQL is used to define and create database schemas that reflect a logical data model. Students explore the key SQL constructs used to structure and organize data within a database.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "ModifiedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "Elements": [
+        {
+          "Id": "beeecf18-839d-4d85-98c4-a1dcd80c3fc6",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "What is a Database Schema?",
+          "BodyText": "A database schema is the formal definition of the structure of a database, describing how data is organized and how the components relate to one another.",
+          "Notes": "Think of a schema as a blueprint: it does not contain the actual data but defines the containers and rules that govern the data stored within them.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "6a7ec581-b9f7-481b-a6a3-c529871ea44a",
+              "Text": "A schema defines tables, columns, data types, and relationships before any data is inserted.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ff71b2bd-e05e-4451-a788-5bcd51a2369b",
+              "Text": "Schemas translate a logical data model into a concrete, implementable database structure.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "56179c33-532e-4ea1-bd5d-5ba5c346c166",
+              "Text": "A single database system can host multiple schemas, allowing logical separation of data domains.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "79c97b47-58ad-4ddd-9ae3-15829646463b",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "The CREATE DATABASE Statement",
+          "BodyText": "Before defining tables or relationships, a database container must be established using the CREATE DATABASE statement.",
+          "Notes": "Example: CREATE DATABASE CompanyDB; \u2014 this sets up the top-level namespace within which all schemas and objects will reside.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "265b5a5e-9bd8-4701-8a30-d81473d038e4",
+              "Text": "CREATE DATABASE initializes a new database environment managed by the relational database system.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "191156f9-ce91-46aa-aaab-7c89e9359af5",
+              "Text": "Database names should be meaningful and reflect the domain or application they support.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f87a32e5-72e0-44e5-ad86-3b1fbd073afa",
+              "Text": "Some systems use CREATE SCHEMA as an equivalent or complementary command to further organize objects within a database.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a200cc6e-8480-485d-ac6b-00f51a50cd21",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "Defining Tables with CREATE TABLE",
+          "BodyText": "The CREATE TABLE statement is the primary SQL construct used to define the structure of individual data entities within a schema.",
+          "Notes": "Example: CREATE TABLE Employee (EmployeeID INT, FirstName VARCHAR(50), LastName VARCHAR(50)); \u2014 each column definition specifies a name and a data type.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "65f4fea1-f497-455b-9995-9b2165edbf3c",
+              "Text": "Each table corresponds to an entity identified during logical data modeling.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "489a4cb6-1e84-4689-b734-481fc60d0c71",
+              "Text": "Columns within a table represent the attributes of that entity.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ae381927-6edc-4540-b930-233659560c92",
+              "Text": "The order of column definitions does not affect data integrity but should follow a logical, readable convention.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "33c1e671-2d72-4496-be95-94ef3034c3ab",
+              "Text": "A single CREATE TABLE statement fully specifies the column names, data types, and inline constraints for one table.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "fefe74e0-50b8-4628-a187-ad8d5eedf724",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "Choosing Appropriate Data Types",
+          "BodyText": "Assigning the correct data type to each column is a critical part of schema definition, ensuring data integrity and storage efficiency.",
+          "Notes": "Common types include INT for whole numbers, VARCHAR(n) for variable-length text, DATE for calendar dates, and DECIMAL(p,s) for precise numeric values such as currency.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "a9ff3715-169d-43c1-9be0-f09b361cf619",
+              "Text": "Data types enforce what kind of values a column can store, preventing invalid data from being inserted.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "3ff3d00d-c704-441f-90e2-1a01a400494c",
+              "Text": "Choosing too large a data type wastes storage, while too small a type risks truncation or overflow errors.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "cdfd322b-f2c2-4da0-9e47-f96a9c20b305",
+              "Text": "Numeric types such as INT and DECIMAL should be selected based on the range and precision requirements of the data.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "db069aa5-d590-488f-a242-bd7013dc63cc",
+              "Text": "Text types like CHAR and VARCHAR differ in how they store fixed versus variable-length strings.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "55a6a702-2fde-4dd1-b01c-c95398443c65",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "Defining Primary Keys",
+          "BodyText": "A primary key constraint uniquely identifies each row in a table and is a foundational element of relational schema design.",
+          "Notes": "Example: EmployeeID INT PRIMARY KEY \u2014 this ensures no two employees share the same ID and that the column cannot contain NULL values.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "2defcd33-d8a9-4346-9189-b171c405f6a0",
+              "Text": "Every table should have a primary key to guarantee row uniqueness and support reliable data retrieval.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a2c2d0b3-e25b-4131-837d-9e60e624a1de",
+              "Text": "Primary keys can be a single column (simple key) or a combination of columns (composite key).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "365f780e-e1fb-4859-98e1-b319fa67c3b9",
+              "Text": "The database engine automatically enforces uniqueness and NOT NULL constraints on primary key columns.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4a6ea862-eb97-45da-aad0-52286207a0f4",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "Establishing Foreign Keys and Relationships",
+          "BodyText": "Foreign key constraints link tables together, reflecting the relationships defined in the logical data model and enforcing referential integrity.",
+          "Notes": "Example: DepartmentID INT REFERENCES Department(DepartmentID) \u2014 this ensures that every department assigned to an employee actually exists in the Department table.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "e21cc9b1-5b54-467f-b1aa-a3a144d53965",
+              "Text": "A foreign key column in one table references the primary key column of another, creating a parent-child relationship.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ad58404d-3953-43e2-a478-630b41afa62c",
+              "Text": "Referential integrity rules prevent orphaned records, such as an employee assigned to a non-existent department.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "cb385bf8-c32d-4332-95c5-23e00ee45883",
+              "Text": "ON DELETE and ON UPDATE clauses can be added to control what happens to child records when a parent record is modified or removed.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "452ffd79-a27d-45d5-91a3-4a085a63ca77",
+              "Text": "Foreign keys directly implement the associations (one-to-many, many-to-many) identified during logical modeling.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "f159f985-0854-4811-ad3f-8da3ea3dbf5c",
+          "TopicId": "f5d72f0f-e78b-48e1-870f-b41bd8865c23",
+          "Title": "Applying Column-Level Constraints",
+          "BodyText": "Beyond primary and foreign keys, SQL supports additional constraints that further enforce business rules and data quality within a schema.",
+          "Notes": "Constraints are best defined at schema creation time so the database engine enforces rules automatically, reducing the burden on application code.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "ModifiedDate": "2026-06-27T15:05:13.1185615-04:00",
+          "Items": [
+            {
+              "Id": "2814283e-fdfb-4b33-a8b6-8fca70151940",
+              "Text": "NOT NULL ensures a column must always contain a value and cannot be left empty.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0d3d2f52-7946-4a01-a3f5-c172c0a790db",
+              "Text": "UNIQUE prevents duplicate values in a column while still allowing multiple NULL values in most systems.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7b83ea34-e2c0-4f77-b90d-f862a7ef25fa",
+              "Text": "DEFAULT assigns an automatic value to a column when no value is explicitly provided during an INSERT.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "e17997dc-2052-4a65-b708-394d19153e47",
+              "Text": "CHECK constraints allow custom validation rules, such as ensuring a salary value is always greater than zero.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "2727a06d-30d0-4619-95fc-45d3cc0c8d3d",
+      "Title": "SQL in the Database Design Workflow",
+      "Summary": "This topic places SQL within the broader end-to-end database design process, from conceptual modeling through logical and physical design. Students understand how SQL acts as the implementation layer that translates design decisions into a working database.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "ModifiedDate": "2026-06-27T15:03:47.7660277-04:00",
+      "Elements": [
+        {
+          "Id": "990a64d6-336c-43bc-8735-1638b8e60026",
+          "TopicId": "2727a06d-30d0-4619-95fc-45d3cc0c8d3d",
+          "Title": "The Three Phases of Database Design",
+          "BodyText": "Database design follows a structured progression through conceptual, logical, and physical phases before any SQL is written.",
+          "Notes": "Think of the three phases as moving from abstract ideas to concrete implementation: first you model the business problem, then you structure the data relationships, then you define how it all lives in a specific database system.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "ModifiedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "Items": [
+            {
+              "Id": "44f8eb95-3df2-46d8-8d81-1a62a55cbf67",
+              "Text": "Conceptual design captures high-level business requirements and entities without concern for technical details.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4d1ebb4e-c794-48f5-909f-19e98c6a4f3b",
+              "Text": "Logical design translates those entities into a structured relational model, defining tables, attributes, and relationships.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4cf5445c-f550-48a9-8a62-55d94aac9870",
+              "Text": "Physical design addresses system-specific decisions such as storage, indexing, and performance optimization.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "aeb4251d-7897-49cf-8c2f-ff941b274ccd",
+              "Text": "Each phase produces an artifact \u2014 such as an ER diagram or a schema definition \u2014 that feeds into the next phase.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "a2998f48-b943-4a27-a0eb-6b246ee1dcdb",
+          "TopicId": "2727a06d-30d0-4619-95fc-45d3cc0c8d3d",
+          "Title": "SQL as the Implementation Layer",
+          "BodyText": "SQL serves as the bridge that converts the decisions made during design phases into a functioning database structure.",
+          "Notes": "Without SQL, a logical data model remains a diagram on paper. SQL is the language that brings those design decisions to life inside a real relational database system.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "ModifiedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "Items": [
+            {
+              "Id": "73a47a16-358b-4950-9834-90f506ecaf7b",
+              "Text": "SQL translates logical design artifacts \u2014 tables, columns, keys, and relationships \u2014 into executable database objects.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "bc54901e-c487-4361-8ef2-a12a58a409ee",
+              "Text": "Data Definition Language (DDL) statements such as CREATE TABLE are the primary SQL tools used during implementation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "7c0937e7-0a16-4454-b737-4d99cb30aeb9",
+              "Text": "Every constraint, data type, and relationship defined in the logical model has a corresponding SQL expression in the physical schema.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ac2db0a9-6e09-4a10-97ea-283a7942e495",
+          "TopicId": "2727a06d-30d0-4619-95fc-45d3cc0c8d3d",
+          "Title": "Mapping Logical Models to SQL Schemas",
+          "BodyText": "The transition from a logical data model to a SQL schema requires deliberate mapping of each design element to its SQL equivalent.",
+          "Notes": "For example, an entity in an ER diagram becomes a table, attributes become columns, and a primary key identified in the logical model becomes a PRIMARY KEY constraint in SQL.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "ModifiedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "Items": [
+            {
+              "Id": "cd7fd1cf-3af0-43af-b6e4-102547862948",
+              "Text": "Entities and their attributes from the logical model map directly to tables and columns in the SQL schema.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "154e20ce-961d-4c60-8ee6-b98188660fdb",
+              "Text": "Relationships between entities are expressed in SQL through foreign key constraints and junction tables for many-to-many associations.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1f1b07ea-e1d5-4e96-94b0-133b3751cd67",
+              "Text": "Data types chosen during physical design are assigned to each column in the CREATE TABLE statement.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "1abaee44-3fa3-4526-8d90-24f51e49f302",
+              "Text": "Cardinality rules defined in the logical model guide which constraints and referential integrity rules are applied in SQL.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "52c97ca0-5aa9-4008-ab78-b4b24d052ada",
+          "TopicId": "2727a06d-30d0-4619-95fc-45d3cc0c8d3d",
+          "Title": "SQL\u0027s Role in Expressing Design Decisions",
+          "BodyText": "SQL does not just store data \u2014 it encodes and enforces the rules and structure decided upon during the design process.",
+          "Notes": "This means that a poorly designed logical model will produce a poorly structured SQL schema. The quality of the SQL implementation is directly tied to the quality of the upstream design work.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "ModifiedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "Items": [
+            {
+              "Id": "b6624a48-935d-484f-90d2-141c82c9d704",
+              "Text": "Constraints such as NOT NULL, UNIQUE, and CHECK translate business rules from the design phase into enforceable database rules.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "704a9882-95bd-4c90-bc27-ec61a903eb68",
+              "Text": "Primary and foreign keys express the entity integrity and referential integrity decisions made during logical design.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b0427b6d-0dbf-4aba-b0d4-0da2732c9d4c",
+              "Text": "Schema organization, including how tables are grouped and named, reflects the conceptual boundaries identified early in the design process.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4030249e-6ce6-48fb-a694-b18984277a29",
+          "TopicId": "2727a06d-30d0-4619-95fc-45d3cc0c8d3d",
+          "Title": "Iterative Refinement Between Design and SQL",
+          "BodyText": "The database design workflow is not strictly linear; SQL implementation often reveals design issues that require revisiting earlier phases.",
+          "Notes": "For instance, attempting to write a CREATE TABLE statement may expose ambiguities in the logical model, such as unclear primary keys or missing relationship definitions, prompting a return to the design phase.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "ModifiedDate": "2026-06-27T15:05:33.0338478-04:00",
+          "Items": [
+            {
+              "Id": "a75a619f-8918-410a-8075-6e5daf7f453d",
+              "Text": "Writing SQL schemas can surface gaps or contradictions in the logical model that were not apparent in diagram form.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a79de85f-1302-413f-9fac-f9ccf9721993",
+              "Text": "Performance testing at the physical layer may require revisiting logical design decisions such as normalization level or relationship structure.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "48cc8303-a612-4d1f-b3a6-80415084f2b1",
+              "Text": "Maintaining alignment between the design documentation and the SQL schema is essential as the database evolves over time.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 30
+}

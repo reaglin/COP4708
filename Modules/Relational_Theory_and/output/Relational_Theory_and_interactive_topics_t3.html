@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Functional Dependencies</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Introduction to Functional Dependencies</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Functional Dependencies</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>A <strong>functional dependency</strong> is one of the most important and foundational ideas in relational database theory. At its core, a functional dependency describes a constraint between two sets of attributes within a relation — a constraint that reflects a real-world rule about how data values relate to one another. Before diving into normalization, schema design, or any of the more advanced topics in database theory, a thorough understanding of functional dependencies is essential, because virtually everything else in relational design is built on top of them.</p>
+
+<p>To understand what a functional dependency actually means, imagine a table — a <em>relation</em> in the formal sense — that stores information about students at a university. Every row in that table is a <strong>tuple</strong>, representing one student, and every column is an <strong>attribute</strong>, representing one property of a student, such as their ID number, their name, or their date of birth. Now consider this question: if you know a student's ID number, can you uniquely determine their name? In almost any realistic university database, the answer is yes — each student ID belongs to exactly one student, so knowing the ID tells you exactly which name goes with it. This relationship — where knowing the value of one attribute (or set of attributes) guarantees the value of another — is precisely what a functional dependency captures.</p>
+
+<p>Formally, a <strong>functional dependency</strong> between two sets of attributes <em>X</em> and <em>Y</em> in a relation <em>R</em> is written as:</p>
+
+<pre><code>X → Y</code></pre>
+
+<p>This is read as "<em>X functionally determines Y</em>" or "<em>Y is functionally dependent on X</em>." The formal definition states: for any two tuples <em>t₁</em> and <em>t₂</em> in <em>R</em>, if <em>t₁</em> and <em>t₂</em> have the same values for all attributes in <em>X</em>, then they must also have the same values for all attributes in <em>Y</em>. In other words, equal values of <em>X</em> always imply equal values of <em>Y</em> — there is no room for exceptions. This is not a statistical tendency or a common pattern; it is a strict, universal constraint that must hold across every single row, including rows that have not yet been inserted.</p>
+
+<p>This universality is crucial. A functional dependency is a <strong>schema-level constraint</strong>, not a data-level observation. Just because every row in the current snapshot of a table happens to satisfy a relationship does not mean that relationship is a functional dependency — the dependency must be guaranteed by the real-world semantics of the data, enforced as a rule, not merely observed as a coincidence. For example, suppose in a given database snapshot every student happens to have a unique name. That does not mean <em>Name → StudentID</em> is a functional dependency, because there is nothing preventing two students from sharing the same name in the future. The dependency must be backed by a meaningful, enforceable constraint.</p>
+
+<p>Functional dependencies also <strong>capture real-world business rules</strong>. They are a precise, mathematical way of encoding the rules and constraints of the domain being modeled. When a business says "every employee has exactly one department," that translates directly into a functional dependency: <em>EmployeeID → DepartmentID</em>. When a shipping company says "each shipment has exactly one destination address," that becomes <em>ShipmentID → DestinationAddress</em>. By expressing these rules as functional dependencies, database designers can reason about them rigorously and use them as the basis for making sound structural decisions about the schema.</p>
+
+<p>Understanding the <strong>notation and terminology</strong> of functional dependencies is important because you will encounter these concepts consistently throughout database theory. In the expression <em>X → Y</em>:</p>
+
+<ul>
+  <li>The left-hand side, <em>X</em>, is called the <strong>determinant</strong>. It is the attribute or set of attributes that does the determining. Knowing the value of <em>X</em> is sufficient to know the value of <em>Y</em>.</li>
+  <li>The right-hand side, <em>Y</em>, is called the <strong>dependent</strong>. Its value is determined once the value of <em>X</em> is known. You can think of <em>Y</em> as being "controlled by" or "a function of" <em>X</em>.</li>
+  <li>Both <em>X</em> and <em>Y</em> can be <strong>single attributes</strong> or <strong>composite sets of multiple attributes</strong>. When a set contains multiple attributes, it is typically written using curly braces — for example, <em>{StudentID, CourseID} → Grade</em> — or sometimes as a comma-separated list: <em>StudentID, CourseID → Grade</em>. Both notations mean the same thing.</li>
+</ul>
+
+<p>The word "functional" in this context comes directly from mathematics. In mathematics, a function maps each element of a domain to exactly one element of a codomain. A functional dependency works the same way: for every value (or combination of values) of the determinant <em>X</em>, there is exactly one corresponding value of the dependent <em>Y</em>. It is, in effect, saying that <em>Y</em> is a function of <em>X</em> within the context of this relation.</p>
+
+<p>To make this concrete, consider several <strong>illustrative examples</strong> drawn from common database scenarios:</p>
+
+<ul>
+  <li><strong>Student relation:</strong> Consider a relation <em>Student(StudentID, Name, DateOfBirth, Email)</em>. Here, <em>StudentID → {Name, DateOfBirth, Email}</em> is a functional dependency. Knowing the <em>StudentID</em> uniquely identifies the student, and therefore uniquely determines their name, date of birth, and email address. No two rows can have the same <em>StudentID</em> but different names. The <em>StudentID</em> is the determinant; <em>Name</em>, <em>DateOfBirth</em>, and <em>Email</em> are the dependents.</li>
+  <li><strong>Order relation:</strong> In a relation <em>Order(OrderID, CustomerID, OrderDate, TotalAmount)</em>, the dependency <em>OrderID → {CustomerID, OrderDate, TotalAmount}</em> expresses that each order number corresponds to exactly one customer, one order date, and one total amount. If you find two rows with the same <em>OrderID</em>, they must have identical values for all other attributes — otherwise, the dependency is violated.</li>
+  <li><strong>Composite determinant — Course enrollment:</strong> In an <em>Enrollment(StudentID, CourseID, Grade)</em> relation, neither <em>StudentID</em> alone nor <em>CourseID</em> alone determines <em>Grade</em>. A student receives different grades in different courses, and a course assigns different grades to different students. However, the <em>combination</em> of <em>StudentID</em> and <em>CourseID</em> together does determine the grade: <em>{StudentID, CourseID} → Grade</em>. This is a <strong>composite functional dependency</strong>, where the determinant is a set of two attributes working together.</li>
+  <li><strong>ZIP code and city:</strong> In a relation that stores address information, <em>ZIPCode → City</em> might be a functional dependency if each ZIP code belongs to exactly one city (which is approximately true in many postal systems). This illustrates how functional dependencies can also exist between non-key attributes.</li>
+</ul>
+
+<p>An important distinction in functional dependency theory is the difference between <strong>trivial</strong> and <strong>non-trivial</strong> functional dependencies. A functional dependency <em>X → Y</em> is called <strong>trivial</strong> if <em>Y</em> is a subset of <em>X</em> — that is, every attribute in <em>Y</em> is already included in <em>X</em>. For example:</p>
+
+<pre><code>{StudentID, Name} → StudentID</code></pre>
+
+<p>This says that knowing both <em>StudentID</em> and <em>Name</em> determines <em>StudentID</em>. Of course it does — <em>StudentID</em> is already part of what you know! This dependency is logically guaranteed and carries no useful information about the structure of the data. It holds vacuously — by sheer logic — regardless of the actual data or domain semantics.</p>
+
+<p>By contrast, a <strong>non-trivial functional dependency</strong> is one where <em>Y</em> is <em>not</em> a subset of <em>X</em> — at least one attribute in <em>Y</em> is not already in <em>X</em>. For example:</p>
+
+<pre><code>StudentID → Name</code></pre>
+
+<p>Here, <em>Name</em> is not part of <em>StudentID</em>, so this dependency expresses a genuine constraint that carries real, design-relevant information. Non-trivial functional dependencies are the ones that matter in database design and normalization. They reveal meaningful structural relationships — the kinds that, if not properly managed, can lead to redundancy and anomalies in the database.</p>
+
+<p>A further refinement worth knowing is the notion of a <strong>completely non-trivial</strong> functional dependency, where <em>X</em> and <em>Y</em> share no attributes at all. Most of the dependencies encountered in practical schema design are completely non-trivial, or at least non-trivial in the meaningful sense.</p>
+
+<p>Understanding <strong>why functional dependencies matter</strong> requires looking at what happens when they are ignored or mishandled in schema design. Consider a poorly designed relation that stores student enrollment data along with instructor information:</p>
+
+<pre><code>Enrollment(StudentID, CourseID, Grade, InstructorID, InstructorName, InstructorOffice)</code></pre>
+
+<p>In this relation, <em>InstructorID → {InstructorName, InstructorOffice}</em> is a functional dependency — the instructor's name and office are determined by their ID. But by embedding this information in the <em>Enrollment</em> relation, the instructor's name and office will be <em>repeated in every row</em> for every student enrolled in every course that instructor teaches. This is <strong>redundancy</strong>, and it leads directly to <strong>anomalies</strong>:</p>
+
+<ul>
+  <li><strong>Update anomaly:</strong> If an instructor changes their office, every row containing that instructor's ID must be updated. Miss even one row and the data becomes inconsistent.</li>
+  <li><strong>Insertion anomaly:</strong> You cannot record an instructor's office until they are assigned to at least one course — there is no enrollment row to put the data in.</li>
+  <li><strong>Deletion anomaly:</strong> If you delete all enrollment records for a particular course, you lose the instructor's information entirely, even if you still need it.</li>
+</ul>
+
+<p>Functional dependencies expose these problems rigorously. By identifying that <em>InstructorID → {InstructorName, InstructorOffice}</em> is a dependency that does not relate to the primary key of the <em>Enrollment</em> relation, a designer knows that this information does not belong in this relation. It should be moved to a separate <em>Instructor</em> table. This is the essence of <strong>normalization</strong> — the process of decomposing relations based on functional dependencies to eliminate redundancy and anomalies.</p>
+
+<p>Functional dependencies thus serve as the <strong>foundation of normalization theory</strong>. Each normal form — First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), Boyce-Codd Normal Form (BCNF), and beyond — is defined in terms of which functional dependencies are allowed to exist within a relation, and which must be resolved by decomposing the relation into smaller, better-structured tables. Without a clear understanding of what functional dependencies are, how to identify them, and how to reason about them, it is impossible to apply normalization correctly.</p>
+
+<p>Beyond normalization, functional dependencies are used to reason about <strong>data integrity</strong>. A database schema that correctly identifies and enforces its functional dependencies — through primary keys, unique constraints, and careful design — is one that maintains consistent, reliable data. Conversely, a schema that overlooks or misunderstands its functional dependencies is prone to storing contradictory or redundant information, undermining the trustworthiness of the data it holds.</p>
+
+<p>In summary, a functional dependency <em>X → Y</em> is a schema-level constraint stating that equal values of <em>X</em> always imply equal values of <em>Y</em> across all tuples in a relation. The determinant <em>X</em> controls the dependent <em>Y</em>. Both sides can be single attributes or composite sets. Trivial dependencies hold by logic alone; non-trivial dependencies reveal genuine constraints that matter for design. Functional dependencies arise from real-world rules, they expose redundancy, and they underpin the entire theory of normalization — making them the single most important concept to master before advancing in relational database design.</p>
+        <div class="notes"><strong>Notes</strong>Emphasize throughout that FDs are schema-level (semantic) constraints, not observations about current data. The distinction between trivial and non-trivial FDs is often a point of confusion for learners and deserves careful treatment with concrete examples. The anomaly examples (update, insertion, deletion) help motivate why FDs matter before the student reaches the normalization module.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

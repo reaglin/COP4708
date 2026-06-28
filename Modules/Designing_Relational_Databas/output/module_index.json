@@ -1,0 +1,35 @@
+﻿{
+  "ModuleName": "Designing Relational Databases from ER Diagrams",
+  "CourseName": "COP4708",
+  "ModuleFolderName": "Designing_Relational_Databas",
+  "GeneratedUtc": "2026-06-28T17:18:15.3662135Z",
+  "HtmlIndexSignature": "253719BC5103CF3045129BB8E9A2285AE144733A33012C274FC71824BDDAAF37",
+  "Artifacts": [
+    {
+      "Name": "Module Topics",
+      "Type": "Module Topics",
+      "FileType": ".json",
+      "Description": "Outlines the sequence of topics covered in the module \u2014 from ER diagram notation and relational schema basics, through mapping strong entities and attributes to tables, to handling one-to-many relationships \u2014 serving as a syllabus-style roadmap for learners and instructors to understand the module\u0027s scope and progression.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Designing_Relational_Databas\\hierarchy.json",
+      "ViewerKind": 2,
+      "WebHref": "content/module_topics.html",
+      "LocalHref": "module_topics.html",
+      "RawHref": "../hierarchy.json",
+      "SourceModifiedTicks": 639181838126682199
+    },
+    {
+      "Name": "Module Topics (HTML)",
+      "Type": "Module Topics (HTML)",
+      "FileType": ".html",
+      "Description": "A navigational overview of the module listing and briefly describing each topic covered\u2014including ER diagram fundamentals, entity and relationship conversion rules, attribute mapping, and schema refinement\u2014used by learners to preview the module\u0027s scope and by instructors to understand the sequence of instructional content.",
+      "CustomName": null,
+      "FilePath": "C:\\Users\\ronal\\OneDrive - Daytona State College\\Documents\\PreseMaker\\Courses\\COP4708\\Modules\\Designing_Relational_Databas\\output\\module_topics.html",
+      "ViewerKind": 1,
+      "WebHref": "",
+      "LocalHref": "module_topics.html",
+      "RawHref": "",
+      "SourceModifiedTicks": 639181876526988475
+    }
+  ]
+}
