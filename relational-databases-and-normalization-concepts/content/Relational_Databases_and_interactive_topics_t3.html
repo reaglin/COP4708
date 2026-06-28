@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insertion Anomalies</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Databases and Normalization Concepts</a></div>
+  <header>
+    <h1>Insertion Anomalies</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Insertion Anomalies</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When a database table is designed without careful attention to the distinct real-world entities it represents, a class of problems known as <strong>insertion anomalies</strong> begins to emerge. An insertion anomaly occurs when adding a new, valid piece of data to a database is either impossible, awkward, or requires the fabrication of unrelated information simply because of the way the table is structured. These anomalies are not caused by bad data entry or user error — they are a direct symptom of a flawed table design that forces multiple distinct concepts to coexist within a single structure. Understanding insertion anomalies deeply is essential for any database designer, because they reveal the hidden cost of not aligning table structure with the real-world model the data is meant to reflect.</p>
+
+<p>To make this concrete, consider a single table meant to track both university courses and student enrollments at the same time:</p>
+
+<pre><code>EnrollmentID | StudentID | StudentName | CourseID | CourseName        | Instructor
+-------------|-----------|-------------|----------|-------------------|------------
+1001         | S01       | Alice       | C101     | Database Systems  | Dr. Smith
+1002         | S02       | Bob         | C101     | Database Systems  | Dr. Smith
+1003         | S01       | Alice       | C202     | Data Structures   | Dr. Lee
+</code></pre>
+
+<p>This table collapses two distinct entities — <em>students</em> and <em>courses</em> — into one. At first glance it might seem convenient, but the moment you try to add a new course that no student has yet enrolled in, a serious problem surfaces. There is no student to associate with the new course, yet the table's design implicitly demands one. This is the essence of an insertion anomaly.</p>
+
+<p><strong>What Is an Insertion Anomaly?</strong></p>
+
+<p>An insertion anomaly is a situation in which adding a new row to a table is either logically impossible or requires supplying data that is irrelevant, unavailable, or outright fictitious. The anomaly arises because the table mixes entities that should be stored independently. In the example above, if the university wants to record a new course — say, <em>C303: Algorithms</em> taught by Dr. Patel — before any student has enrolled, it cannot do so cleanly. Every row in this table requires both student information and course information. A course without students has nowhere to live.</p>
+
+<p>The most common real-world indicators of an insertion anomaly are:</p>
+<ul>
+  <li>A new record cannot be inserted without first having data for a conceptually unrelated attribute.</li>
+  <li>The act of inserting data about one entity forces a decision about a completely separate entity.</li>
+  <li>Valid, meaningful data is blocked from entering the database purely because of structural constraints imposed by poor design.</li>
+</ul>
+
+<p>This is not a minor inconvenience — it is a structural failure. A course exists as a real-world entity regardless of whether any student has enrolled. The database should be capable of representing that reality. When it cannot, the design is misaligned with the domain it is meant to model.</p>
+
+<p><strong>The Role of Unwanted Dependencies</strong></p>
+
+<p>At the heart of every insertion anomaly is an <strong>unwanted dependency</strong> — a situation where two unrelated entities are so tightly coupled in the table structure that you cannot record facts about one without simultaneously recording facts about the other. In the enrollment table above, the existence of a course record is made dependent on the existence of a student record, and vice versa. This is not a dependency that reflects reality; it is an artifact of bad design.</p>
+
+<p>These unwanted dependencies are a signal that the table is attempting to represent more than one real-world concept at once. A well-designed table should represent a single entity or a single relationship between clearly defined entities. When a table conflates courses with enrollments with students, it inherits the constraints of all of them simultaneously. Inserting a course becomes entangled with the need for student data, and inserting a student becomes entangled with the need for course data.</p>
+
+<p>The solution is separation. Each real-world entity should have its own table:</p>
+
+<pre><code>-- Courses table
+CourseID | CourseName       | Instructor
+---------|------------------|------------
+C101     | Database Systems | Dr. Smith
+C202     | Data Structures  | Dr. Lee
+C303     | Algorithms       | Dr. Patel   ← can now be inserted without any student
+
+-- Students table
+StudentID | StudentName
+----------|-----------
+S01       | Alice
+S02       | Bob
+
+-- Enrollments table (relationship between students and courses)
+EnrollmentID | StudentID | CourseID
+-------------|-----------|--------
+1001         | S01       | C101
+1002         | S02       | C101
+1003         | S01       | C202
+</code></pre>
+
+<p>Now, adding the course <em>Algorithms</em> is completely straightforward. It requires no student data whatsoever. The dependency has been eliminated by giving each entity its own home. Foreign keys in the Enrollments table preserve the relationship between students and courses without forcing their joint insertion.</p>
+
+<p><strong>NULL Values as a Symptom</strong></p>
+
+<p>When designers recognize that a table cannot accommodate a new record cleanly, a common workaround is to use <strong>NULL values</strong> in the columns for which data is unavailable. In the combined enrollment table, someone might try to insert a new course like this:</p>
+
+<pre><code>EnrollmentID | StudentID | StudentName | CourseID | CourseName  | Instructor
+-------------|-----------|-------------|----------|-------------|------------
+NULL         | NULL      | NULL        | C303     | Algorithms  | Dr. Patel
+</code></pre>
+
+<p>This approach is deeply problematic. NULLs in columns that are supposed to represent a student — or worse, in the primary key column — violate the fundamental principle of <strong>entity integrity</strong>, which states that a primary key must never be NULL. If <code>EnrollmentID</code> is the primary key, this row is immediately invalid. Even if the primary key is somehow managed, the presence of NULL in StudentID and StudentName means the row is semantically incoherent: it is neither a real enrollment record nor a pure course record. It is a hybrid that fits neither category.</p>
+
+<p>Beyond integrity violations, NULLs as workarounds create unreliable query results. Consider a query that counts the number of students enrolled in each course:</p>
+
+<pre><code>SELECT CourseName, COUNT(StudentID) AS EnrolledStudents
+FROM Enrollment
+GROUP BY CourseName;
+</code></pre>
+
+<p>The row for <em>Algorithms</em> would return a count of zero (since <code>COUNT</code> ignores NULLs), which might appear correct — but that zero is the result of a structural hack, not a genuine representation of business reality. Downstream analytics, reports, and business logic built on top of such queries inherit these distortions. A well-normalized design removes the need for NULLs used as insertion workarounds entirely, because each entity can be recorded in its own table without depending on the state of another.</p>
+
+<p><strong>Placeholder or Dummy Data</strong></p>
+
+<p>A second workaround that designers and users sometimes resort to is entering <strong>placeholder or dummy data</strong> — fabricated values that allow a row to be inserted without triggering a constraint violation. Instead of NULL, someone might use values like <code>0</code>, <code>"N/A"</code>, <code>"TBD"</code>, or <code>"UNKNOWN"</code> to fill in required fields for which no real data exists:</p>
+
+<pre><code>EnrollmentID | StudentID | StudentName | CourseID | CourseName  | Instructor
+-------------|-----------|-------------|----------|-------------|------------
+9999         | S00       | PLACEHOLDER | C303     | Algorithms  | Dr. Patel
+</code></pre>
+
+<p>This is arguably worse than using NULLs, because dummy data actively poisons the dataset. It looks like real data at a glance and may easily be mistaken for it. Consider what happens when a report is generated showing student counts per course — <em>Algorithms</em> would appear to have one enrolled student, <code>PLACEHOLDER</code>, which is entirely fictitious. Any business decision made on the basis of that report is compromised.</p>
+
+<p>Dummy data also creates a significant <strong>maintenance burden</strong>. The team must track which records are real and which are placeholders, often through separate documentation or flags in additional columns. When real students eventually enroll in the course, the dummy record must be found, identified, and either deleted or overwritten. If it is overlooked, the phantom enrollment persists indefinitely. In regulated industries — healthcare, finance, legal — a phantom record can constitute a compliance violation.</p>
+
+<p>The very need to consider inserting dummy data is a diagnostic signal: the table structure does not match the actual data model. A structure that requires fictional entries to function is a structure that needs to be redesigned.</p>
+
+<p><strong>Impact on Data Integrity</strong></p>
+
+<p>Insertion anomalies do not exist in isolation — they erode <strong>data integrity</strong> across the entire database over time. When workarounds like NULLs and dummy records are introduced, they create a foundation of unreliable data on which all subsequent queries, reports, and business logic are built. Integrity constraints that were meant to protect the data — NOT NULL rules, primary key uniqueness, foreign key relationships — are either violated outright or circumvented through creative workarounds that technically satisfy the constraint while defeating its purpose.</p>
+
+<p>The consequences compound. A dummy enrollment record might be joined with a payroll table to calculate instructor compensation, erroneously inflating the count of students taught. A NULL in a required field might cause an application to crash or return incorrect results. Business rules that depend on complete and accurate data — such as minimum enrollment thresholds before a course is confirmed — become unreliable when the enrollment data includes phantoms and gaps.</p>
+
+<p>In regulated environments, incomplete or inaccurate records can violate legal requirements. Healthcare databases must maintain accurate patient records; financial systems must accurately record transactions; educational institutions may be required to report enrollment accurately to accreditation bodies. An insertion anomaly that allows fictitious or incomplete records to enter the system is not just a technical problem — it is a compliance risk.</p>
+
+<p>The integrity problems also tend to cascade. Once workarounds are introduced, future developers and users may not realize the records are fabricated, and may build additional logic on top of them. One anomaly seeds the next. This is why addressing the root cause — the table design — is so much more important than managing the symptoms through workarounds.</p>
+
+<p><strong>Normalization as the Solution</strong></p>
+
+<p><strong>Normalization</strong> is the systematic process of restructuring a database to ensure that each table represents a single, well-defined entity or relationship, and that data dependencies within each table are logical and complete. It is the definitive solution to insertion anomalies and the other related anomalies (update anomalies and deletion anomalies) that stem from the same root cause.</p>
+
+<p>After normalization, the problems described above simply do not arise. A new course can be added to a dedicated <code>Courses</code> table without any student or enrollment data being required or even referenced:</p>
+
+<pre><code>INSERT INTO Courses (CourseID, CourseName, Instructor)
+VALUES ('C303', 'Algorithms', 'Dr. Patel');
+</code></pre>
+
+<p>This insert is clean, complete, and logically sound. It records exactly one fact about exactly one entity. No NULLs, no dummy data, no phantom records. When a student eventually enrolls, a separate insert into the <code>Enrollments</code> table captures that relationship:</p>
+
+<pre><code>INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID)
+VALUES (1004, 'S03', 'C303');
+</code></pre>
+
+<p>The foreign keys <code>StudentID</code> and <code>CourseID</code> in the Enrollments table preserve the relationship between students and courses without forcing any joint insertion. The two acts — recording a course and recording an enrollment — are now independent, as they should be, because they represent independent real-world events.</p>
+
+<p>Normalization is most effective when applied <em>proactively</em> during the design phase, before data is ever entered. Retroactively fixing an anomaly-prone table after thousands of records have been inserted is painful and risky: the dummy data must be identified and cleaned up, relationships must be reconstructed, and dependent application code must be rewritten. The cost of prevention is always lower than the cost of correction. By ensuring from the outset that each table represents a single, coherent entity with well-defined attributes, database designers eliminate insertion anomalies before they ever have the chance to compromise data integrity.</p>
+        <div class="notes"><strong>Notes</strong>Insertion anomalies are one of three classic data anomaly types (alongside update and deletion anomalies), all arising from the same root cause: insufficient normalization. Instructors may wish to present all three types together to show how a single poorly designed table can suffer from all of them simultaneously. The normalized schema introduced at the end of this topic (Courses, Students, Enrollments) serves as a useful running example for subsequent topics on update and deletion anomalies.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

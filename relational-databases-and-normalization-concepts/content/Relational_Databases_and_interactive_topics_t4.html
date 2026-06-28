@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Anomalies</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Databases and Normalization Concepts</a></div>
+  <header>
+    <h1>Update Anomalies</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Update Anomalies</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When a database table is not carefully designed around the real entities and relationships it represents, storing and maintaining data can become surprisingly fragile. One of the most damaging consequences of poor design is the <strong>update anomaly</strong> — a situation where changing a single real-world fact forces you to update multiple rows in a table, and where failing to update every one of those rows simultaneously leaves the database in a contradictory, untrustworthy state. Understanding update anomalies deeply is essential to appreciating why database normalization exists and why it matters in practice.</p>
+
+<p>An <strong>update anomaly</strong> occurs whenever a single logical fact — something like a supplier's phone number, a product's price, or an instructor's department — is stored redundantly across more than one row in a table. Because the fact appears in multiple places, any correction or change to that fact must be applied everywhere it appears at the same time. If even a single row is missed, the database now contains two different answers to the same question. The database has not crashed, no error has been raised, and yet the data it holds is logically self-contradictory. That silent contradiction is what makes update anomalies so dangerous.</p>
+
+<p>To make this concrete, consider a single unnormalized table called <code>Enrollment</code> that is meant to track which students are enrolled in which courses, but has been designed to also store details about the course itself:</p>
+
+<pre><code>Enrollment
+--------------------------------------------------------------
+StudentID | StudentName | CourseID | CourseName       | InstructorName | InstructorEmail
+----------|-------------|----------|------------------|----------------|----------------------
+1001      | Alice Chen  | CS101    | Intro to CS      | Dr. Patel      | patel@university.edu
+1002      | Bob Okafor  | CS101    | Intro to CS      | Dr. Patel      | patel@university.edu
+1003      | Clara Ruiz  | CS101    | Intro to CS      | Dr. Patel      | patel@university.edu
+1001      | Alice Chen  | MATH201  | Calculus II      | Dr. Nguyen     | nguyen@university.edu
+1004      | David Kim   | MATH201  | Calculus II      | Dr. Nguyen     | nguyen@university.edu
+</code></pre>
+
+<p>Now suppose Dr. Patel changes her university email address. In the real world, exactly one fact has changed: Dr. Patel's email. But in this table, that fact is stored in three separate rows — one for each student enrolled in CS101. A correct update must touch all three rows simultaneously. If only two of those rows are updated, perhaps because the UPDATE query was written with an off-by-one condition, or because a transaction failed partway through, or simply because a human being made a clerical error, the table will now report two different email addresses for Dr. Patel depending on which row is retrieved. Any application or report reading from this table might display the old address for Alice's record and the new address for Bob's record, producing results that contradict each other.</p>
+
+<p><strong>Redundant data storage is the root cause</strong> of every update anomaly. The fundamental principle of a well-designed relational database is that each distinct real-world fact should be stored in exactly one place. When that principle is violated, the database is carrying extra copies of facts, and every extra copy is a liability. In the example above, Dr. Patel's email address is a fact about Dr. Patel — it is not a fact about the enrollment of a particular student in a particular course. Placing it inside the <code>Enrollment</code> table means it will be repeated once for every student enrolled in Dr. Patel's courses. The more students there are, the more rows hold the same piece of information, and the more rows must be updated simultaneously any time that information changes.</p>
+
+<p>Redundancy of this kind tends to emerge when tables are designed around the shape of a report or a screen rather than around the distinct real-world entities involved. A developer building a "course enrollment report" might naturally reach for a single flat table that pulls together everything the report needs: student details, course details, and instructor details all in one place. That convenience at report-reading time becomes a severe liability at data-maintenance time. The report-centric design obscures the fact that there are actually three separate entities here — students, courses, and instructors — each with their own attributes that should be stored independently.</p>
+
+<p><strong>Partial updates</strong> are the mechanism through which redundancy turns into inconsistency. A partial update is any situation where some but not all rows containing a redundant fact are changed. There are several realistic causes:</p>
+
+<ul>
+  <li><strong>Human error:</strong> A database administrator manually writes an UPDATE statement and inadvertently uses a WHERE clause that does not match all relevant rows. For example, writing <code>WHERE CourseID = 'CS101' AND StudentID = 1001</code> instead of <code>WHERE CourseID = 'CS101'</code> will update only one of the three rows.</li>
+  <li><strong>Transaction failure:</strong> A transaction begins updating all matching rows but encounters an error — a network interruption, a constraint violation on an unrelated column, a timeout — partway through. If the transaction is not properly rolled back, the rows updated before the failure will hold the new value while the rows not yet reached will hold the old value.</li>
+  <li><strong>Incomplete application logic:</strong> An application's update function is written to change instructor email in the context of one workflow (for example, editing a course record) but is never invoked in another workflow (for example, reassigning a course to a different section). Rows inserted through the second workflow silently retain the outdated value.</li>
+</ul>
+
+<p>Once inconsistency has been introduced, it is often extremely difficult to detect. The database engine has no way to know that <code>patel@university.edu</code> in row 1 and <code>patel.new@university.edu</code> in row 3 are supposed to represent the same person's email address. Both values are syntactically valid. No constraint is violated. Queries execute without error. Different parts of the application simply silently report different facts.</p>
+
+<p>A practical way to <strong>identify whether a table is vulnerable to update anomalies</strong> is to ask a series of diagnostic questions about its columns. The most telling question is: <em>does this column describe the primary entity this table is about, or does it describe some other entity that is merely referenced here?</em> In the <code>Enrollment</code> table, the primary entity is an enrollment — the relationship between a student and a course. The <code>InstructorEmail</code> column does not describe an enrollment; it describes an instructor. That mismatch is a reliable signal that an update anomaly is lurking.</p>
+
+<p>A second diagnostic is to count how many rows would need to change if a specific value were corrected. If the answer is always exactly one regardless of how many enrollments exist, the design is safe. If the answer grows as more data is inserted — three rows today, thirty rows next semester — the design has an update anomaly waiting to cause problems. Similarly, if you can describe a scenario where two rows in the same table could legitimately hold different values for the same attribute (such as two different email addresses for the same instructor) without that representing a genuine real-world difference, then you have confirmed the anomaly.</p>
+
+<p>The <strong>impact on data integrity</strong> is severe and often underestimated. Data integrity means that the information in a database accurately reflects the real world it is meant to model, and that it remains consistent across all the different ways it can be accessed and combined. Update anomalies attack integrity in a particularly insidious way because they do not generate errors — they generate silence. The database continues to operate, queries continue to return results, and applications continue to function. The only indication that something is wrong is that different parts of the system disagree with each other, and tracking down the source of that disagreement can require painstaking row-by-row inspection.</p>
+
+<p>Consider the downstream consequences in a real system. A student portal shows Alice's enrollment record with Dr. Patel's old email address. The university's faculty directory shows the updated address. An automated notification system reads from the enrollment table and sends messages to the old address, which may no longer be monitored. An analytics report groups instructors by email address and now counts Dr. Patel as two different people. None of these failures are dramatic database crashes — they are quiet, creeping corruptions of the information the organization depends on.</p>
+
+<p><strong>Normalization</strong> is the systematic solution to update anomalies. Normalization is the process of decomposing a table with redundant data into a set of smaller, more focused tables, each of which represents exactly one entity or one relationship, and then linking those tables together through foreign keys. Applied to the earlier example, normalization would produce at least three tables:</p>
+
+<pre><code>Student
+--------------------------
+StudentID | StudentName
+----------|-------------
+1001      | Alice Chen
+1002      | Bob Okafor
+1003      | Clara Ruiz
+1004      | David Kim
+
+Course
+--------------------------------------------
+CourseID | CourseName   | InstructorID
+---------|--------------|-------------
+CS101    | Intro to CS  | INS01
+MATH201  | Calculus II  | INS02
+
+Instructor
+--------------------------------------------
+InstructorID | InstructorName | InstructorEmail
+-------------|----------------|----------------------
+INS01        | Dr. Patel      | patel@university.edu
+INS02        | Dr. Nguyen     | nguyen@university.edu
+
+Enrollment
+--------------------------
+StudentID | CourseID
+----------|----------
+1001      | CS101
+1002      | CS101
+1003      | CS101
+1001      | MATH201
+1004      | MATH201
+</code></pre>
+
+<p>Now Dr. Patel's email address exists in exactly one place: the single row in the <code>Instructor</code> table where <code>InstructorID = 'INS01'</code>. Updating that email address requires modifying exactly one row, regardless of whether Dr. Patel teaches one course or twenty, or whether those courses have five students enrolled or five hundred. The update anomaly has been completely eliminated because the fact about the instructor is stored only once. The <code>Course</code> table references the instructor through a foreign key (<code>InstructorID</code>), and the <code>Enrollment</code> table references both students and courses through foreign keys, without duplicating any descriptive attributes of those entities.</p>
+
+<p>This design also makes the correctness of an update verifiable and guaranteed. A single <code>UPDATE Instructor SET InstructorEmail = 'patel.new@university.edu' WHERE InstructorID = 'INS01'</code> statement atomically and completely changes the one authoritative record of that fact. There is no collection of other rows to hunt for and remember to update. Any query that joins these tables together to produce a report will automatically reflect the new email address in every context, because there is only one source of truth.</p>
+
+<p>It is worth noting that foreign key relationships do not duplicate data — they reference it. The <code>InstructorID</code> value <code>'INS01'</code> appears in both the <code>Instructor</code> table and the <code>Course</code> table, but it is not a duplicated fact. It is an identifier, a pointer, whose purpose is precisely to link two pieces of information together without repeating the information itself. If the instructor's name, email, office number, or any other descriptive attribute changes, only the one row in <code>Instructor</code> needs to change. The identifier used to link to that row remains stable.</p>
+
+<p>In summary, update anomalies arise when a database design forces the same real-world fact to be recorded in more than one row. This redundancy means that any update to that fact must be applied everywhere it appears at the same time — and any failure to do so, whether from human error, system failure, or incomplete code, produces a database that contains logically contradictory information without raising any alarms. The severity of this problem scales with the size of the database: the more rows that carry redundant data, the greater the chance of a partial update, and the harder it becomes to find and fix inconsistencies after the fact. Normalization resolves the problem structurally by ensuring that every distinct fact has exactly one home, so that changing it requires touching exactly one row.</p>
+        <div class="notes"><strong>Notes</strong>The worked example uses a single unnormalized Enrollment table to illustrate all subtopics consistently, then shows the fully normalized decomposition at the end to give students a clear before-and-after comparison. The diagnostic questions (does this column describe the primary entity? how many rows change per fact?) give students practical tools they can apply to their own schema designs.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

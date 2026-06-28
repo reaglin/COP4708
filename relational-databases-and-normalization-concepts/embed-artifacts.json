@@ -1,0 +1,52 @@
+﻿[
+  {
+    "title": "Relational Databases and Normalization Concepts \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "Relational Databases and Normalization Concepts \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "Relational Databases and Normalization Concepts \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Relational Databases",
+    "href": "content/Relational_Databases_and_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Problems with Poorly Structured Tables",
+    "href": "content/Relational_Databases_and_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Insertion Anomalies",
+    "href": "content/Relational_Databases_and_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Update Anomalies",
+    "href": "content/Relational_Databases_and_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Deletion Anomalies",
+    "href": "content/Relational_Databases_and_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Normalization",
+    "href": "content/Relational_Databases_and_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Normalization",
+    "href": "content/_interactive.html",
+    "type": "Content"
+  }
+]

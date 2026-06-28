@@ -5,229 +5,207 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Normal Forms: 1NF, 2NF, and 3NF — COP4708</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --color-bg: #f4f6f9;
-      --color-surface: #ffffff;
-      --color-primary: #1a4f8a;
-      --color-primary-dark: #133a6b;
-      --color-accent: #2e7d32;
-      --color-accent-light: #e8f5e9;
-      --color-text: #1e2533;
-      --color-text-muted: #5a6374;
-      --color-border: #dde2ea;
-      --color-tag-bg: #e8edf5;
-      --color-tag-text: #1a4f8a;
-      --color-filetype-bg: #fff3e0;
-      --color-filetype-text: #e65100;
-      --radius: 10px;
-      --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-      --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.13);
-      --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-main);
-      background-color: var(--color-bg);
-      color: var(--color-text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6f9;
+      color: #1e2532;
       min-height: 100vh;
-      padding: 0 0 3rem;
+      line-height: 1.6;
     }
 
-    /* ── Header ── */
+    /* ── Header / Hero ── */
     header {
-      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
-      color: #fff;
-      padding: 2.8rem 2rem 2.4rem;
-      text-align: center;
+      background: linear-gradient(135deg, #1a3a5c 0%, #25527e 60%, #2d6a9f 100%);
+      color: #ffffff;
+      padding: 3rem 2rem 2.5rem;
     }
 
-    header .course-label {
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .course-label {
       display: inline-block;
       font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      padding: 0.28rem 0.85rem;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
+      padding: 0.25rem 0.65rem;
       margin-bottom: 1rem;
-      color: #d6e4f7;
+      color: #cde4f8;
     }
 
     header h1 {
       font-size: clamp(1.6rem, 4vw, 2.4rem);
       font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       margin-bottom: 1rem;
+      line-height: 1.25;
     }
 
     header p {
-      font-size: clamp(0.93rem, 2vw, 1.05rem);
-      line-height: 1.7;
+      font-size: 1rem;
+      color: #cde4f8;
       max-width: 680px;
-      margin: 0 auto;
-      color: #c8d9f0;
+      line-height: 1.7;
     }
 
-    /* ── Main container ── */
+    /* ── Main Content ── */
     main {
-      max-width: 900px;
-      margin: 2.5rem auto 0;
-      padding: 0 1.25rem;
+      max-width: 960px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 3rem;
     }
 
-    .section-heading {
-      font-size: 0.8rem;
+    .section-label {
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--color-text-muted);
+      color: #5a7fa8;
       margin-bottom: 1.1rem;
-      padding-left: 0.1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #dde5f0;
     }
 
     /* ── Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.25rem;
     }
 
     .card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.5rem 1.6rem;
+      background: #ffffff;
+      border: 1px solid #dde5f0;
+      border-radius: 10px;
+      padding: 1.4rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(30, 37, 50, 0.06);
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.6rem;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: var(--shadow-hover);
+      box-shadow: 0 6px 20px rgba(30, 37, 50, 0.11);
       transform: translateY(-2px);
     }
 
     /* ── Card Header Row ── */
     .card-header {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.55rem;
+      flex-direction: column;
+      gap: 0.3rem;
     }
 
     .card-name {
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      color: var(--color-text);
+      color: #1a3a5c;
       line-height: 1.3;
     }
 
     .card-name a {
-      color: var(--color-primary);
+      color: #1a3a5c;
       text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.18s ease, color 0.18s ease;
+      border-bottom: 2px solid #2d6a9f;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .card-name a:hover,
-    .card-name a:focus {
-      color: var(--color-primary-dark);
-      border-bottom-color: var(--color-primary-dark);
-      outline: none;
+    .card-name a:hover {
+      color: #2d6a9f;
+      border-color: #25527e;
     }
 
     .source-link {
-      font-size: 0.72rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      color: var(--color-accent);
-      background: var(--color-accent-light);
-      border: 1px solid #a5d6a7;
-      border-radius: 20px;
-      padding: 0.18rem 0.6rem;
+      color: #5a7fa8;
       text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.15s ease, color 0.15s ease;
+      margin-top: 0.2rem;
+      width: fit-content;
+      padding: 0.18rem 0.5rem;
+      border: 1px solid #b8cfe4;
+      border-radius: 4px;
+      background: #f0f6fc;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
     }
 
-    .source-link:hover,
-    .source-link:focus {
-      background: #c8e6c9;
-      color: #1b5e20;
-      outline: none;
+    .source-link:hover {
+      background: #daeaf7;
+      color: #1a3a5c;
+      border-color: #5a7fa8;
     }
 
-    /* ── Tags Row ── */
-    .card-tags {
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.68rem;
+    }
+
+    /* ── Badges ── */
+    .badge-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.45rem;
       align-items: center;
     }
 
-    .tag {
-      font-size: 0.71rem;
+    .badge {
+      font-size: 0.7rem;
       font-weight: 600;
-      border-radius: 20px;
-      padding: 0.2rem 0.65rem;
-      white-space: nowrap;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
     }
 
-    .tag-type {
-      background: var(--color-tag-bg);
-      color: var(--color-tag-text);
-      border: 1px solid #c5d3e8;
+    .badge-type {
+      background: #e8f0fa;
+      color: #2d5f99;
+      border: 1px solid #c5d9f0;
     }
 
-    .tag-filetype {
-      background: var(--color-filetype-bg);
-      color: var(--color-filetype-text);
-      border: 1px solid #ffcc80;
-      font-family: 'Courier New', monospace;
+    .badge-filetype {
+      background: #eaf4ec;
+      color: #2a6b3a;
+      border: 1px solid #b8dfc0;
+      font-family: 'Courier New', Courier, monospace;
     }
 
     /* ── Description ── */
     .card-description {
-      font-size: 0.9rem;
-      line-height: 1.68;
-      color: var(--color-text-muted);
+      font-size: 0.88rem;
+      color: #4a5568;
+      line-height: 1.65;
+      flex-grow: 1;
     }
 
     /* ── Footer ── */
     footer {
-      margin-top: 3.5rem;
       text-align: center;
+      padding: 1.5rem 1rem;
       font-size: 0.78rem;
-      color: var(--color-text-muted);
-      border-top: 1px solid var(--color-border);
-      padding-top: 1.4rem;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
+      color: #8a9ab5;
+      border-top: 1px solid #dde5f0;
+      background: #f4f6f9;
     }
 
     /* ── Responsive ── */
-    @media (max-width: 540px) {
-      header {
-        padding: 2rem 1.2rem 1.8rem;
-      }
-
-      .card {
-        padding: 1.25rem 1.2rem;
-      }
+    @media (max-width: 480px) {
+      header { padding: 2rem 1.25rem 2rem; }
+      main { padding: 0 1rem 2.5rem; }
+      .card { padding: 1.1rem 1.15rem; }
     }
   </style>
 </head>
@@ -236,36 +214,39 @@
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
   <header>
-    <div class="course-label">COP4708</div>
-    <h1>Normal Forms: 1NF, 2NF, and 3NF</h1>
-    <p>
-      This module explores database normalization, guiding you through the principles of
-      First, Second, and Third Normal Forms. You will learn to eliminate data redundancy,
-      prevent update anomalies, and design relational schemas that maintain data integrity.
-    </p>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Normal Forms: 1NF, 2NF, and 3NF</h1>
+      <p>
+        This module explores the principles of database normalization, guiding learners through
+        the first, second, and third normal forms. Topics include eliminating data redundancy,
+        preserving data integrity, and structuring relational schemas for optimal design.
+      </p>
+    </div>
   </header>
 
   <main>
-    <p class="section-heading">Module Artifacts</p>
+    <p class="section-label">Module Artifacts</p>
+
     <div class="card-grid">
 
       <!-- Artifact: Module Topics -->
       <div class="card">
         <div class="card-header">
-          <span class="card-name">
+          <div class="card-name">
             <a href="content/module_topics.html">Module Topics</a>
-          </span>
+          </div>
           <a class="source-link" href="source/hierarchy.json">source file</a>
         </div>
-        <div class="card-tags">
-          <span class="tag tag-type">Module Topics</span>
-          <span class="tag tag-filetype">.json</span>
+        <div class="badge-row">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
         </div>
         <p class="card-description">
-          Lists the lecture topics covered in the module—spanning normalization basics,
-          data redundancy, and data integrity through 1NF, 2NF, and 3NF concepts—serving
-          as a navigation guide for learners to see what will be taught and for instructors
-          to verify curricular coverage.
+          Lists the lecture topics covered in the module—spanning normalization basics, data
+          redundancy, and data integrity through 1NF, 2NF, and 3NF concepts—serving as a
+          navigation guide for learners to see what will be taught and for instructors to verify
+          curricular coverage.
         </p>
       </div>
 
@@ -273,10 +254,10 @@
   </main>
 
   <footer>
-    <p>COP4708 &mdash; Normal Forms: 1NF, 2NF, and 3NF &mdash; Course Module Index</p>
+    COP4708 &mdash; Normal Forms: 1NF, 2NF, and 3NF &mdash; Course Module Index
   </footer>
 
 
 <footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
-<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section></body>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
 </html>

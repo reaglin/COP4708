@@ -5,191 +5,256 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SQL Data Modeling Language – COP4708</title>
   <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #f4f6f9;
+      --color-surface: #ffffff;
+      --color-border: #dde2ea;
+      --color-primary: #1a4f8a;
+      --color-primary-dark: #133a66;
+      --color-accent: #2e7d9f;
+      --color-accent-light: #e6f3f8;
+      --color-text: #1e2530;
+      --color-text-muted: #5a6474;
+      --color-badge-bg: #eef1f7;
+      --color-badge-text: #3a4a62;
+      --color-tag-bg: #e8f4f9;
+      --color-tag-text: #1e6a8a;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.13);
+      --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #f4f6f9;
-      color: #1e2530;
+      font-family: var(--font-sans);
+      background-color: var(--color-bg);
+      color: var(--color-text);
       min-height: 100vh;
       line-height: 1.6;
     }
 
-    /* ── Header / Hero ── */
+    /* ── Header ── */
     header {
-      background: linear-gradient(135deg, #0d3b6e 0%, #1a5fa8 60%, #1e7abf 100%);
-      color: #fff;
-      padding: 3rem 2rem 2.5rem;
-      text-align: center;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+      color: #ffffff;
+      padding: 3rem 1.5rem 2.5rem;
     }
 
-    header .course-label {
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .course-label {
       display: inline-block;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.25rem 0.9rem;
-      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.18);
+      color: #e8f3ff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 4px;
+      padding: 0.25rem 0.65rem;
+      margin-bottom: 0.85rem;
     }
 
     header h1 {
-      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
       font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
       margin-bottom: 1rem;
     }
 
     header p {
-      max-width: 680px;
-      margin: 0 auto;
       font-size: 1rem;
-      color: rgba(255,255,255,0.88);
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 680px;
     }
 
-    /* ── Main Content ── */
+    /* ── Main ── */
     main {
-      max-width: 1100px;
+      max-width: 960px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem 4rem;
     }
 
-    .section-label {
-      font-size: 0.72rem;
+    .section-heading {
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #5a6a82;
-      margin-bottom: 1.2rem;
-      padding-bottom: 0.4rem;
-      border-bottom: 2px solid #d8e0eb;
+      color: var(--color-text-muted);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
     }
 
     /* ── Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.4rem;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+      gap: 1.25rem;
+      list-style: none;
     }
 
     .card {
-      background: #fff;
-      border: 1px solid #dce4ef;
-      border-radius: 10px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       padding: 1.5rem 1.6rem;
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
-      box-shadow: 0 2px 8px rgba(13,59,110,0.06);
+      gap: 0.75rem;
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 20px rgba(13,59,110,0.12);
+      box-shadow: var(--shadow-hover);
       transform: translateY(-2px);
     }
 
-    /* ── Card Header Row ── */
+    /* ── Card Header ── */
     .card-header {
       display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
       flex-wrap: wrap;
-      align-items: baseline;
-      gap: 0.5rem 0.75rem;
     }
 
-    .card-name {
+    .artifact-name {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #0d3b6e;
+      color: var(--color-text);
+      line-height: 1.3;
     }
 
-    .card-name a {
-      color: inherit;
+    .artifact-name a {
+      color: var(--color-primary);
       text-decoration: none;
-      border-bottom: 2px solid #1a5fa8;
-      padding-bottom: 1px;
-      transition: color 0.15s, border-color 0.15s;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
     }
 
-    .card-name a:hover {
-      color: #1a5fa8;
-      border-color: #1e7abf;
+    .artifact-name a:hover,
+    .artifact-name a:focus {
+      color: var(--color-primary-dark);
+      border-bottom-color: var(--color-primary-dark);
+      outline: none;
     }
 
+    .artifact-name a:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ── Source link ── */
     .source-link {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #fff;
-      background: #5a6a82;
-      border-radius: 4px;
-      padding: 0.15rem 0.5rem;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.15s;
-      align-self: center;
-    }
-
-    .source-link:hover {
-      background: #3e4f65;
-    }
-
-    /* ── Badges Row ── */
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-    }
-
-    .badge {
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+      background: var(--color-accent-light);
+      border: 1px solid #b8dcea;
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+      align-self: flex-start;
+      margin-top: 0.15rem;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #cde8f4;
+      color: var(--color-primary-dark);
+      outline: none;
+    }
+
+    .source-link:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .source-link svg {
+      flex-shrink: 0;
+    }
+
+    /* ── Meta badges ── */
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+    }
+
+    .badge {
       font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.04em;
-      text-transform: uppercase;
-      border-radius: 5px;
-      padding: 0.2rem 0.6rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 4px;
+      white-space: nowrap;
     }
 
     .badge-type {
-      background: #e8f0fb;
-      color: #1a5fa8;
-      border: 1px solid #c0d4f5;
+      background: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      border: 1px solid #cdd3df;
     }
 
     .badge-filetype {
-      background: #eef7ee;
-      color: #2a7a3b;
-      border: 1px solid #b6deba;
+      background: var(--color-tag-bg);
+      color: var(--color-tag-text);
+      border: 1px solid #a8d4e6;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 0.02em;
     }
 
     /* ── Description ── */
     .card-description {
-      font-size: 0.88rem;
-      color: #3d4f66;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
       line-height: 1.65;
+      flex-grow: 1;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.5rem 1rem;
-      font-size: 0.78rem;
-      color: #8a97ab;
-      border-top: 1px solid #dce4ef;
-      background: #f4f6f9;
+      padding: 1.5rem 1rem 2rem;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 480px) {
-      header { padding: 2rem 1.2rem 2rem; }
-      main { padding: 1.8rem 1rem 3rem; }
-      .card { padding: 1.2rem 1.2rem; }
+    /* ── Responsive tweaks ── */
+    @media (max-width: 520px) {
+      header {
+        padding: 2rem 1rem 1.75rem;
+      }
+
+      main {
+        padding: 1.75rem 1rem 3rem;
+      }
+
+      .card {
+        padding: 1.25rem 1.2rem;
+      }
     }
   </style>
 </head>
@@ -198,52 +263,67 @@
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
   <header>
-    <div class="course-label">COP4708</div>
-    <h1>SQL Data Modeling Language</h1>
-    <p>
-      Explore the foundational concepts of SQL as a data modeling language, covering
-      relational database fundamentals, logical modeling, schema creation, and key
-      definitions that underpin modern database design.
-    </p>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>SQL Data Modeling Language</h1>
+      <p>
+        This module introduces SQL as a data modeling language, covering relational database
+        fundamentals, logical modeling concepts, schema creation, and key definitions.
+        Explore the artifacts below to navigate the module's content and resources.
+      </p>
+    </div>
   </header>
 
   <main>
-    <p class="section-label">Module Artifacts</p>
+    <h2 class="section-heading">Module Artifacts</h2>
 
-    <div class="card-grid">
+    <ul class="card-grid" role="list">
 
       <!-- Artifact: Module Topics -->
-      <div class="card">
+      <li class="card">
         <div class="card-header">
-          <span class="card-name">
-            <!-- viewHref is non-empty → hyperlink -->
+          <span class="artifact-name">
             <a href="content/module_topics.html">Module Topics</a>
           </span>
-          <!-- sourceHref is non-empty → secondary link -->
-          <a class="source-link" href="source/hierarchy.json" title="Raw source file">source file</a>
+          <a
+            class="source-link"
+            href="source/hierarchy.json"
+            aria-label="Source file for Module Topics"
+          >
+            <!-- Small download/file icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="11" x2="12" y2="17"/>
+              <polyline points="9 14 12 17 15 14"/>
+            </svg>
+            source file
+          </a>
         </div>
 
-        <div class="badge-row">
+        <div class="card-meta">
           <span class="badge badge-type">Module Topics</span>
           <span class="badge badge-filetype">.json</span>
         </div>
 
         <p class="card-description">
-          A structured outline of the module's learning topics, progressing from SQL's role
-          as a data modeling language and relational database fundamentals through logical
-          modeling concepts, schema creation, and related definitions, used by instructors
-          to organize content and by learners to navigate what will be covered.
+          A structured outline of the module's learning topics, progressing from SQL's role as a
+          data modeling language and relational database fundamentals through logical modeling
+          concepts, schema creation, and related definitions, used by instructors to organize
+          content and by learners to navigate what will be covered.
         </p>
-      </div>
+      </li>
 
-    </div><!-- /.card-grid -->
+    </ul>
   </main>
 
   <footer>
-    COP4708 &mdash; SQL Data Modeling Language &mdash; Course Module Index
+    <p>COP4708 &mdash; SQL Data Modeling Language &mdash; Course Module Index</p>
   </footer>
 
 
 <footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
-<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section></body>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
 </html>

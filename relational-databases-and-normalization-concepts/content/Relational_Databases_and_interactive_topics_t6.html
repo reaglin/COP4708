@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Normalization</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Relational Databases and Normalization Concepts</a></div>
+  <header>
+    <h1>Introduction to Normalization</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Normalization</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Database normalization is one of the most fundamental disciplines in relational database design. At its heart, normalization is the process of structuring the tables and columns of a relational database so that data is stored logically, consistently, and without unnecessary repetition. Rather than being a single technique applied all at once, normalization is a <strong>systematic, stepwise process</strong> guided by a series of progressively strict rules known as <em>normal forms</em>. Each normal form addresses a specific category of design problems, and satisfying a higher normal form always implies that all lower normal forms have already been satisfied. The result of a fully normalized design is a database where every distinct fact about the real world is stored in exactly one logical place — and every other part of the database that needs that fact simply references it.</p>
+
+<p>To truly appreciate why normalization matters, it helps to start from scratch — from the kind of naive, flat table that a non-specialist might create when first storing data. Imagine you are building a database for a small company that tracks customer orders. A first attempt might put everything into a single table with columns like <code>order_id</code>, <code>customer_id</code>, <code>customer_name</code>, <code>customer_email</code>, <code>product_id</code>, <code>product_name</code>, <code>product_price</code>, and <code>quantity</code>. This looks convenient at first glance — every detail about an order is right there in one row. But this convenient-looking design conceals serious structural problems that will cause real pain as the database grows. Normalization is the discipline that identifies and eliminates those problems.</p>
+
+<p><strong>What Normalization Is and How It Works</strong></p>
+
+<p>Normalization applies a defined sequence of rules — the normal forms — to progressively refine and restructure table designs. The most commonly used normal forms in practice are First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), and Boyce-Codd Normal Form (BCNF). Higher forms such as Fourth Normal Form (4NF) and Fifth Normal Form (5NF) exist and address increasingly rare but still real design problems. For most business applications, reaching 3NF or BCNF is considered sufficient to produce a sound, reliable design.</p>
+
+<p>Each normal form builds directly on the previous one. You cannot have a table in 2NF that is not also in 1NF. This hierarchical relationship means the normalization process is cumulative and systematic: you move through the forms in order, solving one class of problem at a time, decomposing tables as needed into smaller, more focused tables that are linked through keys. The end goal, regardless of how many forms you traverse, is always the same: <em>each piece of information is recorded once and only once</em>, and every table represents one coherent concept or entity.</p>
+
+<p><strong>The Core Motivation: Data Anomalies</strong></p>
+
+<p>The primary reason normalization exists is to prevent a class of problems called <em>data anomalies</em>. Anomalies are situations in which the database behaves in unexpected, incorrect, or destructive ways because data about multiple distinct concepts has been lumped together into the same table. There are three classic anomalies, and understanding each one concretely is essential for understanding why normalization rules are shaped the way they are.</p>
+
+<p>An <strong>insertion anomaly</strong> occurs when you cannot record a piece of information that legitimately exists without also recording some other, unrelated piece of information that does not yet exist. Consider the single flat orders table described above. Suppose the company adds a new product to its catalog but has not yet received any orders for it. Because <code>product_name</code> and <code>product_price</code> live inside the orders table, and an order row must have an <code>order_id</code> and a <code>customer_id</code>, there is no way to record the new product's existence without inventing a fake order — which would corrupt the data. The product's existence is being held hostage by the requirement for an order to exist. This is an insertion anomaly: the structure of the table forces you to insert data you do not have in order to insert data you do have.</p>
+
+<p>An <strong>update anomaly</strong> occurs when a single real-world fact is stored in multiple rows, so that updating that fact requires finding and changing every row where it appears. If a product's price changes and that price is stored in every order row that included that product, you must update potentially hundreds or thousands of rows simultaneously. If even one row is missed — due to a bug, a failed transaction, or simple human error — the database now contains contradictory information: some rows say the product costs one price, other rows say it costs a different price. The database has become internally inconsistent, and any report built on that data will produce unreliable results. This is an update anomaly: a single logical change requires multiple physical changes, and the risk of inconsistency is always present.</p>
+
+<p>A <strong>deletion anomaly</strong> occurs when deleting a record that you legitimately want to remove also destroys other information that you did not intend to lose. If a customer's only order is deleted because the order was cancelled, and all information about that customer — their name, email address, account history — lives only in order rows, then deleting the last order row for that customer silently destroys all record of the customer's existence. Similarly, if the only order containing a particular product is deleted, all knowledge of that product vanishes from the database. Deletion anomalies arise when the table conflates two or more independent entities — in this case, orders, customers, and products — into a single structure. Removing information about one entity inadvertently removes information about another.</p>
+
+<p>These three anomalies are not theoretical concerns. They are practical, recurring problems that affect real databases every day. They are the direct result of poor table design, and normalization is the systematic solution.</p>
+
+<p><strong>Redundancy and Its Consequences</strong></p>
+
+<p>Underlying all three anomalies is a single root cause: <em>redundancy</em>. When the same fact is stored in more than one place, the database has redundant data. Redundancy is the enemy of consistency, because any system that stores the same fact in multiple locations creates opportunities for those copies to diverge.</p>
+
+<p>Consider a concrete example. Suppose the orders table stores the customer's email address in every order row for that customer. If the customer changes their email address, every one of their order rows must be updated. If 47 out of 48 rows are updated successfully but one is missed, the database now contains two different email addresses for the same customer. A query asking for the customer's email address might return different results depending on which row it happens to read first. The database's reliability has been compromised — not because of a software bug, but because of a structural design flaw that allowed the same fact to exist in multiple places.</p>
+
+<p>Redundancy also has practical storage consequences. If a product's name and price appear in thousands of order rows, the database is physically storing those strings thousands of times. On large datasets this bloats table sizes, slows down full-table scans, and makes indexes larger and more expensive to maintain. Normalization removes redundancy by ensuring each fact is recorded exactly once in its own dedicated table, and every other table that needs that fact simply stores a key that references it. A customer's email address belongs in a <code>customers</code> table. An order row needs only the customer's <code>customer_id</code>. If the email address changes, one row in one table is updated, and the change is immediately reflected everywhere because everything else references that single authoritative record.</p>
+
+<p><strong>How Normalization Improves Database Integrity</strong></p>
+
+<p>Normalization does not just make the database tidier — it makes the database structurally more resistant to corruption. A well-normalized schema uses the relational model's built-in integrity mechanisms more effectively. <strong>Primary keys</strong> enforce entity uniqueness: every row in a table represents exactly one instance of one entity, and no two rows can represent the same instance. <strong>Foreign keys</strong> enforce referential integrity: if an order row references a customer by <code>customer_id</code>, the database can be configured to reject any order row whose <code>customer_id</code> does not correspond to a real customer. Orphaned data — records that reference something that no longer exists — becomes structurally impossible to create accidentally.</p>
+
+<p>These mechanisms work precisely because normalization has separated the concerns. The <code>customers</code> table is about customers. The <code>products</code> table is about products. The <code>orders</code> table is about orders. The <code>order_items</code> table is about the line items within those orders. Each table has a clear, single responsibility, and the relationships between them are expressed through keys. Because each entity lives in exactly one table, constraints on that entity are defined in exactly one place and enforced consistently across the entire database.</p>
+
+<p>The practical consequence is that queries and reports become more trustworthy. When a developer writes a query to find all customers who have placed more than three orders in the past year, they can trust that the customer data is complete and consistent, the order data is complete and consistent, and the relationship between them is reliable. There are no ghost rows, no contradictory duplicate values, no entities that have been accidentally deleted because they shared a table with something else that needed to be removed. The data means what it says.</p>
+
+<p><strong>Normal Forms as a Progressive Framework</strong></p>
+
+<p>It is worth dwelling on the progressive nature of the normal forms because this architecture is what makes normalization a <em>framework</em> rather than a single operation. Each normal form has a specific, precise definition that identifies one particular class of structural problem. Moving from one normal form to the next involves analyzing the functional dependencies within a table — the relationships between columns that determine one another — and then decomposing the table to eliminate the problematic dependencies.</p>
+
+<p>First Normal Form addresses the most basic structural requirement: every column must contain atomic (indivisible) values, and every row must be uniquely identifiable. Second Normal Form addresses <em>partial dependencies</em>: in a table with a composite primary key, every non-key column must depend on the <em>entire</em> key, not just part of it. Third Normal Form addresses <em>transitive dependencies</em>: every non-key column must depend directly on the primary key, not on some other non-key column. Boyce-Codd Normal Form is a slightly stronger version of 3NF that handles certain edge cases involving multiple overlapping candidate keys.</p>
+
+<p>Because each form builds on the previous one, progress through the normal forms is linear and verifiable. A designer can examine a table, determine which normal form it currently satisfies, understand precisely why it does not satisfy the next form, and know exactly what decomposition is needed to fix it. This makes normalization not just a theoretical framework but a practical, teachable engineering process.</p>
+
+<p>Designers must also make informed choices about <em>how far to normalize</em>. A fully normalized schema to 3NF or BCNF is almost always the right choice for transactional databases where data integrity is paramount. However, in some contexts — particularly in data warehousing and analytical reporting systems — a degree of intentional <em>denormalization</em> is sometimes applied to simplify complex queries and improve read performance. This is a deliberate, informed trade-off made by an experienced designer, not a failure to understand normalization. The key word is <em>intentional</em>: you must understand the normalized design before you can make a principled decision to deviate from it.</p>
+
+<p><strong>Normalization and Database Efficiency</strong></p>
+
+<p>A common misconception among beginners is that normalization harms performance because it splits data into multiple tables that must be joined together in queries. In reality, for most transactional workloads, normalization <em>improves</em> performance in several important ways.</p>
+
+<p>First, smaller, focused tables reduce the volume of data that must be scanned, loaded into memory, or locked during write operations. When a customer's email address is updated in a properly normalized database, the database touches exactly one row in exactly one table. In a denormalized design, that same update might require locking and modifying thousands of rows spread across a large table, holding locks that block other concurrent operations. Normalization makes write operations fast and surgical.</p>
+
+<p>Second, eliminating duplicate data reduces the physical size of tables. Smaller tables mean more rows fit in each database page, which means fewer disk reads are required to scan a table and more of the working data set fits in the database's memory cache. Index structures are also smaller and more efficient, because the indexed values are not duplicated across thousands of rows.</p>
+
+<p>Third — and perhaps most importantly for long-term maintainability — a predictable, well-structured schema is simply easier to reason about. Developers can write correct queries more quickly because the schema's structure matches the real-world structure of the data it represents. Database administrators can identify performance bottlenecks more easily because the relationships between tables are clear and explicit. New team members can understand the data model without needing to untangle a web of repeated, overlapping information stored in inconsistent ways. The cognitive and operational costs of maintaining a poorly normalized database compound over time; the upfront investment in a sound, normalized design pays dividends for the entire lifetime of the system.</p>
+
+<p>In summary, normalization is not simply a set of academic rules imposed by theoreticians. It is a practical engineering discipline grounded in real problems — insertion anomalies, update anomalies, deletion anomalies, data redundancy, and integrity violations — that arise inevitably from poor table design. By learning to apply the normal forms systematically, a database designer acquires the tools to build systems that store data accurately, maintain it consistently, and serve it reliably for as long as the system exists.</p>
+        <div class="notes"><strong>Notes</strong>Instructors may wish to use the flat orders table example (with customer, product, and order data all in one row) as a recurring concrete case throughout the module, demonstrating each anomaly type and then showing how decomposition into normalized tables resolves it. This gives students a continuous narrative thread to follow as the complexity of the normal forms increases.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

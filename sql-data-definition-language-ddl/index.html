@@ -1,16 +1,20 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SQL Data Definition Language (DDL) — COP4708</title>
   <style>
     /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #f4f6f9;
+      background-color: #f4f6f9;
       color: #1e2a38;
       line-height: 1.6;
       min-height: 100vh;
@@ -18,7 +22,7 @@
 
     /* ── Header / Hero ── */
     header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      background: linear-gradient(135deg, #1a3a5c 0%, #25567a 60%, #2e7aa8 100%);
       color: #ffffff;
       padding: 3rem 2rem 2.5rem;
       text-align: center;
@@ -26,16 +30,15 @@
 
     header .course-label {
       display: inline-block;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      background-color: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
       padding: 0.25rem 0.9rem;
       margin-bottom: 1rem;
-      color: #cde3ff;
     }
 
     header h1 {
@@ -45,61 +48,66 @@
       margin-bottom: 1rem;
     }
 
-    header p {
+    header p.intro {
       max-width: 680px;
       margin: 0 auto;
-      font-size: 1.05rem;
-      color: #d0e6ff;
-      opacity: 0.92;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.88);
     }
 
     /* ── Main Content ── */
     main {
       max-width: 960px;
-      margin: 2.5rem auto;
-      padding: 0 1.25rem 3rem;
+      margin: 2.5rem auto 4rem;
+      padding: 0 1.25rem;
     }
 
-    .section-heading {
+    .section-label {
       font-size: 0.72rem;
       font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #5a7190;
+      color: #5a7a99;
       margin-bottom: 1.1rem;
-      padding-bottom: 0.4rem;
-      border-bottom: 2px solid #dce4ef;
+      padding-left: 0.1rem;
     }
 
-    /* ── Card Grid ── */
+    /* ── Artifact Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
       gap: 1.25rem;
     }
 
-    /* ── Card ── */
     .card {
       background: #ffffff;
-      border: 1px solid #dce4ef;
+      border: 1px solid #dde4ed;
       border-radius: 10px;
-      padding: 1.4rem 1.5rem 1.35rem;
+      padding: 1.4rem 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
-      box-shadow: 0 2px 8px rgba(30,60,100,0.06);
+      box-shadow: 0 2px 8px rgba(30, 42, 56, 0.06);
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 20px rgba(30,60,100,0.11);
+      box-shadow: 0 6px 20px rgba(30, 42, 56, 0.11);
       transform: translateY(-2px);
     }
 
-    /* ── Card — name row ── */
-    .card-name-row {
+    /* ── Card Header Row ── */
+    .card-header {
       display: flex;
-      align-items: baseline;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-title-group {
+      display: flex;
+      align-items: center;
       flex-wrap: wrap;
       gap: 0.55rem;
     }
@@ -111,90 +119,89 @@
     }
 
     .card-name a {
-      color: #1a5fb4;
+      color: #1a6faa;
       text-decoration: none;
       border-bottom: 2px solid transparent;
-      transition: border-color 0.15s ease, color 0.15s ease;
+      transition: border-color 0.18s;
     }
 
-    .card-name a:hover,
-    .card-name a:focus {
-      color: #0e3d82;
-      border-bottom-color: #0e3d82;
-      outline: none;
+    .card-name a:hover {
+      border-bottom-color: #1a6faa;
     }
 
     .source-link {
-      font-size: 0.72rem;
+      font-size: 0.73rem;
       font-weight: 600;
-      color: #5a7190;
+      color: #ffffff;
+      background-color: #5a7a99;
       text-decoration: none;
-      border: 1px solid #b0c4de;
+      padding: 0.18rem 0.6rem;
       border-radius: 4px;
-      padding: 0.1rem 0.45rem;
       white-space: nowrap;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      transition: background-color 0.18s;
     }
 
-    .source-link:hover,
-    .source-link:focus {
-      background: #e8f0fb;
-      color: #1a3a5c;
-      border-color: #7da5d8;
-      outline: none;
+    .source-link:hover {
+      background-color: #3e5f7f;
     }
 
-    /* ── Card — badges ── */
-    .card-meta {
+    /* ── Badges ── */
+    .badge-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.45rem;
     }
 
     .badge {
-      display: inline-block;
-      border-radius: 4px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      padding: 0.18rem 0.55rem;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
     }
 
     .badge-type {
-      background: #eaf1fb;
-      color: #2457a0;
-      border: 1px solid #c5d9f5;
+      background-color: #e8f0fb;
+      color: #2055a4;
+      border: 1px solid #c4d5f5;
     }
 
     .badge-filetype {
-      background: #f0f7f0;
-      color: #2a6c35;
-      border: 1px solid #b8ddbf;
+      background-color: #eaf4ee;
+      color: #1e6b3a;
+      border: 1px solid #b8dfc5;
     }
 
-    /* ── Card — description ── */
+    /* ── Description ── */
     .card-description {
-      font-size: 0.88rem;
-      color: #3d536b;
-      flex: 1;
+      font-size: 0.9rem;
+      color: #3d5166;
+      line-height: 1.65;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.5rem 1rem;
       font-size: 0.78rem;
-      color: #8a9cb5;
-      border-top: 1px solid #dce4ef;
-      background: #f4f6f9;
+      color: #8fa5bc;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dde4ed;
     }
 
     /* ── Responsive tweaks ── */
     @media (max-width: 480px) {
-      header { padding: 2rem 1.25rem 1.75rem; }
-      main { margin-top: 1.75rem; }
-      .card { padding: 1.1rem 1.1rem 1rem; }
+      header {
+        padding: 2.2rem 1.2rem 2rem;
+      }
+
+      .card {
+        padding: 1.2rem 1.15rem;
+      }
+
+      .card-name {
+        font-size: 0.98rem;
+      }
     }
   </style>
 </head>
@@ -202,57 +209,65 @@
 <div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
+  <!-- ══════════════ HEADER ══════════════ -->
   <header>
-    <div class="course-label">COP4708</div>
+    <span class="course-label">COP4708</span>
     <h1>SQL Data Definition Language (DDL)</h1>
-    <p>
-      This module introduces the foundational SQL sublanguage used to define and structure
-      database schemas. You will explore DDL commands, data types, and constraints that form
-      the backbone of relational database design.
+    <p class="intro">
+      This module introduces the foundational commands of SQL's Data Definition Language.
+      You will explore how to create and manage database structures, work with a variety of
+      data types, and enforce data integrity through key constraints such as
+      <code style="background:rgba(255,255,255,0.15);padding:0.1em 0.35em;border-radius:4px;">PRIMARY KEY</code>,
+      <code style="background:rgba(255,255,255,0.15);padding:0.1em 0.35em;border-radius:4px;">FOREIGN KEY</code>,
+      and <code style="background:rgba(255,255,255,0.15);padding:0.1em 0.35em;border-radius:4px;">NOT NULL</code>.
     </p>
   </header>
 
+  <!-- ══════════════ MAIN ══════════════ -->
   <main>
-    <p class="section-heading">Module Artifacts</p>
+    <p class="section-label">Module Artifacts</p>
 
     <div class="card-grid">
 
       <!-- ── Artifact: Module Topics ── -->
       <div class="card">
-        <div class="card-name-row">
-          <span class="card-name">
-            <a href="content/module_topics.html">Module Topics</a>
-          </span>
-          <a
-            href="source/hierarchy.json"
-            class="source-link"
-            title="View the raw source file for this artifact"
-          >source file</a>
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-name">
+              <a href="content/module_topics.html">Module Topics</a>
+            </span>
+            <a
+              class="source-link"
+              href="source/hierarchy.json"
+              title="View raw source file"
+            >source file</a>
+          </div>
         </div>
 
-        <div class="card-meta">
+        <div class="badge-row">
           <span class="badge badge-type">Module Topics</span>
           <span class="badge badge-filetype">.json</span>
         </div>
 
         <p class="card-description">
           Covers the core SQL DDL concepts — including what DDL is and how it differs from
-          other SQL sublanguages, the <code>CREATE</code> command for databases and schemas,
-          numeric/string/date data types, and key constraints
-          (<code>PRIMARY KEY</code>, <code>FOREIGN KEY</code>, <code>NOT NULL</code>) —
-          serving as the outline that organizes the module's learning topics for both
-          learners navigating the content and instructors structuring their lessons.
+          other SQL sublanguages, the <strong>CREATE</strong> command for databases and schemas,
+          numeric, string, and date data types, and key constraints
+          (<strong>PRIMARY KEY</strong>, <strong>FOREIGN KEY</strong>, <strong>NOT NULL</strong>) —
+          serving as the outline that organizes the module's learning topics for both learners
+          navigating the content and instructors structuring their lessons.
         </p>
       </div>
 
-    </div>
+    </div><!-- /.card-grid -->
   </main>
 
+  <!-- ══════════════ FOOTER ══════════════ -->
   <footer>
     COP4708 &mdash; SQL Data Definition Language (DDL) &mdash; Course Module Index
   </footer>
 
 
 <footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
-<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section></body>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
 </html>

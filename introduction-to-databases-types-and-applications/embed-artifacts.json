@@ -1,0 +1,62 @@
+﻿[
+  {
+    "title": "Introduction to Databases, Types, and Applications \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "Introduction to Databases, Types, and Applications \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "Assignments \u2014 Introduction to Databases, Types, and Applications",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Research Paper: Foundations of Databases \u2014 Introduction to Databases",
+    "href": "assignments/research-paper-foundations-of-databases-defining.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "What is a Database?",
+    "href": "content/Introduction_to_Databases_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Relational Databases",
+    "href": "content/Introduction_to_Databases_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "NoSQL Databases",
+    "href": "content/Introduction_to_Databases_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Hierarchical Databases",
+    "href": "content/Introduction_to_Databases_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Comparing Database Types",
+    "href": "content/Introduction_to_Databases_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Real-World Applications of Databases",
+    "href": "content/Introduction_to_Databases_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Databases, Types, and Applications \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  },
+  {
+    "title": "Real-World Applications of Databases",
+    "href": "content/_interactive.html",
+    "type": "Content"
+  }
+]
