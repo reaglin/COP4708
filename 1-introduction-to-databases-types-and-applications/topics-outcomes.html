@@ -3,22 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Introduction to Databases, Types, and Applications — Module Topics</title>
+<title>1 - Introduction to Databases, Types, and Applications — Topics &amp; Learning Outcomes</title>
 <style>
 body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
 h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
-h2{font-size:1.2rem;margin-top:28px;color:#1a3c6e}
+h2{font-size:1.25rem;margin-top:30px;color:#1a3c6e;border-bottom:1px solid #ececec;padding-bottom:4px}
+h3{font-size:1.05rem;margin-top:22px;color:#1a3c6e}
+.toc{border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:14px 0 6px;display:flex;gap:18px;flex-wrap:wrap}
+.toc a{color:#1a3c6e;font-weight:600;text-decoration:none}
+.toc a:hover{text-decoration:underline}
 .summary{color:#555;font-style:italic;margin:4px 0 10px}
 ul{margin:6px 0 6px 4px}
 li{margin:5px 0}
 .el-body{color:#555}
+.prefix{color:#555;font-style:italic;margin:6px 0 14px}
+.mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
+.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .statement{font-weight:600;margin:4px 0 8px}
+.meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
+.meta .map{background:#eaf6ec;color:#137333}
+.co{margin:7px 0}
+.co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
 .empty{color:#888}
 </style>
 </head>
 <body>
-<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Introduction to Databases, Types, and Applications</a></div>
-<h1>Introduction to Databases, Types, and Applications — Module Topics</h1>
-<h2>What is a Database?</h2>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>1 - Introduction to Databases, Types, and Applications — Topics &amp; Learning Outcomes</h1>
+<div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
+
+<h2 id="topics">Module Topics</h2>
+<h3>What is a Database?</h3>
 <div class="summary">Introduces the core definition and purpose of a database, establishing foundational vocabulary and concepts essential for the rest of the module.</div>
 <ul>
 <li><strong>Defining a Database</strong> <span class="el-body">— A database is an organized collection of structured information or data, stored electronically so it can be easily accessed, managed, and updated.</span></li>
@@ -28,7 +43,7 @@ li{margin:5px 0}
 <li><strong>Databases vs. Spreadsheets</strong> <span class="el-body">— While spreadsheets and databases both store data, they serve different purposes and have distinct capabilities that make databases better suited for complex, large-scale data management.</span></li>
 <li><strong>The Role of a Database Management System (DBMS)</strong> <span class="el-body">— A Database Management System, or DBMS, is the software layer that allows users and applications to interact with a database in a controlled and efficient way.</span></li>
 </ul>
-<h2>Relational Databases</h2>
+<h3>Relational Databases</h3>
 <div class="summary">Explores the structure and principles of relational databases, including how data is organized into tables and related through keys.</div>
 <ul>
 <li><strong>What Is a Relational Database?</strong> <span class="el-body">— A relational database is a type of database that organizes data into structured tables made up of rows and columns.</span></li>
@@ -39,7 +54,7 @@ li{margin:5px 0}
 <li><strong>Querying with SQL</strong> <span class="el-body">— Relational databases are typically queried and managed using Structured Query Language (SQL), a standardized language for interacting with relational data.</span></li>
 <li><strong>Common Relational Database Systems</strong> <span class="el-body">— Several widely used relational database management systems (RDBMS) implement these principles and are used across industries.</span></li>
 </ul>
-<h2>NoSQL Databases</h2>
+<h3>NoSQL Databases</h3>
 <div class="summary">Examines NoSQL database models, their flexible data structures, and the scenarios in which they offer advantages over relational systems.</div>
 <ul>
 <li><strong>What Is a NoSQL Database?</strong> <span class="el-body">— NoSQL databases are non-relational data stores designed to handle a wide variety of data models beyond the traditional table-based structure of relational systems.</span></li>
@@ -49,7 +64,7 @@ li{margin:5px 0}
 <li><strong>When NoSQL Outperforms Relational Systems</strong> <span class="el-body">— NoSQL databases offer meaningful advantages in specific scenarios where relational databases struggle with flexibility, speed, or scale.</span></li>
 <li><strong>Trade-offs and Limitations of NoSQL</strong> <span class="el-body">— While NoSQL databases offer significant benefits, they also come with trade-offs that must be carefully considered when selecting a database system.</span></li>
 </ul>
-<h2>Hierarchical Databases</h2>
+<h3>Hierarchical Databases</h3>
 <div class="summary">Covers the tree-based structure of hierarchical databases, their historical significance, and how data relationships are defined through parent-child links.</div>
 <ul>
 <li><strong>Tree-Based Structure</strong> <span class="el-body">— Hierarchical databases organize data in a tree-like structure, where each record is called a node and relationships branch downward from a single root.</span></li>
@@ -59,7 +74,7 @@ li{margin:5px 0}
 <li><strong>Strengths of Hierarchical Databases</strong> <span class="el-body">— Hierarchical databases offer notable performance and simplicity advantages for certain types of structured, well-defined data relationships.</span></li>
 <li><strong>Limitations of Hierarchical Databases</strong> <span class="el-body">— Despite their strengths, hierarchical databases have significant limitations that reduce their suitability for complex or flexible data relationships.</span></li>
 </ul>
-<h2>Comparing Database Types</h2>
+<h3>Comparing Database Types</h3>
 <div class="summary">Provides a side-by-side analysis of relational, NoSQL, and hierarchical databases to help students understand the trade-offs and selection criteria for each.</div>
 <ul>
 <li><strong>Structural Differences at a Glance</strong> <span class="el-body">— Relational, NoSQL, and hierarchical databases each organize data in fundamentally different ways, which drives nearly every trade-off between them.</span></li>
@@ -70,7 +85,7 @@ li{margin:5px 0}
 <li><strong>Ideal Use Cases for Each Type</strong> <span class="el-body">— Understanding which real-world scenarios each database type handles best is the most direct way to apply selection criteria in practice.</span></li>
 <li><strong>Key Selection Criteria Summary</strong> <span class="el-body">— When comparing database types, decision-makers should evaluate a consistent set of criteria to make an informed and defensible choice.</span></li>
 </ul>
-<h2>Real-World Applications of Databases</h2>
+<h3>Real-World Applications of Databases</h3>
 <div class="summary">Illustrates how databases are applied across industries and modern software systems, connecting theoretical concepts to practical, everyday use cases.</div>
 <ul>
 <li><strong>Databases in E-Commerce and Retail</strong> <span class="el-body">— E-commerce platforms rely heavily on databases to manage product catalogs, customer accounts, and transaction records in real time.</span></li>
@@ -81,6 +96,38 @@ li{margin:5px 0}
 <li><strong>Government and Public Services</strong> <span class="el-body">— Government agencies use databases to manage citizen records, public services, and large-scale administrative functions efficiently and securely.</span></li>
 <li><strong>Transportation and Logistics</strong> <span class="el-body">— Transportation companies and logistics providers use databases to coordinate vehicle fleets, shipment tracking, and supply chain operations globally.</span></li>
 </ul>
+<h2 id="outcomes">Student Learning Outcomes</h2>
+<p class="prefix">By the end of this module, students will be able to:</p>
+<div class="mo">
+<div class="code">MO1</div>
+<div class="statement">Define the key vocabulary of databases — including records, fields, tables, primary keys, foreign keys, and schema — as used in relational database systems</div>
+<div class="meta"><span>Level: Remember</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO2</div>
+<div class="statement">Distinguish between relational, NoSQL, and hierarchical database models based on their structural organization and data relationship mechanisms</div>
+<div class="meta"><span>Level: Understand</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO3</div>
+<div class="statement">Compare relational, NoSQL, and hierarchical database types across criteria such as schema flexibility, query capability, scalability, and data integrity</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO4</div>
+<div class="statement">Select an appropriate database type for a given real-world application scenario by justifying the choice against defined selection criteria</div>
+<div class="meta"><span>Level: Evaluate</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO5</div>
+<div class="statement">Identify the database type most likely used in a specified industry context — such as e-commerce, healthcare, banking, or social media — based on that industry&#39;s data management requirements</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<h3>Course Outcomes (reference)</h3>
+<div class="co"><span class="code">CO1</span>Analyze a problem and identify computing and user requirements to implement the proper solution capturing the impact of the implementation on the local and the global levels.</div>
+<div class="co"><span class="code">CO2</span>Design, normalize, and implement database systems</div>
+<div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
+<div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
 
 <footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
 </body>

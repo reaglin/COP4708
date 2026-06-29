@@ -1,16 +1,16 @@
 ﻿[
   {
-    "title": "Introduction to Databases, Types, and Applications \u2014 Topics \u0026 Learning Outcomes",
+    "title": "1 - Introduction to Databases, Types, and Applications \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
   },
   {
-    "title": "Introduction to Databases, Types, and Applications \u2014 Module Topics",
+    "title": "1 - Introduction to Databases, Types, and Applications \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
   },
   {
-    "title": "Assignments \u2014 Introduction to Databases, Types, and Applications",
+    "title": "Assignments \u2014 1 - Introduction to Databases, Types, and Applications",
     "href": "assignments/index.html",
     "type": "Assignments"
   },
@@ -50,7 +50,7 @@
     "type": "Content"
   },
   {
-    "title": "Introduction to Databases, Types, and Applications \u2014 Module Topics",
+    "title": "1 - Introduction to Databases, Types, and Applications \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"
   },

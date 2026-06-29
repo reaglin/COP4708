@@ -1,17 +1,22 @@
 ﻿[
   {
-    "title": "Relational Theory and Functional Dependencies \u2014 Topics \u0026 Learning Outcomes",
+    "title": "2 - Relational Theory and Functional Dependencies \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
   },
   {
-    "title": "Relational Theory and Functional Dependencies \u2014 Module Topics",
+    "title": "2 - Relational Theory and Functional Dependencies \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
   },
   {
-    "title": "Relational Theory and Functional Dependencies \u2014 Module Topics",
+    "title": "2 - Relational Theory and Functional Dependencies \u2014 Module Topics",
     "href": "content/module_topics.html",
+    "type": "Content"
+  },
+  {
+    "title": "Apply Armstrong\u0027s Axioms \u2014 reflexivity, augmentation, and transitivity \u2014 to derive additional valid functional dependencies from a given FD set",
+    "href": "content/Relational_Theory_and_example-problems.html",
     "type": "Content"
   },
   {

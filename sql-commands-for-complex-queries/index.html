@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SQL Commands for Complex Queries – COP4708</title>
   <style>
     /* ── Reset & Base ── */
@@ -10,11 +10,6 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
     }
 
     body {
@@ -27,206 +22,219 @@
 
     /* ── Header / Hero ── */
     header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%);
       color: #ffffff;
-      padding: 3rem 1.5rem 2.5rem;
+      padding: 48px 24px 40px;
       text-align: center;
     }
 
     header .course-label {
       display: inline-block;
       background-color: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 20px;
-      font-size: 0.8rem;
+      color: #d6eaff;
+      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      margin-bottom: 1rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
     }
 
     header h1 {
       font-size: clamp(1.6rem, 4vw, 2.6rem);
       font-weight: 700;
       letter-spacing: -0.01em;
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
       line-height: 1.25;
     }
 
-    header p.intro {
+    header p {
       max-width: 680px;
       margin: 0 auto;
       font-size: 1.05rem;
-      color: rgba(255, 255, 255, 0.88);
+      color: #cce3f7;
+      line-height: 1.7;
     }
 
     /* ── Main Content ── */
     main {
       max-width: 960px;
-      margin: 2.5rem auto;
-      padding: 0 1.25rem 3rem;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
     }
 
-    .section-heading {
-      font-size: 1.05rem;
+    .section-title {
+      font-size: 1.15rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #5a6a7e;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #d8e2ee;
+      letter-spacing: 0.08em;
+      color: #5a7a99;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #dce6f0;
     }
 
     /* ── Card Grid ── */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
+      gap: 24px;
     }
 
+    /* ── Card ── */
     .card {
       background: #ffffff;
       border: 1px solid #dce6f0;
       border-radius: 10px;
-      padding: 1.5rem 1.4rem 1.4rem;
-      box-shadow: 0 2px 8px rgba(30, 60, 100, 0.07);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 20px rgba(30, 60, 100, 0.13);
+      box-shadow: 0 6px 20px rgba(45, 106, 159, 0.14);
       transform: translateY(-2px);
     }
 
     /* ── Card Header Row ── */
     .card-header {
       display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
       flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
     }
 
-    .card-title {
+    .card-name {
       font-size: 1.08rem;
       font-weight: 700;
       color: #1a3a5c;
+      line-height: 1.3;
       flex: 1 1 auto;
     }
 
-    .card-title a {
-      color: #1e5bb5;
+    .card-name a {
+      color: #1a6dbd;
       text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
     }
 
-    .card-title a:hover,
-    .card-title a:focus {
-      color: #0f3a80;
-      text-decoration: underline;
+    .card-name a:hover,
+    .card-name a:focus {
+      color: #0e4e8e;
+      border-bottom-color: #0e4e8e;
+      outline: none;
     }
 
-    .card-title a:focus {
-      outline: 2px solid #2563a8;
-      outline-offset: 2px;
-      border-radius: 3px;
-    }
-
-    /* ── Source Link ── */
-    .source-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #5a7fa8;
-      text-decoration: none;
-      background-color: #eaf1fb;
-      border: 1px solid #c2d6ef;
-      border-radius: 12px;
-      padding: 0.2rem 0.55rem;
-      white-space: nowrap;
-      transition: background-color 0.15s ease, color 0.15s ease;
-      flex-shrink: 0;
-      align-self: flex-start;
-      margin-top: 0.1rem;
-    }
-
-    .source-link::before {
-      content: '⬇';
+    /* ── Content-Type Badge ── */
+    .badge-content-type {
+      display: inline-block;
+      background-color: #e8f3ff;
+      color: #1a6dbd;
       font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      border: 1px solid #b3d4f5;
+      white-space: nowrap;
+      align-self: center;
     }
 
-    .source-link:hover,
-    .source-link:focus {
-      background-color: #d0e4f7;
-      color: #1a3a5c;
-    }
-
-    .source-link:focus {
-      outline: 2px solid #2563a8;
-      outline-offset: 2px;
-      border-radius: 12px;
-    }
-
-    /* ── Meta Badges ── */
+    /* ── Meta Pills Row ── */
     .card-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.45rem;
+      gap: 8px;
+      align-items: center;
     }
 
     .badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      border-radius: 4px;
-      padding: 0.2rem 0.55rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
     }
 
     .badge-type {
-      background-color: #e8f0fb;
-      color: #2458a3;
-      border: 1px solid #c2d4f2;
+      background-color: #eef1f5;
+      color: #4a6070;
+      border: 1px solid #cdd7e2;
     }
 
     .badge-filetype {
-      background-color: #eef6ee;
-      color: #2a7a3b;
-      border: 1px solid #b6ddb9;
+      background-color: #f0f7ee;
+      color: #3a7245;
+      border: 1px solid #b8d9b0;
       font-family: 'Courier New', Courier, monospace;
     }
 
     /* ── Description ── */
     .card-description {
       font-size: 0.9rem;
-      color: #4a5a6b;
-      line-height: 1.6;
+      color: #4a5e70;
+      line-height: 1.65;
       flex: 1;
+    }
+
+    /* ── Source Link ── */
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      color: #7a95b0;
+      text-decoration: none;
+      border: 1px dashed #b0c4d8;
+      border-radius: 6px;
+      padding: 4px 10px;
+      align-self: flex-start;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background-color: #edf4fb;
+      color: #2d6a9f;
+      outline: none;
+    }
+
+    .source-link::before {
+      content: "⬡";
+      font-size: 0.72rem;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.5rem 1rem;
-      font-size: 0.82rem;
-      color: #8a9bae;
+      padding: 20px 24px;
+      font-size: 0.8rem;
+      color: #8fa8be;
       border-top: 1px solid #dce6f0;
-      background-color: #f4f6f9;
+      background: #ffffff;
     }
 
-    /* ── Responsive Tweaks ── */
+    /* ── Responsive tweaks ── */
     @media (max-width: 480px) {
       header {
-        padding: 2.2rem 1rem 2rem;
+        padding: 36px 16px 32px;
+      }
+
+      main {
+        padding: 32px 16px 48px;
       }
 
       .card {
-        padding: 1.2rem 1.1rem 1.2rem;
+        padding: 20px;
       }
     }
   </style>
@@ -238,43 +246,48 @@
   <header>
     <div class="course-label">COP4708</div>
     <h1>SQL Commands for Complex Queries</h1>
-    <p class="intro">
-      Explore the foundational and advanced SQL techniques needed to construct complex database queries.
-      This module covers JOIN operations, WHERE clause filtering, comparison and logical operators,
-      and the structured thinking required to retrieve meaningful data from relational databases.
+    <p>
+      Explore the core SQL techniques required to construct powerful, multi-table queries.
+      This module covers JOIN operations — including INNER and LEFT JOINs — as well as
+      WHERE clause filtering using comparison and logical operators, providing a solid
+      foundation for querying relational databases with confidence.
     </p>
   </header>
 
   <main>
-    <p class="section-heading">Module Artifacts</p>
+    <h2 class="section-title">Module Artifacts</h2>
 
     <div class="card-grid">
 
-      <!-- Artifact: Module Topics -->
-      <article class="card">
+      <!-- ── Artifact: Module Topics ── -->
+      <div class="card">
         <div class="card-header">
-          <span class="card-title">
+          <span class="card-name">
             <a href="content/module_topics.html">Module Topics</a>
           </span>
-          <a class="source-link" href="source/hierarchy.json" aria-label="Source file for Module Topics">source file</a>
+          <!-- contentType is empty, so no badge rendered -->
         </div>
+
         <div class="card-meta">
           <span class="badge badge-type">Module Topics</span>
           <span class="badge badge-filetype">.json</span>
         </div>
+
         <p class="card-description">
-          Outlines the module's learning topics covering complex SQL queries, including JOIN types
-          (INNER, LEFT, and others), and WHERE clause filtering with comparison and logical operators,
-          serving as a roadmap for learners and instructors to understand what concepts will be taught
-          and in what order.
+          Outlines the module's learning topics covering complex SQL queries, including
+          JOIN types (INNER, LEFT, and others), and WHERE clause filtering with comparison
+          and logical operators, serving as a roadmap for learners and instructors to
+          understand what concepts will be taught and in what order.
         </p>
-      </article>
+
+        <a class="source-link" href="source/hierarchy.json">source file</a>
+      </div>
 
     </div>
   </main>
 
   <footer>
-    COP4708 &mdash; SQL Commands for Complex Queries &nbsp;&bull;&nbsp; Course Module Index
+    COP4708 &mdash; SQL Commands for Complex Queries &mdash; Course Module Index
   </footer>
 
 

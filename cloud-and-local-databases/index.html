@@ -6,206 +6,215 @@
   <title>Cloud and Local Databases – COP4708</title>
   <style>
     /* ── Reset & Base ── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: #f4f6f9;
-      color: #1e2a38;
-      line-height: 1.6;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f9;
+      color: #222;
       min-height: 100vh;
+      padding: 0 0 3rem;
     }
 
-    /* ── Header / Hero ── */
+    /* ── Header Banner ── */
     header {
       background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
-      color: #ffffff;
-      padding: 3rem 2rem 2.5rem;
+      color: #fff;
+      padding: 2.5rem 1.5rem 2rem;
       text-align: center;
     }
 
-    header .course-label {
+    header .course-code {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.18);
-      color: #d4e6ff;
-      font-size: 0.8rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      margin-bottom: 1rem;
+      padding: 0.25rem 0.85rem;
+      margin-bottom: 0.85rem;
     }
 
     header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
       font-weight: 700;
       letter-spacing: -0.01em;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
     }
 
     header p.intro {
       max-width: 680px;
       margin: 0 auto;
       font-size: 1rem;
-      color: #cfe0f5;
-      line-height: 1.75;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.88);
     }
 
     /* ── Main Content ── */
     main {
-      max-width: 1100px;
-      margin: 2.5rem auto;
-      padding: 0 1.5rem 3rem;
+      max-width: 960px;
+      margin: 2.5rem auto 0;
+      padding: 0 1.25rem;
     }
 
-    .section-heading {
-      font-size: 1rem;
+    .section-label {
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #5a7190;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #dde4ed;
+      color: #5a6e85;
+      margin-bottom: 1rem;
+      padding-left: 0.25rem;
     }
 
     /* ── Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.25rem;
     }
 
     .card {
       background: #ffffff;
-      border: 1px solid #dde4ed;
+      border: 1px solid #dde3ec;
       border-radius: 10px;
-      padding: 1.5rem;
+      padding: 1.4rem 1.35rem 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      box-shadow: 0 2px 8px rgba(30, 42, 56, 0.06);
+      gap: 0.6rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 20px rgba(30, 42, 56, 0.12);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.09);
       transform: translateY(-2px);
     }
 
     /* ── Card Header Row ── */
     .card-header {
       display: flex;
-      align-items: flex-start;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      align-items: flex-start;
+      gap: 0.45rem;
     }
 
-    .card-title {
+    .card-name {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #1e2a38;
+      color: #1a3a5c;
+      line-height: 1.3;
       flex: 1 1 auto;
     }
 
-    .card-title a {
-      color: #1a5db5;
+    .card-name a {
+      color: inherit;
       text-decoration: none;
+      border-bottom: 2px solid #2563a8;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .card-title a:hover,
-    .card-title a:focus {
-      text-decoration: underline;
-      color: #0e3d80;
+    .card-name a:hover {
+      color: #2563a8;
+      border-bottom-color: #2563a8;
     }
 
-    .source-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #5a7190;
-      background: #edf2f8;
-      border: 1px solid #c8d5e6;
-      border-radius: 4px;
-      padding: 0.18rem 0.5rem;
-      text-decoration: none;
+    /* ── Badges / Labels ── */
+    .badge {
+      display: inline-block;
+      border-radius: 5px;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
       white-space: nowrap;
-      transition: background 0.15s, color 0.15s;
-      align-self: flex-start;
-      margin-top: 0.1rem;
+      line-height: 1.4;
     }
 
-    .source-link:hover,
-    .source-link:focus {
-      background: #d5e4f5;
-      color: #1a3a5c;
+    .badge-content-type {
+      background: #e8f0fb;
+      color: #1e4d99;
+      border: 1px solid #b8cff4;
     }
 
-    .source-link::before {
-      content: '⬇';
-      font-size: 0.65rem;
+    .badge-file-type {
+      background: #f0f2f5;
+      color: #5a6e85;
+      border: 1px solid #d0d6df;
     }
 
-    /* ── Badges ── */
-    .badge-row {
+    /* ── Meta Row (type + filetype) ── */
+    .card-meta {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 0.4rem;
     }
 
-    .badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
+    .meta-type {
+      font-size: 0.78rem;
+      color: #64748b;
+      font-weight: 500;
     }
 
-    .badge-type {
-      background: #e8f0fc;
-      color: #1a4f9c;
-      border: 1px solid #b8d0f5;
-    }
-
-    .badge-filetype {
-      background: #f0faf2;
-      color: #1e7a3c;
-      border: 1px solid #9fd4ae;
+    .meta-sep {
+      color: #b0bbc8;
+      font-size: 0.78rem;
     }
 
     /* ── Description ── */
     .card-description {
-      font-size: 0.875rem;
-      color: #4a5e72;
-      line-height: 1.65;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #3d4f62;
       flex: 1;
+    }
+
+    /* ── Source Link ── */
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.77rem;
+      color: #5a7fa8;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid #b8cfd8;
+      border-radius: 5px;
+      padding: 0.22rem 0.6rem;
+      background: #f4f9fc;
+      transition: background 0.15s, color 0.15s;
+      align-self: flex-start;
+      margin-top: 0.15rem;
+    }
+
+    .source-link:hover {
+      background: #dceef8;
+      color: #1a3a5c;
+      border-color: #7aaec8;
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.72rem;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.5rem;
+      margin-top: 3rem;
       font-size: 0.78rem;
-      color: #8a9baf;
-      border-top: 1px solid #dde4ed;
+      color: #8a9bb0;
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 500px) {
-      header {
-        padding: 2rem 1.25rem 2rem;
-      }
-
-      .card {
-        padding: 1.25rem;
-      }
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      header { padding: 2rem 1rem 1.5rem; }
+      .card { padding: 1.1rem 1rem; }
     }
   </style>
 </head>
@@ -214,53 +223,52 @@
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
   <header>
-    <div class="course-label">COP4708</div>
+    <div class="course-code">COP4708</div>
     <h1>Cloud and Local Databases</h1>
     <p class="intro">
-      This module explores the practical differences between locally hosted and cloud-based database
-      deployment models, covering infrastructure setup, management responsibilities, and managed
-      cloud services such as AWS RDS and Azure SQL. Use the artifacts below to navigate lessons,
-      review topics, and build a solid understanding of modern database deployment strategies.
+      This module explores the landscape of modern database deployment, contrasting
+      locally hosted solutions with cloud-based managed services. You will examine
+      infrastructure setup and management responsibilities, and dive into specific
+      platforms such as AWS RDS and Azure Database services to build a practical
+      understanding of how and where data lives.
     </p>
   </header>
 
   <main>
-    <p class="section-heading">Module Artifacts</p>
+    <p class="section-label">Module Artifacts</p>
 
     <div class="card-grid">
 
-      <!-- Artifact: Module Topics -->
+      <!-- ── Artifact: Module Topics ── -->
       <div class="card">
         <div class="card-header">
-          <span class="card-title">
+          <span class="card-name">
             <a href="content/module_topics.html">Module Topics</a>
           </span>
-          <a
-            class="source-link"
-            href="source/hierarchy.json"
-            title="Download or view the source file"
-          >source file</a>
         </div>
 
-        <div class="badge-row">
-          <span class="badge badge-type">Module Topics</span>
-          <span class="badge badge-filetype">.json</span>
+        <div class="card-meta">
+          <span class="meta-type">Module Topics</span>
+          <span class="meta-sep">·</span>
+          <span class="badge badge-file-type">.json</span>
         </div>
 
         <p class="card-description">
-          Covers the core topics of the module—comparing locally hosted and cloud-based database
-          deployment models, including infrastructure setup, management responsibilities, and
-          specific managed services such as AWS RDS and Azure—serving as a navigational overview
-          that helps instructors sequence lessons and learners understand what concepts they will
-          study.
+          Covers the core topics of the module—comparing locally hosted and
+          cloud-based database deployment models, including infrastructure setup,
+          management responsibilities, and specific managed services such as AWS RDS
+          and Azure—serving as a navigational overview that helps instructors sequence
+          lessons and learners understand what concepts they will study.
         </p>
+
+        <a class="source-link" href="source/hierarchy.json">source file</a>
       </div>
 
     </div>
   </main>
 
   <footer>
-    COP4708 &mdash; Cloud and Local Databases &mdash; Course Module Index
+    <p>COP4708 &mdash; Cloud and Local Databases &mdash; Course Module Index</p>
   </footer>
 
 
