@@ -1,16 +1,16 @@
 ﻿[
   {
-    "title": "Relational Databases and Normalization Concepts \u2014 Topics \u0026 Learning Outcomes",
+    "title": "3 - Relational Databases and Normalization Concepts \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
   },
   {
-    "title": "Relational Databases and Normalization Concepts \u2014 Module Topics",
+    "title": "3 - Relational Databases and Normalization Concepts \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
   },
   {
-    "title": "Relational Databases and Normalization Concepts \u2014 Module Topics",
+    "title": "3 - Relational Databases and Normalization Concepts \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"
   },
@@ -45,8 +45,28 @@
     "type": "Content"
   },
   {
+    "title": "Distinguish between insertion, update, and deletion anomalies in a given poorly structured database schema",
+    "href": "content/Relational_Databases_and_o-mo2_example-problems.html",
+    "type": "Content"
+  },
+  {
+    "title": "Diagnose warning signs of poor table design, such as repeating groups, mixed entity types, and partial-key dependencies, in a provided schema",
+    "href": "content/Relational_Databases_and_o-mo3_example-problems.html",
+    "type": "Content"
+  },
+  {
     "title": "Introduction to Normalization",
     "href": "content/_interactive.html",
     "type": "Content"
+  },
+  {
+    "title": "Database Anomalies \u2013 Drag-and-Drop Match",
+    "href": "interactive/drag-and-drop-match.html",
+    "type": "Interactive"
+  },
+  {
+    "title": "Interactive Activities \u2014 3 - Relational Databases and Normalization Concepts",
+    "href": "interactive/index.html",
+    "type": "Interactive"
   }
 ]

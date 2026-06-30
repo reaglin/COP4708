@@ -1,0 +1,510 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 3 – Relational Databases and Normalization Concepts | COP4708</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #f4f6f9;
+      --color-surface: #ffffff;
+      --color-border: #dde2ea;
+      --color-primary: #1a4f8a;
+      --color-primary-dark: #133a66;
+      --color-accent: #2e7d52;
+      --color-accent-light: #e6f4ec;
+      --color-text: #1e2432;
+      --color-text-muted: #5a6478;
+      --color-tag-bg: #eaf0fb;
+      --color-tag-text: #1a4f8a;
+      --color-badge-bg: #fff4e0;
+      --color-badge-text: #7a4d00;
+      --color-badge-border: #f0c97a;
+      --color-type-bg: #f0f2f5;
+      --color-type-text: #444c5e;
+      --radius: 8px;
+      --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 2px 12px rgba(0,0,0,0.05);
+      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+      color: #ffffff;
+      padding: 2.5rem 1.5rem 2rem;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      margin-bottom: 0.85rem;
+      color: #d6e8ff;
+    }
+
+    header h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.85rem;
+      color: #ffffff;
+    }
+
+    header p {
+      font-size: 0.975rem;
+      color: rgba(255,255,255,0.85);
+      max-width: 760px;
+      line-height: 1.7;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    .section-heading {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem 1.3rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 3px 14px rgba(26,79,138,0.13), 0 1px 4px rgba(0,0,0,0.07);
+      border-color: #b5c9e8;
+    }
+
+    /* ── Card top row: name + badges ── */
+    .card-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .card-title-group {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .card-name {
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .card-name a {
+      color: var(--color-primary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .card-name a:hover {
+      border-bottom-color: var(--color-primary);
+    }
+
+    .card-name span {
+      color: var(--color-text);
+    }
+
+    .source-link {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-accent);
+      text-decoration: none;
+      white-space: nowrap;
+      margin-top: 0.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-bottom: 1px dashed var(--color-accent);
+      line-height: 1.2;
+    }
+
+    .source-link:hover {
+      border-bottom-style: solid;
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.68rem;
+    }
+
+    /* ── Meta row ── */
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 0.18rem 0.52rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .tag-type {
+      background: var(--color-type-bg);
+      color: var(--color-type-text);
+      border: 1px solid #d4d8e2;
+    }
+
+    .tag-filetype {
+      background: #f5f5f5;
+      color: #666;
+      border: 1px solid #ddd;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+
+    .tag-content {
+      background: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      border: 1px solid var(--color-badge-border);
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.855rem;
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      padding: 1.2rem 1rem 1.8rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Module 3 &mdash; Relational Databases and Normalization Concepts</h1>
+      <p>
+        This module builds a solid foundation in relational database design by exploring how data is organized
+        into tables, why poor schema structure leads to harmful anomalies, and how normalization techniques
+        (1NF through BCNF) along with functional dependencies can be applied to produce clean, maintainable
+        database schemas. Work through the readings, examples, and interactive activities below in sequence.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="section-heading">Module Artifacts &mdash; 11 items</h2>
+
+    <div class="card-grid">
+
+      <!-- 1: Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/module_topics.html">Module Topics</a>
+            </div>
+            <a class="source-link" href="source/hierarchy.json">source file</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Module Topics</span>
+          <span class="tag tag-filetype">.json</span>
+        </div>
+        <p class="card-description">
+          Covers core relational database concepts—including tables, primary keys, data redundancy, and
+          anomalies—alongside normalization principles (1NF through BCNF) and functional dependencies,
+          serving as the structural outline that guides learners and instructors through the sequence of
+          topics in the module.
+        </p>
+      </div>
+
+      <!-- 2: Introduction to Normalization (interactive) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/_interactive.html">Introduction to Normalization</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading introduces database normalization as a step-by-step process for structuring tables
+          and columns to eliminate redundancy and inconsistency, providing learners with the conceptual
+          foundation and rationale before they study specific normal forms.
+        </p>
+      </div>
+
+      <!-- 3: Introduction to Relational Databases -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_interactive_topics_t1.html">Introduction to Relational Databases</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading explains the core concepts of relational databases — how data is organized into
+          tables with rows and columns, how tables relate to one another, and why this structured approach
+          is foundational to software development and data management.
+        </p>
+      </div>
+
+      <!-- 4: Problems with Poorly Structured Tables -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_interactive_topics_t2.html">Problems with Poorly Structured Tables</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading describes the practical consequences of poorly designed database tables — including
+          wasted storage, increased maintenance burden, and data integrity problems — helping learners
+          recognize why thoughtful schema design matters before studying normalization techniques.
+        </p>
+      </div>
+
+      <!-- 5: Insertion Anomalies -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_interactive_topics_t3.html">Insertion Anomalies</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading defines and illustrates insertion anomalies, explaining how poorly structured tables
+          can make it impossible or awkward to add valid data without fabricating unrelated information, so
+          learners can identify this design flaw in real schemas.
+        </p>
+      </div>
+
+      <!-- 6: Update Anomalies -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_interactive_topics_t4.html">Update Anomalies</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading defines and illustrates update anomalies, showing learners how denormalized tables
+          force multiple row updates to reflect a single real-world change and how failing to do so creates
+          data inconsistencies.
+        </p>
+      </div>
+
+      <!-- 7: Deletion Anomalies -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_interactive_topics_t5.html">Deletion Anomalies</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading defines and illustrates deletion anomalies, explaining how removing a single row in
+          a poorly designed table can unintentionally destroy unrelated data, helping learners understand a
+          key motivation for normalization.
+        </p>
+      </div>
+
+      <!-- 8: Introduction to Normalization (t6) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_interactive_topics_t6.html">Introduction to Normalization</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading introduces database normalization as a step-by-step process for structuring tables
+          and columns to eliminate redundancy and inconsistency, providing learners with the conceptual
+          foundation and rationale before they study specific normal forms.
+        </p>
+      </div>
+
+      <!-- 9: Distinguish between insertion, update, and deletion -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_o-mo2_example-problems.html">Distinguish between insertion, update, and deletion</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+          <span class="tag tag-content">Example Problems</span>
+        </div>
+        <p class="card-description">
+          This text-based HTML resource explains and contrasts the three types of data anomalies—insertion,
+          deletion, and update—that arise in poorly structured database schemas, using example problems so
+          learners can practice identifying and differentiating each anomaly type in preparation for
+          analyzing real schema designs.
+        </p>
+      </div>
+
+      <!-- 10: Diagnose warning signs of poor table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="content/Relational_Databases_and_o-mo3_example-problems.html">Diagnose warning signs of poor table</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Text Content</span>
+          <span class="tag tag-filetype">.html</span>
+          <span class="tag tag-content">Example Problems</span>
+        </div>
+        <p class="card-description">
+          This reading covers how to identify common flaws in relational table design — including repeating
+          groups, mixed entity types, and partial-key dependencies — and presents worked example problems
+          that learners use to practice diagnosing these issues in a given schema as preparation for the
+          module's analysis-level outcome.
+        </p>
+      </div>
+
+      <!-- 11: Drag-and-Drop Match -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="card-name">
+              <a href="interactive/drag-and-drop-match.html">Drag-and-Drop Match</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="tag tag-type">Interactive Activity</span>
+          <span class="tag tag-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This interactive drag-and-drop activity asks learners to match database anomaly types (such as
+          insertion, deletion, and update anomalies) to real-world scenarios that illustrate them, providing
+          immediate feedback on correct and incorrect matches so learners can self-assess their understanding
+          of how and when each anomaly occurs in relational databases.
+        </p>
+      </div>
+
+    </div><!-- /.card-grid -->
+  </main>
+
+  <footer>
+    COP4708 &mdash; Module 3: Relational Databases and Normalization Concepts
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+</html>

@@ -1,0 +1,463 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distinguish between insertion, update, and deletion anomalies in a given poorly structured database schema</title>
+<style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 3 - Relational Databases and Normalization Concepts</a></div>
+<h1>Distinguish between insertion, update, and deletion anomalies in a given poorly structured database schema</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Targeted Learning Outcomes</a>
+<a href="#sec2">Problem 1: Student-Course Enrollment Table</a>
+<a href="#sec3">Problem 2: Employee-Project Assignment Table</a>
+<a href="#sec4">Problem 3: Library Book-Loan Table</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Targeted Learning Outcomes</h2>
+<p>The example problems in this set give practice toward the following module outcome:</p>
+<ul>
+<li><strong>MO2 [Analyze]:</strong> By the end of this module, students will be able to distinguish between insertion, update, and deletion anomalies in a given poorly structured database schema.</li>
+</ul>
+<p>Each problem presents a poorly structured (unnormalized or partially normalized) relation and asks you to identify and classify the anomalies present. Because this outcome is pitched at the <strong>Analyze</strong> level of Bloom's Taxonomy, the problems require you to break down the schema, examine the data, and discriminate among the three anomaly types — not simply recall their definitions.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Problem 1: Student-Course Enrollment Table</h2>
+<p><strong>Outcome practised:</strong> MO2 [Analyze]</p>
+<p><strong>Problem Statement</strong></p>
+<p>A university stores all enrollment information in a single table called <strong>ENROLLMENT</strong>. A sample of the data is shown below.</p>
+<table>
+<thead>
+<tr>
+<th>StudentID</th>
+<th>StudentName</th>
+<th>AdvisorID</th>
+<th>AdvisorName</th>
+<th>CourseID</th>
+<th>CourseName</th>
+<th>Grade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>Alice</td>
+<td>A01</td>
+<td>Dr. Smith</td>
+<td>CS101</td>
+<td>Intro to CS</td>
+<td>A</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Alice</td>
+<td>A01</td>
+<td>Dr. Smith</td>
+<td>CS202</td>
+<td>Data Structures</td>
+<td>B</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Bob</td>
+<td>A02</td>
+<td>Dr. Jones</td>
+<td>CS101</td>
+<td>Intro to CS</td>
+<td>C</td>
+</tr>
+<tr>
+<td>103</td>
+<td>Carol</td>
+<td>A01</td>
+<td>Dr. Smith</td>
+<td>CS303</td>
+<td>Databases</td>
+<td>A</td>
+</tr>
+</tbody>
+</table>
+<p>The primary key of this table is the combination <strong>(StudentID, CourseID)</strong>. Analyze the table and identify one concrete example of each of the following anomaly types: <em>insertion anomaly</em>, <em>update anomaly</em>, and <em>deletion anomaly</em>. For each, explain precisely what the problem is and why it occurs.</p>
+<hr/>
+<p><strong>Solution</strong></p>
+<ol>
+<li>
+<strong>Understand the schema and its dependencies.</strong>
+<p>The primary key is <strong>(StudentID, CourseID)</strong>. Notice that several attributes depend on only <em>part</em> of this composite key:</p>
+<ul>
+<li><em>StudentName</em>, <em>AdvisorID</em>, and <em>AdvisorName</em> depend only on <strong>StudentID</strong>.</li>
+<li><em>CourseName</em> depends only on <strong>CourseID</strong>.</li>
+<li><em>Grade</em> correctly depends on the full key <strong>(StudentID, CourseID)</strong>.</li>
+</ul>
+<p>These partial dependencies mean the table is <em>not</em> in Second Normal Form (2NF), which is the root cause of all three anomaly types.</p>
+</li>
+<li>
+<strong>Identify the Insertion Anomaly.</strong>
+<p><em>Definition check:</em> An insertion anomaly occurs when you cannot add certain data to the database without also supplying unrelated, possibly unavailable data.</p>
+<p><em>Concrete example:</em> Suppose a new advisor, Dr. Lee (AdvisorID = A03), is hired but has not yet been assigned any students. You cannot insert Dr. Lee's information into ENROLLMENT because every row requires a valid <strong>(StudentID, CourseID)</strong> primary key — there is no student or course to associate with Dr. Lee yet. The advisor's existence simply cannot be recorded.</p>
+<p><em>Why it occurs:</em> Advisor data is stored inside a table whose primary key is about enrollments. Advisor existence is a separate fact that should live in its own relation.</p>
+</li>
+<li>
+<strong>Identify the Update Anomaly.</strong>
+<p><em>Definition check:</em> An update anomaly occurs when changing a single real-world fact requires updating multiple rows, creating a risk of inconsistency if some rows are missed.</p>
+<p><em>Concrete example:</em> Dr. Smith (AdvisorID = A01) changes her name to Dr. Smith-Brown. Looking at the table, <strong>AdvisorName = "Dr. Smith"</strong> appears in rows for (101, CS101), (101, CS202), and (103, CS303) — three separate rows. If even one row is not updated, the database will contain contradictory advisor names for the same AdvisorID, leaving the data in an inconsistent state.</p>
+<p><em>Why it occurs:</em> The same advisor fact (AdvisorID → AdvisorName) is replicated across every enrollment row for every student advised by that person. A single logical fact is stored in multiple physical places.</p>
+</li>
+<li>
+<strong>Identify the Deletion Anomaly.</strong>
+<p><em>Definition check:</em> A deletion anomaly occurs when deleting one piece of data unintentionally destroys other, unrelated data.</p>
+<p><em>Concrete example:</em> Carol (StudentID = 103) decides to drop her only course, CS303 (Databases). Deleting the row <strong>(103, CS303)</strong> is the correct action for removing that enrollment. However, that row is also the <em>only</em> record that stores the fact that <strong>CS303 is named "Databases."</strong> Once the row is deleted, all knowledge that the course CS303 exists and is called "Databases" is permanently lost from the database.</p>
+<p><em>Why it occurs:</em> Course information is entangled with enrollment information in the same row. Deleting an enrollment fact inadvertently destroys course facts that should be stored independently.</p>
+</li>
+<li>
+<strong>Summarize the findings.</strong>
+<table>
+<thead>
+<tr>
+<th>Anomaly Type</th>
+<th>Concrete Example in ENROLLMENT</th>
+<th>Root Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Insertion</td>
+<td>Cannot add a new advisor (Dr. Lee) without an enrollment row</td>
+<td>Advisor data requires a (StudentID, CourseID) key to exist</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>Changing Dr. Smith's name must be done in 3 rows; missing one causes inconsistency</td>
+<td>Advisor facts are replicated across all enrollment rows for her students</td>
+</tr>
+<tr>
+<td>Deletion</td>
+<td>Dropping Carol's only enrollment deletes all record of course CS303</td>
+<td>Course facts are stored inside enrollment rows rather than separately</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</section>
+<section class="item" id="sec3">
+<h2>Problem 2: Employee-Project Assignment Table</h2>
+<p><strong>Outcome practised:</strong> MO2 [Analyze]</p>
+<p><strong>Problem Statement</strong></p>
+<p>A company tracks employee project assignments in a single table called <strong>ASSIGNMENT</strong>. A sample of the data is shown below.</p>
+<table>
+<thead>
+<tr>
+<th>EmpID</th>
+<th>EmpName</th>
+<th>DeptID</th>
+<th>DeptLocation</th>
+<th>ProjectID</th>
+<th>ProjectBudget</th>
+<th>HoursWorked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td>Maria</td>
+<td>D10</td>
+<td>New York</td>
+<td>P001</td>
+<td>50000</td>
+<td>120</td>
+</tr>
+<tr>
+<td>E01</td>
+<td>Maria</td>
+<td>D10</td>
+<td>New York</td>
+<td>P002</td>
+<td>30000</td>
+<td>80</td>
+</tr>
+<tr>
+<td>E02</td>
+<td>James</td>
+<td>D20</td>
+<td>Chicago</td>
+<td>P001</td>
+<td>50000</td>
+<td>200</td>
+</tr>
+<tr>
+<td>E03</td>
+<td>Nina</td>
+<td>D10</td>
+<td>New York</td>
+<td>P003</td>
+<td>75000</td>
+<td>95</td>
+</tr>
+</tbody>
+</table>
+<p>The primary key is <strong>(EmpID, ProjectID)</strong>. Your task is to: (a) analyze the functional dependencies present, (b) identify which anomaly type each of the following scenarios represents, and (c) explain why each is classified the way it is.</p>
+<ul>
+<li><strong>Scenario X:</strong> A brand-new project, P004 (budget $20,000), has been approved but no employees have been assigned to it yet. Trying to record P004 fails.</li>
+<li><strong>Scenario Y:</strong> Department D10 relocates from New York to Boston. Both the (E01, P001) and (E01, P002) rows must be changed, and the (E03, P003) row must also be changed. If the (E03, P003) row is overlooked, the database shows D10 in two different locations.</li>
+<li><strong>Scenario Z:</strong> James (E02) is the only employee assigned to project P001 from department D20. When James is removed from P001, the fact that department D20 is located in Chicago is also lost.</li>
+</ul>
+<hr/>
+<p><strong>Solution</strong></p>
+<ol>
+<li>
+<strong>Map out the functional dependencies.</strong>
+<p>Inspect each non-key attribute against the composite primary key <strong>(EmpID, ProjectID)</strong>:</p>
+<ul>
+<li><strong>EmpID → EmpName, DeptID, DeptLocation</strong> — These depend on only the employee part of the key (partial dependency).</li>
+<li><strong>ProjectID → ProjectBudget</strong> — This depends on only the project part of the key (partial dependency).</li>
+<li><strong>(EmpID, ProjectID) → HoursWorked</strong> — This correctly depends on the full composite key (no anomaly here).</li>
+<li><strong>DeptID → DeptLocation</strong> — This is a transitive dependency: EmpID → DeptID → DeptLocation.</li>
+</ul>
+<p>Both partial and transitive dependencies exist, meaning the schema violates 2NF and 3NF. These violations are the structural root of all three anomalies.</p>
+</li>
+<li>
+<strong>Classify Scenario X.</strong>
+<p><em>Classification: Insertion Anomaly.</em></p>
+<p>Project P004 cannot be inserted into ASSIGNMENT because a row requires a valid <strong>(EmpID, ProjectID)</strong> primary key. Since no employee is yet assigned to P004, there is no EmpID to supply, and inserting a row with a NULL EmpID would violate the primary key constraint (primary key attributes cannot be NULL). The project's budget information simply cannot exist in the database until at least one employee is assigned.</p>
+<p><em>Distinguishing feature of an insertion anomaly:</em> You are trying to <em>add</em> a new, legitimate fact (a new project) but the schema forces you to also supply unrelated data (an employee assignment) that does not yet exist.</p>
+</li>
+<li>
+<strong>Classify Scenario Y.</strong>
+<p><em>Classification: Update Anomaly.</em></p>
+<p>The location of department D10 ("New York") appears in three separate rows — (E01, P001), (E01, P002), and (E03, P003). Relocating D10 to Boston is a single real-world change, but it requires updating three rows. If the (E03, P003) row is not updated, the database simultaneously records D10 as being in "New York" and "Boston," which is a contradiction — the data is inconsistent.</p>
+<p><em>Distinguishing feature of an update anomaly:</em> You are trying to <em>change</em> one fact, but because it is stored redundantly across multiple rows, failing to change every occurrence breaks consistency.</p>
+</li>
+<li>
+<strong>Classify Scenario Z.</strong>
+<p><em>Classification: Deletion Anomaly.</em></p>
+<p>The row (E02, P001) is the only row containing information about department D20 and its location (Chicago). When James is correctly removed from project P001 by deleting this row, the system also erases the only record that D20 exists and is located in Chicago. This is unintended data loss — a fact about a department is destroyed by an action that was only meant to remove an employee-project assignment.</p>
+<p><em>Distinguishing feature of a deletion anomaly:</em> You are <em>removing</em> one piece of data, but the schema forces unrelated data to be deleted along with it because both facts are stored in the same row.</p>
+</li>
+<li>
+<strong>Summarize the classification of all three scenarios.</strong>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Anomaly Type</th>
+<th>Operation Attempted</th>
+<th>Unintended Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X</td>
+<td>Insertion</td>
+<td>Adding new project P004</td>
+<td>Cannot insert without a (non-existent) employee assignment</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>Update</td>
+<td>Changing D10's location to Boston</td>
+<td>Must update 3 rows; missing one causes contradictory location data</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>Deletion</td>
+<td>Removing James from project P001</td>
+<td>All knowledge of D20's location (Chicago) is permanently lost</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</section>
+<section class="item" id="sec4">
+<h2>Problem 3: Library Book-Loan Table</h2>
+<p><strong>Outcome practised:</strong> MO2 [Analyze]</p>
+<p><strong>Problem Statement</strong></p>
+<p>A public library stores all information about books and loans in one table called <strong>LOAN</strong>. The data sample is shown below.</p>
+<table>
+<thead>
+<tr>
+<th>LoanID</th>
+<th>MemberID</th>
+<th>MemberName</th>
+<th>MemberPhone</th>
+<th>BookISBN</th>
+<th>BookTitle</th>
+<th>AuthorName</th>
+<th>LoanDate</th>
+<th>DueDate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L001</td>
+<td>M01</td>
+<td>Sara</td>
+<td>555-1234</td>
+<td>978-1</td>
+<td>Database Design</td>
+<td>Codd</td>
+<td>2024-01-05</td>
+<td>2024-01-19</td>
+</tr>
+<tr>
+<td>L002</td>
+<td>M02</td>
+<td>Tom</td>
+<td>555-5678</td>
+<td>978-2</td>
+<td>SQL Mastery</td>
+<td>Date</td>
+<td>2024-01-10</td>
+<td>2024-01-24</td>
+</tr>
+<tr>
+<td>L003</td>
+<td>M01</td>
+<td>Sara</td>
+<td>555-1234</td>
+<td>978-3</td>
+<td>Normalization</td>
+<td>Codd</td>
+<td>2024-01-12</td>
+<td>2024-01-26</td>
+</tr>
+<tr>
+<td>L004</td>
+<td>M03</td>
+<td>Priya</td>
+<td>555-9999</td>
+<td>978-1</td>
+<td>Database Design</td>
+<td>Codd</td>
+<td>2024-02-01</td>
+<td>2024-02-15</td>
+</tr>
+</tbody>
+</table>
+<p>The primary key is <strong>LoanID</strong>. Read the following three statements and determine whether each describes an <em>insertion anomaly</em>, an <em>update anomaly</em>, or a <em>deletion anomaly</em>. Justify each classification by referencing the specific data in the table.</p>
+<ul>
+<li><strong>Statement 1:</strong> "The library has just purchased a new book (ISBN 978-4, <em>Big Data Fundamentals</em> by Hadoop). Before any member borrows it, this book cannot be recorded in the LOAN table."</li>
+<li><strong>Statement 2:</strong> "Tom's phone number has changed to 555-0000. Because Tom appears in only one loan row (L002), this update affects only one row, so no anomaly occurs."</li>
+<li><strong>Statement 3:</strong> "If loan L002 (Tom borrowing <em>SQL Mastery</em>) is deleted because Tom returned the book, the library loses all record that the book <em>SQL Mastery</em> by Date (ISBN 978-2) exists in its collection."</li>
+</ul>
+<hr/>
+<p><strong>Solution</strong></p>
+<ol>
+<li>
+<strong>Examine the schema structure before evaluating each statement.</strong>
+<p>The primary key is the single-column <strong>LoanID</strong>, so there are no partial dependencies. However, several non-key attributes depend on other non-key attributes:</p>
+<ul>
+<li><strong>MemberID → MemberName, MemberPhone</strong> (transitive: LoanID → MemberID → MemberName/Phone)</li>
+<li><strong>BookISBN → BookTitle, AuthorName</strong> (transitive: LoanID → BookISBN → BookTitle/AuthorName)</li>
+</ul>
+<p>These transitive dependencies mean the schema violates Third Normal Form (3NF) and is prone to all three anomaly types.</p>
+</li>
+<li>
+<strong>Evaluate Statement 1.</strong>
+<p><em>Classification: Insertion Anomaly. Statement 1 is correct.</em></p>
+<p>To insert a row into LOAN, a <strong>LoanID</strong> is required, and a LoanID only exists when a loan event occurs. Because ISBN 978-4 has never been borrowed, there is no loan event and therefore no row can be created. The book's existence, title, and author cannot be stored until someone actually borrows it. This is a classic insertion anomaly: a valid, real-world fact (a book in the collection) cannot be recorded because the schema requires it to be bundled with an unrelated fact (a loan transaction).</p>
+</li>
+<li>
+<strong>Evaluate Statement 2.</strong>
+<p><em>Classification: The statement is INCORRECT — an update anomaly does exist, just not for Tom right now.</em></p>
+<p>It is true that updating Tom's phone in L002 alone is currently safe because Tom appears in only one row. However, this does <em>not</em> mean the schema is free of update anomalies. Consider Sara (MemberID M01): she appears in rows L001 and L003. If Sara's phone number changed, <em>both</em> rows would need to be updated. Missing one would create an inconsistency. The potential for inconsistency is a structural property of the schema, not a property of the specific current data. The schema suffers from an update anomaly by design — the fact that it is not triggered for Tom at this moment does not eliminate the anomaly.</p>
+<p><em>Key analytical insight:</em> Anomalies are assessed at the <em>schema level</em> (what the structure allows or prevents), not just at the <em>instance level</em> (what the current data happens to look like).</p>
+</li>
+<li>
+<strong>Evaluate Statement 3.</strong>
+<p><em>Classification: Deletion Anomaly. Statement 3 is correct.</em></p>
+<p>Row L002 is the only row in the table that contains information about BookISBN 978-2 (<em>SQL Mastery</em> by Date). Deleting L002 to record Tom's return of the book is a legitimate and necessary operation. However, because book facts are stored within loan rows rather than in a separate books table, this deletion permanently removes all knowledge that the book exists. The library's catalog effectively loses a title as a side effect of a routine loan-return operation. This is a deletion anomaly: deleting one kind of data (a loan record) unintentionally destroys a different kind of data (a catalog entry).</p>
+</li>
+<li>
+<strong>Summary of evaluations.</strong>
+<table>
+<thead>
+<tr>
+<th>Statement</th>
+<th>Correct Classification</th>
+<th>Is the Statement's Claim Accurate?</th>
+<th>Key Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Insertion Anomaly</td>
+<td>Yes</td>
+<td>New book cannot be stored without a loan transaction to attach it to</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Update Anomaly (schema-level)</td>
+<td>No — anomaly exists at schema level even if not triggered for Tom now</td>
+<td>Sara's duplicate phone data shows the structural vulnerability; anomalies are schema properties</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Deletion Anomaly</td>
+<td>Yes</td>
+<td>Deleting Tom's loan row destroys the only record of book ISBN 978-2</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</section>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>
