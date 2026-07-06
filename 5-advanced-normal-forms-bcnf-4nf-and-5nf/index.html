@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 5 – Advanced Normal Forms: BCNF, 4NF, and 5NF | COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1e2631;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #24527a 60%, #1e7096 100%);
+      color: #fff;
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    header .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 0.25rem 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    header p.intro {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 0.97rem;
+      color: rgba(255,255,255,0.88);
+    }
+
+    /* ── Main Content ── */
+    main {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    .section-heading {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #5a6a7e;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #dde3ec;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dde3ec;
+      border-radius: 10px;
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 22px rgba(26, 58, 92, 0.11);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card Header Row ── */
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .card-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1;
+    }
+
+    .card-name {
+      font-size: 0.975rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      line-height: 1.35;
+    }
+
+    .card-name a {
+      color: #1a5fa8;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .card-name a:hover {
+      color: #0d3f78;
+      border-bottom-color: #0d3f78;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: #4a7fa8;
+      text-decoration: none;
+      background: #edf4fb;
+      border: 1px solid #bcd4ea;
+      border-radius: 4px;
+      padding: 0.15rem 0.45rem;
+      width: fit-content;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .source-link:hover {
+      background: #d3e8f7;
+      color: #1a3a5c;
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.65rem;
+    }
+
+    /* ── Badges ── */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+      padding: 0.18rem 0.5rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-type {
+      background: #e8edf5;
+      color: #3a5272;
+      border: 1px solid #c8d3e5;
+    }
+
+    .badge-filetype {
+      background: #e6f4f1;
+      color: #1d6b5c;
+      border: 1px solid #aadace;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* filetype-specific colours */
+    .badge-filetype.pptx  { background: #fff0e8; color: #8b3a0f; border-color: #f0c0a0; }
+    .badge-filetype.json  { background: #fdf5e0; color: #7a5a00; border-color: #e8d080; }
+    .badge-filetype.html  { background: #eef3ff; color: #2b4db0; border-color: #b0c0f0; }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.855rem;
+      color: #49576a;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #8a96a8;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dde3ec;
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      header { padding: 2rem 1rem 1.75rem; }
+      .card  { padding: 1rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="course-label">COP4708</div>
+    <h1>Module 5 – Advanced Normal Forms: BCNF, 4NF, and 5NF</h1>
+    <p class="intro">
+      This module extends database normalization theory beyond Third Normal Form, introducing
+      Boyce-Codd Normal Form (BCNF), Fourth Normal Form (4NF), and Fifth Normal Form (5NF).
+      Learners will explore the limitations of 3NF, detect and resolve higher-order dependency
+      violations, and apply decomposition strategies to complex, real-world schemas.
+    </p>
+  </header>
+
+  <main>
+    <p class="section-heading">Module Artifacts</p>
+
+    <div class="card-grid">
+
+      <!-- 1 · Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/module_topics.html">Module Topics</a>
+            </span>
+            <a class="source-link" href="source/hierarchy.json">source file</a>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype json">.json</span>
+        </div>
+        <p class="card-description">
+          This file outlines the topics covered in the module—including 3NF limitations, BCNF definition
+          and violation detection, comparisons between normal forms, and higher normal forms such as 4NF
+          and 5NF—serving as a navigational overview for learners and instructors to understand the
+          module's scope and sequence.
+        </p>
+      </div>
+
+      <!-- 2 · Presentation -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="presentation/Advanced_Normal_Forms_generated.pptx">Advanced_Normal_Forms_generated.pptx</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Presentation</span>
+          <span class="badge badge-filetype pptx">.pptx</span>
+        </div>
+        <p class="card-description">
+          A slide deck covering advanced normalization beyond 3NF — including BCNF, 4NF, and 5NF
+          definitions, motivations, and decomposition strategies — used by instructors to deliver the
+          module's core lecture content.
+        </p>
+      </div>
+
+      <!-- 3 · Review of 3NF -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive_topics_t1.html">Review of 3NF and Its Limitations</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that explains the formal definition of 3NF, its role in eliminating common redundancy
+          and anomalies, and the specific limitations (such as anomalies caused by overlapping candidate
+          keys) that motivate stricter normal forms; learners read it as foundational context before
+          studying BCNF.
+        </p>
+      </div>
+
+      <!-- 4 · BCNF -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive_topics_t2.html">Boyce-Codd Normal Form (BCNF)</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that defines Boyce-Codd Normal Form, explains how it tightens 3NF by requiring every
+          functional dependency's determinant to be a superkey, and walks through examples of detecting
+          and correcting BCNF violations; learners use it to understand when and how to apply BCNF
+          decomposition.
+        </p>
+      </div>
+
+      <!-- 5 · Comparing 3NF and BCNF -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive_topics_t3.html">Comparing 3NF and BCNF</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that directly compares 3NF and BCNF — their definitions, the scenarios where they
+          differ, the trade-offs between lossless decomposition and dependency preservation, and guidance
+          on choosing between them; learners use it to decide which normal form is appropriate for a
+          given schema.
+        </p>
+      </div>
+
+      <!-- 6 · 4NF -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive_topics_t4.html">Multivalued Dependencies and Fourth Normal Form (4NF)</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that introduces multivalued dependencies, explains why BCNF cannot detect the
+          redundancy they cause, defines Fourth Normal Form (4NF), and demonstrates how to decompose
+          relations to eliminate multivalued dependency violations; learners use it to extend their
+          normalization skills beyond functional dependencies.
+        </p>
+      </div>
+
+      <!-- 7 · 5NF -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive_topics_t5.html">Join Dependencies and Fifth Normal Form (5NF)</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that introduces join dependencies, explains why 4NF cannot address the redundancy they
+          produce, defines Fifth Normal Form (5NF / Project-Join Normal Form), and illustrates how to
+          identify and decompose relations with non-trivial join dependencies; learners use it to
+          understand the most advanced standard normalization level.
+        </p>
+      </div>
+
+      <!-- 8 · Applying Higher Normal Forms (Topic Detail) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive_topics_t6.html">Applying Higher Normal Forms to Complex Schemas</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that walks through end-to-end case studies of normalizing complex, real-world-style
+          schemas through 3NF, BCNF, 4NF, and 5NF in sequence, offering practical decision-making
+          guidance for each step; learners use it to practice applying all higher normal forms together
+          on multi-table schemas.
+        </p>
+      </div>
+
+      <!-- 9 · Applying Higher Normal Forms (Text Content) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <span class="card-name">
+              <a href="content/Advanced_Normal_Forms_interactive.html">Applying Higher Normal Forms to Complex Schemas</a>
+            </span>
+          </div>
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype html">.html</span>
+        </div>
+        <p class="card-description">
+          A reading that walks through end-to-end case studies of normalizing complex, real-world-style
+          schemas through 3NF, BCNF, 4NF, and 5NF in sequence, offering practical decision-making
+          guidance for each step; learners use it to practice applying all higher normal forms together
+          on multi-table schemas.
+        </p>
+      </div>
+
+    </div><!-- /.card-grid -->
+  </main>
+
+  <footer>
+    COP4708 &nbsp;·&nbsp; Module 5: Advanced Normal Forms &nbsp;·&nbsp; All rights reserved.
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+</html>

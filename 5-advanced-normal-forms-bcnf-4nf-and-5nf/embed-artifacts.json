@@ -1,0 +1,52 @@
+﻿[
+  {
+    "title": "5 - Advanced Normal Forms: BCNF, 4NF, and 5NF \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "5 - Advanced Normal Forms: BCNF, 4NF, and 5NF \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "Applying Higher Normal Forms to Complex Schemas",
+    "href": "content/Advanced_Normal_Forms_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Review of 3NF and Its Limitations",
+    "href": "content/Advanced_Normal_Forms_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Boyce-Codd Normal Form (BCNF)",
+    "href": "content/Advanced_Normal_Forms_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Comparing 3NF and BCNF",
+    "href": "content/Advanced_Normal_Forms_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Multivalued Dependencies and Fourth Normal Form (4NF)",
+    "href": "content/Advanced_Normal_Forms_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Join Dependencies and Fifth Normal Form (5NF)",
+    "href": "content/Advanced_Normal_Forms_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Applying Higher Normal Forms to Complex Schemas",
+    "href": "content/Advanced_Normal_Forms_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "5 - Advanced Normal Forms: BCNF, 4NF, and 5NF \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  }
+]

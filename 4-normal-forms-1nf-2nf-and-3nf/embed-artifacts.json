@@ -1,0 +1,62 @@
+﻿[
+  {
+    "title": "4 - Normal Forms: 1NF, 2NF, and 3NF \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "4 - Normal Forms: 1NF, 2NF, and 3NF \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "4 - Normal Forms: 1NF, 2NF, and 3NF \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  },
+  {
+    "title": "Applying Normal Forms: End-to-End Practice",
+    "href": "content/Normal_Forms_1NF_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Normalization",
+    "href": "content/Normal_Forms_1NF_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "First Normal Form (1NF)",
+    "href": "content/Normal_Forms_1NF_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Second Normal Form (2NF)",
+    "href": "content/Normal_Forms_1NF_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Third Normal Form (3NF)",
+    "href": "content/Normal_Forms_1NF_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Applying Normal Forms: End-to-End Practice",
+    "href": "content/Normal_Forms_1NF_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Interactive Activities \u2014 4 - Normal Forms: 1NF, 2NF, and 3NF",
+    "href": "interactive/index.html",
+    "type": "Interactive"
+  },
+  {
+    "title": "1NF Transformation: Number Line Placement",
+    "href": "interactive/number-line-placement.html",
+    "type": "Interactive"
+  },
+  {
+    "title": "Sorting Conveyor: Detecting Partial Dependencies",
+    "href": "interactive/sorting-conveyor.html",
+    "type": "Interactive"
+  }
+]

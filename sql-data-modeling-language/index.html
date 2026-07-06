@@ -1,255 +1,245 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL Data Modeling Language — COP4708</title>
   <style>
-    /* ── Reset & Base ── */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    :root {
+      --color-bg: #f4f6f9;
+      --color-surface: #ffffff;
+      --color-border: #dde2ea;
+      --color-primary: #1a4f8a;
+      --color-primary-dark: #133a67;
+      --color-accent: #2e7d32;
+      --color-accent-light: #e8f5e9;
+      --color-text: #1c2330;
+      --color-text-muted: #5a6475;
+      --color-badge-bg: #eef1f7;
+      --color-badge-text: #3a4660;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.12);
+      --font-sans: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    }
+
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      font-size: 16px;
+      font-family: var(--font-sans);
+      background-color: var(--color-bg);
+      color: var(--color-text);
       line-height: 1.6;
-      color: #1e2a38;
-      background-color: #f4f6f9;
       min-height: 100vh;
     }
 
-    /* ── Page Shell ── */
-    .page-wrapper {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1f5fa6 60%, #2672b8 100%);
+      color: #ffffff;
+      padding: 3rem 1.5rem 2.5rem;
     }
 
-    /* ── Course Label ── */
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
     .course-label {
       display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #4a6fa5;
-      background: #e4ecf7;
-      border-radius: 4px;
-      padding: 0.2rem 0.6rem;
-      margin-bottom: 0.75rem;
-    }
-
-    /* ── Header ── */
-    .module-header {
-      border-bottom: 3px solid #4a6fa5;
-      padding-bottom: 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .module-header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.25rem);
-      font-weight: 700;
-      color: #14213d;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
-    }
-
-    .module-header p {
-      font-size: 1rem;
-      color: #3e4f63;
-      max-width: 72ch;
-    }
-
-    /* ── Section Title ── */
-    .section-title {
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.78rem;
+      font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #6b7f96;
+      background: rgba(255, 255, 255, 0.18);
+      color: #d6e8ff;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
       margin-bottom: 1rem;
     }
 
-    /* ── Card Grid ── */
-    .artifact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
-      gap: 1.25rem;
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
     }
 
-    /* ── Artifact Card ── */
+    header p {
+      font-size: 1.05rem;
+      color: #c8ddf5;
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .section-heading {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    /* ── Card grid ── */
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      list-style: none;
+    }
+
     .artifact-card {
-      background: #ffffff;
-      border: 1px solid #dce3ed;
-      border-radius: 8px;
-      padding: 1.375rem 1.5rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.4rem 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .artifact-card:hover {
-      box-shadow: 0 4px 14px rgba(74, 111, 165, 0.14);
-      border-color: #b0c4de;
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
     }
 
-    /* ── Card Top Row ── */
-    .card-top {
+    /* Card top row: type & file-type badges */
+    .card-meta {
       display: flex;
-      align-items: flex-start;
-      gap: 0.625rem;
       flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      letter-spacing: 0.03em;
+    }
+
+    .badge-filetype {
+      background: #fff7e6;
+      color: #7a4f00;
+    }
+
+    /* Card title row */
+    .card-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem 0.75rem;
     }
 
     .artifact-name {
       font-size: 1.05rem;
-      font-weight: 600;
-      color: #14213d;
-      flex: 1 1 auto;
+      font-weight: 700;
+      color: var(--color-text);
     }
 
     .artifact-name a {
-      color: #2a5ba8;
+      color: var(--color-primary);
       text-decoration: none;
-      border-bottom: 1px solid transparent;
+      border-bottom: 2px solid transparent;
       transition: border-color 0.15s ease, color 0.15s ease;
     }
 
     .artifact-name a:hover,
     .artifact-name a:focus {
-      color: #1a3f7a;
-      border-bottom-color: #1a3f7a;
+      color: var(--color-primary-dark);
+      border-bottom-color: var(--color-primary-dark);
       outline: none;
     }
 
     .artifact-name a:focus-visible {
-      outline: 2px solid #4a6fa5;
+      outline: 3px solid #5b9bd5;
       outline-offset: 2px;
       border-radius: 2px;
     }
 
-    /* ── Content-Type Badge ── */
-    .badge-content-type {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      color: #2a5ba8;
-      background: #ddeaf8;
-      border: 1px solid #b8d0f0;
-      border-radius: 20px;
-      padding: 0.15rem 0.55rem;
-      white-space: nowrap;
-      align-self: center;
-    }
-
-    /* ── Meta Row ── */
-    .card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .meta-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      border-radius: 4px;
-      padding: 0.18rem 0.5rem;
-    }
-
-    .pill-type {
-      color: #4a5568;
-      background: #edf0f5;
-      border: 1px solid #d1d9e6;
-    }
-
-    .pill-filetype {
-      color: #ffffff;
-      background: #5c7fa3;
-      border: 1px solid #4a6f94;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── Description ── */
-    .artifact-description {
-      font-size: 0.9rem;
-      color: #4a5568;
-      line-height: 1.55;
-    }
-
-    /* ── Source Link ── */
-    .source-link-wrap {
-      padding-top: 0.25rem;
-      border-top: 1px solid #eef1f6;
-    }
-
+    /* Source file link */
     .source-link {
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: #6b7f96;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      transition: color 0.15s ease;
-    }
-
-    .source-link::before {
-      content: '';
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236b7f96'%3E%3Cpath d='M4 1h5.586L14 5.414V15H4V1zm1 1v12h8V6H9V2H5zm5 .414V5h2.586L10 2.414z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: contain;
-      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      background: var(--color-accent-light);
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1px solid #b8dcba;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
     }
 
     .source-link:hover,
     .source-link:focus {
-      color: #2a5ba8;
-    }
-
-    .source-link:hover::before {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%232a5ba8'%3E%3Cpath d='M4 1h5.586L14 5.414V15H4V1zm1 1v12h8V6H9V2H5zm5 .414V5h2.586L10 2.414z'/%3E%3C/svg%3E");
+      background: #c8e6ca;
+      color: #1b5e20;
+      outline: none;
     }
 
     .source-link:focus-visible {
-      outline: 2px solid #4a6fa5;
+      outline: 3px solid #5b9bd5;
       outline-offset: 2px;
-      border-radius: 2px;
+    }
+
+    .source-link svg {
+      flex-shrink: 0;
+    }
+
+    /* Description */
+    .artifact-description {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      flex-grow: 1;
     }
 
     /* ── Footer ── */
-    .page-footer {
-      margin-top: 3.5rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid #dce3ed;
-      font-size: 0.78rem;
-      color: #8a9baf;
+    footer {
       text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
     }
 
     /* ── Responsive tweaks ── */
     @media (max-width: 480px) {
-      .page-wrapper {
-        padding: 1.5rem 1rem 3rem;
+      header {
+        padding: 2rem 1rem 1.75rem;
       }
 
-      .artifact-card {
-        padding: 1.125rem 1.125rem;
+      main {
+        padding: 0 1rem 2.5rem;
+        margin-top: 1.75rem;
+      }
+
+      .artifact-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -257,66 +247,62 @@
 <body>
 <div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
-  <div class="page-wrapper">
 
-    <!-- ── Module Header ── -->
-    <header class="module-header">
+  <header>
+    <div class="header-inner">
       <span class="course-label">COP4708</span>
       <h1>SQL Data Modeling Language</h1>
       <p>
-        This module introduces SQL as a data modeling language, covering the
-        fundamentals of relational databases, logical modeling concepts, schema
-        creation, and key definitions. Use the resources below to navigate the
-        module's content, review learning topics, and access supporting materials.
+        This module introduces SQL as a data modeling language, grounding learners in relational
+        database fundamentals, logical modeling concepts, schema creation, and essential
+        definitions. Use the artifacts below to explore module topics and navigate the content.
       </p>
-    </header>
+    </div>
+  </header>
 
-    <!-- ── Artifact List ── -->
-    <section aria-labelledby="artifacts-heading">
-      <h2 class="section-title" id="artifacts-heading">Module Artifacts</h2>
+  <main>
+    <h2 class="section-heading">Module Artifacts</h2>
 
-      <div class="artifact-grid">
+    <ul class="artifact-grid" role="list">
 
-        <!-- Artifact: Module Topics -->
-        <article class="artifact-card" aria-label="Module Topics">
-
-          <div class="card-top">
-            <span class="artifact-name">
-              <!-- viewHref is non-empty → hyperlink -->
-              <a href="content/module_topics.html">Module Topics</a>
-            </span>
-            <!-- contentType is empty → no badge -->
+        <li class="artifact-card">
+          <div class="card-meta">
+            <span class="badge">Module Topics</span>
+            <span class="badge badge-filetype">.json</span>
           </div>
 
-          <div class="card-meta">
-            <span class="meta-pill pill-type">Module Topics</span>
-            <span class="meta-pill pill-filetype">.json</span>
+          <div class="card-title-row">
+            <span class="artifact-name">
+                <a href="content/module_topics.html">Module Topics</a>
+            </span>
+              <a
+                class="source-link"
+                href="source/hierarchy.json"
+                aria-label="Source file for Module Topics"
+              >
+                <!-- inline download/file icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                source file
+              </a>
           </div>
 
           <p class="artifact-description">
-            A structured outline of the module's learning topics, progressing from
-            SQL's role as a data modeling language and relational database
-            fundamentals through logical modeling concepts, schema creation, and
-            related definitions, used by instructors to organize content and by
-            learners to navigate what will be covered.
+            A structured outline of the module&#x27;s learning topics, progressing from SQL&#x27;s role as a data modeling language and relational database fundamentals through logical modeling concepts, schema creation, and related definitions, used by instructors to organize content and by learners to navigate what will be covered.
           </p>
+        </li>
 
-          <!-- sourceHref is non-empty → show secondary source link -->
-          <div class="source-link-wrap">
-            <a class="source-link" href="source/hierarchy.json">source file</a>
-          </div>
+    </ul>
+  </main>
 
-        </article>
+  <footer>
+    COP4708 &mdash; SQL Data Modeling Language &mdash; Course Module Index
+  </footer>
 
-      </div>
-    </section>
-
-    <!-- ── Footer ── -->
-    <footer class="page-footer">
-      <p>COP4708 &mdash; SQL Data Modeling Language &mdash; Course Module Index</p>
-    </footer>
-
-  </div>
 
 <footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
 <section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>

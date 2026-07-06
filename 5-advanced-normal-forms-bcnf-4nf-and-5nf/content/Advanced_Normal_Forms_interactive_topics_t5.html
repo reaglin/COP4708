@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Dependencies and Fifth Normal Form (5NF)</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div>
+  <header>
+    <h1>Join Dependencies and Fifth Normal Form (5NF)</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Join Dependencies and Fifth Normal Form (5NF)</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Database normalization is a progressive discipline: each normal form eliminates a specific category of redundancy by constraining the kinds of dependencies a relation is permitted to contain. First through third normal forms address functional dependencies; Boyce-Codd Normal Form (BCNF) tightens that further; Fourth Normal Form (4NF) addresses multivalued dependencies. Fifth Normal Form (5NF) — also called <strong>Project-Join Normal Form (PJ/NF)</strong> — closes the final loophole by addressing <em>join dependencies</em>, the most general class of dependency that can cause hidden redundancy in a relational schema. Understanding 5NF requires a firm grasp of what a join dependency is, how it differs from simpler dependency types, when it signals a real design problem, and how to eliminate it through careful decomposition while preserving every fact the original relation encoded.</p>
+
+<p>A <strong>join dependency (JD)</strong> is a constraint on a relation that says: the relation can be exactly reconstructed by taking the natural join of two or more of its own projections. Formally, if R is a relation schema and R₁, R₂, …, Rₙ are subsets of its attributes such that R₁ ∪ R₂ ∪ … ∪ Rₙ = R, then the join dependency ⊳⊲{R₁, R₂, …, Rₙ} holds on R if and only if every legal instance r of R satisfies:</p>
+
+<pre><code>r = πR₁(r) ⋈ πR₂(r) ⋈ … ⋈ πRₙ(r)</code></pre>
+
+<p>where π denotes projection and ⋈ denotes natural join. The key insight is that a join dependency <em>generalizes</em> both functional dependencies and multivalued dependencies. A multivalued dependency is simply a join dependency with exactly two components (n = 2). A functional dependency A → B can be restated as a join dependency with components {A, B} and {A, rest-of-R}. Join dependencies with three or more components are what 5NF uniquely addresses and what 4NF cannot handle.</p>
+
+<p>Join dependencies arise naturally whenever a relation models a <strong>complex many-to-many-to-many association</strong> among three or more entities. Consider a business scenario where salespeople sell products to customers. Each salesperson can sell many products, each product can be sold by many salespeople, and each customer can buy from many salespeople. If the combination (salesperson, product, customer) must exist in the relation only when all three pairwise associations — salesperson sells product, salesperson serves customer, product is bought by customer — independently exist, then the relation satisfies a join dependency across three binary projections. Storing all three facts in a single ternary relation, rather than in three separate binary tables, introduces redundancy that only 5NF decomposition can remove.</p>
+
+<p>The defining property that makes a join dependency benign or problematic is whether it is <strong>trivial</strong>. A join dependency ⊳⊲{R₁, R₂, …, Rₙ} is trivial if at least one of its component sets Rᵢ equals the full attribute set of R — meaning no real decomposition is being proposed. More practically, a JD is considered trivial (and therefore harmless) if each component projection contains a candidate key of the relation. When a component contains a candidate key, the join can reconstruct tuples unambiguously because the key acts as an anchor. Trivial join dependencies do not require further splitting and do not violate 5NF.</p>
+
+<p><strong>Fifth Normal Form</strong> is defined as follows: a relation R is in 5NF if and only if every join dependency that holds on R is implied by the candidate keys of R. Equivalently, the only join dependencies that are permitted to hold are trivial ones. When a <em>non-trivial</em> join dependency exists — one that cannot be derived from the candidate keys — it means the relation contains redundancy that was invisible to 4NF analysis, because it emerges only from three-way or higher combinations, not from any binary split alone.</p>
+
+<p>To make this concrete, consider the following classic example. Suppose we have a relation:</p>
+
+<pre><code>SUPPLY(Supplier, Part, Project)</code></pre>
+
+<p>with the business rule: a tuple (s, p, j) exists if and only if supplier s supplies part p <em>and</em> supplier s works on project j <em>and</em> part p is used in project j — and these three facts are each independently true regardless of the others. The candidate key of SUPPLY is the entire triple {Supplier, Part, Project} because no proper subset uniquely identifies a row. The three binary projections are:</p>
+
+<pre><code>SP(Supplier, Part)
+SJ(Supplier, Project)
+PJ(Part, Project)</code></pre>
+
+<p>If the join dependency ⊳⊲{SP, SJ, PJ} holds on SUPPLY, then the original relation can be perfectly reconstructed from those three projections. Consider a sample instance:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Supplier</th>
+      <th>Part</th>
+      <th>Project</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>S1</td><td>P1</td><td>J1</td></tr>
+    <tr><td>S1</td><td>P2</td><td>J1</td></tr>
+    <tr><td>S2</td><td>P1</td><td>J1</td></tr>
+  </tbody>
+</table>
+
+<p>Its three projections would be:</p>
+
+<table>
+  <thead>
+    <tr><th>Supplier</th><th>Part</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>S1</td><td>P1</td></tr>
+    <tr><td>S1</td><td>P2</td></tr>
+    <tr><td>S2</td><td>P1</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr><th>Supplier</th><th>Project</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>S1</td><td>J1</td></tr>
+    <tr><td>S2</td><td>J1</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr><th>Part</th><th>Project</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>P1</td><td>J1</td></tr>
+    <tr><td>P2</td><td>J1</td></tr>
+  </tbody>
+</table>
+
+<p>Joining SP ⋈ SJ ⋈ PJ reproduces the original three rows exactly — no spurious tuples are generated. This confirms the join dependency holds and that SUPPLY is <em>not</em> in 5NF, because the JD is non-trivial (no single projection contains the candidate key of SUPPLY, which is the full triple). The relation can and should be decomposed into SP, SJ, and PJ.</p>
+
+<p><strong>Recognizing 5NF violations</strong> in practice requires a different kind of intuition than spotting functional or multivalued dependency violations. The most reliable signal is a ternary (or higher-arity) relationship in which every binary projection is itself a meaningful, independently valid relationship. Ask: if I remove one attribute entirely, does the remaining binary table still make business sense on its own? If yes for all three binary combinations, the ternary relation is a candidate for a 5NF violation.</p>
+
+<p>A second practical signal is <strong>redundant rows that exist only to maintain combinatorial consistency</strong>. Suppose in the SUPPLY table above you add a new supplier S3 who supplies part P2 and works on project J1. You must insert exactly one row: (S3, P2, J1). But if later the business decides S3 also supplies part P1 (which is also used in J1), you must add (S3, P1, J1). The need to track all three facts together in a ternary relation, rather than recording each binary fact independently, forces extra insertions and creates update anomalies. If you forget to add the P1 row for S3 but the facts SP = (S3, P1), SJ = (S3, J1), and PJ = (P1, J1) all separately hold, the join would produce (S3, P1, J1) anyway — indicating the ternary table is doing work that three binary tables could do more cleanly and with fewer anomalies.</p>
+
+<p>A third signal is that <strong>no single attribute or pair of attributes is functionally determining another</strong> in the ternary relation — the only candidate key is the full combination of all attributes. Such a relation is already in BCNF and 4NF (since there are no non-trivial FDs or MVDs), yet it can still violate 5NF if a three-way join dependency holds.</p>
+
+<p>Testing whether a given join dependency actually holds requires examining the real-world semantics — the business rules — not just the data values at a single point in time. Data alone can be misleading: a small sample instance might happen to be reconstructible from its projections even when no true JD constraint exists, or vice versa. Always consult domain experts to confirm whether the three pairwise associations are truly independent facts.</p>
+
+<p><strong>Decomposing a relation to achieve 5NF</strong> follows a systematic procedure. The first step is to enumerate all candidate keys of the relation. This is critical because trivial join dependencies — those implied by candidate keys — do not require decomposition. Splitting a relation unnecessarily when the JD is already trivial just adds tables without improving integrity.</p>
+
+<p>The second step is to identify all non-trivial join dependencies. This is the hardest part of 5NF normalization; unlike functional dependencies, there is no simple syntactic rule for reading JDs off an attribute list. You must reason from semantics: for each subset of three or more attributes, ask whether the relation's content can be reconstructed from the projections onto that subset's partitions. If the answer is yes and no component projection contains a candidate key, a non-trivial JD exists.</p>
+
+<p>Once a non-trivial JD ⊳⊲{R₁, R₂, …, Rₙ} is confirmed, decompose R into n separate relations, each with the attribute set Rᵢ. The decomposition is <strong>lossless</strong> by the definition of the join dependency: because the JD holds on R, rejoining the projections reproduces R exactly. After decomposition, each resulting projection must itself be checked for 5NF violations — it is possible (though less common) for a projection to contain its own non-trivial join dependency, requiring further splitting.</p>
+
+<p>Consider extending the SUPPLY example. Suppose we add an attribute <em>Quantity</em> to SUPPLY, yielding:</p>
+
+<pre><code>SUPPLY2(Supplier, Part, Project, Quantity)</code></pre>
+
+<p>where Quantity records how many units of the part the supplier contributes to the project. Now Quantity is functionally determined by {Supplier, Part, Project}, so the candidate key is still the triple. The join dependency ⊳⊲{SP, SJ, PJ} no longer holds cleanly because Quantity is not captured in any of those binary projections. The correct decomposition in this case would be:</p>
+
+<pre><code>SP(Supplier, Part)
+SJ(Supplier, Project)
+PJ(Part, Project)
+SPJ_QTY(Supplier, Part, Project, Quantity)</code></pre>
+
+<p>But now SPJ_QTY still contains the combination key and has the same structural properties as the original SUPPLY. The designer must decide whether the JD semantics genuinely apply and whether the quantity fact is inseparable from the ternary association. This illustrates why 5NF normalization demands careful semantic reasoning, not mechanical rule application.</p>
+
+<p>The <strong>lossless join property</strong> is the non-negotiable guarantor of correctness in any 5NF decomposition. A decomposition is lossless if and only if the natural join of all projected tables reproduces the original relation with no extra (spurious) tuples and no missing tuples. Spurious tuples are tuples that appear in the join result but were never present in the original relation; they represent facts that were never true and are a direct consequence of an incorrect (lossy) decomposition.</p>
+
+<p>Testing losslessness for a two-component JD (which is the 4NF case) is straightforward: a standard tabular algorithm (the "chase" procedure) checks whether one of the two projections contains a multivalued dependency. For three or more components, the verification is more involved. The safest practical approach is to:</p>
+
+<ul>
+  <li>Populate the original relation with a representative set of sample tuples that exercises all combinations of values.</li>
+  <li>Compute each projection.</li>
+  <li>Take the natural join of all projections.</li>
+  <li>Confirm the result exactly matches the original relation — same rows, no extras, no missing rows.</li>
+</ul>
+
+<p>This sample-data approach does not constitute a mathematical proof, but in practice, if the join dependency holds on all possible instances (as a true schema constraint), then any valid sample instance will confirm losslessness. Conversely, if even one counter-example instance shows spurious tuples after joining, the proposed decomposition is lossy and must be revisited.</p>
+
+<p>A useful verification table for the SUPPLY example, showing the round-trip losslessness test:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Operation</th>
+      <th>Result Rows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Original SUPPLY instance</td>
+      <td>(S1,P1,J1), (S1,P2,J1), (S2,P1,J1)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Project onto SP</td>
+      <td>(S1,P1), (S1,P2), (S2,P1)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Project onto SJ</td>
+      <td>(S1,J1), (S2,J1)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Project onto PJ</td>
+      <td>(P1,J1), (P2,J1)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>SP ⋈ SJ ⋈ PJ</td>
+      <td>(S1,P1,J1), (S1,P2,J1), (S2,P1,J1)</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Comparison with original</td>
+      <td>Identical — lossless confirmed</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now consider what would happen if the join dependency did <em>not</em> hold — for example, if the business rule was that a tuple (s, p, j) exists only when a specific contract governs that exact triple, independent of any binary associations. In that case, the join of the three projections might produce extra rows not in the original, because SP ⋈ SJ ⋈ PJ would combine every supplier-part pair with every supplier-project pair where the supplier matches, then filter by matching part-project pairs — generating tuples that no contract covers. Those extra rows are spurious tuples, proving the decomposition would be lossy and that 5NF decomposition is inappropriate for this schema under these rules.</p>
+
+<p>The <strong>practical trade-offs of 5NF</strong> deserve serious consideration. The benefits are real: eliminating non-trivial join dependencies removes update anomalies, insertion anomalies, and deletion anomalies that arise from tracking combinatorial associations in a single table. If you record all three binary facts in separate tables, inserting a new supplier-part relationship does not require any knowledge of projects, and deleting a project does not accidentally erase the fact that a supplier sells a certain part.</p>
+
+<p>However, the costs are equally real. Every additional table introduced by 5NF decomposition means an additional join in every query that needs the combined data. A query that previously scanned one table now must join three. Depending on table sizes, index availability, and database engine optimization capabilities, this can impose a significant performance penalty, particularly in read-heavy analytical workloads.</p>
+
+<p>The following table summarizes the key comparisons between leaving a relation in 4NF (with a non-trivial JD) versus decomposing it to 5NF:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>4NF (JD not resolved)</th>
+      <th>5NF (fully decomposed)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Redundancy</td>
+      <td>Potential hidden redundancy in ternary combos</td>
+      <td>No redundancy from join dependencies</td>
+    </tr>
+    <tr>
+      <td>Update anomalies</td>
+      <td>Possible: changing one binary fact may require multiple row updates</td>
+      <td>None: each binary fact stored exactly once</td>
+    </tr>
+    <tr>
+      <td>Insert anomalies</td>
+      <td>Must know all components to insert a valid row</td>
+      <td>Each binary fact inserted independently</td>
+    </tr>
+    <tr>
+      <td>Delete anomalies</td>
+      <td>Deleting a row may lose multiple independent facts</td>
+      <td>Each independent fact deleted from its own table</td>
+    </tr>
+    <tr>
+      <td>Query complexity</td>
+      <td>Simpler queries — fewer joins needed</td>
+      <td>More joins required to reconstruct full association</td>
+    </tr>
+    <tr>
+      <td>Read performance</td>
+      <td>Generally faster for combined reads</td>
+      <td>Potentially slower; depends on indexes and optimizer</td>
+    </tr>
+    <tr>
+      <td>Write performance</td>
+      <td>Single table write for combined fact</td>
+      <td>Multiple table writes for each component fact</td>
+    </tr>
+    <tr>
+      <td>Applicability</td>
+      <td>Acceptable when JD reflects true ternary business rule</td>
+      <td>Correct when binary facts are truly independent</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>5NF is most beneficial and most clearly warranted in domains characterized by complex many-to-many-to-many relationships where each binary sub-relationship is a genuinely independent business fact. Supply chain management, academic curriculum planning (instructors, courses, time slots), and project resource allocation (personnel, skills, projects) are domains that frequently exhibit true join dependencies. In such domains, the data integrity guarantees of 5NF are worth the additional join overhead, especially in transactional (OLTP) systems where update anomalies are costly.</p>
+
+<p>In contrast, data warehousing and analytical (OLAP) environments often deliberately denormalize beyond even what 3NF permits, trading data integrity for query speed. In those contexts, pursuing 5NF is counterproductive. The discipline of normalization up to 5NF is most valuable during the logical design phase of a transactional schema, with the understanding that physical implementation may introduce controlled denormalization for specific performance-critical paths.</p>
+
+<p>In summary, Fifth Normal Form represents the culmination of the normalization hierarchy for dependency-based anomalies. It demands that designers look beyond pairwise relationships and consider whether any grouping of three or more attributes in a relation encodes facts that are independently meaningful in smaller combinations. When they are, decomposition into those smaller relations eliminates the last class of join-driven redundancy, producing a schema in which every stored fact is stored exactly once and every table has a clear, minimal, semantically coherent role.</p>
+        <div class="notes"><strong>Notes</strong>The SUPPLY(Supplier, Part, Project) example is the canonical textbook illustration of a join dependency and 5NF. Emphasize to learners that reaching 4NF does not guarantee 5NF — a relation with a full composite key and no non-trivial FDs or MVDs can still violate 5NF. The hardest practical skill is identifying whether a real-world ternary relationship truly exhibits independent binary sub-relationships (warranting 5NF decomposition) versus a genuinely ternary constraint that cannot be reconstructed from binary projections (where the single ternary table is correct). This distinction is semantic, not syntactic, and requires domain expertise.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

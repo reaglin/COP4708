@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Normalization</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+  <header>
+    <h1>Introduction to Normalization</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Normalization</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Database design is one of the most consequential decisions made in any software system. A poorly designed database can quietly corrupt data, make simple queries surprisingly difficult, and turn routine maintenance into an expensive, error-prone ordeal. <strong>Normalization</strong> is the disciplined engineering process that transforms a rough, intuitive table layout into a clean, reliable relational structure. Understanding it thoroughly is the foundation upon which all sound database work rests.</p>
+
+<p><strong>Database normalization</strong> is the process of organizing the columns and tables of a relational database to minimize redundancy and dependency by decomposing large, complex tables into smaller, more focused ones — while preserving all of the original data and the relationships between it. The key word is <em>decompose</em>: rather than stuffing everything into one wide table, normalization distributes attributes across multiple narrower tables, each of which describes exactly one thing. The tables are then linked back together through keys, so no information is lost — it is simply stored in one authoritative location instead of being scattered and duplicated.</p>
+
+<p>This decomposition follows a defined sequence of stages called <strong>normal forms</strong>, typically abbreviated 1NF, 2NF, 3NF, and beyond. Each normal form adds a more stringent structural requirement on top of the previous one. A table that satisfies the rules of the second normal form, for example, must already satisfy all the rules of the first. Progressing through the forms in order means that each step targets a specific, well-understood class of structural problem. A properly normalized database is not only easier to maintain and extend, but also simpler to query correctly, because the data it contains is consistent, unambiguous, and predictable.</p>
+
+<p>To appreciate why normalization matters, it helps to start with the concrete problems it solves.</p>
+
+<p><strong>The Problem: Data Redundancy</strong></p>
+
+<p>Redundancy in a database means the same piece of information is stored in more than one place. Consider a simple order-tracking table where every row records a customer's order and also repeats the customer's name, email address, and city of residence alongside each order. If a customer has placed twenty orders, their contact details appear twenty times. This might seem harmless — storage is cheap — but the consequences are significant.</p>
+
+<p>First, every byte of repeated data costs storage. In large systems with millions of rows, this overhead becomes material. More critically, redundancy creates a <em>maintenance trap</em>. If a customer changes their email address, every one of their twenty rows must be updated. Miss even one row and the database now contains two different email addresses for the same person. Which one is correct? The database itself cannot answer that question. You have introduced a <strong>data conflict</strong> — two facts that cannot both be true — and resolving it may require expensive manual investigation. Eliminating redundancy is therefore the primary engineering motivation behind normalization: store each fact in exactly one place, update it once, and know that the change is immediately and universally reflected everywhere it is needed.</p>
+
+<p><strong>The Goal: Data Integrity</strong></p>
+
+<p>Redundancy is the root cause, but the visible symptoms of a redundant design appear as <strong>data anomalies</strong> — unexpected and often silent corruptions of the stored information. Normalization's deeper goal is to eliminate these anomalies and thereby guarantee <strong>data integrity</strong>: the assurance that the database accurately and consistently represents the real-world facts it is meant to record.</p>
+
+<p>A normalized database enforces consistent relationships between entities at the structural level, not merely through application-layer rules. This means the integrity of the data is baked into the schema itself. Queries can be written with confidence, because the schema guarantees there will be exactly one authoritative value for each fact. Business logic becomes simpler and more reliable when the database is not a source of contradictions.</p>
+
+<p><strong>Types of Data Anomalies Normalization Prevents</strong></p>
+
+<p>There are three classic anomalies that plague un-normalized or under-normalized tables. Each one describes a specific kind of operation — inserting, updating, or deleting — that goes wrong because of the way data is structured.</p>
+
+<p>An <strong>insertion anomaly</strong> occurs when you cannot record a new piece of data without also supplying other, unrelated information that is not yet available. Imagine a table that stores both course information and student enrollment together in a single row. If a new course is added to the catalog before any student has enrolled in it, there is no student to fill the student columns — and if the primary key includes student information, the row cannot be created at all. The inability to record a legitimate fact (a new course exists) because an unrelated fact (who is enrolled) is missing is an insertion anomaly. Normalization resolves this by separating courses and enrollments into their own tables, so each can be populated independently.</p>
+
+<p>An <strong>update anomaly</strong> arises when a single real-world fact is stored in multiple rows, so changing that fact requires visiting and updating every copy. Returning to our orders example: if a customer's city is stored on every order row and that customer moves, every row must be changed. Fail to update even one row and the database contains contradictory cities for the same customer. This is not just a performance inconvenience — it is a correctness failure. Normalization eliminates update anomalies by ensuring each fact has exactly one home, so a single UPDATE statement corrects it everywhere.</p>
+
+<p>A <strong>deletion anomaly</strong> happens when deleting one piece of information inadvertently destroys other, unrelated information that was stored in the same row. Consider a table where information about a supplier and the products that supplier provides are stored together. If the last product from a particular supplier is discontinued and that row is deleted, the supplier's contact information disappears from the database entirely — even though the business may still need it. Normalization separates suppliers and products into independent tables, so deleting a product row never touches supplier data.</p>
+
+<p>These three anomaly types can be visualized together:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Anomaly Type</th>
+      <th>Triggered By</th>
+      <th>What Goes Wrong</th>
+      <th>Normalized Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Insertion Anomaly</td>
+      <td>Inserting a new record</td>
+      <td>Cannot record a fact without unrelated, unavailable data</td>
+      <td>Separate independent entities into their own tables</td>
+    </tr>
+    <tr>
+      <td>Update Anomaly</td>
+      <td>Updating an existing value</td>
+      <td>Same fact stored in multiple rows; partial update creates contradictions</td>
+      <td>Store each fact once; all references point to that single location</td>
+    </tr>
+    <tr>
+      <td>Deletion Anomaly</td>
+      <td>Deleting a record</td>
+      <td>Removing one fact unintentionally destroys a different, unrelated fact</td>
+      <td>Keep independent entities in separate tables with no forced coupling</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The Concept of Normal Forms</strong></p>
+
+<p>Normal forms provide a structured, incremental path from a raw, anomaly-prone design to a clean, robust one. The three most widely applied normal forms — <strong>First Normal Form (1NF)</strong>, <strong>Second Normal Form (2NF)</strong>, and <strong>Third Normal Form (3NF)</strong> — address the most common structural problems encountered in real-world relational databases. Higher normal forms (BCNF, 4NF, 5NF) exist and address subtler issues, but satisfying 3NF is sufficient to eliminate the vast majority of redundancy and anomaly risks in typical business applications.</p>
+
+<p>The first normal form establishes the most basic requirements: each column must hold atomic (indivisible) values, each row must be unique, and there must be no repeating groups of columns. A table that violates 1NF — for instance, one that stores multiple phone numbers in a single cell separated by commas — is not a proper relational table at all.</p>
+
+<p>The second normal form builds on 1NF by requiring that every non-key column depends on the <em>entire</em> primary key, not just a portion of it. This matters particularly when a table has a <strong>composite primary key</strong> — a key composed of two or more columns. If some column describes only one of the key columns rather than the combination, that is a structural problem that 2NF is designed to catch and eliminate.</p>
+
+<p>The third normal form goes further, requiring that every non-key column depends <em>directly and only</em> on the primary key — not on any other non-key column. When one non-key column determines another non-key column, changing the first might require updating the second, even though neither is the primary key. This indirect dependency is called a transitive dependency, and eliminating it is the work of 3NF.</p>
+
+<p>Moving through the normal forms in sequence is important because each higher form's requirements presuppose the lower ones. Trying to apply 3NF to a table that does not yet satisfy 1NF produces confusing and unreliable results. The sequential approach also makes it easier to diagnose precisely what is wrong with a given design and to apply the minimum change necessary to correct it.</p>
+
+<p><strong>Key Dependencies Driving Normalization</strong></p>
+
+<p>The engine of normalization is the concept of <strong>functional dependency</strong>. Column A is said to functionally determine column B — written <em>A → B</em> — when knowing the value of A uniquely determines the value of B. For example, a <code>StudentID</code> functionally determines a <code>StudentName</code> because each student ID corresponds to exactly one name. Primary keys, by definition, functionally determine every other column in their table. Understanding which columns depend on which is how a designer identifies structural problems and decides where to split tables.</p>
+
+<p>Two specific types of dependency are the direct targets of 2NF and 3NF respectively.</p>
+
+<p>A <strong>partial dependency</strong> exists when a non-key column depends on only <em>part</em> of a composite primary key rather than the whole key. Suppose a table tracks which students are enrolled in which courses, with a composite key of <code>(StudentID, CourseID)</code>. If the table also includes a <code>StudentName</code> column, that column depends solely on <code>StudentID</code> — it has nothing to do with <code>CourseID</code>. That is a partial dependency. It is the cause of the update anomaly where changing a student's name requires updating every enrollment row for that student. Fixing the partial dependency by moving <code>StudentName</code> into its own <code>Students</code> table achieves 2NF.</p>
+
+<p>A <strong>transitive dependency</strong> occurs when a non-key column depends not directly on the primary key, but on <em>another non-key column</em>, which in turn depends on the primary key. For example, a table with a single-column primary key <code>EmployeeID</code> might include both <code>DepartmentID</code> and <code>DepartmentName</code>. Here, <code>DepartmentName</code> depends on <code>DepartmentID</code>, which depends on <code>EmployeeID</code>. The dependency chain is <em>EmployeeID → DepartmentID → DepartmentName</em>. This means <code>DepartmentName</code> is only indirectly dependent on the primary key — a transitive dependency. If the department's name changes, every employee row in that department must be updated. The fix is to extract department information into a separate <code>Departments</code> table, achieving 3NF.</p>
+
+<p>The relationship between normal forms and the dependencies they eliminate can be summarized clearly:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Normal Form</th>
+      <th>Dependency Problem Addressed</th>
+      <th>Requirement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1NF</td>
+      <td>Non-atomic values, repeating groups</td>
+      <td>All column values are atomic; every row is unique</td>
+    </tr>
+    <tr>
+      <td>2NF</td>
+      <td>Partial dependency</td>
+      <td>Every non-key column depends on the <em>whole</em> primary key</td>
+    </tr>
+    <tr>
+      <td>3NF</td>
+      <td>Transitive dependency</td>
+      <td>Every non-key column depends <em>directly</em> on the primary key only</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Taken together, these concepts — redundancy, anomalies, normal forms, and functional dependencies — form a coherent and practical framework. Normalization is not an abstract academic exercise; it is a concrete, step-by-step method for building databases that work correctly today and remain maintainable as requirements evolve over time. Every table in a well-designed relational schema has been shaped, whether consciously or not, by the principles that normalization makes explicit.</p>
+        <div class="notes"><strong>Notes</strong>This topic establishes conceptual groundwork. Emphasis should be placed on making the three anomaly types tangible through concrete examples before any formal normal form rules are introduced, since students who clearly understand &lt;em&gt;why&lt;/em&gt; normalization is needed absorb the &lt;em&gt;how&lt;/em&gt; much more readily. The dependency table at the end provides a useful preview that can be referenced when individual normal forms are covered in subsequent topics.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

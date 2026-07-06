@@ -3,295 +3,235 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Normalization, Denormalization, and Practical Database Design | COP4708</title>
+  <title>Normalization, Denormalization, and Practical Database Design — COP4708</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --color-bg: #f4f6f9;
-      --color-surface: #ffffff;
-      --color-primary: #1a3a5c;
-      --color-primary-light: #2a5286;
-      --color-accent: #2e7d9e;
-      --color-accent-hover: #245f7a;
-      --color-text: #1e2a35;
-      --color-text-muted: #5a6a7a;
-      --color-border: #d6dde6;
-      --color-badge-bg: #e8f4f8;
-      --color-badge-text: #1b6080;
-      --color-tag-bg: #eef2f7;
-      --color-tag-text: #3a5068;
-      --color-source-bg: #f0f4f8;
-      --color-source-text: #4a6478;
-      --radius: 10px;
-      --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-      --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.13);
-      --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --color-bg:          #f4f6f9;
+      --color-surface:     #ffffff;
+      --color-primary:     #1a3a5c;
+      --color-primary-lt:  #2557a7;
+      --color-accent:      #2e7d9f;
+      --color-accent-lt:   #e8f4f8;
+      --color-border:      #d0d8e4;
+      --color-text:        #1e2732;
+      --color-text-muted:  #5a6678;
+      --color-badge-bg:    #eaf0fb;
+      --color-badge-text:  #1a3a5c;
+      --color-tag-bg:      #fff3e0;
+      --color-tag-text:    #7a4100;
+      --radius:            10px;
+      --shadow:            0 2px 10px rgba(0,0,0,0.08);
+      --transition:        0.2s ease;
     }
 
     body {
-      font-family: var(--font-main);
-      background-color: var(--color-bg);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--color-bg);
       color: var(--color-text);
       line-height: 1.65;
       min-height: 100vh;
     }
 
-    /* ── Header ── */
+    /* ── Header Banner ── */
     header {
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-      color: #ffffff;
-      padding: 3rem 1.5rem 2.5rem;
-      text-align: center;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #25527e 60%, var(--color-accent) 100%);
+      color: #fff;
+      padding: 3rem 2rem 2.5rem;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
     }
 
     .course-label {
       display: inline-block;
       font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: 20px;
-      padding: 0.25rem 0.85rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      padding: 0.25rem 0.65rem;
       margin-bottom: 1rem;
-      color: #cfe8f5;
+      color: #dce9f8;
     }
 
     header h1 {
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
       font-weight: 700;
-      letter-spacing: -0.02em;
-      max-width: 780px;
-      margin: 0 auto 1rem;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
     }
 
     header p {
-      font-size: clamp(0.92rem, 2vw, 1.05rem);
-      color: rgba(255, 255, 255, 0.82);
+      font-size: 1.02rem;
       max-width: 680px;
-      margin: 0 auto;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.7;
     }
 
-    /* ── Main content ── */
+    /* ── Main Content ── */
     main {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 4rem;
+      max-width: 960px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 1.5rem;
     }
 
-    .section-heading {
-      font-size: 1.05rem;
+    .section-label {
+      font-size: 0.73rem;
       font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
       color: var(--color-text-muted);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
     }
 
-    .section-heading::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--color-border);
-    }
-
-    /* ── Artifact grid ── */
-    .artifact-grid {
+    /* ── Card Grid ── */
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.25rem;
-      list-style: none;
     }
 
-    /* ── Artifact card ── */
-    .artifact-card {
+    .card {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 1.5rem 1.6rem;
+      padding: 1.4rem 1.5rem 1.3rem;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      gap: 0.6rem;
+      transition: box-shadow var(--transition), transform var(--transition);
     }
 
-    .artifact-card:hover {
-      box-shadow: var(--shadow-hover);
+    .card:hover {
+      box-shadow: 0 6px 22px rgba(0,0,0,0.12);
       transform: translateY(-2px);
     }
 
-    /* Card top row */
+    /* ── Card Header row ── */
     .card-header {
       display: flex;
-      flex-wrap: wrap;
       align-items: flex-start;
+      justify-content: space-between;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .card-name {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--color-text);
-      flex: 1 1 auto;
+      line-height: 1.3;
     }
 
     .card-name a {
-      color: var(--color-accent);
+      color: var(--color-primary-lt);
       text-decoration: none;
-      transition: color 0.15s;
+      border-bottom: 2px solid transparent;
+      transition: border-color var(--transition), color var(--transition);
     }
 
     .card-name a:hover,
     .card-name a:focus {
-      color: var(--color-accent-hover);
-      text-decoration: underline;
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+      outline: none;
     }
 
-    /* Content-type badge */
-    .badge-content-type {
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      background: var(--color-badge-bg);
-      color: var(--color-badge-text);
-      border: 1px solid #b3d9eb;
-      border-radius: 20px;
-      padding: 0.18rem 0.65rem;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    /* Meta row: type + filetype */
-    .card-meta {
+    /* ── Badges ── */
+    .badges {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
-      align-items: center;
+      margin-top: 0.15rem;
     }
 
-    .tag {
-      display: inline-block;
-      font-size: 0.74rem;
-      font-weight: 500;
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+      white-space: nowrap;
+    }
+
+    .badge-type {
+      background: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      border: 1px solid #c2d3ef;
+    }
+
+    .badge-filetype {
       background: var(--color-tag-bg);
       color: var(--color-tag-text);
-      border: 1px solid #c8d6e2;
-      border-radius: 5px;
-      padding: 0.14rem 0.52rem;
+      border: 1px solid #f0d0a0;
     }
 
-    .tag-filetype {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.72rem;
-      background: #f5f0ff;
-      color: #5b3d8a;
-      border-color: #cbbde8;
-    }
-
-    /* Description */
+    /* ── Description ── */
     .card-description {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--color-text-muted);
-      line-height: 1.6;
+      line-height: 1.65;
+      flex: 1;
     }
 
-    /* Links row */
-    .card-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      align-items: center;
-      margin-top: 0.25rem;
+    /* ── Source link ── */
+    .source-link-wrap {
+      margin-top: 0.4rem;
+      padding-top: 0.7rem;
+      border-top: 1px dashed var(--color-border);
     }
 
-    .link-view {
+    .source-link {
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      font-size: 0.875rem;
+      font-size: 0.78rem;
       font-weight: 600;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      border: 1px solid var(--color-border);
+      border-radius: 5px;
+      padding: 0.2rem 0.6rem;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: var(--color-accent-lt);
       color: var(--color-accent);
-      text-decoration: none;
-      padding: 0.35rem 0.85rem;
-      border: 1.5px solid var(--color-accent);
-      border-radius: 6px;
-      transition: background 0.15s, color 0.15s;
+      border-color: var(--color-accent);
+      outline: none;
     }
 
-    .link-view:hover,
-    .link-view:focus {
-      background: var(--color-accent);
-      color: #ffffff;
-    }
-
-    .link-source {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.28rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--color-source-text);
-      background: var(--color-source-bg);
-      border: 1px solid #c4d2dc;
-      border-radius: 6px;
-      padding: 0.3rem 0.7rem;
-      text-decoration: none;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .link-source:hover,
-    .link-source:focus {
-      background: #dde6ee;
-      color: #2a4055;
-    }
-
-    /* icon glyphs via pseudo-elements */
-    .link-view::before {
-      content: '↗';
-      font-size: 0.85em;
-    }
-
-    .link-source::before {
-      content: '⬡';
-      font-size: 0.78em;
-      opacity: 0.7;
+    .source-link svg {
+      flex-shrink: 0;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.5rem 1rem 2rem;
       font-size: 0.8rem;
       color: var(--color-text-muted);
+      padding: 1.5rem 1rem 2rem;
       border-top: 1px solid var(--color-border);
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 540px) {
-      header {
-        padding: 2rem 1rem 2rem;
-      }
-
-      .artifact-card {
-        padding: 1.2rem 1.2rem;
-      }
-
-      .card-name {
-        font-size: 1rem;
-      }
+    /* ── Responsive tweaks ── */
+    @media (max-width: 520px) {
+      header { padding: 2rem 1.2rem 1.8rem; }
+      main { margin-top: 1.8rem; }
+      .card { padding: 1.1rem 1.1rem 1rem; }
     }
   </style>
 </head>
@@ -300,48 +240,65 @@
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
   <header>
-    <div class="course-label">COP4708</div>
-    <h1>Normalization, Denormalization, and Practical Database Design</h1>
-    <p>
-      Explore the principles of database normalization—from 1NF through higher normal forms—alongside
-      practical ER-to-schema translation, functional dependencies, and strategic denormalization.
-      Use the artifacts below to navigate this module's resources and learning materials.
-    </p>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Normalization, Denormalization, and Practical Database Design</h1>
+      <p>
+        This module guides learners through the theory and practice of relational database design —
+        from first principles of normalization through deliberate denormalization strategies used in
+        production systems. Explore functional dependencies, ER-to-schema translation, and
+        the trade-offs that shape real-world databases.
+      </p>
+    </div>
   </header>
 
   <main>
-    <h2 class="section-heading">Module Artifacts</h2>
+    <p class="section-label">Module Artifacts</p>
 
-    <ul class="artifact-grid">
+    <div class="card-grid">
 
-        <!-- Artifact: Module Topics -->
-        <li class="artifact-card">
-          <div class="card-header">
-            <span class="card-name">
-                <a href="content/module_topics.html">Module Topics</a>
-            </span>
-          </div>
+      <!-- Artifact: Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-name">
+            <a href="content/module_topics.html">Module Topics</a>
+          </span>
+        </div>
 
-          <div class="card-meta">
-            <span class="tag">Module Topics</span>
-            <span class="tag tag-filetype">.json</span>
-          </div>
+        <div class="badges">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
 
-          <p class="card-description">
-            Outlines the module's learning topics spanning normalization principles (1NF, 2NF, and beyond), practical application of normalization in production environments, ER-to-schema translation, functional dependencies, and an introduction to denormalization as a deliberate design strategy, serving as a roadmap for learners and instructors to navigate the module's scope and sequence.
-          </p>
+        <p class="card-description">
+          Outlines the module's learning topics spanning normalization principles (1NF, 2NF, and beyond),
+          practical application of normalization in production environments, ER-to-schema translation,
+          functional dependencies, and an introduction to denormalization as a deliberate design strategy,
+          serving as a roadmap for learners and instructors to navigate the module's scope and sequence.
+        </p>
 
-          <div class="card-links">
-            <a class="link-view" href="content/module_topics.html">View Artifact</a>
-              <a class="link-source" href="source/hierarchy.json">source file</a>
-          </div>
-        </li>
+        <div class="source-link-wrap">
+          <a class="source-link" href="source/hierarchy.json">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 2h7l3 3v9H2V2z" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" fill="none"/>
+              <path d="M9 2v3h3" stroke="currentColor" stroke-width="1.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5 9h6M5 12h4" stroke="currentColor" stroke-width="1.3"
+                    stroke-linecap="round"/>
+            </svg>
+            source file
+          </a>
+        </div>
+      </div>
+      <!-- end card -->
 
-    </ul>
+    </div><!-- /.card-grid -->
   </main>
 
   <footer>
-    COP4708 &mdash; Normalization, Denormalization, and Practical Database Design &mdash; Course Module Index
+    COP4708 &mdash; Normalization, Denormalization, and Practical Database Design
   </footer>
 
 

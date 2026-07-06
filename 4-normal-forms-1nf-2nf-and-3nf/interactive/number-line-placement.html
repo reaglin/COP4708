@@ -1,0 +1,1118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1NF Transformation: Number Line Placement</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #e2b96f;
+    text-align: center;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: #a0b4cc;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .score-bar {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px 24px;
+    margin-bottom: 16px;
+    font-size: 1rem;
+  }
+
+  .score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .score-label {
+    font-size: 0.72rem;
+    color: #a0b4cc;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .score-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e2b96f;
+  }
+
+  .instructions-box {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(226,185,111,0.3);
+    border-radius: 12px;
+    padding: 14px 20px;
+    max-width: 800px;
+    width: 100%;
+    margin-bottom: 18px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: #ccd9e8;
+  }
+
+  .instructions-box strong {
+    color: #e2b96f;
+  }
+
+  .main-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 860px;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .scenario-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #7eb8f7;
+    margin-bottom: 10px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+
+  table.data-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.88rem;
+    min-width: 480px;
+  }
+
+  table.data-table th {
+    background: rgba(126,184,247,0.25);
+    color: #7eb8f7;
+    padding: 8px 12px;
+    border: 1px solid rgba(126,184,247,0.3);
+    text-align: left;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+  }
+
+  table.data-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #d0dce8;
+    vertical-align: top;
+  }
+
+  table.data-table tr:nth-child(even) td {
+    background: rgba(255,255,255,0.04);
+  }
+
+  .repeating-cell {
+    color: #f0a060;
+    font-style: italic;
+  }
+
+  .question-label {
+    font-size: 0.97rem;
+    color: #ccd9e8;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  /* NUMBER LINE */
+  .number-line-container {
+    position: relative;
+    width: 100%;
+    height: 90px;
+    margin: 30px 0 16px 0;
+    user-select: none;
+  }
+
+  .number-line-track {
+    position: absolute;
+    top: 38px;
+    left: 40px;
+    right: 40px;
+    height: 6px;
+    background: linear-gradient(90deg, #3a6186, #89216b);
+    border-radius: 3px;
+  }
+
+  .number-line-tick {
+    position: absolute;
+    top: 22px;
+    width: 2px;
+    height: 36px;
+    background: rgba(255,255,255,0.4);
+    transform: translateX(-1px);
+  }
+
+  .number-line-tick-label {
+    position: absolute;
+    top: 62px;
+    font-size: 0.72rem;
+    color: #a0b4cc;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .drop-zone-marker {
+    position: absolute;
+    top: 18px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px dashed rgba(226,185,111,0.5);
+    background: rgba(226,185,111,0.08);
+    transform: translateX(-50%);
+    transition: background 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    color: rgba(226,185,111,0.6);
+    text-align: center;
+  }
+
+  .drop-zone-marker.hover-active {
+    background: rgba(226,185,111,0.22);
+    border-color: #e2b96f;
+  }
+
+  .drop-zone-marker.correct {
+    background: rgba(80,200,140,0.25);
+    border-color: #50c88c;
+    border-style: solid;
+  }
+
+  .drop-zone-marker.incorrect {
+    background: rgba(240,100,80,0.25);
+    border-color: #f06450;
+    border-style: solid;
+  }
+
+  /* TOKENS */
+  .tokens-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    min-height: 56px;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    border: 1px dashed rgba(255,255,255,0.15);
+    margin-bottom: 14px;
+  }
+
+  .token {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2c4a7c, #3a6186);
+    border: 1.5px solid rgba(126,184,247,0.5);
+    color: #d0e8ff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: grab;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    touch-action: none;
+  }
+
+  .token:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(126,184,247,0.3);
+    border-color: #7eb8f7;
+  }
+
+  .token.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+  }
+
+  .token.placed-correct {
+    background: linear-gradient(135deg, #1e5c3a, #2e8b57);
+    border-color: #50c88c;
+    color: #c0ffe0;
+    cursor: default;
+  }
+
+  .token.placed-incorrect {
+    background: linear-gradient(135deg, #7a2020, #a03030);
+    border-color: #f06450;
+    color: #ffd0c0;
+    animation: shake 0.4s ease;
+  }
+
+  .token.used {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .placed-token-label {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+
+  /* FEEDBACK */
+  .feedback-bar {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .feedback-bar.hidden {
+    visibility: hidden;
+  }
+
+  .feedback-bar.success {
+    background: rgba(80,200,140,0.2);
+    color: #50c88c;
+    border: 1px solid rgba(80,200,140,0.4);
+  }
+
+  .feedback-bar.error {
+    background: rgba(240,100,80,0.2);
+    color: #f06450;
+    border: 1px solid rgba(240,100,80,0.4);
+  }
+
+  .feedback-bar.info {
+    background: rgba(226,185,111,0.15);
+    color: #e2b96f;
+    border: 1px solid rgba(226,185,111,0.3);
+  }
+
+  /* NAVIGATION */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .btn {
+    padding: 11px 24px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+    min-height: 44px;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #e2b96f, #c8933a);
+    color: #1a1a2e;
+  }
+
+  .btn-secondary {
+    background: rgba(126,184,247,0.2);
+    border: 1px solid rgba(126,184,247,0.4);
+    color: #7eb8f7;
+  }
+
+  .btn-reset {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ccd9e8;
+  }
+
+  /* WIN/LOSE SCREENS */
+  .overlay-screen {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .overlay-screen.visible {
+    display: flex;
+  }
+
+  .result-card {
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 36px 44px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .result-card.win-card {
+    border-color: #e2b96f;
+    box-shadow: 0 0 40px rgba(226,185,111,0.3);
+  }
+
+  .result-card.lose-card {
+    border-color: #7eb8f7;
+    box-shadow: 0 0 40px rgba(126,184,247,0.3);
+  }
+
+  .result-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+  }
+
+  .result-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .win-card .result-title { color: #e2b96f; }
+  .lose-card .result-title { color: #7eb8f7; }
+
+  .result-message {
+    font-size: 0.95rem;
+    color: #a0b4cc;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .result-score {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #e2b96f;
+    margin-bottom: 20px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0 16px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e2b96f, #50c88c);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  .question-counter {
+    font-size: 0.82rem;
+    color: #a0b4cc;
+    text-align: right;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+<div class="pm-injected-nav"><a href="../index.html">← Back to Module</a><span class="sep">|</span><span style="color:#555">Number Line Placement</span></div>
+<div class="pm-injected-spacer"></div>
+
+<div class="page-title">📊 1NF Transformation Challenge</div>
+<div class="page-subtitle">Module 4: Normal Forms — First Normal Form (1NF)</div>
+
+<div class="score-bar">
+  <div class="score-item">
+    <span class="score-label">Score</span>
+    <span class="score-value" id="displayScore">0</span>
+  </div>
+  <div class="score-item">
+    <span class="score-label">Correct</span>
+    <span class="score-value" id="displayCorrect">0</span>
+  </div>
+  <div class="score-item">
+    <span class="score-label">Attempts</span>
+    <span class="score-value" id="displayAttempts">0</span>
+  </div>
+  <div class="score-item">
+    <span class="score-label">Question</span>
+    <span class="score-value" id="displayQuestion">1 / 5</span>
+  </div>
+</div>
+
+<div class="instructions-box">
+  <strong>How to Play:</strong> Each question presents an unnormalized table scenario with a 1NF concept to evaluate.<br>
+  Drag the <strong>answer token</strong> from the pool below the number line and drop it onto the matching <strong>numbered position</strong> on the number line.<br>
+  Each number on the line represents a step or property in 1NF transformation. Place the token at the correct position to score!
+</div>
+
+<div class="main-card">
+  <div class="question-counter" id="questionCounter">Question 1 of 5</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:20%"></div>
+  </div>
+
+  <div class="scenario-title" id="scenarioTitle">Scenario</div>
+
+  <div class="table-wrapper" id="tableWrapper"></div>
+
+  <div class="question-label" id="questionLabel"></div>
+
+  <!-- NUMBER LINE -->
+  <div class="number-line-container" id="numberLineContainer">
+    <div class="number-line-track"></div>
+  </div>
+
+  <!-- TOKENS AREA -->
+  <p style="font-size:0.82rem; color:#a0b4cc; margin-bottom:6px; text-align:center;">Token Bank — drag a token to the correct numbered position on the line above:</p>
+  <div class="tokens-area" id="tokensArea"></div>
+
+  <div class="feedback-bar hidden" id="feedbackBar"></div>
+
+  <div class="nav-row">
+    <button class="btn btn-reset" id="btnReset" onclick="resetGame()">🔄 Reset Game</button>
+    <button class="btn btn-secondary" id="btnSkip" onclick="skipQuestion()">⏭ Skip</button>
+    <button class="btn btn-primary" id="btnNext" onclick="nextQuestion()" style="display:none;">Next Question →</button>
+  </div>
+</div>
+
+<!-- WIN SCREEN -->
+<div class="overlay-screen" id="winScreen">
+  <div class="result-card win-card">
+    <div class="result-icon">🏆</div>
+    <div class="result-title">Excellent Work!</div>
+    <div class="result-score" id="winScore"></div>
+    <div class="result-message">You've demonstrated strong understanding of First Normal Form — eliminating repeating groups, enforcing atomicity, and identifying primary keys.</div>
+    <button class="btn btn-primary" onclick="resetGame()">🔄 Play Again</button>
+  </div>
+</div>
+
+<!-- COMPLETION SCREEN -->
+<div class="overlay-screen" id="completionScreen">
+  <div class="result-card lose-card">
+    <div class="result-icon">📋</div>
+    <div class="result-title">Activity Complete!</div>
+    <div class="result-score" id="completionScore"></div>
+    <div class="result-message" id="completionMessage"></div>
+    <button class="btn btn-primary" onclick="resetGame()">🔄 Try Again</button>
+  </div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────
+  //  QUESTION DATA
+  //  Each question has:
+  //    scenario: title + HTML table to display
+  //    questionText: the specific 1NF question asked
+  //    numberLineLabels: array of tick labels (step names shown on line)
+  //    correctPosition: index (0-based) of the correct tick
+  //    tokens: array of answer choices (label, correct flag)
+  //    explanation: feedback text on correct answer
+  // ─────────────────────────────────────────────────────────
+
+  const ALL_QUESTIONS = [
+    {
+      scenarioTitle: "Scenario 1: Student Courses Table",
+      tableHTML: `
+        <table class="data-table">
+          <thead><tr>
+            <th>StudentID</th><th>StudentName</th><th>Courses</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>101</td><td>Alice</td><td class="repeating-cell">Math, Physics, Chemistry</td></tr>
+            <tr><td>102</td><td>Bob</td><td class="repeating-cell">Biology, English</td></tr>
+            <tr><td>103</td><td>Carol</td><td class="repeating-cell">History, Math, Art</td></tr>
+          </tbody>
+        </table>`,
+      questionText: "The <em>Courses</em> column stores multiple values in one cell. Which 1NF violation does this represent? Drag the correct violation name to its position on the 1NF checklist line.",
+      numberLineLabels: ["Atomicity\nViolation", "Repeating\nGroup", "Missing\nPrimary Key", "Duplicate\nRows"],
+      correctPosition: 0,
+      tokens: [
+        { label: "Atomicity Violation", correct: true },
+        { label: "Repeating Group", correct: false },
+        { label: "No Primary Key", correct: false },
+        { label: "Transitive Dependency", correct: false },
+      ],
+      explanation: "✅ Correct! Storing 'Math, Physics, Chemistry' in one cell violates atomicity — each cell must hold a single, indivisible value in 1NF."
+    },
+    {
+      scenarioTitle: "Scenario 2: Order Items Table",
+      tableHTML: `
+        <table class="data-table">
+          <thead><tr>
+            <th>OrderID</th><th>CustomerName</th><th>Item1</th><th>Item2</th><th>Item3</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>001</td><td>Greenfield Co.</td><td>Pen</td><td>Notebook</td><td>Ruler</td></tr>
+            <tr><td>002</td><td>Blue Sky Ltd.</td><td>Stapler</td><td>Paper</td><td>—</td></tr>
+          </tbody>
+        </table>`,
+      questionText: "The table uses Item1, Item2, Item3 columns for different items in one order. Which 1NF violation is this? Drag the correct term to position 2 on the checklist line.",
+      numberLineLabels: ["Atomicity\nViolation", "Repeating\nGroup", "Missing\nPrimary Key", "Duplicate\nRows"],
+      correctPosition: 1,
+      tokens: [
+        { label: "Atomicity Violation", correct: false },
+        { label: "Repeating Group", correct: true },
+        { label: "No Primary Key", correct: false },
+        { label: "Partial Dependency", correct: false },
+      ],
+      explanation: "✅ Correct! Item1, Item2, Item3 are a repeating group — the same attribute repeated across columns. 1NF requires this to be flattened into separate rows."
+    },
+    {
+      scenarioTitle: "Scenario 3: Employee Skills Table",
+      tableHTML: `
+        <table class="data-table">
+          <thead><tr>
+            <th>EmployeeName</th><th>Department</th><th>Skills</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Dana</td><td>Engineering</td><td>Python, SQL</td></tr>
+            <tr><td>Erik</td><td>Marketing</td><td>SEO, Analytics</td></tr>
+          </tbody>
+        </table>`,
+      questionText: "To convert this table to 1NF, which action is the FIRST and most critical step? Drag the correct action to its position (step 1) on the transformation steps line.",
+      numberLineLabels: ["Split multi-\nvalue cells", "Add a\nPrimary Key", "Remove\nduplicates", "Check FDs"],
+      correctPosition: 0,
+      tokens: [
+        { label: "Split multi-value cells", correct: true },
+        { label: "Add a Primary Key", correct: false },
+        { label: "Remove duplicate rows", correct: false },
+        { label: "Identify FDs", correct: false },
+      ],
+      explanation: "✅ Correct! The first step in 1NF conversion is splitting multi-valued cells (Skills) so each row contains one atomic value per attribute."
+    },
+    {
+      scenarioTitle: "Scenario 4: Product Catalog Table",
+      tableHTML: `
+        <table class="data-table">
+          <thead><tr>
+            <th>ProductName</th><th>Category</th><th>Price</th><th>Tags</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Laptop Pro</td><td>Electronics</td><td>$1200</td><td>portable, fast, premium</td></tr>
+            <tr><td>Budget Pen</td><td>Stationery</td><td>$1</td><td>cheap, writing</td></tr>
+          </tbody>
+        </table>`,
+      questionText: "After fixing atomicity (splitting Tags) and removing repeating groups, which step must come NEXT to fully achieve 1NF? Drag the correct step to position 2 on the steps line.",
+      numberLineLabels: ["Split multi-\nvalue cells", "Add a\nPrimary Key", "Eliminate\nduplicates", "Check 2NF"],
+      correctPosition: 1,
+      tokens: [
+        { label: "Split multi-value cells", correct: false },
+        { label: "Add a Primary Key", correct: true },
+        { label: "Remove duplicate rows", correct: false },
+        { label: "Apply 3NF rules", correct: false },
+      ],
+      explanation: "✅ Correct! After achieving atomicity and eliminating repeating groups, 1NF also requires designating a Primary Key to uniquely identify each row."
+    },
+    {
+      scenarioTitle: "Scenario 5: Converted 1NF Table",
+      tableHTML: `
+        <table class="data-table">
+          <thead><tr>
+            <th>StudentID</th><th>CourseCode</th><th>StudentName</th><th>CourseName</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>101</td><td>CS101</td><td>Alice</td><td>Intro to CS</td></tr>
+            <tr><td>101</td><td>CS201</td><td>Alice</td><td>Data Structures</td></tr>
+            <tr><td>102</td><td>CS101</td><td>Bob</td><td>Intro to CS</td></tr>
+          </tbody>
+        </table>`,
+      questionText: "This table IS in 1NF (atomic, no repeating groups). What serves as the correct Primary Key for this 1NF table? Drag the correct answer to position 1 on the primary key options line.",
+      numberLineLabels: ["StudentID +\nCourseCode", "StudentName\nonly", "CourseCode\nonly", "StudentID\nonly"],
+      correctPosition: 0,
+      tokens: [
+        { label: "StudentID + CourseCode", correct: true },
+        { label: "StudentName only", correct: false },
+        { label: "CourseCode only", correct: false },
+        { label: "StudentID only", correct: false },
+      ],
+      explanation: "✅ Correct! The composite key (StudentID + CourseCode) uniquely identifies each row — a student can take many courses, and a course can have many students."
+    }
+  ];
+
+  // ─────────────────────────────────────────────────────────
+  //  GAME STATE
+  // ─────────────────────────────────────────────────────────
+  let gameScore = 0;
+  let correctAnswers = 0;
+  let totalAttempts = 0;
+  let currentQuestionIndex = 0;
+  let questionAnswered = false;
+  let draggedTokenId = null;
+
+  // ─────────────────────────────────────────────────────────
+  //  INIT
+  // ─────────────────────────────────────────────────────────
+  function initGame() {
+    gameScore = 0;
+    correctAnswers = 0;
+    totalAttempts = 0;
+    currentQuestionIndex = 0;
+    questionAnswered = false;
+    draggedTokenId = null;
+    document.getElementById('winScreen').classList.remove('visible');
+    document.getElementById('completionScreen').classList.remove('visible');
+    updateScoreDisplay();
+    loadQuestion(currentQuestionIndex);
+  }
+
+  function updateScoreDisplay() {
+    document.getElementById('displayScore').textContent = gameScore;
+    document.getElementById('displayCorrect').textContent = correctAnswers;
+    document.getElementById('displayAttempts').textContent = totalAttempts;
+    document.getElementById('displayQuestion').textContent = (currentQuestionIndex + 1) + ' / ' + ALL_QUESTIONS.length;
+    document.getElementById('questionCounter').textContent = 'Question ' + (currentQuestionIndex + 1) + ' of ' + ALL_QUESTIONS.length;
+    const pct = ((currentQuestionIndex + 1) / ALL_QUESTIONS.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  LOAD QUESTION
+  // ─────────────────────────────────────────────────────────
+  function loadQuestion(index) {
+    questionAnswered = false;
+    const q = ALL_QUESTIONS[index];
+
+    document.getElementById('scenarioTitle').textContent = q.scenarioTitle;
+    document.getElementById('tableWrapper').innerHTML = q.tableHTML;
+    document.getElementById('questionLabel').innerHTML = q.questionText;
+
+    hideFeedback();
+    document.getElementById('btnNext').style.display = 'none';
+    document.getElementById('btnSkip').style.display = 'inline-flex';
+
+    buildNumberLine(q);
+    buildTokens(q);
+    updateScoreDisplay();
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  BUILD NUMBER LINE
+  // ─────────────────────────────────────────────────────────
+  function buildNumberLine(question) {
+    const container = document.getElementById('numberLineContainer');
+    // Remove old ticks, labels, markers, drop zones (keep the track)
+    const childrenToRemove = container.querySelectorAll('.number-line-tick, .number-line-tick-label, .drop-zone-marker, .placed-token-on-line');
+    childrenToRemove.forEach(el => el.remove());
+
+    const labels = question.numberLineLabels;
+    const numTicks = labels.length;
+
+    // We'll position ticks at evenly spaced positions between left=40 and right=40 margins
+    const containerWidth = container.offsetWidth || 780;
+    const trackLeft = 40;
+    const trackRight = 40;
+    const trackWidth = containerWidth - trackLeft - trackRight;
+
+    labels.forEach((label, i) => {
+      const fraction = numTicks === 1 ? 0.5 : i / (numTicks - 1);
+      const xPx = trackLeft + fraction * trackWidth;
+      const xPct = (xPx / containerWidth) * 100;
+
+      // Tick
+      const tick = document.createElement('div');
+      tick.className = 'number-line-tick';
+      tick.style.left = xPct + '%';
+      container.appendChild(tick);
+
+      // Label
+      const tickLabel = document.createElement('div');
+      tickLabel.className = 'number-line-tick-label';
+      tickLabel.style.left = xPct + '%';
+      const lines = label.split('\n');
+      tickLabel.innerHTML = lines.map(l => `<span style="display:block;line-height:1.3;">${l}</span>`).join('');
+      container.appendChild(tickLabel);
+
+      // Drop zone marker
+      const dropZone = document.createElement('div');
+      dropZone.className = 'drop-zone-marker';
+      dropZone.style.left = xPct + '%';
+      dropZone.dataset.dropIndex = i;
+      dropZone.innerHTML = '<span>' + (i + 1) + '</span>';
+      dropZone.setAttribute('data-position-index', i);
+
+      // Drag events on drop zone
+      dropZone.addEventListener('dragover', onDragOverDropZone);
+      dropZone.addEventListener('dragleave', onDragLeaveDropZone);
+      dropZone.addEventListener('drop', onDropOnZone);
+
+      container.appendChild(dropZone);
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  BUILD TOKENS
+  // ─────────────────────────────────────────────────────────
+  function buildTokens(question) {
+    const area = document.getElementById('tokensArea');
+    area.innerHTML = '';
+
+    // Shuffle tokens for display
+    const shuffled = shuffleArray([...question.tokens]);
+
+    shuffled.forEach((tokenData, i) => {
+      const token = document.createElement('div');
+      token.className = 'token';
+      token.id = 'token_' + i;
+      token.textContent = tokenData.label;
+      token.draggable = true;
+      token.dataset.correct = tokenData.correct ? 'true' : 'false';
+      token.dataset.label = tokenData.label;
+
+      token.addEventListener('dragstart', onTokenDragStart);
+      token.addEventListener('dragend', onTokenDragEnd);
+
+      area.appendChild(token);
+    });
+  }
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  DRAG EVENTS
+  // ─────────────────────────────────────────────────────────
+  function onTokenDragStart(event) {
+    if (questionAnswered) return;
+    draggedTokenId = event.currentTarget.id;
+    event.currentTarget.classList.add('dragging');
+    event.dataTransfer.setData('text/plain', event.currentTarget.id);
+    event.dataTransfer.effectAllowed = 'move';
+  }
+
+  function onTokenDragEnd(event) {
+    event.currentTarget.classList.remove('dragging');
+  }
+
+  function onDragOverDropZone(event) {
+    if (questionAnswered) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    event.currentTarget.classList.add('hover-active');
+  }
+
+  function onDragLeaveDropZone(event) {
+    event.currentTarget.classList.remove('hover-active');
+  }
+
+  function onDropOnZone(event) {
+    event.preventDefault();
+    if (questionAnswered) return;
+
+    const dropZone = event.currentTarget;
+    dropZone.classList.remove('hover-active');
+
+    const tokenId = event.dataTransfer.getData('text/plain') || draggedTokenId;
+    const tokenEl = document.getElementById(tokenId);
+    if (!tokenEl) return;
+
+    const droppedPositionIndex = parseInt(dropZone.dataset.dropIndex);
+    const isCorrectToken = tokenEl.dataset.correct === 'true';
+    const q = ALL_QUESTIONS[currentQuestionIndex];
+    const isCorrectZone = droppedPositionIndex === q.correctPosition;
+
+    totalAttempts++;
+
+    if (isCorrectToken && isCorrectZone) {
+      // Correct placement
+      questionAnswered = true;
+      correctAnswers++;
+      gameScore += 20;
+
+      tokenEl.classList.add('placed-correct');
+      tokenEl.draggable = false;
+      tokenEl.style.cursor = 'default';
+
+      dropZone.classList.add('correct');
+      // Show token label on the drop zone
+      const placedLabel = document.createElement('div');
+      placedLabel.className = 'placed-token-on-line placed-token-label';
+      placedLabel.style.cssText = 'position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:0.65rem;color:#50c88c;font-weight:700;white-space:nowrap;pointer-events:none;max-width:100px;text-align:center;line-height:1.2;';
+      placedLabel.textContent = tokenEl.dataset.label;
+      dropZone.appendChild(placedLabel);
+
+      showFeedback(q.explanation, 'success');
+
+      // Dim remaining tokens
+      document.querySelectorAll('#tokensArea .token:not(.placed-correct)').forEach(t => {
+        t.classList.add('used');
+      });
+
+      updateScoreDisplay();
+      document.getElementById('btnNext').style.display = 'inline-flex';
+      document.getElementById('btnSkip').style.display = 'none';
+
+    } else {
+      // Incorrect placement
+      tokenEl.classList.add('placed-incorrect');
+      dropZone.classList.add('incorrect');
+
+      setTimeout(() => {
+        tokenEl.classList.remove('placed-incorrect');
+        dropZone.classList.remove('incorrect');
+      }, 700);
+
+      let errorMsg = '❌ ';
+      if (!isCorrectToken && !isCorrectZone) {
+        errorMsg += 'Both the token and the position are incorrect. Re-read the question carefully.';
+      } else if (!isCorrectToken) {
+        errorMsg += 'That token is not the right answer for this question. Try a different option.';
+      } else {
+        errorMsg += 'Correct concept, but wrong position on the line. Look at the numbered steps again.';
+      }
+
+      showFeedback(errorMsg, 'error');
+      updateScoreDisplay();
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  FEEDBACK
+  // ─────────────────────────────────────────────────────────
+  function showFeedback(message, type) {
+    const bar = document.getElementById('feedbackBar');
+    bar.textContent = message;
+    bar.className = 'feedback-bar ' + type;
+  }
+
+  function hideFeedback() {
+    const bar = document.getElementById('feedbackBar');
+    bar.className = 'feedback-bar hidden';
+    bar.textContent = '';
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  NAVIGATION
+  // ─────────────────────────────────────────────────────────
+  function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex >= ALL_QUESTIONS.length) {
+      showEndScreen();
+    } else {
+      hideFeedback();
+      loadQuestion(currentQuestionIndex);
+    }
+  }
+
+  function skipQuestion() {
+    if (questionAnswered) return;
+    const q = ALL_QUESTIONS[currentQuestionIndex];
+    showFeedback('⏭ Skipped. ' + q.explanation, 'info');
+    questionAnswered = true;
+    document.getElementById('btnNext').style.display = 'inline-flex';
+    document.getElementById('btnSkip').style.display = 'none';
+    totalAttempts++;
+    updateScoreDisplay();
+  }
+
+  function showEndScreen() {
+    const total = ALL_QUESTIONS.length * 20;
+    const pct = Math.round((gameScore / total) * 100);
+
+    if (pct >= 80) {
+      document.getElementById('winScore').textContent = gameScore + ' / ' + total + ' points (' + pct + '%)';
+      document.getElementById('winScreen').classList.add('visible');
+    } else {
+      document.getElementById('completionScore').textContent = gameScore + ' / ' + total + ' points (' + pct + '%)';
+      let msg = '';
+      if (pct >= 60) {
+        msg = 'Good effort! You understand some 1NF concepts but review atomicity and primary key designation to improve. Try again!';
+      } else {
+        msg = 'Keep practicing! Focus on what makes a table violate 1NF: multi-valued cells, repeating groups, and missing primary keys.';
+      }
+      document.getElementById('completionMessage').textContent = msg;
+      document.getElementById('completionScreen').classList.add('visible');
+    }
+  }
+
+  function resetGame() {
+    initGame();
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  TOUCH SUPPORT (mobile drag-and-drop simulation)
+  // ─────────────────────────────────────────────────────────
+  let touchDragToken = null;
+  let touchGhostEl = null;
+
+  function addTouchSupport() {
+    document.addEventListener('touchstart', function(e) {
+      const token = e.target.closest('.token');
+      if (!token || questionAnswered) return;
+      touchDragToken = token;
+      token.classList.add('dragging');
+
+      touchGhostEl = token.cloneNode(true);
+      touchGhostEl.style.position = 'fixed';
+      touchGhostEl.style.opacity = '0.8';
+      touchGhostEl.style.pointerEvents = 'none';
+      touchGhostEl.style.zIndex = '999';
+      touchGhostEl.style.width = token.offsetWidth + 'px';
+      touchGhostEl.style.transform = 'scale(1.1)';
+      document.body.appendChild(touchGhostEl);
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+      if (!touchDragToken) return;
+      const touch = e.touches[0];
+      if (touchGhostEl) {
+        touchGhostEl.style.left = (touch.clientX - touchGhostEl.offsetWidth / 2) + 'px';
+        touchGhostEl.style.top = (touch.clientY - touchGhostEl.offsetHeight / 2) + 'px';
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(e) {
+      if (!touchDragToken) return;
+      touchDragToken.classList.remove('dragging');
+
+      const touch = e.changedTouches[0];
+      const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+
+      if (touchGhostEl) {
+        document.body.removeChild(touchGhostEl);
+        touchGhostEl = null;
+      }
+
+      if (elemBelow) {
+        const dropZone = elemBelow.closest('.drop-zone-marker');
+        if (dropZone && !questionAnswered) {
+          // Simulate drop
+          const fakeDataTransfer = { getData: () => touchDragToken.id };
+          const fakeEvent = {
+            preventDefault: () => {},
+            currentTarget: dropZone,
+            dataTransfer: fakeDataTransfer
+          };
+          dropZone.classList.remove('hover-active');
+
+          const droppedPositionIndex = parseInt(dropZone.dataset.dropIndex);
+          const isCorrectToken = touchDragToken.dataset.correct === 'true';
+          const q = ALL_QUESTIONS[currentQuestionIndex];
+          const isCorrectZone = droppedPositionIndex === q.correctPosition;
+
+          totalAttempts++;
+
+          if (isCorrectToken && isCorrectZone) {
+            questionAnswered = true;
+            correctAnswers++;
+            gameScore += 20;
+            touchDragToken.classList.add('placed-correct');
+            touchDragToken.draggable = false;
+            dropZone.classList.add('correct');
+
+            const placedLabel = document.createElement('div');
+            placedLabel.style.cssText = 'position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:0.65rem;color:#50c88c;font-weight:700;white-space:nowrap;pointer-events:none;max-width:100px;text-align:center;line-height:1.2;';
+            placedLabel.textContent = touchDragToken.dataset.label;
+            dropZone.appendChild(placedLabel);
+
+            showFeedback(q.explanation, 'success');
+            document.querySelectorAll('#tokensArea .token:not(.placed-correct)').forEach(t => t.classList.add('used'));
+            updateScoreDisplay();
+            document.getElementById('btnNext').style.display = 'inline-flex';
+            document.getElementById('btnSkip').style.display = 'none';
+          } else {
+            touchDragToken.classList.add('placed-incorrect');
+            dropZone.classList.add('incorrect');
+            setTimeout(() => {
+              touchDragToken.classList.remove('placed-incorrect');
+              dropZone.classList.remove('incorrect');
+            }, 700);
+            let errorMsg = '❌ ';
+            if (!isCorrectToken && !isCorrectZone) errorMsg += 'Both the token and position are wrong. Try again.';
+            else if (!isCorrectToken) errorMsg += 'That token is not the right answer. Try a different one.';
+            else errorMsg += 'Correct concept, but wrong position. Check the numbered steps.';
+            showFeedback(errorMsg, 'error');
+            updateScoreDisplay();
+          }
+        }
+      }
+
+      touchDragToken = null;
+    }, { passive: true });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  //  STARTUP
+  // ─────────────────────────────────────────────────────────
+  window.addEventListener('load', function() {
+    addTouchSupport();
+    initGame();
+  });
+
+  // Rebuild number line on resize
+  window.addEventListener('resize', function() {
+    if (currentQuestionIndex < ALL_QUESTIONS.length) {
+      buildNumberLine(ALL_QUESTIONS[currentQuestionIndex]);
+    }
+  });
+</script>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

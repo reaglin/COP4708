@@ -5,203 +5,239 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Module 2 – Relational Theory and Functional Dependencies | COP4708</title>
   <style>
-    /* ── Reset & Base ── */
+    /* ── Reset & Base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --clr-bg:          #f4f6f9;
+      --clr-surface:     #ffffff;
+      --clr-border:      #dde2ea;
+      --clr-primary:     #1a4f8a;
+      --clr-primary-dk:  #123563;
+      --clr-accent:      #2e7fd6;
+      --clr-accent-lt:   #e8f1fb;
+      --clr-text:        #1e2530;
+      --clr-muted:       #5a6475;
+      --clr-badge-bg:    #eef2f8;
+      --clr-badge-txt:   #2d4a75;
+      --clr-source-bg:   #f0f7ee;
+      --clr-source-txt:  #2a6b3c;
+      --clr-source-bdr:  #b5d9be;
+      --radius:          8px;
+      --shadow:          0 2px 8px rgba(0,0,0,.08);
+      --shadow-hover:    0 6px 18px rgba(0,0,0,.13);
+      --font:            'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f4f6f9;
-      color: #1e2430;
+      font-family: var(--font);
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.6;
       min-height: 100vh;
-      padding: 0 0 3rem;
     }
 
-    /* ── Header Banner ── */
-    .page-header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2a5f8f 60%, #1e7eb8 100%);
+    /* ── Header ───────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--clr-primary-dk) 0%, var(--clr-primary) 60%, var(--clr-accent) 100%);
       color: #fff;
-      padding: 2.6rem 2rem 2.2rem;
-      border-bottom: 4px solid #f0a500;
+      padding: 2.8rem 1.5rem 2.4rem;
     }
 
-    .page-header__kicker {
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #a8d4f0;
-      margin-bottom: 0.45rem;
-    }
-
-    .page-header__title {
-      font-size: clamp(1.45rem, 3vw, 2.1rem);
-      font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 0.9rem;
-    }
-
-    .page-header__intro {
-      font-size: 0.97rem;
-      line-height: 1.7;
-      max-width: 72ch;
-      color: #d0e8f8;
-    }
-
-    /* ── Main Container ── */
-    .container {
+    .header-inner {
       max-width: 1100px;
       margin: 0 auto;
+    }
+
+    .course-label {
+      display: inline-block;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 4px;
+      padding: .2rem .65rem;
+      margin-bottom: .9rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: .75rem;
+      letter-spacing: -.01em;
+    }
+
+    header p {
+      font-size: clamp(.9rem, 1.8vw, 1.05rem);
+      max-width: 72ch;
+      opacity: .9;
+      line-height: 1.7;
+    }
+
+    /* ── Main content ─────────────────────────────────────────── */
+    main {
+      max-width: 1100px;
+      margin: 2.2rem auto 3rem;
       padding: 0 1.25rem;
     }
 
-    /* ── Section Label ── */
     .section-label {
-      font-size: 0.72rem;
+      font-size: .8rem;
       font-weight: 700;
-      letter-spacing: 0.13em;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      color: #5a6a80;
-      margin: 2.2rem 0 1rem;
-      padding-bottom: 0.45rem;
-      border-bottom: 2px solid #dde3ec;
+      color: var(--clr-muted);
+      margin-bottom: 1.1rem;
     }
 
-    /* ── Card Grid ── */
+    /* ── Card Grid ────────────────────────────────────────────── */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.15rem;
+      gap: 1.25rem;
     }
 
-    /* ── Card ── */
     .card {
-      background: #fff;
-      border: 1px solid #dde3ec;
-      border-radius: 10px;
-      padding: 1.25rem 1.3rem 1.2rem;
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.35rem 1.4rem 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      transition: box-shadow 0.18s ease, transform 0.18s ease;
-      position: relative;
+      gap: .6rem;
+      transition: box-shadow .2s ease, transform .2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 22px rgba(30, 60, 100, 0.13);
+      box-shadow: var(--shadow-hover);
       transform: translateY(-2px);
     }
 
-    /* ── Card Top Row ── */
-    .card__top {
+    /* Card top-row: badges */
+    .card-meta {
       display: flex;
       flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
-    .card__badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
       align-items: center;
+      gap: .4rem;
     }
 
-    /* Type badge */
     .badge {
-      font-size: 0.67rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
       text-transform: uppercase;
-      padding: 0.18em 0.6em;
+      padding: .18rem .55rem;
       border-radius: 4px;
+      background: var(--clr-badge-bg);
+      color: var(--clr-badge-txt);
+      border: 1px solid #c9d8ef;
       white-space: nowrap;
     }
 
-    .badge--type {
-      background: #e6f0fa;
-      color: #1a5a8f;
-      border: 1px solid #b8d4ef;
+    .badge-filetype {
+      background: #f3f0fb;
+      color: #4a3490;
+      border-color: #ccc3e8;
     }
 
-    .badge--filetype {
-      background: #f0f4f8;
-      color: #5a6a80;
-      border: 1px solid #cdd5e0;
-    }
-
-    .badge--content {
-      background: #fff5e0;
-      color: #8a5500;
-      border: 1px solid #f5d580;
-    }
-
-    /* ── Card Title Row ── */
-    .card__title-row {
+    /* Card title row */
+    .card-title-row {
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
-      gap: 0.5rem 0.75rem;
+      gap: .5rem .7rem;
     }
 
-    .card__name {
-      font-size: 0.97rem;
+    .card-name {
+      font-size: 1rem;
       font-weight: 700;
-      color: #1e2430;
-      line-height: 1.35;
+      line-height: 1.3;
+      color: var(--clr-text);
     }
 
-    .card__name a {
-      color: #1a5a9e;
+    .card-name a {
+      color: var(--clr-accent);
       text-decoration: none;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color .15s, color .15s;
     }
 
-    .card__name a:hover {
-      text-decoration: underline;
-      color: #0d3d72;
+    .card-name a:hover,
+    .card-name a:focus {
+      color: var(--clr-primary-dk);
+      border-bottom-color: var(--clr-primary-dk);
+      outline: none;
     }
 
-    .card__source-link {
-      font-size: 0.75rem;
-      color: #4a7fb5;
+    /* Source link */
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .28rem;
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .18rem .5rem;
+      border-radius: 4px;
+      background: var(--clr-source-bg);
+      color: var(--clr-source-txt);
+      border: 1px solid var(--clr-source-bdr);
       text-decoration: none;
       white-space: nowrap;
-      border: 1px solid #b8d4ef;
-      border-radius: 4px;
-      padding: 0.1em 0.5em;
-      background: #f0f7ff;
-      transition: background 0.15s;
+      transition: background .15s, color .15s;
+      flex-shrink: 0;
     }
 
-    .card__source-link:hover {
-      background: #dceeff;
-      color: #0d3d72;
+    .source-link:hover,
+    .source-link:focus {
+      background: #d6efdb;
+      color: #1a4d28;
+      outline: none;
     }
 
-    .card__source-link::before {
-      content: "↗ ";
-      font-size: 0.7rem;
+    .source-link svg {
+      flex-shrink: 0;
     }
 
-    /* ── Card Description ── */
-    .card__desc {
-      font-size: 0.855rem;
+    /* Description */
+    .card-desc {
+      font-size: .875rem;
+      color: var(--clr-muted);
       line-height: 1.65;
-      color: #3f4e62;
       flex: 1;
     }
 
-    /* ── Footer ── */
-    .page-footer {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.76rem;
-      color: #8a97a8;
+    /* Divider */
+    .card-divider {
+      height: 1px;
+      background: var(--clr-border);
+      border: none;
+      margin: .1rem 0 0;
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 500px) {
-      .page-header { padding: 2rem 1rem 1.6rem; }
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      font-size: .8rem;
+      color: var(--clr-muted);
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid var(--clr-border);
+    }
+
+    /* ── Accessibility: focus-visible ─────────────────────────── */
+    a:focus-visible {
+      outline: 2px solid var(--clr-accent);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    /* ── Responsive tweaks ────────────────────────────────────── */
+    @media (max-width: 480px) {
       .card-grid { grid-template-columns: 1fr; }
+      header { padding: 2rem 1rem 1.8rem; }
     }
   </style>
 </head>
@@ -209,97 +245,101 @@
 <div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
-  <!-- ══ Page Header ══ -->
-  <header class="page-header">
-    <div class="container">
-      <p class="page-header__kicker">COP4708 &mdash; Module 2</p>
-      <h1 class="page-header__title">Relational Theory and Functional Dependencies</h1>
-      <p class="page-header__intro">
-        This module establishes the mathematical foundations of the relational model — sets, domains,
-        tuples, and relations — and introduces functional dependencies as the formal basis for
-        database schema design and normalisation. Work through the readings and practice materials
-        below to build rigorous conceptual and analytical skills before progressing to normalisation
-        theory.
+  <header>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Module 2 &mdash; Relational Theory and Functional Dependencies</h1>
+      <p>
+        This module explores the mathematical foundations of the relational model — including sets,
+        domains, tuples, and relations — and introduces functional dependencies as formal design
+        tools. Learners will develop the rigorous conceptual grounding needed for systematic
+        database schema design and normalization.
       </p>
     </div>
   </header>
 
-  <!-- ══ Main Content ══ -->
-  <main class="container">
-
+  <main>
     <p class="section-label">Module Artifacts &mdash; 8 items</p>
 
     <div class="card-grid">
 
-      <!-- ── Artifact 1: Module Topics ── -->
+      <!-- 1. Module Topics -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Module Topics</span>
-          <span class="badge badge--filetype">.json</span>
+        <div class="card-meta">
+          <span class="badge">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/module_topics.html">Module Topics</a>
           </span>
-          <a class="card__source-link" href="source/hierarchy.json">source file</a>
+          <a class="source-link" href="source/hierarchy.json" title="Download source file">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1v9M4 7l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            source file
+          </a>
         </div>
-        <p class="card__desc">
+        <hr class="card-divider" />
+        <p class="card-desc">
           This JSON file outlines the topics covered in the module, organised into sections on
           mathematical foundations of relational theory (sets, domains, tuples), relations/tuples/attributes,
           and functional dependencies, serving as a navigation guide for learners and instructors.
         </p>
       </article>
 
-      <!-- ── Artifact 2: Functional Dependency and DB Design ── -->
+      <!-- 2. Functional Dependency and DB Design (Text Content) -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
+        <div class="card-meta">
+          <span class="badge">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/_interactive.html">Functional Dependency and DB Design</a>
           </span>
         </div>
-        <p class="card__desc">
+        <hr class="card-divider" />
+        <p class="card-desc">
           This reading explains how functional dependencies serve as logical design tools, covering
           how real-world data rules drive schema design decisions, and is used by learners to
           understand the theoretical basis for structuring database schemas systematically.
         </p>
       </article>
 
-      <!-- ── Artifact 3: Distinguish trivial vs non-trivial ── -->
+      <!-- 3. Distinguish between trivial and non-trivial functional -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
-          <span class="badge badge--content">Example Problems</span>
+        <div class="card-meta">
+          <span class="badge">Example Problems</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/Relational_Theory_and_example-problems.html">Distinguish between trivial and non-trivial functional</a>
           </span>
         </div>
-        <p class="card__desc">
-          A worked-example practice page that teaches learners how to apply Armstrong&#8217;s three
-          axioms — reflexivity, augmentation, and transitivity — to derive new functional dependencies
-          from a given FD set, used by students to build and check their reasoning skills before
-          assessments.
+        <hr class="card-divider" />
+        <p class="card-desc">
+          A worked-example practice page that teaches learners how to apply Armstrong&rsquo;s three
+          axioms&nbsp;&mdash; reflexivity, augmentation, and transitivity&nbsp;&mdash; to derive new
+          functional dependencies from a given FD set, used by students to build and check their
+          reasoning skills before assessments.
         </p>
       </article>
 
-      <!-- ── Artifact 4: Mathematical Foundations ── -->
+      <!-- 4. Mathematical Foundations of Relational Theory -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
+        <div class="card-meta">
+          <span class="badge">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/Relational_Theory_and_interactive_topics_t1.html">Mathematical Foundations of Relational Theory</a>
           </span>
         </div>
-        <p class="card__desc">
+        <hr class="card-divider" />
+        <p class="card-desc">
           This reading introduces the mathematical underpinnings of the relational model as developed
           by Codd, covering sets, domains, tuples, and relations as formal mathematical constructs,
           and is used by learners to build rigorous conceptual grounding before studying SQL or
@@ -307,73 +347,77 @@
         </p>
       </article>
 
-      <!-- ── Artifact 5: Relations, Tuples, and Attributes ── -->
+      <!-- 5. Relations, Tuples, and Attributes -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
+        <div class="card-meta">
+          <span class="badge">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/Relational_Theory_and_interactive_topics_t2.html">Relations, Tuples, and Attributes</a>
           </span>
         </div>
-        <p class="card__desc">
-          This reading explains the three core building blocks of the relational model — relations
-          (tables), tuples (rows), and attributes (columns) — and is used by learners to understand
-          how data is structured and interpreted within relational database systems.
+        <hr class="card-divider" />
+        <p class="card-desc">
+          This reading explains the three core building blocks of the relational model &mdash;
+          relations (tables), tuples (rows), and attributes (columns) &mdash; and is used by learners
+          to understand how data is structured and interpreted within relational database systems.
         </p>
       </article>
 
-      <!-- ── Artifact 6: Introduction to Functional Dependencies ── -->
+      <!-- 6. Introduction to Functional Dependencies -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
+        <div class="card-meta">
+          <span class="badge">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/Relational_Theory_and_interactive_topics_t3.html">Introduction to Functional Dependencies</a>
           </span>
         </div>
-        <p class="card__desc">
+        <hr class="card-divider" />
+        <p class="card-desc">
           This reading introduces the concept of functional dependencies, explaining what they are,
           the notation used, and how they describe real-world constraints between attribute sets
-          within a relation, serving as foundational preparation for studying normalisation.
+          within a relation, serving as foundational preparation for studying normalization.
         </p>
       </article>
 
-      <!-- ── Artifact 7: Types and Properties of FDs ── -->
+      <!-- 7. Types and Properties of Functional Dependencies -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
+        <div class="card-meta">
+          <span class="badge">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/Relational_Theory_and_interactive_topics_t4.html">Types and Properties of Functional Dependencies</a>
           </span>
         </div>
-        <p class="card__desc">
+        <hr class="card-divider" />
+        <p class="card-desc">
           This reading covers the classification and formal properties of functional dependencies,
           including types such as trivial and non-trivial dependencies and inference rules, and is
-          used by learners to develop the analytical skills needed for normalisation and schema
+          used by learners to develop the analytical skills needed for normalization and schema
           evaluation.
         </p>
       </article>
 
-      <!-- ── Artifact 8: Functional Dependencies and Database Design ── -->
+      <!-- 8. Functional Dependencies and Database Design -->
       <article class="card">
-        <div class="card__badges">
-          <span class="badge badge--type">Text Content</span>
-          <span class="badge badge--filetype">.html</span>
+        <div class="card-meta">
+          <span class="badge">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
         </div>
-        <div class="card__title-row">
-          <span class="card__name">
+        <div class="card-title-row">
+          <span class="card-name">
             <a href="content/Relational_Theory_and_interactive_topics_t5.html">Functional Dependencies and Database Design</a>
           </span>
         </div>
-        <p class="card__desc">
+        <hr class="card-divider" />
+        <p class="card-desc">
           This reading explains how functional dependencies are applied in practice to drive database
           schema design decisions, reinforcing how real-world data rules translate into logically
           consistent relational structures for learners studying database design methodology.
@@ -383,10 +427,8 @@
     </div><!-- /.card-grid -->
   </main>
 
-  <footer class="page-footer">
-    <div class="container">
-      <p>COP4708 &mdash; Module 2: Relational Theory and Functional Dependencies</p>
-    </div>
+  <footer>
+    <p>COP4708 &mdash; Module 2: Relational Theory and Functional Dependencies</p>
   </footer>
 
 

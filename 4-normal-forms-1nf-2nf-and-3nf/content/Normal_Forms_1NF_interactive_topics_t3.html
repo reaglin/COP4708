@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Second Normal Form (2NF)</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+  <header>
+    <h1>Second Normal Form (2NF)</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Second Normal Form (2NF)</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Second Normal Form (2NF) is the second milestone in the normalization journey, and it builds directly on the foundation established by First Normal Form. While 1NF ensures that a table has atomic values, no repeating groups, and a well-defined primary key, it does not address <em>how</em> non-key columns relate to that primary key. A table can satisfy every 1NF requirement and still harbor a subtle but damaging structural problem: some of its columns may depend on only a <em>portion</em> of the primary key rather than the key as a whole. 2NF closes this gap by demanding that every non-key attribute be fully — not partially — dependent on the entire primary key. Understanding why this matters, and how to achieve it, requires a clear grasp of functional dependency, the concept of partial dependency, and the decomposition technique used to eliminate it.</p>
+
+<p><strong>Prerequisites: 2NF Builds on 1NF</strong></p>
+
+<p>Before a table can be evaluated for 2NF compliance, it must already satisfy all conditions of 1NF. This means every column must hold only atomic (indivisible) values, there must be no repeating groups or arrays hidden within a column, and the table must have a clearly designated primary key that uniquely identifies each row. These conditions are non-negotiable prerequisites — you cannot meaningfully apply 2NF rules to a table that still violates 1NF.</p>
+
+<p>Once those 1NF conditions are met, 2NF introduces one additional rule that is specifically concerned with how non-key attributes relate to the primary key. Crucially, this rule only has real bite when the primary key is a <em>composite key</em> — that is, a primary key formed from two or more columns working together. When a table's primary key is a single column, every non-key attribute either depends on that one key column or it does not; there is no "part of the key" to depend on, so partial dependency is structurally impossible. A table in 1NF with a single-column primary key is therefore automatically in 2NF. The interesting and important cases arise when the key is composite.</p>
+
+<p><strong>Understanding Functional Dependency</strong></p>
+
+<p>The concept of <em>functional dependency</em> is the theoretical backbone of normalization from 2NF onward. Formally, attribute B is said to be functionally dependent on attribute A — written A → B — if, for every possible value of A, there is exactly one associated value of B. In plain terms: knowing A is enough to look up B with certainty. For example, if you know a student's <code>StudentID</code>, you can determine that student's <code>StudentName</code> and <code>DateOfBirth</code> without any additional information. Therefore <code>StudentName</code> and <code>DateOfBirth</code> are functionally dependent on <code>StudentID</code>.</p>
+
+<p>A critical point that beginners often miss is that functional dependencies must be identified from the <em>real-world meaning</em> of the data — the business rules and domain knowledge — rather than from simply inspecting the current rows stored in the table. A coincidence in the data at a particular moment can look like a functional dependency when it is not. For instance, it might happen that every student enrolled in a particular course right now lives in the same city, but that does not mean a student's city is functionally dependent on a course; future data will break that coincidence. Reliable normalization is based on the semantics of the data, not its current snapshot.</p>
+
+<p>In the context of a composite primary key, a non-key attribute can stand in one of three relationships to the key:</p>
+
+<ul>
+  <li><strong>Full functional dependency:</strong> The attribute depends on the <em>entire</em> composite key and cannot be determined from any proper subset of it.</li>
+  <li><strong>Partial dependency:</strong> The attribute can be determined from just <em>one or more — but not all —</em> columns of the composite key.</li>
+  <li><strong>No dependency on the key:</strong> The attribute depends on some other non-key attribute (this is a transitive dependency, addressed in 3NF, not 2NF).</li>
+</ul>
+
+<p>2NF is exclusively concerned with distinguishing and eliminating the second case — partial dependency.</p>
+
+<p><strong>Defining Partial Dependency</strong></p>
+
+<p>A <em>partial dependency</em> exists when a non-key attribute is functionally determined by a proper subset of the composite primary key — meaning it can be identified using fewer key columns than the full composite key requires. Because a single-column primary key has no proper subsets that are themselves meaningful determinants, partial dependencies can only arise in tables with composite primary keys. This is worth repeating because it is a source of frequent confusion: <em>if your primary key is a single column, your 1NF table is already in 2NF and you need not investigate further.</em></p>
+
+<p>Consider a table that tracks which products are included in which orders, along with information about those products. Suppose the table looks like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID</th>
+      <th>ProductID</th>
+      <th>Quantity</th>
+      <th>ProductName</th>
+      <th>UnitPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>P01</td>
+      <td>3</td>
+      <td>Wireless Mouse</td>
+      <td>29.99</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>P02</td>
+      <td>1</td>
+      <td>USB Keyboard</td>
+      <td>49.99</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P01</td>
+      <td>2</td>
+      <td>Wireless Mouse</td>
+      <td>29.99</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P03</td>
+      <td>5</td>
+      <td>HDMI Cable</td>
+      <td>12.99</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P02</td>
+      <td>1</td>
+      <td>USB Keyboard</td>
+      <td>49.99</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The composite primary key is <code>(OrderID, ProductID)</code>. Now examine each non-key attribute:</p>
+
+<ul>
+  <li><strong>Quantity:</strong> How many units of a specific product appear in a specific order depends on <em>both</em> the order and the product together. You cannot determine <code>Quantity</code> from <code>OrderID</code> alone or from <code>ProductID</code> alone. This is a <em>full functional dependency</em> on the composite key.</li>
+  <li><strong>ProductName:</strong> The name "Wireless Mouse" is a property of product P01 regardless of which order it appears in. Knowing <code>ProductID</code> alone is sufficient to determine <code>ProductName</code>. This is a <em>partial dependency</em> — it depends only on the <code>ProductID</code> part of the key.</li>
+  <li><strong>UnitPrice:</strong> Similarly, the price $29.99 belongs to product P01 and does not change based on which order references it. Again, <code>ProductID</code> alone determines <code>UnitPrice</code> — another <em>partial dependency</em>.</li>
+</ul>
+
+<p>The presence of <code>ProductName</code> and <code>UnitPrice</code> as partially dependent attributes is what prevents this table from being in 2NF. Notice in the data above that "Wireless Mouse" and 29.99 are repeated across multiple rows — once for order 1001 and again for order 1002. This repetition is the visible symptom of partial dependency and it causes real problems.</p>
+
+<p><strong>The 2NF Rule: Full Functional Dependency</strong></p>
+
+<p>The formal definition of 2NF can be stated precisely: <em>a table is in Second Normal Form if and only if it is in First Normal Form and every non-key attribute is fully functionally dependent on the entire primary key.</em> "Fully functionally dependent" means that removing any single column from the composite key would make it impossible to determine the attribute's value with certainty — you genuinely need all key columns together.</p>
+
+<p>A useful test: for each non-key attribute, try to determine its value using only a subset of the composite key columns. If you succeed — if knowing just <code>ProductID</code>, or just <code>OrderID</code>, is enough to pin down the attribute's value — then that attribute is partially dependent and the table violates 2NF. Only attributes for which the full composite key is truly necessary may remain in the table as-is.</p>
+
+<p><strong>Identifying Partial Dependencies in Practice</strong></p>
+
+<p>A systematic approach to identifying partial dependencies proceeds in clear steps:</p>
+
+<ul>
+  <li><strong>Step 1 — Identify the composite primary key:</strong> Write down every column that forms the primary key. For the order-products example, this is <code>{OrderID, ProductID}</code>.</li>
+  <li><strong>Step 2 — List all non-key attributes:</strong> These are every column that is <em>not</em> part of the primary key. In the example: <code>Quantity</code>, <code>ProductName</code>, <code>UnitPrice</code>.</li>
+  <li><strong>Step 3 — Enumerate all proper subsets of the key:</strong> For a two-column key <code>{OrderID, ProductID}</code>, the proper subsets are <code>{OrderID}</code> and <code>{ProductID}</code>. For a three-column key <code>{A, B, C}</code>, the proper subsets are <code>{A}</code>, <code>{B}</code>, <code>{C}</code>, <code>{A, B}</code>, <code>{A, C}</code>, and <code>{B, C}</code> — all combinations except the full set.</li>
+  <li><strong>Step 4 — Test each non-key attribute against each key subset:</strong> Ask the domain question: "Given only the values in this key subset, can I always determine a unique value for this attribute?" Apply business knowledge, not just the current data.</li>
+  <li><strong>Step 5 — Document all findings:</strong> Record whether each non-key attribute shows a full dependency on the whole key or a partial dependency on a subset, before touching any table structure.</li>
+</ul>
+
+<p>For the order-products table, the complete dependency analysis looks like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Non-Key Attribute</th>
+      <th>Depends on {OrderID}?</th>
+      <th>Depends on {ProductID}?</th>
+      <th>Depends on {OrderID, ProductID}?</th>
+      <th>Dependency Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quantity</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Full dependency</td>
+    </tr>
+    <tr>
+      <td>ProductName</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes (but also on subset)</td>
+      <td>Partial dependency on {ProductID}</td>
+    </tr>
+    <tr>
+      <td>UnitPrice</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes (but also on subset)</td>
+      <td>Partial dependency on {ProductID}</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This analysis confirms that <code>ProductName</code> and <code>UnitPrice</code> must be moved out of this table to achieve 2NF.</p>
+
+<p><strong>Eliminating Partial Dependencies Through Decomposition</strong></p>
+
+<p>The remedy for partial dependency is <em>decomposition</em> — splitting the offending table into two or more tables such that each resulting table contains only attributes that are fully dependent on its own primary key. The decomposition procedure follows clear rules:</p>
+
+<ul>
+  <li><strong>Create a new table for each key subset that has partially dependent attributes.</strong> The key subset itself becomes the primary key of the new table. In the example, <code>ProductID</code> is the key subset, so a new <code>Products</code> table is created with <code>ProductID</code> as its primary key.</li>
+  <li><strong>Move the partially dependent attributes into their new table.</strong> <code>ProductName</code> and <code>UnitPrice</code> move to the <code>Products</code> table alongside <code>ProductID</code>.</li>
+  <li><strong>Remove those attributes from the original table, but retain the key subset column as a foreign key.</strong> <code>ProductID</code> stays in the original <code>OrderItems</code> table both as part of the composite primary key and as a foreign key referencing the new <code>Products</code> table. This preserves referential integrity and allows the tables to be joined.</li>
+  <li><strong>Verify the result.</strong> Inspect every non-key attribute in every resulting table to confirm it is fully functionally dependent on that table's primary key.</li>
+</ul>
+
+<p>After decomposition, the original table becomes:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID (PK)</th>
+      <th>ProductID (PK, FK)</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>P01</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>P02</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P01</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P03</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P02</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>And the new <code>Products</code> table looks like:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ProductID (PK)</th>
+      <th>ProductName</th>
+      <th>UnitPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P01</td>
+      <td>Wireless Mouse</td>
+      <td>29.99</td>
+    </tr>
+    <tr>
+      <td>P02</td>
+      <td>USB Keyboard</td>
+      <td>49.99</td>
+    </tr>
+    <tr>
+      <td>P03</td>
+      <td>HDMI Cable</td>
+      <td>12.99</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now verify: in <code>OrderItems</code>, <code>Quantity</code> is fully dependent on <code>(OrderID, ProductID)</code> — confirmed. In <code>Products</code>, <code>ProductName</code> and <code>UnitPrice</code> are fully dependent on <code>ProductID</code> alone — confirmed. Both tables are in 2NF. The original information is completely preserved, and the two tables can be joined on <code>ProductID</code> whenever a query needs combined data.</p>
+
+<p>It is worth noting what happens when the composite key has more than two columns. Suppose a table records exam scores with primary key <code>(StudentID, CourseID, ExamDate)</code> and non-key attributes <code>Score</code>, <code>CourseName</code>, and <code>StudentEmail</code>. A thorough analysis must test every subset: <code>{StudentID}</code>, <code>{CourseID}</code>, <code>{ExamDate}</code>, <code>{StudentID, CourseID}</code>, <code>{StudentID, ExamDate}</code>, and <code>{CourseID, ExamDate}</code>. If <code>CourseName</code> depends only on <code>{CourseID}</code> and <code>StudentEmail</code> depends only on <code>{StudentID}</code>, both are partial dependencies and each requires its own new table. <code>Score</code>, which truly requires all three key columns together, stays in the original table.</p>
+
+<p><strong>Benefits of Achieving 2NF</strong></p>
+
+<p>Decomposing a table to eliminate partial dependencies produces concrete, measurable improvements in data quality and maintainability:</p>
+
+<ul>
+  <li><strong>Reduced redundancy:</strong> In the pre-2NF table, "Wireless Mouse" and its price had to be stored in every order line that referenced product P01. In the 2NF design, that information appears exactly once in the <code>Products</code> table. As the number of orders grows, this difference becomes substantial.</li>
+  <li><strong>Elimination of update anomalies:</strong> If the price of the Wireless Mouse changes from $29.99 to $34.99, the pre-2NF table requires updating every row that contains P01 — potentially hundreds of rows — and if any row is missed, the database becomes inconsistent. In the 2NF design, exactly one row in <code>Products</code> needs to be updated.</li>
+  <li><strong>Elimination of insertion anomalies:</strong> In the pre-2NF table, you cannot record a new product unless it already appears on at least one order (because <code>OrderID</code> is part of the primary key and cannot be null). In the 2NF design, new products can be added to the <code>Products</code> table independently, before any order references them.</li>
+  <li><strong>Elimination of deletion anomalies:</strong> In the pre-2NF table, deleting the last order that references a product permanently destroys that product's name and price from the database. In the 2NF design, deleting an order line does not affect the <code>Products</code> table at all — the product record survives independently.</li>
+</ul>
+
+<p>These benefits make 2NF an essential step in designing databases that behave predictably, remain consistent over time, and are easy to maintain. Achieving 2NF does not, however, guarantee that all anomalies are gone — transitive dependencies (where a non-key attribute depends on another non-key attribute rather than directly on the key) can still cause problems, which is precisely why Third Normal Form (3NF) follows as the next normalization step.</p>
+        <div class="notes"><strong>Notes</strong>Key worked example uses an OrderID/ProductID composite primary key to demonstrate full vs. partial functional dependency on Quantity, ProductName, and UnitPrice. Decomposition produces an OrderItems table and a Products table, both verified to be in 2NF. The note about single-column primary keys being automatically in 2NF is emphasized early to prevent a common misconception. The three-column key example (StudentID, CourseID, ExamDate) briefly illustrates that subset enumeration scales with key width.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

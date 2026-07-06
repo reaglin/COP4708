@@ -3,215 +3,190 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Modeling and Entity-Relationship Modeling | COP4708</title>
+  <title>Data Modeling and Entity-Relationship Modeling — COP4708</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --color-primary: #1a3a5c;
-      --color-primary-light: #2c5f8a;
-      --color-accent: #2e86c1;
-      --color-accent-soft: #d6eaf8;
-      --color-bg: #f4f6f9;
-      --color-surface: #ffffff;
-      --color-border: #dce3ec;
-      --color-text: #1e2b3a;
-      --color-text-muted: #5a6a7a;
-      --color-badge-bg: #e8f4fd;
-      --color-badge-text: #1a5276;
-      --color-tag-bg: #eaf4fb;
-      --color-tag-text: #1f618d;
-      --color-source-bg: #f0f3f7;
-      --color-source-text: #3d5a6e;
-      --radius: 8px;
-      --radius-sm: 4px;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.13);
-      --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #2c3e50;
+      line-height: 1.65;
       min-height: 100vh;
     }
 
-    /* ── Header ── */
+    /* ── Header / hero ── */
     header {
-      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%);
       color: #ffffff;
-      padding: 2.5rem 1.5rem 2rem;
+      padding: 3rem 2rem 2.5rem;
       text-align: center;
     }
 
-    header .course-label {
+    header .course-code {
       display: inline-block;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #a8d0f0;
-      margin-bottom: 0.6rem;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1rem;
     }
 
     header h1 {
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
       font-weight: 700;
+      letter-spacing: -0.01em;
       line-height: 1.25;
       margin-bottom: 1rem;
-      letter-spacing: -0.01em;
     }
 
-    header p.intro {
+    header p {
       max-width: 680px;
       margin: 0 auto;
       font-size: 1rem;
-      color: #cde3f5;
-      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.88);
     }
 
-    /* ── Main layout ── */
+    /* ── Main content area ── */
     main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2.5rem 1.25rem 3rem;
+      max-width: 1060px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 3rem;
     }
 
+    /* ── Section heading ── */
     .section-heading {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 600;
-      color: var(--color-primary);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 1.25rem;
+      color: #5a6a7e;
+      border-bottom: 2px solid #dce3ec;
       padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 1.5rem;
     }
 
-    /* ── Artifact grid ── */
-    .artifact-grid {
+    /* ── Card grid ── */
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.25rem;
     }
 
-    /* ── Artifact card ── */
-    .artifact-card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+    /* ── Individual card ── */
+    .card {
+      background: #ffffff;
+      border: 1px solid #dce3ec;
+      border-radius: 10px;
       padding: 1.4rem 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.6rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
-    .artifact-card:hover {
-      box-shadow: var(--shadow-hover);
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
       transform: translateY(-2px);
     }
 
-    /* ── Card top row ── */
-    .card-header {
+    /* ── Card header row ── */
+    .card-title-row {
       display: flex;
+      align-items: baseline;
       flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 0.45rem;
+      gap: 0.5rem;
     }
 
-    .artifact-name {
+    .card-name {
       font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--color-primary);
+      font-weight: 700;
+      color: #1a3a5c;
+    }
+
+    .card-name a {
+      color: #1a6bb5;
       text-decoration: none;
-      line-height: 1.3;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
     }
 
-    .artifact-name:hover {
-      color: var(--color-accent);
-      text-decoration: underline;
+    .card-name a:hover,
+    .card-name a:focus {
+      color: #0e4d87;
+      border-bottom-color: #0e4d87;
+      outline: none;
     }
 
-    .artifact-name.no-link {
-      color: var(--color-text);
-      cursor: default;
-    }
-
+    /* ── Source file link ── */
     .source-link {
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--color-source-text);
-      background: var(--color-source-bg);
-      border: 1px solid #c5d5e0;
-      border-radius: 20px;
-      padding: 0.18rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a6a7e;
       text-decoration: none;
+      border: 1px solid #b0bec8;
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
       white-space: nowrap;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
     }
 
-    .source-link:hover {
-      background: #dce8f0;
-      color: var(--color-primary);
+    .source-link:hover,
+    .source-link:focus {
+      background: #eef2f7;
+      color: #1a3a5c;
+      border-color: #7a90a4;
+      outline: none;
     }
 
     .source-link::before {
-      content: "↗";
-      font-size: 0.7rem;
+      content: '⬇';
+      font-size: 0.65rem;
     }
 
-    /* ── Badges / tags row ── */
+    /* ── Meta badges row ── */
     .card-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
+      gap: 0.45rem;
       align-items: center;
     }
 
     .badge {
-      display: inline-block;
       font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      border-radius: 20px;
-      padding: 0.18rem 0.6rem;
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
     }
 
     .badge-type {
-      background: var(--color-tag-bg);
-      color: var(--color-tag-text);
-      border: 1px solid #b8d9ef;
+      background: #e8f0fb;
+      color: #1a5ca8;
+      border: 1px solid #b8d0f0;
     }
 
     .badge-filetype {
-      background: #f2f4f7;
-      color: #4a5e6e;
-      border: 1px solid #d0d9e2;
+      background: #edf7ef;
+      color: #2a7a3b;
+      border: 1px solid #a8d8b0;
     }
 
-    .badge-content {
-      background: #e9f7ef;
-      color: #1d6a42;
-      border: 1px solid #a9d9be;
-    }
-
-    /* ── Description ── */
+    /* ── Card description ── */
     .card-description {
       font-size: 0.9rem;
-      color: var(--color-text-muted);
-      line-height: 1.65;
+      color: #4a5a6a;
+      flex-grow: 1;
     }
 
     /* ── Footer ── */
@@ -219,23 +194,15 @@
       text-align: center;
       padding: 1.5rem 1rem;
       font-size: 0.8rem;
-      color: var(--color-text-muted);
-      border-top: 1px solid var(--color-border);
+      color: #8a99a8;
+      border-top: 1px solid #dce3ec;
+      background: #f4f6f9;
     }
 
-    /* ── Responsive tweaks ── */
+    /* ── Responsive tweak ── */
     @media (max-width: 480px) {
-      header {
-        padding: 2rem 1rem 1.5rem;
-      }
-
-      main {
-        padding: 1.75rem 1rem 2.5rem;
-      }
-
-      .artifact-card {
-        padding: 1.1rem 1.15rem;
-      }
+      header { padding: 2rem 1.25rem 1.75rem; }
+      main { margin-top: 1.75rem; }
     }
   </style>
 </head>
@@ -244,42 +211,52 @@
 <div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
 
   <header>
-    <span class="course-label">COP4708 &nbsp;·&nbsp; Course Module</span>
+    <div class="course-code">COP4708</div>
     <h1>Data Modeling and Entity-Relationship Modeling</h1>
-    <p class="intro">
-      This module introduces the fundamental principles of data modeling, focusing on
-      entities, attributes, relationships, and cardinality within the
-      Entity-Relationship (ER) model. Use the resources below to navigate the
-      module's content, activities, and reference materials.
+    <p>
+      Explore the foundational principles of structuring data through conceptual models.
+      This module introduces data modeling concepts, entity and attribute identification,
+      relationship cardinality, and the Entity-Relationship (ER) model as a blueprint
+      for database design.
     </p>
   </header>
 
   <main>
     <h2 class="section-heading">Module Artifacts</h2>
 
-    <div class="artifact-grid">
+    <div class="card-grid">
 
-        <div class="artifact-card">
-          <div class="card-header">
-              <a class="artifact-name" href="content/module_topics.html">Module Topics</a>
-              <a class="source-link" href="source/hierarchy.json">source file</a>
-          </div>
-
-          <div class="card-meta">
-            <span class="badge badge-type">Module Topics</span>
-            <span class="badge badge-filetype">.json</span>
-          </div>
-
-          <p class="card-description">
-            Outlines the module's core topics—data modeling concepts, entities and attributes, relationships and cardinality, and the Entity-Relationship (ER) model—serving as a syllabus-style roadmap that helps learners and instructors understand what will be covered and in what order.
-          </p>
+      <!-- Artifact: Module Topics -->
+      <div class="card">
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/module_topics.html">Module Topics</a>
+          </span>
+          <a
+            class="source-link"
+            href="source/hierarchy.json"
+            title="Download or view the source file"
+          >source file</a>
         </div>
 
-    </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+
+        <p class="card-description">
+          Outlines the module's core topics — data modeling concepts, entities and attributes,
+          relationships and cardinality, and the Entity-Relationship (ER) model — serving as a
+          syllabus-style roadmap that helps learners and instructors understand what will be
+          covered and in what order.
+        </p>
+      </div>
+
+    </div><!-- /.card-grid -->
   </main>
 
   <footer>
-    COP4708 &nbsp;·&nbsp; Data Modeling and Entity-Relationship Modeling &nbsp;·&nbsp; Course Module Index
+    COP4708 &mdash; Data Modeling and Entity-Relationship Modeling &mdash; Course Module Index
   </footer>
 
 

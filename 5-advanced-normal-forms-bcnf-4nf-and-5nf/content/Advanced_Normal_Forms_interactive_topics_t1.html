@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review of 3NF and Its Limitations</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div>
+  <header>
+    <h1>Review of 3NF and Its Limitations</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Review of 3NF and Its Limitations</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Database normalization is a systematic process of organizing relational tables so that data dependencies make sense, redundancy is minimized, and anomalies during data manipulation are prevented. Third Normal Form (3NF) has long been considered the practical standard for production databases, and for good reason: it eliminates the most common sources of redundancy and is achievable without sacrificing the ability to check constraints efficiently. Yet 3NF is not perfect. It contains a deliberate, well-documented loophole that allows certain functional dependencies to survive, and understanding exactly where and why 3NF falls short is the essential foundation for appreciating the higher normal forms that were designed to close those gaps.</p>
+
+<p>To understand where 3NF fails, we must first be precise about what it requires. A relation is in <strong>First Normal Form (1NF)</strong> when every attribute contains only atomic, indivisible values — no repeating groups or set-valued columns. A relation is in <strong>Second Normal Form (2NF)</strong> when it is in 1NF and every non-prime attribute is fully functionally dependent on every candidate key, meaning no non-prime attribute depends on a proper subset of any candidate key. A relation reaches <strong>Third Normal Form (3NF)</strong> when it is in 2NF and there are no transitive dependencies among non-key attributes.</p>
+
+<p>More formally, a relation R is in 3NF if, for every non-trivial functional dependency <em>X → A</em> that holds in R, at least one of the following conditions is satisfied:</p>
+<ul>
+  <li><strong>X is a superkey of R</strong> — the left-hand side determines a unique tuple.</li>
+  <li><strong>A is a prime attribute</strong> — the right-hand side attribute is part of at least one candidate key of R.</li>
+</ul>
+
+<p>The second condition is the loophole. It permits functional dependencies where the determinant is not a superkey, as long as the dependent attribute happens to be prime. This is not an accident or an error in the definition; it is a conscious trade-off made to preserve certain desirable decomposition properties. But it means that 3NF can leave real redundancy in place.</p>
+
+<p><strong>Transitive Dependencies and Why 3NF Targets Them</strong></p>
+
+<p>A transitive dependency occurs when a non-key attribute <em>A</em> determines another non-key attribute <em>B</em>: you have <em>Key → A</em> and <em>A → B</em>, so indirectly <em>Key → B</em> through <em>A</em>. The problem is that the fact <em>A → B</em> is stored redundantly once for every tuple that shares the same value of <em>A</em>. If <em>A</em>'s association with <em>B</em> changes, you must update every affected row, or the database becomes inconsistent.</p>
+
+<p>Consider a simple example: a table <code>Employee(EmpID, DeptID, DeptName)</code>. Here <code>EmpID</code> is the primary key, so <code>EmpID → DeptID</code> and <code>EmpID → DeptName</code>. But also <code>DeptID → DeptName</code>, creating a transitive dependency through a non-key attribute. Every employee in the same department repeats the department name. If the department is renamed, every row for that department must be updated. 3NF fixes this by decomposing the table into <code>Employee(EmpID, DeptID)</code> and <code>Department(DeptID, DeptName)</code>, isolating the transitive fact in its own relation.</p>
+
+<p><strong>The Prime-Attribute Exception in 3NF</strong></p>
+
+<p>The subtlety arises when candidate keys overlap — when the same attribute participates in more than one candidate key. In such cases, many or even all attributes may be prime, and the second 3NF condition applies broadly, shielding functional dependencies from removal even when the determinant is not a superkey.</p>
+
+<p>To make this concrete, consider the classic university scheduling example. Suppose we have a relation:</p>
+
+<pre><code>Enrollment(Student, Course, Instructor)</code></pre>
+
+<p>with the following rules enforced as business constraints:</p>
+<ul>
+  <li>Each student enrolls in a course with exactly one instructor: <code>{Student, Course} → Instructor</code></li>
+  <li>Each instructor teaches only one course: <code>Instructor → Course</code></li>
+</ul>
+
+<p>What are the candidate keys? <code>{Student, Course}</code> determines <code>Instructor</code>, and since <code>Instructor → Course</code>, <code>{Student, Instructor}</code> also determines <code>Course</code> (trivially from the FD) and thereby the full tuple. So the candidate keys are <code>{Student, Course}</code> and <code>{Student, Instructor}</code>.</p>
+
+<p>Because every attribute appears in at least one candidate key, every attribute is prime: <code>Student</code> is in both keys, <code>Course</code> is in the first key, and <code>Instructor</code> is in the second key. Now examine the functional dependency <code>Instructor → Course</code>. Is <code>Instructor</code> a superkey? No — knowing the instructor alone does not identify a unique student. Does the right-hand side (<code>Course</code>) qualify as a prime attribute? Yes — <code>Course</code> is part of the candidate key <code>{Student, Course}</code>. Therefore this dependency satisfies 3NF's second condition and is permitted to remain. The relation is in 3NF, yet <code>Instructor → Course</code> is a non-superkey functional dependency that causes real problems.</p>
+
+<p>Some sample data makes the anomalies vivid:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Course</th>
+      <th>Instructor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>Database Systems</td>
+      <td>Prof. Harding</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>Database Systems</td>
+      <td>Prof. Harding</td>
+    </tr>
+    <tr>
+      <td>Carol</td>
+      <td>Database Systems</td>
+      <td>Prof. Harding</td>
+    </tr>
+    <tr>
+      <td>Dave</td>
+      <td>Algorithms</td>
+      <td>Prof. Singh</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The fact that Prof. Harding teaches Database Systems is stored once for every student enrolled. This is the redundancy the prime-attribute exception permits to survive.</p>
+
+<p><strong>Redundancy Anomalies That Survive 3NF</strong></p>
+
+<p>The three classical anomalies — update, insertion, and deletion — all appear in this 3NF relation, demonstrating that 3NF is necessary but not sufficient for a fully clean design.</p>
+
+<p><strong>Update anomalies</strong> occur when a fact stored across multiple rows must be changed. If the university decides that Prof. Harding's course is renamed from "Database Systems" to "Database Engineering," every row listing Prof. Harding must be updated. If even one row is missed — perhaps because a batch update script has a bug — the database now contains contradictory information: Prof. Harding is linked to two different course names. The relation claims two different facts about the same real-world entity.</p>
+
+<p><strong>Insertion anomalies</strong> occur when a new fact cannot be recorded without supplying unrelated information. Suppose the department hires Prof. Chen and assigns her to teach Networks, but no students have enrolled yet. There is no way to record the fact <em>Prof. Chen teaches Networks</em> in this relation, because every tuple requires a <code>Student</code> value, and there is no student to supply. The instructor-course assignment is invisible to the database until a student enrolls. This means a query asking which instructors are assigned to which courses would silently miss Prof. Chen entirely.</p>
+
+<p><strong>Deletion anomalies</strong> are the mirror image of insertion anomalies. If Carol is the only student enrolled in Database Systems and she drops the course, her row is deleted. With it goes the only record that Prof. Harding teaches Database Systems. The database loses a real-world fact — the instructor's course assignment — simply because its only witness, a student enrollment, was removed. The design has conflated two distinct facts (who teaches what, and who is enrolled in what) into a single tuple, so they cannot be managed independently.</p>
+
+<p><strong>Overlapping Candidate Keys as the Core Problem</strong></p>
+
+<p>The root structural cause of all three anomalies is the presence of <strong>overlapping candidate keys</strong>. When candidate keys share attributes, those shared attributes become prime in multiple keys. This inflates the set of prime attributes, which expands the reach of the second 3NF condition, which in turn shields more functional dependencies from decomposition even when their left-hand sides are not superkeys.</p>
+
+<p>The dependency <code>Instructor → Course</code> is exactly the kind of hidden dependency that BCNF was created to address. The determinant (<code>Instructor</code>) is not a superkey, so it cannot uniquely identify a full tuple. Yet because the dependent attribute (<code>Course</code>) is prime, the dependency passes the 3NF test. The information that <em>each instructor is tied to exactly one course</em> is encoded as a functional dependency inside the relation rather than as a separate relation, and it manifests as repeated data across every tuple that mentions that instructor.</p>
+
+<p>When candidate keys do not overlap — when they are disjoint — every non-key attribute is non-prime, and the second 3NF condition has no room to apply. In those cases, 3NF and BCNF are equivalent, and every functional dependency whose left side is not a superkey is caught and eliminated. The problematic cases arise precisely and only when candidate keys share attributes, making overlapping candidate keys the structural precondition for 3NF's limitation.</p>
+
+<p><strong>Lossless Decomposition and 3NF's Conscious Trade-off</strong></p>
+
+<p>Understanding why 3NF's loophole exists requires understanding two critical decomposition properties and the tension between them.</p>
+
+<p><strong>Lossless decomposition</strong> (also called lossless-join decomposition) means that when you decompose a relation <em>R</em> into relations <em>R₁</em> and <em>R₂</em>, the natural join <em>R₁ ⋈ R₂</em> always produces exactly the original relation <em>R</em> — no spurious tuples are introduced, and no real tuples are lost. This is a hard requirement: a decomposition that cannot be rejoined faithfully is useless, because the stored data no longer represents the original information correctly.</p>
+
+<p><strong>Dependency preservation</strong> means that every functional dependency in the original relation can be enforced by checking a single decomposed relation in isolation, without performing a join. If a dependency spans two decomposed relations — if checking it requires joining them back together — then enforcing it as a constraint becomes expensive and error-prone. Every data modification potentially requires a join just to verify a constraint, which is both a performance burden and a correctness risk.</p>
+
+<p>These two properties can conflict. Consider decomposing the <code>Enrollment</code> relation to eliminate <code>Instructor → Course</code>. A natural BCNF decomposition might produce:</p>
+<ul>
+  <li><code>InstructorCourse(Instructor, Course)</code> — capturing <code>Instructor → Course</code></li>
+  <li><code>StudentInstructor(Student, Instructor)</code> — capturing enrollment</li>
+</ul>
+
+<p>This decomposition is lossless (it satisfies the lossless-join condition because <code>Instructor</code> is a key of <code>InstructorCourse</code>). But the original dependency <code>{Student, Course} → Instructor</code> now spans both relations. To verify that a student-course pair maps to a unique instructor, you must join <code>StudentInstructor</code> with <code>InstructorCourse</code>. Dependency preservation is lost for that dependency.</p>
+
+<p>It has been mathematically proven that for <strong>every relation schema, there exists a lossless decomposition into 3NF that also preserves all functional dependencies</strong>. The same guarantee does not hold for BCNF: there are relation schemas for which no BCNF decomposition can simultaneously be lossless and dependency-preserving. The prime-attribute exception in 3NF is exactly the mechanism that makes this guarantee possible. By allowing some non-superkey determinants when their dependents are prime, 3NF avoids the forced choice between losslessness and dependency preservation.</p>
+
+<p>This is why 3NF's limitations are called a <em>conscious trade-off</em> rather than a design flaw. The redundancy that survives 3NF is the price paid for a guarantee that is often more important in practice: the ability to enforce all constraints locally, within individual tables, without joins.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>3NF</th>
+      <th>BCNF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lossless decomposition always achievable</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Dependency preservation always achievable</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Eliminates all redundancy from functional dependencies</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Prime-attribute exception</td>
+      <td>Permitted</td>
+      <td>Prohibited</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Motivating the Move to Higher Normal Forms</strong></p>
+
+<p>Recognizing 3NF's limitations naturally raises the question: what does a more complete solution look like? The progression of normal forms beyond 3NF follows the same pattern as the progression that led to 3NF: identify a specific type of anomaly that the current normal form allows, characterize its structural cause precisely, and define a new normal form that prohibits exactly that structure.</p>
+
+<p><strong>Boyce-Codd Normal Form (BCNF)</strong> tightens the 3NF rule by eliminating the prime-attribute exception entirely. Its definition requires that for every non-trivial functional dependency <em>X → A</em>, <em>X</em> must be a superkey — full stop. There is no second condition. This closes the loophole completely for functional dependencies, ensuring that no non-superkey attribute can determine any other attribute, prime or not. The cost, as shown above, is that dependency preservation cannot always be guaranteed.</p>
+
+<p><strong>Fourth Normal Form (4NF)</strong> addresses a different and subtler form of redundancy that functional dependencies cannot even express: <strong>multivalued dependencies</strong>. A multivalued dependency <em>X ↠ Y</em> exists when the set of values of <em>Y</em> associated with a value of <em>X</em> is independent of all other attributes in the relation. Consider a relation <code>CourseBook(Course, Textbook, Instructor)</code> where a course can use multiple textbooks and can be taught by multiple instructors, but the choice of textbooks is completely independent of which instructors teach it. Every combination of textbook and instructor must then be stored for every course, creating combinatorial redundancy. No functional dependency captures this problem, so BCNF cannot detect it. 4NF requires that for every non-trivial multivalued dependency <em>X ↠ Y</em>, <em>X</em> must be a superkey.</p>
+
+<p><strong>Fifth Normal Form (5NF)</strong>, also called Project-Join Normal Form (PJNF), addresses <strong>join dependencies</strong>. A join dependency exists when a relation can be losslessly decomposed into three or more projections in a way that captures the same information. This is a further generalization: multivalued dependencies are a special case of join dependencies involving exactly two components. 5NF ensures that the only join dependencies that hold in a relation are trivially implied by its candidate keys, preventing a class of redundancy that 4NF cannot eliminate.</p>
+
+<p>The progression forms a strict hierarchy:</p>
+
+<ul>
+  <li><strong>1NF</strong> → eliminates non-atomic values and repeating groups</li>
+  <li><strong>2NF</strong> → eliminates partial dependencies on composite keys</li>
+  <li><strong>3NF</strong> → eliminates transitive dependencies among non-key attributes (with a loophole for prime attributes)</li>
+  <li><strong>BCNF</strong> → closes the prime-attribute loophole; every determinant must be a superkey</li>
+  <li><strong>4NF</strong> → eliminates redundancy from multivalued dependencies</li>
+  <li><strong>5NF</strong> → eliminates redundancy from join dependencies</li>
+</ul>
+
+<p>Each step solves a problem the previous step could not address. 3NF's limitations are not a reason to abandon it — in many real-world schemas with non-overlapping candidate keys, 3NF and BCNF coincide, and 3NF's dependency-preservation guarantee is genuinely valuable. But in schemas with overlapping candidate keys, where the prime-attribute exception applies and anomalies survive, understanding 3NF's boundary is what motivates the designer to evaluate whether the stricter discipline of BCNF or beyond is warranted, and what trade-offs that choice entails.</p>
+        <div class="notes"><strong>Notes</strong>The Enrollment(Student, Course, Instructor) example is the standard textbook illustration for 3NF&#39;s prime-attribute exception and is well-suited to drive home all three anomaly types. It may be worth reinforcing to learners that the 3NF-vs-BCNF trade-off is a real engineering decision, not just an academic exercise: in high-write-throughput systems, dependency preservation can be critical to avoid expensive join-based constraint checking, while in read-heavy analytical systems, the redundancy permitted by 3NF may be unacceptable.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

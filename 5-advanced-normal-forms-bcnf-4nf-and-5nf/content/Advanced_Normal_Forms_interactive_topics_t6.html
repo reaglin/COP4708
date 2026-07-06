@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applying Higher Normal Forms to Complex Schemas</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div>
+  <header>
+    <h1>Applying Higher Normal Forms to Complex Schemas</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Applying Higher Normal Forms to Complex Schemas</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Normalization is often taught concept by concept, but real-world database work demands the ability to move fluidly through several normal forms in sequence, making careful judgments at every step. When a schema has grown organically — through years of added columns, merged tables, or ad-hoc denormalization for performance — it rarely sits neatly at one normal form. Auditing and systematically transforming such a schema through Boyce-Codd Normal Form (BCNF), Fourth Normal Form (4NF), and Fifth Normal Form (5NF) is a disciplined engineering process, not a mechanical checklist. This topic walks through that entire process in depth: how to audit what you have, how to apply each decomposition correctly, how to recognize the subtler multi-valued and join-dependency violations, how to manage the real trade-offs involved, and how to validate that the final set of relations faithfully represents the original data.</p>
+
+<p><strong>Auditing an Existing Schema Before Normalization</strong></p>
+
+<p>Before any decomposition can begin, you must thoroughly understand the dependencies that already exist in each relation. Skipping this audit is the single most common reason normalization efforts produce incorrect or incomplete results.</p>
+
+<p>The first task is to <strong>catalog every functional dependency (FD)</strong> present in each relation, and to distinguish trivial FDs from non-trivial ones. A functional dependency <em>X → Y</em> is <em>trivial</em> when Y is a subset of X — for example, <em>{EmployeeID, Department} → EmployeeID</em>. Trivial FDs always hold and carry no structural information; they can be safely ignored during normalization analysis. A <em>non-trivial</em> FD is one where Y is not a subset of X, meaning there is a genuine informational relationship between the left-hand side and the right-hand side that could create redundancy or anomalies. For example, in a relation <em>Enrollment(StudentID, CourseID, InstructorID, InstructorOffice)</em>, the FD <em>InstructorID → InstructorOffice</em> is non-trivial and immediately signals a normalization problem because <em>InstructorOffice</em> depends only on part of the key, not on the full key <em>{StudentID, CourseID}</em>.</p>
+
+<p>To catalog FDs rigorously, consider the real-world semantics: ask what each attribute <em>means</em>, and what other attributes it logically determines. Supplement this with closure computation — for any set of attributes X, compute X⁺ (the closure of X under the known FDs) to discover everything that X determines. If X⁺ equals the full set of attributes in the relation, then X is a superkey.</p>
+
+<p>The second task is to <strong>identify candidate keys</strong> for each relation. A candidate key is a minimal superkey — a set of attributes that functionally determines every other attribute, and from which no attribute can be removed while preserving that property. BCNF violations are defined strictly relative to candidate keys: the left-hand side of every non-trivial FD must be a superkey. Without knowing the candidate keys, you cannot evaluate BCNF at all. For instance, in <em>Enrollment(StudentID, CourseID, InstructorID, InstructorOffice)</em>, if each course has exactly one instructor and each instructor has exactly one office, then <em>{StudentID, CourseID}</em> is the only candidate key. The FD <em>InstructorID → InstructorOffice</em> violates BCNF because <em>InstructorID</em> alone is not a superkey.</p>
+
+<p>The third task is to <strong>check for independently multi-valued attributes</strong>, which signal potential 4NF violations. A multi-valued dependency (MVD) <em>X ↠ Y</em> exists when, for each value of X, the set of Y-values associated with it is independent of the set of values of any other attribute Z in the relation. The classic sign is a relation where you find yourself listing "all combinations" of two independent sets of facts for the same entity. For example, if a professor can teach multiple courses and also advises multiple students, and these two facts are completely independent of each other, then you have two MVDs: <em>ProfessorID ↠ CourseID</em> and <em>ProfessorID ↠ StudentID</em>. Storing them in a single relation forces you to record every combination of courses and students for each professor, even though no such pairing is meaningful — this is the hallmark row explosion of a 4NF violation.</p>
+
+<p>The fourth task is to <strong>look for join dependencies</strong>, which point toward 5NF concerns. A join dependency (JD) is a generalization of the lossless-join property: a relation R satisfies the JD <em>⋈{R1, R2, R3}</em> if R can be reconstructed exactly (without spurious tuples) by joining three or more of its projections. If such a reconstruction is possible for projections that do not correspond to superkeys, the relation contains hidden redundancy that 4NF decomposition alone will not eliminate, and 5NF decomposition is required. During the audit, test whether any combination of three or more projections of a relation can reconstruct it — this is computationally non-trivial but can often be detected by examining real-world constraints or data patterns.</p>
+
+<p><strong>Step-by-Step BCNF Decomposition in Practice</strong></p>
+
+<p>With the audit complete, BCNF decomposition proceeds by a well-defined algorithm, applied recursively.</p>
+
+<p>The first step is to <strong>select a BCNF violation</strong>: find any non-trivial FD <em>X → Y</em> in the relation where X is not a superkey. This is your decomposition point. Consider the relation:</p>
+
+<pre><code>Enrollment(StudentID, CourseID, InstructorID, InstructorOffice)
+Candidate key: {StudentID, CourseID}
+Violating FD:  InstructorID → InstructorOffice
+</code></pre>
+
+<p>Here <em>InstructorID</em> is not a superkey, so <em>InstructorID → InstructorOffice</em> violates BCNF.</p>
+
+<p>The second step is to <strong>decompose the relation</strong> into two relations:</p>
+<ul>
+  <li><strong>R1</strong> contains <em>X ∪ Y</em> — that is, the attributes on both sides of the violating FD: <em>Instructor(InstructorID, InstructorOffice)</em>.</li>
+  <li><strong>R2</strong> contains <em>X</em> plus all attributes of the original relation that are <em>not</em> in Y: <em>Enrollment(StudentID, CourseID, InstructorID)</em>.</li>
+</ul>
+
+<p>The third step is to <strong>verify losslessness</strong>. The decomposition is lossless-join if and only if the intersection of the two new relation schemas is a superkey in at least one of them. The intersection here is <em>{InstructorID}</em>. Is <em>InstructorID</em> a superkey of <em>Instructor(InstructorID, InstructorOffice)</em>? Yes — <em>InstructorID → InstructorOffice</em> is the only FD needed, and <em>InstructorID</em> determines everything in R1. Therefore the decomposition is lossless. The natural join of R1 and R2 on <em>InstructorID</em> reconstructs the original relation exactly.</p>
+
+<p>The fourth step is to <strong>recurse</strong>: check each resulting relation for BCNF violations and repeat. In this example, <em>Instructor(InstructorID, InstructorOffice)</em> has candidate key <em>{InstructorID}</em> and the only FD is <em>InstructorID → InstructorOffice</em>, so its left-hand side is a superkey — BCNF satisfied. <em>Enrollment(StudentID, CourseID, InstructorID)</em> has candidate key <em>{StudentID, CourseID}</em>; if no further violating FDs exist, it too is in BCNF.</p>
+
+<p>An important caveat: <strong>BCNF decomposition may not preserve every functional dependency</strong>. Consider the classic ternary relation:</p>
+
+<pre><code>Teaching(Student, Course, Instructor)
+FD1: Instructor → Course   (each instructor teaches exactly one course)
+FD2: {Student, Course} → Instructor
+Candidate keys: {Student, Course}, {Student, Instructor}
+</code></pre>
+
+<p>FD1 (<em>Instructor → Course</em>) violates BCNF because <em>Instructor</em> alone is not a superkey. Decomposing on FD1 gives:</p>
+<ul>
+  <li><em>InstructorCourse(Instructor, Course)</em></li>
+  <li><em>StudentInstructor(Student, Instructor)</em></li>
+</ul>
+<p>The decomposition is lossless (intersection <em>{Instructor}</em> is a key in R1). However, the FD <em>{Student, Course} → Instructor</em> cannot be checked within either of these two relations alone — it is lost as an enforceable single-relation constraint. You must document this and enforce it through a trigger or application logic. Hiding a lost FD is a serious design error, so explicit documentation is mandatory.</p>
+
+<p><strong>Recognizing and Resolving 4NF Violations in Multi-Valued Contexts</strong></p>
+
+<p>A relation in BCNF can still contain redundancy if it holds multiple independent multi-valued facts about the same key. Fourth Normal Form addresses exactly this situation.</p>
+
+<p>A <strong>non-trivial multi-valued dependency (MVD)</strong> <em>X ↠ Y</em> holds in relation R when, for every pair of tuples t1 and t2 in R where t1[X] = t2[X], there also exists a tuple t3 in R such that t3[X] = t1[X], t3[Y] = t1[Y], and t3[Z] = t2[Z] (where Z is the set of attributes in R not in X or Y). Informally, the Y-values associated with a given X-value are entirely independent of the Z-values associated with that same X-value. A 4NF violation exists when X does not functionally determine every attribute in R — that is, X is not a superkey.</p>
+
+<p>Consider the relation:</p>
+
+<pre><code>ProfessorFacts(ProfessorID, CourseID, AdviseeID)
+</code></pre>
+
+<p>where a professor can teach many courses and advise many students, and these two roles are completely independent. There is no FD between <em>CourseID</em> and <em>AdviseeID</em> — knowing which courses a professor teaches tells you nothing about which students they advise. This produces the row explosion: if Professor P1 teaches courses C1 and C2 and advises students S1, S2, and S3, the relation must contain every combination:</p>
+
+<table>
+  <thead>
+    <tr><th>ProfessorID</th><th>CourseID</th><th>AdviseeID</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>P1</td><td>C1</td><td>S1</td></tr>
+    <tr><td>P1</td><td>C1</td><td>S2</td></tr>
+    <tr><td>P1</td><td>C1</td><td>S3</td></tr>
+    <tr><td>P1</td><td>C2</td><td>S1</td></tr>
+    <tr><td>P1</td><td>C2</td><td>S2</td></tr>
+    <tr><td>P1</td><td>C2</td><td>S3</td></tr>
+  </tbody>
+</table>
+
+<p>Six rows to record two independent facts (two courses, three advisees). Adding a new course requires inserting three new rows; deleting an advisee requires deleting multiple rows. These are classic update anomalies driven by an MVD, not an FD.</p>
+
+<p>To confirm a 4NF violation, verify two conditions: (1) the MVD is non-trivial (Y is not a subset of X, and X ∪ Y does not equal all attributes of R), and (2) X is not a superkey of R. Here, <em>ProfessorID ↠ CourseID</em> and <em>ProfessorID ↠ AdviseeID</em> are both non-trivial, and <em>ProfessorID</em> alone is not a superkey (the candidate key is the entire triple <em>{ProfessorID, CourseID, AdviseeID}</em>).</p>
+
+<p>The resolution is to <strong>decompose into separate binary relations</strong>, each capturing one independent multi-valued fact:</p>
+<ul>
+  <li><em>ProfessorCourse(ProfessorID, CourseID)</em></li>
+  <li><em>ProfessorAdvisee(ProfessorID, AdviseeID)</em></li>
+</ul>
+
+<p>Each relation now records only what it should. <em>ProfessorCourse</em> lists, for each professor, which courses they teach. <em>ProfessorAdvisee</em> lists, for each professor, which students they advise. No spurious combinations exist within a single table.</p>
+
+<p>To <strong>verify losslessness</strong>, compute the natural join of the two decomposed relations and confirm it reconstructs exactly the original relation — no spurious tuples added, no original tuples lost. In this case, joining on <em>ProfessorID</em> produces every combination of courses and advisees for each professor, which is precisely what the original relation contained. The join is lossless.</p>
+
+<p><strong>Identifying Join Dependencies and 5NF Violations</strong></p>
+
+<p>Fifth Normal Form (5NF), also called Project-Normal Form (PNF), addresses the most subtle form of redundancy: that arising from <em>join dependencies</em> that cannot be explained by any functional or multi-valued dependency alone.</p>
+
+<p>A <strong>join dependency (JD)</strong> <em>⋈{R1, R2, …, Rn}</em> holds on a relation R when R equals the natural join of its projections onto the sub-schemas R1, R2, …, Rn. Every relation trivially satisfies the JD <em>⋈{R, R}</em> (join of R with itself), and any lossless binary decomposition implies a JD with n=2. The interesting case for 5NF is when n ≥ 3 and the JD is non-trivial — it holds, but it is not implied by any candidate key.</p>
+
+<p>A relation is in <strong>5NF</strong> if every non-trivial JD it satisfies is implied by its candidate keys. "Implied by a candidate key" means the JD follows logically from the superkey-based lossless-join property: any binary decomposition where one side contains a superkey is always lossless, and such JDs are trivially implied by candidate keys. The problematic JDs are those involving three or more components, none of which contains a superkey, yet the join still reconstructs the original relation exactly.</p>
+
+<p>The canonical example involves a ternary relationship with a real-world constraint. Consider:</p>
+
+<pre><code>SupplierPartProject(SupplierID, PartID, ProjectID)
+</code></pre>
+
+<p>This relation records which supplier supplies which part for which project. Suppose the business rule is: "A supplier supplies a given part. A supplier works on a given project. A part is used in a given project. A supplier supplies a part to a project <em>if and only if</em> all three pairwise facts hold." Under this constraint, the relation satisfies the JD:</p>
+
+<pre><code>⋈{ {SupplierID, PartID}, {SupplierID, ProjectID}, {PartID, ProjectID} }
+</code></pre>
+
+<p>meaning <em>SupplierPartProject</em> equals the natural join of its three binary projections. None of the three binary projections contains a superkey of the original relation (the candidate key is <em>{SupplierID, PartID, ProjectID}</em>), so this JD is not implied by any candidate key. The relation violates 5NF.</p>
+
+<p>The redundancy appears when you consider what happens if Supplier S1 supplies Part P1 and Part P2, and works on projects J1 and J2, and both P1 and P2 are used in both J1 and J2. The original ternary relation must contain all four combinations: (S1,P1,J1), (S1,P1,J2), (S1,P2,J1), (S1,P2,J2). Adding a new project J3 for supplier S1 (with both parts) requires inserting two rows. The redundancy here is not captured by any FD or MVD — it is purely a join dependency phenomenon.</p>
+
+<p>To <strong>test for 5NF violations</strong>, project the relation onto every combination of three or more sub-schemas and check whether the natural join of any such combination reconstructs the original relation. If it does, and if that JD is not implied by a candidate key, you have a 5NF violation.</p>
+
+<p>To resolve the violation, <strong>decompose into the minimal set of projections</strong> whose natural join is lossless:</p>
+<ul>
+  <li><em>SupplierPart(SupplierID, PartID)</em></li>
+  <li><em>SupplierProject(SupplierID, ProjectID)</em></li>
+  <li><em>PartProject(PartID, ProjectID)</em></li>
+</ul>
+
+<p>Each binary relation captures one independent pairwise fact. The natural join of all three reconstructs <em>SupplierPartProject</em> exactly — provided the real-world constraint holds. This is a crucial point: the 5NF decomposition is only correct if the JD genuinely holds in the real world. If a supplier can supply a part to a specific project without that part being generally used in the project, the constraint does not hold, the JD does not hold, and the ternary relation is <em>not</em> decomposable in this way without losing information.</p>
+
+<p><strong>Managing Trade-offs During Multi-Step Normalization</strong></p>
+
+<p>Higher normalization is not universally desirable. Each step toward a higher normal form solves certain problems while introducing others, and the right normalization target for a given schema depends on the application's actual needs.</p>
+
+<p>The most significant operational cost of higher normalization is <strong>increased join complexity</strong>. A relation that was one table in a denormalized schema may become five or six tables after full normalization to 5NF. Every query that previously read a single table now requires multiple joins, and joins on large tables are expensive. Query planners can optimize many such joins, but they cannot eliminate the fundamental cost. For read-heavy applications with complex queries, this can be a serious performance concern.</p>
+
+<p>The trade-off table below summarizes the key dimensions across normal forms:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Normal Form</th>
+      <th>Anomalies Eliminated</th>
+      <th>Dependency Preserved?</th>
+      <th>Joins Required</th>
+      <th>Main Risk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3NF</td>
+      <td>Partial and transitive FD anomalies</td>
+      <td>Always</td>
+      <td>Moderate</td>
+      <td>Some BCNF violations may remain</td>
+    </tr>
+    <tr>
+      <td>BCNF</td>
+      <td>All FD-based anomalies</td>
+      <td>Not guaranteed</td>
+      <td>Moderate to high</td>
+      <td>Lost FDs must be enforced externally</td>
+    </tr>
+    <tr>
+      <td>4NF</td>
+      <td>MVD-based redundancy</td>
+      <td>Not guaranteed</td>
+      <td>High</td>
+      <td>Incorrect decomposition if MVDs don't truly hold</td>
+    </tr>
+    <tr>
+      <td>5NF</td>
+      <td>JD-based redundancy</td>
+      <td>Not guaranteed</td>
+      <td>Very high</td>
+      <td>Spurious tuples if JD does not hold in real world</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Dependency preservation</strong> deserves particular attention. When BCNF decomposition causes an FD to be lost — meaning it cannot be checked within any single relation — the database cannot enforce that constraint declaratively through a primary or unique key. It must instead be enforced through triggers, CHECK constraints involving subqueries, or application-layer validation. All of these are more fragile than a simple key constraint. The database designer must explicitly document every FD lost during BCNF decomposition and ensure an enforcement mechanism exists.</p>
+
+<p>For <strong>4NF and 5NF</strong>, there is an additional semantic risk: decomposing on an MVD or JD that does not genuinely hold in the real world produces a schema that <em>loses information</em>. If you decompose <em>SupplierPartProject</em> into three binary relations but the actual business rule allows a supplier to deliver a part to a specific project without that part being used across the project generally, then the binary relations cannot represent that specificity. The natural join of the three projections generates spurious tuples that do not correspond to real facts. Before committing to a 4NF or 5NF decomposition, rigorously verify with domain experts that the independence assumption is genuinely warranted.</p>
+
+<p>Finally, consider <strong>application access patterns</strong>. A relation that is almost always read as a whole and rarely updated may be a candidate for intentional denormalization (or leaving at a lower normal form) for performance reasons, while a relation that is frequently updated by concurrent transactions benefits greatly from normalization. The decision is ultimately an engineering judgment balancing correctness, maintainability, and performance.</p>
+
+<p><strong>End-to-End Normalization Walkthrough on a Complex Schema</strong></p>
+
+<p>To tie together all the preceding concepts, consider the following partially normalized, real-world-flavored scenario. A university database contains a single wide relation:</p>
+
+<pre><code>UniversityFacts(
+  StudentID, StudentName, CourseID, CourseName,
+  InstructorID, InstructorName, InstructorOffice,
+  TextbookID, TextbookTitle, Grade
+)
+</code></pre>
+
+<p>with the following semantic rules:</p>
+<ul>
+  <li>A student can enroll in many courses; a course has many students.</li>
+  <li>Each course section is taught by exactly one instructor.</li>
+  <li>Each instructor has exactly one office.</li>
+  <li>A course may use multiple textbooks; this is independent of which instructor teaches it.</li>
+  <li>A student's grade is for a specific course, not per textbook.</li>
+</ul>
+
+<p><strong>Step 1: Confirm 3NF compliance before advancing.</strong> The candidate key of the original wide relation is <em>{StudentID, CourseID, TextbookID}</em> (since Grade is per student-course, and each textbook is independently associated). Checking FDs:</p>
+<ul>
+  <li><em>StudentID → StudentName</em> (partial FD — violates 2NF, hence 3NF)</li>
+  <li><em>CourseID → CourseName, InstructorID</em> (partial FD — violates 2NF)</li>
+  <li><em>InstructorID → InstructorName, InstructorOffice</em> (transitive FD — violates 3NF)</li>
+  <li><em>TextbookID → TextbookTitle</em> (partial FD — violates 2NF)</li>
+  <li><em>{StudentID, CourseID} → Grade</em></li>
+</ul>
+
+<p>The relation is not even in 2NF. First, decompose to remove partial dependencies:</p>
+<ul>
+  <li><em>Student(StudentID, StudentName)</em></li>
+  <li><em>Course(CourseID, CourseName, InstructorID)</em></li>
+  <li><em>Instructor(InstructorID, InstructorName, InstructorOffice)</em></li>
+  <li><em>Textbook(TextbookID, TextbookTitle)</em></li>
+  <li><em>Enrollment(StudentID, CourseID, Grade)</em></li>
+  <li><em>CourseTextbook(CourseID, TextbookID)</em></li>
+</ul>
+
+<p>Now check 3NF: every non-key attribute in each relation depends on the whole key and only the key. <em>Instructor</em> still has the transitive dependency <em>InstructorID → InstructorOffice</em> via <em>InstructorName</em>? No — <em>InstructorOffice</em> depends directly on <em>InstructorID</em>, which is the key, so it is not transitive. All relations are now in 3NF.</p>
+
+<p><strong>Step 2: Apply BCNF checks.</strong> Examine each relation for FDs whose left-hand side is not a superkey.</p>
+<ul>
+  <li><em>Student(StudentID, StudentName)</em>: key is <em>{StudentID}</em>, only FD is <em>StudentID → StudentName</em>. BCNF satisfied.</li>
+  <li><em>Course(CourseID, CourseName, InstructorID)</em>: key is <em>{CourseID}</em>. FDs: <em>CourseID → CourseName</em>, <em>CourseID → InstructorID</em>. Both left-hand sides are superkeys. BCNF satisfied.</li>
+  <li><em>Instructor(InstructorID, InstructorName, InstructorOffice)</em>: key is <em>{InstructorID}</em>. All FDs have <em>InstructorID</em> on the left. BCNF satisfied.</li>
+  <li><em>Enrollment(StudentID, CourseID, Grade)</em>: key is <em>{StudentID, CourseID}</em>. Only FD is <em>{StudentID, CourseID} → Grade</em>. BCNF satisfied.</li>
+  <li><em>CourseTextbook(CourseID, TextbookID)</em>: key is <em>{CourseID, TextbookID}</em>. No non-trivial FDs (neither component alone determines the other). BCNF satisfied.</li>
+  <li><em>Textbook(TextbookID, TextbookTitle)</em>: key is <em>{TextbookID}</em>. BCNF satisfied.</li>
+</ul>
+
+<p>All relations are in BCNF. No dependency preservation issues arose in this case.</p>
+
+<p><strong>Step 3: Check for 4NF violations.</strong> Now ask whether any relation contains independent multi-valued facts. The relation to scrutinize most carefully is <em>CourseTextbook(CourseID, TextbookID)</em>. Does it have two independent multi-valued attributes? No — it records only one fact: which textbooks are used in which course. There is no second independently multi-valued attribute. <em>Enrollment</em> similarly records one fact per key. No 4NF violations exist in this schema as decomposed.</p>
+
+<p>To illustrate what a 4NF violation would look like here: suppose the original rules had stated that a course can have multiple instructors AND multiple textbooks, independently. Then <em>CourseFacts(CourseID, InstructorID, TextbookID)</em> would contain two MVDs — <em>CourseID ↠ InstructorID</em> and <em>CourseID ↠ TextbookID</em> — and would need to be decomposed into <em>CourseInstructor(CourseID, InstructorID)</em> and <em>CourseTextbook(CourseID, TextbookID)</em>. In our scenario the rule was that each course has exactly one instructor, so this MVD situation does not arise.</p>
+
+<p><strong>Step 4: Check for 5NF violations.</strong> Examine relations with three or more attributes for non-trivial join dependencies. The most complex remaining relation is <em>Enrollment(StudentID, CourseID, Grade)</em> with candidate key <em>{StudentID, CourseID}</em>. Can it be decomposed into three projections whose join reconstructs it exactly without that JD being implied by the candidate key? The three possible binary projections are <em>{StudentID, CourseID}</em>, <em>{StudentID, Grade}</em>, and <em>{CourseID, Grade}</em>. The join of <em>{StudentID, Grade}</em> and <em>{CourseID, Grade}</em> would match students and courses that happen to share the same grade, generating massive spurious tuples. The only lossless binary decomposition uses <em>{StudentID, CourseID}</em> as one component — which contains the candidate key. So any JD satisfied by <em>Enrollment</em> is implied by its candidate key. No 5NF violation.</p>
+
+<p><strong>Step 5: Validate completeness.</strong> Verify that the natural join of all six decomposed relations reconstructs the original <em>UniversityFacts</em> relation. Join path:</p>
+<ul>
+  <li>Join <em>Enrollment</em> with <em>Student</em> on <em>StudentID</em> → adds <em>StudentName</em></li>
+  <li>Join with <em>Course</em> on <em>CourseID</em> → adds <em>CourseName</em> and <em>InstructorID</em></li>
+  <li>Join with <em>Instructor</em> on <em>InstructorID</em> → adds <em>InstructorName</em> and <em>InstructorOffice</em></li>
+  <li>Join with <em>CourseTextbook</em> on <em>CourseID</em> → adds <em>TextbookID</em></li>
+  <li>Join with <em>Textbook</em> on <em>TextbookID</em> → adds <em>TextbookTitle</em></li>
+</ul>
+
+<p>The result matches the original relation exactly. Every lossless-join condition is satisfied (each join is on a foreign key referencing a primary key, ensuring the shared attribute is a superkey in one of the joined relations). All original data is reconstructable, no spurious tuples are introduced, and the schema is free of FD-based, MVD-based, and JD-based redundancy to the extent that the real-world semantics support decomposition.</p>
+
+<p>The key discipline throughout this walkthrough is to proceed in order — confirm lower normal forms before testing higher ones, validate losslessness at every decomposition step, document any lost dependencies, and rigorously verify that the independence assumptions underlying 4NF and 5NF decompositions actually hold in the real world before applying them. Normalization is ultimately a tool for making a schema faithfully and efficiently represent reality; applying it thoughtfully, with an understanding of both its power and its limits, is what distinguishes sound database design from mechanical rule-following.</p>
+        <div class="notes"><strong>Notes</strong>The walkthrough deliberately uses a schema that does not exhibit 4NF or 5NF violations after correct 3NF/BCNF decomposition, which is realistic and helps students understand that not every schema requires decomposition all the way to 5NF. A contrasting example (the SupplierPartProject ternary) is provided in the 5NF section to show</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>
