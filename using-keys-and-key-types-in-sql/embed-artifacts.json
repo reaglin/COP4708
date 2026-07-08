@@ -13,5 +13,45 @@
     "title": "Using Keys and Key Types in SQL \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"
+  },
+  {
+    "title": "Enforcing Key Constraints for Data Integrity",
+    "href": "content/Using_Keys_and_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Keys in SQL",
+    "href": "content/Using_Keys_and_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Primary Keys",
+    "href": "content/Using_Keys_and_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Foreign Keys and Referential Integrity",
+    "href": "content/Using_Keys_and_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Candidate Keys",
+    "href": "content/Using_Keys_and_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Composite Keys",
+    "href": "content/Using_Keys_and_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Surrogate Keys",
+    "href": "content/Using_Keys_and_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Enforcing Key Constraints for Data Integrity",
+    "href": "content/Using_Keys_and_interactive_topics_t7.html",
+    "type": "Content"
   }
 ]

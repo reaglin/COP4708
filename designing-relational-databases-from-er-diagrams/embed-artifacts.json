@@ -10,6 +10,41 @@
     "type": "Page"
   },
   {
+    "title": "Validating and Refining the Relational Schema",
+    "href": "content/Designing_Relational_Databas_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to ER Diagrams and Relational Schemas",
+    "href": "content/Designing_Relational_Databas_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Mapping Strong Entities and Attributes to Tables",
+    "href": "content/Designing_Relational_Databas_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Handling One-to-Many Relationships",
+    "href": "content/Designing_Relational_Databas_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Handling Many-to-Many Relationships",
+    "href": "content/Designing_Relational_Databas_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Mapping Weak Entities and Their Relationships",
+    "href": "content/Designing_Relational_Databas_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Validating and Refining the Relational Schema",
+    "href": "content/Designing_Relational_Databas_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
     "title": "Designing Relational Databases from ER Diagrams \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"

@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Isolation Levels</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Designing Databases for Concurrent Use</a></div>
+  <header>
+    <h1>Transaction Isolation Levels</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Transaction Isolation Levels</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When multiple transactions execute concurrently in a relational database, they can interfere with one another in subtle and damaging ways. <strong>Transaction isolation</strong> is the "I" in the four ACID properties — Atomicity, Consistency, Isolation, and Durability — and it governs exactly how and when the effects of one transaction become visible to others. Without isolation controls, two transactions reading and writing the same data simultaneously can produce results that neither would have produced alone, corrupting application logic and business data alike.</p>
+
+<p>The SQL standard defines four isolation levels, each offering a different point on a spectrum between maximum concurrency and maximum correctness. Choosing the right level is a deliberate architectural decision: too permissive and your application may act on stale or phantom data; too strict and your database may become a bottleneck under heavy load. Understanding what each level permits, what it prevents, and what it costs is therefore fundamental to building reliable, performant data-driven systems.</p>
+
+<p><strong>Isolation is one of the four ACID properties</strong>, but unlike atomicity or durability — which are largely binary guarantees — isolation is a sliding scale. A transaction running at the weakest level may see nearly everything happening around it; a transaction running at the strongest level behaves as if it were the only transaction in the system. The four standard levels, from weakest to strongest, are: <em>Read Uncommitted</em>, <em>Read Committed</em>, <em>Repeatable Read</em>, and <em>Serializable</em>.</p>
+
+<p>Each level is defined not by what it does mechanically, but by which <strong>concurrency anomalies</strong> it allows. There are three classical anomalies: dirty reads, non-repeatable reads, and phantom reads. Every isolation level is essentially a policy statement about which of these anomalies the database engine is permitted to let through and which it must prevent. Before examining each level in depth, it is worth defining these anomalies precisely, because everything else flows from them.</p>
+
+<p>A <strong>dirty read</strong> occurs when Transaction A reads a row that Transaction B has modified but not yet committed. If B subsequently rolls back, A has been making decisions based on data that never officially existed. Imagine a banking system where B tentatively debits $500 from an account and A reads that reduced balance to decide whether to approve a loan — if B rolls back, A's decision was based on fiction.</p>
+
+<p>A <strong>non-repeatable read</strong> occurs when Transaction A reads the same row twice within a single transaction and gets different values because Transaction B committed an update to that row between the two reads. The row existed and was valid both times, but its content changed underneath A. A report transaction that sums a set of figures at the beginning and then reads individual line items at the end may find that the totals no longer reconcile.</p>
+
+<p>A <strong>phantom read</strong> occurs when Transaction A executes the same query twice and the second execution returns rows that did not appear in the first — or is missing rows that did — because Transaction B inserted or deleted matching rows and committed between A's two executions. The individual rows A already read are stable; it is the <em>set</em> of rows that has shifted beneath it.</p>
+
+<p>With these anomalies defined, each isolation level can be examined carefully.</p>
+
+<p><strong>Read Uncommitted</strong> is the most permissive level. A transaction operating at this level may read any data page in the database, including rows that are in the middle of being modified by other, still-open transactions. The database engine applies no shared read locks, or acquires and immediately releases them, so readers never block writers and writers never block readers. This produces the highest possible concurrency and the lowest possible locking overhead.</p>
+
+<p>The price is that <em>all three anomalies</em> — dirty reads, non-repeatable reads, and phantom reads — are possible. The dirty read risk is the most dangerous because a transaction can act on data that will vanish. Consider an inventory system: a fulfillment transaction begins writing a reservation for the last unit of a product but has not yet committed. A reporting query at Read Uncommitted sees that reservation and reports zero available stock. If the fulfillment transaction rolls back, the report was wrong, and any downstream action taken on it (halting a reorder, declining a customer inquiry) was based on a lie.</p>
+
+<p>Read Uncommitted is appropriate only in narrow circumstances: approximate analytics where slight inaccuracy is tolerable, diagnostic queries on live systems where a developer needs a rough picture without stalling production workloads, or log-tail readers that must never block a writer. It is almost never appropriate for transactional application logic where correctness matters.</p>
+
+<p><strong>Read Committed</strong> is the default isolation level in PostgreSQL, Oracle, SQL Server, and many other major databases. At this level, a transaction only ever sees rows whose modifying transaction has already committed. Uncommitted changes are invisible. This eliminates dirty reads entirely.</p>
+
+<p>The mechanism varies by database: some engines (SQL Server in its default mode) acquire and release shared locks on each row as it is read, so uncommitted rows are locked out of view; others (PostgreSQL, Oracle) use multiversion concurrency control (MVCC), maintaining a snapshot of committed data and routing readers to the most recently committed version of each row without taking any read locks at all.</p>
+
+<p>However, because the "most recently committed" version of a row can change at any moment, non-repeatable reads and phantom reads remain possible. If Transaction A reads a customer's credit limit at the start of a multi-step process and then reads it again later in the same transaction, Transaction B might have committed an update to that credit limit in between. A's second read returns the new value, and if A's logic assumed the value was stable, it may behave incorrectly.</p>
+
+<p>For many workloads this is entirely acceptable. A web application that reads a user's profile to render a page does not care if a concurrent edit lands between two reads of the profile within the same HTTP request — the user will see the updated version on the next load. Read Committed strikes a practical balance between correctness and performance, and its default status in most databases reflects how well it fits general-purpose transactional workloads.</p>
+
+<p><strong>Repeatable Read</strong> strengthens the guarantee by ensuring that any row a transaction has read will return the same values for the duration of that transaction. Once Transaction A reads a row, no other transaction can modify or delete that row until A commits or rolls back. In lock-based systems, A holds shared locks on every row it has read until the end of the transaction. In MVCC systems (like PostgreSQL), A is given a snapshot of the database as it existed when the transaction began, and all reads are satisfied from that snapshot — effectively freezing A's view of any row it touches.</p>
+
+<p>This eliminates dirty reads and non-repeatable reads. However, <em>phantom reads remain possible</em> in lock-based implementations because the locks cover specific rows that have been read, not the ranges or conditions under which they were found. If Transaction A queries <code>SELECT * FROM orders WHERE status = 'pending'</code> and gets ten rows, it holds locks on those ten rows. Transaction B can still insert an eleventh pending order and commit. If A re-runs the same query, it now sees eleven rows — a phantom has appeared. The original ten rows are stable, but the set has grown.</p>
+
+<p>Note that PostgreSQL's implementation of Repeatable Read goes further than the SQL standard requires: because it uses a transaction-level snapshot, it naturally prevents phantom reads within that snapshot as well. However, this behavior is specific to PostgreSQL and should not be assumed in other databases.</p>
+
+<p>Repeatable Read is appropriate when a transaction must perform consistent calculations across multiple reads of the same rows. A pricing engine that reads product costs, applies a formula, and then re-reads those costs to verify a total needs to know the values are stable. A financial reconciliation that sums a set of records, then reads individual records to explain the sum, needs them to match.</p>
+
+<p><strong>Serializable</strong> is the strongest isolation level and provides the most rigorous guarantee: the outcome of any set of concurrently executing transactions is identical to some sequential (serial) execution of those same transactions. All three concurrency anomalies — dirty reads, non-repeatable reads, and phantom reads — are completely prevented.</p>
+
+<p>Achieving this is expensive. In lock-based systems, the database must hold locks not just on rows that have been read, but on the <em>gaps</em> between rows — so-called predicate or range locks — to prevent phantom insertions. In systems that use Serializable Snapshot Isolation (SSI), such as PostgreSQL since version 9.1 and recent versions of SQL Server, the engine tracks read/write dependencies between concurrent transactions and aborts any transaction whose execution would be inconsistent with a serial order. SSI reduces unnecessary blocking but increases the rate of transaction aborts that must be retried.</p>
+
+<p>The practical consequence is that Serializable transactions have lower throughput, higher latency under contention, and a greater chance of being rolled back so the application must retry them. Consider two transactions that each read the same account balance and then write a debit based on what they read. At Read Committed, both might read a balance of $1,000, both decide there are sufficient funds, and both commit debits of $900 — leaving the account at -$800. At Serializable, one of the two transactions will be forced to abort and retry; when it re-runs, it reads the already-debited balance and correctly declines the second debit.</p>
+
+<p>Serializable isolation is essential for financial transactions, inventory reservations with hard limits, voting systems, and any business process where the correctness of the outcome depends on no other transaction having slipped in concurrently. The cost in throughput is the price of that correctness guarantee.</p>
+
+<p>The following table summarizes which anomalies each isolation level permits or prevents according to the SQL standard:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Isolation Level</th>
+      <th>Dirty Read</th>
+      <th>Non-Repeatable Read</th>
+      <th>Phantom Read</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Read Uncommitted</td>
+      <td>Possible</td>
+      <td>Possible</td>
+      <td>Possible</td>
+    </tr>
+    <tr>
+      <td>Read Committed</td>
+      <td>Prevented</td>
+      <td>Possible</td>
+      <td>Possible</td>
+    </tr>
+    <tr>
+      <td>Repeatable Read</td>
+      <td>Prevented</td>
+      <td>Prevented</td>
+      <td>Possible*</td>
+    </tr>
+    <tr>
+      <td>Serializable</td>
+      <td>Prevented</td>
+      <td>Prevented</td>
+      <td>Prevented</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>* PostgreSQL's MVCC-based Repeatable Read also prevents phantom reads in practice, but this is an implementation detail that exceeds the SQL standard's requirement for this level.</em></p>
+
+<p>Choosing between these levels requires analyzing the concrete read and write patterns of each transaction in your application. A helpful way to think about it is to ask: if two copies of this transaction ran simultaneously on overlapping data, could any interleaving produce a wrong result? If yes, identify which anomaly category describes that wrong result and select the level that prevents it.</p>
+
+<p>There are several <strong>practical considerations</strong> that go beyond the theoretical definitions:</p>
+
+<ul>
+  <li><strong>Deadlock risk increases with isolation level.</strong> Higher levels hold locks longer and over more resources. Two transactions that acquire locks in different orders can each wait for the other indefinitely. Applications must detect deadlock errors (typically a specific error code returned by the database) and retry the transaction from scratch.</li>
+  <li><strong>Transaction retry logic is mandatory at Serializable.</strong> In SSI-based systems, the database may abort a transaction that has not done anything "wrong" in the traditional sense but whose execution conflicts with another transaction's. Application code must be prepared for this and retry transparently.</li>
+  <li><strong>Database implementations diverge from the standard.</strong> MySQL's InnoDB engine implements Repeatable Read with gap locks that also prevent phantom reads under many conditions, but not all. Oracle does not implement Read Uncommitted at all; its lowest level is Read Committed. SQL Server offers a fifth level — Snapshot Isolation — that is not part of the SQL standard but behaves similarly to MVCC-based Read Committed. Always consult the specific database's documentation rather than assuming standard-compliant behavior.</li>
+  <li><strong>Isolation level can be set at different granularities.</strong> Most databases allow the default isolation level to be configured server-wide or per-session, and allow individual transactions to override it with a <code>SET TRANSACTION ISOLATION LEVEL</code> statement. This means a single application can use Read Committed for lightweight queries and Serializable only for the critical financial transactions that require it.</li>
+  <li><strong>Long-running transactions amplify the cost of higher isolation levels.</strong> A Serializable transaction that runs for thirty seconds holds its conflict-detection structures for thirty seconds, blocking or aborting other transactions that touch the same data. Keeping transactions short — reading only what is needed, writing promptly, committing as soon as the logical unit of work is complete — reduces the window during which conflicts can accumulate.</li>
+</ul>
+
+<p>A worked example ties all of this together. Suppose an e-commerce site has a transaction that (1) reads available stock for a product, (2) applies a discount based on the current promotional rules, and (3) creates an order record and decrements the stock. At Read Committed, two simultaneous buyers could both read a stock count of 1, both decide to proceed, and both create orders — overselling by one unit. At Repeatable Read, the rows they read are locked, but a newly inserted promotional rule between steps 1 and 2 might still affect one buyer's discount inconsistently. At Serializable, one buyer's transaction will win; the other will abort and retry, at which point it reads stock of 0 and declines the order. The application must handle that retry gracefully — ideally surfacing a "sold out" message to the second buyer rather than an unexplained error.</p>
+
+<p>The right isolation level is therefore never an afterthought. It is a design decision made with full awareness of which anomalies the application can tolerate, what the performance budget allows, and how the specific database engine actually implements each level. Getting this decision right — and then testing concurrent behavior explicitly — is one of the more important and underappreciated aspects of building reliable database-backed systems.</p>
+        <div class="notes"><strong>Notes</strong>The table uses an asterisk footnote to flag the PostgreSQL phantom-read behavior at Repeatable Read, which is an important practical nuance. The worked e-commerce example at the end synthesizes all four levels into a single concrete scenario to reinforce comparative understanding. Instructors may wish to supplement with live demos using two concurrent database sessions to make the anomalies visible in real time.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

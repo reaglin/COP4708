@@ -10,6 +10,46 @@
     "type": "Page"
   },
   {
+    "title": "Connection Pooling Best Practices",
+    "href": "content/Database_Security_Models_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Database Security Fundamentals",
+    "href": "content/Database_Security_Models_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "User Roles and Permissions",
+    "href": "content/Database_Security_Models_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Authentication and Authorization",
+    "href": "content/Database_Security_Models_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "SQL Injection Prevention",
+    "href": "content/Database_Security_Models_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Application-to-Database Connections",
+    "href": "content/Database_Security_Models_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "ORM Frameworks and Database Abstraction",
+    "href": "content/Database_Security_Models_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Connection Pooling Best Practices",
+    "href": "content/Database_Security_Models_interactive_topics_t7.html",
+    "type": "Content"
+  },
+  {
     "title": "Database Security Models, Users, and Application Connections \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"

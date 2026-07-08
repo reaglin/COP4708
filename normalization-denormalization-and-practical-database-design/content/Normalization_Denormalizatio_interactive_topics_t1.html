@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review of Normalization Principles</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Normalization, Denormalization, and Practical Database Design</a></div>
+  <header>
+    <h1>Review of Normalization Principles</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Review of Normalization Principles</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Normalization is one of the foundational disciplines of relational database design. It is the systematic process of organizing a database schema so that data is stored efficiently, redundancy is minimized, and the structure accurately reflects the real-world relationships between pieces of information. Without normalization, even a well-intentioned schema can develop subtle structural problems that grow into serious inconsistencies over time. Understanding normalization deeply — from its theoretical grounding in functional dependencies through its practical normal forms — equips a database designer to build schemas that are robust, maintainable, and correct.</p>
+
+<p><strong>What Is Normalization?</strong></p>
+
+<p>At its core, normalization is the practice of structuring tables so that each distinct piece of information is stored in exactly one place. This principle — sometimes called the <em>single source of truth</em> — means that if a customer's address changes, there is only one row in one table that needs to be updated, rather than dozens of rows scattered across multiple tables. When the same fact appears in multiple locations, those copies can drift apart, producing a database where different parts disagree about what is true.</p>
+
+<p>The motivation for normalization comes from three categories of problems, collectively called <em>anomalies</em>, that arise in poorly structured tables:</p>
+
+<ul>
+  <li><strong>Update anomalies</strong> occur when a fact is stored redundantly and a change to that fact must be applied to multiple rows simultaneously. If even one row is missed, the database becomes inconsistent.</li>
+  <li><strong>Insertion anomalies</strong> occur when adding a new piece of information requires the simultaneous presence of other, logically unrelated information — forcing the use of placeholder or null values just to satisfy the table's structure.</li>
+  <li><strong>Deletion anomalies</strong> occur when removing a row inadvertently destroys the only record of some independent fact, causing information loss that was never intended.</li>
+</ul>
+
+<p>By progressively applying normalization rules, a designer eliminates these anomaly types one by one. A normalized schema is also far easier to maintain in the long run: schema changes, new requirements, and data corrections all become simpler when each concept has a dedicated, well-bounded home in the database.</p>
+
+<p><strong>Functional Dependencies as the Theoretical Foundation</strong></p>
+
+<p>Before any normal form can be applied, the designer must understand the concept of a <em>functional dependency</em>. A functional dependency is a constraint between two sets of attributes in a relation. Formally, we say that attribute set X <em>functionally determines</em> attribute set Y, written <strong>X → Y</strong>, if and only if for any two tuples (rows) in the relation that share the same value of X, they must also share the same value of Y. In plain language: knowing X is enough to uniquely identify the corresponding Y value.</p>
+
+<p>For example, consider a table that records employees. If every employee has a unique <code>employee_id</code>, then <code>employee_id → employee_name</code> and <code>employee_id → department</code> are both functional dependencies — once you know the employee ID, the name and department are fully determined. This is straightforward. But functional dependencies can also be more subtle. If <code>zip_code → city</code> holds (every zip code maps to exactly one city), then any table that stores both a zip code and a city contains a functional dependency that does not involve the primary key — a clue that the schema may not be fully normalized.</p>
+
+<p>Identifying <em>all</em> the functional dependencies in a dataset is the essential first step before applying any normal form. Missing a dependency means a potential anomaly goes undetected.</p>
+
+<p>Closely related to functional dependencies is the concept of a <em>candidate key</em>. A candidate key is a minimal set of attributes that functionally determines every other attribute in the relation. "Minimal" is critical: removing any attribute from the set would break the determination. A table may have multiple candidate keys (for example, both <code>employee_id</code> and <code>employee_email</code> might each uniquely identify an employee). One candidate key is designated the <em>primary key</em> for practical purposes, but all candidate keys are theoretically equivalent in normalization analysis. A <em>superkey</em> is any set of attributes that functionally determines all others, but not necessarily minimally — every candidate key is a superkey, but not every superkey is a candidate key.</p>
+
+<p><strong>First Normal Form (1NF)</strong></p>
+
+<p>The first normal form establishes the most basic structural requirements for a relational table. A table is in 1NF if it satisfies two conditions: every column contains atomic (indivisible) values of a consistent data type, and every row is uniquely identifiable by a primary key.</p>
+
+<p>The atomicity requirement means that a single column must not hold multiple values at once. Consider a table where a column named <code>phone_numbers</code> stores values like <code>"555-1234, 555-5678"</code> — two phone numbers concatenated into one field. This violates 1NF because the column is not atomic. Similarly, a column that stores a JSON array or a comma-separated list violates 1NF even if the data type is technically a string. The prohibition on <em>repeating groups</em> extends this idea: a table that has columns named <code>phone1</code>, <code>phone2</code>, <code>phone3</code> to represent multiple phone numbers is also considered to have a repeating group structure and violates the spirit of 1NF, because it encodes multiplicity in the schema itself rather than in the data.</p>
+
+<p>To illustrate, suppose we have this non-1NF table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>order_id</th>
+      <th>customer_name</th>
+      <th>items_ordered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Alice</td>
+      <td>Widget, Gadget, Doohickey</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Bob</td>
+      <td>Widget</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code>items_ordered</code> column holds multiple values in a single cell. To convert this to 1NF, each item gets its own row, and a composite primary key (or a surrogate key) uniquely identifies each row:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>order_id</th>
+      <th>item_name</th>
+      <th>customer_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Widget</td>
+      <td>Alice</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>Gadget</td>
+      <td>Alice</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>Doohickey</td>
+      <td>Alice</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Widget</td>
+      <td>Bob</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now every cell holds exactly one value, and the combination of <code>order_id</code> and <code>item_name</code> can serve as a composite primary key. The table satisfies 1NF. However, it still has a problem: <code>customer_name</code> depends only on <code>order_id</code>, not on the full composite key — which leads us directly to the second normal form.</p>
+
+<p>Violating 1NF has practical consequences beyond theoretical cleanliness. Querying a multi-valued field requires string-parsing operations that are slow, error-prone, and impossible to index efficiently. Enforcing referential integrity against values buried inside a concatenated string is simply not feasible with standard SQL constraints.</p>
+
+<p><strong>Second Normal Form (2NF)</strong></p>
+
+<p>Second normal form builds on 1NF by addressing <em>partial dependencies</em>. A partial dependency exists when a non-key attribute depends on only a <em>subset</em> of a composite primary key, rather than on the entire key. A table with a single-column primary key cannot have partial dependencies by definition, so 2NF is only a concern when the primary key is composite.</p>
+
+<p>In the 1NF table above, the composite primary key is <code>(order_id, item_name)</code>. The attribute <code>customer_name</code> depends only on <code>order_id</code> — not on <code>item_name</code> at all. This is a partial dependency: <code>order_id → customer_name</code>. The consequence is redundancy: Alice's name appears three times, once for each item in order 101. If Alice changes her name, all three rows must be updated. Forgetting to update even one creates an inconsistency.</p>
+
+<p>To achieve 2NF, we decompose the table so that every non-key attribute is fully dependent on the entire primary key of its table. The result is two tables:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>order_id</th>
+      <th>customer_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Alice</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Bob</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>order_id</th>
+      <th>item_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Widget</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>Gadget</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>Doohickey</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Widget</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now <code>customer_name</code> lives in a table where the primary key is simply <code>order_id</code>, and the order-items table contains only the full composite key. Each table's non-key attributes depend on the whole key. The redundancy of repeating Alice's name three times is gone.</p>
+
+<p>Achieving 2NF removes a significant class of update anomalies. It also prevents certain insertion anomalies: in the original table, you could not record that an order belonged to a particular customer until at least one item was added, because the composite key required both <code>order_id</code> and <code>item_name</code>.</p>
+
+<p><strong>Third Normal Form (3NF)</strong></p>
+
+<p>Third normal form extends 2NF by eliminating <em>transitive dependencies</em>. A transitive dependency occurs when a non-key attribute B depends on another non-key attribute A, which in turn depends on the primary key K. The chain K → A → B means that B is only indirectly determined by the key, passing through an intermediate attribute.</p>
+
+<p>Consider an employee table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>employee_id</th>
+      <th>employee_name</th>
+      <th>department_id</th>
+      <th>department_name</th>
+      <th>department_budget</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Alice</td>
+      <td>10</td>
+      <td>Engineering</td>
+      <td>500000</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Bob</td>
+      <td>10</td>
+      <td>Engineering</td>
+      <td>500000</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Carol</td>
+      <td>20</td>
+      <td>Marketing</td>
+      <td>200000</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The primary key is <code>employee_id</code>. There are no partial dependencies (the key is a single column). However, <code>department_name</code> and <code>department_budget</code> depend on <code>department_id</code>, not directly on <code>employee_id</code>. The chain is: <code>employee_id → department_id → department_name</code> and <code>employee_id → department_id → department_budget</code>. These are transitive dependencies.</p>
+
+<p>The problems are familiar: if the Engineering department's budget changes, every row where <code>department_id = 10</code> must be updated. If a department has no employees yet, its name and budget cannot be recorded at all (insertion anomaly). If the last employee in a department is deleted, the department's information is lost (deletion anomaly).</p>
+
+<p>The 3NF solution is to move the transitively dependent attributes into their own table, keyed on the intermediate attribute:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>employee_id</th>
+      <th>employee_name</th>
+      <th>department_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Alice</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Bob</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Carol</td>
+      <td>20</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>department_id</th>
+      <th>department_name</th>
+      <th>department_budget</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+      <td>Engineering</td>
+      <td>500000</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>Marketing</td>
+      <td>200000</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now each table's non-key attributes depend directly and only on that table's primary key. Department information is stored once. Adding a new department with no employees yet is straightforward. Deleting an employee no longer threatens the department's record. Most production relational databases explicitly target 3NF as their baseline design goal because it eliminates the most common and most damaging sources of update anomalies at a decomposition cost that remains practical.</p>
+
+<p><strong>Boyce-Codd Normal Form (BCNF)</strong></p>
+
+<p>Boyce-Codd Normal Form is a slightly stronger refinement of 3NF, developed to address certain edge cases that 3NF does not fully resolve. To understand BCNF, it is essential to revisit the concept of a <em>determinant</em>. A determinant is any attribute or set of attributes X such that X functionally determines some other attribute Y — that is, X → Y holds. In BCNF, the rule is simple and strict: for every non-trivial functional dependency X → Y in a relation, X must be a <em>superkey</em>.</p>
+
+<p>A non-trivial functional dependency is one where Y is not a subset of X (a column trivially determines itself, which is uninteresting). The BCNF requirement says that the only things allowed to determine other attributes are superkeys — sets of attributes that can uniquely identify any row. No non-superkey attribute is allowed to be a determinant.</p>
+
+<p>The difference between 3NF and BCNF becomes apparent in tables that have <em>multiple overlapping candidate keys</em>. Here is a classic example. Suppose students can enroll in courses, and each course has multiple teachers, but each teacher teaches only one course. A student who takes a particular course is assigned to exactly one teacher for that course. The attributes are <code>student</code>, <code>course</code>, and <code>teacher</code>.</p>
+
+<p>The functional dependencies are:</p>
+<ul>
+  <li><code>(student, course) → teacher</code> — a student enrolled in a course has exactly one teacher</li>
+  <li><code>teacher → course</code> — each teacher teaches exactly one course</li>
+</ul>
+
+<p>The candidate keys are <code>(student, course)</code> and <code>(student, teacher)</code> — both can uniquely identify a row. The table is in 3NF: there are no transitive dependencies through non-key attributes. However, the dependency <code>teacher → course</code> has <code>teacher</code> as the determinant, and <code>teacher</code> alone is <em>not</em> a superkey (knowing a teacher does not uniquely identify a row, because a teacher teaches multiple students). This violates BCNF.</p>
+
+<p>The consequence is redundancy: if a teacher teaches the same course to ten students, the course name is repeated ten times alongside that teacher's name. If the teacher switches courses, all ten rows must be updated simultaneously.</p>
+
+<p>To achieve BCNF, decompose the table so that the violating dependency <code>teacher → course</code> gets its own table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>student</th>
+      <th>teacher</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>Dr. Smith</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>Dr. Smith</td>
+    </tr>
+    <tr>
+      <td>Carol</td>
+      <td>Dr. Jones</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>teacher</th>
+      <th>course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dr. Smith</td>
+      <td>Database Systems</td>
+    </tr>
+    <tr>
+      <td>Dr. Jones</td>
+      <td>Algorithms</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In both resulting tables, every determinant is a superkey. BCNF is satisfied. However, there is a well-known theoretical cost: in some cases, decomposing to BCNF makes it impossible to express all original functional dependencies as constraints within a single table. In this example, the original constraint that a student takes a specific course with a specific teacher can only be reconstructed by joining the two tables. This <em>dependency-preservation trade-off</em> is a known limitation of BCNF decomposition and is why some designers accept a 3NF schema that preserves all dependencies rather than push all the way to BCNF.</p>
+
+<p>BCNF is generally regarded as the highest normal form that is practically enforced in standard relational design. Higher normal forms — Fourth Normal Form (4NF), which addresses multi-valued dependencies, and Fifth Normal Form (5NF), which addresses join dependencies — exist and have theoretical importance, but they arise in narrower circumstances and are less commonly applied in everyday production schema design.</p>
+
+<p><strong>Why Normalization Preserves Data Integrity — A Unified View</strong></p>
+
+<p>It is worth stepping back to see how all the normal forms work together as a coherent system for protecting data integrity. Each form targets a specific structural problem rooted in a specific type of functional dependency violation:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Normal Form</th>
+      <th>Problem Addressed</th>
+      <th>Mechanism of Resolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1NF</td>
+      <td>Non-atomic values, repeating groups</td>
+      <td>Require atomic columns and a primary key</td>
+    </tr>
+    <tr>
+      <td>2NF</td>
+      <td>Partial dependencies on composite keys</td>
+      <td>Decompose so every non-key attribute depends on the whole key</td>
+    </tr>
+    <tr>
+      <td>3NF</td>
+      <td>Transitive dependencies through non-key attributes</td>
+      <td>Move transitively dependent attributes to their own table</td>
+    </tr>
+    <tr>
+      <td>BCNF</td>
+      <td>Non-superkey determinants (overlapping candidate keys)</td>
+      <td>Ensure every determinant is a superkey</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The three anomaly types — update, insertion, and deletion — are all downstream consequences of the same root cause: storing the same fact in more than one place. Normalization addresses this root cause directly. When each fact has a single authoritative location, an update to that fact requires changing exactly one row in exactly one table, making it impossible for copies to disagree. When data about one entity does not depend on the existence of data about another entity, new records can be inserted freely without artificial placeholders. When a row is deleted, only the information that genuinely belongs to that row is lost — independent facts about other entities are safely stored in their own tables.</p>
+
+<p>Understanding normalization as a coherent theory rather than a checklist of rules gives a designer the judgment to apply it wisely: knowing when to normalize fully, when a practical trade-off (such as accepting 3NF over BCNF to preserve dependency constraints) is justified, and how to diagnose anomalies in an existing schema by tracing back to the underlying functional dependencies that were not properly resolved.</p>
+        <div class="notes"><strong>Notes</strong>Covers 1NF through BCNF with worked examples at each stage, functional dependency theory, anomaly types, and the BCNF dependency-preservation trade-off. All tabular data rendered as HTML tables.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

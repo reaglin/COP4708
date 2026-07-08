@@ -1,0 +1,52 @@
+﻿[
+  {
+    "title": "6 - Data Modeling and Entity-Relationship Modeling \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "6 - Data Modeling and Entity-Relationship Modeling \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "Applying ER Modeling to a Problem Domain",
+    "href": "content/Data_Modeling_and_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Data Modeling",
+    "href": "content/Data_Modeling_and_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Entities and Attributes",
+    "href": "content/Data_Modeling_and_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Relationships Between Entities",
+    "href": "content/Data_Modeling_and_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "The Entity-Relationship (ER) Model",
+    "href": "content/Data_Modeling_and_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Creating ER Diagrams",
+    "href": "content/Data_Modeling_and_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Applying ER Modeling to a Problem Domain",
+    "href": "content/Data_Modeling_and_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "6 - Data Modeling and Entity-Relationship Modeling \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  }
+]

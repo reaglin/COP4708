@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Keys in SQL</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Using Keys and Key Types in SQL</a></div>
+  <header>
+    <h1>Introduction to Keys in SQL</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Keys in SQL</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>At the heart of every well-designed relational database lies a deceptively simple idea: every piece of data must be reliably identifiable, reachable, and relatable to other data. <strong>Keys</strong> are the mechanism that makes this possible. A key, in the context of a relational database, is a column or set of columns whose values uniquely identify each row within a table, or whose values establish a meaningful link between rows in different tables. Without keys, a database is little more than a collection of loosely organized spreadsheets — data can be duplicated, relationships become ambiguous, and retrieval becomes slow and error-prone.</p>
+
+<p>Understanding keys is not merely an academic exercise. Every practical task in SQL — from writing a precise <code>JOIN</code> to preventing a botched bulk update — depends on a sound grasp of how keys are defined, enforced, and used. This topic builds that foundation by examining what keys are, why they matter, how they protect data integrity, what varieties exist, and how SQL expresses them as formal constraints.</p>
+
+<p><strong>What Is a Key in a Relational Database?</strong></p>
+
+<p>A key is any column, or ordered combination of columns, whose values can be used to distinguish one row from every other row in the same table. This property is called <em>uniqueness</em>. Consider a table of employees:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>employee_id</th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>department</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1001</td><td>Alice</td><td>Marsh</td><td>Engineering</td></tr>
+    <tr><td>1002</td><td>Bob</td><td>Chen</td><td>Marketing</td></tr>
+    <tr><td>1003</td><td>Alice</td><td>Jordan</td><td>Engineering</td></tr>
+  </tbody>
+</table>
+
+<p>Notice that <em>first_name</em> alone cannot be a key — two employees share the name "Alice." The column <em>employee_id</em>, however, holds a distinct value for every row, making it a suitable key. This is the essence of uniqueness: no two rows may carry the same value (or the same combination of values, when multiple columns form the key) in the key column(s).</p>
+
+<p>A key may be <strong>simple</strong> (a single column, like <code>employee_id</code>) or <strong>composite</strong> (two or more columns whose combined values are unique, even though the individual columns are not). For example, a course enrollment table might have neither <code>student_id</code> alone nor <code>course_id</code> alone as unique — a student can enroll in many courses, and a course can have many students — but the <em>pair</em> <code>(student_id, course_id)</code> uniquely identifies each enrollment record.</p>
+
+<p>Keys are rooted in the formal <em>relational model</em> introduced by E. F. Codd in 1970. In that model, a <strong>relation</strong> (what SQL calls a table) is defined as a set of tuples (rows), and sets by definition contain no duplicates. Keys are the practical instrument for enforcing that set-like property inside a real database system.</p>
+
+<p><strong>Why Keys Are Essential for Data Organization</strong></p>
+
+<p>Keys solve three interconnected organizational problems: <em>redundancy</em>, <em>retrieval speed</em>, and <em>cross-table relationships</em>.</p>
+
+<p><em>Avoiding redundancy</em> is perhaps the most immediately visible benefit. Without keys and the referential links they enable, the only way to associate an order with a customer would be to copy the customer's name, address, and phone number into every order row. Keys allow a design where customer data lives once in a <code>customers</code> table, and an <code>orders</code> table simply stores the customer's key value — a small integer rather than a large block of repeated text. This principle underlies the process of <strong>normalization</strong>, the systematic decomposition of tables to eliminate redundant data.</p>
+
+<p><em>Efficient retrieval</em> is the second major benefit. Database engines almost always build an index automatically on a primary key column. An index works analogously to a book's index: instead of scanning every row from top to bottom, the engine jumps directly to the correct location. When a query filters or joins on a key column, this index makes the operation orders of magnitude faster on large tables. Even non-primary keys can be indexed explicitly to speed up frequently used lookup columns.</p>
+
+<p><em>Meaningful cross-table relationships</em> depend entirely on keys. Consider an e-commerce schema:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Table</th>
+      <th>Key Column(s)</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>customers</td><td>customer_id</td><td>Uniquely identifies each customer</td></tr>
+    <tr><td>orders</td><td>order_id</td><td>Uniquely identifies each order</td></tr>
+    <tr><td>orders</td><td>customer_id</td><td>References the customer who placed the order</td></tr>
+    <tr><td>order_items</td><td>(order_id, product_id)</td><td>Uniquely identifies each line item in an order</td></tr>
+  </tbody>
+</table>
+
+<p>Each arrow of reference between these tables is only sensible because the referenced column is a reliable, unique identifier. If <code>customer_id</code> in the <code>customers</code> table were not unique, linking an order to a customer would yield an ambiguous result — the database would not know which of several matching rows to associate with the order.</p>
+
+<p><strong>Keys and Data Integrity</strong></p>
+
+<p>Data integrity means that the values stored in a database accurately and consistently represent the real-world facts the database is meant to model. Keys enforce two distinct categories of integrity.</p>
+
+<p><em>Entity integrity</em> is the guarantee that every row in a table is uniquely identifiable. It is violated the moment two rows become indistinguishable — a situation that creates genuine logical problems. If two rows have identical key values, the database cannot answer the question "give me the record for customer 1001" with a single, definitive answer. SQL enforces entity integrity by rejecting any <code>INSERT</code> or <code>UPDATE</code> that would produce a duplicate key value.</p>
+
+<p><em>Referential integrity</em> is the guarantee that references between tables remain valid. Suppose an <code>orders</code> row references <code>customer_id = 42</code>, but no customer with that ID exists in the <code>customers</code> table. The order is now an <em>orphan</em> — it points into a void. Referential integrity constraints (implemented via foreign keys) prevent this situation both at insertion time (you cannot create an order that references a non-existent customer) and at deletion time (you cannot delete a customer who still has orders, unless the schema specifies a cascading action).</p>
+
+<p>The broader consequence of missing key constraints is a class of problems known as <strong>update anomalies</strong>:</p>
+
+<ul>
+  <li><strong>Insertion anomaly:</strong> You cannot record a fact without also recording an unrelated fact. For example, in an unnormalized table, you cannot add a new department unless you also have at least one employee to put in it.</li>
+  <li><strong>Update anomaly:</strong> Changing a single real-world fact requires updating many rows. If a customer's address is stored in every order row, changing the address means finding and updating every one of those rows — and missing even one leaves the database in an inconsistent state.</li>
+  <li><strong>Deletion anomaly:</strong> Deleting one fact inadvertently destroys another. Removing the last employee in a department might eliminate all record of that department's existence if department data is embedded in the employee rows.</li>
+</ul>
+
+<p>Properly defined keys, combined with normalization, eliminate these anomalies by ensuring each fact is stored exactly once and referenced by key where needed elsewhere.</p>
+
+<p><strong>Overview of Key Types in SQL</strong></p>
+
+<p>SQL and the relational model recognize several distinct types of keys, each serving a particular design purpose:</p>
+
+<ul>
+  <li><strong>Primary Key:</strong> The column or columns chosen as the official, authoritative identifier for rows in a table. Every table should have exactly one primary key. Primary key columns must be unique and cannot contain <code>NULL</code>. The database engine creates an index on the primary key automatically.</li>
+  <li><strong>Foreign Key:</strong> A column or set of columns in one table whose values must match the primary key (or a unique key) of another table. Foreign keys are the mechanism for expressing relationships such as "each order belongs to a customer."</li>
+  <li><strong>Candidate Key:</strong> Any column or combination of columns that <em>could</em> serve as a primary key — that is, it is unique and contains no nulls. A table may have several candidate keys; the designer chooses one to be the primary key, and the rest remain as unique constraints.</li>
+  <li><strong>Composite Key:</strong> A key formed from two or more columns. Neither column alone is unique, but the combination is. Composite keys appear frequently in junction tables that resolve many-to-many relationships.</li>
+  <li><strong>Surrogate Key:</strong> An artificial key, typically a system-generated integer or UUID, that has no business meaning. It is introduced purely for technical convenience when no natural attribute (or combination of attributes) makes a satisfactory primary key. Auto-incremented integer columns (<code>SERIAL</code>, <code>AUTO_INCREMENT</code>, <code>IDENTITY</code>) are the most common surrogate keys.</li>
+  <li><strong>Natural Key:</strong> A key formed from attributes that have real-world meaning, such as a national identification number, an email address, or an ISBN. Natural keys avoid the need for an extra column but can become problematic if the real-world value changes (e.g., a person changes their email address).</li>
+  <li><strong>Unique Key:</strong> A constraint that enforces uniqueness on a column or combination of columns without making them the primary key. Unlike primary keys, unique key columns may contain <code>NULL</code> (with caveats that vary by database system).</li>
+</ul>
+
+<p><strong>Keys as Constraints in SQL</strong></p>
+
+<p>In SQL, a key is not just a conceptual label — it is a formal <strong>constraint</strong> written into the table definition and enforced by the database engine. This is a crucial distinction: declaring a key at the database level means every application, every script, and every ad-hoc query that touches the database is subject to the same rules. It is far more robust than validating uniqueness inside application code, which can be bypassed, contain bugs, or fail to cover all paths through which data enters the database.</p>
+
+<p>The principal SQL keywords used to define key constraints are:</p>
+
+<ul>
+  <li><code>PRIMARY KEY</code> — designates the primary key of a table.</li>
+  <li><code>FOREIGN KEY ... REFERENCES</code> — designates a foreign key and names the table and column it references.</li>
+  <li><code>UNIQUE</code> — enforces uniqueness on a non-primary-key column or combination of columns.</li>
+</ul>
+
+<p>These constraints can be declared either <em>inline</em> (as part of a column definition) or <em>out-of-line</em> (as a separate clause in the <code>CREATE TABLE</code> statement, which is required for composite keys). The following example illustrates both styles:</p>
+
+<pre><code>-- Inline primary key (single column)
+CREATE TABLE customers (
+    customer_id   INT          PRIMARY KEY,
+    email         VARCHAR(255) UNIQUE NOT NULL,
+    full_name     VARCHAR(100) NOT NULL
+);
+
+-- Out-of-line composite primary key and foreign key
+CREATE TABLE order_items (
+    order_id    INT  NOT NULL,
+    product_id  INT  NOT NULL,
+    quantity    INT  NOT NULL DEFAULT 1,
+    unit_price  NUMERIC(10,2) NOT NULL,
+
+    PRIMARY KEY (order_id, product_id),
+
+    FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (product_id)
+        REFERENCES products(product_id)
+        ON DELETE RESTRICT
+);
+</code></pre>
+
+<p>When the database engine encounters an <code>INSERT</code> or <code>UPDATE</code> that would violate a key constraint, it raises an error and rolls back the offending statement. For example, attempting to insert a second row with <code>customer_id = 1</code> into the <code>customers</code> table above would produce an error such as <em>"duplicate key value violates unique constraint."</em> Similarly, trying to insert an <code>order_items</code> row with an <code>order_id</code> that does not exist in the <code>orders</code> table would produce a foreign key violation error.</p>
+
+<p>The <code>ON DELETE CASCADE</code> clause in the example above instructs the database that if a parent row in <code>orders</code> is deleted, all matching child rows in <code>order_items</code> should be deleted automatically. <code>ON DELETE RESTRICT</code> (the default in most systems) does the opposite: it prevents the deletion of a parent row if any matching child rows exist. These options give designers fine-grained control over how referential integrity is maintained during delete (and update) operations.</p>
+
+<p>Taken together, primary keys, foreign keys, and unique constraints form a network of guarantees woven directly into the database schema. Every topic that follows in this module — candidate keys, composite keys, surrogate keys, and the nuances of foreign key behavior — builds on this foundation. A solid understanding of what keys are, what problem each type solves, and how SQL expresses them as enforceable constraints is the indispensable starting point for designing databases that are correct, efficient, and maintainable.</p>
+        <div class="notes"><strong>Notes</strong>This topic provides the conceptual foundation for the entire module. Emphasize to learners that key constraints enforced at the database level are more reliable than application-level checks. The e-commerce schema table and the CREATE TABLE code examples are effective anchors for subsequent topics on specific key types.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

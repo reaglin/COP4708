@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creating ER Diagrams</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 6 - Data Modeling and Entity-Relationship Modeling</a></div>
+  <header>
+    <h1>Creating ER Diagrams</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Creating ER Diagrams</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>An <strong>Entity-Relationship (ER) diagram</strong> is a visual blueprint of a database. It captures the things a system needs to track, the properties that describe those things, and the associations between them — all before a single table is created or a line of SQL is written. Mastering ER diagrams is foundational to database design because a well-constructed diagram translates directly into a correct, efficient relational schema, while a poorly constructed one leads to redundancy, anomalies, and maintenance nightmares. This topic walks through every major element of ER diagramming: the notation and symbols used, how to identify what belongs in the diagram, how to annotate it with constraints, and how to translate a real-world problem description into a finished diagram.</p>
+
+<p><strong>Understanding ER Diagram Notation and Symbols</strong></p>
+
+<p>ER diagrams use a small, consistent vocabulary of shapes. Each shape carries a precise meaning, and learning to read and draw them fluently is the first step toward becoming proficient in database design.</p>
+
+<ul>
+  <li><strong>Rectangles represent entities.</strong> An entity is any distinct object, person, place, or concept about which the system must store information. The entity's name — always a singular noun — appears inside the rectangle. For example, a university database would contain rectangles labeled <em>Student</em>, <em>Course</em>, and <em>Instructor</em>. Every rectangle signals: "there will be a table for this concept."</li>
+  <li><strong>Ellipses (ovals) represent attributes.</strong> An attribute is a property or characteristic of an entity. Each ellipse is connected by a line to the rectangle of the entity it describes. For instance, the <em>Student</em> entity might have ellipses labeled <em>StudentID</em>, <em>Name</em>, and <em>DateOfBirth</em>. Different styles of ellipse convey different kinds of attributes, as described in the attributes section below.</li>
+  <li><strong>Diamonds represent relationships.</strong> A diamond sits between two (or more) entity rectangles and is connected to each by a line. The label inside the diamond is a descriptive verb or verb phrase — for example, <em>Enrolls In</em> between <em>Student</em> and <em>Course</em>, or <em>Teaches</em> between <em>Instructor</em> and <em>Course</em>. The diamond makes explicit the business rule that connects those entities.</li>
+  <li><strong>Lines complete the diagram structure.</strong> Plain lines connect entities to their attribute ellipses, and also connect entities to the relationship diamonds they participate in. The style of the line (single or double) carries additional meaning about participation constraints, covered later.</li>
+</ul>
+
+<p>Together, these four symbols — rectangle, ellipse, diamond, line — form a grammar that can describe virtually any data model at the conceptual level.</p>
+
+<p><strong>Identifying Entities from a Problem Domain</strong></p>
+
+<p>Reading a problem description and identifying the right entities is more of a skill than a formula. The following guidelines provide a reliable starting point.</p>
+
+<ul>
+  <li><strong>Entities are typically nouns in the problem statement.</strong> When you read a requirements document, highlight every noun. People (<em>Customer</em>, <em>Employee</em>), places (<em>Branch</em>, <em>Warehouse</em>), things (<em>Product</em>, <em>Invoice</em>), and concepts (<em>Account</em>, <em>Policy</em>) are all strong candidates. Not every noun becomes an entity — some turn out to be attributes — but scanning for nouns is the right first move.</li>
+  <li><strong>Each entity must be distinct and have multiple instances.</strong> An entity type represents a <em>class</em> of things, not a single specific item. <em>Student</em> is an entity type because there are many students; <em>John Smith</em> is an instance of that type, not a separate entity. If you cannot imagine many real-world examples of something, it probably should not be its own entity.</li>
+  <li><strong>Weak entities depend on a strong entity for their existence.</strong> Some entities cannot be uniquely identified by their own attributes alone — they require a relationship with another entity. These are called <strong>weak entities</strong> and are drawn with a <em>double rectangle</em>. The strong entity they depend on is called the <strong>owner entity</strong>, and the relationship between them is drawn with a <em>double diamond</em>. A classic example is <em>Dependent</em> (a family member of an employee) in an HR database: a dependent has no meaningful existence in the system apart from the <em>Employee</em> it belongs to. The partial key of a weak entity — the attribute that distinguishes instances within the same owner — is shown with a dashed underline rather than a solid one.</li>
+</ul>
+
+<p>Consider a library system. The problem statement might say: "The library lends books to members. Each book belongs to a genre. Members can place holds on books that are currently checked out." From this, candidate entities are <em>Book</em>, <em>Member</em>, and <em>Genre</em>. <em>Hold</em> might be a relationship with attributes, or possibly its own entity if it carries significant data.</p>
+
+<p><strong>Defining and Placing Attributes</strong></p>
+
+<p>Once entities are identified, each one must be equipped with the attributes that describe it. Attributes come in several varieties, each drawn differently.</p>
+
+<ul>
+  <li><strong>Key attributes</strong> uniquely identify each instance of an entity. In the ellipse, the attribute name is <em>underlined</em>. For the <em>Student</em> entity, <em>StudentID</em> would typically be the key attribute. A key must be unique across all instances and must never be null. Choosing a good key is critical: natural keys (like a Social Security Number) exist in the real world, while surrogate keys (like an auto-incremented integer) are invented purely for database purposes.</li>
+  <li><strong>Multivalued attributes</strong> can hold more than one value for a single entity instance. They are drawn with a <strong>double ellipse</strong>. An example is <em>PhoneNumber</em> on a <em>Person</em> entity: one person can have a mobile number, a home number, and a work number simultaneously. In the eventual relational schema, multivalued attributes typically become a separate table.</li>
+  <li><strong>Derived attributes</strong> have values that can be computed from other stored data. They are shown with a <strong>dashed ellipse</strong>. For example, <em>Age</em> can be derived from <em>DateOfBirth</em> and the current date. Derived attributes are shown in the diagram to communicate the business rule, but they are usually not stored in the database — they are calculated at query time.</li>
+  <li><strong>Composite attributes</strong> are attributes that can be broken down into smaller, meaningful sub-parts. They are drawn in a tree structure: the composite attribute ellipse connects to sub-attribute ellipses via lines. <em>FullName</em> is composite — it decomposes into <em>FirstName</em>, <em>MiddleName</em>, and <em>LastName</em>. Similarly, <em>Address</em> might decompose into <em>Street</em>, <em>City</em>, <em>State</em>, and <em>ZipCode</em>. Composite attributes are useful when individual components must be queried or sorted independently.</li>
+  <li><strong>Simple (atomic) attributes</strong> cannot be further subdivided and hold a single value. <em>DateOfBirth</em> and <em>GPA</em> are typical simple attributes. These are the most common type and require no special notation beyond a plain ellipse.</li>
+</ul>
+
+<p>The table below summarises the visual conventions for each attribute type:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute Type</th>
+      <th>Visual Notation</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Simple (atomic)</td>
+      <td>Plain ellipse</td>
+      <td>GPA, DateOfBirth</td>
+    </tr>
+    <tr>
+      <td>Key</td>
+      <td>Plain ellipse with underlined name</td>
+      <td><u>StudentID</u>, <u>ISBN</u></td>
+    </tr>
+    <tr>
+      <td>Multivalued</td>
+      <td>Double ellipse</td>
+      <td>PhoneNumber, EmailAddress</td>
+    </tr>
+    <tr>
+      <td>Derived</td>
+      <td>Dashed ellipse</td>
+      <td>Age, TotalOrderValue</td>
+    </tr>
+    <tr>
+      <td>Composite</td>
+      <td>Ellipse with child ellipses</td>
+      <td>FullName → {FirstName, LastName}</td>
+    </tr>
+    <tr>
+      <td>Partial key (weak entity)</td>
+      <td>Ellipse with dashed underline</td>
+      <td>DependentName</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Drawing Relationships Between Entities</strong></p>
+
+<p>Relationships are the connective tissue of an ER diagram. They represent meaningful associations between entities and encode the business rules of the domain.</p>
+
+<ul>
+  <li><strong>Relationship labels should be descriptive verb phrases.</strong> Instead of a vague label like <em>Has</em>, prefer something that reads naturally: <em>Enrolls In</em>, <em>Manages</em>, <em>Supplies</em>. A well-labeled diamond makes the diagram self-documenting. It should be possible to read a relationship as a sentence: "A <em>Student</em> <em>Enrolls In</em> a <em>Course</em>."</li>
+  <li><strong>Binary relationships</strong> involve exactly two entity types and are by far the most common. The diamond connects to one entity on each side. Examples: <em>Employee</em> — <em>Works For</em> — <em>Department</em>; <em>Author</em> — <em>Writes</em> — <em>Book</em>.</li>
+  <li><strong>Ternary relationships</strong> involve three entity types simultaneously, all connected to a single diamond. They arise when the association is genuinely three-way and cannot be decomposed into binary relationships without losing information. A textbook example is a <em>Supplier</em> supplying a <em>Part</em> to a <em>Project</em> — the supply relationship only makes sense when all three participants are known together. Ternary relationships require careful thought: sometimes what appears three-way can actually be modeled as two binary relationships; other times, forcing it into binaries introduces semantic errors.</li>
+  <li><strong>Relationship attributes</strong> are attributes that describe the relationship itself, not any single participating entity. They are shown as ellipses attached to the relationship diamond. Consider the <em>Enrolls In</em> relationship between <em>Student</em> and <em>Course</em>: the attribute <em>Grade</em> belongs to the enrollment event, not to the student alone or the course alone — a student has different grades in different courses. Therefore <em>Grade</em> is a relationship attribute attached to the <em>Enrolls In</em> diamond. Similarly, <em>HireDate</em> on an <em>Employee</em>–<em>Works For</em>–<em>Department</em> relationship records when an employee joined that department, which is logically a property of the assignment rather than the employee or department.</li>
+</ul>
+
+<p><strong>Expressing Cardinality and Participation Constraints</strong></p>
+
+<p>Constraints are what give an ER diagram its real power. They encode business rules directly in the diagram, reducing ambiguity about how the data behaves.</p>
+
+<ul>
+  <li><strong>Cardinality ratios</strong> describe how many instances of one entity can be associated with how many instances of another through a given relationship. There are three fundamental ratios:</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ratio</th>
+      <th>Notation on Diagram</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>One-to-One (1:1)</td>
+      <td>"1" on both lines</td>
+      <td>Each instance on either side relates to at most one instance on the other</td>
+      <td>Employee manages one Department; Department has one Manager</td>
+    </tr>
+    <tr>
+      <td>One-to-Many (1:N)</td>
+      <td>"1" on one side, "N" on the other</td>
+      <td>One instance on the "1" side relates to many on the "N" side</td>
+      <td>One Department employs many Employees</td>
+    </tr>
+    <tr>
+      <td>Many-to-Many (M:N)</td>
+      <td>"M" and "N" on the lines</td>
+      <td>Many instances on each side can relate to many on the other</td>
+      <td>Students enroll in many Courses; Courses have many Students</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Total participation</strong> (also called <em>existence dependency</em>) means that <em>every</em> instance of an entity must participate in the relationship — there are no exceptions. It is shown with a <strong>double line</strong> connecting the entity to the relationship diamond. For example, every <em>Order</em> must be placed by a <em>Customer</em> — an order without a customer is meaningless in most business systems. Total participation often signals a NOT NULL foreign key constraint in the resulting schema.</li>
+  <li><strong>Partial participation</strong> means that <em>some</em> instances of the entity may not participate in the relationship at all. It is shown with a <strong>single line</strong>. For example, not every <em>Employee</em> manages a <em>Department</em> — most employees are non-managers. The line from <em>Employee</em> to the <em>Manages</em> diamond would be a single line.</li>
+</ul>
+
+<p>Reading constraints together gives precise statements like: "Every Order (total, double line) must be placed by exactly one Customer (1:N cardinality), but a Customer may exist without placing any Orders (partial, single line)." This level of precision directly informs referential integrity rules in the schema.</p>
+
+<p>Some notations (particularly <strong>crow's foot notation</strong>, widely used in industry tools) express both cardinality and participation simultaneously using symbols at the ends of lines: a straight perpendicular bar for "exactly one," a circle for "zero," and a crow's foot (three prongs) for "many." While the classic Chen notation described here uses separate labels and line styles, crow's foot notation conveys the same information more compactly and is worth recognising when reading diagrams produced by tools like Lucidchart, draw.io, or MySQL Workbench.</p>
+
+<p><strong>Translating a Problem Description into an ER Diagram</strong></p>
+
+<p>The process of going from a written problem statement to a finished ER diagram follows a systematic sequence of steps.</p>
+
+<ul>
+  <li><strong>Step 1 — Read and annotate the problem statement.</strong> Read the full description at least twice. On the second pass, underline or highlight nouns (candidate entities and attributes) and circle verbs (candidate relationships). Look for numerical words like "each," "every," "one," "many," or "multiple" — these hint at cardinality. For example: "Each <em>student</em> can enroll in many <em>courses</em>, and each course can have many students enrolled. A course is taught by exactly one <em>instructor</em>, but an instructor may teach several courses."</li>
+  <li><strong>Step 2 — Draft a candidate list.</strong> From your annotations, make a preliminary list of entities, relationships, and attributes. At this stage, don't worry about being perfect — just capture everything. You might list: Entities: <em>Student</em>, <em>Course</em>, <em>Instructor</em>. Relationships: <em>Enrolls In</em> (Student–Course), <em>Teaches</em> (Instructor–Course). Attributes: Student has <em>StudentID</em>, <em>Name</em>, <em>Major</em>; Course has <em>CourseID</em>, <em>Title</em>, <em>Credits</em>; Instructor has <em>InstructorID</em>, <em>Name</em>, <em>Office</em>.</li>
+  <li><strong>Step 3 — Sketch a rough layout.</strong> Place entity rectangles as nodes on paper or a whiteboard. Connect entities involved in the same relationship with a diamond between them. Don't attach attributes yet — focus on getting the skeleton of entities and relationships right first. This rough sketch lets you spot missing relationships or entities quickly without the clutter of attributes.</li>
+  <li><strong>Step 4 — Add attributes.</strong> For each entity, attach its attribute ellipses. Identify which attribute is the key and underline it. Identify any multivalued, derived, or composite attributes and apply the correct notation. Attach any relationship attributes to their diamonds.</li>
+  <li><strong>Step 5 — Mark cardinality and participation constraints.</strong> Return to the problem description and extract the numeric rules. Mark the cardinality ratios (1:1, 1:N, M:N) on the lines. Add double lines for total participation. Every constraint you mark should be traceable to a sentence in the requirements.</li>
+  <li><strong>Step 6 — Validate against the problem statement.</strong> Read each business rule in the problem description and confirm there is a corresponding structure in the diagram. If the problem says "a loan must be associated with a branch," check that <em>Loan</em> has total participation in its relationship with <em>Branch</em>. If something is not represented, the diagram is incomplete.</li>
+  <li><strong>Step 7 — Iterate and refine.</strong> Remove any redundancies — if two relationships express the same association, collapse them into one. Rename anything that is vague. Restructure the layout to reduce line crossings. The diagram should be readable by someone who was not involved in drawing it.</li>
+</ul>
+
+<p>As a worked illustration, consider this short problem: <em>"A hospital tracks patients and the rooms they are admitted to. Each patient is admitted to exactly one room at a time. A room can hold multiple patients. Nurses are assigned to care for patients; each patient has multiple nurses and each nurse cares for multiple patients. Each nurse works in exactly one ward."</em></p>
+
+<p>From this: Entities are <em>Patient</em>, <em>Room</em>, <em>Nurse</em>, <em>Ward</em>. Relationships are <em>Admitted To</em> (Patient–Room, many patients to one room; total participation for Patient), <em>Cares For</em> (Nurse–Patient, M:N), and <em>Works In</em> (Nurse–Ward, many nurses to one ward; total participation for Nurse). Key attributes: <em>PatientID</em>, <em>RoomNumber</em>, <em>NurseID</em>, <em>WardID</em>.</p>
+
+<p><strong>Best Practices for Clear and Accurate ER Diagrams</strong></p>
+
+<p>Technical correctness is necessary but not sufficient — a diagram that cannot be read quickly and without ambiguity will cause errors downstream. The following best practices keep diagrams professional and useful.</p>
+
+<ul>
+  <li><strong>Use consistent, descriptive naming conventions.</strong> Entity names should be singular nouns (<em>Customer</em>, not <em>Customers</em>). Relationship labels should be active verb phrases (<em>Places</em>, <em>Assigns</em>, <em>Belongs To</em>). Attribute names should be self-explanatory (<em>DateOfBirth</em> rather than <em>DOB</em> or <em>d</em>). Consistency means a reader does not need to ask "what does this label mean?"</li>
+  <li><strong>Minimise line crossings.</strong> Crossed lines are visually confusing and make it difficult to trace which entity connects to which relationship. Arrange entities so that the most heavily connected ones are central, with less connected entities on the periphery. Try multiple arrangements before settling on a layout.</li>
+  <li><strong>Stay at the conceptual level.</strong> An ER diagram is a <em>conceptual</em> model. Do not include data types (<em>VARCHAR(50)</em>), indexes, or storage details. Do not indicate primary keys using PK notation from physical design tools — use the underlined ellipse convention. Implementation details belong in the logical and physical design phases that follow.</li>
+  <li><strong>Include a legend for non-standard notation.</strong> If you are using mixed notation styles — for example, combining Chen symbols with crow's foot cardinality markers — include a small legend in a corner of the diagram explaining each symbol. Different teams and tools use different conventions, and a legend prevents misinterpretation.</li>
+  <li><strong>Avoid over-engineering.</strong> Not every nuance of the domain needs to be in the ER diagram. If a distinction is not needed to correctly store and retrieve data, it is complexity without benefit. The goal is the simplest diagram that correctly captures all the business rules.</li>
+  <li><strong>Have a domain expert review the diagram.</strong> The ultimate test of an ER diagram is whether the people who understand the business recognise their rules and processes in it. A technical review catches notation errors; a domain review catches semantic errors — and semantic errors are far more costly to fix once a schema is built.</li>
+</ul>
+
+<p>ER diagramming is an iterative, collaborative craft. The first draft is almost never the final one, and that is expected. Each revision cycle — drawing, validating, correcting — deepens your understanding of both the notation and the problem domain, producing a diagram that serves as a reliable contract between analysts, developers, and database administrators for the entire lifecycle of the system.</p>
+        <div class="notes"><strong>Notes</strong>Covers all major subtopics: notation and symbols (rectangle, ellipse, diamond, line), entity identification including weak entities, all five attribute types (simple, key, multivalued, derived, composite) with a summary table, binary/ternary/relationship-attribute coverage for relationships, cardinality and participation constraints with a comparison table and mention of crow&#39;s foot notation, a seven-step translation process with a worked hospital example, and seven best-practice recommendations. No headings used; structure carried entirely by paragraph breaks and lists.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

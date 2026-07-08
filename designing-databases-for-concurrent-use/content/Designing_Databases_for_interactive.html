@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concurrency Control Strategies and Best Practices</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Designing Databases for Concurrent Use</a></div>
+  <header>
+    <h1>Concurrency Control Strategies and Best Practices</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Concurrency Control Strategies and Best Practices</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Concurrency control is one of the most consequential design decisions in any database-backed system. When multiple transactions execute simultaneously, they can interfere with one another in ways that produce incorrect results — dirty reads, lost updates, phantom rows, and non-repeatable reads are all manifestations of insufficient concurrency control. At the same time, overly aggressive control mechanisms throttle throughput, introduce latency, and in the worst case create deadlocks that bring entire workloads to a halt. The challenge, then, is not simply preventing bad outcomes but doing so at the lowest possible cost to performance. Three primary strategies have emerged to meet this challenge — Optimistic Concurrency Control (OCC), Pessimistic Concurrency Control (PCC), and Multiversion Concurrency Control (MVCC) — each reflecting a different set of assumptions about how often conflicts actually occur and what the right response to them should be.</p>
+
+<p><strong>Optimistic Concurrency Control (OCC)</strong> is built on the premise that conflicts are rare. Rather than acquiring locks before accessing data, a transaction under OCC reads and writes freely during its execution phase, accumulating its changes in a private workspace. Only at commit time does the system perform a validation step, checking whether any of the data the transaction read or wrote has been modified by a concurrent transaction that already committed. If no conflict is found, the transaction commits and its changes become durable. If a conflict is detected, the transaction is rolled back and must be retried from scratch.</p>
+
+<p>The most common way to implement OCC is with a <strong>version number</strong> or <strong>timestamp</strong> attached to each row. When a transaction reads a row, it records the version it saw. When it later tries to commit an update to that row, the database checks whether the current version still matches the recorded one. If another transaction has incremented the version in the interim, a mismatch is detected and the commit is rejected. A typical SQL pattern at the application layer looks like this:</p>
+
+<pre><code>-- Read the row and capture its version
+SELECT id, balance, version
+FROM accounts
+WHERE id = 42;
+
+-- Attempt the update, but only if the version has not changed
+UPDATE accounts
+SET balance = balance - 100,
+    version = version + 1
+WHERE id = 42
+  AND version = :captured_version;
+
+-- If zero rows were affected, a conflict occurred — retry the transaction
+</code></pre>
+
+<p>If the <code>UPDATE</code> affects zero rows it means the version has changed since the read, signaling that another transaction won the race. The application must then retry the entire transaction. This "zero rows affected" check is the application-layer equivalent of the database's own commit-time validation.</p>
+
+<p>The principal advantage of OCC is that <em>no locks are held during the transaction's execution</em>, so concurrent readers and writers never block one another. In workloads where the same rows are rarely contended — analytics against slowly changing reference data, user-profile lookups, catalog browsing — OCC delivers excellent throughput. Its principal disadvantage is wasted work: a long transaction that reads dozens of tables and performs extensive computation may have all of that effort discarded at commit time. If the retry also fails, and the next one too, the system can fall into a livelock-like spiral under sustained high contention, making OCC a poor choice when many transactions compete for the same small set of hot rows.</p>
+
+<p><strong>Pessimistic Concurrency Control (PCC)</strong> takes the opposite stance: conflicts are expected, so it is better to prevent them up front by acquiring locks before accessing data. PCC relies on two fundamental lock types.</p>
+
+<ul>
+  <li><strong>Shared (read) locks</strong> can be held simultaneously by many transactions reading the same resource. A transaction that holds only a shared lock cannot modify the resource, and any transaction wishing to write must wait until all shared locks on that resource are released. This allows concurrent reads while serializing writes.</li>
+  <li><strong>Exclusive (write) locks</strong> grant sole ownership of a resource to one transaction. No other transaction may read or write that resource until the exclusive lock is released. This gives the writing transaction a guarantee that the data it modifies will not be read in a partially-updated state.</li>
+</ul>
+
+<p>Lock <strong>granularity</strong> is a critical tuning dimension in PCC. A table-level lock is easy for the database to manage — it is a single lock object — but it prevents all other transactions from touching any row in that table, serializing access even when transactions work on completely disjoint rows. A row-level lock allows far more concurrency because two transactions updating different rows do not interfere at all, but the database may need to manage thousands or millions of individual lock objects for a single large batch operation, consuming significant memory and CPU. Page-level locks (locking a storage page containing multiple rows) sit between these extremes. Most modern relational databases default to row-level locking with automatic escalation to coarser granularity when the lock count grows too large.</p>
+
+<p>The most dangerous pathology of PCC is the <strong>deadlock</strong>. A deadlock occurs when two or more transactions each hold a lock that the other needs, forming a circular wait from which no transaction can escape on its own:</p>
+
+<pre><code>-- Transaction A                  -- Transaction B
+BEGIN;                            BEGIN;
+UPDATE accounts SET ...           UPDATE orders SET ...
+WHERE id = 1;  -- locks row 1     WHERE id = 99; -- locks row 99
+
+UPDATE orders SET ...             UPDATE accounts SET ...
+WHERE id = 99; -- waits for B     WHERE id = 1;  -- waits for A
+                                  -- DEADLOCK!
+</code></pre>
+
+<p>Databases detect deadlocks by periodically scanning the lock dependency graph for cycles. When a cycle is found, the database selects one transaction as the victim — typically the one that has done the least work or holds the fewest locks — rolls it back, and allows the other to proceed. The rolled-back transaction may then be retried by the application. Deadlocks are not catastrophic in themselves, but a high deadlock rate is a strong signal of poor transaction design.</p>
+
+<p><strong>Multiversion Concurrency Control (MVCC)</strong> represents a fundamentally different architectural approach. Rather than using locks to mediate access, MVCC maintains multiple versions of each row simultaneously. When a transaction updates a row, the database does not overwrite the existing data; instead it writes a new version of the row and marks the old version with a deletion timestamp or transaction ID, keeping it accessible to any concurrent transaction that started before the update was committed.</p>
+
+<p>The result is that every transaction operates against a <strong>consistent snapshot</strong> of the database as it existed at the moment the transaction began (or, depending on the isolation level, at the moment each statement began). Readers never block writers and writers never block readers, because they are looking at different versions of the same data. This is a significant throughput improvement over PCC for read-heavy workloads.</p>
+
+<p>Consider two concurrent transactions in PostgreSQL, which uses MVCC natively:</p>
+
+<pre><code>-- Session A starts first
+BEGIN;
+SELECT balance FROM accounts WHERE id = 42;
+-- Returns 1000 (version 1 of the row)
+
+-- Session B commits an update concurrently
+BEGIN;
+UPDATE accounts SET balance = 900 WHERE id = 42;
+COMMIT;
+-- A new row version (version 2) now exists with balance = 900
+
+-- Session A re-reads the same row
+SELECT balance FROM accounts WHERE id = 42;
+-- Still returns 1000 — Session A sees version 1, its snapshot
+COMMIT;
+</code></pre>
+
+<p>Session A sees a perfectly consistent view of the data throughout its entire lifetime, unaffected by Session B's committed change, without any read locks being acquired. This behavior is called <strong>Snapshot Isolation</strong> and it eliminates dirty reads, non-repeatable reads, and phantom reads for ordinary SELECT statements.</p>
+
+<p>The cost of MVCC is storage bloat. Old row versions accumulate on disk and must eventually be reclaimed. PostgreSQL uses a background process called <strong>VACUUM</strong> for this purpose; it scans tables for row versions no longer needed by any active transaction and marks that space as reusable. If VACUUM falls behind — because transactions run for a very long time holding snapshots open, or because the autovacuum process is misconfigured — table bloat can grow dramatically, degrading query performance. Oracle handles this differently, storing old versions in a separate <em>undo tablespace</em> rather than inline with the table, which keeps table files compact but shifts the bloat elsewhere.</p>
+
+<p><strong>Choosing the Right Strategy for Your Workload</strong> requires a clear-eyed analysis of several dimensions rather than defaulting to whatever the database offers out of the box.</p>
+
+<ul>
+  <li><strong>Read-to-write ratio:</strong> A workload dominated by reads benefits enormously from MVCC or OCC, both of which avoid read locks. A workload with frequent writes to the same rows — financial ledgers, inventory counts, auction bids — sees more conflicts under OCC and more lock contention under PCC, requiring careful design regardless of the strategy chosen.</li>
+  <li><strong>Transaction duration and complexity:</strong> Short, simple transactions are cheap to roll back and retry, making OCC practical. Long transactions that assemble data from many tables, perform complex calculations, and then write results are very expensive to discard. If a five-minute transaction fails at commit time and must restart, the system effectively wastes ten minutes of CPU for every successful commit. PCC may be preferable here even at some throughput cost, because it surfaces contention early rather than at the end.</li>
+  <li><strong>Database engine support:</strong> Every major database has a preferred concurrency model. PostgreSQL and Oracle are optimized for MVCC. MySQL's InnoDB engine also uses MVCC. SQL Server offers both pessimistic locking (the default) and MVCC-based snapshot isolation as an opt-in. Forcing a strategy the engine was not built for — for example, simulating MVCC with application-managed version tables in a lock-based engine — usually produces worse results than working with the engine's native mechanisms.</li>
+  <li><strong>Realistic load testing:</strong> Single-user benchmarks measure raw execution speed but reveal nothing about contention. A strategy that looks excellent under single-user testing may collapse under 200 concurrent users all updating the same account. Always test under a concurrency level and data access pattern that realistically approximates production before locking in a strategy.</li>
+</ul>
+
+<p><strong>Practical Design Patterns for Consistency Without Performance Loss</strong> apply regardless of which high-level strategy the database employs. These are engineering habits that reduce contention, minimize rollback rates, and keep the system well-behaved under load.</p>
+
+<ul>
+  <li><strong>Keep transactions short.</strong> Every moment a transaction stays open, it either holds locks (under PCC) or accumulates risk of a conflict at commit time (under OCC), and it keeps a snapshot alive (under MVCC, preventing cleanup of old row versions). Move any computation that does not need to be atomic — formatting output, calling external APIs, making decisions based on data already read — outside the transaction boundaries. Open the transaction, do the minimum necessary data work, and commit immediately.</li>
+  <li><strong>Access resources in a consistent order.</strong> Deadlocks under PCC almost always arise from transactions acquiring locks in different sequences. If Transaction A locks the <em>accounts</em> table then the <em>orders</em> table, and Transaction B locks the <em>orders</em> table then the <em>accounts</em> table, a deadlock is possible. Enforcing a global ordering — always lock <em>accounts</em> before <em>orders</em>, always update rows in ascending primary key order — eliminates the circular dependency and prevents the deadlock entirely, often without any schema or index changes.</li>
+  <li><strong>Implement optimistic locking at the application layer when necessary.</strong> Not every database natively exposes version-number-based OCC, but any application can implement it with a <code>version</code> integer or <code>updated_at</code> timestamp column. The pattern is: read the row and capture the version; include <code>AND version = :v</code> in every UPDATE's WHERE clause; check the affected row count; retry if it is zero. This technique works across virtually any relational database and imposes negligible overhead in low-contention scenarios.</li>
+  <li><strong>Shard hot rows.</strong> A single row that every transaction must update — a global counter, a shared account balance, a site-wide inventory number — becomes a serialization bottleneck regardless of which concurrency strategy is in use. Counter sharding distributes the write load: instead of one row holding the total count, maintain ten rows each holding a partial count and sum them at read time. Writes are distributed across ten rows, reducing contention by roughly a factor of ten. Amazon's DynamoDB, for example, formally documents this pattern as a best practice for high-write counters.</li>
+  <li><strong>Choose the lowest isolation level that still meets correctness requirements.</strong> SQL defines four standard isolation levels — Read Uncommitted, Read Committed, Repeatable Read, and Serializable — each preventing a progressively larger set of anomalies at progressively greater cost. Most applications do not actually need full Serializable isolation; Read Committed is the default in PostgreSQL and Oracle for good reason. Running at Serializable when Read Committed is sufficient imposes unnecessary locking overhead (under PCC) or conflict-detection overhead (under Serializable Snapshot Isolation). Understand exactly which anomalies your application must prevent and choose the level accordingly.</li>
+</ul>
+
+<p><strong>Monitoring and Tuning Concurrency in Production</strong> is an ongoing discipline, not a one-time configuration exercise. Workloads evolve: new features introduce new query patterns, data volumes grow, and what was a rare conflict at 100 users becomes a constant collision at 10,000.</p>
+
+<ul>
+  <li><strong>Track lock wait times and deadlock rates.</strong> Most databases expose these through system views or performance schema tables. In PostgreSQL, <code>pg_locks</code> and <code>pg_stat_activity</code> reveal which queries are waiting on which locks and for how long. In SQL Server, the <code>sys.dm_exec_requests</code> and <code>sys.dm_os_wait_stats</code> DMVs provide similar visibility. A sudden spike in lock waits often correlates with a schema migration that changed an index, a new batch job introduced to production, or a query regression that turned a fast point lookup into a full table scan (dramatically expanding the set of rows touched and therefore the lock scope).</li>
+  <li><strong>Monitor table bloat and vacuum lag in MVCC systems.</strong> In PostgreSQL, the <code>pg_stat_user_tables</code> view reports <code>n_dead_tup</code>, the number of dead (obsolete) row versions in each table. A table where <code>n_dead_tup</code> is consistently large relative to <code>n_live_tup</code> indicates that VACUUM is not keeping up. Check <code>pg_stat_bgwriter</code> for autovacuum activity and consider increasing <code>autovacuum_vacuum_scale_factor</code> aggressiveness or running manual VACUUM on the most bloated tables. Long-running transactions are the most common culprit: a transaction open for hours holds a snapshot that prevents VACUUM from removing any row version newer than that snapshot's start time.</li>
+  <li><strong>Profile individual transactions for lock scope and duration.</strong> Aggregate statistics tell you <em>that</em> a problem exists; query-level profiling tells you <em>where</em>. Tools like PostgreSQL's <code>auto_explain</code> module, SQL Server's Extended Events, or application-level tracing (OpenTelemetry, for instance) can reveal which specific transactions hold locks for an unusually long time. Common findings include transactions that open with a lock-acquiring UPDATE and then spend most of their time doing network I/O or application logic before committing — a pattern easily remedied by deferring the UPDATE to just before the commit.</li>
+  <li><strong>Establish baselines before problems occur.</strong> Concurrency issues are hard to diagnose when you do not know what normal looks like. Capture baseline metrics for lock wait times, deadlock frequency, average transaction duration, MVCC bloat ratios, and query latency percentiles during a representative normal workload. Store these time-series in a monitoring system. When anomalies appear — and they will — the baseline immediately answers the question "is this a concurrency problem or just higher load?" and guides the investigation toward the right strategy for resolution.</li>
+</ul>
+
+<p>The following table summarizes the key trade-offs among the three major concurrency control strategies to aid in workload-appropriate selection:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Optimistic (OCC)</th>
+      <th>Pessimistic (PCC)</th>
+      <th>Multiversion (MVCC)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Conflict assumption</td>
+      <td>Rare</td>
+      <td>Frequent</td>
+      <td>Mixed (reads never conflict)</td>
+    </tr>
+    <tr>
+      <td>Read blocking</td>
+      <td>None</td>
+      <td>Blocked by exclusive locks</td>
+      <td>None (snapshot read)</td>
+    </tr>
+    <tr>
+      <td>Write blocking</td>
+      <td>None during execution; rollback on conflict</td>
+      <td>Blocked until locks released</td>
+      <td>Writers block writers; readers never blocked</td>
+    </tr>
+    <tr>
+      <td>Deadlock risk</td>
+      <td>None</td>
+      <td>Yes</td>
+      <td>Low (write-write conflicts possible)</td>
+    </tr>
+    <tr>
+      <td>Wasted work on conflict</td>
+      <td>High (full retry)</td>
+      <td>Low (wait, then proceed)</td>
+      <td>Low for reads; write conflicts cause rollback</td>
+    </tr>
+    <tr>
+      <td>Storage overhead</td>
+      <td>Minimal</td>
+      <td>Lock metadata only</td>
+      <td>Old row versions accumulate until cleaned</td>
+    </tr>
+    <tr>
+      <td>Best-fit workload</td>
+      <td>Low contention, short transactions</td>
+      <td>High contention, long transactions</td>
+      <td>Read-heavy with occasional writes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Effective concurrency control is ultimately about matching the chosen strategy to the observed characteristics of the workload, implementing it with disciplined transaction design, and maintaining visibility into its behavior as the system evolves. No single strategy dominates in all scenarios; the right answer emerges from understanding the trade-offs deeply enough to apply them appropriately.</p>
+        <div class="notes"><strong>Notes</strong>The table at the end consolidates the comparative trade-off information for quick reference in revision or discussion contexts. The SQL code examples are generic ANSI-compatible SQL with PostgreSQL-flavored commentary where engine-specific behavior (VACUUM, pg_locks) is mentioned. Instructors may wish to supplement with engine-specific lab exercises for PostgreSQL or SQL Server to reinforce the monitoring section.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

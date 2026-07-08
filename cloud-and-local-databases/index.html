@@ -3,28 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cloud and Local Databases – COP4708</title>
+  <title>Cloud and Local Databases — COP4708</title>
   <style>
     /* ── Reset & Base ── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      color: #2c3e50;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1e2a38;
       line-height: 1.6;
       min-height: 100vh;
     }
 
-    /* ── Header / Hero ── */
+    /* ── Header ── */
     header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2e6da4 100%);
+      background: linear-gradient(135deg, #1a3a5c 0%, #24598a 100%);
       color: #ffffff;
-      padding: 3rem 2rem 2.5rem;
+      padding: 2.5rem 1.5rem 2rem;
       text-align: center;
     }
 
@@ -34,149 +30,155 @@
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      background-color: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 20px;
-      padding: 0.25rem 0.85rem;
-      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 0.25rem 0.9rem;
+      margin-bottom: 0.9rem;
+      color: #c9dff5;
     }
 
     header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
       font-weight: 700;
       letter-spacing: -0.01em;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
-    header p.intro {
+    header p {
       max-width: 680px;
       margin: 0 auto;
       font-size: 1rem;
-      color: rgba(255, 255, 255, 0.88);
+      color: #c5d9ee;
+      line-height: 1.7;
     }
 
-    /* ── Main Content ── */
+    /* ── Main Container ── */
     main {
-      max-width: 960px;
-      margin: 2.5rem auto;
-      padding: 0 1.25rem 3rem;
+      max-width: 1100px;
+      margin: 2.5rem auto 3rem;
+      padding: 0 1.25rem;
     }
 
-    /* ── Section heading ── */
-    .section-heading {
-      font-size: 1rem;
+    /* ── Section Label ── */
+    .section-label {
+      font-size: 0.75rem;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #5a6a7e;
-      border-bottom: 2px solid #d0dae6;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      color: #5a7a9a;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #dce4ed;
     }
 
     /* ── Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.25rem;
     }
 
-    /* ── Artifact Card ── */
+    /* ── Card ── */
     .card {
       background: #ffffff;
-      border: 1px solid #dce4ef;
+      border: 1px solid #dce4ed;
       border-radius: 10px;
-      padding: 1.4rem 1.5rem;
+      padding: 1.35rem 1.4rem 1.25rem;
       display: flex;
       flex-direction: column;
       gap: 0.55rem;
-      box-shadow: 0 2px 8px rgba(30, 60, 100, 0.07);
       transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 18px rgba(30, 60, 100, 0.13);
+      box-shadow: 0 6px 22px rgba(30, 60, 100, 0.12);
       transform: translateY(-2px);
     }
 
-    /* ── Card — top row: name + source link ── */
-    .card-name-row {
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-
-    .card-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #1a3a5c;
-      text-decoration: none;
-      word-break: break-word;
-    }
-
-    .card-name:hover {
-      text-decoration: underline;
-      color: #2e6da4;
-    }
-
-    .card-name.plain {
-      color: #2c3e50;
-      cursor: default;
-    }
-
-    .source-link {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #2e6da4;
-      text-decoration: none;
-      background-color: #eaf2fb;
-      border: 1px solid #b8d4ef;
-      border-radius: 4px;
-      padding: 0.15rem 0.5rem;
-      white-space: nowrap;
-      transition: background-color 0.15s ease;
-    }
-
-    .source-link:hover {
-      background-color: #cfe2f5;
-      text-decoration: none;
-    }
-
-    /* ── Card — meta badges ── */
+    /* ── Card Top Row ── */
     .card-meta {
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
       flex-wrap: wrap;
-      gap: 0.45rem;
     }
 
     .badge {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      border-radius: 4px;
-      padding: 0.2rem 0.55rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
     }
 
     .badge-type {
-      background-color: #e8f0fa;
-      color: #2b5c99;
-      border: 1px solid #b8cef0;
+      background: #e8f0fb;
+      color: #2458a8;
+      border: 1px solid #c3d5f5;
     }
 
     .badge-filetype {
-      background-color: #edf7f0;
-      color: #276c42;
-      border: 1px solid #aadbbe;
+      background: #eef7f0;
+      color: #2a7a3b;
+      border: 1px solid #b8e0c0;
+      font-family: "Courier New", monospace;
     }
 
-    /* ── Card — description ── */
-    .card-description {
-      font-size: 0.9rem;
-      color: #4a5a6b;
-      line-height: 1.55;
-      margin-top: 0.2rem;
+    /* ── Card Title Row ── */
+    .card-title-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e2a38;
+      line-height: 1.4;
+    }
+
+    .card-name a {
+      color: #1a5296;
+      text-decoration: none;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .card-name a:hover,
+    .card-name a:focus {
+      border-bottom-color: #1a5296;
+      outline: none;
+    }
+
+    .source-link {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #5a7a9a;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid #b0c4d8;
+      border-radius: 4px;
+      padding: 0.1rem 0.45rem;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #e4eef8;
+      color: #1a3a5c;
+      outline: none;
+    }
+
+    /* ── Card Description ── */
+    .card-desc {
+      font-size: 0.875rem;
+      color: #4a5f74;
+      line-height: 1.65;
+      flex: 1;
     }
 
     /* ── Footer ── */
@@ -184,20 +186,22 @@
       text-align: center;
       padding: 1.5rem 1rem;
       font-size: 0.8rem;
-      color: #8a97a8;
-      border-top: 1px solid #dce4ef;
-      background-color: #f4f6f9;
+      color: #8fa5bc;
+      border-top: 1px solid #dce4ed;
+      background: #f4f6f9;
     }
 
-    /* ── Responsive tweak ── */
-    @media (max-width: 480px) {
-      header {
-        padding: 2.2rem 1.25rem 2rem;
-      }
+    /* ── Accessibility: focus-visible ring ── */
+    a:focus-visible {
+      outline: 2px solid #1a5296;
+      outline-offset: 2px;
+    }
 
-      .card {
-        padding: 1.2rem 1.2rem;
-      }
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      header { padding: 2rem 1rem 1.5rem; }
+      .card { padding: 1.1rem 1.1rem 1rem; }
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -208,42 +212,169 @@
   <header>
     <div class="course-label">COP4708</div>
     <h1>Cloud and Local Databases</h1>
-    <p class="intro">
-      This module explores the differences between locally hosted and cloud-based database
-      deployment models. You will examine infrastructure setup, management responsibilities,
-      and managed cloud services such as AWS RDS and Azure SQL, building a foundation for
-      selecting and administering databases in modern environments.
+    <p>
+      This module compares cloud-based and locally hosted database deployment
+      models, exploring infrastructure responsibilities, managed services such
+      as AWS RDS and Azure, cost trade-offs, scalability, and security. Use
+      the resources below to navigate the module's lessons and readings.
     </p>
   </header>
 
   <main>
-    <p class="section-heading">Module Artifacts</p>
+    <p class="section-label">Module Artifacts &mdash; 9 items</p>
 
     <div class="card-grid">
 
-      <!-- Artifact: Module Topics -->
+      <!-- 1. Module Topics -->
       <div class="card">
-        <div class="card-name-row">
-          <a class="card-name" href="content/module_topics.html">Module Topics</a>
-          <a class="source-link" href="source/hierarchy.json">source file</a>
-        </div>
         <div class="card-meta">
           <span class="badge badge-type">Module Topics</span>
           <span class="badge badge-filetype">.json</span>
         </div>
-        <p class="card-description">
-          Covers the core topics of the module—comparing locally hosted and cloud-based database
-          deployment models, including infrastructure setup, management responsibilities, and
-          specific managed services such as AWS RDS and Azure—serving as a navigational overview
-          that helps instructors sequence lessons and learners understand what concepts they will study.
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/module_topics.html">Module Topics</a>
+          </span>
+          <a class="source-link" href="source/hierarchy.json">source file</a>
+        </div>
+        <p class="card-desc">
+          Covers the core topics of the module—comparing locally hosted and cloud-based database deployment models, including infrastructure setup, management responsibilities, and specific managed services such as AWS RDS and Azure—serving as a navigational overview that helps instructors sequence lessons and learners understand what concepts they will study.
         </p>
       </div>
 
-    </div>
+      <!-- 2. Introduction to Database Deployment Models -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t1.html">Introduction to Database Deployment Models</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading introduces the concept of database deployment models, explaining what they are and why choosing where a database lives—and who manages it—is a foundational organizational decision; learners use it as a conceptual entry point before exploring specific deployment options.
+        </p>
+      </div>
+
+      <!-- 3. Locally Hosted Database Systems -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t2.html">Locally Hosted Database Systems</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading covers on-premises database deployments, explaining how locally hosted systems work, what hardware and software responsibilities fall to the organization, and the trade-offs involved; learners use it to understand the full scope of managing a database entirely within their own facilities.
+        </p>
+      </div>
+
+      <!-- 4. Cloud-Based Database Services -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t3.html">Cloud-Based Database Services</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading explains managed cloud database services, describing how major cloud providers host and operate database infrastructure on behalf of organizations; learners use it to understand the shift away from physical servers and the capabilities that cloud-based database offerings provide.
+        </p>
+      </div>
+
+      <!-- 5. Cost Comparison: Cloud vs. Local -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t4.html">Cost Comparison: Cloud vs. Local</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading examines the financial trade-offs between cloud-hosted and on-premises database deployments, covering total cost of ownership beyond surface-level pricing; learners and instructors use it to guide rigorous cost-benefit analysis when evaluating deployment decisions.
+        </p>
+      </div>
+
+      <!-- 6. Scalability and Performance -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t5.html">Scalability and Performance</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading compares how cloud and on-premises database deployments handle scalability and performance as data volumes and user demand grow, explaining the mechanisms each model uses to expand capacity and maintain response times; learners use it to evaluate deployment options against operational performance requirements.
+        </p>
+      </div>
+
+      <!-- 7. Maintenance and Administration -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t6.html">Maintenance and Administration</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading covers the operational responsibilities of database maintenance and administration under cloud versus on-premises models, addressing patching, backups, monitoring, and optimization along with their staffing and budget implications; learners use it to understand how deployment choice shapes day-to-day administrative workload.
+        </p>
+      </div>
+
+      <!-- 8. Availability, Reliability, and Security (Topic Detail) -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive_topics_t7.html">Availability, Reliability, and Security</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading examines availability, reliability, and security considerations when choosing between cloud and on-premises database hosting, explaining how each model addresses uptime, data loss prevention, and data protection; learners use it to evaluate deployment options against business continuity and compliance requirements.
+        </p>
+      </div>
+
+      <!-- 9. Availability, Reliability, and Security (Text Content) -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="content/Cloud_and_Local_interactive.html">Availability, Reliability, and Security</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          This reading examines availability, reliability, and security considerations when choosing between cloud and on-premises database hosting, explaining how each model addresses uptime, data loss prevention, and data protection; learners use it to evaluate deployment options against business continuity and compliance requirements.
+        </p>
+      </div>
+
+    </div><!-- /.card-grid -->
   </main>
 
   <footer>
-    COP4708 &mdash; Cloud and Local Databases &mdash; Course Module Index
+    COP4708 &mdash; Cloud and Local Databases &mdash; Module Index
   </footer>
 
 

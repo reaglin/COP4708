@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applying ER Modeling to a Problem Domain</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 6 - Data Modeling and Entity-Relationship Modeling</a></div>
+  <header>
+    <h1>Applying ER Modeling to a Problem Domain</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Applying ER Modeling to a Problem Domain</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Entity-Relationship (ER) modeling is the bridge between a real-world problem domain and a structured database design. When given a business scenario — a description of a company's operations, a university's registration system, a hospital's patient records, or any other domain — a database designer must systematically analyze that description, extract the relevant data elements, and translate them into a formal ER diagram. This process is not mechanical; it demands careful reading, critical judgment, and iterative refinement. The sections below walk through each stage of this process in depth, from reading requirements to drawing and validating the finished diagram.</p>
+
+<p><strong>Analyzing Business Requirements</strong></p>
+
+<p>Every ER model begins with a written or spoken description of what the business needs to track. Before touching a drawing tool or writing a single entity name, the designer must deeply understand this narrative. The goal of requirements analysis is to extract every meaningful data element and every business rule embedded in the description.</p>
+
+<p>A practical first technique is to <strong>underline or highlight every noun</strong> in the requirement text. Nouns and noun phrases name things — people, places, objects, events, and concepts — and they are the raw material from which entities and attributes emerge. Consider a simple business description:</p>
+
+<p><em>"A university tracks its students, who enroll in courses offered by departments. Each course has a course number, a title, and a credit value. Instructors, who belong to departments, teach courses. A student receives a grade for each course they complete."</em></p>
+
+<p>Underlining the nouns yields: <em>university, students, courses, departments, course number, title, credit value, instructors, grade</em>. This list is not yet a finished set of entities and attributes — it is a starting inventory for analysis.</p>
+
+<p>Equally important is to <strong>examine the verbs and action phrases</strong>. Verbs describe what entities do to or with each other, and they reveal relationships. In the example above: <em>enroll in, offered by, belong to, teach, receives</em>. Each verb is a candidate relationship name. "Students enroll in courses" suggests an ENROLLMENT relationship between STUDENT and COURSE. "Instructors teach courses" suggests a TEACHES relationship between INSTRUCTOR and COURSE.</p>
+
+<p>As you gather nouns and verbs, you must <strong>distinguish between objects themselves and data that merely describes those objects</strong>. An entity is a thing that warrants its own table and can have multiple instances; an attribute is a property or characteristic of an entity. "Course number" and "title" describe a course — they are attributes. "Course" is the object being described — it is an entity. Getting this distinction right early prevents structural mistakes later.</p>
+
+<p>Finally, <strong>re-read the requirements multiple times</strong>. The first reading gives a general picture; subsequent readings reveal constraints, edge cases, and implied rules that are easy to miss. A phrase like "each instructor belongs to exactly one department" encodes a cardinality rule. A phrase like "a student may have no advisor" encodes a participation constraint. These details are as important as the main entities themselves and must be captured before modeling begins.</p>
+
+<p><strong>Identifying Entities from a Problem Domain</strong></p>
+
+<p>Once the nouns list is assembled, the next task is to promote the right nouns to full entity status. An <strong>entity</strong> represents a category or class of things — not a single specific instance. "Student" is an entity; "John Smith" is a particular student, an instance of that entity. This distinction keeps the model general and reusable.</p>
+
+<p>For something to qualify as an entity, it should:</p>
+<ul>
+  <li>Represent multiple instances of the same kind of object (e.g., many students, many courses).</li>
+  <li>Have several meaningful attributes that describe it (a student has a student ID, name, date of birth, major, etc.).</li>
+  <li>Have at least one attribute (or combination of attributes) that can serve as a <strong>primary key</strong> — a unique identifier for every instance.</li>
+</ul>
+
+<p>A critical category to recognize early is the <strong>weak entity</strong>. A weak entity cannot be uniquely identified by its own attributes alone; it depends on a related <em>owner</em> or <em>parent</em> entity for identification. For example, in a company database, a DEPENDENT (family member of an employee) typically has a name and relationship type, but the name "Alice" might belong to multiple employees' dependents. Alice's identity only makes sense relative to a specific EMPLOYEE. DEPENDENT is therefore a weak entity; EMPLOYEE is its identifying (strong) entity. The relationship between them is an <em>identifying relationship</em>, usually shown with a double diamond in Chen notation. Weak entities are represented with a double rectangle.</p>
+
+<p>Knowing when <em>not</em> to create an entity is equally important. If a noun from the requirements has only one or two properties and always belongs to exactly one other object, it is usually better modeled as an attribute. "Phone number" for a person is typically an attribute (or, if a person can have multiple numbers, a multi-valued attribute), not a separate entity — unless you need to track the type, provider, or history of each phone number, in which case promotion to an entity becomes justified.</p>
+
+<p><strong>Determining Attributes for Each Entity</strong></p>
+
+<p>After identifying the entities, every entity must be equipped with the right set of attributes. This step requires both completeness (capturing everything the business needs) and discipline (avoiding redundancy and misplacement).</p>
+
+<p>The first task within this step is selecting the <strong>primary key</strong>. A good primary key is:</p>
+<ul>
+  <li><strong>Unique</strong> — no two instances share the same key value.</li>
+  <li><strong>Stable</strong> — its value rarely or never changes (avoid using a person's name or email, which can change).</li>
+  <li><strong>Minimal</strong> — it uses as few attributes as necessary. A single-attribute key (StudentID, OrderNumber) is preferred over a composite key when feasible.</li>
+  <li><strong>Non-null</strong> — every instance must have a key value; nulls are forbidden in primary keys.</li>
+</ul>
+
+<p>Natural keys (meaningful identifiers already present in the domain, like a government-issued ID number) are preferable when they meet all four criteria. Surrogate keys (system-generated numbers like auto-increment integers) are used when no reliable natural key exists.</p>
+
+<p>Attributes come in several varieties that the ER model distinguishes explicitly:</p>
+
+<ul>
+  <li><strong>Simple (atomic) attributes</strong> cannot be divided further. <em>StudentID</em>, <em>CreditHours</em>, and <em>GradePointAverage</em> are examples.</li>
+  <li><strong>Composite attributes</strong> can be broken into sub-parts. <em>FullName</em> might be decomposed into <em>FirstName</em>, <em>MiddleName</em>, and <em>LastName</em>. If the application ever needs to search or sort by last name alone, storing the composite decomposition is the right choice. If the name is always used as a unit, storing it as a simple attribute may suffice.</li>
+  <li><strong>Multi-valued attributes</strong> hold more than one value per entity instance. A STUDENT might have multiple <em>PhoneNumbers</em> or multiple <em>Hobbies</em>. In Chen notation, multi-valued attributes are shown with a double oval. In relational implementation, they require a separate table.</li>
+  <li><strong>Derived attributes</strong> can be computed from other stored attributes. <em>Age</em> can be derived from <em>DateOfBirth</em> and the current date; <em>TotalOrderCost</em> can be derived by summing line items. In Chen notation, derived attributes are shown with a dashed oval. The general rule is not to store derived values unless recalculating them is too expensive at query time.</li>
+</ul>
+
+<p>Careful placement of attributes prevents data duplication. An attribute belongs to the entity it directly describes. If you find yourself copying the same attribute to multiple entities (e.g., putting <em>DepartmentName</em> on both the INSTRUCTOR and COURSE entities), that is a sign the attribute should live on a DEPARTMENT entity and be accessed through relationships. Redundant storage of the same fact in multiple places leads to update anomalies — the classic problem that normalization later addresses.</p>
+
+<p><strong>Identifying and Defining Relationships</strong></p>
+
+<p>Relationships capture the associations among entities. Every relationship in an ER diagram should be grounded in a concrete business rule from the requirements.</p>
+
+<p>Each relationship should be given a <strong>meaningful name</strong> — typically a verb or verb phrase written on or beside the relationship line or diamond. Good names make diagrams self-documenting. "STUDENT <em>enrolls in</em> COURSE" is immediately understandable; a relationship labeled only "R1" forces the reader to consult external documentation. The name should ideally read sensibly in both directions: "A student <em>enrolls in</em> a course" and "A course <em>is enrolled in by</em> students."</p>
+
+<p>Relationships are classified by <strong>degree</strong> — the number of entities they connect:</p>
+<ul>
+  <li><strong>Unary (recursive) relationships</strong> connect an entity to itself. An EMPLOYEE entity might have a <em>manages</em> relationship where some employees manage other employees.</li>
+  <li><strong>Binary relationships</strong> connect exactly two entities and are by far the most common type. Most relationships in typical business systems are binary.</li>
+  <li><strong>Ternary relationships</strong> connect three entities simultaneously. A classic example: a SUPPLIER <em>supplies</em> a PART to a PROJECT. A ternary relationship is used when the association among all three cannot be decomposed into binary relationships without losing information — for example, when the combination of supplier, part, and project together determines the quantity supplied, and that quantity cannot be attributed to any pair alone.</li>
+</ul>
+
+<p>Sometimes a relationship itself carries data. A <strong>relationship attribute</strong> is an attribute that belongs to the relationship, not to either participating entity. In the ENROLLMENT relationship between STUDENT and COURSE, the <em>Grade</em> a student earns makes sense only in the context of a specific student in a specific course — it is not an attribute of the student alone, nor of the course alone. It is a relationship attribute of ENROLLMENT. In Chen notation it appears as an oval connected to the relationship diamond.</p>
+
+<p>When a relationship accumulates several attributes, or when it participates in other relationships, it should be <strong>promoted to an associative entity</strong> (also called a composite or bridge entity). ENROLLMENT with attributes Grade, EnrollmentDate, and SectionNumber is better modeled as an ENROLLMENT entity than as a relationship with many attributes hanging off it. Promotion to an entity allows the associative entity to have its own primary key and to participate in further relationships — for example, ENROLLMENT might relate to TEXTBOOK to record which books a student needs for that enrolled section.</p>
+
+<p><strong>Establishing Cardinality and Participation Constraints</strong></p>
+
+<p>Constraints are what give an ER diagram its precision. Without them, a diagram merely names entities and relationships; constraints encode the actual business rules that govern how data can exist.</p>
+
+<p><strong>Cardinality ratios</strong> describe how many instances of one entity can relate to how many instances of another:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cardinality Type</th>
+      <th>Notation</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>One-to-One (1:1)</td>
+      <td>1 — 1</td>
+      <td>Each instance of A relates to at most one instance of B, and vice versa.</td>
+      <td>An EMPLOYEE <em>manages</em> at most one DEPARTMENT; a DEPARTMENT is managed by at most one EMPLOYEE.</td>
+    </tr>
+    <tr>
+      <td>One-to-Many (1:N)</td>
+      <td>1 — N</td>
+      <td>Each instance of A relates to many instances of B; each instance of B relates to at most one A.</td>
+      <td>A DEPARTMENT <em>employs</em> many EMPLOYEEs; each EMPLOYEE belongs to one DEPARTMENT.</td>
+    </tr>
+    <tr>
+      <td>Many-to-Many (M:N)</td>
+      <td>M — N</td>
+      <td>Each instance of A relates to many instances of B, and each B relates to many As.</td>
+      <td>A STUDENT <em>enrolls in</em> many COURSEs; a COURSE is enrolled in by many STUDENTs.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Cardinality ratios must be derived from business rules, not assumed. Ask: "Can a department have only one employee?" If the answer is no, the relationship is 1:N or M:N, not 1:1. The requirements text or a subject-matter expert must confirm every ratio.</p>
+
+<p><strong>Participation constraints</strong> specify whether every instance of an entity must participate in a relationship:</p>
+<ul>
+  <li><strong>Total (mandatory) participation</strong>: Every instance of the entity must be associated with at least one instance of the related entity. Represented in Chen notation by a double line. Example: "Every employee must belong to a department" — EMPLOYEE has total participation in the BELONGS_TO relationship.</li>
+  <li><strong>Partial (optional) participation</strong>: Some instances may not participate. Represented by a single line. Example: "Not every employee manages a department" — EMPLOYEE has partial participation in the MANAGES relationship.</li>
+</ul>
+
+<p>Tracking the <strong>source business rule</strong> beside each constraint decision is professional practice and supports traceability. When a stakeholder later asks why COURSE has total participation in the OFFERED_BY relationship with DEPARTMENT, you can point directly to the requirement that stated "every course must belong to a department."</p>
+
+<p>Many-to-many relationships deserve a special flag during ER modeling because they cannot be directly implemented in a relational database. They require a <strong>bridge (junction) table</strong> during physical design. Identifying them early gives the team time to think about what attributes the bridge table will carry and whether it warrants promotion to an associative entity in the ER diagram itself.</p>
+
+<p><strong>Drawing the Complete ER Diagram</strong></p>
+
+<p>With entities, attributes, relationships, and constraints defined, the designer assembles the complete ER diagram. The two most common notations are <strong>Chen notation</strong> (rectangles for entities, diamonds for relationships, ovals for attributes) and <strong>Crow's Foot notation</strong> (rectangles for entities, lines with crow's foot symbols for cardinality). Most academic courses use Chen notation; many industry tools default to Crow's Foot or UML-style diagrams. The principles are the same regardless of notation.</p>
+
+<p>Layout guidelines for a clear, readable diagram:</p>
+<ul>
+  <li>Place <strong>entities as the primary nodes</strong>. Arrange them so that the most frequently connected entities are near the center, with peripheral entities around the edges. Avoid crossing relationship lines where possible.</li>
+  <li><strong>Attach all attributes</strong> to their respective entities or relationships. In Chen notation, draw ovals from the entity rectangle with short lines. <strong>Underline the primary key attribute(s)</strong> to make them immediately visible. Use a double oval for multi-valued attributes and a dashed oval for derived attributes.</li>
+  <li>For <strong>weak entities</strong>, draw a double rectangle and connect them to their identifying entity with a double diamond (Chen) or an appropriate dependency marker (Crow's Foot).</li>
+  <li>Place <strong>cardinality and participation symbols on both ends</strong> of every relationship line. In Chen notation, write the ratio values (1, N, M) beside the lines and use double or single lines for total/partial participation. In Crow's Foot notation, the crow's foot (many) and single bar (one) at each end encode both cardinality and minimum participation.</li>
+  <li>Verify completeness: every entity from the requirements has a corresponding rectangle; every relationship has a name and correct cardinality; every attribute is attached and every primary key is underlined.</li>
+</ul>
+
+<p>Consider the following partial structural summary for the university example used throughout this discussion:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Entity</th>
+      <th>Primary Key</th>
+      <th>Notable Attributes</th>
+      <th>Relationships</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>STUDENT</td>
+      <td>StudentID</td>
+      <td>FirstName, LastName, DateOfBirth, Major</td>
+      <td>ENROLLS_IN (COURSE), ADVISED_BY (INSTRUCTOR)</td>
+    </tr>
+    <tr>
+      <td>COURSE</td>
+      <td>CourseNumber</td>
+      <td>Title, CreditHours</td>
+      <td>ENROLLS_IN (STUDENT), OFFERED_BY (DEPARTMENT), TAUGHT_BY (INSTRUCTOR)</td>
+    </tr>
+    <tr>
+      <td>INSTRUCTOR</td>
+      <td>InstructorID</td>
+      <td>FirstName, LastName, HireDate, Rank</td>
+      <td>BELONGS_TO (DEPARTMENT), TAUGHT_BY (COURSE), ADVISED_BY (STUDENT)</td>
+    </tr>
+    <tr>
+      <td>DEPARTMENT</td>
+      <td>DeptCode</td>
+      <td>DeptName, Location, Phone</td>
+      <td>OFFERED_BY (COURSE), BELONGS_TO (INSTRUCTOR)</td>
+    </tr>
+    <tr>
+      <td>ENROLLMENT (associative)</td>
+      <td>StudentID + CourseNumber (composite)</td>
+      <td>Grade, EnrollmentDate, Semester</td>
+      <td>Promotes the M:N ENROLLS_IN relationship</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Validating and Refining the ER Model</strong></p>
+
+<p>A first-draft ER diagram is rarely correct or complete. Validation is the process of stress-testing the model against real scenarios and the original requirements before committing to physical implementation.</p>
+
+<p>The most effective validation technique is to <strong>walk through sample data scenarios</strong>. Imagine actual data rows and ask: "Can the model store this?" For example:</p>
+<ul>
+  <li>Can I record that student #10045 (Maria Gonzalez) enrolled in CS301 in Fall 2024 and received a grade of B+? — Yes: the ENROLLMENT associative entity accommodates this with StudentID, CourseNumber, Semester, and Grade attributes.</li>
+  <li>Can I record a student who has not yet enrolled in any course? — Only if STUDENT has partial participation in ENROLLMENT. If the requirement says every student must be enrolled, total participation applies.</li>
+  <li>Can I record a course that no one has enrolled in yet (a newly created course)? — Check the participation constraint on COURSE in the ENROLLMENT relationship.</li>
+</ul>
+
+<p>Check the diagram for <strong>redundant relationships</strong>. If STUDENT is connected to DEPARTMENT both through COURSE (via ENROLLMENT and OFFERED_BY) and through a direct STUDIES_IN relationship, ask whether that direct relationship adds any information not already inferable from the chain. If not, it is redundant and should be removed to keep the model clean.</p>
+
+<p>Confirm that <strong>every business rule stated in the requirements is enforced</strong> by something visible in the diagram. Rules often fall into one of two categories:</p>
+<ul>
+  <li><strong>Structural rules</strong> expressed through cardinality and participation (e.g., "an instructor must belong to exactly one department" → total participation, 1:N).</li>
+  <li><strong>Domain rules</strong> that may need to be enforced at the application or database constraint level rather than through the ER diagram itself (e.g., "a student's GPA cannot exceed 4.0"). Note these rules even if they cannot be fully diagrammed — they will become CHECK constraints or trigger logic during physical implementation.</li>
+</ul>
+
+<p>Finally, <strong>solicit feedback from stakeholders</strong>. Bring the ER diagram to the business analysts, department managers, or subject-matter experts who provided the original requirements. Walk through the diagram with them and ask whether every entity, relationship, and constraint reflects how their business actually works. Misinterpretations caught at the ER stage are cheap to fix — a renamed entity or adjusted cardinality takes minutes. The same misinterpretation caught after the database is built, populated, and integrated with applications is extremely costly. This review loop is not a sign of weakness; it is a sign of professional rigor.</p>
+
+<p>The entire ER modeling process — from reading requirements to validating the finished diagram — is inherently iterative. Requirements change, stakeholders clarify ambiguous statements, and new business rules surface during review. A well-practiced designer embraces this iteration and builds a model that faithfully represents the problem domain, is internally consistent, and is ready to be translated into a relational schema.</p>
+        <div class="notes"><strong>Notes</strong>The university registration domain is used as a continuous running example throughout all subtopics to give students a coherent reference point. The two HTML tables summarize cardinality types and the entity inventory for that domain — instructors may wish to have students reproduce or extend these as exercises. Emphasize to students that the validation step (walking through sample data) is something they should do on paper before submitting any ER diagram assignment, as it catches the majority of structural errors.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

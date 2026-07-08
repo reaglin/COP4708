@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Multi-User Database Environments</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Designing Databases for Concurrent Use</a></div>
+  <header>
+    <h1>Introduction to Multi-User Database Environments</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Multi-User Database Environments</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When a database serves only one user at a time, the logical rules governing data access are straightforward: a query executes, reads data, possibly modifies it, and the result is predictable because nothing else is happening concurrently. Real-world systems almost never work this way. A hospital records system may have hundreds of nurses and doctors querying and updating patient data at the same instant. An e-commerce platform may process thousands of orders per second, each touching inventory counts, payment records, and shipping queues simultaneously. Understanding how databases handle this reality — and why getting it wrong leads to corrupted or inconsistent data — is the essential foundation of database engineering at any meaningful scale.</p>
+
+<p>A <strong>multi-user database environment</strong> is any system in which more than one client, session, or application can interact with the database at the same time. In practice, this means that while one transaction is in the middle of reading a row, another transaction may already be writing to it. While one process is computing a total based on a set of rows, another process may be inserting new rows that belong in that same set. The database management system (DBMS) must choreograph all of these overlapping operations so that each user receives correct, consistent results without being forced to wait for every other user to finish before they can begin.</p>
+
+<p>This coordination problem is not trivial. It sits at the intersection of correctness, performance, and fairness, and the solutions that DBMSs use — transactions, locking, isolation levels, versioning — are among the most carefully engineered mechanisms in all of computer science. To appreciate why those solutions exist, it is necessary first to understand exactly what goes wrong without them.</p>
+
+<p><strong>The Core Challenge: Simultaneous Data Modification</strong></p>
+
+<p>The most immediate danger in a multi-user environment is that two sessions can each read the same piece of data, decide to modify it based on what they read, and then both write their modifications back — with neither session aware of the other's action. Consider a warehouse database tracking stock levels. Suppose the current quantity of a particular item is 10 units. Two separate order-processing sessions read that value at nearly the same moment. The first session reserves 3 units and writes back a quantity of 7. The second session, which read the original value of 10 before the first session's write completed, also reserves 4 units and writes back a quantity of 6. The correct final answer should be 10 − 3 − 4 = 3, but the database now shows 6 because the second write silently discarded the first. This is the classic <strong>lost update</strong> problem, and in a high-traffic system it is not a hypothetical edge case — it happens continuously unless the DBMS actively prevents it.</p>
+
+<p>Beyond lost updates, there is the subtler problem of a session reading data that is in a temporary, intermediate state. A funds transfer between two bank accounts requires debiting one account and crediting another. If a reporting query runs between those two operations, it may observe a world where the debit has happened but the credit has not — a world that never actually existed as a stable state of the database. Decisions made on the basis of that observation will be wrong.</p>
+
+<p>These problems are compounded by timing. The window during which a conflict can occur may be measured in microseconds, making it essentially impossible to reproduce during testing and extremely difficult to debug after the fact. Systems that appear to work correctly under light load may silently produce corrupted data under production traffic levels.</p>
+
+<p><strong>Common Concurrency Problems in Detail</strong></p>
+
+<p>Database theorists and engineers have catalogued the specific anomalies that arise from uncontrolled concurrent access. Understanding each one precisely is important because different concurrency control strategies protect against different subsets of them.</p>
+
+<p>A <strong>dirty read</strong> occurs when one transaction reads data that another transaction has written but not yet committed. Because the writing transaction has not committed, it might still be rolled back — meaning the data the reader consumed never officially existed. Imagine a payroll system where a manager is adjusting salary figures. Halfway through the adjustment, before saving and committing, a reporting query runs and reads the in-progress figures. The manager then discovers a mistake and rolls back the entire adjustment. The report is now based on data that was never valid.</p>
+
+<p>A <strong>non-repeatable read</strong> occurs when a transaction reads the same row on two separate occasions within the same logical unit of work and receives different values, because a second transaction committed a change to that row between the two reads. Suppose an application reads a product's price at the beginning of a checkout process and again just before charging the customer. If another session updated the price in between, the two reads within the checkout session disagree — the application has seen the same data change beneath its feet.</p>
+
+<p>A <strong>phantom read</strong> is similar in character but applies to sets of rows rather than individual rows. A transaction executes a query that returns a set of matching rows — say, all orders placed in the last hour. Later in the same transaction, it runs the identical query and receives a different set, because another transaction has inserted (or deleted) rows that match the filter criteria. The new rows appear like phantoms: they were not there before, yet now they are, even though the first transaction has not committed anything new.</p>
+
+<p>The relationships among these anomalies, and the isolation levels that prevent them, are summarized in the table below:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Anomaly</th>
+      <th>What Happens</th>
+      <th>Scope</th>
+      <th>Requires Uncommitted Data?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dirty Read</td>
+      <td>Transaction reads another transaction's uncommitted changes</td>
+      <td>Single row or set of rows</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Non-Repeatable Read</td>
+      <td>Same row read twice yields different values after a committed update</td>
+      <td>Single row</td>
+      <td>No — change is committed</td>
+    </tr>
+    <tr>
+      <td>Phantom Read</td>
+      <td>Same query run twice returns a different set of rows after committed inserts/deletes</td>
+      <td>Set of rows</td>
+      <td>No — insertions are committed</td>
+    </tr>
+    <tr>
+      <td>Lost Update</td>
+      <td>Two transactions read then write the same row; one write overwrites the other</td>
+      <td>Single row</td>
+      <td>No — both writes are committed</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why Single-User Design Assumptions Break Down</strong></p>
+
+<p>Applications and database schemas designed with a single user in mind carry a set of implicit assumptions that become dangerous when concurrency is introduced. The most fundamental assumption is that the data read at the beginning of an operation is still valid at the end of it. In a single-user context, this is guaranteed — nothing else can change the data in between. In a concurrent context, the entire database can be transformed between any two instructions in the application's code.</p>
+
+<p>This invalidates a wide class of common programming patterns. For example, an application might implement a "check then act" pattern: first query whether a username is already taken, then insert a new user record with that username if it is not. In a single-user world this is safe. In a concurrent world, two registration requests for the same username can both pass the check before either insert runs, resulting in duplicate usernames that violate a business rule the application thought it was enforcing. The correct fix is to enforce the uniqueness constraint at the database level and handle the resulting error — but many applications naively rely on the application-layer check alone.</p>
+
+<p>Caching provides another instructive example. A single-user application might read a configuration value once and store it in a variable, confident that the value will not change during the session. In a multi-user environment, another administrator session may update that configuration value moments later. The cached copy in the first session is now stale, and any logic based on it will produce incorrect results. The application has, in effect, taken its own private snapshot of the world and is now acting on a view of reality that no longer exists.</p>
+
+<p>Business rule enforcement is similarly undermined. Suppose an accounting system enforces a rule that total budget allocations across all departments cannot exceed a master budget figure. A single-user check-and-update sequence reads all current allocations, verifies headroom exists, and then adds a new allocation. With two finance managers running this sequence simultaneously, both may observe sufficient headroom, both may proceed, and the resulting total may exceed the master budget — with no individual transaction having violated anything it could see at the time.</p>
+
+<p><strong>The Foundational Need for Concurrency Control</strong></p>
+
+<p>The problems described above are not solved by asking users to be careful or by scheduling database access so that sessions do not overlap. The latter approach — serializing all access — would in fact guarantee correctness, but at an unacceptable cost: a busy application with hundreds of concurrent users would grind to a halt as each session waited its turn. The entire value proposition of a multi-user DBMS is that many sessions can make progress at the same time.</p>
+
+<p>Concurrency control is the discipline of allowing as much simultaneous progress as possible while ensuring that the results are equivalent to some serial (non-overlapping) execution of the same transactions. The key insight is that many concurrent operations do not actually conflict — two transactions reading different rows, or one transaction reading while another writes to a completely different table, can safely proceed in parallel with no risk of anomaly. Concurrency control mechanisms aim to identify and permit these safe overlaps while detecting and serializing (or rejecting) the dangerous ones.</p>
+
+<p>The primary tools a DBMS uses to achieve this are:</p>
+
+<ul>
+  <li><strong>Transactions</strong> — a logical unit of work that groups one or more operations into an atomic, all-or-nothing sequence. Transactions provide the boundaries within which concurrency anomalies are defined and measured.</li>
+  <li><strong>Locking mechanisms</strong> — the practice of acquiring exclusive or shared locks on data before reading or writing it, so that incompatible operations from other sessions are blocked until the lock is released. Locking is the oldest and most widely understood concurrency control technique, and it directly prevents many of the anomalies described above.</li>
+  <li><strong>Isolation levels</strong> — configurable settings that allow a balance to be struck between strict correctness and performance. A higher isolation level prevents more anomalies but typically reduces concurrency; a lower isolation level allows more parallelism but tolerates certain classes of anomaly. The appropriate choice depends on the specific requirements of the application.</li>
+  <li><strong>Multiversion Concurrency Control (MVCC)</strong> — a technique used by many modern DBMSs in which multiple historical versions of a row are maintained, allowing readers to see a consistent snapshot of the database without blocking writers and vice versa.</li>
+</ul>
+
+<p>Each of these tools addresses different facets of the concurrency problem, and in practice they are used in combination. The right architecture for a banking system differs from the right architecture for an analytics dashboard, even if both use the same underlying DBMS — because they have different tolerance for anomalies and different performance requirements. Recognizing this is the first step toward designing database systems that are both correct and efficient under real-world concurrent load.</p>
+        <div class="notes"><strong>Notes</strong>Covers all listed subtopics: definition of multi-user environments, the lost update / simultaneous modification problem, the four primary concurrency anomalies (dirty read, non-repeatable read, phantom read, lost update), why single-user assumptions break down (stale snapshots, application-layer rule enforcement, caching), and the foundational role of transactions, locking, and isolation levels. Includes an HTML table summarising the four anomalies for quick comparison.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

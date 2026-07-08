@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entities and Attributes</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 6 - Data Modeling and Entity-Relationship Modeling</a></div>
+  <header>
+    <h1>Entities and Attributes</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Entities and Attributes</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When building a database, the very first challenge is deciding <em>what</em> the database should store information about. This is where the concept of an <strong>entity</strong> comes in. An entity is a distinct, identifiable object or concept in the real world that a business or system needs to track. Before a single table is created or a single column is named, a data modeler must think carefully about the things that matter in the problem domain and the descriptive facts — called <strong>attributes</strong> — that need to be recorded about each of those things. Getting this foundation right determines the quality of every design decision that follows.</p>
+
+<p>An entity represents something that exists independently and can be distinguished from every other thing of the same kind. "Independently" is the key word: an entity has meaning on its own, not merely as a description of something else. In a university information system, a <em>Student</em> exists independently — each student has their own identity, their own records, and their own history in the system. Similarly, a <em>Course</em> exists independently: courses are offered, assigned instructors, and enrolled in by students. Both are good candidates for entities. By contrast, a student's date of birth is not independent — it only makes sense as a fact <em>about</em> a particular student, so it is an attribute, not an entity.</p>
+
+<p>The practical test for entity-hood is whether the thing needs to be tracked on its own terms. If a hospital needs to store multiple facts about each physician — their name, specialty, license number, schedule — then <em>Physician</em> is an entity. If the hospital only needed to note a single physician's name on a patient record and nothing else, it might be just an attribute of the Patient entity. Context always shapes these decisions.</p>
+
+<p>During implementation in a relational database, each entity becomes a <strong>table</strong>. The attributes of the entity become the <strong>columns</strong> of that table, and each uniquely identifiable instance of the entity becomes a <strong>row</strong>. Understanding this mapping helps students see why careful entity and attribute identification at the modeling stage prevents messy, redundant, or incomplete database structures later.</p>
+
+<p>A useful first step when identifying entities is to read a problem description carefully and highlight every <strong>noun</strong>. Nouns are candidates for either entities or attributes. A noun that stands alone and requires its own collection of facts is almost certainly an entity. A noun that merely describes or quantifies another noun is likely an attribute. For example, in the sentence "The library lends books to members and tracks the loan date for each borrowing," the nouns are <em>library</em>, <em>books</em>, <em>members</em>, and <em>loan date</em>. Books and members are strong entity candidates; loan date is a candidate attribute (describing a borrowing event).</p>
+
+<p><strong>Entity Types vs. Entity Instances</strong> is a distinction that mirrors the concept of a class and its objects in programming. An <strong>entity type</strong> is the category or blueprint — it defines what kind of information will be captured for all members of that category. An <strong>entity instance</strong> is one specific, real occurrence of that type.</p>
+
+<p>Consider the entity type <em>Student</em>. The type tells us that every student has a StudentID, a first name, a last name, an email address, and a date of enrollment. These are the defined attributes for the type. An entity instance might be the individual student Maria Gonzalez, whose StudentID is 10042, whose email is m.gonzalez@university.edu, and who enrolled on 2022-09-01. A second instance is James Park, StudentID 10043, and so on. A large university might have tens of thousands of Student instances, all conforming to the same entity type definition.</p>
+
+<p>This distinction matters because data models describe <em>types</em>, while actual databases are populated with <em>instances</em>. The ER (Entity-Relationship) diagram a designer draws represents types; the rows eventually loaded into a table represent instances. Every instance must be uniquely identifiable — if two rows in the Student table were completely indistinguishable, the database would not know which student it was reading or updating. This is why each entity type must have a <strong>key attribute</strong>: a field whose value uniquely identifies each instance.</p>
+
+<p><strong>Attributes</strong> are the individual pieces of data that describe an entity. Each attribute captures one specific fact relevant to its entity. The choice of attributes should be driven by the real-world requirements of the problem: what does the organization actually need to know about each entity? Attributes should be chosen to capture all necessary facts without introducing redundancy. For example, storing both a student's date of birth and their age would be redundant — age can always be calculated from date of birth and the current date, so storing both creates a maintenance problem (age goes stale; date of birth does not).</p>
+
+<p>Attributes are typically named with clear, descriptive labels: <code>LastName</code>, <code>EnrollmentDate</code>, <code>AccountBalance</code>. Good naming conventions make the model self-documenting and reduce misunderstandings among team members. The following table illustrates several entities and some of their common attributes in different problem domains:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Problem Domain</th>
+      <th>Entity</th>
+      <th>Sample Attributes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>University</td>
+      <td>Student</td>
+      <td>StudentID, FirstName, LastName, DateOfBirth, Email, EnrollmentDate</td>
+    </tr>
+    <tr>
+      <td>University</td>
+      <td>Course</td>
+      <td>CourseCode, Title, Credits, Department</td>
+    </tr>
+    <tr>
+      <td>Hospital</td>
+      <td>Patient</td>
+      <td>PatientID, FullName, DateOfBirth, BloodType, AdmissionDate</td>
+    </tr>
+    <tr>
+      <td>Hospital</td>
+      <td>Physician</td>
+      <td>PhysicianID, Name, Specialty, LicenseNumber</td>
+    </tr>
+    <tr>
+      <td>E-commerce</td>
+      <td>Product</td>
+      <td>ProductID, Name, Description, Price, StockQuantity</td>
+    </tr>
+    <tr>
+      <td>E-commerce</td>
+      <td>Customer</td>
+      <td>CustomerID, Email, ShippingAddress, PhoneNumber</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Data modeling recognizes several <strong>types of attributes</strong>, each with different implications for how data is stored and queried. Understanding these types helps a designer make precise, efficient modeling decisions.</p>
+
+<p>A <strong>simple (atomic) attribute</strong> cannot be meaningfully subdivided. <code>StudentID</code>, <code>Email</code>, <code>Price</code>, and <code>LicenseNumber</code> are all atomic: they are treated as single, indivisible values. Most attributes in a well-normalized database end up being simple attributes because decomposing data into its smallest meaningful parts makes querying and sorting far easier.</p>
+
+<p>A <strong>composite attribute</strong> is made up of multiple component sub-parts that together form a logical whole. A classic example is <em>Address</em>, which can be broken down into <code>Street</code>, <code>City</code>, <code>State</code>, <code>ZipCode</code>, and <code>Country</code>. Another example is <em>FullName</em>, which might be composed of <code>FirstName</code>, <code>MiddleName</code>, and <code>LastName</code>. Whether to store a composite attribute as a single text field or decomposed into its parts depends on how the data will be used. If users will frequently search by city alone, or sort by last name alone, decomposing the composite attribute into its components makes those operations far more efficient. In a relational database, composite attributes are almost always decomposed into separate columns.</p>
+
+<p>A <strong>derived attribute</strong> is one whose value can be computed from another attribute or set of attributes already stored in the database. <em>Age</em> is the prototypical example: if <code>DateOfBirth</code> is stored, age can always be calculated as the difference between today's date and the date of birth. Similarly, <em>TotalOrderValue</em> might be derived by summing the price of all items in an order. Derived attributes are usually <em>not</em> physically stored in the database (to avoid the stale-data problem), but they may appear in ER diagrams — represented with a dashed oval in the traditional notation — to communicate that the value is logically meaningful even if not directly persisted. In practice, derived values are often computed in SQL queries or application logic at retrieval time.</p>
+
+<p>A <strong>multi-valued attribute</strong> can hold more than one value for a single entity instance. A person's <em>phone numbers</em> is a classic example — one contact might have a mobile number, a home number, and a work number. Similarly, an employee might hold multiple <em>professional certifications</em>. In an ER diagram, multi-valued attributes are shown with a double oval. In a relational database, multi-valued attributes are <em>not</em> stored directly as multiple values in one column (which would violate first normal form). Instead, they are handled by creating a separate related table. For example, a <code>PhoneNumber</code> table with a foreign key back to the <code>Contact</code> table can store as many phone numbers as needed for each contact.</p>
+
+<p>The following table summarizes all four attribute types with their characteristics and database implications:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute Type</th>
+      <th>Definition</th>
+      <th>Example</th>
+      <th>Database Implication</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Simple (Atomic)</td>
+      <td>Cannot be subdivided further</td>
+      <td>StudentID, Email</td>
+      <td>Stored directly as a single column</td>
+    </tr>
+    <tr>
+      <td>Composite</td>
+      <td>Made of multiple meaningful sub-parts</td>
+      <td>Address (Street, City, State, ZipCode)</td>
+      <td>Decomposed into separate columns</td>
+    </tr>
+    <tr>
+      <td>Derived</td>
+      <td>Calculated from one or more other attributes</td>
+      <td>Age (from DateOfBirth)</td>
+      <td>Usually not stored; computed at query time</td>
+    </tr>
+    <tr>
+      <td>Multi-valued</td>
+      <td>Can hold more than one value per instance</td>
+      <td>PhoneNumbers, Certifications</td>
+      <td>Moved to a separate related table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Key attributes</strong> deserve special attention because they are what make entity instances uniquely identifiable. Every entity type must have at least one key attribute. Without a key, there is no reliable way to distinguish one instance from another, update the correct record, or enforce referential integrity across related entities. In traditional ER diagram notation, a key attribute is shown with its name <u>underlined</u>.</p>
+
+<p>A good key attribute has three essential properties: it must be <strong>unique</strong> (no two instances share the same key value), it must be <strong>non-null</strong> (every instance must have a value — a missing key is meaningless), and it should be <strong>stable</strong> (the value should not change over time, because key values are used to cross-reference records throughout the database). Consider using a person's name as a key: names are not unique (many people share the same name) and they can change (through marriage, for example), so a name is a poor key. A student ID number, assigned by the institution and never reused, is a far better key.</p>
+
+<p>Sometimes the real world provides a natural, meaningful unique identifier — a government-issued ID number, an ISBN for a book, or an airline flight number. These are called <strong>natural keys</strong>. When no natural key exists, designers introduce a <strong>surrogate key</strong>: an artificial identifier, typically an auto-incremented integer or a generated UUID, that has no real-world meaning but is guaranteed to be unique. Surrogate keys are extremely common in relational databases because they are immune to changes in the real world and are efficient to index.</p>
+
+<p>To illustrate, consider the <em>Product</em> entity in an e-commerce system. The product's name could change (a rebranding), its price certainly changes, and even a barcode can be reassigned in some industries. A surrogate <code>ProductID</code> generated by the database at insertion time is stable, unique, and never meaningful in itself — making it the ideal primary key. The product's UPC barcode might be stored as a separate, regular attribute.</p>
+
+<p>The process of <strong>identifying entities and attributes from real-world scenarios</strong> is as much an analytical skill as a technical one. It involves reading and listening carefully, asking the right questions, and iteratively refining a model. Here is a worked example to illustrate the process.</p>
+
+<p>Suppose a small car rental company describes its needs as follows: <em>"We rent cars to customers. Each car has a make, model, year, license plate number, and daily rental rate. Each customer has a name, driver's license number, email address, and phone number. When a customer rents a car, we record the start date, the expected return date, and the actual return date."</em></p>
+
+<p>Step one: highlight the nouns. The nouns are <em>cars</em>, <em>customers</em>, <em>make</em>, <em>model</em>, <em>year</em>, <em>license plate number</em>, <em>daily rental rate</em>, <em>name</em>, <em>driver's license number</em>, <em>email address</em>, <em>phone number</em>, <em>start date</em>, <em>expected return date</em>, and <em>actual return date</em>.</p>
+
+<p>Step two: separate entities from attributes. <em>Cars</em> stand alone — the company tracks many cars, each with its own history. <em>Customers</em> stand alone — each customer may rent multiple times and has their own profile. The rental event itself (with its dates) is something the company tracks independently — this becomes a third entity, which we might call <em>Rental</em>. Everything else — make, model, year, license plate, daily rate, name, driver's license number, email, phone, start date, expected return date, actual return date — describes one of the three entities and therefore becomes an attribute.</p>
+
+<p>Step three: assign attributes to entities and identify keys. The result might look like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Entity</th>
+      <th>Attributes</th>
+      <th>Key Attribute</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Car</td>
+      <td>CarID, Make, Model, Year, LicensePlate, DailyRate</td>
+      <td>CarID (surrogate) or LicensePlate (natural)</td>
+    </tr>
+    <tr>
+      <td>Customer</td>
+      <td>CustomerID, FullName, DriverLicenseNumber, Email, PhoneNumber</td>
+      <td>CustomerID (surrogate) or DriverLicenseNumber (natural)</td>
+    </tr>
+    <tr>
+      <td>Rental</td>
+      <td>RentalID, StartDate, ExpectedReturnDate, ActualReturnDate</td>
+      <td>RentalID (surrogate)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Step four: refine and verify. Are there any missing attributes? The business description mentions a "daily rental rate" — is this truly an attribute of the Car, or does the rate vary per rental (perhaps with seasonal pricing or promotions)? This is exactly the kind of question that must be raised with stakeholders. If the rate can vary per rental, it becomes an attribute of <em>Rental</em>, not <em>Car</em>. Is <code>PhoneNumber</code> truly a single value, or do some customers have multiple phone numbers? If so, it may need to become a multi-valued attribute handled by a separate table. These refinements are made through iterative review.</p>
+
+<p>Step five: confirm nothing is overlooked. Would the company ever need to track which employee processed a rental, or which branch office the car was rented from? If yes, <em>Employee</em> and <em>Branch</em> might need to become additional entities. The model evolves as the requirements become clearer. Iterative review — going back to stakeholders, revisiting the problem description, and cross-checking the model against business rules — is essential to building a model that faithfully represents reality.</p>
+
+<p>In summary, the foundation of any well-designed database is a thoughtful identification of entities and their attributes. Entities are the independently meaningful things the system must track; attributes are the descriptive facts recorded about each entity. Every entity needs a reliable key to distinguish its instances. Attributes come in several varieties — simple, composite, derived, and multi-valued — each carrying different implications for how data is physically stored and queried. The process of discovering entities and attributes is iterative, noun-driven, and deeply collaborative with the people who understand the problem domain. Getting these foundations right makes every subsequent step in database design — relationships, normalization, and physical implementation — far more straightforward.</p>
+        <div class="notes"><strong>Notes</strong>Covers all listed subtopics in depth: entity definition, entity types vs. instances, attribute definition and selection, all four attribute types (simple, composite, derived, multi-valued) with examples, key attributes including natural vs. surrogate keys, and the full iterative process of identifying entities and attributes from a worked real-world scenario. Tabular data rendered as proper HTML tables throughout.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to SQL as a Data Modeling Language</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ SQL Data Modeling Language</a></div>
+  <header>
+    <h1>Introduction to SQL as a Data Modeling Language</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to SQL as a Data Modeling Language</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When most people first encounter SQL, they think of it primarily as a tool for asking questions of a database — writing <code>SELECT</code> statements to retrieve rows, filter results, and join tables together. This impression is understandable, because querying is often the most visible activity in day-to-day database work. However, it captures only part of what SQL is. SQL is a complete language for working with relational databases, and a substantial portion of its vocabulary exists not for retrieving data but for <strong>defining, structuring, and enforcing the shape of data itself</strong>. Understanding this broader role is the starting point for anyone who wants to move beyond writing queries and begin designing databases with intention and rigor.</p>
+
+<p>SQL is formally divided into several sub-languages, each targeting a different class of operation. The most widely taught is the <strong>Data Manipulation Language (DML)</strong>, which covers statements like <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code>. But sitting alongside DML is the <strong>Data Definition Language (DDL)</strong>, a set of commands — including <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, and <code>TRUNCATE</code> — whose entire purpose is to create and modify the structures that hold data. There is also the <strong>Data Control Language (DCL)</strong>, which manages permissions, and the <strong>Transaction Control Language (TCL)</strong>, which manages units of work. The existence of DDL as a first-class part of the SQL standard is the clearest signal that SQL was never intended to be merely a query language. It is a language for <em>modeling</em> as much as for <em>interrogating</em>.</p>
+
+<p>Recognizing SQL's dual role — as both a query language and a modeling language — is foundational to effective database design. A designer who knows only DML can read from a database someone else built, but cannot build one themselves. A designer who understands DDL can translate abstract ideas about data into concrete, enforceable structures that a database engine will maintain automatically. This distinction matters enormously in practice.</p>
+
+<p><strong>SQL as a Data Modeling Language</strong> means using SQL to formally declare the entities, attributes, and relationships that make up a domain of interest. Consider a business that tracks customers, orders, and products. In abstract design, these are <em>entities</em>. Each customer has a name and an email address — these are <em>attributes</em>. A customer can place many orders, and each order can include many products — these are <em>relationships</em>. SQL DDL allows a designer to take these abstract concepts and express them in a form the database engine understands and enforces:</p>
+
+<pre><code>CREATE TABLE customer (
+    customer_id   INT           PRIMARY KEY,
+    full_name     VARCHAR(100)  NOT NULL,
+    email         VARCHAR(150)  NOT NULL UNIQUE
+);
+
+CREATE TABLE product (
+    product_id    INT           PRIMARY KEY,
+    product_name  VARCHAR(200)  NOT NULL,
+    unit_price    DECIMAL(10,2) NOT NULL CHECK (unit_price >= 0)
+);
+
+CREATE TABLE order_header (
+    order_id      INT           PRIMARY KEY,
+    customer_id   INT           NOT NULL,
+    order_date    DATE          NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+</code></pre>
+
+<p>In this example, each <code>CREATE TABLE</code> statement encodes an entity. The column definitions encode attributes. The <code>PRIMARY KEY</code> constraint declares each row's unique identity. The <code>FOREIGN KEY</code> on <code>order_header</code> encodes the relationship between orders and customers — the database engine itself will now refuse to insert an order that references a non-existent customer. The model is not merely documented; it is <em>enforced</em>. This is what distinguishes SQL modeling from a diagram or a spreadsheet description of the same concepts. SQL makes the model executable.</p>
+
+<p>Using SQL for modeling also ensures that the intended structure is communicated <strong>precisely and unambiguously</strong> to the database system. Natural language descriptions of data requirements are almost always ambiguous. A requirement that says "every order must belong to a customer" could be interpreted in several ways — does that mean the customer must already exist? Can the customer field be left blank temporarily? SQL leaves no room for such ambiguity. When a designer writes <code>customer_id INT NOT NULL REFERENCES customer(customer_id)</code>, the meaning is exact: the column cannot be empty, and the value must match an existing row in the <code>customer</code> table. The database engine will enforce this rule without exception, every time data is inserted or updated. This precision is one of SQL's most powerful qualities as a modeling language.</p>
+
+<p>SQL's modeling role makes it a <strong>bridge between abstract design thinking and concrete database implementation</strong>. Database design typically proceeds through a series of increasingly detailed stages. The first stage is <em>conceptual design</em>, where the designer identifies the major entities and relationships in a domain, often producing an Entity-Relationship (ER) diagram. The second stage is <em>logical design</em>, where those entities and relationships are mapped to tables, columns, and keys following the rules of the relational model, without yet committing to any specific database product. The final stage is <em>physical implementation</em>, where the logical model is translated into actual SQL statements executed against a chosen database system — MySQL, PostgreSQL, SQL Server, Oracle, or another platform.</p>
+
+<p>SQL sits at the physical implementation stage of this workflow, but it is also the stage that makes all earlier stages real. A beautifully drawn ER diagram that never becomes SQL remains theoretical. Logical design decisions about normalization, key selection, and relationship cardinality are only as good as the SQL that implements them. This means the quality of SQL modeling directly determines how faithfully the physical database reflects the intended logical design. If a logical model specifies that a product's price cannot be negative, but the implementing SQL omits the <code>CHECK</code> constraint, the database will happily store a price of <code>-50.00</code>, and the business rule is silently violated. The SQL is not a mere transcription of the design; it <em>is</em> the design, as far as the database is concerned.</p>
+
+<p>Errors made in earlier design stages do not disappear when SQL is written — they are amplified. A poorly chosen primary key that seems harmless in a diagram can cause cascading problems when thousands of rows are related through it in a live system. A missing relationship captured nowhere in the ER diagram will not appear in the SQL, leaving the database unable to enforce an integrity rule the business considers obvious. This is why pre-SQL design work — requirements gathering, conceptual modeling, logical modeling — is not optional ceremony but essential preparation. The SQL written at the end of the workflow is only as strong as the thinking that preceded it.</p>
+
+<p><strong>Schema creation</strong> is typically one of the very first SQL modeling steps taken when implementing a data model. In SQL, a <em>schema</em> is a named namespace — a container that groups related tables, views, indexes, and other database objects together. Schemas serve both organizational and access-control purposes. Organizationally, a schema signals that the objects within it belong together and serve a common purpose. In a large organization's database, there might be a <code>sales</code> schema containing customer and order tables, a <code>hr</code> schema containing employee and payroll tables, and an <code>inventory</code> schema containing product and warehouse tables — all within the same database instance, neatly separated. Creating a schema is straightforward:</p>
+
+<pre><code>CREATE SCHEMA sales;
+
+CREATE TABLE sales.customer (
+    customer_id  INT          PRIMARY KEY,
+    full_name    VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE sales.order_header (
+    order_id     INT          PRIMARY KEY,
+    customer_id  INT          NOT NULL REFERENCES sales.customer(customer_id),
+    order_date   DATE         NOT NULL
+);
+</code></pre>
+
+<p>Notice that the schema name <code>sales</code> prefixes each table name, making the ownership and logical grouping explicit. Schema design decisions — including naming conventions, object grouping, and the number of schemas used — reflect and reinforce the underlying logical data model. A schema that lumps all tables together regardless of their business domain, or that uses inconsistent naming, makes a database harder to understand and maintain. A thoughtfully designed schema structure communicates the organization of the data model to anyone reading the SQL.</p>
+
+<p>All of this SQL modeling work targets a specific kind of system: a <strong>relational database management system (RDBMS)</strong>. Relational databases store data in <em>tables</em>, where each table consists of named columns (defining the type and meaning of each piece of data) and rows (representing individual instances of the entity). This tabular structure is the physical realization of the entities and attributes from the logical model. The relational model, first formalized by Edgar F. Codd in 1970, also defines rules about how tables relate to one another through keys, and SQL is the language specifically designed to declare, populate, and query structures organized according to those rules.</p>
+
+<p>Relational systems enforce data integrity through <em>constraints</em> — rules that the database engine checks automatically whenever data is inserted, updated, or deleted. SQL allows designers to declare these constraints explicitly during modeling. The major categories are illustrated in the following table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constraint Type</th>
+      <th>SQL Keyword(s)</th>
+      <th>What It Enforces</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Entity integrity</td>
+      <td><code>PRIMARY KEY</code></td>
+      <td>Each row has a unique, non-null identifier</td>
+      <td><code>customer_id INT PRIMARY KEY</code></td>
+    </tr>
+    <tr>
+      <td>Referential integrity</td>
+      <td><code>FOREIGN KEY … REFERENCES</code></td>
+      <td>A value in one table must match a value in another</td>
+      <td><code>FOREIGN KEY (customer_id) REFERENCES customer(customer_id)</code></td>
+    </tr>
+    <tr>
+      <td>Domain integrity</td>
+      <td><code>CHECK</code>, data types</td>
+      <td>Values fall within an acceptable range or format</td>
+      <td><code>unit_price DECIMAL(10,2) CHECK (unit_price &gt;= 0)</code></td>
+    </tr>
+    <tr>
+      <td>Uniqueness</td>
+      <td><code>UNIQUE</code></td>
+      <td>No two rows share the same value in a column or set of columns</td>
+      <td><code>email VARCHAR(150) UNIQUE</code></td>
+    </tr>
+    <tr>
+      <td>Non-nullability</td>
+      <td><code>NOT NULL</code></td>
+      <td>A column must always contain a value</td>
+      <td><code>full_name VARCHAR(100) NOT NULL</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Understanding the relational system as the target environment for SQL modeling helps students write SQL that leverages the system's full integrity and performance capabilities. A designer who understands that the RDBMS will enforce <code>FOREIGN KEY</code> constraints automatically, for example, knows that they do not need to write application code to check referential integrity on every insert — the database will do it. A designer who understands that the RDBMS uses indexes to speed up lookups knows that declaring a <code>PRIMARY KEY</code> not only enforces uniqueness but also typically creates an index that makes lookups by that key fast. SQL modeling and relational system capabilities are deeply intertwined, and fluency in one deepens fluency in the other.</p>
+
+<p>Taken together, these ideas establish a clear picture: SQL is a complete language whose DDL commands allow designers to formally and precisely implement data models as enforced database structures. It bridges the gap between abstract design and physical reality, operates within a relational system that actively enforces the integrity rules the designer declares, and is organized at the highest level through schemas that reflect the logical organization of the model. Every SQL statement written to define structure is an act of modeling, not just configuration — and treating it as such is the mindset that produces well-designed, maintainable, and trustworthy databases.</p>
+        <div class="notes"><strong>Notes</strong>Instructors may wish to show students a simple ER diagram alongside its corresponding SQL DDL to make the bridge between logical design and physical implementation visually concrete. Emphasizing that every constraint omitted in SQL is a business rule the database will not enforce helps motivate careful modeling practice.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

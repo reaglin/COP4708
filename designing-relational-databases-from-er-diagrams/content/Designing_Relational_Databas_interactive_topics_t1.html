@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to ER Diagrams and Relational Schemas</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Designing Relational Databases from ER Diagrams</a></div>
+  <header>
+    <h1>Introduction to ER Diagrams and Relational Schemas</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to ER Diagrams and Relational Schemas</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Before a single table is created, before a column is defined, and before any data is stored, database designers rely on a conceptual map of the information landscape they are trying to capture. That map is called an <strong>Entity-Relationship (ER) diagram</strong>, and together with its companion artifact, the <strong>relational schema</strong>, it forms the foundation of every well-designed relational database. This topic introduces both artifacts from the ground up, establishes the precise vocabulary needed to work with them, and explains why investing time in this conceptual stage pays enormous dividends later in the development process.</p>
+
+<p>An ER diagram is a graphical model that describes <em>what</em> data an organization needs to store and <em>how</em> the various pieces of data relate to one another — entirely independently of any specific database management system or physical storage technology. It answers questions like: What are the things we care about? What facts do we record about each thing? How are those things connected? The answers are expressed through three fundamental building blocks: <strong>entities</strong>, <strong>attributes</strong>, and <strong>relationships</strong>.</p>
+
+<p><strong>Entities</strong> represent real-world objects or concepts about which data must be stored. An entity could be a tangible, physical thing — a <em>Student</em>, an <em>Employee</em>, a <em>Product</em> — or it could be a more abstract concept, such as a <em>Course</em>, an <em>Account</em>, or an <em>Invoice</em>. What makes something worth modeling as an entity is that the organization needs to record multiple distinct facts about many instances of it. If you only need to record a single fact about something (say, a color name as a simple label), it is probably just an attribute rather than an entity in its own right.</p>
+
+<p><strong>Attributes</strong> describe the properties or characteristics of an entity. Consider a <em>Student</em> entity: the database needs to track each student's unique identifier, their name, and their date of birth. These become the attributes <em>StudentID</em>, <em>Name</em>, and <em>DateOfBirth</em> of the Student entity. Attributes are the individual data items that will eventually become columns in a table. Some attributes are <strong>simple</strong> (atomic, single-valued, like a date of birth), while others are <strong>composite</strong> (made up of sub-parts, like a full name broken into first, middle, and last), <strong>multi-valued</strong> (capable of holding several values at once, like a set of phone numbers), or <strong>derived</strong> (computable from other stored data, like an age derived from a date of birth).</p>
+
+<p><strong>Relationships</strong> capture the meaningful associations between two or more entities. A <em>Student</em> <em>enrolls in</em> a <em>Course</em>; an <em>Employee</em> <em>works for</em> a <em>Department</em>; an <em>Order</em> <em>contains</em> one or more <em>Products</em>. Relationships are not just decorative lines — they encode business rules about how entities interact, and those rules directly determine what additional tables or foreign-key constraints will appear in the final relational schema.</p>
+
+<p>One of the most important practical roles of an ER diagram is that it serves as a <strong>communication tool between database designers and non-technical stakeholders</strong>. A manager, a business analyst, or a subject-matter expert can review an ER diagram and confirm that the model correctly reflects reality — without needing to understand SQL or database internals. This shared understanding is invaluable: catching a missing entity or a misunderstood relationship at the diagram stage takes minutes to fix, whereas discovering the same error after thousands of rows have been loaded into production tables can require costly data migrations and application rewrites.</p>
+
+<p>The design process follows a well-established progression. It begins with <strong>requirements gathering</strong> — interviews, document analysis, and observation to understand what data the system must manage. Those requirements are then translated into an <strong>ER diagram</strong>, which is reviewed and refined with stakeholders. Once approved, the ER diagram is converted into a <strong>relational schema</strong> following a set of systematic rules. Finally, the relational schema guides the <strong>physical implementation</strong>: writing the <code>CREATE TABLE</code> statements, defining indexes, setting up user permissions, and populating the database. Every stage depends on the quality of the stage before it, so the conceptual work done in the ER diagram directly determines the integrity of the final system.</p>
+
+<p>Understanding the notation used in ER diagrams is essential before attempting to read or draw them. The most widely taught notation is <strong>Chen notation</strong>, named after Peter Chen who introduced ER modeling in 1976. The following table summarizes the core symbols:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Shape</th>
+      <th>Represents</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Entity set</td>
+      <td>Rectangle (single border)</td>
+      <td>A collection of similar real-world objects</td>
+      <td><em>Student</em>, <em>Course</em>, <em>Department</em></td>
+    </tr>
+    <tr>
+      <td>Weak entity set</td>
+      <td>Rectangle (double border)</td>
+      <td>An entity that cannot be uniquely identified without a related strong entity</td>
+      <td><em>Dependent</em> (of an Employee)</td>
+    </tr>
+    <tr>
+      <td>Attribute</td>
+      <td>Ellipse (single border)</td>
+      <td>A property or characteristic of an entity or relationship</td>
+      <td><em>Name</em>, <em>DateOfBirth</em></td>
+    </tr>
+    <tr>
+      <td>Key attribute</td>
+      <td>Ellipse with underlined name</td>
+      <td>The attribute(s) that uniquely identify each entity instance</td>
+      <td><u>StudentID</u></td>
+    </tr>
+    <tr>
+      <td>Partial key attribute</td>
+      <td>Ellipse with dashed-underlined name</td>
+      <td>An attribute that partially identifies a weak entity</td>
+      <td><u style="text-decoration: underline dashed">DependentName</u></td>
+    </tr>
+    <tr>
+      <td>Multi-valued attribute</td>
+      <td>Ellipse (double border)</td>
+      <td>An attribute that can hold multiple values simultaneously</td>
+      <td><em>PhoneNumbers</em></td>
+    </tr>
+    <tr>
+      <td>Derived attribute</td>
+      <td>Ellipse (dashed border)</td>
+      <td>An attribute whose value can be calculated from other stored data</td>
+      <td><em>Age</em> (from DateOfBirth)</td>
+    </tr>
+    <tr>
+      <td>Relationship set</td>
+      <td>Diamond (single border)</td>
+      <td>An association between two or more entity sets</td>
+      <td><em>Enrolls In</em>, <em>Works For</em></td>
+    </tr>
+    <tr>
+      <td>Identifying relationship set</td>
+      <td>Diamond (double border)</td>
+      <td>The relationship that provides identity to a weak entity</td>
+      <td><em>Has Dependent</em></td>
+    </tr>
+    <tr>
+      <td>Line</td>
+      <td>Solid line</td>
+      <td>Connects entities to relationship sets, or attributes to entities</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>With notation established, we can look more closely at how entities and relationships behave at scale. An <strong>entity set</strong> is the complete collection of all entity instances of a particular type. The <em>Student</em> entity set contains every student the university knows about. A single <strong>entity</strong> is one row in that collection — one specific student with her own StudentID, name, and date of birth. This distinction mirrors the later distinction between a <em>table</em> (the entity set) and a <em>row</em> (the individual entity), making it easier to reason about how the conceptual model maps to physical storage.</p>
+
+<p>A <strong>relationship set</strong> groups all instances of a particular association. If 500 students are each enrolled in some number of courses, the <em>Enrolls In</em> relationship set contains every individual enrollment pair (or tuple, if the relationship involves more than two entities). Each instance in that relationship set links exactly one student entity to exactly one course entity and may carry its own attributes — for example, an <em>EnrollmentDate</em> or a <em>Grade</em> that belongs to the enrollment itself rather than to the student or the course alone.</p>
+
+<p><strong>Cardinality constraints</strong> are among the most important pieces of information encoded in an ER diagram because they determine which conversion rules to apply and which foreign keys end up in which tables. Cardinality describes how many instances of one entity can be associated with how many instances of another through a given relationship:</p>
+
+<ul>
+  <li><strong>One-to-One (1:1):</strong> Each instance of entity A is associated with at most one instance of entity B, and vice versa. For example, each <em>Country</em> has exactly one <em>Capital City</em>, and each capital city belongs to exactly one country.</li>
+  <li><strong>One-to-Many (1:N):</strong> Each instance of entity A can be associated with many instances of entity B, but each instance of entity B is associated with at most one instance of entity A. For example, one <em>Department</em> employs many <em>Employees</em>, but each employee belongs to only one department.</li>
+  <li><strong>Many-to-Many (M:N):</strong> Each instance of entity A can be associated with many instances of entity B, and each instance of entity B can be associated with many instances of entity A. For example, a <em>Student</em> enrolls in many <em>Courses</em>, and each course has many students enrolled in it.</li>
+</ul>
+
+<p>Alongside cardinality, <strong>participation constraints</strong> specify whether every entity in a set must participate in at least one instance of a relationship, or whether participation is optional. <strong>Total participation</strong> (sometimes called mandatory participation) means that every entity instance must appear in the relationship — it is drawn as a double line connecting the entity rectangle to the relationship diamond. For example, if every employee must be assigned to a department, then <em>Employee</em> has total participation in the <em>Works For</em> relationship. <strong>Partial participation</strong> (optional participation) means that some entity instances may not participate in any relationship instance at all — drawn as a single line. For example, not every employee manages a department, so <em>Employee</em> has partial participation in a <em>Manages</em> relationship.</p>
+
+<p>Now consider <strong>relational schemas</strong>. While an ER diagram is a conceptual tool, a relational schema is the logical specification that describes, in precise terms, the structure of the database in the relational model. A relational schema is a set of <strong>relation schemas</strong>, each of which corresponds to a table. The notation for a single relation schema lists the relation name, then its attributes in parentheses:</p>
+
+<pre><code>Student(StudentID, Name, DateOfBirth)
+Course(CourseID, Title, Credits)
+Department(DeptCode, DeptName, Building)</code></pre>
+
+<p>By convention, <strong>primary key attributes are underlined</strong> in the schema notation. A primary key is the attribute (or minimal set of attributes) whose values uniquely identify every row in the relation. No two rows in the <em>Student</em> relation may share the same <em>StudentID</em>, and no <em>StudentID</em> may be null. In printed or typeset material you would see the underline literally; in plain text it is sometimes shown with an asterisk or all-caps:</p>
+
+<pre><code>Student(<u>StudentID</u>, Name, DateOfBirth)
+Course(<u>CourseID</u>, Title, Credits)</code></pre>
+
+<p><strong>Foreign keys</strong> are the mechanism by which relational schemas encode the associations that ER diagrams express as relationship sets. A foreign key is one or more attributes in a relation whose values are required to match the primary key of some (possibly the same) relation. For example, after converting the one-to-many relationship between <em>Department</em> and <em>Employee</em>, the <em>Employee</em> relation will contain a <em>DeptCode</em> attribute that references the primary key of <em>Department</em>:</p>
+
+<pre><code>Employee(<u>EmployeeID</u>, Name, Salary, DeptCode)
+    DeptCode references Department(DeptCode)</code></pre>
+
+<p>This referential integrity constraint means you cannot insert an employee whose <em>DeptCode</em> value does not already exist in the <em>Department</em> table, and you cannot delete a department row if employees still reference it (without cascading or nullifying those references). Foreign keys are the relational model's way of preserving the meaningful associations that the ER diagram described at a conceptual level.</p>
+
+<p>One of the more nuanced concepts in ER modeling is the <strong>weak entity</strong>. Most entities have enough attributes of their own to form a unique identifier — they are called <strong>strong entities</strong>. A weak entity, however, does not have sufficient attributes on its own to be uniquely identified across the entire database; it depends on a related strong entity for part of its identity. The classic example is a <em>Dependent</em> (the family member covered under an employee's benefits). A dependent might have a name and a date of birth, but two different employees could each have a dependent named "Emma" born on the same date. The dependent is only uniquely identifiable in the context of a specific employee.</p>
+
+<p>In Chen notation, weak entities are drawn with a <strong>double-bordered rectangle</strong>, and the identifying relationship that links them to their owning strong entity is drawn with a <strong>double-bordered diamond</strong>. The weak entity's <strong>partial key</strong> — the attribute that distinguishes one weak entity instance from another <em>within the scope of the same strong entity</em> — is shown with a dashed underline rather than a solid one.</p>
+
+<p>The full key of a weak entity is always a composite formed by combining the primary key of the strong entity with the partial key of the weak entity. So if <em>Employee</em> has primary key <em>EmployeeID</em>, and <em>Dependent</em> has partial key <em>DependentName</em>, then the full key of <em>Dependent</em> is the pair (<em>EmployeeID</em>, <em>DependentName</em>). Recognizing weak entities in an ER diagram matters enormously for conversion, because the relational schema for a weak entity must always include the owning strong entity's primary key as a foreign key — and that foreign key becomes part of the weak entity table's own primary key.</p>
+
+<p>To bring all of these concepts together, consider a small university database scenario. The diagram would include:</p>
+
+<ul>
+  <li>A <strong>Student</strong> entity set with key attribute <em>StudentID</em> and additional attributes <em>Name</em> and <em>DateOfBirth</em>.</li>
+  <li>A <strong>Course</strong> entity set with key attribute <em>CourseID</em> and additional attributes <em>Title</em> and <em>Credits</em>.</li>
+  <li>A <strong>Department</strong> entity set with key attribute <em>DeptCode</em> and additional attribute <em>DeptName</em>.</li>
+  <li>An <strong>Enrolls In</strong> many-to-many relationship between <em>Student</em> and <em>Course</em>, carrying a <em>Grade</em> relationship attribute.</li>
+  <li>A <strong>Offered By</strong> many-to-one relationship from <em>Course</em> to <em>Department</em> (each course is offered by one department; a department offers many courses).</li>
+  <li>A weak entity <strong>Section</strong> (a specific scheduled offering of a course in a given semester and room) with partial key <em>SectionNumber</em>, dependent on <em>Course</em> through an identifying relationship <strong>Has Section</strong>.</li>
+</ul>
+
+<p>The resulting relational schemas would begin to look like:</p>
+
+<pre><code>Student(<u>StudentID</u>, Name, DateOfBirth)
+Department(<u>DeptCode</u>, DeptName)
+Course(<u>CourseID</u>, Title, Credits, DeptCode)
+    DeptCode references Department(DeptCode)
+Section(<u>CourseID</u>, <u>SectionNumber</u>, Semester, Room)
+    CourseID references Course(CourseID)
+Enrollment(<u>StudentID</u>, <u>CourseID</u>, Grade)
+    StudentID references Student(StudentID)
+    CourseID references Course(CourseID)</code></pre>
+
+<p>Every design decision visible in those schemas traces back to a specific shape in the ER diagram: the double rectangle that became a composite primary key, the diamond that became a new table, the single line that became a foreign key column. That direct traceability is what makes ER diagrams so powerful as a design tool — they are not just documentation produced after the fact, but the actual blueprint from which the database is built. Mastering the vocabulary and notation introduced in this topic is therefore not an academic exercise; it is the prerequisite for every subsequent step in the database design process.</p>
+        <div class="notes"><strong>Notes</strong>Covers all subtopics: ER diagram definition, entities/attributes/relationships, Chen notation symbols (with a full reference table), relational schema notation with primary and foreign keys, the design lifecycle, entity set vs. entity instance, relationship set, cardinality (1:1, 1:N, M:N), participation constraints (total vs. partial), and weak entities with partial keys and identifying relationships. A worked university scenario ties all concepts together and previews schema conversion.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

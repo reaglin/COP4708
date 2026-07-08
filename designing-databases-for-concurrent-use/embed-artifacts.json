@@ -10,6 +10,46 @@
     "type": "Page"
   },
   {
+    "title": "Concurrency Control Strategies and Best Practices",
+    "href": "content/Designing_Databases_for_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Multi-User Database Environments",
+    "href": "content/Designing_Databases_for_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Transactions and ACID Properties",
+    "href": "content/Designing_Databases_for_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Concurrency Problems and Data Conflicts",
+    "href": "content/Designing_Databases_for_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Locking Mechanisms",
+    "href": "content/Designing_Databases_for_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Deadlocks and Conflict Resolution",
+    "href": "content/Designing_Databases_for_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Transaction Isolation Levels",
+    "href": "content/Designing_Databases_for_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Concurrency Control Strategies and Best Practices",
+    "href": "content/Designing_Databases_for_interactive_topics_t7.html",
+    "type": "Content"
+  },
+  {
     "title": "Designing Databases for Concurrent Use \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"

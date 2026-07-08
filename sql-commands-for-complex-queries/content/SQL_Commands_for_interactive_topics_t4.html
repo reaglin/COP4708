@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorting Results with ORDER BY</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ SQL Commands for Complex Queries</a></div>
+  <header>
+    <h1>Sorting Results with ORDER BY</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Sorting Results with ORDER BY</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When a SQL query runs and returns rows, the database engine makes no guarantee about the order in which those rows will appear. Without explicit instruction, the sequence of results is essentially arbitrary — it may reflect the physical storage order of the data, the order in which rows were inserted, or simply whatever the query optimizer found most efficient. For any situation where the presentation of results matters — generating a report, displaying a leaderboard, listing the most recent transactions, or simply browsing a table in a sensible way — you need a way to take control of that sequence. That tool is the <strong>ORDER BY</strong> clause.</p>
+
+<p>The <strong>ORDER BY</strong> clause is added to the end of a <code>SELECT</code> statement and tells the database engine to sort the result set before returning it. It is always the last clause evaluated in the logical order of a query, meaning it operates only after <code>WHERE</code> filtering has narrowed down the rows and <code>GROUP BY</code> aggregation has collapsed them. You cannot place <code>ORDER BY</code> before <code>WHERE</code> or <code>GROUP BY</code> — doing so will produce a syntax error. Its position in the statement reflects its role: it is the final step, a cosmetic arrangement of whatever the rest of the query has produced.</p>
+
+<p>The basic syntax is straightforward. After your full <code>SELECT</code> statement, you write <code>ORDER BY</code> followed by one or more column names, each optionally followed by a sort direction keyword:</p>
+
+<pre><code>SELECT column1, column2, column3
+FROM table_name
+WHERE some_condition
+ORDER BY column1 ASC, column2 DESC;</code></pre>
+
+<p>The column you reference in <code>ORDER BY</code> does not have to appear in the <code>SELECT</code> list — it simply needs to exist in the underlying table being queried. This is useful when you want to sort by a column that you do not necessarily need to display, such as sorting customer records by an internal numeric ID without showing that ID to end users. However, in practice, named columns from the <code>SELECT</code> list are the most common and readable choice.</p>
+
+<p><strong>Ascending Order with ASC</strong></p>
+
+<p>When you sort in <strong>ascending order</strong>, values progress from smallest to largest, earliest to latest, or A to Z. This is the default behavior — if you write <code>ORDER BY column_name</code> with no direction specified, the database assumes ascending. Explicitly writing <code>ASC</code> is optional, but many developers include it anyway because it makes the intent unmistakable to anyone reading the code later.</p>
+
+<p>Consider a simple <code>products</code> table with columns for <code>product_name</code> and <code>price</code>. To list products from cheapest to most expensive:</p>
+
+<pre><code>SELECT product_name, price
+FROM products
+ORDER BY price ASC;</code></pre>
+
+<p>The result would look something like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>product_name</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pencil</td>
+      <td>0.50</td>
+    </tr>
+    <tr>
+      <td>Notebook</td>
+      <td>2.99</td>
+    </tr>
+    <tr>
+      <td>Stapler</td>
+      <td>7.49</td>
+    </tr>
+    <tr>
+      <td>Desk Lamp</td>
+      <td>24.99</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For text columns, ascending order follows the <strong>alphabetical sequence</strong> determined by the database's <em>collation</em> — a set of rules that governs how characters are compared and sorted. In most common collations used in English-language databases, this means A comes before B, which comes before C, and so on. In a case-insensitive collation, "apple" and "Apple" are treated as equivalent for sorting purposes; in a case-sensitive collation, uppercase letters may sort before or after lowercase letters depending on the specific rules.</p>
+
+<p>An important edge case to be aware of involves <strong>NULL values</strong>. A <code>NULL</code> in SQL represents the absence of a value — it is not zero, not an empty string, just unknown. When sorting in ascending order, most database systems place <code>NULL</code> values at the <em>beginning</em> of the result set, because <code>NULL</code> is treated as less than any real value. However, this is not universal: Oracle, for example, places <code>NULL</code>s at the end by default in ascending order. If consistent handling of <code>NULL</code>s matters for your application, some databases allow you to explicitly control this with <code>NULLS FIRST</code> or <code>NULLS LAST</code> modifiers.</p>
+
+<p><strong>Descending Order with DESC</strong></p>
+
+<p>To reverse the sort direction, you add the <strong>DESC</strong> keyword after the column name. Unlike <code>ASC</code>, <code>DESC</code> is never implied — you must always write it explicitly. Descending order means largest to smallest, latest to earliest, or Z to A.</p>
+
+<p>A common and practical use of <code>DESC</code> is displaying the most recent records first. Imagine an <code>orders</code> table where you want to show the latest orders at the top:</p>
+
+<pre><code>SELECT order_id, customer_name, order_date, total_amount
+FROM orders
+ORDER BY order_date DESC;</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>order_id</th>
+      <th>customer_name</th>
+      <th>order_date</th>
+      <th>total_amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1042</td>
+      <td>Sandra Lee</td>
+      <td>2024-11-15</td>
+      <td>189.00</td>
+    </tr>
+    <tr>
+      <td>1039</td>
+      <td>Marcus Webb</td>
+      <td>2024-11-12</td>
+      <td>45.50</td>
+    </tr>
+    <tr>
+      <td>1031</td>
+      <td>Priya Nair</td>
+      <td>2024-10-28</td>
+      <td>320.75</td>
+    </tr>
+    <tr>
+      <td>1020</td>
+      <td>James Ortega</td>
+      <td>2024-09-04</td>
+      <td>99.99</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Because <code>order_date</code> is a date column, descending order puts the most recent date (2024-11-15) at the top and the oldest at the bottom. This pattern — "show me the most recent N records" — is one of the most frequently used in real-world applications, from activity logs to news feeds to transaction histories.</p>
+
+<p>For text columns, <code>DESC</code> produces a <strong>reverse-alphabetical</strong> sequence. If you sorted the <code>product_name</code> column descending, "Stapler" would appear before "Pencil," which would appear before "Notebook," and so on. For numeric columns, <code>DESC</code> places the largest number first — useful for ranking scenarios like "top 10 highest-earning salespeople."</p>
+
+<p><strong>Sorting by Multiple Columns</strong></p>
+
+<p>Real datasets rarely have perfectly unique values in a single column. When many rows share the same value in the primary sort column, you need a way to break those ties consistently. This is where <strong>multi-column sorting</strong> becomes essential.</p>
+
+<p>In a multi-column <code>ORDER BY</code>, you list the columns separated by commas. The database sorts by the first column first. Only when it encounters two rows with <em>identical</em> values in that first column does it look at the second column to decide their order. If those are also equal, it moves to the third column, and so on. Each column can independently be <code>ASC</code> or <code>DESC</code>.</p>
+
+<p>Imagine an <code>employees</code> table in a large company. Many employees may share the same <code>department</code>. Within each department, you want employees listed alphabetically by last name. If two employees share the same last name, sort them by first name:</p>
+
+<pre><code>SELECT first_name, last_name, department, salary
+FROM employees
+ORDER BY department ASC, last_name ASC, first_name ASC;</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>department</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>Brown</td>
+      <td>Engineering</td>
+      <td>95000</td>
+    </tr>
+    <tr>
+      <td>David</td>
+      <td>Chen</td>
+      <td>Engineering</td>
+      <td>102000</td>
+    </tr>
+    <tr>
+      <td>Maria</td>
+      <td>Chen</td>
+      <td>Engineering</td>
+      <td>98000</td>
+    </tr>
+    <tr>
+      <td>Tom</td>
+      <td>Wallace</td>
+      <td>Engineering</td>
+      <td>87000</td>
+    </tr>
+    <tr>
+      <td>Ben</td>
+      <td>Adams</td>
+      <td>Marketing</td>
+      <td>72000</td>
+    </tr>
+    <tr>
+      <td>Chloe</td>
+      <td>Patel</td>
+      <td>Marketing</td>
+      <td>68000</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notice how "David Chen" and "Maria Chen" both have the same last name within the Engineering department — the third sort key (<code>first_name</code>) breaks that tie, placing David before Maria. This cascading left-to-right evaluation is the core logic of multi-column sorting.</p>
+
+<p>You can also mix directions freely. Suppose you want to list departments in alphabetical order, but within each department you want to see the highest-paid employees first:</p>
+
+<pre><code>SELECT first_name, last_name, department, salary
+FROM employees
+ORDER BY department ASC, salary DESC;</code></pre>
+
+<p>This query sorts departments A–Z but within each department ranks employees from highest salary to lowest. The <code>ASC</code> and <code>DESC</code> keywords apply independently to each column — they do not "carry over" from one column to the next.</p>
+
+<p><strong>Sorting by Column Position</strong></p>
+
+<p>SQL also allows you to reference sort columns by their <strong>positional number</strong> in the <code>SELECT</code> list rather than by name. Position 1 refers to the first column listed in the <code>SELECT</code> clause, position 2 to the second, and so on.</p>
+
+<pre><code>SELECT product_name, category, price
+FROM products
+ORDER BY 3 DESC, 2 ASC;</code></pre>
+
+<p>This query is equivalent to writing <code>ORDER BY price DESC, category ASC</code>. The number 3 maps to <code>price</code> (the third column in the <code>SELECT</code> list) and the number 2 maps to <code>category</code>.</p>
+
+<p>Positional <code>ORDER BY</code> is supported in virtually all major relational database systems — MySQL, PostgreSQL, SQL Server, SQLite, and others all accept this syntax. It can be a convenience shortcut, particularly in interactive querying sessions where you are quickly exploring data and do not want to retype long column names.</p>
+
+<p>However, positional references carry a significant risk in <strong>production code</strong>: they are fragile. If someone later modifies the <code>SELECT</code> list — adding a new column at the beginning, reordering columns, or removing one — the positional numbers silently shift and the query now sorts by completely different columns than intended, without any error message. Because of this, most style guides for production SQL strongly recommend using explicit column names in <code>ORDER BY</code>. Reserve positional references for ad-hoc exploration where maintainability is not a concern.</p>
+
+<p><strong>Sorting Across Different Data Types</strong></p>
+
+<p>One of the subtler aspects of <code>ORDER BY</code> is understanding how sorting behaves differently depending on the <strong>data type</strong> of the column being sorted. The same keyword — <code>ASC</code> — means something slightly different depending on what kind of data it is applied to.</p>
+
+<p>For <strong>numeric columns</strong> (integers, decimals, floats), sorting is straightforward mathematical ordering. The value 10 is greater than 9, so in ascending order 9 comes before 10. This seems obvious, but it becomes critically important when numbers are accidentally stored as text. If a column storing numeric-looking values has a text (<code>VARCHAR</code>) data type, it will sort <em>lexicographically</em> rather than numerically — meaning "10" would sort before "9" because the character "1" comes before "9" in the alphabet. This is a common source of sorting bugs and is why choosing the correct data type for your columns matters.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sorting "Numbers" Stored as Text (Wrong)</th>
+      <th>Sorting Actual Numeric Column (Correct)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>9... (wrong order above)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For <strong>date and timestamp columns</strong>, ascending order is chronological — earlier dates sort lower (closer to the top in an ascending result). A date of January 1, 2020 is "less than" December 31, 2024, so it would appear first in an ascending sort. Descending order on a date column gives you the most recent events first, which is why <code>ORDER BY event_date DESC</code> is the standard pattern for "show me the latest activity."</p>
+
+<p>For <strong>string (text) columns</strong>, sorting is <em>lexicographic</em> — essentially dictionary order, character by character. The exact behavior depends on the database's <strong>collation</strong> settings, which define rules for character comparison. In a case-insensitive collation, "Banana" and "banana" sort to the same position. In a case-sensitive collation, uppercase letters may sort before or after their lowercase counterparts. Some collations also handle accented characters specially — for example, deciding whether "é" sorts with "e" or separately. When working in an international context, understanding the collation of your database is important to avoid unexpected sort orders.</p>
+
+<p>The following table summarizes how ascending order manifests across the three main data type categories:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data Type</th>
+      <th>Ascending (ASC) Meaning</th>
+      <th>Example (Low → High)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Numeric (INT, DECIMAL)</td>
+      <td>Smallest value first</td>
+      <td>1, 5, 10, 100, 999</td>
+    </tr>
+    <tr>
+      <td>Date / Timestamp</td>
+      <td>Earliest date first</td>
+      <td>2020-01-01, 2022-06-15, 2024-11-15</td>
+    </tr>
+    <tr>
+      <td>String (VARCHAR, TEXT)</td>
+      <td>Alphabetical (A–Z), collation-dependent</td>
+      <td>Apple, Banana, Cherry, Durian</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Putting all of these concepts together, consider a comprehensive example. You have a <code>sales_records</code> table and want to produce a report showing data grouped by region, then sorted by most recent sale date, and then by sale amount descending as a tiebreaker:</p>
+
+<pre><code>SELECT region, sale_date, salesperson_name, amount
+FROM sales_records
+WHERE sale_date >= '2024-01-01'
+ORDER BY region ASC, sale_date DESC, amount DESC;</code></pre>
+
+<p>This query first filters to the current year, then sorts alphabetically by region, then within each region shows the most recent sales first, and if two sales occurred on the same date in the same region, the larger amount appears first. The <code>ORDER BY</code> clause, sitting at the end after the <code>WHERE</code> condition, orchestrates all of this sorting logic cleanly and expressively.</p>
+
+<p>Mastering <code>ORDER BY</code> is one of the foundational skills in SQL because nearly every real-world query result benefits from a deliberate sort order. Understanding the direction keywords, multi-column sort priority, the nuances of positional references, and how different data types sort will allow you to produce result sets that are not just correct, but immediately useful and readable.</p>
+        <div class="notes"><strong>Notes</strong>Covers all subtopics: purpose and placement of ORDER BY, ASC defaults and NULL behavior, DESC for reverse and date sorting, multi-column sort with independent directions, positional ORDER BY with its risks, and data type differences (numeric, date, string/collation).</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

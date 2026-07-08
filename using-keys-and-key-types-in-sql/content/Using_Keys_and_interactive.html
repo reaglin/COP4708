@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enforcing Key Constraints for Data Integrity</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ Using Keys and Key Types in SQL</a></div>
+  <header>
+    <h1>Enforcing Key Constraints for Data Integrity</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Enforcing Key Constraints for Data Integrity</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Data integrity is the foundation of any trustworthy database system. Without it, reports produce misleading results, application logic collapses under unexpected edge cases, and the records that businesses depend on become unreliable. Key constraints are the primary mechanism SQL databases provide to enforce integrity automatically and consistently, regardless of which application, script, or user inserts or modifies data. Understanding how to define, apply, and manage these constraints — and why they matter so deeply — is one of the most important skills a database designer or developer can possess.</p>
+
+<p>This topic brings together every major category of key constraint — primary keys, foreign keys, unique constraints, composite keys, and surrogate keys — into a unified, practical guide. It covers not only how to write the SQL syntax but also the reasoning behind each decision and the real-world consequences of getting it wrong.</p>
+
+<p><strong>Understanding Why Key Constraints Matter</strong></p>
+
+<p>Many developers begin their careers enforcing data rules at the application layer: an API checks whether a username already exists before inserting a new user; a form validates that a required field is not blank. This approach feels natural because the logic lives in familiar programming languages, but it is dangerously fragile. Any process that bypasses the application — a bulk import script, a direct database connection from a reporting tool, a junior developer running a quick fix in a query console — immediately sidesteps every application-level check. The database itself has no opinion on the matter and accepts whatever it receives.</p>
+
+<p>Shifting validation responsibility to the database layer solves this problem at its root. A constraint defined on a table is enforced by the database engine on every single write operation, unconditionally, regardless of the source. No path to the data can circumvent it. This means that even if an application has a bug that fails to validate input, even if someone runs an ad-hoc <code>INSERT</code> statement directly in a query editor, the constraint still fires and rejects invalid data.</p>
+
+<p>Beyond preventing bad data from entering, constraints prevent entire <em>categories</em> of anomalies before they can occur. Consider what happens without a primary key constraint: a table accumulates duplicate rows over time, making it impossible to reliably identify a single record. Without a foreign key constraint, order rows can refer to customer IDs that no longer exist, producing orphaned records that join queries silently drop or, worse, surface as null-filled ghost rows in reports. Enforcing constraints at schema design time makes these entire problem classes structurally impossible.</p>
+
+<p>A well-constrained schema also becomes self-documenting. When a developer opens a table definition and sees a foreign key pointing to <code>customers(customer_id)</code>, they immediately understand the relationship without reading a word of documentation. The schema communicates the rules. This reduces onboarding time, reduces misunderstandings in code reviews, and makes the database a reliable source of truth about how the business domain is structured.</p>
+
+<p><strong>Defining and Enforcing Primary Key Constraints</strong></p>
+
+<p>Every table that stores real-world entities or events should have a primary key — a column or combination of columns whose values uniquely identify each row. The primary key is the most fundamental constraint in a relational schema, and the database enforces two properties on it automatically: uniqueness (no two rows may share the same primary key value) and non-nullability (primary key columns may never contain NULL).</p>
+
+<p>The simplest form declares the primary key inline with the column definition:</p>
+
+<pre><code>CREATE TABLE customers (
+    customer_id   INT           NOT NULL,
+    email         VARCHAR(255)  NOT NULL,
+    full_name     VARCHAR(255)  NOT NULL,
+    CONSTRAINT pk_customers PRIMARY KEY (customer_id)
+);</code></pre>
+
+<p>Naming the constraint explicitly (here, <code>pk_customers</code>) is a best practice because it makes the constraint easy to reference later when you need to drop or modify it. Many developers rely on database-generated names, but those names are often opaque strings like <code>SYS_C0012345</code>, which are painful to work with in scripts.</p>
+
+<p>When a primary key is declared, the database automatically creates a unique index on those columns. This index does double duty: it enforces the uniqueness rule and dramatically accelerates lookups by primary key, which is the most common access pattern for relational joins. You do not need to create a separate index on primary key columns — doing so wastes storage and slightly degrades write performance.</p>
+
+<p>A table may have exactly one primary key. This forces a deliberate, considered choice: which column or combination of columns most naturally and stably identifies each record? <em>Stability</em> is the critical word. A value that changes over time makes a poor primary key because every foreign key reference to it must also change. Phone numbers, email addresses, and even names can change. A well-chosen primary key remains constant for the lifetime of the row.</p>
+
+<p><strong>Composite primary keys</strong> combine two or more columns. They are most common in junction tables that model many-to-many relationships:</p>
+
+<pre><code>CREATE TABLE order_items (
+    order_id    INT  NOT NULL,
+    product_id  INT  NOT NULL,
+    quantity    INT  NOT NULL,
+    CONSTRAINT pk_order_items PRIMARY KEY (order_id, product_id)
+);</code></pre>
+
+<p>Here, neither <code>order_id</code> alone nor <code>product_id</code> alone uniquely identifies a row — a single order can contain many products and a single product can appear in many orders — but the combination of both is unique. The composite primary key expresses this business rule precisely.</p>
+
+<p><strong>Applying Foreign Key Constraints for Referential Integrity</strong></p>
+
+<p>A foreign key constraint declares that the values in one or more columns of a child table must match values that exist in a referenced column of a parent table, or must be NULL if the relationship is optional. This is called <em>referential integrity</em>: the references between tables are guaranteed to be valid at all times.</p>
+
+<pre><code>CREATE TABLE orders (
+    order_id     INT           NOT NULL,
+    customer_id  INT           NOT NULL,
+    order_date   DATE          NOT NULL,
+    CONSTRAINT pk_orders PRIMARY KEY (order_id),
+    CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers (customer_id)
+);</code></pre>
+
+<p>With this constraint in place, any attempt to insert an order referencing a <code>customer_id</code> that does not exist in the <code>customers</code> table will immediately raise an error. Equally important, any attempt to delete a customer who still has orders will also raise an error — you cannot create an orphaned order that refers to a nonexistent customer.</p>
+
+<p>The referenced column in the parent table must be either the primary key or carry a unique constraint. The database needs a guarantee that the reference resolves to at most one row; without uniqueness, a join could be ambiguous.</p>
+
+<p>The <code>ON DELETE</code> and <code>ON UPDATE</code> clauses control cascading behavior — what happens to child rows when the referenced parent row changes. The most common options are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>ON DELETE behavior</th>
+      <th>ON UPDATE behavior</th>
+      <th>Typical use case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RESTRICT</code> / <code>NO ACTION</code></td>
+      <td>Raises an error if child rows exist</td>
+      <td>Raises an error if child rows exist</td>
+      <td>Default; prevents accidental deletion of referenced data</td>
+    </tr>
+    <tr>
+      <td><code>CASCADE</code></td>
+      <td>Deletes all matching child rows</td>
+      <td>Updates the foreign key value in all child rows</td>
+      <td>Order items when an order is deleted; cascading deletes in hierarchies</td>
+    </tr>
+    <tr>
+      <td><code>SET NULL</code></td>
+      <td>Sets the foreign key column to NULL in child rows</td>
+      <td>Sets the foreign key column to NULL in child rows</td>
+      <td>Optional relationships, e.g., a post whose author account is deleted</td>
+    </tr>
+    <tr>
+      <td><code>SET DEFAULT</code></td>
+      <td>Sets the foreign key column to its default value</td>
+      <td>Sets the foreign key column to its default value</td>
+      <td>Less common; requires a meaningful default to exist</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Choosing the right action requires thinking through the business semantics of the relationship. Cascading deletes are powerful but potentially dangerous: deleting a single parent row can silently eliminate hundreds of child rows. <code>RESTRICT</code> is the safest default because it forces the application to be explicit about cleanup. <code>SET NULL</code> works well for optional relationships where the child record is meaningful even without its parent.</p>
+
+<pre><code>CREATE TABLE order_items (
+    order_item_id  INT  NOT NULL,
+    order_id       INT  NOT NULL,
+    product_id     INT  NOT NULL,
+    quantity       INT  NOT NULL,
+    CONSTRAINT pk_order_items  PRIMARY KEY (order_item_id),
+    CONSTRAINT fk_items_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders (order_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_items_product
+        FOREIGN KEY (product_id)
+        REFERENCES products (product_id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);</code></pre>
+
+<p>In this example, deleting an order automatically removes its line items (which have no meaning without their parent order), but you cannot delete a product that is still referenced by any order item — a safeguard that protects historical data.</p>
+
+<p><strong>Using UNIQUE Constraints to Enforce Candidate Keys</strong></p>
+
+<p>A <em>candidate key</em> is any column or combination of columns that could legitimately serve as a primary key — that is, it uniquely identifies each row. A table may have several candidate keys, but only one can be designated the primary key. The others must still be protected from duplicates; this is the role of the <code>UNIQUE</code> constraint.</p>
+
+<pre><code>CREATE TABLE customers (
+    customer_id   INT           NOT NULL,
+    email         VARCHAR(255)  NOT NULL,
+    phone         VARCHAR(20),
+    full_name     VARCHAR(255)  NOT NULL,
+    CONSTRAINT pk_customers   PRIMARY KEY (customer_id),
+    CONSTRAINT uq_cust_email  UNIQUE (email),
+    CONSTRAINT uq_cust_phone  UNIQUE (phone)
+);</code></pre>
+
+<p>Here, <code>customer_id</code> is the primary key (a surrogate integer), but <code>email</code> is also a natural candidate key — no two customers should share an email address. The <code>UNIQUE</code> constraint on <code>email</code> enforces this rule. Similarly, if phone numbers are captured and must be unique, a second <code>UNIQUE</code> constraint covers that column independently.</p>
+
+<p>A critical difference between <code>UNIQUE</code> and <code>PRIMARY KEY</code> is the treatment of <code>NULL</code>. Primary key columns are never nullable. Unique-constrained columns <em>can</em> contain <code>NULL</code> in most SQL databases, and here the behavior diverges by dialect:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Database</th>
+      <th>NULL handling in UNIQUE columns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PostgreSQL, SQL Server, Oracle</td>
+      <td>Multiple NULL values are permitted; NULL is not considered equal to NULL for uniqueness purposes</td>
+    </tr>
+    <tr>
+      <td>MySQL / MariaDB</td>
+      <td>Multiple NULL values are permitted in a UNIQUE index (same reasoning: NULL ≠ NULL)</td>
+    </tr>
+    <tr>
+      <td>SQLite</td>
+      <td>Multiple NULL values are permitted</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This means a <code>phone</code> column with a <code>UNIQUE</code> constraint can hold <code>NULL</code> for many customers who have not provided a phone number, because <code>NULL</code> represents "unknown" rather than a specific value. Only when an actual phone number is supplied does the uniqueness check apply.</p>
+
+<p>A table can carry as many <code>UNIQUE</code> constraints as the business rules require. Each one independently prevents duplicate values on its target columns and — just like a primary key — causes the database to create a supporting unique index, which also accelerates queries that filter on those columns.</p>
+
+<p><strong>Implementing Composite and Surrogate Keys Strategically</strong></p>
+
+<p>The choice between <em>natural keys</em>, <em>composite keys</em>, and <em>surrogate keys</em> is one of the most consequential decisions in schema design, and the right answer depends on the nature of the data and its expected evolution.</p>
+
+<p>A <strong>natural key</strong> is a column whose values come directly from the business domain — a product SKU, a national ID number, an ISBN. Natural keys are meaningful and human-readable, which makes debugging easier. However, they carry risk: business data changes. A product SKU might be reformatted, a company might be rebranded, a government might reissue ID numbers. When a natural key value changes, every foreign key reference to it must change too, which can cascade across many tables.</p>
+
+<p>A <strong>surrogate key</strong> is a system-generated value with no business meaning — typically an auto-incrementing integer or a UUID. Because surrogate keys are never derived from real-world data, they never change when business data changes. This stability makes them ideal for primary keys that will be widely referenced as foreign keys:</p>
+
+<pre><code>CREATE TABLE products (
+    product_id   INT           NOT NULL AUTO_INCREMENT,
+    sku          VARCHAR(50)   NOT NULL,
+    product_name VARCHAR(255)  NOT NULL,
+    CONSTRAINT pk_products  PRIMARY KEY (product_id),
+    CONSTRAINT uq_prod_sku  UNIQUE (sku)
+);</code></pre>
+
+<p>Notice the pattern: <code>product_id</code> is the surrogate primary key — stable, compact, and never exposed to business changes. The natural key <code>sku</code> still carries a <code>UNIQUE</code> constraint because it must be unique in the business domain. Without that constraint, you could insert two products with the same SKU, creating logical duplicates that the surrogate key would not detect. <strong>Using a surrogate key does not eliminate the need to enforce uniqueness on natural key columns — it makes that UNIQUE constraint more important, not less.</strong></p>
+
+<p>A <strong>composite key</strong> is appropriate when no single column is sufficient to identify a row, but a combination of columns is. The canonical use case is a junction table representing a many-to-many relationship:</p>
+
+<pre><code>CREATE TABLE student_courses (
+    student_id  INT  NOT NULL,
+    course_id   INT  NOT NULL,
+    enrolled_on DATE NOT NULL,
+    CONSTRAINT pk_student_courses PRIMARY KEY (student_id, course_id),
+    CONSTRAINT fk_sc_student FOREIGN KEY (student_id) REFERENCES students (student_id),
+    CONSTRAINT fk_sc_course  FOREIGN KEY (course_id)  REFERENCES courses  (course_id)
+);</code></pre>
+
+<p>The composite primary key <code>(student_id, course_id)</code> enforces the rule that a student can only be enrolled in any given course once. Adding a surrogate key to this table (as some developers do for convenience) is usually unnecessary and adds overhead without improving correctness — the composite key already perfectly models the relationship.</p>
+
+<p><strong>Managing Constraints: Adding, Disabling, and Dropping</strong></p>
+
+<p>Real-world databases evolve. Business rules change, schemas are refactored, and data migrations sometimes require temporarily relaxing enforcement. SQL provides syntax for managing constraints on existing tables without recreating them from scratch.</p>
+
+<p>To add a new constraint to an existing table, use <code>ALTER TABLE ... ADD CONSTRAINT</code>:</p>
+
+<pre><code>-- Add a unique constraint to an existing column
+ALTER TABLE customers
+    ADD CONSTRAINT uq_cust_email UNIQUE (email);
+
+-- Add a foreign key to an existing table
+ALTER TABLE orders
+    ADD CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers (customer_id)
+        ON DELETE RESTRICT;</code></pre>
+
+<p>Be aware that adding a constraint to a table that already contains data will cause the database to immediately validate <em>all existing rows</em> against the new rule. If any existing row violates the constraint, the <code>ALTER TABLE</code> statement will fail. You must clean up the data first.</p>
+
+<p>To remove a constraint — for example, when a business rule is retired or a schema refactor changes the key structure — use <code>ALTER TABLE ... DROP CONSTRAINT</code>:</p>
+
+<pre><code>ALTER TABLE orders
+    DROP CONSTRAINT fk_orders_customer;</code></pre>
+
+<p>This is one reason naming constraints explicitly at creation time is so valuable. When constraints carry meaningful names like <code>fk_orders_customer</code>, dropping or modifying them is straightforward. With system-generated names, you must first query the data dictionary to discover what the name is.</p>
+
+<p>Some databases — most notably Oracle and SQL Server — support <em>disabling</em> a constraint without dropping it. This is useful during large bulk load operations where temporarily suspending a foreign key check can dramatically improve import performance:</p>
+
+<pre><code>-- Oracle syntax
+ALTER TABLE order_items DISABLE CONSTRAINT fk_items_order;
+-- ... bulk load data ...
+ALTER TABLE order_items ENABLE CONSTRAINT fk_items_order;
+
+-- SQL Server syntax
+ALTER TABLE order_items NOCHECK CONSTRAINT fk_items_order;
+-- ... bulk load data ...
+ALTER TABLE order_items WITH CHECK CHECK CONSTRAINT fk_items_order;</code></pre>
+
+<p>The <code>WITH CHECK</code> clause in SQL Server is critical: it forces the database to validate all existing rows when re-enabling the constraint, ensuring data loaded during the suspension is also checked. Omitting <code>WITH CHECK</code> re-enables future enforcement but leaves potentially invalid historical data unchecked — a subtle trap that can corrupt query results silently.</p>
+
+<p>PostgreSQL does not support disabling constraints directly but provides a similar capability through deferred constraint checking within a transaction:</p>
+
+<pre><code>-- PostgreSQL: declare a deferrable constraint
+CONSTRAINT fk_items_order
+    FOREIGN KEY (order_id) REFERENCES orders (order_id)
+    DEFERRABLE INITIALLY IMMEDIATE;
+
+-- Then within a transaction, defer checking until COMMIT
+BEGIN;
+SET CONSTRAINTS fk_items_order DEFERRED;
+-- ... insert data in any order ...
+COMMIT;  -- foreign key is checked here</code></pre>
+
+<p><strong>Best Practices for Consistent Constraint Enforcement Across a Schema</strong></p>
+
+<p>Applying constraints correctly in individual tables is necessary but not sufficient. Maintaining integrity across an entire schema as it grows and evolves requires discipline, documentation, and deliberate processes.</p>
+
+<p>The most impactful practice is to define all key constraints <em>at table creation time</em>, in the original <code>CREATE TABLE</code> statement, rather than adding them later. When constraints are defined upfront, they catch design issues immediately — if you cannot figure out what uniquely identifies a row while writing the DDL, that is a signal that the data model needs more thought, not that the constraint should be deferred. Retrofitting constraints onto populated tables is error-prone and often requires expensive data cleanup.</p>
+
+<p>Every constraint should be recorded in a <em>data dictionary</em> — a maintained reference document (or a set of database comments) that explains what each constraint enforces and why the business rule exists. A developer reading the schema six months later should be able to understand not just that a constraint exists, but why it was put there. Many databases support column and table comments directly in the schema:</p>
+
+<pre><code>COMMENT ON CONSTRAINT uq_cust_email ON customers IS
+    'Each customer must register with a unique email address used for login and notifications.';</code></pre>
+
+<p>Constraints must also be <em>tested</em> explicitly. Do not assume that because you wrote the constraint correctly, it behaves as expected. Write test cases that attempt to violate each constraint — insert a duplicate primary key, insert a foreign key referencing a nonexistent parent, insert a duplicate value in a unique column — and verify that the database raises an error. Also test that valid data is accepted without error. This sounds obvious but is frequently skipped, and silent bugs in constraint definitions (such as a foreign key accidentally defined on the wrong column) go undetected until they cause a production incident.</p>
+
+<p>Finally, audit constraint definitions against business rules on a regular schedule. Business rules evolve: a field that was once optional becomes mandatory, a formerly unique identifier is reused, a relationship type changes. When business rules change and the schema does not, the database model drifts out of alignment with reality, gradually eroding the trust that makes a constrained schema valuable. Scheduled schema reviews — ideally tied to release planning cycles — ensure the constraints in the database continue to reflect the current, correct understanding of the domain.</p>
+
+<p>The following table summarizes the key constraint types, their properties, and their primary use cases:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constraint type</th>
+      <th>Enforces uniqueness</th>
+      <th>Allows NULL</th>
+      <th>Creates index</th>
+      <th>Count per table</th>
+      <th>Primary use case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>PRIMARY KEY</code></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Yes (unique)</td>
+      <td>Exactly one</td>
+      <td>Row identity; referenced by foreign keys</td>
+    </tr>
+    <tr>
+      <td><code>UNIQUE</code></td>
+      <td>Yes</td>
+      <td>Yes (usually)</td>
+      <td>Yes (unique)</td>
+      <td>Many</td>
+      <td>Candidate keys; natural business identifiers</td>
+    </tr>
+    <tr>
+      <td><code>FOREIGN KEY</code></td>
+      <td>No</td>
+      <td>Yes (optional relationship)</td>
+      <td>Not automatically (recommended)</td>
+      <td>Many</td>
+      <td>Referential integrity between related tables</td>
+    </tr>
+    <tr>
+      <td>Composite <code>PRIMARY KEY</code></td>
+      <td>Yes (across combined columns)</td>
+      <td>No</td>
+      <td>Yes (unique)</td>
+      <td>Exactly one</td>
+      <td>Junction tables; multi-column natural keys</td>
+    </tr>
+    <tr>
+      <td>Surrogate <code>PRIMARY KEY</code></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>Yes (unique)</td>
+      <td>Exactly one</td>
+      <td>Stable row identity independent of business data</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Taken together, these constraint types form a complete toolkit for expressing the rules that govern a relational schema. Using them consistently, naming them clearly, and maintaining them alongside changing business requirements is what separates a database that is merely functional from one that is genuinely reliable.</p>
+        <div class="notes"><strong>Notes</strong>This topic integrates all major key constraint categories into a single comprehensive treatment. The SQL examples use standard ANSI syntax with dialect-specific notes where behavior diverges (PostgreSQL, SQL Server, Oracle, MySQL). The tables on NULL behavior and cascading actions are useful reference points. Instructors may wish to supplement with live DDL demonstrations on a sandbox schema.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

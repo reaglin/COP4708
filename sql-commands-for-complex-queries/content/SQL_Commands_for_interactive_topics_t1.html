@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Complex SQL Queries</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ SQL Commands for Complex Queries</a></div>
+  <header>
+    <h1>Introduction to Complex SQL Queries</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Complex SQL Queries</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>SQL is the universal language for communicating with relational databases, and while simple <code>SELECT</code> statements are sufficient for retrieving data from a single, flat table, real-world data analysis almost never works that way. Customer records live in one table, their orders in another, product details in a third, and regional mappings somewhere else entirely. Answering even a moderately useful business question — "What were total sales by region last quarter, and which sales representatives drove the most revenue?" — requires pulling threads from several of these tables simultaneously, filtering out irrelevant rows, grouping the survivors into meaningful categories, and sorting the result so a decision-maker can instantly read it. This is the domain of <strong>complex SQL queries</strong>, and mastering them is the single most impactful skill for anyone who works with data professionally.</p>
+
+<p>A <strong>complex SQL query</strong> is any query that combines multiple clauses, operations, or statements within a single coherent instruction to the database engine. Rather than simply asking "show me all rows in this table," a complex query might join three tables, restrict the result to rows that meet several conditions, collapse thousands of detail rows into a handful of summary rows, filter those summaries further based on aggregate values, and finally present the output in a specific order. Each of those steps is expressed declaratively — you describe <em>what</em> you want, and the database engine determines <em>how</em> to retrieve it efficiently.</p>
+
+<p>Complexity is not a sign that something has gone wrong; it is a natural consequence of working with properly designed, <em>normalized</em> databases. Normalization is the process of organizing a database to reduce redundancy and improve data integrity by distributing information across related tables rather than duplicating it in a single large one. The trade-off is that retrieving a complete, meaningful picture of the data requires reassembling those distributed pieces at query time — precisely what complex queries are designed to do.</p>
+
+<p><strong>What Are Complex SQL Queries?</strong></p>
+
+<p>At their simplest, complex queries can be understood as queries that do more than one thing at once. Consider these contrasting examples. A simple query might read:</p>
+
+<pre><code>SELECT first_name, last_name
+FROM customers;</code></pre>
+
+<p>This retrieves two columns from one table — nothing more. A complex query solving a realistic business problem might look like this:</p>
+
+<pre><code>SELECT
+    r.region_name,
+    SUM(o.order_total) AS total_sales,
+    COUNT(DISTINCT o.customer_id) AS unique_customers
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN regions r ON c.region_id = r.region_id
+WHERE o.order_date BETWEEN '2024-01-01' AND '2024-03-31'
+GROUP BY r.region_name
+HAVING SUM(o.order_total) > 50000
+ORDER BY total_sales DESC;</code></pre>
+
+<p>This single statement joins three tables, restricts rows to a specific date range, groups the survivors by region, eliminates groups whose total sales fall below a threshold, and orders the final output from highest to lowest revenue. Every clause serves a distinct purpose, and together they answer a question that would be impossible to answer with any single simple query.</p>
+
+<p>Common scenarios that demand complex queries include:</p>
+<ul>
+  <li><strong>Reporting aggregated metrics:</strong> Total sales by region, average order value by product category, or monthly active users.</li>
+  <li><strong>Finding gaps or absences:</strong> Customers who have never placed an order, products with no inventory movements, employees with no assigned manager.</li>
+  <li><strong>Ranking and comparison:</strong> The top five sales representatives per department, the three most recent orders per customer, or products ranked by profit margin within their category.</li>
+  <li><strong>Multi-step data derivation:</strong> Calculating a metric in one step and then filtering or ranking based on it in another, often using subqueries or common table expressions.</li>
+</ul>
+
+<p><strong>Why Complex Queries Are Essential</strong></p>
+
+<p>The necessity of complex queries flows directly from how professional databases are built. The principle of <em>database normalization</em> deliberately separates logically distinct entities into their own tables. A well-designed e-commerce database will not store a customer's city name alongside every order that customer places, because doing so would waste storage and make updates error-prone. Instead, city, region, and country data live in lookup tables, linked to the customer record by a key. When an analyst needs to report sales by city, they must join those tables back together.</p>
+
+<p>Without the ability to write complex queries, a data professional faces an unappealing set of workarounds:</p>
+<ul>
+  <li>Exporting raw data to a spreadsheet and combining tables manually — a process that is slow, error-prone, difficult to audit, and impossible to automate reliably at scale.</li>
+  <li>Asking a developer to build a custom application that retrieves and combines the data programmatically — expensive and slow to iterate.</li>
+  <li>Relying on pre-built reports that may not answer the specific question at hand.</li>
+</ul>
+
+<p>A professional fluent in complex SQL can go directly to the source of truth — the database — and extract precisely the answer needed, in the shape needed, without intermediaries. This creates enormous practical value: faster decision-making, fewer errors, and the ability to explore data interactively rather than waiting days for a custom report. In analytics, data engineering, backend development, and business intelligence roles, complex SQL proficiency is not a nice-to-have; it is a fundamental job requirement.</p>
+
+<p><strong>Core Building Blocks of Complex Queries</strong></p>
+
+<p>Every complex query, no matter how elaborate, is assembled from a small set of well-defined building blocks. Understanding what each one does — and in what order the database engine processes them — is the key to writing queries correctly and reasoning about their results.</p>
+
+<ul>
+  <li><strong>JOIN:</strong> The <code>JOIN</code> clause links rows from two or more tables based on matching values in related columns, most commonly a foreign key in one table matching a primary key in another. Different types of joins — <code>INNER JOIN</code>, <code>LEFT JOIN</code>, <code>RIGHT JOIN</code>, <code>FULL OUTER JOIN</code> — control whether unmatched rows are included or excluded. Without joins, there is no way to combine information from separate tables in a single query.</li>
+  <li><strong>WHERE:</strong> The <code>WHERE</code> clause filters individual rows <em>before</em> any grouping or aggregation takes place. Only rows that satisfy the condition(s) in <code>WHERE</code> are passed forward to subsequent processing steps. This is the primary tool for restricting a query to a relevant subset of data — a specific date range, a particular status value, or records associated with a given customer.</li>
+  <li><strong>GROUP BY:</strong> Once filtering is complete, <code>GROUP BY</code> collapses the remaining rows into groups, where every row in a group shares the same value(s) in the specified column(s). Aggregate functions — <code>SUM()</code>, <code>COUNT()</code>, <code>AVG()</code>, <code>MAX()</code>, <code>MIN()</code> — then compute a single summary value for each group. The result is a much smaller set of rows representing summaries rather than individual records.</li>
+  <li><strong>HAVING:</strong> Where <code>WHERE</code> filters rows before grouping, <code>HAVING</code> filters <em>groups</em> after aggregation. This distinction matters enormously: you cannot use a <code>WHERE</code> clause to restrict based on an aggregate value like <code>SUM(order_total)</code>, because that value does not exist until after grouping. <code>HAVING</code> is specifically designed for this post-aggregation filtering step.</li>
+  <li><strong>ORDER BY:</strong> The final clause controls the sort order of the output rows. Columns can be sorted ascending (<code>ASC</code>, the default) or descending (<code>DESC</code>), and multiple columns can be specified to create layered sorting (e.g., sort by region name alphabetically, then by total sales descending within each region).</li>
+  <li><strong>Subqueries:</strong> A subquery is a complete <code>SELECT</code> statement nested inside another query — in the <code>WHERE</code> clause, the <code>FROM</code> clause, or even the <code>SELECT</code> list itself. Subqueries enable multi-step logic: compute something in an inner query, then use that result as input to the outer query. For example, find all customers whose total spending exceeds the average spending across all customers.</li>
+</ul>
+
+<p>A critical insight for writing correct complex queries is understanding the <strong>logical order of execution</strong> — the sequence in which the database engine processes each clause, which differs from the order in which clauses are written:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Execution Step</th>
+      <th>Clause</th>
+      <th>What Happens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><code>FROM</code> / <code>JOIN</code></td>
+      <td>Tables are identified and joined together to form the working dataset.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><code>WHERE</code></td>
+      <td>Rows that do not meet the filter condition are removed.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><code>GROUP BY</code></td>
+      <td>Remaining rows are organized into groups.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><code>HAVING</code></td>
+      <td>Groups that do not meet the aggregate condition are removed.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><code>SELECT</code></td>
+      <td>Columns and expressions to display are evaluated.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><code>ORDER BY</code></td>
+      <td>The final result set is sorted.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><code>LIMIT</code> / <code>OFFSET</code></td>
+      <td>The number of returned rows is restricted (if specified).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Understanding this order explains, for instance, why you cannot reference a column alias defined in <code>SELECT</code> inside a <code>WHERE</code> clause — <code>WHERE</code> is evaluated before <code>SELECT</code> expressions are computed. It also explains why aggregate functions belong in <code>HAVING</code> rather than <code>WHERE</code>.</p>
+
+<p><strong>Understanding Relational Database Structure</strong></p>
+
+<p>Before writing any join-based query, it is essential to understand the structural relationships between tables. Relational databases are built on two foundational concepts:</p>
+
+<ul>
+  <li><strong>Primary Key (PK):</strong> A column (or combination of columns) whose values uniquely identify each row in a table. No two rows can share the same primary key value, and a primary key column cannot be null. For example, in a <code>customers</code> table, <code>customer_id</code> is typically the primary key.</li>
+  <li><strong>Foreign Key (FK):</strong> A column in one table that stores values matching the primary key of another table, thereby establishing a relationship — or <em>link</em> — between the two. In an <code>orders</code> table, <code>customer_id</code> is a foreign key referencing the <code>customers</code> table. Every order is associated with exactly one customer through this relationship.</li>
+</ul>
+
+<p>These keys are the anchors on which <code>JOIN</code> conditions are written. Consider a minimal schema:</p>
+
+<pre><code>-- customers table
+customer_id (PK) | first_name | last_name | region_id (FK)
+
+-- orders table
+order_id (PK) | customer_id (FK) | order_date | order_total
+
+-- regions table
+region_id (PK) | region_name</code></pre>
+
+<p>To report total sales by region, the query must traverse two relationships: from <code>orders</code> to <code>customers</code> via <code>customer_id</code>, and from <code>customers</code> to <code>regions</code> via <code>region_id</code>. Without understanding these foreign key relationships, it is impossible to write the correct join conditions, and an incorrect join produces either missing rows, duplicate rows, or a nonsensical Cartesian product where every row in one table is matched with every row in another.</p>
+
+<p>A practical habit before writing any complex query is to sketch — even informally on paper — which tables are involved and which columns link them. Consulting the database's entity-relationship (ER) diagram, if one exists, makes this even faster.</p>
+
+<p><strong>From Simple to Complex: The Query Progression</strong></p>
+
+<p>One of the most reliable strategies for writing and debugging complex queries is <strong>incremental construction</strong> — building the query one piece at a time rather than attempting to write the entire thing in one go. Each step adds one layer of complexity, and the result is verified before moving to the next.</p>
+
+<p>For the "total sales by region" example, the progression might look like this:</p>
+
+<p><em>Step 1 — Confirm the base table:</em></p>
+<pre><code>SELECT * FROM orders LIMIT 10;</code></pre>
+<p>Verify that the <code>orders</code> table contains the expected columns and sample data.</p>
+
+<p><em>Step 2 — Add the first join:</em></p>
+<pre><code>SELECT o.order_id, o.order_total, c.customer_id, c.region_id
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+LIMIT 10;</code></pre>
+<p>Confirm that the join is producing the right number of rows and that the customer data is correctly attached.</p>
+
+<p><em>Step 3 — Add the second join:</em></p>
+<pre><code>SELECT o.order_id, o.order_total, r.region_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN regions r ON c.region_id = r.region_id
+LIMIT 10;</code></pre>
+<p>Verify that region names are appearing correctly against orders.</p>
+
+<p><em>Step 4 — Apply the date filter:</em></p>
+<pre><code>SELECT o.order_id, o.order_total, r.region_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN regions r ON c.region_id = r.region_id
+WHERE o.order_date BETWEEN '2024-01-01' AND '2024-03-31';</code></pre>
+<p>Check that the row count is plausibly smaller and that dates fall within the expected range.</p>
+
+<p><em>Step 5 — Add grouping and aggregation:</em></p>
+<pre><code>SELECT r.region_name, SUM(o.order_total) AS total_sales
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN regions r ON c.region_id = r.region_id
+WHERE o.order_date BETWEEN '2024-01-01' AND '2024-03-31'
+GROUP BY r.region_name;</code></pre>
+<p>Spot-check a few regions by mentally cross-referencing with the detail rows seen earlier.</p>
+
+<p><em>Step 6 — Add HAVING and ORDER BY to complete the query:</em></p>
+<pre><code>SELECT r.region_name, SUM(o.order_total) AS total_sales
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN regions r ON c.region_id = r.region_id
+WHERE o.order_date BETWEEN '2024-01-01' AND '2024-03-31'
+GROUP BY r.region_name
+HAVING SUM(o.order_total) > 50000
+ORDER BY total_sales DESC;</code></pre>
+
+<p>This incremental approach makes it immediately obvious <em>which step</em> introduced a problem when results look wrong. It also builds intuition about what each clause contributes, transforming the abstract rules of SQL into concrete, observable effects on a result set. Every expert SQL writer — whether they work in analytics, engineering, or data science — uses some version of this strategy, because it is simply the fastest path to a correct, well-understood query.</p>
+
+<p>The topics that follow build on this foundation systematically. Each covers one or more of the building blocks introduced here — joins, subqueries, aggregation, filtering — in depth, with the goal of giving you both the conceptual understanding and the practical fluency to write complex queries confidently against real databases.</p>
+        <div class="notes"><strong>Notes</strong>This topic serves as the conceptual foundation for the entire module. Emphasis has been placed on the logical order of SQL clause execution (which differs from written order) as this is a persistent source of confusion for learners. The incremental query-building example is deliberately carried through all six steps using a single consistent scenario to reinforce the progression pattern. The ER/key relationship section is intentionally concise here since later topics on JOINs will expand on it substantially.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

@@ -13,5 +13,40 @@
     "title": "Normalization, Denormalization, and Practical Database Design \u2014 Module Topics",
     "href": "content/module_topics.html",
     "type": "Content"
+  },
+  {
+    "title": "Balancing Theoretical Purity with Real-World Needs",
+    "href": "content/Normalization_Denormalizatio_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Review of Normalization Principles",
+    "href": "content/Normalization_Denormalizatio_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Normalization in a Practical Context",
+    "href": "content/Normalization_Denormalizatio_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Denormalization",
+    "href": "content/Normalization_Denormalizatio_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Denormalization Techniques and Patterns",
+    "href": "content/Normalization_Denormalizatio_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Performance Implications of Normalization vs. Denormalization",
+    "href": "content/Normalization_Denormalizatio_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Balancing Theoretical Purity with Real-World Needs",
+    "href": "content/Normalization_Denormalizatio_interactive_topics_t6.html",
+    "type": "Content"
   }
 ]
