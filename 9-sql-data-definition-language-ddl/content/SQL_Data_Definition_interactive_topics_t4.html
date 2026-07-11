@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Constraints in SQL</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+  <header>
+    <h1>Constraints in SQL</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Constraints in SQL</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Constraints are rules enforced at the database level that govern what data can be stored in a table. Rather than relying on application code to validate every piece of incoming data, constraints allow the database engine itself to reject any data that violates defined rules, making your data inherently more reliable. SQL supports several types of constraints, each addressing a different aspect of data integrity: <strong>PRIMARY KEY</strong>, <strong>FOREIGN KEY</strong>, <strong>NOT NULL</strong>, <strong>UNIQUE</strong>, and <strong>DEFAULT</strong>. Understanding each one in depth — and knowing how to apply them correctly when creating tables — is fundamental to good relational database design.</p>
+
+<p>Before diving into individual constraint types, it helps to understand the two placement styles available when defining constraints. An <strong>inline (column-level) constraint</strong> is written directly after the column's data type declaration. A <strong>table-level constraint</strong> is written after all column definitions, separated by commas. Some constraints, such as composite primary keys, can only be expressed at the table level. Both styles can optionally use the <strong>CONSTRAINT</strong> keyword to assign the constraint a name, which is strongly recommended for maintainability.</p>
+
+<p>The <strong>PRIMARY KEY</strong> constraint is the cornerstone of relational table design. Every table should have a primary key — a column or combination of columns whose value uniquely identifies each row. The primary key automatically enforces two guarantees simultaneously: the column must be <strong>UNIQUE</strong> (no two rows can share the same value) and <strong>NOT NULL</strong> (every row must supply a value). You do not need to write UNIQUE or NOT NULL separately for a primary key column; those rules are implied.</p>
+
+<p>In the simplest case, a primary key is a single column, often an integer or a universally unique identifier (UUID):</p>
+
+<pre><code>CREATE TABLE students (
+    student_id   INT          CONSTRAINT pk_students PRIMARY KEY,
+    full_name    VARCHAR(100) NOT NULL,
+    email        VARCHAR(150)
+);</code></pre>
+
+<p>Here <code>student_id</code> is declared inline with a named constraint <code>pk_students</code>. When you need a <strong>composite primary key</strong> — a primary key made up of two or more columns — the constraint must be written at the table level, because it spans more than one column:</p>
+
+<pre><code>CREATE TABLE course_enrollments (
+    student_id  INT  NOT NULL,
+    course_id   INT  NOT NULL,
+    enrolled_on DATE NOT NULL,
+    CONSTRAINT pk_enrollments PRIMARY KEY (student_id, course_id)
+);</code></pre>
+
+<p>In this design, neither <code>student_id</code> alone nor <code>course_id</code> alone needs to be unique; only the <em>combination</em> of both columns must be unique across all rows. This is the correct model for a many-to-many relationship junction table. Primary keys are also the anchors for <strong>relational links</strong>: other tables reference a primary key through a foreign key, making the primary key central to the entire relational model.</p>
+
+<p>The <strong>FOREIGN KEY</strong> constraint creates a formal link between two tables, enforcing <em>referential integrity</em>. The table containing the foreign key is called the <strong>child table</strong>; the table being referenced is the <strong>parent table</strong>. The foreign key column in the child table must only ever contain values that already exist in the referenced primary key column of the parent table — or NULL, if the column permits it.</p>
+
+<p>Consider adding enrollment records that reference the students table:</p>
+
+<pre><code>CREATE TABLE courses (
+    course_id   INT          CONSTRAINT pk_courses PRIMARY KEY,
+    course_name VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE course_enrollments (
+    enrollment_id INT  CONSTRAINT pk_enroll PRIMARY KEY,
+    student_id    INT  NOT NULL,
+    course_id     INT  NOT NULL,
+    enrolled_on   DATE NOT NULL,
+    CONSTRAINT fk_enroll_student FOREIGN KEY (student_id)
+        REFERENCES students (student_id),
+    CONSTRAINT fk_enroll_course  FOREIGN KEY (course_id)
+        REFERENCES courses (course_id)
+);</code></pre>
+
+<p>If you attempt to insert a row into <code>course_enrollments</code> with a <code>student_id</code> value of <code>999</code> but no student with that ID exists in the <code>students</code> table, the database will immediately raise a <strong>referential integrity error</strong> and reject the insert. This protection works in the other direction too: you cannot simply delete a parent row that is still being referenced by a child row, unless you have configured a deletion action.</p>
+
+<p>Foreign keys support <strong>ON DELETE</strong> and <strong>ON UPDATE</strong> actions that tell the database what to do to child rows when a parent row is deleted or its key value is updated:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>ON DELETE behaviour</th>
+      <th>ON UPDATE behaviour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>CASCADE</strong></td>
+      <td>Automatically deletes all matching child rows</td>
+      <td>Automatically updates the foreign key value in all child rows</td>
+    </tr>
+    <tr>
+      <td><strong>SET NULL</strong></td>
+      <td>Sets the foreign key column in child rows to NULL</td>
+      <td>Sets the foreign key column in child rows to NULL</td>
+    </tr>
+    <tr>
+      <td><strong>SET DEFAULT</strong></td>
+      <td>Sets the foreign key column to its default value</td>
+      <td>Sets the foreign key column to its default value</td>
+    </tr>
+    <tr>
+      <td><strong>RESTRICT / NO ACTION</strong></td>
+      <td>Prevents the delete if child rows exist (default)</td>
+      <td>Prevents the update if child rows exist (default)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>An example using CASCADE on delete:</p>
+
+<pre><code>CONSTRAINT fk_enroll_student FOREIGN KEY (student_id)
+    REFERENCES students (student_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE</code></pre>
+
+<p>With <code>ON DELETE CASCADE</code>, deleting a student automatically removes all of that student's enrollment rows. This is convenient but must be chosen carefully — cascading deletes can remove large amounts of data silently. <code>SET NULL</code> is often a safer choice when you want to keep the child rows but simply clear the reference.</p>
+
+<p>The <strong>NOT NULL</strong> constraint is conceptually the simplest but one of the most frequently applied. By default, any column in SQL accepts NULL — a special marker meaning "no value present." NOT NULL overrides this default and requires that every inserted or updated row must supply an actual value for that column.</p>
+
+<p>NULL is not a value; it is the <em>absence</em> of a value. This distinction matters because comparing NULL with anything (even another NULL) using <code>=</code> does not return TRUE — it returns NULL (unknown). Allowing NULL in columns that must always have data leads to complicated query logic and unreliable aggregations. The NOT NULL constraint prevents this at the source.</p>
+
+<pre><code>CREATE TABLE employees (
+    employee_id   INT          CONSTRAINT pk_emp PRIMARY KEY,
+    first_name    VARCHAR(80)  NOT NULL,
+    last_name     VARCHAR(80)  NOT NULL,
+    hire_date     DATE         NOT NULL,
+    middle_name   VARCHAR(80)           -- NULL allowed: middle name is optional
+);</code></pre>
+
+<p>Here <code>first_name</code>, <code>last_name</code>, and <code>hire_date</code> are essential for business operations — no employee record makes sense without them — so NOT NULL is applied. <code>middle_name</code> is optional, so it is left nullable. This approach is common: NOT NULL is applied wherever a missing value would make a record meaningless or break application logic. Columns such as <em>order totals</em>, <em>transaction dates</em>, <em>product codes</em>, and <em>user names</em> are typical candidates.</p>
+
+<p>The <strong>UNIQUE</strong> constraint guarantees that no two rows in a table share the same value in the constrained column (or combination of columns). It differs from PRIMARY KEY in two important ways: a table may have <strong>multiple UNIQUE constraints</strong> on different columns, and a UNIQUE column generally <strong>permits NULL values</strong> (though the treatment of multiple NULLs varies by database system — some allow many NULLs while others allow only one).</p>
+
+<pre><code>CREATE TABLE users (
+    user_id      INT          CONSTRAINT pk_users  PRIMARY KEY,
+    username     VARCHAR(50)  NOT NULL CONSTRAINT uq_username UNIQUE,
+    email        VARCHAR(150) NOT NULL CONSTRAINT uq_email    UNIQUE,
+    phone_number VARCHAR(20)  CONSTRAINT uq_phone UNIQUE  -- nullable but unique if provided
+);</code></pre>
+
+<p>In this table, <code>username</code> and <code>email</code> must both be distinct across all users — two users cannot share the same email address even though email is not the primary key. <code>phone_number</code> is unique when provided but can be NULL for users who did not supply one. UNIQUE constraints are the right tool for <em>natural keys</em> or <em>business identifiers</em> that are not the primary key: email addresses, national ID numbers, social security numbers, product barcodes, and similar values.</p>
+
+<p>A <strong>composite UNIQUE constraint</strong> works the same way as a composite primary key — the combination of values must be unique, not the individual column values:</p>
+
+<pre><code>CREATE TABLE project_assignments (
+    employee_id INT NOT NULL,
+    project_id  INT NOT NULL,
+    role        VARCHAR(50),
+    CONSTRAINT uq_emp_project UNIQUE (employee_id, project_id)
+);</code></pre>
+
+<p>This allows the same employee to appear on multiple projects and the same project to have multiple employees, but prevents the same employee from being assigned to the same project more than once.</p>
+
+<p>The <strong>DEFAULT</strong> constraint assigns a predetermined value to a column whenever an INSERT statement omits that column entirely. It does not prevent NULL from being inserted explicitly — if a statement supplies <code>NULL</code> for that column, the database stores NULL, not the default. The default only activates when the column is completely absent from the INSERT column list.</p>
+
+<pre><code>CREATE TABLE orders (
+    order_id     INT          CONSTRAINT pk_orders PRIMARY KEY,
+    customer_id  INT          NOT NULL,
+    order_date   DATE         NOT NULL DEFAULT CURRENT_DATE,
+    status       VARCHAR(20)  NOT NULL DEFAULT 'pending',
+    total_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00
+);</code></pre>
+
+<p>With this definition, an insert that omits <code>order_date</code>, <code>status</code>, and <code>total_amount</code> will automatically store today's date, the string <code>'pending'</code>, and <code>0.00</code> respectively:</p>
+
+<pre><code>-- Only customer_id and order_id are supplied; defaults fill the rest
+INSERT INTO orders (order_id, customer_id)
+VALUES (1001, 42);</code></pre>
+
+<p>Default values can be:</p>
+<ul>
+  <li><strong>Literal numbers</strong> — e.g., <code>DEFAULT 0</code>, <code>DEFAULT 100</code></li>
+  <li><strong>Literal strings</strong> — e.g., <code>DEFAULT 'active'</code>, <code>DEFAULT 'N/A'</code></li>
+  <li><strong>Date/time functions</strong> — e.g., <code>DEFAULT CURRENT_DATE</code>, <code>DEFAULT CURRENT_TIMESTAMP</code></li>
+  <li><strong>Boolean literals</strong> — e.g., <code>DEFAULT TRUE</code> or <code>DEFAULT FALSE</code> in systems that support a boolean type</li>
+</ul>
+
+<p>DEFAULT constraints reduce the burden on application developers by moving standard, predictable values into the schema itself. A newly created order is almost always in a <em>pending</em> state; an audit timestamp should almost always record <em>now</em>. Encoding these facts in the database schema means they hold true regardless of which application or tool performs the insert.</p>
+
+<p>When it comes to <strong>applying constraints during table creation</strong>, the placement and naming of constraints deserve deliberate attention. The two placement options — inline and table-level — each have appropriate use cases:</p>
+
+<ul>
+  <li><strong>Inline constraints</strong> are written immediately after the column data type. They are concise and readable for single-column constraints such as NOT NULL, UNIQUE, or a single-column PRIMARY KEY.</li>
+  <li><strong>Table-level constraints</strong> are written after all column definitions, separated by commas. They are <em>required</em> for composite primary keys and composite foreign keys. They are also a clean way to gather all integrity rules in one place for readability.</li>
+</ul>
+
+<p>Naming constraints explicitly with the <strong>CONSTRAINT</strong> keyword is a professional practice. When a constraint is violated, the database error message includes the constraint name — a name like <code>fk_enroll_student</code> is far more informative than a system-generated name like <code>SYS_C0012345</code>. Named constraints are also easy to target when modifying the schema:</p>
+
+<pre><code>-- Dropping a named constraint is straightforward
+ALTER TABLE course_enrollments
+DROP CONSTRAINT fk_enroll_student;
+
+-- Adding a new constraint by name
+ALTER TABLE course_enrollments
+ADD CONSTRAINT fk_enroll_student FOREIGN KEY (student_id)
+    REFERENCES students (student_id)
+    ON DELETE SET NULL;</code></pre>
+
+<p>Combining multiple constraints on a single column is both common and encouraged. For instance, a column intended to store a unique, mandatory business identifier should carry both NOT NULL and UNIQUE:</p>
+
+<pre><code>CREATE TABLE products (
+    product_id  INT           CONSTRAINT pk_products PRIMARY KEY,
+    sku         VARCHAR(30)   NOT NULL CONSTRAINT uq_sku UNIQUE,
+    product_name VARCHAR(200) NOT NULL,
+    price       DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    created_at  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+
+<p>Here <code>sku</code> is both NOT NULL (every product must have a SKU) and UNIQUE (no two products can share a SKU). The combination delivers a much stronger integrity guarantee than either constraint alone. The following table summarises the key properties of each constraint type for quick comparison:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constraint</th>
+      <th>Prevents NULL?</th>
+      <th>Enforces Uniqueness?</th>
+      <th>One per table?</th>
+      <th>Supports composite columns?</th>
+      <th>Typical use cases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PRIMARY KEY</strong></td>
+      <td>Yes (implicit)</td>
+      <td>Yes (implicit)</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>Row identifier, relational anchor</td>
+    </tr>
+    <tr>
+      <td><strong>FOREIGN KEY</strong></td>
+      <td>No (add NOT NULL separately)</td>
+      <td>No</td>
+      <td>No — multiple allowed</td>
+      <td>Yes</td>
+      <td>Linking child rows to parent rows</td>
+    </tr>
+    <tr>
+      <td><strong>NOT NULL</strong></td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>No — one per column, many columns</td>
+      <td>No</td>
+      <td>Mandatory fields: names, dates, amounts</td>
+    </tr>
+    <tr>
+      <td><strong>UNIQUE</strong></td>
+      <td>No (NULL usually permitted)</td>
+      <td>Yes</td>
+      <td>No — multiple allowed</td>
+      <td>Yes</td>
+      <td>Email, username, barcode, national ID</td>
+    </tr>
+    <tr>
+      <td><strong>DEFAULT</strong></td>
+      <td>No</td>
+      <td>No</td>
+      <td>No — one per column, many columns</td>
+      <td>No</td>
+      <td>Status flags, timestamps, numeric baselines</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Together, these five constraint types form the foundation of <strong>declarative data integrity</strong> in relational databases. Rather than writing validation logic repeatedly in every application that touches the database, constraints allow you to define the rules once, inside the schema, where they apply universally and automatically. A well-constrained schema catches bad data at the earliest possible moment — the instant an INSERT or UPDATE is attempted — and provides clear, named feedback about what rule was violated and why.</p>
+        <div class="notes"><strong>Notes</strong>The summary table compares all five constraints side by side for quick student reference. Examples build on each other (students → courses → enrollments) to show how constraints interact in a realistic relational schema. ON DELETE/ON UPDATE actions are presented in a table for clarity. Emphasise to students that constraint naming is optional syntactically but strongly recommended in professional practice.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

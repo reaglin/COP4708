@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Implications of Normalization vs. Denormalization</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 12 - Normalization, Denormalization, and Practical Database Design</a></div>
+  <header>
+    <h1>Performance Implications of Normalization vs. Denormalization</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Performance Implications of Normalization vs. Denormalization</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Every database schema design involves a fundamental tension between keeping data clean and consistent on one side, and serving queries as fast as possible on the other. Normalization — the process of organizing data to eliminate redundancy and enforce referential integrity — produces schemas that are elegant, compact, and safe for concurrent modification. Denormalization deliberately reverses some of those decisions, introducing controlled redundancy in exchange for faster reads. Neither approach is universally better. The right answer depends entirely on how an application actually uses its data: how often it reads versus writes, how complex its queries are, how large its tables grow, and how much latency end users will tolerate. Understanding exactly where each strategy wins and loses — and having a systematic way to evaluate that trade-off — is one of the most important skills a database designer can develop.</p>
+
+<p><strong>Read Performance: The Cost of Joins in Normalized Schemas</strong></p>
+
+<p>In a fully normalized schema, related facts are distributed across multiple tables and reunited at query time through join operations. Joins are powerful and logically clean, but they are not free. When the database engine evaluates a join, it must match rows from one table to rows in another, which involves reading data from both tables, comparing key values, and constructing an output set. For small tables this cost is negligible, but the expense compounds quickly as data volume grows and as the number of joined tables increases.</p>
+
+<p>Consider a simple e-commerce schema where orders, customers, products, and product categories each live in their own table. A single page that needs to display an order summary might require joins across all four tables simultaneously. Each additional join multiplies the space of possible row combinations the optimizer must reason about, and even with the best available index coverage, there is a hard floor on how cheap a multi-table join can get. The engine must still follow index pointers, perform key comparisons, and assemble partial results — work that has no equivalent in a single-table scan.</p>
+
+<p>The scaling behavior is particularly important to understand. A join between two tables each containing one million rows does not cost twice as much as a join between two tables containing half a million rows. Depending on the join algorithm used — nested loops, hash joins, or merge joins — the cost can scale quadratically or worse when indexes are absent or poorly suited to the query. This means that a schema which performs acceptably during development, when tables are small, can degrade dramatically in production as data accumulates.</p>
+
+<p>Query optimizers are sophisticated and they work hard to minimize join costs: they choose join order, select join algorithms, push predicates down to reduce intermediate result sets, and exploit statistics about data distribution. But optimizers are not magic. They can only improve on a fundamentally join-heavy execution plan, not eliminate it. A query that requires data from five normalized tables will always carry more overhead than a semantically equivalent query that reads from a single denormalized table, all else being equal.</p>
+
+<p>Read-heavy application patterns feel this most acutely. A reporting dashboard that aggregates order totals by category across thousands of customers and runs dozens of times per minute will spend a measurable fraction of its execution time resolving joins that a denormalized design would avoid entirely. Similarly, e-commerce product listing pages that must assemble product names, prices, inventory counts, category labels, and vendor information from separate tables for each page load are extremely sensitive to join latency. For these patterns, the structural elegance of normalization carries a real runtime cost.</p>
+
+<p><strong>Write Performance: The Advantage of Normalization</strong></p>
+
+<p>Where normalization pays back its read-side costs is in write operations. Because each logical fact is stored in exactly one place, an update that changes a fact touches exactly one row in exactly one table. There is no need to find and modify every location where that fact might have been copied. This reduction in total I/O per write operation is a concrete, measurable advantage.</p>
+
+<p>Online transaction processing systems — OLTP systems — are the primary beneficiaries. A banking application that processes millions of account balance updates per hour, or a reservation system that constantly modifies seat availability, or an inventory management platform that records every stock movement in real time: all of these are write-dominated and frequently concurrent. For these workloads, normalized schemas shine.</p>
+
+<p>The safety benefit is not purely about speed. Normalized schemas prevent a class of errors called update anomalies almost by construction. If a customer's address is stored in one place, changing it once is sufficient and the result is immediately consistent everywhere the address is referenced. In a denormalized schema where the address might be embedded in every order row, a developer who updates some rows but misses others has introduced a silent inconsistency. Normalization makes that class of mistake structurally impossible rather than just procedurally discouraged.</p>
+
+<p>Concurrency is another dimension. When multiple transactions run simultaneously and they all need to write to the same rows, locking and contention determine throughput. A normalized write that touches one row in one table holds that lock for a minimal duration and against a minimal surface area. A denormalized write that must update many rows across a wide table holds more locks for longer, increasing the probability that concurrent transactions will block each other and reducing overall throughput. In high-concurrency OLTP environments, this difference can be the factor that determines whether a system meets its throughput targets or collapses under load.</p>
+
+<p><strong>Read Performance: The Speed Advantage of Denormalization</strong></p>
+
+<p>For read-heavy workloads, denormalization offers a direct and often dramatic speedup. The mechanism is simple: if the data a query needs is already assembled in a single table, the query can be satisfied with a single scan or a single index lookup, with no join overhead whatsoever. Every millisecond that would have been spent resolving foreign keys and assembling partial result sets is saved.</p>
+
+<p>This matters enormously for user-facing features. When a user loads a product page, a search results page, or a social media feed, they expect a response in well under a second. A query that completes in 2 milliseconds against a denormalized table may take 40 milliseconds against a normalized equivalent because of join overhead. At low traffic volumes this difference is invisible, but at scale — thousands of requests per second — the aggregate CPU and memory consumption of all those joins represents a significant infrastructure cost, and the tail latency experienced by users under load becomes noticeably worse.</p>
+
+<p>Query optimizers handle single-table queries more predictably than multi-table joins. The number of possible execution plans for a single-table query is much smaller, which means the optimizer is less likely to make a poor choice and the execution plan is more stable across different data distributions. For teams that need consistent, predictable query performance, denormalization reduces variance as well as average cost.</p>
+
+<p>Analytical and reporting workloads — OLAP systems — derive the most benefit from denormalization. A data warehouse that stores sales facts alongside pre-joined dimension attributes (product name, category, region, sales rep name) allows analysts to issue aggregation queries that scan billions of rows without navigating a web of foreign key relationships. This is the foundational design principle behind star schemas and snowflake schemas in data warehousing, where denormalization is not an accident but a deliberate architectural choice.</p>
+
+<p>Two practical denormalization techniques deserve special attention. <strong>Materialized views</strong> are database objects that store the pre-computed result of a query, including the results of expensive joins, and refresh that result either on a schedule or in response to data changes. Instead of recomputing a complex join every time a dashboard loads, the database serves the pre-built result directly. <strong>Summary tables</strong> (also called aggregate tables) go further: they store pre-aggregated values — daily sales totals, monthly user counts, rolling averages — so that analytical queries can read from a tiny, fast summary rather than scanning the full detail table. Both techniques are forms of denormalization: they trade storage space and write complexity for dramatically faster reads.</p>
+
+<p><strong>Write Overhead and Update Anomalies in Denormalized Schemas</strong></p>
+
+<p>Denormalization's read-side advantages come at a real cost on the write side, and those costs are worth examining carefully before committing to a denormalized design. The central problem is called <strong>write amplification</strong>: when the same logical value is stored in multiple physical locations, any update to that value must be applied in every location. The number of writes required for a single logical change multiplies with the degree of redundancy.</p>
+
+<p>Imagine a denormalized orders table where each order row includes not just the customer ID but also the customer's name and email address. If a customer changes their email address, every order row for that customer must be updated. A customer with 500 orders requires 500 row updates for what is logically a single-fact change. At scale, across thousands of customers making account changes simultaneously, this write amplification can overwhelm I/O capacity and create severe locking contention.</p>
+
+<p>When write amplification is not handled perfectly — and in practice it often isn't — the result is an <strong>update anomaly</strong>: different rows in the database report different values for the same logical fact. In the example above, if the update process fails after modifying 300 of the 500 rows, the database now contains two different email addresses for the same customer. Queries that read older rows will see the old address; queries that read newer rows will see the new one. The database has become internally inconsistent, and depending on the application, this can cause anything from mildly confusing reports to serious data integrity failures.</p>
+
+<p>The burden of managing redundancy shifts to the application layer. Developers must write code that ensures every copy of a duplicated fact is updated atomically, typically using transactions that span many rows or even many tables. This code is complex, easy to get wrong, and fragile in the face of schema changes. The surface area for bugs expands significantly, and the operational risk of a silent data inconsistency increases with every new piece of redundant data added to the schema.</p>
+
+<p>These problems mean that denormalized schemas are poorly suited to environments where the source data is volatile. A schema optimized for reading customer profiles at speed is a poor fit if customer records are constantly being updated. A denormalized product catalog works well if products rarely change but becomes a liability if prices, descriptions, and inventory counts update in real time. The stability of the denormalized attributes is as important a design consideration as the read/write ratio of the workload itself.</p>
+
+<p><strong>Storage Costs: Normalization vs. Denormalization Trade-offs</strong></p>
+
+<p>Storage is cheap compared to what it cost a decade ago, which leads some teams to dismiss storage considerations entirely when evaluating denormalization. This is a mistake, because storage costs interact with performance in ways that go beyond the dollar cost of disk space.</p>
+
+<p>Normalized schemas store each fact exactly once. If a product category name is stored in a single categories table, it occupies a few bytes in one row regardless of how many products belong to that category. A denormalized schema that embeds the category name in every product row multiplies that storage by the number of products per category. At modest scale this is trivial. At the scale of a major e-commerce platform with millions of products, hundreds of categories, and dozens of attributes per product, the difference in raw table size can be measured in gigabytes or terabytes.</p>
+
+<p>Larger tables have compounding performance implications. Database engines rely heavily on the buffer pool — a region of RAM used to cache frequently accessed pages — to serve queries quickly. When a hot table fits entirely in the buffer pool, reads are served from memory at nanosecond speeds. When a table is too large to cache effectively, the engine must fetch pages from disk, which is orders of magnitude slower. A denormalized table that is three times larger than its normalized equivalent may push key data out of the buffer pool, partially or entirely canceling the join-elimination benefit that motivated the denormalization in the first place.</p>
+
+<p>Full and partial table scans are also more expensive against larger tables. An analytical query that scans an entire fact table to compute a monthly aggregate must read more raw data if each row is wider due to embedded redundant attributes. Even with columnar compression (available in many modern analytical databases), redundant data is a net negative for scan performance. Storage and I/O efficiency are closely linked: fewer bytes on disk means less data to move through the memory hierarchy, which translates directly into faster query execution.</p>
+
+<p>The table below summarizes the key storage and I/O contrasts between normalized and denormalized approaches:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Normalized Schema</th>
+      <th>Denormalized Schema</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data duplication</td>
+      <td>None — each fact stored once</td>
+      <td>Significant — repeated values across many rows</td>
+    </tr>
+    <tr>
+      <td>Raw storage size</td>
+      <td>Smaller</td>
+      <td>Larger, potentially much larger at scale</td>
+    </tr>
+    <tr>
+      <td>Buffer pool efficiency</td>
+      <td>Higher — smaller tables cache more easily</td>
+      <td>Lower — larger tables compete for limited RAM</td>
+    </tr>
+    <tr>
+      <td>Scan I/O cost</td>
+      <td>Lower — less raw data per logical row</td>
+      <td>Higher — redundant columns increase row width</td>
+    </tr>
+    <tr>
+      <td>Index storage overhead</td>
+      <td>Indexes on narrow key columns are compact</td>
+      <td>Wider rows increase index size proportionally</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Workload Profiling: Matching Design to Access Patterns</strong></p>
+
+<p>The single most important step before making any normalization or denormalization decision is to understand the actual workload the schema must serve. Intuition is unreliable. Teams routinely over-index on read performance because reads feel more visible — users complain about slow pages — while write overhead accumulates silently until it causes an outage. Empirical measurement is the only reliable guide.</p>
+
+<p>The most fundamental metric is the <strong>read-to-write ratio</strong>. A system where 99% of operations are reads and 1% are writes is a strong candidate for denormalization; the write overhead is a small price for dramatically faster reads. A system where writes are frequent and reads are infrequent should remain normalized; the join cost on reads is acceptable, and the write simplicity and data integrity benefits are substantial. Most real systems fall somewhere in between, which is why this ratio must be measured rather than assumed.</p>
+
+<p>Beyond the aggregate ratio, the nature of the reads matters enormously. Identify the most frequent queries and the most expensive queries — these are not always the same set. A query that takes 500 milliseconds but runs once per day is far less important to optimize than a query that takes 5 milliseconds but runs 10 million times per hour. The first query consumes 500 milliseconds of server time per day; the second consumes nearly 14 hours of server time per day. Frequency multiplies cost, and optimization effort should be allocated in proportion to aggregate impact rather than peak query duration.</p>
+
+<p>The specific join patterns in expensive queries tell you where denormalization would actually help. If most query cost is concentrated in a single join between two tables that are always queried together, that specific relationship is a denormalization candidate. If expensive queries involve five-way joins across tables that change at different rates, selectively flattening only the stable, high-frequency relationships may be a better approach than wholesale denormalization.</p>
+
+<p>Query execution plans are the ground truth. Most relational databases provide tools — <code>EXPLAIN</code>, <code>EXPLAIN ANALYZE</code>, query plan visualizers, slow query logs — that reveal exactly how the engine is executing each query: which indexes it uses, which join algorithms it chooses, how many rows it examines at each step, and where execution time is actually spent. These plans should be collected and analyzed before any schema change is considered. A decision to denormalize a table in order to eliminate a slow join should be validated by a query plan that confirms the join is actually the bottleneck, not an absent index or a missing predicate.</p>
+
+<p><strong>A Framework for Evaluating Design Performance Trade-offs</strong></p>
+
+<p>Structural decisions about normalization and denormalization are among the most consequential choices in database design. They affect every query, every write, every maintenance operation, and every future schema change. A systematic framework for evaluating these decisions reduces the risk of optimizing prematurely, optimizing the wrong thing, or making changes that cannot be reversed cleanly.</p>
+
+<p><strong>Step 1: Identify the dominant workload type and set the primary optimization target.</strong> Classify the system as primarily OLTP (many small, fast, concurrent transactions), primarily OLAP (fewer but larger, slower analytical queries), or a mix of both. This classification sets the default orientation: OLTP systems start from normalized designs and add denormalization selectively; OLAP systems start from denormalized star schemas and add normalization where data volatility demands it. Define the primary success metric — write throughput in transactions per second for OLTP, read latency or query throughput for OLAP — so that trade-offs can be evaluated against a concrete target rather than vague intuitions about performance.</p>
+
+<p><strong>Step 2: Measure current performance baselines and pinpoint specific bottlenecks.</strong> Before changing anything, capture the current state. Record query execution times under realistic load. Collect query execution plans for the most expensive operations. Monitor I/O rates, CPU utilization, lock wait times, and buffer pool hit rates. This baseline serves two purposes: it identifies what is actually slow (which may not be what you expect), and it provides a before-and-after comparison once changes are made. Without a baseline, it is impossible to know whether a schema change actually improved performance or merely shifted the bottleneck to a different location.</p>
+
+<p><strong>Step 3: Evaluate denormalization candidates by estimating the read speedup against the write overhead and storage cost.</strong> For each join identified as a bottleneck, estimate the benefit of eliminating it. How much execution time does the join contribute? How often does the query run? What is the aggregate server time saved per day? Then estimate the costs. How many rows contain redundant data? How frequently does the redundant attribute change? How much additional storage is required? How much write amplification is introduced? This cost-benefit analysis converts an architectural discussion into a quantitative comparison, making the trade-off explicit and defensible.</p>
+
+<p><strong>Step 4: Implement changes incrementally and benchmark after each change.</strong> Resist the temptation to refactor an entire schema at once based on theoretical reasoning. Instead, implement one change — denormalize one relationship, add one materialized view, flatten one join — and then measure. Confirm that the expected read speedup materialized. Confirm that write throughput did not degrade below acceptable thresholds. Confirm that storage growth is within budget. Incremental implementation contains the risk of each individual change and prevents a situation where multiple simultaneous changes interact in unexpected ways, making it impossible to attribute a performance change to its cause.</p>
+
+<p><strong>Step 5: Reassess periodically as data volume grows and access patterns evolve.</strong> A schema design that is optimal at one million rows may be suboptimal at one billion rows. Indexes that fit in memory at small scale spill to disk at large scale. Query patterns that were acceptable when tables were small become unacceptable when they take minutes instead of milliseconds. Access patterns also evolve as applications add features and user behavior changes: a workload that was originally write-heavy may become read-heavy as data accumulates and reporting needs grow. The decision to normalize or denormalize is not made once and forgotten; it should be revisited on a regular schedule — at minimum whenever data volume grows by an order of magnitude or when application requirements change substantially. The optimal design is a moving target over the lifetime of a production system.</p>
+
+<p>The table below summarizes the comparative performance characteristics across the two design strategies:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Performance Dimension</th>
+      <th>Normalized Schema</th>
+      <th>Denormalized Schema</th>
+      <th>Best Fit Workload</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Read latency (complex queries)</td>
+      <td>Higher — joins add overhead</td>
+      <td>Lower — single-table access</td>
+      <td>Denormalized favored for OLAP / read-heavy</td>
+    </tr>
+    <tr>
+      <td>Write throughput</td>
+      <td>Higher — minimal redundant writes</td>
+      <td>Lower — write amplification</td>
+      <td>Normalized favored for OLTP / write-heavy</td>
+    </tr>
+    <tr>
+      <td>Data consistency</td>
+      <td>Enforced structurally</td>
+      <td>Must be managed in application logic</td>
+      <td>Normalized favored where integrity is critical</td>
+    </tr>
+    <tr>
+      <td>Storage efficiency</td>
+      <td>High — no redundancy</td>
+      <td>Low — repeated values multiply storage</td>
+      <td>Normalized favored at large scale</td>
+    </tr>
+    <tr>
+      <td>Buffer pool efficiency</td>
+      <td>Better — smaller tables cache well</td>
+      <td>Worse — larger tables may exceed RAM</td>
+      <td>Normalized favored when working set is large</td>
+    </tr>
+    <tr>
+      <td>Query plan predictability</td>
+      <td>Lower — complex join plans vary</td>
+      <td>Higher — simpler plans are more stable</td>
+      <td>Denormalized favored for consistent SLAs</td>
+    </tr>
+    <tr>
+      <td>Schema maintenance complexity</td>
+      <td>Lower — single source of truth</td>
+      <td>Higher — redundancy must be synchronized</td>
+      <td>Normalized favored for volatile data</td>
+    </tr>
+  </tbody>
+</table>
+        <div class="notes"><strong>Notes</strong>The framework section is structured as a five-step process corresponding directly to the subtopics listed; each step is elaborated with actionable guidance rather than abstract principle. The two summary tables provide quick-reference comparisons that complement the detailed prose. The materialized views and summary tables subtopic is integrated into the OLAP read performance section where it fits most naturally contextually.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logical Data Modeling Concepts</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 8 - SQL Data Modeling Language</a></div>
+  <header>
+    <h1>Logical Data Modeling Concepts</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Logical Data Modeling Concepts</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Before a single line of SQL is written, a database project benefits enormously from a deliberate design phase in which the real-world business domain is studied, understood, and expressed as a structured diagram or document. That artifact is the <strong>logical data model</strong>. It captures the things a business cares about, the facts known about each of those things, and the relationships that connect them — all without committing to any particular database engine, storage format, or programming language. The logical model is where business thinking and technical thinking meet on neutral ground, and mastering it is what separates a database professional who builds brittle, hard-to-maintain schemas from one who builds systems that age gracefully.</p>
+
+<p>This topic explores the full scope of logical data modeling: why it exists, what its core building blocks are, how relationships and business rules are captured, and how the finished model becomes the authoritative blueprint from which SQL is derived. It also introduces normalization as the disciplined refinement process that keeps a logical model clean and dependable.</p>
+
+<p><strong>Purpose of Logical Data Models</strong></p>
+
+<p>A logical data model answers a single central question: <em>what information does this business need to store, and how does that information relate to itself?</em> The answer is expressed independently of any technology concern. There is no mention of varchar lengths, index types, storage engines, or partitioning strategies. Those details belong to the physical model that comes later. By deferring them, the logical model stays focused on business truth.</p>
+
+<p>This technology-neutrality is not merely academic. When a team sketches out entities and relationships before touching SQL, three important things happen. First, <strong>business rules are surfaced early</strong>. A conversation about whether one Customer can place many Orders, or whether every Order must have at least one line item, happens at a stage when changing your mind costs nothing. Second, the model becomes a <strong>communication bridge</strong>. A business analyst who has never written SQL can read an entity-relationship diagram and confirm — or correct — what the developers have understood. Misunderstandings caught at this stage cost hours, not weeks. Third, the logical model provides a <strong>stable reference point</strong>. When the physical database is built and later modified, the team can check proposed changes against the logical model to ensure they do not silently violate a business rule that was agreed upon months earlier.</p>
+
+<p>Consider a retail company beginning a new order-management system. If developers jump straight into SQL, each person might make slightly different assumptions: one creates a customer address column directly on the orders table, another creates a separate addresses table but with a different column layout. The logical model, agreed upon upfront, prevents this fragmentation. Everyone is building from the same blueprint.</p>
+
+<p><strong>Entities and Attributes</strong></p>
+
+<p>The fundamental building block of a logical model is the <strong>entity</strong>. An entity represents a distinct, identifiable thing — a noun — that the business needs to remember information about. Good candidates for entities are things that exist across time, that have multiple instances, and that are genuinely distinct from one another. In a retail domain, <em>Product</em>, <em>Customer</em>, <em>Order</em>, and <em>Supplier</em> are natural entities. In a healthcare domain, <em>Patient</em>, <em>Physician</em>, <em>Appointment</em>, and <em>Diagnosis</em> are typical examples.</p>
+
+<p>Entities should not be confused with events or transactions, although those can be entities too. An <em>Order</em> is an event — something that happens at a point in time — yet it qualifies as an entity because the business needs to store a persistent record of it, relate it to products and customers, and query it repeatedly. The test is whether the business needs to track many instances of the thing over time. If yes, it is an entity.</p>
+
+<p><strong>Attributes</strong> are the data points associated with an entity. They answer the question: <em>what do we know about this entity?</em> For a <em>Customer</em> entity, attributes might include first name, last name, email address, phone number, and date of account creation. Each attribute eventually becomes a column definition when the logical model is translated into a SQL table.</p>
+
+<p>Choosing attribute granularity carefully is essential. If a customer's full name is stored as a single attribute — <em>full_name</em> — it becomes very difficult to sort by last name, to address the customer by first name in an email, or to handle cultural naming conventions that differ from First Middle Last. Splitting it into <em>first_name</em> and <em>last_name</em>, or even <em>given_name</em>, <em>family_name</em>, and <em>name_suffix</em>, gives the application the flexibility it needs. Conversely, over-granularity adds complexity without benefit: storing each digit of a phone number as a separate attribute would be absurd. The right granularity is the smallest unit of data that the business needs to retrieve, filter, sort, or compute on independently.</p>
+
+<p>An important special attribute is the <strong>identifier</strong>. Every entity must have at least one attribute, or combination of attributes, that uniquely identifies each instance. In modeling terminology this is called a <em>key</em>. Sometimes the business already provides a natural key — a Social Security Number for a person, an ISBN for a book — but more often a surrogate key (an arbitrary unique number generated by the system) is safer because natural identifiers can change, be reused, or turn out to be non-unique in edge cases. At the logical level the key is annotated on the entity; at the SQL level it becomes a PRIMARY KEY constraint.</p>
+
+<p><strong>Relationships Between Entities</strong></p>
+
+<p>Entities rarely exist in isolation. A customer places orders; an order contains products; a product is supplied by a supplier. These connections are <strong>relationships</strong>, and capturing them is one of the most important tasks in logical modeling. A relationship that is missed or misrepresented at this stage will almost certainly cause data integrity problems — or awkward workarounds — after the database is deployed.</p>
+
+<p>Relationships are characterized by two properties: <strong>cardinality</strong> and <strong>optionality</strong>.</p>
+
+<p><em>Cardinality</em> describes how many instances of one entity can be associated with how many instances of another. The three canonical cardinalities are:</p>
+
+<ul>
+  <li><strong>One-to-One (1:1):</strong> Each instance of Entity A is associated with at most one instance of Entity B, and vice versa. A real example is the relationship between a country and its capital city — each country has exactly one capital, and each capital belongs to exactly one country. In SQL, a 1:1 relationship is usually implemented by placing a foreign key in one of the two tables, often accompanied by a UNIQUE constraint to enforce the "at most one" side.</li>
+  <li><strong>One-to-Many (1:N):</strong> One instance of Entity A can be associated with many instances of Entity B, but each instance of Entity B is associated with only one instance of Entity A. This is by far the most common cardinality. A single <em>Customer</em> can place many <em>Orders</em>, but each <em>Order</em> belongs to exactly one <em>Customer</em>. In SQL, this is implemented by placing a foreign key in the "many" table that references the primary key of the "one" table.</li>
+  <li><strong>Many-to-Many (M:N):</strong> An instance of Entity A can be associated with many instances of Entity B, and an instance of Entity B can also be associated with many instances of Entity A. A student can enroll in many courses, and a course can have many students. In SQL, a many-to-many relationship cannot be represented by a simple foreign key. It requires a separate <strong>junction table</strong> (also called an associative entity or bridge table) that holds foreign keys from both sides. The junction table's primary key is usually the combination of both foreign keys.</li>
+</ul>
+
+<p><em>Optionality</em> (also called participation or modality) specifies whether an entity's participation in a relationship is mandatory or optional. For example, every <em>Order</em> must belong to a <em>Customer</em> — that participation is mandatory. But a <em>Customer</em> does not need to have placed any orders yet — that participation is optional. This distinction later determines whether a foreign key column is defined as NOT NULL (mandatory) or nullable (optional).</p>
+
+<p>To make these ideas concrete, consider a small library system with three entities:</p>
+
+<ul>
+  <li><strong>Member</strong> — library cardholders</li>
+  <li><strong>Book</strong> — physical volumes owned by the library</li>
+  <li><strong>Loan</strong> — a record of a member borrowing a book on a specific date</li>
+</ul>
+
+<p>The relationship between <em>Member</em> and <em>Loan</em> is one-to-many: one member can have many loans over time, but each loan record belongs to exactly one member. The relationship between <em>Book</em> and <em>Loan</em> is also one-to-many: the same book can be loaned out many times (sequentially), but each loan record concerns exactly one book. Notice that the <em>Loan</em> entity serves as a junction between <em>Member</em> and <em>Book</em>: it resolves what would otherwise be a many-to-many relationship between members and books into two one-to-many relationships. It also carries its own attributes — loan date, due date, and return date — that belong to the act of borrowing, not to the member or book alone.</p>
+
+<p><strong>Business Rules in Logical Models</strong></p>
+
+<p>A business rule is any constraint, policy, or expectation that governs how data can exist or change. Business rules exist whether or not they are written down, but only explicitly-documented rules can be reliably enforced. The logical model is the ideal place to capture them.</p>
+
+<p>Business rules fall into several categories:</p>
+
+<ul>
+  <li><strong>Uniqueness rules:</strong> "No two employees can share the same employee badge number." This translates to a UNIQUE constraint on the badge_number column.</li>
+  <li><strong>Mandatory field rules:</strong> "Every product must have a list price." This translates to a NOT NULL constraint on the list_price column.</li>
+  <li><strong>Domain rules:</strong> "A product's status can only be Active, Discontinued, or Pending." This translates to a CHECK constraint or a foreign key reference to a lookup table of valid statuses.</li>
+  <li><strong>Referential integrity rules:</strong> "An order line item must reference a valid product." This translates to a FOREIGN KEY constraint.</li>
+  <li><strong>Derivation rules:</strong> "An order's total amount is the sum of its line item amounts." This might be expressed as a computed column or a view, or left to application logic, but the logical model notes that the value is derived, not independently stored.</li>
+  <li><strong>Temporal rules:</strong> "A loan's return date must be on or after its loan date." This translates to a CHECK constraint comparing two date columns.</li>
+</ul>
+
+<p>When business rules are embedded in the logical model, they are visible to everyone involved in the project. A rule left unrecorded is a rule that will be forgotten. And a forgotten rule will either be missing from the SQL schema — allowing bad data to enter — or will be inconsistently coded in application logic, where different screens or API endpoints may enforce it differently. Database-level constraints are far more reliable because they apply regardless of how the data gets there.</p>
+
+<p>For example, suppose a business rule states: "A part-time employee cannot be assigned to more than two departments simultaneously." At the logical level, this rule is annotated on the relationship between <em>Employee</em> and <em>Department</em>. When the developer later translates this to SQL, they know to implement a trigger or a CHECK constraint that evaluates the count of active department assignments for part-time employees before allowing an insert.</p>
+
+<p><strong>Logical Model as a Blueprint for SQL</strong></p>
+
+<p>The movement from logical model to SQL schema is essentially a translation process. Each element of the logical model has a direct correspondent in SQL:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Logical Model Element</th>
+      <th>SQL Correspondent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Entity</td>
+      <td>Table (<code>CREATE TABLE</code>)</td>
+    </tr>
+    <tr>
+      <td>Attribute</td>
+      <td>Column with data type</td>
+    </tr>
+    <tr>
+      <td>Primary key identifier</td>
+      <td><code>PRIMARY KEY</code> constraint</td>
+    </tr>
+    <tr>
+      <td>One-to-many relationship</td>
+      <td><code>FOREIGN KEY</code> in the "many" table</td>
+    </tr>
+    <tr>
+      <td>Many-to-many relationship</td>
+      <td>Junction table with two foreign keys</td>
+    </tr>
+    <tr>
+      <td>Mandatory participation</td>
+      <td><code>NOT NULL</code> on the foreign key column</td>
+    </tr>
+    <tr>
+      <td>Uniqueness rule</td>
+      <td><code>UNIQUE</code> constraint</td>
+    </tr>
+    <tr>
+      <td>Domain rule</td>
+      <td><code>CHECK</code> constraint or lookup table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A concrete example shows how this translation works. Suppose the logical model contains two entities, <em>Customer</em> and <em>Order</em>, with a one-to-many relationship (one customer places many orders, each order belongs to one customer), and the business rules state that every order must have a customer, and every order must have an order date. The SQL translation is straightforward:</p>
+
+<pre><code>CREATE TABLE customer (
+    customer_id   INT          NOT NULL,
+    first_name    VARCHAR(50)  NOT NULL,
+    last_name     VARCHAR(50)  NOT NULL,
+    email         VARCHAR(100) NOT NULL,
+    CONSTRAINT pk_customer PRIMARY KEY (customer_id),
+    CONSTRAINT uq_customer_email UNIQUE (email)
+);
+
+CREATE TABLE order (
+    order_id      INT      NOT NULL,
+    customer_id   INT      NOT NULL,
+    order_date    DATE     NOT NULL,
+    CONSTRAINT pk_order PRIMARY KEY (order_id),
+    CONSTRAINT fk_order_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customer (customer_id)
+);</code></pre>
+
+<p>Every decision in this SQL — the NOT NULL on <em>customer_id</em> in the order table, the FOREIGN KEY reference, the UNIQUE on email — traces directly back to a deliberate choice made in the logical model. When the model and the schema are aligned, the implementation is predictable. When they diverge — because a developer made a hasty judgment call, or a requirement was communicated only verbally and not recorded — data integrity problems emerge: orphaned records, duplicate entries, missing required values. These problems are expensive to fix retroactively because data has already accumulated and correcting the schema may require migrating or cleaning existing records.</p>
+
+<p><strong>Normalization in Logical Modeling</strong></p>
+
+<p>Normalization is the process of refining a logical model (and subsequently the SQL schema) to eliminate redundancy and ensure that each fact is stored in exactly one place. It was formalized by Edgar F. Codd in the 1970s and remains one of the most durable ideas in database design. Normalization is expressed as a series of <strong>normal forms</strong>, each building on the previous by addressing a specific type of data anomaly.</p>
+
+<p>To understand why normalization matters, consider what goes wrong without it. Suppose a single table stores order information like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>order_id</th>
+      <th>customer_name</th>
+      <th>customer_email</th>
+      <th>product_name</th>
+      <th>product_price</th>
+      <th>quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>Alice Nguyen</td>
+      <td>alice@example.com</td>
+      <td>Wireless Mouse</td>
+      <td>29.99</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>Alice Nguyen</td>
+      <td>alice@example.com</td>
+      <td>USB Hub</td>
+      <td>19.99</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>Bob Chen</td>
+      <td>bob@example.com</td>
+      <td>Wireless Mouse</td>
+      <td>29.99</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This structure has several problems. If Alice's email address changes, every row belonging to her must be updated — and if even one row is missed, the database now contains two different email addresses for the same customer (an <em>update anomaly</em>). If the only order containing USB Hub is deleted, the knowledge that the USB Hub costs $19.99 is lost entirely (a <em>deletion anomaly</em>). And inserting a new product that has not yet been ordered requires inserting a row with no valid order ID (an <em>insertion anomaly</em>).</p>
+
+<p>Normalization resolves these anomalies. The three normal forms most commonly targeted in logical modeling are:</p>
+
+<ul>
+  <li><strong>First Normal Form (1NF):</strong> Every attribute must contain only atomic (indivisible) values, and every row must be uniquely identifiable. A column that stores a comma-separated list of phone numbers violates 1NF because it holds multiple values in one cell. The fix is to move the repeating data to a separate table. Additionally, there should be no repeating groups of columns (like phone1, phone2, phone3).</li>
+  <li><strong>Second Normal Form (2NF):</strong> The table must already be in 1NF, and every non-key attribute must depend on the <em>entire</em> primary key, not just part of it. This issue arises only when the primary key is composite (made up of multiple columns). In an order-line-item table with a composite key of (order_id, product_id), if product_name depends only on product_id and not on order_id, then product_name has a <em>partial dependency</em> and belongs in a separate Product table. Moving it there achieves 2NF.</li>
+  <li><strong>Third Normal Form (3NF):</strong> The table must already be in 2NF, and no non-key attribute should depend on another non-key attribute (no <em>transitive dependency</em>). If an employee table stores department_id and department_name, and department_name is determined by department_id rather than by employee_id, then department_name has a transitive dependency through department_id. The solution is to create a Department table and remove department_name from the employee table, leaving only the foreign key department_id.</li>
+</ul>
+
+<p>To see normalization in action, the flat order table shown above can be decomposed step by step. After reaching 3NF, the data lives in four clean tables: <em>Customer</em> (customer facts), <em>Product</em> (product facts), <em>Order</em> (order-level facts referencing a customer), and <em>OrderLine</em> (line-item facts referencing both an order and a product). Each fact exists in exactly one place. Updating Alice's email requires changing exactly one row in the Customer table. Deleting an order does not destroy product information. Adding a new product requires only a row in the Product table.</p>
+
+<p>A normalized logical model produces a SQL schema that is <strong>easier to maintain</strong> (changes are localized), <strong>more trustworthy</strong> (no contradictory copies of the same fact), and <strong>more queryable</strong> (data is organized in the way SQL joins are designed to work). While there are legitimate cases where controlled denormalization is introduced at the physical level for performance reasons, the logical model should reflect the fully normalized design — the denormalization, if ever applied, is a conscious, documented trade-off made later, not an accident baked into the foundation.</p>
+
+<p>Taken together, the elements explored in this topic — purposeful modeling, well-chosen entities and attributes, explicit relationships, documented business rules, disciplined normalization, and faithful SQL translation — form the professional practice of logical data modeling. This practice is what transforms a vague requirement into a coherent, enforceable database design that serves the business reliably over time.</p>
+        <div class="notes"><strong>Notes</strong>The normalization section intentionally introduces 1NF, 2NF, and 3NF at a conceptual level with worked examples. Instructors teaching a dedicated normalization module may wish to note that this topic provides the motivating context, while deeper formal definitions and additional normal forms (BCNF, 4NF) may be reserved for that module. The SQL code examples use generic SQL syntax compatible with most major RDBMS platforms; platform-specific syntax differences (e.g., AUTO_INCREMENT vs. SERIAL vs. IDENTITY) are not addressed here to keep the focus on logical-to-physical translation principles.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

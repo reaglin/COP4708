@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validating and Refining the Relational Schema</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 7 - Designing Relational Databases from ER Diagrams</a></div>
+  <header>
+    <h1>Validating and Refining the Relational Schema</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Validating and Refining the Relational Schema</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Once a relational schema has been derived from an Entity-Relationship (ER) diagram, the work is far from finished. The translation process — mapping entities to tables, relationships to foreign keys, and attributes to columns — introduces many opportunities for subtle errors: a missing table, a misnamed column, a foreign key that references the wrong field, or a normalization violation that will cause update anomalies later. <strong>Validating and refining the relational schema</strong> is the disciplined process of systematically reviewing every element of the schema against the original ER diagram and against formal database design rules, catching and correcting problems before they are baked into a live system. This stage is not optional polish; it is a critical quality gate. A schema that looks plausible on the surface can still harbour structural flaws that cause data inconsistency, redundancy, or integrity failures the moment real data flows through it. The sections below walk through each dimension of validation in depth.</p>
+
+<p><strong>Cross-Checking Tables Against ER Entities and Relationships</strong></p>
+
+<p>The most fundamental validation step is a direct, one-for-one audit: every construct in the ER diagram must have a clear, correct counterpart in the relational schema, and every table in the schema must trace back to something in the ER diagram. This bidirectional check catches both omissions (something in the ER diagram that never made it into the schema) and inventions (tables or columns that were added without a basis in the conceptual model).</p>
+
+<p>Every <strong>strong entity</strong> in the ER diagram should produce exactly one table. The table must include all simple attributes of the entity as columns, and the entity's key attribute becomes the primary key. If you have a strong entity <em>Customer</em> with attributes <em>CustomerID</em>, <em>Name</em>, and <em>Email</em>, the schema must contain a table with at least those three columns and <em>CustomerID</em> as the primary key. A common omission error is forgetting an entity altogether, especially when the ER diagram is large and the schema was drafted in stages.</p>
+
+<p>Every <strong>relationship</strong> must also be accounted for. A one-to-many relationship is typically represented by placing a foreign key in the table on the "many" side. A many-to-many relationship requires a dedicated <strong>junction table</strong> (also called an associative or bridge table) whose columns include the primary keys of both participating entities. An identifying relationship — where a weak entity depends on a strong entity for its existence — must be reflected both as a foreign key in the weak entity's table and as part of that table's composite primary key. Failing to create the junction table for a many-to-many relationship, or failing to add the foreign key for a one-to-many relationship, are among the most common mapping errors.</p>
+
+<p>Attributes also require verification. Simple attributes become columns directly. <strong>Multi-valued attributes</strong> — for example, an employee who can have multiple phone numbers — must <em>not</em> be crammed into a single column (which would violate first normal form). They must be moved into a separate table with a foreign key back to the parent entity. <strong>Derived attributes</strong> (such as <em>Age</em>, computed from <em>DateOfBirth</em>) are typically <em>not</em> stored as columns; instead, they are computed at query time. If a derived attribute column does appear in the schema, it must be explicitly justified. Any discrepancy — a relationship without a foreign key, a multi-valued attribute still listed as a single column, a derived attribute stored redundantly — signals a mapping error that must be corrected before implementation begins.</p>
+
+<p>A practical technique is to create a simple cross-reference table during the audit:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ER Construct</th>
+      <th>Type</th>
+      <th>Expected Schema Representation</th>
+      <th>Found in Schema?</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Customer</td>
+      <td>Strong Entity</td>
+      <td>Table: Customer (CustomerID PK)</td>
+      <td>Yes</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Order</td>
+      <td>Strong Entity</td>
+      <td>Table: Order (OrderID PK)</td>
+      <td>Yes</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Places (Customer–Order)</td>
+      <td>One-to-Many Relationship</td>
+      <td>FK CustomerID in Order table</td>
+      <td>No</td>
+      <td>Missing FK — must be added</td>
+    </tr>
+    <tr>
+      <td>PhoneNumbers (Customer)</td>
+      <td>Multi-Valued Attribute</td>
+      <td>Separate table: CustomerPhone</td>
+      <td>No</td>
+      <td>Currently a single column — violates 1NF</td>
+    </tr>
+    <tr>
+      <td>Age (Customer)</td>
+      <td>Derived Attribute</td>
+      <td>Not stored; computed from DateOfBirth</td>
+      <td>Yes (stored)</td>
+      <td>Should be removed unless justified</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This kind of structured checklist makes it impossible to overlook a construct and provides a clear audit trail of what was found and fixed.</p>
+
+<p><strong>Verifying Primary Key Integrity</strong></p>
+
+<p>Primary keys are the backbone of a relational schema. Every table must have one, it must uniquely identify every row, it must never be NULL, and it must be chosen thoughtfully. Validation of primary keys goes beyond simply confirming their existence.</p>
+
+<p>For <strong>strong entity tables</strong>, the primary key should be the key attribute identified in the ER diagram. For example, if the ER diagram marks <em>ProductID</em> as the key attribute of the <em>Product</em> entity, then <em>ProductID</em> must be the primary key in the <em>Product</em> table. Introducing a <strong>surrogate key</strong> (an artificial, system-generated identifier such as an auto-incrementing integer) is sometimes warranted — for instance, when the natural key is very long, composite, or subject to change — but this decision must be explicit and documented, not accidental. If a surrogate key is used, the original natural key should typically be preserved as a <code>UNIQUE NOT NULL</code> constraint so that its uniqueness properties are not lost.</p>
+
+<p>For <strong>junction tables</strong> representing many-to-many relationships, the primary key is almost always a <strong>composite key</strong> made up of the foreign keys of the two participating entities. Consider a many-to-many relationship between <em>Student</em> and <em>Course</em>. The junction table <em>Enrollment</em> would have a composite primary key of <code>(StudentID, CourseID)</code>, ensuring that the same student cannot be enrolled in the same course twice. Failing to define this composite key — or replacing it with a surrogate key without also adding a unique constraint on <code>(StudentID, CourseID)</code> — allows duplicate enrollments to exist.</p>
+
+<p>For <strong>weak entity tables</strong>, the primary key must be composite. A weak entity has only a <em>partial key</em> — an attribute that is unique only within the scope of its owner entity. For example, a <em>Dependent</em> (of an employee) might be identified only by <em>DependentName</em> within the context of a specific employee. The primary key of the <em>Dependent</em> table must therefore be <code>(EmployeeID, DependentName)</code>, combining the owner's primary key with the partial key. Using only <em>DependentName</em> as the primary key would be wrong, since two different employees could have dependents with the same name.</p>
+
+<p>A critical property of any primary key is <strong>minimality</strong>: no attribute in a composite key should be removable while still guaranteeing uniqueness. If <code>(StudentID, CourseID, EnrollmentDate)</code> is used as the primary key of an enrollment table, but <code>(StudentID, CourseID)</code> alone already uniquely identifies every row, then <em>EnrollmentDate</em> is redundant in the key and must be removed from it (though it can remain as a regular column). Non-minimal keys can mask functional dependency issues and complicate query design.</p>
+
+<p><strong>Validating Foreign Key Constraints and Referential Integrity</strong></p>
+
+<p>Foreign keys are the mechanism by which a relational schema enforces the connections between tables that relationships capture in the ER diagram. Every foreign key must be validated for correctness, completeness, and appropriate constraint behavior.</p>
+
+<p>The first check is mechanical: every foreign key column must reference the <strong>primary key of an existing table</strong>, and the data types of the foreign key column and the referenced primary key column must match exactly. A foreign key <em>CustomerID</em> in the <em>Order</em> table must reference the <em>CustomerID</em> primary key in the <em>Customer</em> table. If the data types differ — say, <em>CustomerID</em> in <em>Customer</em> is <code>INT</code> but the foreign key column in <em>Order</em> was accidentally defined as <code>VARCHAR</code> — the constraint will either fail silently or cause runtime errors.</p>
+
+<p><strong>Total participation</strong> in the ER diagram (represented by a double line connecting an entity to a relationship) means that every instance of that entity must participate in the relationship — no exceptions. In relational terms, this means the foreign key column must be declared <code>NOT NULL</code>. For example, if every <em>Order</em> must be placed by a <em>Customer</em> (total participation of <em>Order</em> in the <em>Places</em> relationship), then the <em>CustomerID</em> foreign key in the <em>Order</em> table must be <code>NOT NULL</code>. Allowing it to be NULL would permit orphaned orders — a direct violation of the original business rule. Partial participation, by contrast, allows NULL, since not every entity instance is required to participate.</p>
+
+<p><strong>Cascade rules</strong> determine what happens to related rows when a referenced row is updated or deleted. The three primary options are:</p>
+
+<ul>
+  <li><strong>CASCADE</strong>: When a parent row is deleted or its key is updated, the change propagates automatically to all referencing rows. This is appropriate when child rows have no meaning without the parent — for example, deleting a <em>Customer</em> might cascade to delete all their <em>Orders</em> if the business rule says orders cannot exist without a customer.</li>
+  <li><strong>SET NULL</strong>: When a parent row is deleted, the foreign key column in the child rows is set to NULL. This is appropriate only when the foreign key column is nullable and when orphaned children are semantically valid.</li>
+  <li><strong>RESTRICT (or NO ACTION)</strong>: The delete or update is refused if any referencing rows exist. This is the safest default when the business rules are unclear, as it prevents accidental data loss while forcing the developer to handle the situation explicitly.</li>
+</ul>
+
+<p>The choice of cascade rule is not a technical preference — it is a <strong>business rule</strong> encoded in the database. It must be derived from the semantics of the ER relationship, not chosen arbitrarily. Validation should confirm that each foreign key's cascade rule matches the intended behavior.</p>
+
+<p><strong>Self-referencing foreign keys</strong>, which arise from <em>unary relationships</em> (a relationship between instances of the same entity), require special attention. A classic example is an <em>Employee</em> entity with a <em>manages</em> relationship, where one employee manages other employees. This maps to a single <em>Employee</em> table with a <em>ManagerID</em> column that is a foreign key referencing the same table's <em>EmployeeID</em> primary key. The top-level manager (who has no manager) will have a NULL in <em>ManagerID</em>, which is perfectly valid. The danger is circular dependencies: employee A manages employee B, and employee B manages employee A. Most DBMS engines handle this through deferred constraint checking, but the schema designer must be aware of the possibility and decide whether to prevent it at the database level or in application logic.</p>
+
+<p><strong>Checking for Consistency and Naming Conventions</strong></p>
+
+<p>A schema can be structurally correct but still be difficult to work with if its naming is inconsistent or unclear. Naming conventions are not merely aesthetic — they directly affect the maintainability, readability, and collaborative usability of the database.</p>
+
+<p>All <strong>table and column names</strong> should follow a single, documented convention applied uniformly across the entire schema. Common conventions include all-lowercase with underscores (<code>snake_case</code>: <em>customer_order</em>, <em>first_name</em>), PascalCase (<em>CustomerOrder</em>, <em>FirstName</em>), or camelCase (<em>customerOrder</em>, <em>firstName</em>). The specific convention matters less than its <em>consistent application</em>. A schema with some tables in PascalCase and others in snake_case, or with some columns abbreviated (<em>cust_id</em>) and others spelled out (<em>customer_identifier</em>), is error-prone and harder to maintain.</p>
+
+<p>Names should be <strong>descriptive and unambiguous</strong>. A table called <em>Data</em> or a column called <em>Value</em> is almost useless without context. Names like <em>customer</em>, <em>product_price</em>, and <em>order_date</em> immediately communicate their purpose. Foreign key columns deserve particular care: a foreign key in the <em>Order</em> table that references <em>Customer</em> should be named <em>customer_id</em>, not just <em>id</em> or <em>cid</em>. This makes both the nature of the column and its reference target immediately apparent to anyone reading a query or the schema definition.</p>
+
+<p><strong>Accidental redundancy</strong> — the same column appearing in multiple tables for reasons other than serving as a foreign key — is a warning sign. If <em>customer_name</em> appears in both the <em>Customer</em> table and the <em>Order</em> table, that is almost certainly an error: the order should reference the customer via a foreign key (<em>customer_id</em>), not duplicate the name. Legitimate duplication (such as storing a snapshot of a product's price at the time of an order) should be clearly documented and intentional.</p>
+
+<p>Finally, <strong>team review against a written naming standard</strong> is invaluable. Automated linting tools can catch some inconsistencies (mixed case, overly long names), but human review catches semantic problems — a column named <em>employee_id</em> in a context where it actually refers to a department, for instance. Establishing a shared naming document before schema drafting begins prevents many of these issues from arising in the first place.</p>
+
+<p><strong>Applying Normalization Checks to the Schema</strong></p>
+
+<p>Normalization is the process of organizing a relational schema to reduce redundancy and eliminate anomalies. Even if normalization was applied during the initial design, validation should re-examine the schema systematically, because the translation from ER to relational sometimes reintroduces violations.</p>
+
+<p><strong>First Normal Form (1NF)</strong> requires that every column in every table contains only <em>atomic</em> (indivisible) values, and that there are no repeating groups. A table violates 1NF if a column contains multiple values — for example, a <em>PhoneNumbers</em> column storing <em>"555-1234, 555-5678"</em> as a comma-separated string. Such multi-valued attributes must have been moved to a separate table during the ER-to-relational mapping. If they were not, validation catches the violation here. The fix is to create a new table (e.g., <em>CustomerPhone</em>) with a foreign key back to the parent and one phone number per row.</p>
+
+<p><strong>Second Normal Form (2NF)</strong> applies only to tables with composite primary keys. It requires that every non-key attribute be <em>fully functionally dependent</em> on the <em>entire</em> composite key, not just a part of it. Consider a junction table <em>Enrollment</em> with primary key <code>(StudentID, CourseID)</code> and additional columns <em>EnrollmentDate</em> and <em>CourseName</em>. <em>EnrollmentDate</em> depends on both <em>StudentID</em> and <em>CourseID</em> together — it describes the enrollment event — so it is fully dependent and belongs here. But <em>CourseName</em> depends only on <em>CourseID</em>, not on the student. This is a <em>partial dependency</em>, a 2NF violation. <em>CourseName</em> must be moved to the <em>Course</em> table, where it belongs.</p>
+
+<p><strong>Third Normal Form (3NF)</strong> addresses <em>transitive dependencies</em>: a non-key attribute that depends not on the primary key directly, but on another non-key attribute. Suppose an <em>Employee</em> table has columns <em>EmployeeID</em> (PK), <em>DepartmentID</em>, and <em>DepartmentName</em>. <em>DepartmentName</em> depends on <em>DepartmentID</em>, not directly on <em>EmployeeID</em>. This transitive dependency means that if the department name changes, every employee row for that department must be updated — an update anomaly. The fix is to move <em>DepartmentName</em> into a separate <em>Department</em> table, keyed by <em>DepartmentID</em>.</p>
+
+<p>The following table summarizes the three normal forms and the types of violations each addresses:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Normal Form</th>
+      <th>Requirement</th>
+      <th>Violation Example</th>
+      <th>Fix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1NF</td>
+      <td>All columns contain atomic values; no repeating groups</td>
+      <td>PhoneNumbers column: "555-1234, 555-5678"</td>
+      <td>Create separate CustomerPhone table</td>
+    </tr>
+    <tr>
+      <td>2NF</td>
+      <td>All non-key attributes fully depend on the whole composite key</td>
+      <td>CourseName in Enrollment depends only on CourseID</td>
+      <td>Move CourseName to Course table</td>
+    </tr>
+    <tr>
+      <td>3NF</td>
+      <td>No non-key attribute depends on another non-key attribute (no transitive dependency)</td>
+      <td>DepartmentName depends on DepartmentID, not EmployeeID</td>
+      <td>Move DepartmentName to Department table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Catching normalization violations during schema validation is vastly preferable to discovering them after the database is populated with production data. Restructuring a live database to fix a 2NF or 3NF violation requires data migration, application changes, and careful coordination — a far more costly operation than adjusting a schema before it goes live.</p>
+
+<p><strong>Confirming Completeness of Integrity Constraints</strong></p>
+
+<p>Primary and foreign keys are not the only integrity constraints a schema needs. A thorough validation confirms that all additional constraints derived from the ER diagram and business rules are present and correctly specified.</p>
+
+<p><strong>UNIQUE constraints</strong> must be applied to any column or combination of columns that represent an <em>alternate key</em> — a candidate key that was not chosen as the primary key. For example, if <em>Email</em> is guaranteed to be unique for each customer (and it was identified as a candidate key in the ER diagram), then a <code>UNIQUE</code> constraint on the <em>Email</em> column of the <em>Customer</em> table is required. Without this constraint, the database will silently allow duplicate email addresses, even if the application tries to prevent them. Similarly, if a surrogate key was introduced as the primary key, the natural key (e.g., a product's barcode) must have a <code>UNIQUE NOT NULL</code> constraint.</p>
+
+<p><strong>CHECK constraints</strong> enforce domain restrictions on column values — rules about what values are legally allowed. These correspond to attribute domain specifications in the ER diagram or requirements gathered during analysis. Examples include:</p>
+
+<ul>
+  <li><code>age &gt; 0</code> — ensures age is a positive number</li>
+  <li><code>status IN ('active', 'inactive', 'suspended')</code> — restricts status to a defined set of values</li>
+  <li><code>salary &gt;= 0</code> — prevents negative salaries</li>
+  <li><code>end_date &gt;= start_date</code> — ensures logical date ordering</li>
+</ul>
+
+<p>CHECK constraints move business rule enforcement into the database itself, rather than relying entirely on the application layer. This is important because multiple applications (or direct database access) might modify the data; the database constraint provides a universal enforcement point.</p>
+
+<p><strong>NOT NULL constraints</strong> must be applied wherever an attribute is mandatory. As already noted, total participation in the ER diagram implies NOT NULL on the corresponding foreign key. But NOT NULL also applies to mandatory simple attributes. If every employee must have a last name, then the <em>last_name</em> column must be <code>NOT NULL</code>. Leaving mandatory columns nullable silently permits incomplete records.</p>
+
+<p>It is equally important to <strong>document constraints that cannot be implemented directly in the schema</strong>. Some business rules are too complex for a CHECK constraint or cannot be expressed in standard SQL at all — for example, "an employee's manager must be in the same department" or "a student cannot enroll in more than six courses per semester." These constraints must be enforced in application logic or through stored procedures and triggers, but they must still be <em>documented</em> somewhere tied to the schema, so that developers know they are responsible for enforcing them. A schema with undocumented business rules is a maintenance hazard.</p>
+
+<p><strong>Iterating and Finalizing the Schema</strong></p>
+
+<p>Validation rarely produces a clean bill of health on the first pass. The realistic outcome is a list of findings — discrepancies, violations, missing constraints, naming inconsistencies — that must be systematically resolved. How this iteration is managed determines whether the final schema is truly correct or merely less wrong.</p>
+
+<p>Each finding should be <strong>logged</strong> with enough detail to understand the problem, the proposed fix, and the rationale. Ad hoc corrections made on the fly, without logging, tend to introduce new problems: fixing a missing foreign key might expose a naming inconsistency; correcting a 2NF violation by splitting a table requires updating any existing foreign key references to that table. A log of changes also serves as a record for stakeholders who need to understand why the final schema differs from an earlier draft.</p>
+
+<p>After each correction, the <strong>affected portion of the schema must be re-validated</strong>. A change is never truly isolated. Adding a new table to resolve a multi-valued attribute means that table needs its own primary key check, its own foreign key validation, and its own naming review. Splitting a table to fix a 2NF violation means the queries that referenced the original table may need updating. The re-check loop continues until no new findings emerge from the area of the correction.</p>
+
+<p>Before declaring the schema final, a <strong>complete walkthrough</strong> should trace every ER construct to its schema representation one last time. This is distinct from the initial cross-check because it happens after all corrections have been applied. The walkthrough confirms that the corrections did not inadvertently omit anything and that the schema as a whole is coherent and complete.</p>
+
+<p>Finally, a <strong>stakeholder or peer review</strong> provides an independent perspective. The person or team who designed the schema has an inherent blind spot — they see what they intended, not necessarily what is actually there. A reviewer who was not involved in the drafting will notice ambiguities, missing constraints, and naming oddities that the author overlooked. This review should be conducted against both the ER diagram (to check completeness) and the normalization rules (to check correctness). The output of this review is either sign-off that the schema is ready for implementation, or a new round of findings that triggers another iteration. Only when the schema passes both the systematic validation checks and an independent review should it be handed off for physical implementation.</p>
+
+<p>The entire validation and refinement process reflects a fundamental principle of database engineering: the cost of fixing a design flaw scales dramatically with how late it is caught. A mapping error found during schema review takes minutes to fix; the same error discovered after tables have been created, populated, and integrated with application code can take days or weeks to resolve. Rigorous validation is not overhead — it is investment in a correct, maintainable, and trustworthy database.</p>
+        <div class="notes"><strong>Notes</strong>This topic covers the full validation lifecycle for a relational schema derived from an ER diagram, including cross-checking, primary key integrity, referential integrity, naming conventions, normalization (1NF/2NF/3NF), constraint completeness, and the iterative correction and sign-off process. Tables are used to illustrate the cross-reference audit and the normalization summary for clarity.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

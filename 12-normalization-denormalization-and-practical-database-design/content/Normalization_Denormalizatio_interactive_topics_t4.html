@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denormalization Techniques and Patterns</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 12 - Normalization, Denormalization, and Practical Database Design</a></div>
+  <header>
+    <h1>Denormalization Techniques and Patterns</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Denormalization Techniques and Patterns</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Normalization is the process of structuring a relational database to minimize redundancy and enforce data integrity. It is essential groundwork, but it is not always the final word on schema design. In production systems — especially those serving millions of rows, complex reporting dashboards, or latency-sensitive APIs — rigidly normalized schemas can become a performance liability. <strong>Denormalization</strong> is the deliberate, informed act of introducing controlled redundancy or structural simplifications into a schema to improve read performance, reduce query complexity, or lower computational overhead. It is not the abandonment of good design; it is the extension of it. Every denormalization decision must be justified by measurement, documented carefully, and maintained with discipline.</p>
+
+<p>The techniques described below represent the most widely used denormalization patterns. Each addresses a different class of performance problem, comes with its own trade-offs, and is appropriate in different contexts. Understanding all of them — and knowing when to reach for each — is what separates a database designer from a database architect.</p>
+
+<p><strong>Storing Precomputed (Derived) Values</strong></p>
+
+<p>A derived value is any value that can be computed from other data already stored in the database. In a fully normalized schema, derived values are never stored; they are always calculated at query time. For small datasets this is perfectly fine. For large datasets with aggregate-heavy reads, recalculating the same derived values millions of times per day creates unnecessary CPU pressure and slows query responses.</p>
+
+<p>The solution is to <strong>precompute the derived value once and store it in a dedicated column</strong>. Whenever the source data changes, the stored derived value is updated — typically by application logic, a database trigger, or an event-driven background process. The query that previously had to sum line items across an entire order now simply reads a single column.</p>
+
+<p>Consider an e-commerce schema. In a normalized design, the total value of an order is computed by joining <code>order_items</code> to <code>products</code> and summing:</p>
+
+<pre><code>-- Normalized: total computed at query time
+SELECT o.order_id, SUM(oi.quantity * p.unit_price) AS order_total
+FROM   orders o
+JOIN   order_items oi ON oi.order_id = o.order_id
+JOIN   products p     ON p.product_id = oi.product_id
+WHERE  o.order_id = 1001
+GROUP  BY o.order_id;
+</code></pre>
+
+<p>Every execution of this query performs joins and arithmetic. With a precomputed column the same information is retrieved instantly:</p>
+
+<pre><code>-- Denormalized: total stored directly on the order
+SELECT order_id, order_total
+FROM   orders
+WHERE  order_id = 1001;
+</code></pre>
+
+<p>The <code>orders</code> table now carries an <code>order_total</code> column. A trigger (or application code) keeps it synchronized:</p>
+
+<pre><code>-- Example trigger (PostgreSQL) to maintain order_total
+CREATE OR REPLACE FUNCTION update_order_total()
+RETURNS TRIGGER LANGUAGE plpgsql AS $$
+BEGIN
+  UPDATE orders
+  SET    order_total = (
+           SELECT COALESCE(SUM(oi.quantity * p.unit_price), 0)
+           FROM   order_items oi
+           JOIN   products p ON p.product_id = oi.product_id
+           WHERE  oi.order_id = NEW.order_id
+         )
+  WHERE  order_id = NEW.order_id;
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_order_items_after_change
+AFTER INSERT OR UPDATE OR DELETE ON order_items
+FOR EACH ROW EXECUTE FUNCTION update_order_total();
+</code></pre>
+
+<p>Common candidates for precomputation include:</p>
+
+<ul>
+  <li><strong>Running totals</strong> — account balances, cumulative sales figures</li>
+  <li><strong>Age from birthdate</strong> — stored as an integer and refreshed nightly rather than computed with <code>DATEDIFF</code> on every query</li>
+  <li><strong>Discounted price</strong> — <code>list_price * (1 - discount_rate)</code> stored alongside its inputs</li>
+  <li><strong>Full name</strong> — concatenation of <code>first_name</code> and <code>last_name</code> stored for fast full-text search indexing</li>
+</ul>
+
+<p>The primary trade-off is <strong>write complexity</strong>. Every code path that modifies source data must also update the derived column. Missing even one path creates silent inconsistency. Triggers reduce this risk because the database engine enforces the update, but triggers add overhead to every write and can be surprising to developers unfamiliar with the schema. Thorough documentation is non-negotiable.</p>
+
+<p><strong>Merging Tables (Table Collapsing)</strong></p>
+
+<p>Normalization sometimes splits what is logically a single entity across two tables to eliminate redundancy or model optional relationships cleanly. When those two tables share a <strong>strict one-to-one relationship</strong> and are nearly always queried together, the JOIN they require becomes pure overhead with no structural benefit.</p>
+
+<p>Table collapsing — also called table merging — is the act of combining those two tables into one. Consider a normalized schema that separates core customer data from customer address data:</p>
+
+<pre><code>-- Normalized: two tables
+CREATE TABLE customers (
+  customer_id  INT PRIMARY KEY,
+  email        VARCHAR(255) NOT NULL,
+  created_at   TIMESTAMP NOT NULL
+);
+
+CREATE TABLE customer_addresses (
+  customer_id  INT PRIMARY KEY REFERENCES customers(customer_id),
+  street       VARCHAR(255),
+  city         VARCHAR(100),
+  country_code CHAR(2)
+);
+</code></pre>
+
+<p>If 95% of queries that retrieve a customer also need the address, every such query pays the cost of a JOIN. After collapsing:</p>
+
+<pre><code>-- Denormalized: single merged table
+CREATE TABLE customers (
+  customer_id  INT PRIMARY KEY,
+  email        VARCHAR(255) NOT NULL,
+  created_at   TIMESTAMP NOT NULL,
+  street       VARCHAR(255),      -- NULL when no address on file
+  city         VARCHAR(100),
+  country_code CHAR(2)
+);
+</code></pre>
+
+<p>The JOIN disappears entirely. Queries become simpler, ORM mappings in application code become cleaner, and query execution plans shrink. The single table is easier to index and easier to reason about.</p>
+
+<p>The costs to anticipate:</p>
+
+<ul>
+  <li><strong>Sparse data (NULL columns):</strong> Customers with no address on file will have <code>NULL</code> values across the address columns. In wide tables with many optional attribute groups, this can waste storage and complicate <code>NOT NULL</code> constraints.</li>
+  <li><strong>Reduced clarity of optionality:</strong> The separate table made the optional nature of an address structurally explicit. The merged table hides it behind nullable columns.</li>
+  <li><strong>Future normalization debt:</strong> If address data later needs its own relationships (e.g., multiple addresses per customer), re-splitting the table is a migration project.</li>
+</ul>
+
+<p>The most important safeguard is documentation. A schema comment or a design document entry should explain why the merge was deliberate — otherwise a future developer will "fix" it by splitting the tables again, eliminating the performance gain and creating a disruptive migration.</p>
+
+<p><strong>Adding Redundant Columns</strong></p>
+
+<p>A redundant column copies a value that already exists in another table into a table where it is frequently needed, creating an intentional violation of the principle that each fact should be stored in exactly one place. The motivation is to eliminate JOIN operations on high-frequency queries by making the needed value immediately available in the same row as the data being queried.</p>
+
+<p>This pattern is ubiquitous in <strong>data warehouses</strong> and <strong>reporting schemas</strong>, but it also appears in OLTP systems where specific lookup patterns dominate. Consider an order reporting query that constantly needs the customer's country alongside order details:</p>
+
+<pre><code>-- Normalized schema requires a join to get customer country
+SELECT o.order_id, o.order_total, c.country_code
+FROM   orders o
+JOIN   customers c ON c.customer_id = o.customer_id
+WHERE  o.placed_at >= '2024-01-01';
+</code></pre>
+
+<p>If this query runs thousands of times per minute, the JOIN to <code>customers</code> is repeated endlessly. Adding a redundant <code>customer_country</code> column directly to <code>orders</code> eliminates it:</p>
+
+<pre><code>-- orders table with redundant column
+ALTER TABLE orders ADD COLUMN customer_country CHAR(2);
+
+-- Now the reporting query needs no join
+SELECT order_id, order_total, customer_country
+FROM   orders
+WHERE  placed_at >= '2024-01-01';
+</code></pre>
+
+<p>The redundant column is populated when an order is created and must be updated if the customer's country ever changes. In many business domains (especially for historical orders) it actually makes semantic sense to snapshot the country at the time of ordering rather than always reflecting the current value — a useful side effect of denormalization.</p>
+
+<p>Key principles for using redundant columns responsibly:</p>
+
+<ul>
+  <li><strong>Drive decisions with query profiling.</strong> Run <code>EXPLAIN ANALYZE</code> (PostgreSQL) or <code>EXPLAIN FORMAT=JSON</code> (MySQL) on candidate queries. Only columns involved in high-frequency, high-cost lookups justify the added maintenance burden.</li>
+  <li><strong>Enforce consistency with triggers or application rules.</strong> Any code path that updates the source column must also update the redundant copy. A trigger on the <code>customers</code> table propagating country changes to <code>orders</code> is one reliable approach.</li>
+  <li><strong>Consider whether staleness is acceptable.</strong> For historical records like completed orders, a snapshot at creation time may be correct by design. For active records, staleness is a bug.</li>
+  <li><strong>Index the redundant column.</strong> The performance benefit is maximized when the redundant column is indexed, allowing the database to satisfy the query entirely from the index without a table scan.</li>
+</ul>
+
+<p><strong>Storing Aggregates and Summary Tables</strong></p>
+
+<p>Some queries are inherently expensive because they aggregate enormous volumes of data — counting orders per region, summing revenue by product category, or computing monthly active user counts. Running these aggregations against the full transactional tables in real time is impractical at scale. <strong>Summary tables</strong> (also called aggregate tables or rollup tables) address this by pre-aggregating the results and storing them separately, so dashboards and reports read from compact, pre-computed rows rather than scanning millions of raw records.</p>
+
+<p>A typical implementation pattern:</p>
+
+<pre><code>-- Raw transactional table (very large)
+CREATE TABLE order_items (
+  item_id     BIGINT PRIMARY KEY,
+  order_id    BIGINT NOT NULL,
+  product_id  INT NOT NULL,
+  category_id INT NOT NULL,
+  quantity    INT NOT NULL,
+  unit_price  NUMERIC(10,2) NOT NULL,
+  sold_at     DATE NOT NULL
+);
+
+-- Summary table: daily revenue by category
+CREATE TABLE daily_category_revenue (
+  summary_date DATE    NOT NULL,
+  category_id  INT     NOT NULL,
+  total_units  BIGINT  NOT NULL,
+  total_revenue NUMERIC(14,2) NOT NULL,
+  refreshed_at  TIMESTAMP NOT NULL,
+  PRIMARY KEY (summary_date, category_id)
+);
+</code></pre>
+
+<p>A nightly batch job (or scheduled stored procedure) populates or refreshes the summary table:</p>
+
+<pre><code>-- Refresh summary for the previous day (incremental)
+INSERT INTO daily_category_revenue
+       (summary_date, category_id, total_units, total_revenue, refreshed_at)
+SELECT sold_at,
+       category_id,
+       SUM(quantity),
+       SUM(quantity * unit_price),
+       NOW()
+FROM   order_items
+WHERE  sold_at = CURRENT_DATE - INTERVAL '1 day'
+GROUP  BY sold_at, category_id
+ON CONFLICT (summary_date, category_id)
+DO UPDATE SET
+  total_units   = EXCLUDED.total_units,
+  total_revenue = EXCLUDED.total_revenue,
+  refreshed_at  = EXCLUDED.refreshed_at;
+</code></pre>
+
+<p>Dashboard queries then read from the tiny summary table instead of the massive raw table — a query that previously took 30 seconds now runs in milliseconds.</p>
+
+<p>Summary tables are a foundational pattern in <strong>data warehousing</strong>, often implemented as:</p>
+
+<ul>
+  <li><strong>Materialized views</strong> — natively supported in PostgreSQL, Oracle, and SQL Server; the database manages refresh automatically or on demand</li>
+  <li><strong>ETL-populated tables</strong> — populated by an external pipeline (Apache Spark, dbt, Airflow) on a schedule</li>
+  <li><strong>Manually maintained tables</strong> — populated by stored procedures or application jobs</li>
+</ul>
+
+<p>The central trade-off is <strong>data freshness</strong>. A summary table reflects the state of the data as of its last refresh. If the business requires real-time accuracy (fraud detection, live inventory), a summary table with hourly refresh may be unacceptable. Options to manage this:</p>
+
+<ul>
+  <li><strong>Incremental refresh:</strong> Only recompute rows whose source data changed since the last run, using a watermark timestamp or change-data-capture log. This makes frequent refreshes affordable.</li>
+  <li><strong>Hybrid approach:</strong> Query the summary table for historical data and the raw table only for recent data, unioning the results.</li>
+  <li><strong>Streaming aggregation:</strong> Use a stream processing system (Kafka Streams, Apache Flink) to update summaries continuously as events arrive, achieving near-real-time freshness.</li>
+</ul>
+
+<p><strong>Vertical Partitioning as a Denormalization Pattern</strong></p>
+
+<p>Vertical partitioning splits a single wide table into two narrower tables that share the same primary key. Although it superficially resembles normalization (it does create a new table), its motivation is purely performance: <strong>it is driven by access patterns, not by functional dependencies or data integrity concerns</strong>.</p>
+
+<p>The mechanism is rooted in how databases store data on disk. A database page holds a fixed number of bytes. Narrower rows mean more rows fit on each page. More rows per page means fewer pages must be read to scan a given number of records. When a table has both frequently accessed "hot" columns (e.g., product name, price, stock status) and rarely accessed "cold" columns (e.g., full HTML description, marketing copy, large image blobs), every full table scan reads the cold data unnecessarily, wasting I/O and evicting useful data from the buffer cache.</p>
+
+<pre><code>-- Before: one wide table — large TEXT columns inflate every row
+CREATE TABLE products (
+  product_id   INT PRIMARY KEY,
+  name         VARCHAR(200) NOT NULL,
+  price        NUMERIC(10,2) NOT NULL,
+  stock_qty    INT NOT NULL,
+  description  TEXT,           -- often several kilobytes
+  marketing_copy TEXT,         -- rarely needed
+  spec_sheet   BYTEA           -- binary blob, very large
+);
+
+-- After: vertical partition into hot and cold tables
+CREATE TABLE products_core (
+  product_id  INT PRIMARY KEY,
+  name        VARCHAR(200) NOT NULL,
+  price       NUMERIC(10,2) NOT NULL,
+  stock_qty   INT NOT NULL
+);
+
+CREATE TABLE products_detail (
+  product_id     INT PRIMARY KEY REFERENCES products_core(product_id),
+  description    TEXT,
+  marketing_copy TEXT,
+  spec_sheet     BYTEA
+);
+</code></pre>
+
+<p>The vast majority of queries — catalog listings, search results, cart additions, inventory checks — touch only <code>products_core</code>. The database's buffer pool fills with core rows, dramatically improving cache hit rates. The <code>products_detail</code> table is joined only when a customer opens a full product page, which is far less frequent.</p>
+
+<p>Situations where vertical partitioning delivers the most value:</p>
+
+<ul>
+  <li>Tables with <strong>TEXT, CLOB, or BLOB columns</strong> that are rarely accessed but inflate row size significantly</li>
+  <li>Tables with <strong>clearly bimodal access patterns</strong> — a small set of columns queried constantly, a larger set queried occasionally</li>
+  <li>Systems where <strong>buffer pool efficiency is measurably poor</strong> due to wide rows causing low page density</li>
+</ul>
+
+<p>The cost is an additional JOIN for queries that need both sets of columns. This JOIN should be infrequent; if it is not, the partition is probably not well-aligned with actual query patterns.</p>
+
+<p><strong>Schema Examples and Choosing the Right Pattern</strong></p>
+
+<p>Selecting a denormalization technique is not a matter of preference — it is a matter of evidence. The following table summarizes the characteristics and appropriate contexts for each technique:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>Best Workload</th>
+      <th>Primary Benefit</th>
+      <th>Primary Cost</th>
+      <th>Typical Tool</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Precomputed derived values</td>
+      <td>OLTP with aggregate-heavy reads</td>
+      <td>Eliminates per-query aggregation CPU cost</td>
+      <td>Write complexity; sync discipline required</td>
+      <td>Triggers, application logic</td>
+    </tr>
+    <tr>
+      <td>Table collapsing (merging)</td>
+      <td>1:1 relationships always queried together</td>
+      <td>Removes JOIN entirely; simpler ORM mapping</td>
+      <td>Sparse NULLs; hides optionality</td>
+      <td>Schema migration</td>
+    </tr>
+    <tr>
+      <td>Redundant columns</td>
+      <td>OLTP frequent single-record lookups</td>
+      <td>Eliminates foreign-key JOIN on hot queries</td>
+      <td>Consistency maintenance across tables</td>
+      <td>Triggers, application rules</td>
+    </tr>
+    <tr>
+      <td>Summary / aggregate tables</td>
+      <td>OLAP, reporting, dashboard queries</td>
+      <td>Pre-aggregated results; sub-second dashboards</td>
+      <td>Data staleness between refreshes</td>
+      <td>Materialized views, ETL, cron jobs</td>
+    </tr>
+    <tr>
+      <td>Vertical partitioning</td>
+      <td>Wide tables with cold BLOB/TEXT columns</td>
+      <td>Higher page density; better buffer cache hits</td>
+      <td>JOIN required for full-row access</td>
+      <td>Schema redesign</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The decision process should always begin with <strong>measurement, not intuition</strong>. The correct workflow is:</p>
+
+<ul>
+  <li><strong>Profile first.</strong> Use <code>EXPLAIN ANALYZE</code> (PostgreSQL), <code>EXPLAIN FORMAT=JSON</code> (MySQL/MariaDB), or the query plan tools in your database platform to identify the queries actually causing pain. Slow query logs and APM tools (New Relic, Datadog) are invaluable for finding the real hotspots.</li>
+  <li><strong>Identify the bottleneck type.</strong> Is the problem a repeated expensive aggregation (→ summary table or precomputed value)? A JOIN that always fires together (→ table collapse or redundant column)? Wide row scans degrading cache performance (→ vertical partition)?</li>
+  <li><strong>Apply the minimum necessary denormalization.</strong> Denormalization adds maintenance complexity. Apply only the specific technique that addresses the measured problem, and apply it only to the tables and columns that need it.</li>
+  <li><strong>Document every intentional departure from normal form.</strong> Use schema comments (<code>COMMENT ON COLUMN</code> in PostgreSQL and MySQL), migration notes, and design documents. Explain <em>why</em> the redundancy exists and how it is maintained. Without documentation, future developers will treat intentional redundancy as a bug and "fix" it, breaking the performance characteristics the design depends on.</li>
+  <li><strong>Re-evaluate periodically.</strong> Data volumes grow, access patterns shift, new indexes become viable, and hardware improves. A denormalization that was essential when the table had 100 million rows may be unnecessary overhead if the data is later partitioned or migrated to a columnar store. Scheduled schema reviews — quarterly or when query patterns change significantly — keep the design aligned with reality.</li>
+</ul>
+
+<p>A practical example of choosing between patterns: suppose a SaaS application's <code>invoices</code> table is queried in two ways — individual invoice lookups by billing staff (OLTP, high frequency, needs fast single-row reads) and monthly revenue reports by finance (OLAP, low frequency, needs aggregations across all invoices). The right answer is probably both a <strong>redundant column</strong> (<code>customer_name</code> on <code>invoices</code> to eliminate the customer JOIN on single-record lookups) <em>and</em> a <strong>summary table</strong> (<code>monthly_revenue_by_plan</code> populated nightly for the finance reports). One technique does not exclude another; real schemas often combine multiple patterns applied to different parts of the same data.</p>
+
+<p>Denormalization is a tool, not a philosophy. Its power comes from precision: knowing exactly which queries are slow, exactly why they are slow, and exactly which structural change will fix them — and then making that change with full awareness of the maintenance implications it creates.</p>
+        <div class="notes"><strong>Notes</strong>The topic blends conceptual explanation with concrete SQL examples for each technique. The summary table at the end provides a quick comparative reference. Notes emphasize the measurement-first approach and the importance of documentation throughout, consistent with the source subtopics.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

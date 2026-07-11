@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locking Mechanisms</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 13 - Designing Databases for Concurrent Use</a></div>
+  <header>
+    <h1>Locking Mechanisms</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Locking Mechanisms</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Locking mechanisms are the foundation of concurrency control in relational database systems. When multiple transactions execute simultaneously, the database must ensure that their interleaved operations do not corrupt data or produce inconsistent results. Locks are the primary instrument by which a database engine serializes access to shared resources, enforcing isolation without necessarily running transactions one at a time. Understanding how different lock types work, how they interact with one another, and how granularity decisions affect performance is essential for anyone designing or tuning a database-backed application.</p>
+
+<p>At the most fundamental level, a lock is a token associated with a resource — a row, a page, a table, or even an entire database — that signals a transaction's current or intended access mode. Before any transaction can read or modify a resource, it must first acquire the appropriate lock. If the lock is incompatible with one already held by another transaction, the requesting transaction must wait. This waiting behavior is precisely what prevents two transactions from interfering with each other.</p>
+
+<p><strong>Shared and Exclusive Locks</strong></p>
+
+<p>The two most basic lock types are the <em>shared lock</em> (S-lock) and the <em>exclusive lock</em> (X-lock), and their interaction rules form the cornerstone of read/write conflict prevention.</p>
+
+<p>A <strong>shared lock</strong> is acquired when a transaction wants to read a resource. The defining property of a shared lock is that it is compatible with other shared locks: many transactions can hold S-locks on the same row simultaneously, all reading freely. However, a shared lock is incompatible with an exclusive lock. This means that as long as any transaction holds an S-lock on a resource, no other transaction can acquire an X-lock on that same resource and begin modifying it. This prevents the classic <em>dirty read</em> scenario where a reader might observe partially written data.</p>
+
+<p>Consider a banking example. Suppose two tellers simultaneously query the balance of account #101:</p>
+
+<pre><code>-- Transaction A
+SELECT balance FROM accounts WHERE id = 101;
+
+-- Transaction B (concurrent)
+SELECT balance FROM accounts WHERE id = 101;
+</code></pre>
+
+<p>Both transactions acquire an S-lock on the row for account #101. Because S-locks are compatible, both queries proceed without blocking each other. Now suppose a third transaction wants to debit that account:</p>
+
+<pre><code>-- Transaction C (concurrent)
+UPDATE accounts SET balance = balance - 500 WHERE id = 101;
+</code></pre>
+
+<p>Transaction C needs an X-lock. Because transactions A and B already hold S-locks, transaction C must wait until both of them release their locks. This guarantees that C's write does not collide with an ongoing read.</p>
+
+<p>An <strong>exclusive lock</strong> is acquired when a transaction intends to modify data — through an INSERT, UPDATE, or DELETE. An X-lock is incompatible with every other lock type, both S-locks and other X-locks. This total incompatibility is intentional: a write operation must have uncontested access to the resource so that its changes are fully isolated until the transaction commits. If two transactions could simultaneously hold X-locks on the same row, their updates would overwrite each other unpredictably, producing what is called a <em>lost update</em>.</p>
+
+<p>The compatibility rules between S-locks and X-locks can be summarized clearly:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Lock Held \ Lock Requested</th>
+      <th>Shared (S)</th>
+      <th>Exclusive (X)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Shared (S)</strong></td>
+      <td>Compatible ✓</td>
+      <td>Incompatible ✗</td>
+    </tr>
+    <tr>
+      <td><strong>Exclusive (X)</strong></td>
+      <td>Incompatible ✗</td>
+      <td>Incompatible ✗</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The asymmetry here is deliberate and meaningful: reads can coexist freely, but any write demand exclusive territory. Because an X-lock is held for the duration of the modifying transaction (under standard isolation levels), other transactions must patiently wait rather than read stale or intermediate data.</p>
+
+<p><strong>Intent Locks</strong></p>
+
+<p>Shared and exclusive locks work well at the level of individual rows, but a database must also protect higher-level resources like pages and tables. If a transaction wants to lock an entire table exclusively, the engine must verify that no other transaction already holds row-level locks anywhere within that table. Checking every single row would be prohibitively expensive in a large table. <em>Intent locks</em> solve this problem elegantly by acting as advance notices at the parent level.</p>
+
+<p>An <strong>Intent Shared (IS) lock</strong> is placed on a parent resource — typically a table or a page — to signal that the transaction is going to acquire shared locks on one or more of its child resources (rows). It does not lock all children; it merely advertises intent. When another transaction tries to lock the entire table exclusively, it checks the IS lock and immediately knows that row-level reading is already in progress without having to scan every row.</p>
+
+<p>An <strong>Intent Exclusive (IX) lock</strong> serves the same advertising purpose but for write operations. When a transaction wants to update a specific row, the engine places an IX lock on the containing table (and often the containing page). Any transaction that subsequently attempts a full table lock sees the IX lock and knows that exclusive child locks are either held or imminent, making a conflicting table-wide lock impossible.</p>
+
+<p>A <strong>Shared with Intent Exclusive (SIX) lock</strong> combines both modes at once. A transaction holding a SIX lock on a table is reading all (or most) of the table — hence the shared component — while simultaneously preparing to exclusively modify some rows within it — hence the intent exclusive component. A typical scenario is a transaction that scans an entire table to find qualifying rows and then updates them. The SIX lock tells other transactions: "I am reading everything here, and I will be writing to some of it."</p>
+
+<p>The full compatibility matrix for intent locks illustrates how they interact:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Held \ Requested</th>
+      <th>IS</th>
+      <th>IX</th>
+      <th>S</th>
+      <th>SIX</th>
+      <th>X</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>IS</strong></td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✗</td>
+    </tr>
+    <tr>
+      <td><strong>IX</strong></td>
+      <td>✓</td>
+      <td>✓</td>
+      <td>✗</td>
+      <td>✗</td>
+      <td>✗</td>
+    </tr>
+    <tr>
+      <td><strong>S</strong></td>
+      <td>✓</td>
+      <td>✗</td>
+      <td>✓</td>
+      <td>✗</td>
+      <td>✗</td>
+    </tr>
+    <tr>
+      <td><strong>SIX</strong></td>
+      <td>✓</td>
+      <td>✗</td>
+      <td>✗</td>
+      <td>✗</td>
+      <td>✗</td>
+    </tr>
+    <tr>
+      <td><strong>X</strong></td>
+      <td>✗</td>
+      <td>✗</td>
+      <td>✗</td>
+      <td>✗</td>
+      <td>✗</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notice that IS and IX are compatible with each other: many transactions can simultaneously declare their respective intents at the table level, each independently locking separate rows below. The engine only blocks when a transaction tries to escalate to a full table-wide S or X lock, which would conflict with active child-level operations. This hierarchical signaling is far more efficient than lock-by-lock inspection of lower-level resources.</p>
+
+<p><strong>Lock Granularity</strong></p>
+
+<p>Lock granularity refers to the size of the resource unit being locked. The spectrum runs from very fine-grained locks — locking a single row — all the way to very coarse-grained locks — locking an entire table or even the whole database. The choice of granularity has profound implications for both concurrency and system overhead.</p>
+
+<p><strong>Fine-grained locking</strong>, most commonly row-level locking, is the approach used by virtually all modern transactional databases (PostgreSQL, MySQL InnoDB, Oracle, SQL Server). When a transaction locks only the specific rows it touches, other transactions are free to read and write all other rows in the same table simultaneously. This maximizes concurrency because unrelated operations never interfere. For an e-commerce application where thousands of users are concurrently updating their own orders, row-level locking means that each order update affects only its own rows, allowing the system to handle enormous throughput.</p>
+
+<p>The cost of fine-grained locking is administrative overhead. Each lock consumes memory in the lock manager's data structures, and acquiring and releasing thousands of individual locks for a large batch operation takes CPU cycles. A transaction that updates 50,000 rows must acquire and track 50,000 row-level locks.</p>
+
+<p><strong>Coarse-grained locking</strong>, such as table-level locking, is simpler and cheaper to manage. The lock manager only needs a single entry per table regardless of how many rows are modified. However, the concurrency penalty is severe: any transaction that locks a table exclusively forces every other transaction that touches any row in that table to wait, even if they would access completely different rows. MySQL's older MyISAM storage engine used table-level locking, which made it adequate for read-heavy workloads but poorly suited to mixed read/write applications.</p>
+
+<p>Between these extremes lies <strong>page-level locking</strong>, where a database page (a fixed-size block of disk storage, often 8 KB or 16 KB, containing multiple rows) is the unit of locking. Page-level locking is less granular than row-level but less disruptive than table-level, and was historically used when memory was scarce. Today it appears most often as an intermediate level in the lock hierarchy alongside row and table locks.</p>
+
+<p>The granularity selection can be visualized as a trade-off:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Granularity Level</th>
+      <th>Concurrency</th>
+      <th>Lock Overhead</th>
+      <th>Typical Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Row-level</td>
+      <td>High</td>
+      <td>High (many locks)</td>
+      <td>OLTP with many concurrent small transactions</td>
+    </tr>
+    <tr>
+      <td>Page-level</td>
+      <td>Medium</td>
+      <td>Medium</td>
+      <td>Intermediate or legacy systems</td>
+    </tr>
+    <tr>
+      <td>Table-level</td>
+      <td>Low</td>
+      <td>Low (few locks)</td>
+      <td>Bulk operations, read-heavy reporting, simple systems</td>
+    </tr>
+    <tr>
+      <td>Database-level</td>
+      <td>Very Low</td>
+      <td>Very Low</td>
+      <td>Backup, schema changes, administrative operations</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Most modern database engines implement <em>multiple granularity locking</em> (MGL), dynamically choosing the appropriate level based on query patterns. A point query by primary key will typically acquire a row-level lock, while a full table scan might acquire a table-level lock if no other transactions are active on that table. The intent lock hierarchy described earlier is precisely what makes MGL possible: intent locks at upper levels keep parent and child lock decisions consistent.</p>
+
+<p><strong>Lock Escalation</strong></p>
+
+<p>Even in a system that defaults to fine-grained row-level locking, situations arise where a transaction accumulates an enormous number of individual locks. Each lock consumes memory in the lock manager. If a transaction updates hundreds of thousands of rows, the memory consumed by tracking all those individual row locks can become significant — and in extreme cases, can threaten system stability by exhausting the lock memory pool.</p>
+
+<p><em>Lock escalation</em> is the database engine's automatic response to this situation. When the number of locks held by a single transaction crosses a threshold, the engine converts all those fine-grained locks into a single coarser-grained lock, most commonly a table lock. The end result is identical in terms of data protection — the transaction still has exclusive access to the data it is modifying — but the bookkeeping cost drops dramatically from thousands of entries to one.</p>
+
+<p>SQL Server, for example, escalates from row or page locks to a table lock when a transaction holds approximately 5,000 locks on a single table. PostgreSQL handles this differently: it does not escalate in the traditional sense but instead relies on its MVCC (Multi-Version Concurrency Control) architecture to reduce the need for many reader locks. Oracle similarly uses MVCC to avoid lock escalation issues for reads.</p>
+
+<p>The downside of escalation is a significant reduction in concurrency. The moment a transaction's row locks are escalated to a table lock, every other transaction that touches any row in that table is blocked. In a high-concurrency OLTP environment, this can cause cascading waits and dramatically reduced throughput.</p>
+
+<p>To avoid unintended escalation, developers and DBAs can employ several strategies:</p>
+
+<ul>
+  <li><strong>Batch processing:</strong> Instead of updating 200,000 rows in a single transaction, break the work into batches of 1,000–5,000 rows, committing after each batch. Each smaller transaction never accumulates enough locks to trigger escalation.</li>
+  <li><strong>Index optimization:</strong> Poorly indexed queries may lock far more rows than necessary (e.g., a table scan locking every row to find the few qualifying ones). Better indexes reduce the number of rows touched and therefore the number of locks acquired.</li>
+  <li><strong>Configuring escalation thresholds:</strong> Some database systems allow administrators to raise or lower escalation thresholds, or to disable escalation entirely for specific tables. SQL Server supports the <code>ALTER TABLE ... SET (LOCK_ESCALATION = DISABLE)</code> option for tables where high concurrency is critical.</li>
+  <li><strong>Partitioning:</strong> Table partitioning can confine escalation to a single partition rather than the entire table, substantially limiting the blast radius of an escalation event.</li>
+</ul>
+
+<p><strong>Trade-offs Between Concurrency and Data Protection</strong></p>
+
+<p>Every locking decision involves a fundamental tension: stronger data protection requires holding locks longer or over larger resources, while higher concurrency requires releasing locks sooner or scoping them more narrowly. There is no universally correct answer; the right balance depends on the workload's characteristics.</p>
+
+<p><em>Lock duration</em> is one key dimension. Under strict <em>two-phase locking (2PL)</em>, a transaction acquires all locks it needs during a growing phase and releases them all only at commit or rollback — it never releases a lock early and then acquires new ones. This guarantees serializability (the strongest isolation level) but means locks are held for the entire duration of a transaction. A long-running transaction that holds an X-lock on a popular row will block all other transactions touching that row for its entire execution time.</p>
+
+<p>Releasing locks earlier — sometimes called <em>early lock release</em> or used in weaker isolation levels like READ COMMITTED — increases concurrency but exposes transactions to anomalies. Under READ COMMITTED, shared locks on rows are released immediately after each row is read rather than held until commit. This allows other transactions to modify those rows before the first transaction finishes, potentially leading to <em>non-repeatable reads</em> where the same row read twice within a transaction returns different values.</p>
+
+<p>The choice between <strong>pessimistic</strong> and <strong>optimistic</strong> locking strategies represents another major trade-off axis:</p>
+
+<p><strong>Pessimistic locking</strong> assumes that conflicts are likely. Locks are acquired at the start of data access and held until the transaction ends. This approach guarantees that by the time a transaction is ready to write, it has already excluded all potential conflicts. It is well-suited to high-contention environments — for example, a ticket booking system where many users compete for the last available seat. The pessimistic approach prevents two users from simultaneously believing the last seat is available and both completing a booking.</p>
+
+<pre><code>-- Pessimistic locking: explicitly lock the row before reading
+BEGIN;
+SELECT * FROM seats WHERE seat_id = 42 FOR UPDATE;
+-- At this point, row 42 is X-locked; other transactions must wait
+UPDATE seats SET status = 'booked', passenger = 'Alice' WHERE seat_id = 42;
+COMMIT;
+</code></pre>
+
+<p><strong>Optimistic locking</strong> assumes conflicts are rare. Transactions read data without acquiring locks, perform their computations, and then at commit time check whether any other transaction modified the data since it was first read. If the data is unchanged, the commit succeeds. If it has changed, the transaction is rolled back and must retry. This approach is excellent for low-contention scenarios — such as a content management system where two authors rarely edit the same article simultaneously — because readers never block each other and commits almost always succeed on the first attempt.</p>
+
+<p>Optimistic locking is typically implemented using a version column or a timestamp:</p>
+
+<pre><code>-- Read the current version
+SELECT id, content, version FROM articles WHERE id = 7;
+-- Suppose version = 12
+
+-- Attempt to update only if version hasn't changed
+UPDATE articles
+SET content = 'Updated content', version = 13
+WHERE id = 7 AND version = 12;
+
+-- Check rows affected: if 0, another transaction changed the row first
+-- Application logic must retry or report a conflict
+</code></pre>
+
+<p>The danger of optimistic locking emerges when conflicts are actually frequent. Each conflicting transaction must roll back all of its work and retry from the beginning. If conflicts are common, the system wastes enormous effort re-executing transactions that repeatedly fail at commit time, performing worse than a pessimistic strategy would have.</p>
+
+<p>Summarizing the core trade-offs:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Higher Concurrency</th>
+      <th>Stronger Data Protection</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lock duration</td>
+      <td>Release locks early</td>
+      <td>Hold locks until commit (2PL)</td>
+    </tr>
+    <tr>
+      <td>Lock granularity</td>
+      <td>Fine-grained (row-level)</td>
+      <td>Coarse-grained (table-level)</td>
+    </tr>
+    <tr>
+      <td>Conflict strategy</td>
+      <td>Optimistic (check at commit)</td>
+      <td>Pessimistic (lock upfront)</td>
+    </tr>
+    <tr>
+      <td>Isolation level</td>
+      <td>READ UNCOMMITTED / READ COMMITTED</td>
+      <td>REPEATABLE READ / SERIALIZABLE</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Database designers must analyze several real-world factors to navigate these trade-offs effectively. <em>Conflict rate</em> is perhaps the most important: how often do concurrent transactions actually access the same data? A system where each user operates on their own private data (like a personal banking account) has low inherent conflict and tolerates optimistic approaches well. A system with global shared state (like inventory quantity for a popular product during a flash sale) has high conflict and demands pessimistic protection.</p>
+
+<p><em>Transaction duration</em> also matters. Short transactions held under pessimistic locking block others for only milliseconds, which is usually tolerable. Long-running transactions holding locks for seconds or minutes cause visible latency for other users and can cascade into a system-wide slowdown. In such cases, optimistic locking or shorter atomic sub-transactions may be preferable even in moderately contended environments.</p>
+
+<p>Finally, <em>consistency requirements</em> imposed by the application's business rules set the floor below which no locking strategy can go. Financial transactions typically mandate strict serializability because any lost update or phantom read could result in real monetary loss. Social media "likes" counters, on the other hand, can tolerate approximate counts and can safely use weaker isolation for vastly better performance. Understanding these requirements — and not defaulting to the strongest or weakest strategy without thought — is the hallmark of thoughtful database design.</p>
+        <div class="notes"><strong>Notes</strong>Covers the types of locks used to manage concurrent access, including shared, exclusive, and intent locks. Explains lock granularity, lock escalation, and the trade-offs between concurrency and data protection.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

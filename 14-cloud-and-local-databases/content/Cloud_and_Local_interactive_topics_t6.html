@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintenance and Administration</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+  <header>
+    <h1>Maintenance and Administration</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Maintenance and Administration</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When organizations choose how to deploy and operate a database system, one of the most consequential decisions they face is not purely technical — it is operational. The question of <strong>who is responsible for keeping the database running, patched, backed up, monitored, and optimized</strong> shapes staffing requirements, budget forecasts, risk exposure, and day-to-day workload for every team that touches the system. This topic examines the full scope of maintenance and administration responsibilities across two fundamental deployment models: <em>self-managed local (on-premises) deployments</em> and <em>provider-managed cloud deployments</em>. Understanding the contrast between these models is essential for architects, database administrators, and decision-makers who must weigh operational burden against cost, control, and flexibility.</p>
+
+<p>Maintenance and administration encompasses far more than occasional software updates. It includes hardware lifecycle management, security patching, backup orchestration, recovery testing, performance monitoring, incident response, capacity planning, and compliance documentation. In a local deployment every one of these tasks lands squarely on the internal team. In a managed cloud deployment the provider absorbs a significant portion of this burden — but never all of it. Knowing exactly where the boundary lies, and what happens when it is misunderstood, is the foundation of sound database operations strategy.</p>
+
+<p><strong>Self-Managed Maintenance in Local Deployments</strong></p>
+
+<p>In a local or on-premises deployment, the organization owns or leases every layer of the stack: the physical servers, the storage arrays, the networking equipment, the operating system, and the database engine itself. This ownership grants maximum control but also maximum responsibility. Nothing happens automatically. Every maintenance action must be planned, scheduled, tested, and executed by internal staff.</p>
+
+<p><strong>Patching the operating system and database engine</strong> is one of the most time-consuming and risk-laden recurring tasks for on-premises database administrators. Operating system vendors release security patches on regular schedules — Microsoft's Patch Tuesday cycle is a well-known example — and database engine vendors such as Oracle, Microsoft SQL Server, PostgreSQL project maintainers, and MySQL's upstream team issue their own patch streams independently. Administrators must monitor multiple advisory channels, evaluate which patches apply to their environment, test patches in a staging environment that mirrors production, schedule a maintenance window that minimizes business disruption, apply the patch, verify the system health, and document the entire process for audit purposes. A single missed critical patch can leave the database exposed to known exploits. The 2017 Equifax breach, for instance, was traced to an unpatched vulnerability in Apache Struts — a stark illustration of the real-world consequences of delayed patching in self-managed environments.</p>
+
+<p><strong>Hardware maintenance</strong> adds another dimension of complexity. Spinning hard drives have a finite mean time between failures (MTBF), and even enterprise SSDs degrade over time. When a disk fails in a RAID array, an administrator must identify the failed unit, source a compatible replacement, install it, and allow the array to rebuild — a process that can take hours and during which the remaining drives are under elevated stress. Server hardware also requires periodic firmware updates, memory replacements, and eventually full server refresh cycles. None of this is visible or relevant to a team consuming a managed cloud database, but for self-managed deployments it is a permanent background operational commitment.</p>
+
+<p><strong>Planned downtime</strong> is often unavoidable in local deployments. Major OS kernel updates, database engine version upgrades, and hardware replacements can require the database to be taken offline. Organizations must negotiate maintenance windows with application owners, communicate to end users, and have rollback plans ready in case something goes wrong during the window. For 24/7 operations — e-commerce platforms, healthcare systems, financial services — even a brief outage can have measurable revenue and reputational impact, making the scheduling and execution of maintenance windows a high-stakes activity.</p>
+
+<p><strong>Compliance and audit documentation</strong> is a requirement that many organizations underestimate. Regulatory frameworks such as PCI DSS, HIPAA, SOC 2, and ISO 27001 require organizations to demonstrate that systems are patched in a timely manner and that maintenance procedures are documented and tested. In a self-managed environment the organization must produce this evidence entirely from its own records: change logs, patch reports, maintenance schedules, and test results. Building and maintaining these documentation workflows is a non-trivial administrative overhead on top of the technical work itself.</p>
+
+<p><strong>Provider-Managed Maintenance in Cloud Deployments</strong></p>
+
+<p>Managed cloud database services — such as Amazon RDS, Azure SQL Database, Google Cloud SQL, and similar offerings — fundamentally restructure the maintenance responsibility model. The cloud provider takes ownership of the physical infrastructure and, depending on the service tier, a substantial portion of the software stack including the operating system and database engine.</p>
+
+<p><strong>Automated hardware and OS maintenance</strong> means that when a physical host running an RDS instance suffers a disk failure or requires firmware updates, Amazon handles it transparently. The customer never needs to open a ticket with a hardware vendor, procure a replacement part, or schedule a maintenance window for a firmware flash. The provider's operational teams manage fleets of thousands of servers with automated tooling, and customers benefit from that scale without bearing its complexity.</p>
+
+<p><strong>Database engine patching</strong> in managed services is handled by the provider, but with a nuance that customers must understand: the provider determines when patches become available and applies them, but customers can often configure <em>maintenance windows</em> — specific time slots, such as Sunday nights between 2:00 AM and 4:00 AM local time, during which the provider is permitted to apply updates. This gives organizations meaningful control over when disruption (typically a brief restart) may occur, aligning it with periods of low traffic. For example, in Amazon RDS a maintenance window is a weekly 30-minute window that the customer specifies; AWS will only apply system maintenance during that window unless a critical security patch requires more urgent action.</p>
+
+<p><strong>Service-Level Agreements (SLAs)</strong> provided by cloud vendors formalize uptime commitments in a way that self-managed environments can only aspire to match through their own engineering investment. Amazon RDS offers a monthly uptime SLA of 99.95% for Multi-AZ deployments, which translates to fewer than 22 minutes of allowable downtime per month. Azure SQL Database offers tiered SLAs reaching 99.99% for Business Critical tier instances. These SLAs come with financial remedies — service credits — if the provider fails to meet them, creating a contractual accountability mechanism that has no direct equivalent in a self-managed environment where the organization is both the provider and the customer.</p>
+
+<p><strong>Reduced operational overhead</strong> allows development and operations teams to redirect effort. Instead of a DBA spending a weekend applying SQL Server cumulative updates to three production nodes, that time can be invested in query optimization, data modeling improvements, or building better application integrations. This reallocation of human effort is often cited as one of the most tangible operational benefits of migrating to managed database services, particularly for organizations that are not large enough to justify a large dedicated infrastructure team.</p>
+
+<p><strong>Backup and Recovery Responsibilities</strong></p>
+
+<p>Data loss is one of the most severe outcomes of a database failure, and the systems that protect against it — backups — represent a critical administrative domain with very different profiles depending on the deployment model.</p>
+
+<p>In <strong>local deployments</strong>, the database administrator must design and implement the entire backup strategy from scratch. This involves selecting a backup tool (native utilities like <code>mysqldump</code>, <code>pg_dump</code>, SQL Server's built-in backup, or third-party solutions like Veeam or Commvault), configuring backup schedules (full backups weekly, differential backups nightly, transaction log backups every 15 minutes, for example), managing the storage media where backups are written, monitoring backup job success or failure, and — critically — periodically performing restoration drills to verify that backups are actually usable. It is a well-documented failure pattern that organizations discover their backups are corrupt or incomplete only when they urgently need to restore from them.</p>
+
+<p><strong>Off-site backup storage</strong> is a specific requirement that self-managed deployments must address explicitly. If all backup media is stored in the same physical location as the database server, a fire, flood, or other physical disaster can destroy both the primary data and the backups simultaneously. Best practice requires replicating backup data to a geographically separate location — a co-location facility, a tape rotation to an off-site vault, or even a cloud object storage bucket. Each of these options introduces additional complexity, cost, and management overhead.</p>
+
+<p>In <strong>managed cloud deployments</strong>, automated backup is a core feature rather than an add-on. Amazon RDS, for instance, automatically takes daily snapshots of the database and captures transaction logs continuously, retaining them for a configurable period of 1 to 35 days. Google Cloud SQL performs automated daily backups and retains up to 7 automated backups by default, with options to extend retention. Azure SQL Database maintains automated backups with full backups weekly, differential backups every 12 hours, and transaction log backups every 5 to 10 minutes. These backups are stored redundantly across multiple availability zones or regions by the provider, addressing the off-site requirement without any additional customer effort.</p>
+
+<p><strong>Point-in-time recovery (PITR)</strong> is a particularly powerful feature of managed cloud database services. Because the provider captures continuous transaction logs alongside periodic snapshots, a customer can restore the database to any specific second within the retention window. If an errant <code>DELETE</code> statement without a <code>WHERE</code> clause runs at 3:17:42 PM, the administrator can initiate a restore to 3:17:41 PM, recovering all data up to the moment before the mistake. This granularity is achievable in self-managed environments but requires careful configuration of transaction log archiving — a non-trivial setup that must be maintained and tested over time.</p>
+
+<p><strong>Monitoring and Performance Management</strong></p>
+
+<p>A database that is running but performing poorly is nearly as damaging to business operations as one that is down entirely. Monitoring database health and managing performance are continuous administrative responsibilities regardless of deployment model, though the tools and effort required differ substantially.</p>
+
+<p>In <strong>local deployments</strong>, administrators must select, deploy, and maintain their own monitoring stack. Common choices include:</p>
+<ul>
+  <li><strong>Prometheus</strong> with database-specific exporters (e.g., <code>postgres_exporter</code> for PostgreSQL or <code>mysqld_exporter</code> for MySQL), combined with <strong>Grafana</strong> dashboards for visualization — a powerful and flexible open-source combination that nonetheless requires significant initial configuration and ongoing maintenance.</li>
+  <li><strong>Nagios</strong> or its derivatives (Icinga, Zabbix) for threshold-based alerting on metrics such as CPU utilization, disk I/O, replication lag, and connection pool exhaustion.</li>
+  <li>Native database engine tools such as SQL Server's built-in Dynamic Management Views (DMVs), Oracle's Automatic Workload Repository (AWR), or PostgreSQL's <code>pg_stat_activity</code> and <code>pg_stat_statements</code> extensions.</li>
+  <li>Custom scripts that query system tables and send alerts via email or messaging platforms.</li>
+</ul>
+<p>Each of these tools must be installed on infrastructure that is itself maintained, patched, and backed up. The monitoring system adds to the operational surface area rather than reducing it. Alert thresholds must be calibrated to avoid alert fatigue (too many false positives) while still catching genuine problems before they escalate into outages.</p>
+
+<p>In <strong>managed cloud deployments</strong>, monitoring is a built-in service. <strong>Amazon CloudWatch</strong> automatically collects dozens of metrics from RDS instances — including <code>CPUUtilization</code>, <code>DatabaseConnections</code>, <code>ReadIOPS</code>, <code>WriteIOPS</code>, <code>FreeStorageSpace</code>, <code>ReplicaLag</code>, and many more — and makes them available in a managed dashboard with configurable alarms that can trigger notifications via Amazon SNS or automated remediation actions via AWS Lambda. <strong>Azure Monitor</strong> provides equivalent functionality for Azure SQL Database, integrating with Azure Alerts and Log Analytics for sophisticated querying of historical metric data. <strong>Google Cloud Monitoring</strong> (formerly Stackdriver) covers Cloud SQL in a similar fashion.</p>
+
+<p><strong>Performance tuning assistance</strong> is increasingly automated in managed services. Amazon RDS Performance Insights provides a visual interface for identifying which queries are consuming the most database load, broken down by wait states, without requiring deep expertise in reading raw execution plans. Azure SQL Database's Query Performance Insight and Automatic Tuning features can identify regressed query plans, recommend index additions, and in some configurations automatically apply and validate those recommendations — reverting changes if performance does not improve. These capabilities lower the expertise barrier for routine optimization tasks, though they do not replace the judgment of an experienced DBA for complex schema design or workload architecture decisions.</p>
+
+<p><strong>Incident response workflows</strong> — the processes by which an alert is received, triaged, escalated, and resolved — must be established by the organization regardless of whether the database is self-managed or cloud-managed. The cloud platform simplifies metric collection and alerting configuration, but it does not tell the team who is on call, how to escalate a P1 incident at 2:00 AM, or what runbooks to follow when a specific alert fires. Those operational processes remain a human and organizational responsibility.</p>
+
+<p><strong>Administrative Staffing and Expertise Requirements</strong></p>
+
+<p>The human dimension of database administration is often the largest single cost in the total cost of ownership calculation, and it is where the contrast between deployment models is most economically significant.</p>
+
+<p>A <strong>self-managed local deployment</strong> typically requires one or more <strong>full-time database administrators (DBAs)</strong> with expertise spanning installation and configuration of the database engine, OS-level administration, storage management, backup and recovery, replication setup, performance tuning, security hardening, and compliance reporting. In larger organizations these responsibilities may be divided among multiple specialists. In smaller organizations a single DBA may wear all these hats, and when that person is unavailable — on vacation, ill, or has left the company — the organization faces significant operational risk. The salary cost of experienced DBAs is substantial; according to industry surveys, senior DBAs in major metropolitan markets in the United States commanded median salaries in the range of $110,000–$140,000 per year as of the early 2020s, not including benefits, training, and tooling costs.</p>
+
+<p><strong>Managed cloud services reduce but do not eliminate DBA needs.</strong> The tasks that disappear include hardware provisioning, OS patching, storage array management, and some routine backup administration. The tasks that remain include database schema design and migrations, query optimization, index strategy, access control and user management, connection pooling configuration, cost monitoring (to avoid unexpected cloud billing spikes), and integration with application systems. Cloud platforms also introduce new skill requirements: understanding of provider-specific features, pricing models, configuration options, and security controls. A team migrating from on-premises SQL Server to Azure SQL Database must learn Azure-specific concepts such as elastic pools, vCore vs. DTU purchasing models, and Azure Active Directory authentication integration.</p>
+
+<p><strong>The economic trade-off</strong> is not always straightforward. For a single large database instance, the annual subscription cost of a managed cloud service at a high-performance tier may exceed the annualized hardware and software cost of an equivalent on-premises configuration, but when fully burdened DBA labor, hardware maintenance contracts, data center space, power, cooling, and disaster recovery infrastructure are included in the on-premises cost model, the comparison often shifts. Organizations must build a comprehensive total cost of ownership model that accounts for all these factors rather than comparing only headline compute costs.</p>
+
+<p>Cloud platforms effectively <strong>shift the center of gravity of DBA work</strong> from infrastructure management toward governance, cost optimization, and application integration. A DBA in a cloud-first organization spends less time applying patches and more time writing and reviewing query execution plans, designing data access patterns for microservices, implementing row-level security policies, and working with application developers to optimize ORM-generated queries. This shift often requires DBAs to develop new skills in cloud platform administration and software development collaboration, even as traditional infrastructure skills become less central.</p>
+
+<p><strong>The Shared Responsibility Model</strong></p>
+
+<p>The <strong>shared responsibility model</strong> is the formal framework that cloud providers use to define which security, availability, and maintenance obligations belong to the provider and which belong to the customer. Understanding this model precisely is essential; misunderstanding it is one of the most common root causes of security incidents and compliance failures in cloud database deployments.</p>
+
+<p>The model can be visualized as a layered stack, with the provider's responsibilities at the bottom and the customer's responsibilities at the top. The exact boundary depends on the service model:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Local (Self-Managed)</th>
+      <th>Cloud IaaS (VM + self-installed DB)</th>
+      <th>Cloud Managed DB (RDS, Azure SQL, Cloud SQL)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Physical hardware</td>
+      <td>Customer</td>
+      <td>Provider</td>
+      <td>Provider</td>
+    </tr>
+    <tr>
+      <td>Hypervisor / virtualization</td>
+      <td>Customer (if virtualized)</td>
+      <td>Provider</td>
+      <td>Provider</td>
+    </tr>
+    <tr>
+      <td>Operating system</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Provider</td>
+    </tr>
+    <tr>
+      <td>Database engine installation &amp; patching</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Provider</td>
+    </tr>
+    <tr>
+      <td>Database engine availability &amp; HA</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Provider (per SLA)</td>
+    </tr>
+    <tr>
+      <td>Schema design &amp; migrations</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Customer</td>
+    </tr>
+    <tr>
+      <td>Data integrity &amp; quality</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Customer</td>
+    </tr>
+    <tr>
+      <td>Access control &amp; user management</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Customer</td>
+    </tr>
+    <tr>
+      <td>Encryption key management</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Customer (with provider tooling)</td>
+    </tr>
+    <tr>
+      <td>Application-level configuration</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Customer</td>
+    </tr>
+    <tr>
+      <td>Network security (firewall rules, VPC)</td>
+      <td>Customer</td>
+      <td>Customer</td>
+      <td>Customer</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In a <strong>local deployment</strong>, the organization is responsible for every row in that table. There is no shared responsibility — the organization is the sole responsible party across all layers, from the physical chassis to the application logic that reads and writes data.</p>
+
+<p>In a <strong>managed cloud deployment</strong>, the provider takes responsibility for physical infrastructure, the hypervisor layer, the operating system, and — crucially — the availability and patching of the database engine itself. The customer retains responsibility for everything above: the data, the schema, the access controls, the network security configuration (such as which IP ranges can reach the database endpoint), the application-level settings, and encryption key management if customer-managed keys are used.</p>
+
+<p>A common and dangerous misconception is that because the cloud provider manages the infrastructure and the database engine, security and compliance are also the provider's concern. They are not. If a customer configures an RDS instance in a public subnet with an overly permissive security group that allows inbound connections from <code>0.0.0.0/0</code> on port 5432, the provider's physical security and hypervisor isolation provide no protection against that network-level exposure. The data breach that results is the customer's responsibility, not the provider's. Similarly, if a customer creates a database user with excessive privileges and that account's credentials are compromised, the provider's infrastructure security is irrelevant — the attacker authenticates with valid credentials and operates within the permissions the customer granted.</p>
+
+<p><strong>Compliance failures</strong> also frequently arise from shared responsibility misunderstandings. An organization seeking PCI DSS certification for a workload running on a managed cloud database cannot assume that because the provider is PCI-compliant for its infrastructure layer, the overall system is compliant. The organization must still demonstrate that its own configuration of the database — access controls, encryption in transit and at rest, audit logging, patch management for application components, and network segmentation — meets the requirements. Cloud providers typically publish detailed compliance documentation (AWS's "Shared Responsibility Model" documentation, Azure's compliance center, Google Cloud's compliance page) that maps specific controls to provider vs. customer ownership, and organizations must work through those mappings carefully during compliance assessments.</p>
+
+<p>Understanding the shared responsibility model also has direct practical implications for incident response. When a performance anomaly or availability event occurs on a managed cloud database, the first diagnostic question is: <em>is this a provider-layer issue or a customer-layer issue?</em> If a database instance becomes unavailable because of an AWS availability zone outage, that is a provider-layer event, and the resolution path is waiting for AWS to restore service or failing over to a Multi-AZ standby. If a database becomes unresponsive because a poorly optimized query is holding a table lock, that is a customer-layer event, and the resolution requires the customer's DBA to identify and terminate the blocking session or optimize the query. Conflating these two categories wastes time and delays resolution.</p>
+
+<p>In summary, the maintenance and administration profile of a database deployment is one of the most significant differentiators between local and cloud models. Self-managed deployments offer maximum control at the cost of full operational responsibility across every layer. Managed cloud services transfer substantial infrastructure burden to the provider but require customers to maintain clear understanding of where their responsibilities begin — in data governance, access control, application configuration, and network security — and to build the organizational processes, documentation, and staffing needed to fulfill those responsibilities effectively.</p>
+        <div class="notes"><strong>Notes</strong>Includes a detailed shared responsibility table rendered as an HTML table comparing local, cloud IaaS, and cloud managed DB service tiers across all major stack layers. The Equifax breach example grounds the patching discussion in a real-world consequence. Point-in-time recovery is explained with a concrete timestamp scenario. DBA salary figures are included for economic context and are noted as early 2020s US market approximations.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

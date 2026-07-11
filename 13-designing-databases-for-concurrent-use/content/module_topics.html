@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13 - Designing Databases for Concurrent Use — Module Topics</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.2rem;margin-top:28px;color:#1a3c6e}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.empty{color:#888}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 13 - Designing Databases for Concurrent Use</a></div>
+<h1>13 - Designing Databases for Concurrent Use — Module Topics</h1>
+<h2>Introduction to Multi-User Database Environments</h2>
+<div class="summary">Explores the unique challenges that arise when multiple users access and modify a database simultaneously. Establishes the foundational need for concurrency control strategies.</div>
+<ul>
+<li><strong>What is a Multi-User Database Environment?</strong> <span class="el-body">— A multi-user database environment is one in which two or more users can access and interact with the same database at the same time.</span></li>
+<li><strong>The Core Challenge: Simultaneous Data Modification</strong> <span class="el-body">— When multiple users attempt to read and write the same data at the same time, conflicts can arise that corrupt or misrepresent the stored information.</span></li>
+<li><strong>Common Concurrency Problems</strong> <span class="el-body">— Database researchers have identified several recurring categories of problems that emerge specifically from concurrent access.</span></li>
+<li><strong>Why Single-User Design Assumptions Break Down</strong> <span class="el-body">— Database schemas and queries designed with a single user in mind often implicitly assume that data does not change between successive operations, an assumption that is invalid under concurrent use.</span></li>
+<li><strong>The Foundational Need for Concurrency Control</strong> <span class="el-body">— Concurrency control is the set of mechanisms a DBMS uses to manage simultaneous operations so that data remains accurate and consistent for all users.</span></li>
+</ul>
+<h2>Transactions and ACID Properties</h2>
+<div class="summary">Defines database transactions and examines the four ACID properties: Atomicity, Consistency, Isolation, and Durability. Explains how these properties guarantee reliable and predictable database operations.</div>
+<ul>
+<li><strong>What Is a Database Transaction?</strong> <span class="el-body">— A database transaction is a logical unit of work that groups one or more database operations into a single, indivisible sequence.</span></li>
+<li><strong>Atomicity: All or Nothing</strong> <span class="el-body">— Atomicity guarantees that every operation within a transaction is completed fully, or none of them are applied to the database.</span></li>
+<li><strong>Consistency: Preserving Valid Data States</strong> <span class="el-body">— Consistency ensures that a transaction brings the database from one valid state to another, always respecting all defined rules, constraints, and integrity conditions.</span></li>
+<li><strong>Isolation: Shielding Concurrent Transactions</strong> <span class="el-body">— Isolation ensures that the operations of one transaction are not visible to other concurrent transactions until the transaction has been committed.</span></li>
+<li><strong>Durability: Surviving System Failures</strong> <span class="el-body">— Durability guarantees that once a transaction has been committed, its changes are permanently recorded and will survive system crashes, power failures, or other disruptions.</span></li>
+<li><strong>How ACID Properties Work Together</strong> <span class="el-body">— The four ACID properties are interdependent and collectively guarantee that database transactions are processed reliably and predictably, even in multi-user environments.</span></li>
+</ul>
+<h2>Concurrency Problems and Data Conflicts</h2>
+<div class="summary">Identifies common concurrency issues such as dirty reads, non-repeatable reads, phantom reads, and lost updates. Illustrates how these conflicts can compromise data integrity in multi-user environments.</div>
+<ul>
+<li><strong>Dirty Reads</strong> <span class="el-body">— A dirty read occurs when one transaction reads data that has been modified by another transaction that has not yet been committed.</span></li>
+<li><strong>Non-Repeatable Reads</strong> <span class="el-body">— A non-repeatable read happens when a transaction reads the same row twice but gets different values because another transaction modified and committed that row in between.</span></li>
+<li><strong>Phantom Reads</strong> <span class="el-body">— Phantom reads occur when a transaction re-executes a query and finds additional rows that were inserted by another committed transaction since the first execution.</span></li>
+<li><strong>Lost Updates</strong> <span class="el-body">— A lost update occurs when two transactions read the same value and then both write back updated versions, causing the first transaction&#39;s changes to be silently overwritten by the second.</span></li>
+<li><strong>How Data Conflicts Compromise Integrity</strong> <span class="el-body">— Each concurrency problem represents a specific way that interleaved transaction execution can violate the accuracy and reliability of a database.</span></li>
+</ul>
+<h2>Locking Mechanisms</h2>
+<div class="summary">Covers the types of locks used to manage concurrent access, including shared, exclusive, and intent locks. Explains lock granularity, lock escalation, and the trade-offs between concurrency and data protection.</div>
+<ul>
+<li><strong>Shared and Exclusive Locks</strong> <span class="el-body">— Shared and exclusive locks are the two fundamental lock types that control how transactions access data simultaneously.</span></li>
+<li><strong>Intent Locks</strong> <span class="el-body">— Intent locks signal a transaction&#39;s intention to acquire finer-grained locks lower in the resource hierarchy, enabling efficient compatibility checks at higher levels.</span></li>
+<li><strong>Lock Granularity</strong> <span class="el-body">— Lock granularity refers to the size or scope of the resource being locked, ranging from individual rows up to entire tables or databases.</span></li>
+<li><strong>Lock Escalation</strong> <span class="el-body">— Lock escalation is the process by which a database engine automatically converts many fine-grained locks into a single coarser-grained lock to conserve system memory and management overhead.</span></li>
+<li><strong>Trade-offs Between Concurrency and Data Protection</strong> <span class="el-body">— Every locking decision involves a fundamental trade-off: stronger data protection typically comes at the cost of reduced concurrency, and vice versa.</span></li>
+</ul>
+<h2>Deadlocks and Conflict Resolution</h2>
+<div class="summary">Examines how deadlocks occur when transactions mutually block each other and presents strategies for detection, prevention, and resolution. Discusses timeout policies and deadlock victim selection.</div>
+<ul>
+<li><strong>What Is a Deadlock?</strong> <span class="el-body">— A deadlock occurs when two or more transactions are each waiting for the other to release a lock, creating a cycle of dependency that prevents any of them from proceeding.</span></li>
+<li><strong>How Deadlocks Form: The Mutual Blocking Cycle</strong> <span class="el-body">— Deadlocks arise from a specific set of conditions involving resource holding, waiting, and circular dependency among transactions.</span></li>
+<li><strong>Deadlock Detection</strong> <span class="el-body">— Detection-based strategies allow deadlocks to occur but identify them after the fact using tools such as wait-for graphs, then resolve them by breaking the cycle.</span></li>
+<li><strong>Deadlock Prevention Strategies</strong> <span class="el-body">— Prevention strategies restructure how transactions request locks or order resources so that the conditions necessary for a deadlock can never be met.</span></li>
+<li><strong>Timeout Policies for Deadlock Resolution</strong> <span class="el-body">— Timeout-based resolution automatically aborts a transaction that has been waiting for a lock beyond a configured threshold, breaking potential deadlocks without requiring explicit detection.</span></li>
+<li><strong>Deadlock Victim Selection</strong> <span class="el-body">— When a deadlock is detected, the database must choose one transaction to abort — the &#39;victim&#39; — in order to break the cycle and allow the remaining transactions to proceed.</span></li>
+<li><strong>Best Practices for Minimizing Deadlocks</strong> <span class="el-body">— While deadlocks cannot always be fully eliminated, thoughtful database and application design can significantly reduce their frequency and impact.</span></li>
+</ul>
+<h2>Transaction Isolation Levels</h2>
+<div class="summary">Describes the standard isolation levels defined by SQL standards, from Read Uncommitted to Serializable. Explains how each level balances data consistency against system performance and concurrency.</div>
+<ul>
+<li><strong>Overview of Transaction Isolation</strong> <span class="el-body">— Transaction isolation defines the degree to which the operations of one transaction are shielded from those of other concurrent transactions. The SQL standard formalizes four distinct isolation levels, each offering a different trade-off between data consistency and system performance.</span></li>
+<li><strong>Read Uncommitted</strong> <span class="el-body">— Read Uncommitted is the lowest isolation level, allowing a transaction to read data that has been modified but not yet committed by another transaction. This can lead to dirty reads, where a transaction sees intermediate or rolled-back data.</span></li>
+<li><strong>Read Committed</strong> <span class="el-body">— Read Committed ensures that a transaction can only read data that has been permanently committed, eliminating dirty reads. It is the default isolation level in many popular database systems, including PostgreSQL and Oracle.</span></li>
+<li><strong>Repeatable Read</strong> <span class="el-body">— Repeatable Read guarantees that if a transaction reads a row, any subsequent reads of that same row within the same transaction will return the same data. This prevents both dirty reads and non-repeatable reads.</span></li>
+<li><strong>Serializable</strong> <span class="el-body">— Serializable is the strictest isolation level, ensuring that the outcome of concurrent transactions is identical to some sequential execution of those same transactions. It prevents dirty reads, non-repeatable reads, and phantom reads.</span></li>
+<li><strong>Concurrency Anomalies Compared Across Levels</strong> <span class="el-body">— Each isolation level is characterized by which concurrency anomalies it permits or prevents. Understanding these anomalies helps designers select the appropriate isolation level for a given use case.</span></li>
+<li><strong>Practical Considerations for Choosing an Isolation Level</strong> <span class="el-body">— Selecting the right isolation level requires balancing the application&#39;s tolerance for data anomalies against its performance and concurrency requirements. Most applications do not need the strongest level for every transaction.</span></li>
+</ul>
+<h2>Concurrency Control Strategies and Best Practices</h2>
+<div class="summary">Surveys optimistic and pessimistic concurrency control approaches and multiversion concurrency control (MVCC). Provides practical guidance for designing databases that maintain consistency without sacrificing performance.</div>
+<ul>
+<li><strong>Optimistic Concurrency Control (OCC)</strong> <span class="el-body">— Optimistic concurrency control assumes that conflicts between concurrent transactions are rare, allowing transactions to proceed without locking resources upfront.</span></li>
+<li><strong>Pessimistic Concurrency Control (PCC)</strong> <span class="el-body">— Pessimistic concurrency control assumes conflicts are likely and prevents them by acquiring locks on data before any read or write operation occurs.</span></li>
+<li><strong>Multiversion Concurrency Control (MVCC)</strong> <span class="el-body">— MVCC maintains multiple versions of data simultaneously so that readers never block writers and writers never block readers, dramatically increasing concurrency.</span></li>
+<li><strong>Choosing the Right Strategy for Your Workload</strong> <span class="el-body">— Selecting between optimistic, pessimistic, and multiversion approaches depends on the ratio of reads to writes, acceptable latency, and the cost of conflict resolution.</span></li>
+<li><strong>Practical Design Patterns for Consistency Without Performance Loss</strong> <span class="el-body">— Good schema and application design can reduce contention and make any concurrency control strategy more effective.</span></li>
+<li><strong>Monitoring and Tuning Concurrency in Production</strong> <span class="el-body">— Even a well-designed concurrency strategy requires ongoing monitoring to detect lock contention, deadlock frequency, and version bloat before they degrade performance.</span></li>
+</ul>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

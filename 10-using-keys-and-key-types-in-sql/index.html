@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10 - Using Keys and Key Types in SQL | COP4708</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      color: #2c3e50;
+      line-height: 1.6;
+      padding: 0 0 3rem 0;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%);
+      color: #ffffff;
+      padding: 2.5rem 2rem 2rem 2rem;
+      border-bottom: 4px solid #f0a500;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .course-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #a8cde8;
+      margin-bottom: 0.4rem;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.9rem;
+      color: #ffffff;
+    }
+
+    header p {
+      font-size: 0.97rem;
+      color: #d0e6f5;
+      max-width: 780px;
+      line-height: 1.7;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 2.5rem auto 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #5a7a96;
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid #dce4ed;
+      padding-bottom: 0.45rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dce4ed;
+      border-radius: 8px;
+      padding: 1.35rem 1.4rem 1.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      flex: 1 1 auto;
+    }
+
+    .card-name a {
+      color: #1a6bb5;
+      text-decoration: none;
+    }
+
+    .card-name a:hover {
+      text-decoration: underline;
+      color: #0f4e8a;
+    }
+
+    .source-link {
+      font-size: 0.75rem;
+      color: #ffffff;
+      background-color: #5a8ab0;
+      border-radius: 4px;
+      padding: 0.18rem 0.55rem;
+      text-decoration: none;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 0.15rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: background-color 0.15s ease;
+    }
+
+    .source-link:hover {
+      background-color: #3a6e97;
+      text-decoration: none;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.18rem 0.6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .badge-type {
+      background-color: #eaf2fb;
+      color: #1a6bb5;
+      border: 1px solid #b8d5ef;
+    }
+
+    .badge-filetype {
+      background-color: #f2f8f2;
+      color: #2e7d32;
+      border: 1px solid #a5d6a7;
+    }
+
+    .card-description {
+      font-size: 0.875rem;
+      color: #4a6070;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .no-link {
+      color: #2c3e50;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="course-label">COP4708 &mdash; Course Module</div>
+      <h1>10 &mdash; Using Keys and Key Types in SQL</h1>
+      <p>
+        This module explores the fundamental role of keys in relational database design.
+        Learners will examine primary keys, foreign keys, candidate keys, composite keys,
+        and surrogate keys, gaining an understanding of how each key type contributes to
+        data identification, table relationships, and the enforcement of referential integrity
+        through SQL constraints.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="section-title">Module Artifacts</div>
+    <div class="card-grid">
+
+      <!-- Artifact 1: Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/module_topics.html">Module Topics</a>
+          </div>
+          <a class="source-link" href="source/hierarchy.json">source file</a>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <div class="card-description">
+          Outlines the module's learning topics—covering SQL key concepts including primary keys, foreign keys, referential integrity, and candidate keys—to guide learners and instructors through the sequence of content they will study or teach.
+        </div>
+      </div>
+
+      <!-- Artifact 2: Introduction to Keys in SQL -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t1.html">Introduction to Keys in SQL</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A foundational reading that defines what keys are in relational databases, explains why they are essential for identifying and relating data, and serves as a conceptual starting point for learners before they study specific key types.
+        </div>
+      </div>
+
+      <!-- Artifact 3: Primary Keys -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t2.html">Primary Keys</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that explains what primary keys are, their uniqueness and non-null requirements, how to define them in SQL, and how learners and instructors can use the concept as the basis for understanding row identification in table design.
+        </div>
+      </div>
+
+      <!-- Artifact 4: Foreign Keys and Referential Integrity -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t3.html">Foreign Keys and Referential Integrity</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that covers how foreign keys link tables in a relational database, what referential integrity means, how foreign key constraints are declared in SQL, and how learners use this knowledge to design and maintain consistent multi-table databases.
+        </div>
+      </div>
+
+      <!-- Artifact 5: Candidate Keys -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t4.html">Candidate Keys</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that defines candidate keys as any minimal column or column combination capable of uniquely identifying rows, explains the relationship between candidate keys and the chosen primary key, and helps learners understand the selection process in database design.
+        </div>
+      </div>
+
+      <!-- Artifact 6: Composite Keys -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t5.html">Composite Keys</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that explains composite keys as primary keys made up of two or more columns, describes the real-world scenarios where they are necessary, and guides learners through how to define and use them in SQL table definitions.
+        </div>
+      </div>
+
+      <!-- Artifact 7: Surrogate Keys -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t6.html">Surrogate Keys</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that defines surrogate keys as system-generated identifiers added when natural data provides no practical unique identifier, compares them to natural keys, and helps learners understand when and how to apply them in database design.
+        </div>
+      </div>
+
+      <!-- Artifact 8: Enforcing Key Constraints (Topic Detail) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive_topics_t7.html">Enforcing Key Constraints for Data Integrity</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that explains how SQL key constraints such as PRIMARY KEY, FOREIGN KEY, and UNIQUE are used to automatically enforce data integrity at the database level, intended to help learners understand constraint syntax and the errors that arise when constraints are violated.
+        </div>
+      </div>
+
+      <!-- Artifact 9: Enforcing Key Constraints (Text Content) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-name">
+            <a href="content/Using_Keys_and_interactive.html">Enforcing Key Constraints for Data Integrity</a>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-description">
+          A reading that explains how SQL key constraints such as PRIMARY KEY, FOREIGN KEY, and UNIQUE are used to automatically enforce data integrity at the database level, intended to help learners understand constraint syntax and the errors that arise when constraints are violated.
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+</html>

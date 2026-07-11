@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Availability, Reliability, and Security</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+  <header>
+    <h1>Availability, Reliability, and Security</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Availability, Reliability, and Security</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When organizations evaluate where to host their databases — whether in a public cloud environment or on-premises in a local data center — three dimensions consistently rise to the top of decision-making criteria: <strong>availability</strong>, <strong>reliability</strong>, and <strong>security</strong>. These are not abstract concerns. Downtime costs money, data loss can be catastrophic, and a security breach can end a business. Understanding how cloud and local deployment models differ across these dimensions — and the trade-offs each model forces — is essential for architects, database administrators, and IT decision-makers alike.</p>
+
+<p>Each model carries its own set of guarantees, responsibilities, and risks. Cloud deployments shift much of the operational burden to a provider, offering managed services with built-in redundancy, but organizations surrender some direct control. Local deployments keep control firmly in-house, but every layer of resilience and security must be engineered, funded, and maintained by the organization itself. Neither model is universally superior; the right choice depends on the organization's resources, risk tolerance, regulatory environment, and operational maturity.</p>
+
+<p><strong>Uptime Guarantees and SLAs</strong></p>
+
+<p>A <em>Service Level Agreement</em> (SLA) is a formal, contractual commitment from a cloud provider specifying the minimum percentage of time a service will be operational during a given period, typically expressed monthly. The difference between seemingly similar percentages is dramatic when translated into actual downtime. Consider the following breakdown:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>SLA Uptime %</th>
+      <th>Allowable Downtime per Month</th>
+      <th>Allowable Downtime per Year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>99.0% ("Two Nines")</td>
+      <td>~7 hours 18 minutes</td>
+      <td>~3 days 15 hours</td>
+    </tr>
+    <tr>
+      <td>99.9% ("Three Nines")</td>
+      <td>~43 minutes 49 seconds</td>
+      <td>~8 hours 45 minutes</td>
+    </tr>
+    <tr>
+      <td>99.95% ("Three and a Half Nines")</td>
+      <td>~21 minutes 54 seconds</td>
+      <td>~4 hours 22 minutes</td>
+    </tr>
+    <tr>
+      <td>99.99% ("Four Nines")</td>
+      <td>~4 minutes 22 seconds</td>
+      <td>~52 minutes 35 seconds</td>
+    </tr>
+    <tr>
+      <td>99.999% ("Five Nines")</td>
+      <td>~26 seconds</td>
+      <td>~5 minutes 15 seconds</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Major cloud providers such as Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform typically offer SLAs in the range of <strong>99.9% to 99.99%</strong> for their managed database services. For example, Amazon RDS (Relational Database Service) in a Multi-AZ deployment guarantees 99.95%, while Azure SQL Database's Business Critical tier reaches 99.99%. These figures represent the provider's contractual ceiling on acceptable downtime — anything beyond that threshold constitutes an SLA violation.</p>
+
+<p>When a cloud provider fails to meet its SLA, the typical remedy is <strong>service credits</strong> — a percentage of the monthly bill returned to the customer as a credit toward future usage. For instance, if uptime falls below 99.9%, a provider might issue a credit of 10–25% of that month's charges; severe violations can trigger credits up to 100%. While service credits do not fully compensate for the business impact of downtime, they create a meaningful <em>financial incentive</em> for providers to invest heavily in redundant infrastructure, because repeated SLA failures become commercially costly for the provider itself.</p>
+
+<p>Local deployments operate in an entirely different paradigm. There is no third-party provider making uptime promises. The organization is its own SLA. To approach cloud-grade availability — three or four nines — a local deployment must architect for redundancy explicitly. This typically means:</p>
+<ul>
+  <li><strong>Database clustering:</strong> Running multiple database nodes (e.g., an Always On Availability Group in Microsoft SQL Server, or a Patroni-managed PostgreSQL cluster) so that if one node fails, another takes over automatically.</li>
+  <li><strong>Failover servers:</strong> Hot or warm standby servers that can assume primary responsibilities within seconds or minutes of a failure.</li>
+  <li><strong>Redundant networking and power:</strong> Dual power supplies, uninterruptible power supplies (UPS), redundant network interface cards, and multiple upstream network links.</li>
+  <li><strong>Load balancers:</strong> Distributing read traffic across replicas to prevent any single node from becoming a bottleneck or single point of failure.</li>
+</ul>
+<p>All of this is achievable locally, but it requires deliberate investment in hardware, licensing, and skilled engineering. The cloud model bundles this complexity into a managed service; local deployments must build it from scratch.</p>
+
+<p><strong>Disaster Recovery in Cloud Deployments</strong></p>
+
+<p><em>Disaster recovery</em> (DR) refers to the set of policies, tools, and procedures an organization uses to recover its data and resume operations after a catastrophic event — whether a hardware failure, accidental deletion, ransomware attack, or a natural disaster that destroys a data center. Cloud providers have invested heavily in making disaster recovery a managed, largely automated capability.</p>
+
+<p><strong>Automated backups and snapshots</strong> are a cornerstone of cloud database DR. Services like Amazon RDS, Azure SQL Database, and Google Cloud SQL automatically take full and incremental backups on a configurable schedule, storing them in durable object storage (e.g., Amazon S3) with high redundancy. Administrators do not need to write backup scripts, manage tape rotations, or monitor backup completion manually — the platform handles this. Retention windows are configurable, commonly from 7 to 35 days, allowing recovery from failures discovered days after they occurred.</p>
+
+<p><strong>Geo-redundant replication</strong> takes availability a step further by distributing copies of data across geographically distinct locations — different availability zones within a region, or entirely separate geographic regions. If a natural disaster, power grid failure, or major network outage affects an entire data center or even an entire city, a geo-redundant replica in a distant location remains unaffected and can serve as the new primary. For example, AWS Multi-AZ RDS deployments synchronously replicate data to a standby instance in a different Availability Zone; Azure offers Active Geo-Replication for Azure SQL Database that maintains readable secondaries in regions potentially thousands of miles apart. The key distinction is between <em>synchronous</em> replication (every write is committed to both primary and replica before acknowledging success — zero data loss but higher latency) and <em>asynchronous</em> replication (the replica may lag slightly behind — lower latency but a small risk of data loss in a sudden failure).</p>
+
+<p><strong>Point-in-time restore</strong> (PITR) is one of the most operationally valuable DR features in managed cloud databases. It allows an administrator to restore a database to its state at any specific moment within the backup retention window — down to the minute or even the second, depending on the service. Consider a scenario where a developer accidentally runs an unfiltered <code>DELETE FROM orders;</code> statement at 2:47 PM on a Tuesday. With PITR, the database can be restored to 2:46 PM, recovering nearly all data with minimal loss. Without PITR, the recovery would depend on the last scheduled full backup, potentially losing hours of transactions. This capability is particularly important for protection against accidental human errors, which are among the most common causes of data loss in production environments.</p>
+
+<p><strong>Disaster Recovery in Local Deployments</strong></p>
+
+<p>Achieving equivalent disaster recovery capabilities locally demands deliberate architectural planning and ongoing capital and operational expenditure. Nothing is provided automatically — every component must be procured, configured, tested, and maintained by the organization's own teams.</p>
+
+<p><strong>Redundant hardware and backup systems</strong> are the foundation. A local deployment with no backup server or backup storage has no recovery options beyond whatever remains on the primary system after a failure. Organizations must procure and maintain:</p>
+<ul>
+  <li>Dedicated backup servers or Network-Attached Storage (NAS) / Storage Area Network (SAN) appliances</li>
+  <li>Tape libraries or cloud-connected backup appliances for long-term retention</li>
+  <li>Backup software capable of scheduling, verifying, and cataloguing backups reliably</li>
+  <li>Standby servers configured as warm or hot spares that can be promoted quickly during a failure</li>
+</ul>
+
+<p><strong>Off-site backups and secondary facilities</strong> are necessary to protect against site-level disasters. Storing backups on-site only means a fire, flood, or power event that destroys the primary systems may also destroy the backups. Organizations must either physically transport media to an off-site location (a practice that introduces its own operational risks and latency) or implement network-based replication to a secondary facility — a remote office, a colocation data center, or even a cloud storage bucket used purely as a backup target. Each of these options carries additional cost and complexity.</p>
+
+<p>The concepts of <strong>Recovery Time Objective (RTO)</strong> and <strong>Recovery Point Objective (RPO)</strong> are central to DR planning:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Definition</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>RTO</strong> (Recovery Time Objective)</td>
+      <td>The maximum acceptable length of time for the system to be offline after a disaster before the business impact becomes unacceptable</td>
+      <td>The business can tolerate no more than 4 hours of database downtime</td>
+    </tr>
+    <tr>
+      <td><strong>RPO</strong> (Recovery Point Objective)</td>
+      <td>The maximum acceptable amount of data loss measured in time — how old can the most recent recoverable backup be?</td>
+      <td>The business can tolerate losing no more than 1 hour of transactions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Achieving aggressive RTO and RPO values locally — say, RTO of 15 minutes and RPO of 5 minutes — requires continuous replication to a hot standby, automated failover scripting, and frequent testing. Each increment of improvement typically requires more spending: faster storage, more capable backup software, a dedicated secondary site, and more engineer hours for testing and validation. In cloud environments, many services offer these parameters as configurable options within the managed platform, substantially reducing the engineering burden required to meet demanding recovery targets.</p>
+
+<p><strong>Data Security in Cloud Databases</strong></p>
+
+<p>Security in cloud database environments is often characterized as a <em>shared responsibility model</em>: the cloud provider secures the underlying infrastructure, and the customer is responsible for configuring the services securely, managing access, and protecting application-level data. In practice, cloud providers have implemented extensive security capabilities as defaults or near-defaults, raising the baseline security posture significantly compared to what many organizations would achieve independently.</p>
+
+<p><strong>Encryption at rest and in transit</strong> is the first line of defense for data confidentiality. Encryption at rest means the data stored on disk is encrypted using strong algorithms (typically AES-256), so that physical theft of storage media yields nothing readable. Encryption in transit means data traveling between the database and application servers is protected by TLS (Transport Layer Security), preventing interception on the network. Major cloud database services — Amazon RDS, Azure SQL Database, Google Cloud SQL, and others — enable both forms of encryption by default or with a single configuration toggle. The cryptographic keys themselves are managed by the provider's key management service (e.g., AWS KMS, Azure Key Vault), which supports customer-managed keys for organizations requiring direct control over their encryption keys.</p>
+
+<p><strong>Regulatory compliance</strong> is a major advantage of cloud databases for organizations in regulated industries. Cloud providers invest substantially in obtaining and maintaining certifications and attestations across a broad range of standards:</p>
+<ul>
+  <li><strong>SOC 2 Type II</strong> — controls relevant to security, availability, and confidentiality</li>
+  <li><strong>ISO 27001</strong> — international information security management standard</li>
+  <li><strong>PCI DSS</strong> — Payment Card Industry Data Security Standard, required for processing payment card data</li>
+  <li><strong>HIPAA</strong> — Health Insurance Portability and Accountability Act, governing protected health information in the United States</li>
+  <li><strong>GDPR</strong> — General Data Protection Regulation, governing personal data of EU residents</li>
+  <li><strong>FedRAMP</strong> — U.S. federal government cloud security authorization</li>
+</ul>
+<p>When an organization uses a cloud database service that holds these certifications, much of the compliance audit work is pre-done. The provider shares audit reports and compliance documentation, and the organization can inherit those controls for its own compliance reporting — a significant reduction in audit burden and legal risk.</p>
+
+<p><strong>Identity and Access Management (IAM)</strong> tools in cloud environments provide fine-grained, policy-based control over database access. Rather than relying solely on database-native user accounts, cloud IAM allows organizations to define roles and permissions at the cloud platform level. For example, an AWS IAM policy might specify that a particular application's service role can only perform <code>SELECT</code> queries on a specific RDS database, while a DBA role can perform all operations but only during business hours. IAM also integrates with multi-factor authentication (MFA), audit logging (e.g., AWS CloudTrail, Azure Monitor), and identity federation with corporate directory services (e.g., Active Directory via SAML or OIDC), creating a comprehensive, auditable access control layer that extends well beyond traditional database username and password management.</p>
+
+<p><strong>Data Security in Local Deployments</strong></p>
+
+<p>Local deployments offer a fundamentally different security posture: <strong>complete organizational authority</strong> over every layer of the security stack. For some organizations — particularly those in highly sensitive industries, government contexts, or with strict data sovereignty requirements — this control is non-negotiable. However, authority is not the same as security; it also means complete responsibility.</p>
+
+<p><strong>Network segmentation, firewall rules, and physical access controls</strong> are entirely within the organization's purview in a local deployment. The database server can be placed in a network segment with no external connectivity whatsoever, accessible only through a bastion host or VPN, with traffic filtered by enterprise-grade firewalls. Physical access to the server room can be restricted to a named list of employees using biometric or key-card access systems. No cloud provider's policies or platform decisions can override these choices — the organization sets its own boundaries. For organizations handling highly classified information or with specific air-gap requirements (no connectivity to external networks), this level of isolation is simply not achievable in a conventional cloud deployment.</p>
+
+<p><strong>Security patching and vulnerability management</strong> represent one of the most significant operational challenges in local database deployments. When a critical vulnerability is discovered in a database engine — for example, a remote code execution flaw in a specific version of MySQL or a privilege escalation bug in SQL Server — the organization's IT team must:</p>
+<ul>
+  <li>Identify which systems are running the affected software version</li>
+  <li>Evaluate the patch for compatibility with existing applications</li>
+  <li>Test the patch in a non-production environment</li>
+  <li>Schedule a maintenance window (which may require application downtime)</li>
+  <li>Apply the patch and validate system functionality post-patching</li>
+  <li>Document the change for compliance purposes</li>
+</ul>
+<p>This process requires dedicated, skilled IT security staff and consistent, repeatable processes. In cloud managed database services, the provider applies patches transparently — often automatically during configurable maintenance windows — without requiring the customer to manage patch logistics. Delays in patching locally create security gaps; in 2017, the WannaCry ransomware attack exploited a Windows vulnerability for which a patch had been available for months. Organizations running unpatched local systems suffered devastating consequences that cloud-managed environments, with their more consistent patching cadences, largely avoided.</p>
+
+<p><strong>The risk of misconfiguration</strong> is perhaps the most underappreciated security threat in local deployments. A misconfigured firewall rule that inadvertently exposes a database port to the internet, a default administrative account that was never disabled, or an unencrypted backup stored on a publicly accessible file share — these human errors can create severe vulnerabilities. While misconfigurations can occur in cloud environments too, cloud providers implement guardrails, security advisors (e.g., AWS Trusted Advisor, Azure Security Center), and default-secure configurations that help catch common mistakes. In local deployments, the equivalent protection depends entirely on the organization's internal security review processes and tooling.</p>
+
+<p><strong>Business Continuity Considerations</strong></p>
+
+<p><em>Business continuity</em> is the broader discipline of ensuring that critical business functions can continue operating during and after a disaster or disruption. Database availability and recoverability are central pillars of any business continuity plan, since most modern business processes depend on data.</p>
+
+<p><strong>Cloud databases simplify business continuity planning</strong> substantially. Managed failover, geo-redundant replication, automated backups, and point-in-time restore are available as configurable service features rather than custom-built systems. A business continuity plan for a cloud-hosted database can point to these managed features as the recovery mechanism, with documented configuration settings and tested recovery procedures. The engineering effort shifts from building the infrastructure to configuring and validating the managed services — a much smaller undertaking for most organizations.</p>
+
+<p>Furthermore, cloud infrastructure's global footprint enables scenarios that would be prohibitively expensive to replicate locally. An organization can maintain a read replica of its production database on a different continent, providing both geographic redundancy for disaster recovery and read performance benefits for globally distributed users — all within the same managed service subscription.</p>
+
+<p><strong>Local deployments can achieve strong continuity</strong>, but it requires deliberate, documented architectural decisions and sustained investment. Organizations that succeed with local high-availability and DR typically share common characteristics: they have dedicated infrastructure teams with deep expertise, they budget explicitly for redundant systems, they test their failover and recovery procedures regularly (not just plan for them), and they maintain clear runbooks that allow recovery to proceed even when key personnel are unavailable. When these elements are in place, local deployments can be highly resilient. When they are absent — as is common in under-resourced IT environments — continuity risks accumulate silently until a failure exposes them.</p>
+
+<p><strong>Hybrid approaches</strong> have emerged as a pragmatic middle ground for many organizations. A typical hybrid architecture might keep the primary transactional database on-premises to satisfy data sovereignty or latency requirements, while replicating to a cloud-hosted secondary that provides geographic redundancy and serves as the DR target. Alternatively, an organization might use cloud storage exclusively for backup retention, leveraging its durability and cost-effectiveness, while keeping all compute and live data local. This model allows organizations to selectively capture the resilience and cost benefits of cloud infrastructure in the areas where they provide the most value, without fully relinquishing local control. The trade-off is increased architectural complexity — hybrid environments require careful network design, consistent security policies across two different environments, and operational tooling that spans both platforms.</p>
+
+<p>Ultimately, the availability, reliability, and security characteristics of any database deployment are not determined solely by where the data resides, but by the deliberateness and consistency of the design, implementation, and operational practices applied to it. Cloud deployments lower the barrier to achieving high availability and strong security baselines, particularly for organizations without large, specialized IT teams. Local deployments offer unmatched control and isolation, but only deliver on their potential when backed by the expertise, budget, and organizational commitment required to realize them.</p>
+        <div class="notes"><strong>Notes</strong>Consider supplementing this topic with hands-on exercises where learners calculate the actual downtime permitted under different SLA tiers, and scenario-based discussions where they compare RTO/RPO requirements against the capabilities of cloud versus local DR strategies. The shared responsibility model in cloud security is a common exam topic and warrants emphasis.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schema Creation and Definition</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 8 - SQL Data Modeling Language</a></div>
+  <header>
+    <h1>Schema Creation and Definition</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Schema Creation and Definition</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>A <strong>database schema</strong> is the formal blueprint that defines how data is organized within a relational database. Before a single row of data is ever inserted, the schema specifies every table that will exist, every column within those tables, the data type each column accepts, and the relationships that connect tables to one another. Think of the schema as an architectural plan: just as a building's blueprint dictates room sizes, wall placements, and connections between spaces, a database schema dictates the precise structure into which all future data must fit. Without a schema, a relational database would have no mechanism to enforce consistency, validate values, or express how one piece of information relates to another.</p>
+
+<p>Schemas are the bridge between <em>logical data modeling</em> — the conceptual stage where analysts identify entities, attributes, and relationships — and <em>physical implementation</em> — the stage where those concepts become actual, queryable database objects. When a data modeler draws an entity-relationship diagram showing a <em>Customer</em> entity connected to an <em>Order</em> entity, the schema is the mechanism that translates that diagram into SQL structures a database engine can manage and enforce.</p>
+
+<p>Modern relational database management systems (RDBMS) support hosting <strong>multiple schemas</strong> within a single database server or even within a single database. This capability allows organizations to separate distinct data domains — for example, keeping human resources data in an <em>hr</em> schema and financial records in a <em>finance</em> schema — without spinning up entirely separate database servers. Objects in different schemas can still reference one another when needed, but the logical separation makes permission management, maintenance, and conceptual clarity far easier.</p>
+
+<p>The journey from concept to concrete database structure begins with two foundational SQL statements: <code>CREATE DATABASE</code> and <code>CREATE TABLE</code>. Understanding these statements, alongside the rules for choosing data types, declaring keys, and applying constraints, gives you everything you need to translate any logical model into a functioning, well-organized relational database.</p>
+
+<p>The <strong><code>CREATE DATABASE</code> statement</strong> is the entry point for establishing a new database environment within an RDBMS. When this command is executed, the database system allocates the necessary storage structures, initializes system catalog tables, and registers the new database as a manageable environment. From that point forward, all tables, indexes, views, and other objects created within that environment belong to it.</p>
+
+<p>The syntax is straightforward:</p>
+
+<pre><code>CREATE DATABASE company_hr;
+</code></pre>
+
+<p>The name chosen for a database should be meaningful and reflect its domain or purpose. A name like <code>company_hr</code> immediately communicates that the database supports human resources functions for a company, whereas a name like <code>db1</code> provides no such context and creates confusion as the system grows. Naming conventions vary by organization, but clarity and consistency should always guide the choice.</p>
+
+<p>Some database systems — particularly PostgreSQL — make a distinction between a <em>database</em> and a <em>schema</em> as separate organizational levels. In PostgreSQL, a database is the outermost container, and within it you can create named schemas using <code>CREATE SCHEMA</code> to further subdivide objects:</p>
+
+<pre><code>CREATE SCHEMA payroll;
+CREATE SCHEMA recruitment;
+</code></pre>
+
+<p>This two-level hierarchy (database → schema → tables) allows very fine-grained logical organization. In MySQL and MariaDB, <code>CREATE DATABASE</code> and <code>CREATE SCHEMA</code> are synonymous — both create what those systems call a database. Microsoft SQL Server similarly uses schemas as sub-namespaces within a database, with a default schema named <code>dbo</code>. Regardless of the specific system, the principle is the same: establish a named container before defining any objects within it.</p>
+
+<p>Once a database exists, tables are defined using <strong><code>CREATE TABLE</code></strong>, which is the most important schema definition statement in SQL. Every table corresponds to a single entity identified during logical data modeling. If the logical model includes entities for <em>Employee</em>, <em>Department</em>, and <em>Project</em>, then the physical schema will include tables named <code>employee</code>, <code>department</code>, and <code>project</code> (or equivalent names following whatever naming convention is in use).</p>
+
+<p>Each row in a table represents one instance of that entity — one specific employee, one specific department. Each column represents a single attribute of that entity. A <code>CREATE TABLE</code> statement lists every column by name, assigns it a data type, and optionally applies one or more constraints. The order in which columns are listed does not affect data integrity or correctness, but a logical, readable convention — such as placing the primary key first, followed by descriptive attributes, and finishing with timestamps or audit fields — makes the schema easier to read and maintain.</p>
+
+<p>Here is a complete example:</p>
+
+<pre><code>CREATE TABLE department (
+    department_id   INT             NOT NULL,
+    department_name VARCHAR(100)    NOT NULL,
+    location        VARCHAR(100),
+    CONSTRAINT pk_department PRIMARY KEY (department_id)
+);
+</code></pre>
+
+<p>This single statement creates the <code>department</code> table, defines three columns, enforces non-nullability on the key columns, and declares the primary key — all at once.</p>
+
+<p>Choosing the right <strong>data type</strong> for each column is one of the most consequential decisions made during schema creation. Data types serve as the first line of defense against invalid data: a column declared as <code>INT</code> will reject any attempt to store alphabetical text, just as a column declared as <code>DATE</code> will reject values that cannot be interpreted as a valid calendar date.</p>
+
+<p>Beyond validation, data types affect storage efficiency and query performance. Selecting a type that is unnecessarily large wastes disk space and memory, and can slow down operations that scan large numbers of rows. Selecting a type that is too small risks <em>overflow</em> (numeric values too large to store) or <em>truncation</em> (text silently cut off). The goal is to choose the smallest type that safely accommodates every realistic value the column will ever hold.</p>
+
+<p>The following table summarizes the most commonly used data types and their appropriate use cases:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Typical Use Case</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Integer</td>
+            <td><code>TINYINT</code></td>
+            <td>1-byte integer (0–255 or −128–127)</td>
+            <td>Flags, small status codes</td>
+        </tr>
+        <tr>
+            <td>Integer</td>
+            <td><code>SMALLINT</code></td>
+            <td>2-byte integer (−32,768–32,767)</td>
+            <td>Age, small counters</td>
+        </tr>
+        <tr>
+            <td>Integer</td>
+            <td><code>INT</code> / <code>INTEGER</code></td>
+            <td>4-byte integer (approx. ±2.1 billion)</td>
+            <td>General-purpose IDs, quantities</td>
+        </tr>
+        <tr>
+            <td>Integer</td>
+            <td><code>BIGINT</code></td>
+            <td>8-byte integer (approx. ±9.2 quintillion)</td>
+            <td>Large auto-increment IDs, financial transaction counts</td>
+        </tr>
+        <tr>
+            <td>Decimal</td>
+            <td><code>DECIMAL(p,s)</code> / <code>NUMERIC(p,s)</code></td>
+            <td>Exact fixed-point number; <em>p</em> total digits, <em>s</em> after decimal</td>
+            <td>Monetary amounts, precise measurements</td>
+        </tr>
+        <tr>
+            <td>Floating point</td>
+            <td><code>FLOAT</code> / <code>REAL</code></td>
+            <td>Approximate floating-point number</td>
+            <td>Scientific data where approximation is acceptable</td>
+        </tr>
+        <tr>
+            <td>Character</td>
+            <td><code>CHAR(n)</code></td>
+            <td>Fixed-length string, always <em>n</em> characters (padded with spaces)</td>
+            <td>Country codes, fixed-format codes (e.g., <code>US</code>, <code>ISO</code> codes)</td>
+        </tr>
+        <tr>
+            <td>Character</td>
+            <td><code>VARCHAR(n)</code></td>
+            <td>Variable-length string, up to <em>n</em> characters</td>
+            <td>Names, addresses, descriptions</td>
+        </tr>
+        <tr>
+            <td>Character</td>
+            <td><code>TEXT</code></td>
+            <td>Large, unbounded string</td>
+            <td>Long-form text, notes, article bodies</td>
+        </tr>
+        <tr>
+            <td>Date/Time</td>
+            <td><code>DATE</code></td>
+            <td>Calendar date (year, month, day)</td>
+            <td>Birth dates, hire dates</td>
+        </tr>
+        <tr>
+            <td>Date/Time</td>
+            <td><code>TIME</code></td>
+            <td>Time of day</td>
+            <td>Shift start/end times</td>
+        </tr>
+        <tr>
+            <td>Date/Time</td>
+            <td><code>DATETIME</code> / <code>TIMESTAMP</code></td>
+            <td>Combined date and time</td>
+            <td>Event logs, transaction timestamps</td>
+        </tr>
+        <tr>
+            <td>Boolean</td>
+            <td><code>BOOLEAN</code> / <code>BIT</code></td>
+            <td>True/false value</td>
+            <td>Active flags, binary status indicators</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>An important distinction exists between <code>CHAR</code> and <code>VARCHAR</code>. A column defined as <code>CHAR(10)</code> always occupies exactly 10 characters of storage, padding shorter values with trailing spaces. A column defined as <code>VARCHAR(10)</code> occupies only as much space as the actual stored value requires, plus a small overhead byte or two to record the length. For values that are always the same width — such as a two-letter country code — <code>CHAR(2)</code> is slightly more efficient. For values that vary widely in length — such as a person's full name — <code>VARCHAR</code> is the appropriate choice.</p>
+
+<p>For monetary values, <code>DECIMAL</code> (or <code>NUMERIC</code>, which is synonymous in most systems) is strongly preferred over <code>FLOAT</code> or <code>REAL</code>. Floating-point types store approximations, which can introduce tiny rounding errors — invisible in casual use but potentially significant when summing thousands of financial transactions. <code>DECIMAL(10, 2)</code>, for example, stores up to 10 total digits with exactly 2 after the decimal point, making it ideal for currency values up to 99,999,999.99.</p>
+
+<p>Every well-designed table must have a <strong>primary key</strong>. A primary key is the column or combination of columns whose values uniquely identify every row in the table. The database engine automatically enforces two rules on primary key columns: every value must be unique (no two rows may share the same key value), and no value may be <code>NULL</code>. These guarantees make it possible to reliably retrieve any specific row, join tables together correctly, and establish foreign key references from other tables.</p>
+
+<p>A <strong>simple primary key</strong> uses a single column. The most common pattern is a surrogate key — an integer that has no real-world meaning and exists solely to identify rows, often auto-generated by the database:</p>
+
+<pre><code>CREATE TABLE employee (
+    employee_id     INT             NOT NULL AUTO_INCREMENT,
+    first_name      VARCHAR(50)     NOT NULL,
+    last_name       VARCHAR(50)     NOT NULL,
+    hire_date       DATE            NOT NULL,
+    CONSTRAINT pk_employee PRIMARY KEY (employee_id)
+);
+</code></pre>
+
+<p>Here, <code>employee_id</code> is assigned automatically by the database each time a new row is inserted. The <code>AUTO_INCREMENT</code> keyword (MySQL/MariaDB syntax; <code>SERIAL</code> or <code>GENERATED ALWAYS AS IDENTITY</code> in PostgreSQL, <code>IDENTITY</code> in SQL Server) ensures each new employee receives a unique, never-repeated identifier without any effort from the application.</p>
+
+<p>A <strong>composite primary key</strong> uses two or more columns together to form a unique identifier. This pattern appears naturally in junction tables that resolve many-to-many relationships. For example, a table recording which employees are assigned to which projects might have no single column that uniquely identifies a row, but the combination of <code>employee_id</code> and <code>project_id</code> is always unique:</p>
+
+<pre><code>CREATE TABLE employee_project (
+    employee_id     INT     NOT NULL,
+    project_id      INT     NOT NULL,
+    assigned_date   DATE    NOT NULL,
+    CONSTRAINT pk_employee_project PRIMARY KEY (employee_id, project_id)
+);
+</code></pre>
+
+<p>Because composite keys involve multiple columns, they are always declared as table-level constraints (listed after the column definitions) rather than inline with a single column definition.</p>
+
+<p><strong>Foreign keys</strong> are the SQL mechanism that implements the relationships identified during logical data modeling. A foreign key is a column (or set of columns) in one table whose values must match an existing primary key value in another table — or be <code>NULL</code> if the relationship is optional. The table containing the foreign key is called the <em>child</em> or <em>referencing</em> table; the table whose primary key is referenced is called the <em>parent</em> or <em>referenced</em> table.</p>
+
+<p>Consider the relationship between employees and departments. Each employee belongs to exactly one department, but a department can have many employees — a classic <strong>one-to-many</strong> relationship. In the physical schema, this is implemented by placing a <code>department_id</code> foreign key column in the <code>employee</code> table:</p>
+
+<pre><code>CREATE TABLE employee (
+    employee_id     INT             NOT NULL AUTO_INCREMENT,
+    first_name      VARCHAR(50)     NOT NULL,
+    last_name       VARCHAR(50)     NOT NULL,
+    hire_date       DATE            NOT NULL,
+    department_id   INT             NOT NULL,
+    CONSTRAINT pk_employee      PRIMARY KEY (employee_id),
+    CONSTRAINT fk_emp_dept      FOREIGN KEY (department_id)
+                                REFERENCES department (department_id)
+                                ON DELETE RESTRICT
+                                ON UPDATE CASCADE
+);
+</code></pre>
+
+<p>The <code>REFERENCES</code> clause names the parent table and its primary key column. The database engine will now reject any <code>INSERT</code> or <code>UPDATE</code> on <code>employee</code> that tries to assign a <code>department_id</code> value that does not already exist in <code>department.department_id</code>. This enforcement is called <strong>referential integrity</strong>, and it prevents <em>orphaned records</em> — rows in the child table that refer to a parent that does not exist.</p>
+
+<p>The <code>ON DELETE</code> and <code>ON UPDATE</code> clauses define what should happen to child rows when the referenced parent row is deleted or its key is updated. The most common options are:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>Behavior</th>
+            <th>Typical Use</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>RESTRICT</code> / <code>NO ACTION</code></td>
+            <td>Prevents the parent from being deleted or updated if any child row references it</td>
+            <td>When child records must be explicitly removed first (most common default)</td>
+        </tr>
+        <tr>
+            <td><code>CASCADE</code></td>
+            <td>Automatically deletes or updates all child rows when the parent changes</td>
+            <td>When child records have no meaning without the parent (e.g., order line items with their order)</td>
+        </tr>
+        <tr>
+            <td><code>SET NULL</code></td>
+            <td>Sets the foreign key column in child rows to <code>NULL</code> when the parent is deleted or updated</td>
+            <td>When the relationship is optional and a child can exist without a parent</td>
+        </tr>
+        <tr>
+            <td><code>SET DEFAULT</code></td>
+            <td>Sets the foreign key column to its declared default value</td>
+            <td>When a fallback parent (e.g., an "Unassigned" department) should be used</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>For a <strong>many-to-many</strong> relationship — such as employees being assigned to multiple projects, and projects having multiple employees — the standard implementation is a <em>junction table</em> (also called an associative or bridge table) containing foreign keys that reference both parent tables, as shown earlier in the composite primary key example.</p>
+
+<p>Beyond primary keys and foreign keys, SQL provides several additional <strong>column-level constraints</strong> that allow fine-grained control over what values a column may hold. These constraints are enforced by the database engine automatically, meaning application code does not need to duplicate these checks — the database itself guarantees compliance.</p>
+
+<p><strong><code>NOT NULL</code></strong> is the most fundamental column constraint. It declares that a column must always contain a value; it can never be left empty. When a row is inserted without providing a value for a <code>NOT NULL</code> column (and no default is defined), the database raises an error and rejects the insert. Columns that represent essential facts about an entity — a customer's last name, a product's price, an order's date — should almost always be <code>NOT NULL</code>. Allowing <code>NULL</code> in such columns creates ambiguity and complicates queries.</p>
+
+<p><strong><code>UNIQUE</code></strong> ensures that no two rows in the table may contain the same value in the constrained column (or combination of columns). It is similar to a primary key constraint in that it prevents duplicates, but it differs in two important ways: a table can have multiple <code>UNIQUE</code> constraints, and most database systems allow multiple <code>NULL</code> values in a <code>UNIQUE</code> column (since <code>NULL</code> is considered "unknown" and therefore not equal to any other value, including another <code>NULL</code>). A common use case is enforcing unique email addresses in a user table:</p>
+
+<pre><code>CREATE TABLE app_user (
+    user_id         INT             NOT NULL AUTO_INCREMENT,
+    email_address   VARCHAR(255)    NOT NULL,
+    username        VARCHAR(50)     NOT NULL,
+    CONSTRAINT pk_app_user          PRIMARY KEY (user_id),
+    CONSTRAINT uq_user_email        UNIQUE (email_address),
+    CONSTRAINT uq_user_username     UNIQUE (username)
+);
+</code></pre>
+
+<p><strong><code>DEFAULT</code></strong> specifies a value that the database will automatically assign to a column when no explicit value is provided during an <code>INSERT</code>. Defaults are useful for columns that have a predictable value in most cases — such as a <code>created_at</code> timestamp that should default to the current date and time, or an <code>is_active</code> flag that should default to true for newly created records:</p>
+
+<pre><code>CREATE TABLE product (
+    product_id      INT                 NOT NULL AUTO_INCREMENT,
+    product_name    VARCHAR(150)        NOT NULL,
+    unit_price      DECIMAL(10, 2)      NOT NULL,
+    is_active       BOOLEAN             NOT NULL DEFAULT TRUE,
+    created_at      TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_product PRIMARY KEY (product_id)
+);
+</code></pre>
+
+<p>When a new product is inserted without specifying <code>is_active</code> or <code>created_at</code>, the database fills those columns with <code>TRUE</code> and the current timestamp, respectively.</p>
+
+<p><strong><code>CHECK</code></strong> constraints allow you to define a custom validation expression that every value in the column must satisfy. If an inserted or updated value violates the check expression, the database rejects the operation. This is the most flexible constraint type and can express a wide variety of business rules:</p>
+
+<pre><code>CREATE TABLE employee (
+    employee_id     INT             NOT NULL AUTO_INCREMENT,
+    first_name      VARCHAR(50)     NOT NULL,
+    last_name       VARCHAR(50)     NOT NULL,
+    salary          DECIMAL(10, 2)  NOT NULL,
+    hire_date       DATE            NOT NULL,
+    birth_date      DATE,
+    CONSTRAINT pk_employee      PRIMARY KEY (employee_id),
+    CONSTRAINT chk_salary       CHECK (salary > 0),
+    CONSTRAINT chk_hire_after_birth CHECK (hire_date > birth_date)
+);
+</code></pre>
+
+<p>The first check ensures no employee can be assigned a salary of zero or less. The second check enforces a logical temporal rule: an employee's hire date must come after their birth date. These rules are enforced at the database level, regardless of which application or user inserts the data.</p>
+
+<p>Bringing all of these concepts together, a complete schema for a simple human resources system might look like this:</p>
+
+<pre><code>-- Step 1: Create the database
+CREATE DATABASE company_hr;
+
+-- Step 2: Define the parent table first (no foreign key dependencies)
+CREATE TABLE department (
+    department_id       INT             NOT NULL AUTO_INCREMENT,
+    department_name     VARCHAR(100)    NOT NULL,
+    location            VARCHAR(100),
+    CONSTRAINT pk_department    PRIMARY KEY (department_id),
+    CONSTRAINT uq_dept_name     UNIQUE (department_name)
+);
+
+-- Step 3: Define the child table (references department)
+CREATE TABLE employee (
+    employee_id         INT             NOT NULL AUTO_INCREMENT,
+    first_name          VARCHAR(50)     NOT NULL,
+    last_name           VARCHAR(50)     NOT NULL,
+    email               VARCHAR(255)    NOT NULL,
+    hire_date           DATE            NOT NULL,
+    salary              DECIMAL(10, 2)  NOT NULL,
+    is_active           BOOLEAN         NOT NULL DEFAULT TRUE,
+    department_id       INT             NOT NULL,
+    CONSTRAINT pk_employee          PRIMARY KEY (employee_id),
+    CONSTRAINT uq_employee_email    UNIQUE (email),
+    CONSTRAINT fk_emp_dept          FOREIGN KEY (department_id)
+                                    REFERENCES department (department_id)
+                                    ON DELETE RESTRICT
+                                    ON UPDATE CASCADE,
+    CONSTRAINT chk_salary           CHECK (salary > 0)
+);
+
+-- Step 4: Define the project table
+CREATE TABLE project (
+    project_id          INT             NOT NULL AUTO_INCREMENT,
+    project_name        VARCHAR(150)    NOT NULL,
+    start_date          DATE            NOT NULL,
+    end_date            DATE,
+    CONSTRAINT pk_project               PRIMARY KEY (project_id),
+    CONSTRAINT chk_project_dates        CHECK (end_date IS NULL OR end_date >= start_date)
+);
+
+-- Step 5: Define the junction table for the many-to-many relationship
+CREATE TABLE employee_project (
+    employee_id         INT     NOT NULL,
+    project_id          INT     NOT NULL,
+    assigned_date       DATE    NOT NULL,
+    CONSTRAINT pk_employee_project  PRIMARY KEY (employee_id, project_id),
+    CONSTRAINT fk_ep_employee       FOREIGN KEY (employee_id)
+                                    REFERENCES employee (employee_id)
+                                    ON DELETE CASCADE,
+    CONSTRAINT fk_ep_project        FOREIGN KEY (project_id)
+                                    REFERENCES project (project_id)
+                                    ON DELETE CASCADE
+);
+</code></pre>
+
+<p>Notice that tables are created in an order that respects their dependencies: <code>department</code> is created before <code>employee</code> (because <code>employee</code> has a foreign key referencing <code>department</code>), and both <code>employee</code> and <code>project</code> are created before <code>employee_project</code> (because the junction table references both). Attempting to create a table with a foreign key before the referenced table exists will produce an error in most database systems.</p>
+
+<p>Every decision made during schema creation — the choice of data type, the presence of a <code>NOT NULL</code> constraint, the cascade behavior of a foreign key — becomes a standing rule enforced automatically by the database engine for the entire lifetime of that schema. A well-designed schema minimizes the need for application-level data cleaning, reduces the risk of inconsistent or invalid data accumulating over time, and makes the database self-documenting: anyone who reads the <code>CREATE TABLE</code> statements can immediately understand the structure, rules, and relationships that govern the data.</p>
+        <div class="notes"><strong>Notes</strong>SQL syntax examples use MySQL/MariaDB conventions (AUTO_INCREMENT, BOOLEAN, DEFAULT CURRENT_TIMESTAMP). Instructors teaching PostgreSQL or SQL Server may wish to note equivalent syntax variants: PostgreSQL uses SERIAL or GENERATED ALWAYS AS IDENTITY and supports CHECK constraints identically; SQL Server uses IDENTITY(1,1) and has the same constraint semantics. The overall concepts and constraint types are standard SQL and apply across all major RDBMS platforms.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

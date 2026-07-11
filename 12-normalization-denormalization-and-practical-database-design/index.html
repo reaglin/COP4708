@@ -1,0 +1,444 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 12 – Normalization, Denormalization, and Practical Database Design | COP4708</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #f4f6f9;
+      --color-surface: #ffffff;
+      --color-primary: #1a3a5c;
+      --color-primary-light: #2456850d;
+      --color-accent: #2563a8;
+      --color-accent-hover: #1a4a85;
+      --color-secondary-link: #4a7fb5;
+      --color-secondary-link-hover: #2c5f91;
+      --color-border: #dde3ec;
+      --color-text: #1e2b3c;
+      --color-text-muted: #5a6a7e;
+      --color-badge-bg: #e8eef7;
+      --color-badge-text: #2a4a72;
+      --color-filetype-bg: #f0f4ff;
+      --color-filetype-text: #3b5998;
+      --radius: 10px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.13);
+      --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #ffffff;
+      padding: 48px 24px 40px;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 4px;
+      padding: 3px 10px;
+      margin-bottom: 16px;
+      color: #d6e8ff;
+    }
+
+    header h1 {
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #c8ddf5;
+      max-width: 720px;
+      line-height: 1.7;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+    }
+
+    .section-heading {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card header row ── */
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-title-block {
+      flex: 1 1 auto;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text);
+      line-height: 1.35;
+    }
+
+    .card-name a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .card-name a:hover,
+    .card-name a:focus {
+      color: var(--color-accent-hover);
+      text-decoration: underline;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--color-secondary-link);
+      text-decoration: none;
+      border: 1px solid #b8d0ec;
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap;
+      vertical-align: middle;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #e4eef8;
+      color: var(--color-secondary-link-hover);
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.65rem;
+    }
+
+    /* ── Badges ── */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+
+    .badge-type {
+      background: var(--color-badge-bg);
+      color: var(--color-badge-text);
+      border: 1px solid #c5d5ea;
+    }
+
+    .badge-filetype {
+      background: var(--color-filetype-bg);
+      color: var(--color-filetype-text);
+      border: 1px solid #c0cfef;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Description ── */
+    .card-description {
+      font-size: 0.88rem;
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      border-top: 1px solid var(--color-border);
+      padding-top: 10px;
+      margin-top: 2px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 20px 24px 32px;
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 540px) {
+      header {
+        padding: 36px 18px 32px;
+      }
+
+      main {
+        padding: 28px 16px 48px;
+      }
+
+      .card {
+        padding: 20px 18px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Module 12 &mdash; Normalization, Denormalization, and Practical Database Design</h1>
+      <p>
+        This module examines the theory and real-world practice of database schema design, covering normal forms
+        (1NF, 2NF, and beyond), functional dependencies, ER-to-schema translation, and the deliberate use of
+        denormalization to meet performance requirements. Learners will develop the judgment to balance theoretical
+        purity against production constraints, workload demands, and business goals.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="section-heading">Module Artifacts</h2>
+    <div class="card-grid">
+
+      <!-- Artifact 1: Module Topics -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/module_topics.html">Module Topics</a>
+              <a class="source-link" href="source/hierarchy.json">source file</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <p class="card-description">
+          Outlines the module's learning topics spanning normalization principles (1NF, 2NF, and beyond), practical
+          application of normalization in production environments, ER-to-schema translation, functional dependencies,
+          and an introduction to denormalization as a deliberate design strategy, serving as a roadmap for learners
+          and instructors to navigate the module's scope and sequence.
+        </p>
+      </div>
+
+      <!-- Artifact 2: Review of Normalization Principles -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive_topics_t1.html">Review of Normalization Principles</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading introduces the core principles and goals of database normalization &mdash; including reducing
+          redundancy, minimizing anomalies, and accurately modeling real-world relationships &mdash; and serves as
+          foundational reference material learners read before tackling more advanced design topics.
+        </p>
+      </div>
+
+      <!-- Artifact 3: Normalization in a Practical Context -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive_topics_t2.html">Normalization in a Practical Context</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading bridges normalization theory and real-world practice by exploring the complications designers
+          face in production environments &mdash; such as legacy constraints, conflicting business requirements, and
+          performance pressures &mdash; helping learners understand when and how to apply normal forms pragmatically.
+        </p>
+      </div>
+
+      <!-- Artifact 4: Introduction to Denormalization -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive_topics_t3.html">Introduction to Denormalization</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading explains why fully normalized schemas sometimes fail to meet performance demands and introduces
+          denormalization as a deliberate design strategy, giving learners a conceptual foundation for understanding
+          the trade-offs between data integrity and query efficiency.
+        </p>
+      </div>
+
+      <!-- Artifact 5: Denormalization Techniques and Patterns -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive_topics_t4.html">Denormalization Techniques and Patterns</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading catalogs specific denormalization techniques and patterns &mdash; such as storing precomputed
+          values, collapsing joins, and duplicating columns &mdash; so learners and instructors can reference concrete
+          methods for optimizing schemas in high-traffic or latency-sensitive production systems.
+        </p>
+      </div>
+
+      <!-- Artifact 6: Performance Implications -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive_topics_t5.html">Performance Implications of Normalization vs. Denormalization</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading analyzes how normalization and denormalization decisions directly affect database performance,
+          covering topics such as join costs, index behavior, read vs. write trade-offs, and query optimization, so
+          learners can make evidence-based schema design choices.
+        </p>
+      </div>
+
+      <!-- Artifact 7: Balancing Theoretical Purity (Topic Detail) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive_topics_t6.html">Balancing Theoretical Purity with Real-World Needs</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading examines the spectrum between full normalization and full denormalization, guiding learners
+          through the decision-making process of choosing an appropriate design balance based on real-world factors
+          such as workload type, data volume, and business requirements.
+        </p>
+      </div>
+
+      <!-- Artifact 8: Balancing Theoretical Purity (Text Content) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="content/Normalization_Denormalizatio_interactive.html">Balancing Theoretical Purity with Real-World Needs</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <p class="card-description">
+          This reading examines the spectrum between full normalization and full denormalization, guiding learners
+          through the decision-making process of choosing an appropriate design balance based on real-world factors
+          such as workload type, data volume, and business requirements.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    COP4708 &mdash; Module 12: Normalization, Denormalization, and Practical Database Design
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+</html>

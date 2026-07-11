@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Working with Schemas</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+  <header>
+    <h1>Working with Schemas</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Working with Schemas</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>As databases grow in complexity, keeping every table, view, index, and other object crammed into a single flat namespace quickly becomes unmanageable. A <strong>database schema</strong> solves this problem by acting as a named logical container — a namespace — that groups related database objects together. Think of a schema the way you think of a folder on a filesystem: the folder does not store data itself, but it organises the files inside it and makes it easy to find things, apply consistent permissions, and avoid naming collisions with files in other folders.</p>
+
+<p>In relational database systems such as PostgreSQL, SQL Server, and Oracle, a schema exists <em>inside</em> a database. One database can contain many schemas, and each schema can contain many objects. This layered structure — server → database → schema → object — gives teams fine-grained control over how their data assets are organised and who can access them.</p>
+
+<p><strong>What Is a Database Schema?</strong></p>
+
+<p>At its most fundamental level, a schema is a namespace. Every object created inside a database belongs to exactly one schema. Without schemas you would be forced to give every table, view, and function a globally unique name within the database — an arrangement that breaks down the moment two teams both want a table called <code>customers</code> or <code>orders</code>.</p>
+
+<p>Schemas address three overlapping needs at once:</p>
+
+<ul>
+  <li><strong>Logical grouping:</strong> Objects that belong to the same application module, business domain, or team are placed in the same schema, making the database self-documenting. A retail database might have a <code>sales</code> schema for customer and order tables, an <code>inventory</code> schema for product and stock tables, and an <code>hr</code> schema for employee data.</li>
+  <li><strong>Independent management:</strong> Each team or application module can create, alter, and drop its own objects without touching another team's schema. This reduces coordination overhead and lowers the risk of accidental interference.</li>
+  <li><strong>Access control:</strong> Rather than granting permissions object by object, an administrator can grant or revoke privileges on an entire schema in one statement. Every current and future object inside that schema inherits the policy, which dramatically simplifies security management.</li>
+</ul>
+
+<p>Most database engines ship with at least one built-in schema. PostgreSQL creates a <code>public</code> schema by default; SQL Server databases include <code>dbo</code> (database owner). Objects created without an explicit schema qualifier land in the user's <em>default schema</em>, which is typically one of these built-in schemas unless a DBA has changed the setting.</p>
+
+<p><strong>Creating a Schema</strong></p>
+
+<p>The SQL standard syntax for creating a schema is straightforward:</p>
+
+<pre><code>CREATE SCHEMA schema_name;</code></pre>
+
+<p>Here <code>schema_name</code> must be unique within the database. The following statement creates a schema called <code>sales</code>:</p>
+
+<pre><code>CREATE SCHEMA sales;</code></pre>
+
+<p>An optional <code>AUTHORIZATION</code> clause lets you assign ownership of the schema to a specific database user at creation time. Ownership matters because the owner can later modify or drop the schema without needing explicit grants from an administrator:</p>
+
+<pre><code>CREATE SCHEMA sales AUTHORIZATION alice;</code></pre>
+
+<p>In this example the schema <code>sales</code> is created and immediately owned by the database user <code>alice</code>. If <code>alice</code> is later replaced by another team lead, ownership can be transferred with <code>ALTER SCHEMA sales OWNER TO bob;</code> (syntax varies slightly by engine).</p>
+
+<p>Some database systems — PostgreSQL in particular — allow you to include <code>CREATE TABLE</code> and <code>GRANT</code> statements directly inside a <code>CREATE SCHEMA</code> block, creating objects and setting permissions all in one transaction. This is useful for scripted deployments:</p>
+
+<pre><code>CREATE SCHEMA sales AUTHORIZATION alice
+    CREATE TABLE customers (
+        customer_id   SERIAL PRIMARY KEY,
+        full_name     TEXT NOT NULL,
+        email         TEXT UNIQUE
+    )
+    CREATE TABLE orders (
+        order_id      SERIAL PRIMARY KEY,
+        customer_id   INT REFERENCES sales.customers(customer_id),
+        order_date    DATE NOT NULL
+    );</code></pre>
+
+<p><strong>Using Schema-Qualified Object Names</strong></p>
+
+<p>Once a schema exists, you reference any object inside it using the <strong>schema-qualified name</strong> format:</p>
+
+<pre><code>schema_name.object_name</code></pre>
+
+<p>For example, to query the <code>customers</code> table inside the <code>sales</code> schema:</p>
+
+<pre><code>SELECT * FROM sales.customers;</code></pre>
+
+<p>Schema qualification is the unambiguous way to refer to any object. Its importance becomes obvious when multiple schemas contain tables with identical names. Consider a database that supports both a sales team and a marketing team, each with their own <code>contacts</code> table:</p>
+
+<pre><code>-- Two tables, same base name, different schemas
+SELECT * FROM sales.contacts;
+SELECT * FROM marketing.contacts;</code></pre>
+
+<p>Without the schema prefix, the database engine would have to guess which table you meant — and it would use the <em>search path</em> (PostgreSQL) or the user's <em>default schema</em> (SQL Server) to resolve the ambiguity. Relying on search paths in production queries is risky because search path settings can vary between sessions or be changed by a DBA, silently redirecting queries to the wrong table. Explicitly qualifying names removes any ambiguity and makes code portable and predictable.</p>
+
+<p>Schema-qualified names can also include the database name as a third-level prefix in systems that support cross-database queries (SQL Server uses <code>database.schema.object</code>), though this is less commonly needed within a single application.</p>
+
+<p><strong>Creating Tables Within a Schema</strong></p>
+
+<p>To place a new table in a specific schema, prefix the table name with the schema name in the <code>CREATE TABLE</code> statement:</p>
+
+<pre><code>CREATE TABLE sales.customers (
+    customer_id   SERIAL PRIMARY KEY,
+    full_name     TEXT        NOT NULL,
+    email         TEXT        UNIQUE,
+    signup_date   DATE        DEFAULT CURRENT_DATE
+);</code></pre>
+
+<p>This ensures the table lives in the <code>sales</code> schema from the moment it is created, regardless of which user ran the statement or what their default schema is. Compare this with the unqualified version:</p>
+
+<pre><code>-- Lands in the current user's default schema — potentially public or dbo
+CREATE TABLE customers (
+    customer_id   SERIAL PRIMARY KEY,
+    full_name     TEXT NOT NULL
+);</code></pre>
+
+<p>The unqualified version is fine during quick ad-hoc work but is a common source of accidental table placement in production scripting. Always qualifying names in migration scripts and application code is considered best practice.</p>
+
+<p>Because schemas provide separate namespaces, two schemas can each contain a table with the same name without any conflict:</p>
+
+<pre><code>CREATE TABLE sales.reports (
+    report_id   SERIAL PRIMARY KEY,
+    title       TEXT,
+    generated   TIMESTAMP
+);
+
+CREATE TABLE hr.reports (
+    report_id   SERIAL PRIMARY KEY,
+    title       TEXT,
+    generated   TIMESTAMP,
+    employee_id INT
+);</code></pre>
+
+<p>Both <code>sales.reports</code> and <code>hr.reports</code> coexist happily. This pattern supports <em>modular database design</em>, where each application module owns its objects without interfering with others — analogous to how Python packages use module namespaces to avoid function name collisions.</p>
+
+<p><strong>Dropping a Schema</strong></p>
+
+<p>Removing a schema uses the <code>DROP SCHEMA</code> statement:</p>
+
+<pre><code>DROP SCHEMA schema_name;</code></pre>
+
+<p>By default (and per the SQL standard), this statement follows the <strong>RESTRICT</strong> behaviour: it will <em>only succeed if the schema is completely empty</em>. If any tables, views, functions, or other objects still exist inside the schema, the database engine raises an error and leaves everything intact. This is a deliberate safety net — you cannot accidentally obliterate a schema full of production data with a single mistyped command:</p>
+
+<pre><code>-- Fails if sales schema contains any objects
+DROP SCHEMA sales;
+-- ERROR: cannot drop schema sales because other objects depend on it</code></pre>
+
+<p>To remove a schema <em>together with all the objects inside it</em>, use the <strong>CASCADE</strong> option:</p>
+
+<pre><code>-- Drops sales schema AND every table, view, function, etc. inside it
+DROP SCHEMA sales CASCADE;</code></pre>
+
+<p><code>CASCADE</code> is powerful and irreversible. Before using it in a production environment, always verify which objects will be lost. A common approach is to first run a query against the information schema to list all objects in the target schema:</p>
+
+<pre><code>SELECT table_schema, table_name, table_type
+FROM   information_schema.tables
+WHERE  table_schema = 'sales'
+ORDER  BY table_type, table_name;</code></pre>
+
+<p>The explicit <strong>RESTRICT</strong> keyword can also be written out, though it is the default in most systems:</p>
+
+<pre><code>DROP SCHEMA sales RESTRICT;</code></pre>
+
+<p>Using <code>RESTRICT</code> explicitly in scripts can serve as documentation of intent — a signal to future maintainers that the schema should be empty before this step is reached.</p>
+
+<p><strong>Schema Benefits for Database Organisation</strong></p>
+
+<p>The practical benefits of schemas become clearer as a database grows. The table below illustrates how a single e-commerce database might be partitioned into schemas, along with example objects and the teams responsible for them:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Schema</th>
+      <th>Owning Team / Module</th>
+      <th>Example Objects</th>
+      <th>Access Granted To</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>sales</code></td>
+      <td>Sales &amp; CRM Team</td>
+      <td><code>customers</code>, <code>orders</code>, <code>discounts</code></td>
+      <td>sales_role, reporting_role</td>
+    </tr>
+    <tr>
+      <td><code>inventory</code></td>
+      <td>Warehouse Team</td>
+      <td><code>products</code>, <code>stock_levels</code>, <code>suppliers</code></td>
+      <td>warehouse_role, reporting_role</td>
+    </tr>
+    <tr>
+      <td><code>hr</code></td>
+      <td>Human Resources</td>
+      <td><code>employees</code>, <code>departments</code>, <code>payroll</code></td>
+      <td>hr_role (restricted)</td>
+    </tr>
+    <tr>
+      <td><code>reporting</code></td>
+      <td>Analytics Team</td>
+      <td><code>monthly_summary</code>, <code>kpi_dashboard</code></td>
+      <td>reporting_role, read_only_role</td>
+    </tr>
+    <tr>
+      <td><code>audit</code></td>
+      <td>Compliance / DBA</td>
+      <td><code>change_log</code>, <code>access_log</code></td>
+      <td>dba_role only</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The three headline benefits of this kind of schema-based organisation are:</p>
+
+<ul>
+  <li><strong>Namespace separation and conflict avoidance:</strong> Each module gets its own namespace, so naming clashes between unrelated tables become impossible. Development teams can work in parallel without coordinating table names across the entire database.</li>
+  <li><strong>Simplified, scalable access control:</strong> A single <code>GRANT USAGE ON SCHEMA sales TO sales_role;</code> combined with <code>GRANT SELECT ON ALL TABLES IN SCHEMA sales TO reporting_role;</code> covers every current and — with the right default privilege settings — future object in the schema. There is no need to issue per-table grants every time a new table is added.</li>
+  <li><strong>Maintainability and documentation:</strong> A well-named schema tells a developer immediately where to look. It also makes database diagrams, migration scripts, and runbooks easier to write and understand. When you need to archive or migrate one application module, all its objects are already neatly contained in one schema, making the operation far less error-prone than hunting through a flat list of hundreds of tables.</li>
+</ul>
+
+<p>Taken together, schemas are a lightweight but powerful organisational tool. They cost nothing in storage or query performance, yet they pay significant dividends in clarity, security, and long-term maintainability — making them an essential technique for any database that will grow beyond a handful of tables.</p>
+        <div class="notes"><strong>Notes</strong>Covers all listed subtopics: definition and purpose of schemas, CREATE SCHEMA syntax including AUTHORIZATION, schema-qualified naming, creating tables within a schema, DROP SCHEMA with CASCADE and RESTRICT, and the organisational/access-control benefits of schemas. Examples use standard SQL with PostgreSQL-flavoured syntax where extensions are noted contextually. A summary table illustrates realistic multi-schema design for an e-commerce database.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

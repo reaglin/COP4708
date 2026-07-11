@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions and ACID Properties</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 13 - Designing Databases for Concurrent Use</a></div>
+  <header>
+    <h1>Transactions and ACID Properties</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Transactions and ACID Properties</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Modern applications rarely interact with a database through a single, isolated SQL statement. Transferring money between bank accounts, placing an online order, or registering a new user typically require several related changes to the database that must either all succeed or all fail together. A <strong>database transaction</strong> is the mechanism that makes this possible. It groups one or more SQL statements into a single logical unit of work, treating them as an indivisible whole. The database guarantees that the combined effect of those statements is handled safely, correctly, and permanently — even in the presence of concurrent users, application bugs, or hardware failures. The formal framework that defines what "safely and correctly" means is known as <strong>ACID</strong>, an acronym standing for <strong>Atomicity</strong>, <strong>Consistency</strong>, <strong>Isolation</strong>, and <strong>Durability</strong>. Together these four properties are the bedrock of reliable data management in relational database systems.</p>
+
+<p>A transaction begins either <strong>explicitly</strong>, when the application issues a statement such as <code>BEGIN</code> or <code>START TRANSACTION</code>, or <strong>implicitly</strong>, when the database automatically wraps a single statement in its own transaction if no explicit transaction is open. Once open, every subsequent SQL statement becomes part of the transaction until one of two outcomes occurs. A <strong>COMMIT</strong> instruction signals that all changes made during the transaction should be made permanent and visible to the rest of the system. A <strong>ROLLBACK</strong> instruction signals that something has gone wrong — or that the application has deliberately decided to abort — and every change made during the transaction should be undone, returning the database to exactly the state it was in before the transaction started. The following example illustrates the basic structure:</p>
+
+<pre><code>-- Begin an explicit transaction
+BEGIN;
+
+UPDATE accounts SET balance = balance - 500 WHERE account_id = 101;
+UPDATE accounts SET balance = balance + 500 WHERE account_id = 202;
+
+-- If both updates succeed, make the changes permanent
+COMMIT;
+
+-- If an error occurred instead, undo everything
+-- ROLLBACK;
+</code></pre>
+
+<p>In this bank-transfer scenario, deducting funds from one account and crediting another must both succeed or neither should take effect. If the system crashes or an error occurs between the two <code>UPDATE</code> statements, the transaction framework ensures money is not simply destroyed. The ACID properties define exactly how the database delivers this guarantee.</p>
+
+<p><strong>Atomicity: All or Nothing</strong></p>
+
+<p>Atomicity is the property that makes a transaction indivisible. The word comes from the Greek <em>atomos</em>, meaning "uncuttable." No matter how many statements a transaction contains, the database treats the entire group as a single atomic operation: either every statement succeeds and all changes are committed, or — if any single statement fails for any reason — the entire transaction is automatically rolled back and the database is left exactly as it was before the transaction began.</p>
+
+<p>Consider what happens without atomicity. In the bank-transfer example, if the debit from account 101 succeeds but a network error prevents the credit to account 202, the database would be left in a state where $500 has simply vanished. The customer loses money, the bank's books no longer balance, and there is no clean way to know from the data alone what went wrong. Atomicity prevents this class of <em>partial update</em> corruption entirely.</p>
+
+<p>Database engines implement atomicity using a <strong>transaction log</strong> (also called a write-ahead log or redo/undo log). Before any data page is actually modified on disk, the intended change is recorded in the log. If the transaction is rolled back — whether by application request or by a crash — the database engine reads the log entries in reverse and applies their <em>undo</em> records to reverse every modification. The data pages are restored to their pre-transaction state as if the transaction never ran.</p>
+
+<pre><code>BEGIN;
+
+INSERT INTO orders (order_id, customer_id, total) VALUES (9001, 42, 250.00);
+INSERT INTO order_items (order_id, product_id, qty) VALUES (9001, 7, 2);
+
+-- Simulate a constraint violation on the second insert
+-- The engine rolls back both inserts; order 9001 does not exist in either table
+ROLLBACK;
+</code></pre>
+
+<p>Because of atomicity, the <code>orders</code> row inserted in the first statement is also removed when the rollback fires. There is no orphaned order record with no items, and no orphaned item record referencing a non-existent order.</p>
+
+<p><strong>Consistency: Preserving Valid Data States</strong></p>
+
+<p>Consistency is the property that ensures every transaction takes the database from one <em>valid</em> state to another <em>valid</em> state. "Valid" is defined by the set of rules — constraints, triggers, cascades, and application-level invariants — that have been declared on the database schema. Before a transaction begins the data satisfies all those rules. After a successful commit the data must still satisfy all those rules. A transaction that would violate any rule is rejected; its changes are never stored.</p>
+
+<p>Typical examples of the rules that consistency must preserve include:</p>
+
+<ul>
+  <li><strong>Referential integrity:</strong> A foreign key in <code>order_items</code> referencing <code>orders</code> means you can never insert an item for an order that does not exist, and you can never delete an order that still has items (unless a cascade is defined).</li>
+  <li><strong>Check constraints:</strong> A constraint such as <code>CHECK (balance &gt;= 0)</code> prevents an account balance from going negative.</li>
+  <li><strong>Unique constraints:</strong> A <code>UNIQUE</code> index on an email column ensures two users cannot share the same address.</li>
+  <li><strong>Not-null constraints:</strong> Required columns cannot be left empty.</li>
+  <li><strong>Application invariants:</strong> Business rules enforced in stored procedures or application code, such as "total order value must equal the sum of its line items."</li>
+</ul>
+
+<pre><code>-- Attempting to insert an order_item for a non-existent order
+BEGIN;
+INSERT INTO order_items (order_id, product_id, qty) VALUES (9999, 7, 1);
+-- ERROR: insert or update on table "order_items" violates foreign key constraint
+-- The transaction is automatically rolled back; no row is inserted
+COMMIT;
+</code></pre>
+
+<p>It is important to understand that consistency is a <em>shared responsibility</em>. The database engine enforces the constraints declared in the schema, but the application developer must correctly identify and declare those constraints in the first place, and must also implement any business-logic rules that the database engine cannot express natively. A database can only protect the invariants it knows about.</p>
+
+<p><strong>Isolation: Shielding Concurrent Transactions</strong></p>
+
+<p>In any real system dozens, hundreds, or thousands of transactions may be running at the same time. Without isolation, those concurrent transactions could interfere with each other in ways that produce wrong answers even when every individual transaction is internally correct. Isolation is the property that makes concurrent transactions appear, from each transaction's point of view, as if they are the only transaction running — as though they execute one at a time, in some serial order.</p>
+
+<p>The classic anomalies that arise from insufficient isolation are:</p>
+
+<ul>
+  <li><strong>Dirty read:</strong> Transaction A reads data that Transaction B has modified but not yet committed. If B then rolls back, A has acted on data that never officially existed.</li>
+  <li><strong>Non-repeatable read:</strong> Transaction A reads a row, Transaction B commits a change to that row, and then Transaction A reads the same row again within the same transaction and gets a different value.</li>
+  <li><strong>Phantom read:</strong> Transaction A executes a range query (e.g., <code>SELECT ... WHERE age &gt; 30</code>), Transaction B inserts or deletes rows that fall in that range and commits, and then Transaction A re-executes the same query and gets a different set of rows.</li>
+  <li><strong>Lost update:</strong> Two transactions both read a value, compute a new value based on it, and write back — the second write overwrites the first, and one update is silently discarded.</li>
+</ul>
+
+<p>Database systems prevent these anomalies through two main mechanisms. <strong>Lock-based concurrency control</strong> has transactions acquire shared or exclusive locks on the data they access, making other transactions wait until the lock is released. <strong>Multi-Version Concurrency Control (MVCC)</strong>, used by PostgreSQL, MySQL/InnoDB, and Oracle, maintains multiple timestamped versions of each row so that readers can see a consistent snapshot of the data as it existed at the start of their transaction without blocking writers, and writers do not block readers.</p>
+
+<p>Because full serial isolation carries a performance cost, the SQL standard defines four <strong>isolation levels</strong> that let designers trade off between strict correctness and throughput:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Isolation Level</th>
+      <th>Dirty Read</th>
+      <th>Non-Repeatable Read</th>
+      <th>Phantom Read</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Read Uncommitted</td>
+      <td>Possible</td>
+      <td>Possible</td>
+      <td>Possible</td>
+    </tr>
+    <tr>
+      <td>Read Committed</td>
+      <td>Prevented</td>
+      <td>Possible</td>
+      <td>Possible</td>
+    </tr>
+    <tr>
+      <td>Repeatable Read</td>
+      <td>Prevented</td>
+      <td>Prevented</td>
+      <td>Possible</td>
+    </tr>
+    <tr>
+      <td>Serializable</td>
+      <td>Prevented</td>
+      <td>Prevented</td>
+      <td>Prevented</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Read Committed</em> is the default in many systems (PostgreSQL, Oracle, SQL Server) and prevents dirty reads while permitting non-repeatable and phantom reads. <em>Serializable</em> is the strictest level and provides the full illusion of serial execution, at the cost of more blocking or more transaction retries. The appropriate level depends on the application's tolerance for anomalies versus its need for concurrency and speed.</p>
+
+<pre><code>-- Set isolation level before starting a transaction (PostgreSQL syntax)
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+BEGIN;
+SELECT balance FROM accounts WHERE account_id = 101;
+-- ... perform calculations ...
+SELECT balance FROM accounts WHERE account_id = 101;
+-- Guaranteed to return the same value even if another session changed it
+COMMIT;
+</code></pre>
+
+<p><strong>Durability: Surviving System Failures</strong></p>
+
+<p>Durability is the property that guarantees once a transaction has been committed, its effects are permanent. Even if the database server loses power one millisecond after issuing the commit acknowledgment, the data will still be there when the system restarts. This guarantee is what allows applications and users to trust a "success" response without worrying that the data is actually sitting in a volatile memory buffer that will evaporate in a power cut.</p>
+
+<p>Durability is implemented primarily through the <strong>write-ahead log (WAL)</strong>. The principle of the WAL is simple but powerful: every change is first written to the durable, append-only transaction log on disk <em>before</em> the actual data pages are modified. When a <code>COMMIT</code> is issued, the engine ensures the log record for that commit has been flushed to non-volatile storage (a physical disk write, not just an OS buffer). Only after that flush does the commit acknowledgment go back to the client.</p>
+
+<p>If the server crashes after the flush but before the data pages themselves are updated, the recovery process on restart reads the WAL and <em>replays</em> (redoes) the committed log records, applying the changes to the data pages. Because the log is on durable storage, no committed data is ever lost. Uncommitted transactions whose log records did not include a commit marker are rolled back using the undo portions of their log entries.</p>
+
+<ul>
+  <li>In PostgreSQL, the WAL directory stores log segments that are also used for replication and point-in-time recovery.</li>
+  <li>In MySQL/InnoDB, the redo log and doublewrite buffer together guarantee durability.</li>
+  <li>In high-availability setups, log shipping or synchronous replication to a standby server extends durability beyond a single machine.</li>
+</ul>
+
+<p>Durability does carry a performance cost — the requirement to flush to disk on every commit is slower than simply writing to memory. Database administrators can sometimes tune this behavior (for example, with PostgreSQL's <code>synchronous_commit</code> setting), but relaxing durability guarantees must be a deliberate, well-understood decision because it introduces the possibility of losing recently committed data.</p>
+
+<p><strong>How ACID Properties Work Together</strong></p>
+
+<p>The four ACID properties are not independent features bolted onto a database — they form an interlocking system in which each property supports the others:</p>
+
+<ul>
+  <li><strong>Atomicity and Consistency</strong> are natural partners. Atomicity guarantees that either all of a transaction's changes are applied or none are. Consistency guarantees that whichever outcome occurs, the database remains in a rule-abiding state. Without atomicity, partial changes could violate consistency rules. Without consistency rules, atomicity would faithfully commit corrupt data.</li>
+  <li><strong>Isolation protects in-flight consistency.</strong> While a transaction is in progress it may temporarily put the database into an intermediate state that violates an invariant — for example, money has been debited from one account but not yet credited to another. Isolation ensures no other transaction can observe that intermediate state. Other transactions see either the complete before-picture or the complete after-picture, never a half-finished one.</li>
+  <li><strong>Durability seals the guarantee.</strong> Once Atomicity, Consistency, and Isolation have ensured that a completed transaction represents a valid, fully applied set of changes, Durability ensures those changes survive. The work done by the other three properties is not wasted by a system failure at the last moment.</li>
+</ul>
+
+<p>From a practical standpoint, ACID compliance is a critical criterion when selecting a database system. Traditional relational databases — PostgreSQL, MySQL with InnoDB, Oracle, Microsoft SQL Server — are fully ACID-compliant by design. Some NoSQL systems, built for extreme horizontal scale, relax one or more ACID properties (trading consistency or durability for availability and speed), a trade-off formalized in the CAP theorem and BASE model. Understanding ACID allows architects and developers to reason clearly about which guarantees a system provides, what risks exist if those guarantees are weakened, and whether a given database engine is appropriate for the reliability requirements of the application being built.</p>
+        <div class="notes"><strong>Notes</strong>Defines database transactions and examines the four ACID properties: Atomicity, Consistency, Isolation, and Durability. Explains how these properties guarantee reliable and predictable database operations. Includes a comparison table of SQL isolation levels and their protection against standard concurrency anomalies.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

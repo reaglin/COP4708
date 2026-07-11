@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filtering Data with WHERE Clauses</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 11 - SQL Commands for Complex Queries</a></div>
+  <header>
+    <h1>Filtering Data with WHERE Clauses</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Filtering Data with WHERE Clauses</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When you query a database, you rarely want every single row in a table. Most of the time you need only the records that satisfy some criterion — customers from a particular region, orders above a certain dollar threshold, employees hired after a specific date. The <strong>WHERE clause</strong> is the fundamental SQL mechanism that lets you express exactly those criteria. It acts as a gatekeeper: before any row is returned to you, SQL evaluates your condition against that row, and only rows for which the condition resolves to <strong>TRUE</strong> make it into the result set. Rows that produce FALSE or the special three-valued-logic result NULL are silently discarded.</p>
+
+<p>The WHERE clause appears in a fixed position within a SELECT statement — after the <code>FROM</code> clause (and any <code>JOIN</code> clauses) but before <code>GROUP BY</code>, <code>HAVING</code>, and <code>ORDER BY</code>. This ordering matters because the database engine processes clauses in a defined logical sequence: it first identifies the source rows (<code>FROM</code>), then filters them (<code>WHERE</code>), then groups and aggregates (<code>GROUP BY</code> / <code>HAVING</code>), and finally sorts (<code>ORDER BY</code>). The general skeleton of a filtered query looks like this:</p>
+
+<pre><code>SELECT column1, column2, ...
+FROM   table_name
+WHERE  condition
+ORDER BY column1;</code></pre>
+
+<p>A concrete first example: to retrieve every employee who works in the Sales department, you write:</p>
+
+<pre><code>SELECT *
+FROM   employees
+WHERE  department = 'Sales';</code></pre>
+
+<p>SQL reads each row in <code>employees</code>, tests whether <code>department</code> equals the string <code>'Sales'</code>, and returns the row only when that test is true. Everything else — the syntax, the operators, the wildcards — builds on top of this single foundational idea.</p>
+
+<p><strong>Comparison Operators in WHERE Conditions</strong></p>
+
+<p>The building block of any WHERE condition is a comparison expression. SQL provides a standard set of comparison operators that work on numbers, strings, and dates alike:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>=</code></td>
+      <td>Equal to</td>
+      <td><code>status = 'active'</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;&gt;</code> or <code>!=</code></td>
+      <td>Not equal to</td>
+      <td><code>country &lt;&gt; 'US'</code></td>
+    </tr>
+    <tr>
+      <td><code>&gt;</code></td>
+      <td>Greater than</td>
+      <td><code>price &gt; 100</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;</code></td>
+      <td>Less than</td>
+      <td><code>quantity &lt; 5</code></td>
+    </tr>
+    <tr>
+      <td><code>&gt;=</code></td>
+      <td>Greater than or equal to</td>
+      <td><code>score &gt;= 90</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;=</code></td>
+      <td>Less than or equal to</td>
+      <td><code>age &lt;= 65</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For example, to find all orders where the total exceeds five hundred dollars:</p>
+
+<pre><code>SELECT order_id, customer_id, total_amount
+FROM   orders
+WHERE  total_amount &gt; 500;</code></pre>
+
+<p>Only rows with a <code>total_amount</code> strictly greater than 500 are returned. If you want to include orders of exactly 500, change <code>&gt;</code> to <code>&gt;=</code>.</p>
+
+<p>A particularly convenient shorthand for range comparisons is the <strong>BETWEEN</strong> operator. Instead of writing <code>WHERE salary &gt;= 40000 AND salary &lt;= 80000</code>, you can write:</p>
+
+<pre><code>SELECT employee_id, first_name, salary
+FROM   employees
+WHERE  salary BETWEEN 40000 AND 80000;</code></pre>
+
+<p><code>BETWEEN</code> is <em>inclusive</em> on both ends, so it is exactly equivalent to the two-condition AND form above. It works equally well on dates — <code>WHERE order_date BETWEEN '2023-01-01' AND '2023-12-31'</code> captures the full calendar year — and on string ranges, though string range comparisons depend on the database's collation rules and are therefore less common.</p>
+
+<p><strong>Logical Operators: AND, OR, and NOT</strong></p>
+
+<p>Real-world filtering rarely involves just one condition. SQL's logical operators let you combine conditions so that a row must satisfy several criteria simultaneously, at least one of several criteria, or the opposite of a criterion.</p>
+
+<p><strong>AND</strong> is the strictest combiner. Every condition joined by AND must be TRUE for the overall expression to be TRUE. If even one condition is FALSE, the whole expression is FALSE and the row is excluded.</p>
+
+<pre><code>-- Employees in Sales who were hired after 2020
+SELECT *
+FROM   employees
+WHERE  department = 'Sales'
+  AND  hire_date &gt; '2020-01-01';</code></pre>
+
+<p>A row with <code>department = 'Sales'</code> but <code>hire_date = '2019-06-15'</code> will fail the second condition and be excluded, even though it satisfies the first.</p>
+
+<p><strong>OR</strong> is more permissive. At least one of the conditions joined by OR must be TRUE. If any single condition is TRUE, the row is included.</p>
+
+<pre><code>-- Employees in Sales or Marketing
+SELECT *
+FROM   employees
+WHERE  department = 'Sales'
+  OR   department = 'Marketing';</code></pre>
+
+<p><strong>NOT</strong> inverts a condition. It converts TRUE to FALSE and FALSE to TRUE, effectively selecting everything the original condition would have excluded.</p>
+
+<pre><code>-- All employees who are NOT in the HR department
+SELECT *
+FROM   employees
+WHERE  NOT department = 'HR';</code></pre>
+
+<p>This is logically identical to <code>WHERE department &lt;&gt; 'HR'</code>, though <code>NOT</code> becomes more useful when negating complex or compound expressions.</p>
+
+<p>One subtlety worth internalizing is <strong>operator precedence</strong>. SQL evaluates NOT first, then AND, then OR — the same priority hierarchy as multiplication before addition in arithmetic. Consider this condition without parentheses:</p>
+
+<pre><code>WHERE department = 'Sales' OR department = 'Marketing' AND region = 'North'</code></pre>
+
+<p>Because AND binds tighter than OR, SQL reads this as:</p>
+
+<pre><code>WHERE department = 'Sales' OR (department = 'Marketing' AND region = 'North')</code></pre>
+
+<p>That returns all Sales employees <em>regardless of region</em>, plus Marketing employees from the North. If you intended only North-region employees from both departments, you need explicit parentheses — covered in the final section below.</p>
+
+<p><strong>Pattern Matching with LIKE and Wildcards</strong></p>
+
+<p>Exact equality works perfectly when you know the full value you're searching for. But often you only know part of a string — a name starts with certain letters, a product code follows a format, a description contains a keyword. The <strong>LIKE</strong> operator handles these partial-match scenarios using two wildcard characters:</p>
+
+<ul>
+  <li><strong>Percent sign (<code>%</code>):</strong> Matches <em>zero or more</em> of any character. Think of it as "anything here, including nothing."</li>
+  <li><strong>Underscore (<code>_</code>):</strong> Matches <em>exactly one</em> of any character. It reserves precisely one character's worth of space.</li>
+</ul>
+
+<p>Some examples illustrate the difference clearly:</p>
+
+<pre><code>-- Last names beginning with 'Sm' (Smith, Smart, Smythe, Sm, ...)
+WHERE last_name LIKE 'Sm%'
+
+-- Last names ending with 'son' (Johnson, Peterson, Jackson, ...)
+WHERE last_name LIKE '%son'
+
+-- Last names containing 'ar' anywhere (Martin, Garcia, Parker, ...)
+WHERE last_name LIKE '%ar%'
+
+-- Three-character codes where first char is 'A' and last char is '1'
+-- Matches AB1, AC1, AZ1, A91, etc. but NOT A1 or ABBC1
+WHERE code LIKE 'A_1'</code></pre>
+
+<p>You can combine both wildcards in a single pattern. For instance, <code>LIKE 'A_%_1'</code> requires the string to start with A, end with 1, and have at least one character in between (minimum length of 3).</p>
+
+<p>An important practical consideration is <strong>case sensitivity</strong>. Standard SQL specifies that LIKE is case-sensitive, but many databases diverge from this: MySQL with its default collation and SQL Server with case-insensitive collations both treat LIKE as case-insensitive. PostgreSQL's LIKE is case-sensitive, but PostgreSQL offers the non-standard <strong>ILIKE</strong> operator for explicit case-insensitive matching:</p>
+
+<pre><code>-- PostgreSQL: matches 'smith', 'Smith', 'SMITH', 'sMiTh', ...
+WHERE last_name ILIKE 'sm%'</code></pre>
+
+<p>When you need to match a literal percent sign or underscore — not as a wildcard but as a data character — you escape it using the ESCAPE clause. For example, if product codes literally contain underscores:</p>
+
+<pre><code>WHERE product_code LIKE 'A\_1' ESCAPE '\'</code></pre>
+
+<p>The backslash tells SQL to treat the following <code>_</code> as a literal character, not a wildcard.</p>
+
+<p><strong>Filtering with IN and NOT IN</strong></p>
+
+<p>When you want to test a column against a list of specific values, chaining multiple OR conditions works but becomes verbose. The <strong>IN</strong> operator offers a cleaner, more readable alternative:</p>
+
+<pre><code>-- The verbose OR approach
+WHERE category = 'Electronics' OR category = 'Furniture' OR category = 'Clothing'
+
+-- The equivalent IN approach
+WHERE category IN ('Electronics', 'Furniture', 'Clothing')</code></pre>
+
+<p>Both forms produce identical results, but IN scales gracefully to long lists without the clutter. For example:</p>
+
+<pre><code>SELECT product_id, product_name, category
+FROM   products
+WHERE  category IN ('Electronics', 'Furniture', 'Clothing');</code></pre>
+
+<p><strong>NOT IN</strong> is the mirror image — it excludes all rows where the column matches any value in the list:</p>
+
+<pre><code>SELECT order_id, customer_id, status
+FROM   orders
+WHERE  status NOT IN ('cancelled', 'returned');</code></pre>
+
+<p>This returns every order that is neither cancelled nor returned — active, pending, shipped, delivered, and any other statuses pass through the filter.</p>
+
+<p>A critically important caution about NOT IN: <strong>if any value in the list is NULL, NOT IN returns no rows at all</strong>. This stems from SQL's three-valued logic. When SQL evaluates <code>value NOT IN (..., NULL, ...)</code>, it eventually computes <code>value &lt;&gt; NULL</code>, which produces NULL (not FALSE), and NULL conditions exclude rows. If your list might contain NULLs — especially when using a subquery — use <code>NOT EXISTS</code> instead, which handles NULLs predictably.</p>
+
+<p>The most powerful application of IN is pairing it with a <strong>subquery</strong>. Instead of supplying a literal list, you supply a nested SELECT that produces the list dynamically:</p>
+
+<pre><code>-- Orders placed by VIP customers (IDs determined by a subquery)
+SELECT order_id, order_date, total_amount
+FROM   orders
+WHERE  customer_id IN (
+    SELECT customer_id
+    FROM   vip_customers
+);</code></pre>
+
+<p>The subquery runs first and returns a set of <code>customer_id</code> values. The outer query then uses IN to keep only orders whose <code>customer_id</code> appears in that set. This pattern is extremely common and is one of the foundational techniques for working across related tables without a full JOIN.</p>
+
+<p><strong>Handling NULL Values with IS NULL and IS NOT NULL</strong></p>
+
+<p>NULL in SQL represents the absence of a value — it is not zero, not an empty string, not false. It is the explicit signal that no data exists for that field. This concept has a crucial implication: you <em>cannot</em> compare a column to NULL using the = operator.</p>
+
+<pre><code>-- This does NOT work as expected:
+WHERE manager_id = NULL   -- always returns no rows!
+
+-- This is the correct syntax:
+WHERE manager_id IS NULL</code></pre>
+
+<p>The reason <code>= NULL</code> fails is that any comparison involving NULL produces NULL (not TRUE or FALSE), and a WHERE clause only passes rows where the condition is TRUE. So <code>manager_id = NULL</code> always evaluates to NULL, and no rows are ever returned — a silent, maddening bug if you don't know to look for it.</p>
+
+<p><strong>IS NULL</strong> correctly identifies rows where a column holds no value:</p>
+
+<pre><code>-- Find top-level employees who have no manager
+SELECT employee_id, first_name, last_name
+FROM   employees
+WHERE  manager_id IS NULL;</code></pre>
+
+<p><strong>IS NOT NULL</strong> filters rows that do have a value in the column:</p>
+
+<pre><code>-- Find customers who have provided a phone number
+SELECT customer_id, first_name, phone_number
+FROM   customers
+WHERE  phone_number IS NOT NULL;</code></pre>
+
+<p>NULL's interaction with AND and OR can produce unexpected results that trip up even experienced developers. The key rules are:</p>
+
+<ul>
+  <li><code>TRUE AND NULL</code> → <strong>NULL</strong> (the AND could still be false depending on the NULL, so the result is indeterminate)</li>
+  <li><code>FALSE AND NULL</code> → <strong>FALSE</strong> (doesn't matter what NULL is; FALSE AND anything is FALSE)</li>
+  <li><code>TRUE OR NULL</code> → <strong>TRUE</strong> (doesn't matter what NULL is; TRUE OR anything is TRUE)</li>
+  <li><code>FALSE OR NULL</code> → <strong>NULL</strong> (indeterminate — the OR might still be true if NULL were true)</li>
+</ul>
+
+<p>Practically speaking, this means a condition like <code>WHERE discount_pct > 0 AND discount_pct < 50</code> will silently exclude rows where <code>discount_pct</code> is NULL, because the comparisons yield NULL rather than FALSE. This is usually the desired behavior, but you must be aware of it when debugging queries that seem to miss rows.</p>
+
+<p><strong>Combining Multiple Conditions Effectively</strong></p>
+
+<p>In practice, WHERE clauses often involve several conditions layered together. Writing them carefully — with good use of parentheses, logical clarity, and incremental testing — is as much a skill as knowing the syntax itself.</p>
+
+<p><strong>Use parentheses to enforce your intended grouping.</strong> As mentioned earlier, AND binds tighter than OR. Whenever you mix AND and OR in the same WHERE clause, use parentheses to make your intent unambiguous:</p>
+
+<pre><code>-- Without parentheses (ambiguous, relies on precedence):
+WHERE status = 'active' OR status = 'pending' AND region = 'North'
+
+-- With parentheses (clear intent — active or pending, but only from North):
+WHERE (status = 'active' OR status = 'pending') AND region = 'North'
+
+-- Alternative grouping (active from anywhere, OR pending from North):
+WHERE status = 'active' OR (status = 'pending' AND region = 'North')</code></pre>
+
+<p>Parentheses cost nothing in performance and save enormous confusion. Make it a habit to add them any time you combine AND and OR.</p>
+
+<p><strong>Avoid redundant or contradictory conditions.</strong> Redundant conditions add noise without changing results:</p>
+
+<pre><code>-- Redundant: age > 30 already implies age > 25
+WHERE age &gt; 30 AND age &gt; 25   -- simplify to: WHERE age &gt; 30
+
+-- Contradictory: no age can simultaneously be > 50 and < 20
+WHERE age &gt; 50 AND age &lt; 20   -- always returns zero rows</code></pre>
+
+<p>Linters and code reviews can catch these, but developing the habit of reading your own conditions carefully is the best defense.</p>
+
+<p><strong>Build complex WHERE clauses incrementally.</strong> When you're constructing a complicated filter, don't write all the conditions at once and then try to debug a query that returns wrong results. Instead, start with one condition, verify the result set looks right, then add the next condition and verify again:</p>
+
+<pre><code>-- Step 1: start broad
+SELECT * FROM orders WHERE region = 'North';
+
+-- Step 2: add a second filter
+SELECT * FROM orders WHERE region = 'North' AND status = 'active';
+
+-- Step 3: add a third filter
+SELECT * FROM orders WHERE region = 'North' AND status = 'active' AND total_amount &gt; 1000;</code></pre>
+
+<p>At each step you can confirm the row count shrinks in the way you expect and spot any condition that's doing something unexpected before the complexity grows.</p>
+
+<p>A final best practice worth noting is to be explicit about data types in your comparisons. Comparing a numeric column to a quoted string literal (<code>WHERE employee_id = '42'</code> instead of <code>WHERE employee_id = 42</code>) may work due to implicit type conversion, but it can prevent the database from using indexes efficiently and can produce subtle bugs when the conversion rules differ across database engines. Always match the literal's type to the column's type.</p>
+
+<p>Together, comparison operators, logical operators, LIKE, IN, NULL handling, and thoughtful condition grouping form a complete toolkit for expressing virtually any filtering requirement. Mastering these building blocks means you can confidently isolate exactly the rows your analysis or application needs, no matter how complex the criteria.</p>
+        <div class="notes"><strong>Notes</strong>Consider pairing this topic with hands-on exercises where students progressively build WHERE clauses on a sample dataset (e.g., an orders or employees table). The NULL behavior section is a common source of interview questions and real-world bugs — worth extra emphasis. The three-valued logic table (TRUE/FALSE/NULL combinations) may benefit from a live demonstration in a SQL client.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

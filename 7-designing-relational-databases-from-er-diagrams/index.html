@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 7 – Designing Relational Databases from ER Diagrams | COP4708</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f6f9;
+      color: #1e2533;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── Top banner ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #25578a 60%, #1e7ab8 100%);
+      color: #fff;
+      padding: 2.8rem 2rem 2.4rem;
+    }
+
+    .header-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: 4px;
+      padding: 0.2rem 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.45rem, 3vw, 2.05rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 0.9rem;
+    }
+
+    header p {
+      font-size: 0.97rem;
+      max-width: 720px;
+      opacity: 0.88;
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 1060px;
+      margin: 2.4rem auto 3.5rem;
+      padding: 0 1.25rem;
+    }
+
+    .section-heading {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #5a6a82;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 2px solid #dde3ec;
+    }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dde3ec;
+      border-radius: 10px;
+      padding: 1.4rem 1.5rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 22px rgba(30, 58, 100, 0.11);
+      transform: translateY(-2px);
+    }
+
+    /* ── Card header row ── */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.69rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 0.18rem 0.52rem;
+      white-space: nowrap;
+    }
+
+    .badge-type {
+      background: #e8f0fb;
+      color: #2060a8;
+    }
+
+    .badge-filetype {
+      background: #eef4ee;
+      color: #2d6e30;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── Card title ── */
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e2533;
+      line-height: 1.35;
+    }
+
+    .card-title a {
+      color: #1a5da8;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .card-title a:hover,
+    .card-title a:focus {
+      border-bottom-color: #1a5da8;
+      outline: none;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-left: 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #5a7ca8;
+      text-decoration: none;
+      background: #f0f4fb;
+      border: 1px solid #ccd8ec;
+      border-radius: 4px;
+      padding: 0.12rem 0.45rem;
+      white-space: nowrap;
+      vertical-align: middle;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #dde8f7;
+      color: #1a3a5c;
+      outline: none;
+    }
+
+    .source-link::before {
+      content: "⬡";
+      font-size: 0.65rem;
+    }
+
+    /* ── Card description ── */
+    .card-desc {
+      font-size: 0.875rem;
+      color: #4a5568;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #8a97aa;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dde3ec;
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      header { padding: 2rem 1.2rem 1.8rem; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Module 7 – Designing Relational Databases from ER Diagrams</h1>
+      <p>
+        This module guides learners through the systematic process of translating
+        Entity-Relationship (ER) diagrams into well-structured relational schemas.
+        Topics progress from foundational ER notation through mapping strong entities,
+        relationships, and weak entities, to validating and refining the final schema
+        before implementation.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <p class="section-heading">Module Artifacts &nbsp;·&nbsp; 7 items</p>
+
+    <div class="card-grid">
+
+      <!-- 1 · Module Topics -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
+        </div>
+        <div class="card-title">
+          <a href="content/module_topics.html">Module Topics</a>
+          <a href="source/hierarchy.json" class="source-link" title="Source file">source file</a>
+        </div>
+        <p class="card-desc">
+          Outlines the sequence of topics covered in the module — from ER diagram notation
+          and relational schema basics, through mapping strong entities and attributes to
+          tables, to handling one-to-many relationships — serving as a syllabus-style roadmap
+          for learners and instructors to understand the module's scope and progression.
+        </p>
+      </div>
+
+      <!-- 2 · Introduction to ER Diagrams and Relational Schemas -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive_topics_t1.html">Introduction to ER Diagrams and Relational Schemas</a>
+        </div>
+        <p class="card-desc">
+          This reading introduces Entity-Relationship (ER) diagrams and relational schemas
+          as conceptual tools used before database construction begins, and learners read it
+          to understand the foundational vocabulary and purpose of both artifacts before
+          proceeding through the module.
+        </p>
+      </div>
+
+      <!-- 3 · Mapping Strong Entities and Attributes to Tables -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive_topics_t2.html">Mapping Strong Entities and Attributes to Tables</a>
+        </div>
+        <p class="card-desc">
+          This reading explains how to convert strong entities and their attributes from an
+          ER diagram into concrete relational tables with defined columns and primary keys,
+          and learners use it to practice the most fundamental step of the ER-to-schema
+          translation process.
+        </p>
+      </div>
+
+      <!-- 4 · Handling One-to-Many Relationships -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive_topics_t3.html">Handling One-to-Many Relationships</a>
+        </div>
+        <p class="card-desc">
+          This reading covers how one-to-many relationships identified in an ER diagram are
+          represented in a relational schema by placing a foreign key in the child table,
+          and learners use it to understand the rules and decisions involved in implementing
+          this common relationship pattern.
+        </p>
+      </div>
+
+      <!-- 5 · Handling Many-to-Many Relationships -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive_topics_t4.html">Handling Many-to-Many Relationships</a>
+        </div>
+        <p class="card-desc">
+          This reading explains how many-to-many relationships between entities are handled
+          by introducing a junction (associative) table that holds foreign keys referencing
+          both related entities, and learners use it to understand how to correctly decompose
+          and represent this relationship type in a relational schema.
+        </p>
+      </div>
+
+      <!-- 6 · Mapping Weak Entities and Their Relationships -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive_topics_t5.html">Mapping Weak Entities and Their Relationships</a>
+        </div>
+        <p class="card-desc">
+          This reading describes what weak entities are, how they differ from strong entities,
+          and how their dependency on a parent entity is captured in a relational schema through
+          composite primary keys and foreign key constraints, guiding learners through this
+          special-case mapping.
+        </p>
+      </div>
+
+      <!-- 7 · Validating and Refining the Relational Schema (Topic Detail) -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive_topics_t6.html">Validating and Refining the Relational Schema</a>
+        </div>
+        <p class="card-desc">
+          This reading covers the post-translation process of checking a derived relational
+          schema for errors such as missing tables, misnamed columns, and incorrect foreign
+          keys, and learners or instructors use it to understand systematic techniques for
+          validating and refining a schema before implementation.
+        </p>
+      </div>
+
+      <!-- 8 · Validating and Refining the Relational Schema (Text Content) -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="content/Designing_Relational_Databas_interactive.html">Validating and Refining the Relational Schema</a>
+        </div>
+        <p class="card-desc">
+          This reading covers the post-translation process of checking a derived relational
+          schema for errors such as missing tables, misnamed columns, and incorrect foreign
+          keys, and learners or instructors use it to understand systematic techniques for
+          validating and refining a schema before implementation.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    COP4708 &nbsp;·&nbsp; Module 7 – Designing Relational Databases from ER Diagrams
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+</html>

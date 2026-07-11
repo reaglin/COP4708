@@ -1,0 +1,57 @@
+﻿[
+  {
+    "title": "9 - SQL Data Definition Language (DDL) \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "9 - SQL Data Definition Language (DDL) \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "9 - SQL Data Definition Language (DDL) \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  },
+  {
+    "title": "Working with Schemas",
+    "href": "content/SQL_Data_Definition_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to SQL DDL",
+    "href": "content/SQL_Data_Definition_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "The CREATE Command",
+    "href": "content/SQL_Data_Definition_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Data Types and Column Definitions",
+    "href": "content/SQL_Data_Definition_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Constraints in SQL",
+    "href": "content/SQL_Data_Definition_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "The ALTER Command",
+    "href": "content/SQL_Data_Definition_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "The DROP and TRUNCATE Commands",
+    "href": "content/SQL_Data_Definition_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Working with Schemas",
+    "href": "content/SQL_Data_Definition_interactive_topics_t7.html",
+    "type": "Content"
+  }
+]

@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud-Based Database Services</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+  <header>
+    <h1>Cloud-Based Database Services</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Cloud-Based Database Services</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Modern applications increasingly rely on databases that are not running on physical servers under a team's direct control, but instead on infrastructure managed by large cloud providers. This shift has given rise to a category of services known as <strong>managed cloud database services</strong> — a foundational concept for anyone working with data in contemporary software environments. Understanding how these services work, what they offer, and how they differ gives developers, architects, and database administrators the knowledge needed to choose and use the right platform for their workloads.</p>
+
+<p>A <strong>managed cloud database service</strong> is one where the cloud provider takes responsibility for the underlying infrastructure — the physical servers, network hardware, operating systems, and database engine installation — while the user focuses exclusively on working with the data itself. The word "managed" is significant: it signals that routine but critical operational tasks such as automated backups, software patching, hardware failure recovery, and scaling are handled by the provider rather than by the user's team. Instead of logging into a server and running <code>mysqldump</code> manually every night, for example, the provider's platform handles that automatically on a schedule you configure. Instead of scrambling when a disk fails, the platform detects the failure and switches traffic to a standby replica transparently.</p>
+
+<p>Users interact with managed databases through a <strong>connection endpoint</strong> — typically a hostname or IP address — using standard database clients, drivers, and connection libraries. From an application's perspective, connecting to a managed cloud database looks nearly identical to connecting to a self-hosted one. The difference lies entirely in who bears responsibility for keeping that database running, secure, and performant. The three most widely used managed relational database platforms are <strong>AWS RDS</strong>, <strong>Azure SQL Database</strong>, and <strong>Google Cloud SQL</strong>, each of which is explored in depth below.</p>
+
+<p><strong>AWS RDS (Relational Database Service)</strong> is Amazon Web Services' flagship managed relational database offering. When you create an RDS instance, AWS handles hardware provisioning, installs and configures the selected database engine (which can be MySQL, PostgreSQL, MariaDB, Oracle, or Microsoft SQL Server), applies OS-level and engine-level patches, and performs automated daily backups with configurable retention periods. This means a team that previously needed a dedicated database administrator just to keep the lights on can now focus that expertise on schema design, query optimization, and data modeling instead.</p>
+
+<p>One of RDS's most important features is <strong>Multi-AZ (Multi-Availability Zone) deployment</strong>. AWS data centers are organized into geographic regions, each containing multiple physically separate availability zones. When Multi-AZ is enabled, RDS automatically provisions a synchronous standby replica of your database in a different availability zone. If the primary instance fails — due to hardware fault, network disruption, or even a planned maintenance window — RDS automatically performs a <strong>failover</strong>, promoting the standby to primary and updating the DNS endpoint so that your application reconnects without requiring manual intervention. The failover typically completes within one to two minutes, making it suitable for production workloads where downtime is costly.</p>
+
+<p>For read-heavy workloads, RDS supports <strong>read replicas</strong>. A read replica is an asynchronously updated copy of the primary database that can serve <code>SELECT</code> queries, offloading that traffic from the primary instance. For example, a reporting dashboard that runs complex aggregation queries would be directed to a read replica, ensuring those expensive queries do not compete for resources with the primary instance handling write traffic. RDS allows up to five read replicas per primary instance for MySQL and MariaDB, and up to fifteen for PostgreSQL via Aurora. Read replicas can also be promoted to standalone instances if needed — for instance, to create a staging environment from a production copy.</p>
+
+<p>RDS integrates tightly with the broader AWS ecosystem. <strong>AWS IAM (Identity and Access Management)</strong> can be used to control who can create, modify, or delete RDS instances, and for some engines it can also authenticate database connections directly. <strong>Amazon CloudWatch</strong> collects metrics such as CPU utilization, read/write IOPS, free storage space, and database connections, allowing teams to set alarms and trigger automated responses when thresholds are crossed. RDS also integrates with <strong>AWS Secrets Manager</strong> for secure rotation of database credentials without application downtime.</p>
+
+<p><strong>Azure SQL Database</strong> is Microsoft's managed relational database service on the Azure cloud platform, built on Microsoft SQL Server technology. It is designed from the ground up for cloud workloads, offering a <strong>99.99% uptime SLA</strong> backed by built-in high availability. Unlike traditional SQL Server deployments where you must configure AlwaysOn Availability Groups manually, Azure SQL Database manages replication internally — every database tier above the basic level keeps multiple synchronized copies of data across different hardware and storage domains automatically, without any configuration required from the user.</p>
+
+<p>A distinctive feature of Azure SQL Database is its <strong>automatic tuning</strong> capability. The service continuously monitors query execution plans and uses machine learning to identify performance regressions. When it detects that a query has become slower — for example, because a previously useful index was dropped or statistics have become stale — it can automatically create or rebuild indexes, force last-known-good execution plans, and even undo its own changes if they did not improve performance. This is a meaningful operational advantage for teams without dedicated DBA resources, as the system can catch and resolve many common performance degradation scenarios without human intervention.</p>
+
+<p><strong>Active geo-replication</strong> is Azure SQL Database's mechanism for disaster recovery across geographic regions. You can configure up to four readable secondary replicas in different Azure regions. If the primary region becomes unavailable due to a large-scale outage, you can initiate a failover to a secondary in another region, bringing your database back online with minimal data loss. For fully automated failover without manual intervention, Azure offers <strong>auto-failover groups</strong>, which manage the failover process and update the connection endpoint transparently so applications reconnect to the new primary automatically.</p>
+
+<p>Identity and access management in Azure SQL Database integrates with <strong>Azure Active Directory (Azure AD)</strong>, now known as Microsoft Entra ID. Rather than maintaining separate database usernames and passwords, administrators can grant access using Azure AD identities — the same accounts used to log into Microsoft 365, Azure Portal, and other enterprise services. This centralized identity model simplifies access reviews, enables multi-factor authentication for database connections, and allows organizations to enforce conditional access policies consistently across their technology stack.</p>
+
+<p><strong>Google Cloud SQL</strong> is Google Cloud Platform's managed service for relational databases, supporting MySQL, PostgreSQL, and SQL Server. Like its counterparts on AWS and Azure, Cloud SQL removes the burden of managing the underlying infrastructure. Replication, patch management, and daily automated backups are all handled by the platform. A key difference users notice is the tight integration with the broader Google Cloud ecosystem, including <strong>BigQuery</strong> for analytics and <strong>Google Kubernetes Engine</strong> for containerized application deployments.</p>
+
+<p>Cloud SQL's <strong>high availability configuration</strong> uses a primary instance paired with a standby instance deployed in a different zone within the same region. Data is synchronously replicated to the standby using regional persistent disks, meaning there is zero data loss on failover. If the primary instance becomes unavailable, Cloud SQL automatically promotes the standby and updates the connection endpoint within about 60 seconds. This is transparent to the application as long as it is configured to handle brief connection interruptions, which most modern connection pooling libraries handle gracefully.</p>
+
+<p>One of Cloud SQL's practical conveniences is <strong>automatic storage increase</strong>. Rather than requiring you to provision storage capacity upfront and then manually resize when approaching capacity, Cloud SQL can automatically increase storage as data grows, up to a maximum of <strong>64 TB per instance</strong>. This prevents the situation where a production database runs out of disk space unexpectedly — a failure mode that has caused real outages for teams that forget to monitor storage growth. You configure a maximum storage limit, and the platform handles the rest.</p>
+
+<p>Access control in Cloud SQL uses <strong>Google Cloud IAM</strong> to manage who can administer the instance — creating databases, modifying configuration, or viewing logs — while database-level authentication (usernames and passwords, or IAM database authentication for PostgreSQL and MySQL) controls which users can connect and what they can do within the database. Cloud SQL also integrates with <strong>Cloud Audit Logs</strong>, providing a detailed record of administrative actions and data access events that is critical for compliance with regulations such as HIPAA and GDPR.</p>
+
+<p>Despite their differences, AWS RDS, Azure SQL Database, and Google Cloud SQL share a core set of capabilities that define what a mature managed database platform looks like. Understanding these shared features helps establish a baseline when evaluating any cloud database service.</p>
+
+<p><strong>Automated backups and point-in-time recovery (PITR)</strong> are universal. Each platform takes automated snapshots of the database on a daily basis and continuously archives transaction logs. Together, these allow you to restore the database to any specific moment within your configured retention window — not just to the last nightly backup, but to the exact state the database was in at, say, 2:47 PM on a Tuesday before an accidental batch delete. This granularity is critical for minimizing data loss in recovery scenarios. Retention windows typically range from 1 to 35 days depending on the platform and configuration.</p>
+
+<p><strong>Encryption at rest and in transit</strong> is standard across all three platforms. Data stored on disk is encrypted using AES-256, with keys managed either by the provider or by the customer using dedicated key management services (AWS KMS, Azure Key Vault, Google Cloud KMS). Data in transit between the application and the database endpoint is protected by <strong>TLS (Transport Layer Security)</strong>, preventing eavesdropping on network connections. Some platforms allow you to require TLS connections and reject unencrypted ones, which is important for meeting security compliance requirements.</p>
+
+<p><strong>Monitoring dashboards and alerting</strong> give teams visibility into database health and performance. All three platforms expose metrics through their respective monitoring products — CloudWatch on AWS, Azure Monitor, and Google Cloud Monitoring — covering dimensions such as CPU and memory utilization, active connections, query latency, replication lag, and storage consumption. Alerts can be configured to notify teams via email, SMS, or integrations with incident management tools like PagerDuty or Opsgenie when metrics cross defined thresholds.</p>
+
+<p><strong>Scalability</strong> takes two primary forms. <strong>Vertical scaling</strong> means upgrading the instance to a more powerful machine class — more CPU cores, more memory — to handle heavier workloads. This is straightforward in cloud environments: you select a new instance size in the console or via API, and the platform handles migrating your database to the larger machine, typically with a brief maintenance window. <strong>Horizontal scaling</strong> distributes load across multiple instances. Read replicas are the most common horizontal scaling mechanism for read-heavy workloads, directing query traffic across multiple instances. For write-heavy workloads that exceed what a single instance can handle, sharding — partitioning data across multiple independent database instances — becomes necessary, though this is architecturally more complex and is handled differently by each platform.</p>
+
+<p>Connecting an application to a cloud database follows a consistent pattern across all platforms. Each database instance is assigned a <strong>hostname endpoint</strong> (for example, <code>mydb.cluster-abc123.us-east-1.rds.amazonaws.com</code>) that the application uses in its connection string. This endpoint remains stable even through failover events, because the platform updates the DNS record to point to the current primary instance transparently. A typical connection string for a PostgreSQL database on RDS might look like:</p>
+
+<pre><code>postgresql://appuser:password@mydb.cluster-abc123.us-east-1.rds.amazonaws.com:5432/production_db?sslmode=require</code></pre>
+
+<p>The <code>sslmode=require</code> parameter illustrates an important security practice: explicitly requiring TLS encryption on the connection. Without this, some database drivers will silently connect without encryption if the server permits it.</p>
+
+<p>Network-level access control is layered. At the perimeter, <strong>firewall rules</strong> (called Security Groups on AWS, Firewall Rules on GCP, and Firewall Rules within Azure's virtual network) restrict which IP addresses or CIDR ranges can reach the database port. Best practice is to allow only the IP ranges of application servers or VPN gateways, never the entire internet. Databases are often placed inside a <strong>VPC (Virtual Private Cloud)</strong> or equivalent private network so they are not directly reachable from the public internet at all, with applications connecting via private internal IP addresses. Beyond network controls, database-level authentication — usernames, passwords, and permissions — provides the second layer, ensuring that even a host that can reach the database network port cannot do anything without valid credentials.</p>
+
+<p>The table below summarizes key characteristics of the three major managed relational database platforms side by side:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>AWS RDS</th>
+      <th>Azure SQL Database</th>
+      <th>Google Cloud SQL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Supported Engines</td>
+      <td>MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, (Aurora)</td>
+      <td>Microsoft SQL Server (T-SQL compatible)</td>
+      <td>MySQL, PostgreSQL, SQL Server</td>
+    </tr>
+    <tr>
+      <td>High Availability Mechanism</td>
+      <td>Multi-AZ synchronous standby</td>
+      <td>Built-in redundancy; auto-failover groups</td>
+      <td>Primary + standby in separate zones</td>
+    </tr>
+    <tr>
+      <td>Cross-Region Replication</td>
+      <td>Cross-region read replicas</td>
+      <td>Active geo-replication (up to 4 regions)</td>
+      <td>Cross-region read replicas</td>
+    </tr>
+    <tr>
+      <td>Uptime SLA</td>
+      <td>99.95% (Multi-AZ)</td>
+      <td>99.99%</td>
+      <td>99.95% (HA configuration)</td>
+    </tr>
+    <tr>
+      <td>Automatic Storage Scaling</td>
+      <td>Yes (autoscaling storage)</td>
+      <td>Yes (serverless tier)</td>
+      <td>Yes (up to 64 TB)</td>
+    </tr>
+    <tr>
+      <td>Identity Integration</td>
+      <td>AWS IAM</td>
+      <td>Azure Active Directory / Entra ID</td>
+      <td>Google Cloud IAM</td>
+    </tr>
+    <tr>
+      <td>Automatic Performance Tuning</td>
+      <td>Performance Insights (advisory)</td>
+      <td>Automatic tuning (AI-driven)</td>
+      <td>Query Insights (advisory)</td>
+    </tr>
+    <tr>
+      <td>Encryption at Rest</td>
+      <td>Yes (AES-256, AWS KMS)</td>
+      <td>Yes (Transparent Data Encryption)</td>
+      <td>Yes (AES-256, Cloud KMS)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The practical implications of choosing a managed cloud database service over self-hosting are substantial. Teams no longer need to schedule downtime for database engine upgrades, worry about running out of disk space at 3 AM, or build their own backup and restore pipelines. The tradeoff is a degree of control — you cannot, for instance, install custom database extensions that the provider has not whitelisted, or tune kernel parameters on the underlying OS. For the vast majority of application workloads, however, this tradeoff strongly favors managed services: the operational simplicity, built-in reliability, and deep integration with cloud-native tooling outweigh the loss of low-level customization that most teams never needed in the first place.</p>
+        <div class="notes"><strong>Notes</strong>Comprehensive coverage of all listed subtopics including managed service definition, AWS RDS, Azure SQL Database, Google Cloud SQL, shared core features, and connectivity. Includes a comparison table and practical connection string example.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

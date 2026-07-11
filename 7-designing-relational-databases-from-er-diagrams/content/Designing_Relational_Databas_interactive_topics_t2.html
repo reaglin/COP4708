@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapping Strong Entities and Attributes to Tables</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 7 - Designing Relational Databases from ER Diagrams</a></div>
+  <header>
+    <h1>Mapping Strong Entities and Attributes to Tables</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Mapping Strong Entities and Attributes to Tables</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When designing a relational database from an Entity-Relationship (ER) diagram, one of the most fundamental tasks is converting the diagram's entities and their attributes into concrete tables that a database management system can store and query. The first category of entity you will encounter — and the most straightforward to map — is the <strong>strong entity</strong>. Understanding exactly what a strong entity is, how it differs from other constructs in an ER diagram, and how each variety of attribute attached to it should be handled gives you a reliable, repeatable process for producing well-structured relational tables.</p>
+
+<p>A <strong>strong entity</strong> is any entity type that can be uniquely identified by its own attributes alone, without relying on a relationship with another entity. In ER diagrams, strong entities are drawn as solid rectangles, and each one is accompanied by at least one <strong>key attribute</strong> — the attribute (or combination of attributes) whose value is guaranteed to be unique across every instance of that entity. For example, an entity called <em>Employee</em> might have a key attribute <em>EmployeeID</em>; no two employees share the same ID, so any individual employee record can be pinpointed without referencing any other entity. This self-sufficiency is the defining characteristic of a strong entity and the property that makes the mapping process relatively clean and direct.</p>
+
+<p>Strong entities stand in contrast to <strong>weak entities</strong>, which lack a key attribute of their own and must borrow part of their identity from a related (owner) entity. Because strong entities carry their own identity, they are always the first candidates for table creation — and often the tables created from them become anchor points to which other tables, derived from weak entities or relationships, are later connected via foreign keys.</p>
+
+<p><strong>Recognizing strong entities is therefore the indispensable first step</strong> before any mapping begins. Walk through your ER diagram and label every rectangle that has a key attribute of its own. These entities will each produce exactly one primary table, and every other construct in the diagram that depends on them — weak entities, multi-valued attributes, relationships — will reference those tables.</p>
+
+<p>Once a strong entity has been identified, the conversion to a relational table follows a clear rule: <strong>the name of the strong entity becomes the name of the table</strong>. This naming convention is not arbitrary; it preserves traceability between the original design and the implemented schema, making the database easier to understand and maintain. If the ER diagram contains an entity called <em>Product</em>, the resulting table is called <em>Product</em> (or <em>Products</em>, depending on your organisation's naming standards).</p>
+
+<p>The correspondence between the ER model and the relational model is direct: each <strong>instance</strong> of the entity in the ER diagram — meaning each individual thing of that type in the real world — becomes one <strong>row (tuple)</strong> in the table. A company with 500 employees would have 500 rows in its <em>Employee</em> table, one for each person. This one-to-one correspondence between entity instances and table rows is a foundational rule of ER-to-relational mapping and should be kept clearly in mind throughout the process.</p>
+
+<p>Consider the following simple example. Suppose an ER diagram contains the strong entity <em>Student</em> with attributes <em>StudentID</em> (key), <em>FirstName</em>, <em>LastName</em>, and <em>DateOfBirth</em>. The resulting relational table looks like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>DateOfBirth</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>Amara</td>
+      <td>Okafor</td>
+      <td>2002-03-15</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>James</td>
+      <td>Whitfield</td>
+      <td>2001-11-28</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>Lena</td>
+      <td>Hoffmann</td>
+      <td>2003-07-04</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each row represents one student; each column represents one attribute. This clean, flat structure is the direct result of applying the entity-to-table mapping rule.</p>
+
+<p>The most common kind of attribute in an ER diagram is the <strong>simple (atomic) attribute</strong> — one that holds a single, indivisible value. Simple attributes translate directly into <strong>columns</strong> of the relational table. When performing this translation, you must assign each column an appropriate <strong>data type</strong> that matches the nature of the values it will store:</p>
+
+<ul>
+  <li><strong>VARCHAR(n)</strong> or <strong>CHAR(n)</strong> — for text-based values such as names, codes, or descriptions.</li>
+  <li><strong>INTEGER</strong> or <strong>BIGINT</strong> — for whole-number values such as counts, IDs, or quantities.</li>
+  <li><strong>DECIMAL(p, s)</strong> or <strong>NUMERIC</strong> — for monetary amounts or other values requiring precise decimal representation.</li>
+  <li><strong>DATE</strong>, <strong>TIME</strong>, or <strong>DATETIME</strong> — for calendar and time-based values.</li>
+  <li><strong>BOOLEAN</strong> — for true/false flags.</li>
+</ul>
+
+<p>Each column must store <strong>one atomic value per row</strong>. Placing multiple values (for example, a comma-separated list of phone numbers) into a single column violates <strong>First Normal Form (1NF)</strong>, the most basic level of relational normalisation, and creates serious problems for querying, updating, and indexing. Attribute names from the ER diagram are typically preserved as column names; this keeps the implementation consistent with the design and makes it easier for developers and analysts to trace a column back to the original conceptual model.</p>
+
+<p>A <strong>composite attribute</strong> is one that is itself made up of several simpler sub-attributes. A classic example is <em>Address</em>, which might be composed of <em>Street</em>, <em>City</em>, <em>State</em>, and <em>PostalCode</em>. In an ER diagram, this is shown as an oval (<em>Address</em>) with smaller ovals branching off it for each component. When mapping to a relational table, the standard and recommended approach is to <strong>decompose the composite attribute</strong> into its individual components, each of which becomes its own column:</p>
+
+<pre><code>CREATE TABLE Customer (
+    CustomerID   INTEGER      PRIMARY KEY,
+    FirstName    VARCHAR(50)  NOT NULL,
+    LastName     VARCHAR(50)  NOT NULL,
+    Street       VARCHAR(100),
+    City         VARCHAR(50),
+    State        CHAR(2),
+    PostalCode   VARCHAR(10)
+);
+</code></pre>
+
+<p>Storing the components separately provides significant practical advantages:</p>
+
+<ul>
+  <li>You can <strong>filter or sort</strong> on individual parts — for example, retrieving all customers in a particular city with <code>WHERE City = 'Austin'</code>.</li>
+  <li>You can <strong>validate</strong> each component independently — a postal code can be checked against a pattern; a state code can be verified against a reference table.</li>
+  <li>You can <strong>index</strong> individual components for faster lookups.</li>
+</ul>
+
+<p>In rare cases, if the application will never need to access individual parts of a composite attribute separately, the whole composite may be stored as a single column (for example, storing a full address as one <em>VARCHAR</em> string). However, this is considered an anti-pattern in most contexts because it sacrifices flexibility and complicates any future need to query or manipulate components individually.</p>
+
+<p>The <strong>primary key</strong> is arguably the most important decision made during the mapping of a strong entity. The primary key column (or columns) must satisfy two strict constraints:</p>
+
+<ul>
+  <li><strong>Uniqueness:</strong> No two rows in the table may have the same primary key value.</li>
+  <li><strong>Non-nullability:</strong> Every row must have a primary key value; nulls are not permitted.</li>
+</ul>
+
+<p>Together, these constraints enforce <strong>entity integrity</strong> — the guarantee that every row in the table represents a distinct, identifiable entity instance. The primary key in the relational table corresponds directly to the key attribute (marked with an underline in the ER diagram) of the strong entity.</p>
+
+<p>Sometimes a single attribute is sufficient as a primary key — for example, <em>EmployeeID</em> for an <em>Employee</em> entity. In other cases, the ER diagram shows a <strong>composite key</strong>: two or more attributes that together (but not individually) form a unique identifier. For instance, a <em>CourseOffering</em> entity might be uniquely identified by the combination of <em>CourseCode</em> and <em>Semester</em>. In the relational table, this is expressed as a <strong>composite primary key</strong>:</p>
+
+<pre><code>CREATE TABLE CourseOffering (
+    CourseCode   CHAR(8)     NOT NULL,
+    Semester     VARCHAR(10) NOT NULL,
+    Room         VARCHAR(20),
+    MaxEnrolment INTEGER,
+    PRIMARY KEY (CourseCode, Semester)
+);
+</code></pre>
+
+<p>Choosing the right primary key matters beyond the table itself. Primary keys are the mechanism by which <strong>foreign keys in other tables</strong> reference rows in this one, forming the relational links that correspond to relationships in the ER diagram. A poorly chosen key — one that is not truly unique, or that might change over time — will propagate errors and update anomalies throughout the schema. Natural keys (meaningful real-world values) can work well when stable, but many designs prefer <strong>surrogate keys</strong> (system-generated integers with no real-world meaning) for their guaranteed uniqueness and immutability.</p>
+
+<p>A <strong>multi-valued attribute</strong> is one that can hold more than one value for a single entity instance. In an ER diagram, multi-valued attributes are drawn with a double oval. A common example is <em>PhoneNumber</em> on a <em>Person</em> entity — an individual may have a mobile number, a home number, and a work number simultaneously. Because a relational column can store only one atomic value per row, placing multiple phone numbers in a single column is not a valid relational solution.</p>
+
+<p>The standard mapping strategy is to create a <strong>separate table</strong> for the multi-valued attribute. This new table contains:</p>
+
+<ul>
+  <li>A <strong>foreign key</strong> column that references the primary key of the original entity's table.</li>
+  <li>A column for the <strong>attribute value</strong> itself.</li>
+  <li>A <strong>primary key</strong> composed of the foreign key plus the attribute value (since the same value might theoretically appear for different entity instances, but the combination is unique).</li>
+</ul>
+
+<p>For example, the multi-valued attribute <em>PhoneNumber</em> on the <em>Person</em> entity maps as follows:</p>
+
+<pre><code>CREATE TABLE Person (
+    PersonID  INTEGER      PRIMARY KEY,
+    FullName  VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE PersonPhone (
+    PersonID    INTEGER     NOT NULL,
+    PhoneNumber VARCHAR(20) NOT NULL,
+    PRIMARY KEY (PersonID, PhoneNumber),
+    FOREIGN KEY (PersonID) REFERENCES Person(PersonID)
+);
+</code></pre>
+
+<p>With this structure, each row in <em>PersonPhone</em> records one phone number for one person. A person with three phone numbers has three rows in <em>PersonPhone</em>, all sharing the same <em>PersonID</em>. This approach preserves relational integrity, allows any number of values per entity instance, and makes it easy to query, add, or remove individual values without touching the main entity table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>PersonID</th>
+      <th>PhoneNumber</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>555-0101</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>555-0198</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>555-0247</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Person 101 has two phone numbers; Person 102 has one. The relationship is clear, normalised, and fully queryable.</p>
+
+<p>A <strong>derived attribute</strong> is one whose value can be calculated from other stored data rather than being independently recorded. In ER diagrams, derived attributes are depicted with a <strong>dashed oval</strong>. A familiar example is <em>Age</em>, which can always be derived from <em>DateOfBirth</em> and the current date, or <em>TotalOrderValue</em>, which can be computed by summing the line items of an order.</p>
+
+<p>Because derived attributes can always be recalculated, they do not <em>need</em> to be stored as columns. The preferred approach in most cases is to <strong>omit them from the table</strong> and instead compute them in queries or application code whenever needed:</p>
+
+<pre><code>-- Compute Age on the fly from DateOfBirth
+SELECT
+    StudentID,
+    FirstName,
+    LastName,
+    TIMESTAMPDIFF(YEAR, DateOfBirth, CURDATE()) AS Age
+FROM Student;
+</code></pre>
+
+<p>This approach guarantees that the derived value is always current and eliminates the risk of the stored value becoming stale.</p>
+
+<p>However, there are scenarios in which storing a derived attribute as a physical column — a practice sometimes called <strong>materialisation</strong> — is justified on performance grounds. If a derived value is extremely expensive to compute (for example, aggregating millions of sales records to produce a running total) and is read far more frequently than the underlying data changes, it may be acceptable to cache it as a stored column. The trade-off is significant: every time the underlying data changes, the materialised value must be updated, either by application logic or a database trigger. Failure to keep the materialised value in sync creates <strong>data inconsistency</strong>, which is one of the most damaging problems a database can suffer.</p>
+
+<p>The decision framework for derived attributes can be summarised as:</p>
+
+<ul>
+  <li><strong>Omit and compute</strong> — use when the computation is inexpensive or when data changes frequently. This is the default and safest choice.</li>
+  <li><strong>Materialise (store)</strong> — use only when computation is expensive, the value is read very frequently, and a reliable update mechanism (trigger, scheduled job, or application layer) is in place to maintain accuracy.</li>
+</ul>
+
+<p>Bringing all of these mapping rules together, the overall process for converting a strong entity and its attributes into a relational table can be summarised:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ER Construct</th>
+      <th>Mapping Action</th>
+      <th>Result in Relational Schema</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Strong entity</td>
+      <td>Create a table with the entity's name</td>
+      <td>One new table</td>
+    </tr>
+    <tr>
+      <td>Simple attribute</td>
+      <td>Add a column with an appropriate data type</td>
+      <td>One column per attribute</td>
+    </tr>
+    <tr>
+      <td>Key attribute</td>
+      <td>Designate the column (or columns) as PRIMARY KEY</td>
+      <td>Primary key constraint on the table</td>
+    </tr>
+    <tr>
+      <td>Composite attribute</td>
+      <td>Decompose into component attributes; add one column per component</td>
+      <td>Multiple columns replacing the single composite</td>
+    </tr>
+    <tr>
+      <td>Multi-valued attribute</td>
+      <td>Create a separate table with a foreign key back to the entity table</td>
+      <td>New table linked by foreign key</td>
+    </tr>
+    <tr>
+      <td>Derived attribute</td>
+      <td>Omit from the table; compute in queries (or materialise if performance demands)</td>
+      <td>No column (default) or a maintained column (materialised)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Applying these rules consistently ensures that the relational schema faithfully represents the conceptual model, supports efficient querying, maintains data integrity, and remains extensible as requirements evolve. The mapping of strong entities is the foundation on which the rest of the schema — relationships, weak entities, and specialisation hierarchies — is subsequently built.</p>
+        <div class="notes"><strong>Notes</strong>Covers the full mapping process for strong entities including simple, composite, multi-valued, and derived attributes, with inline SQL examples and illustrative data tables.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>

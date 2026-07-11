@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>11 - SQL Commands for Complex Queries | COP4708</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #2c3e50;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #fff;
+      padding: 2.5rem 2rem 2rem;
+      border-bottom: 4px solid #f0a500;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .course-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.18);
+      color: #e8f0fb;
+      border-radius: 3px;
+      padding: 0.2rem 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #cde0f7;
+      max-width: 72ch;
+    }
+
+    /* ── Main ── */
+    main {
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7a8d;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #dce3ed;
+    }
+
+    /* ── Card Grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #dce3ed;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 18px rgba(37,99,168,0.13);
+      transform: translateY(-2px);
+    }
+
+    .card-accent {
+      height: 4px;
+      background: linear-gradient(90deg, #2563a8, #f0a500);
+    }
+
+    .card-body {
+      padding: 1.25rem 1.35rem 1.35rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    /* ── Meta badges ── */
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border-radius: 3px;
+      padding: 0.18rem 0.5rem;
+    }
+
+    .badge-type {
+      background: #e8f0fb;
+      color: #1a3a5c;
+    }
+
+    .badge-filetype {
+      background: #fef3dc;
+      color: #7a5000;
+    }
+
+    /* ── Card title row ── */
+    .card-title-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      line-height: 1.35;
+    }
+
+    .card-name a {
+      color: #1a3a5c;
+      text-decoration: none;
+      border-bottom: 2px solid #2563a8;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .card-name a:hover {
+      color: #2563a8;
+      border-color: #f0a500;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #5a7a9e;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid #b8cee4;
+      border-radius: 3px;
+      padding: 0.15rem 0.45rem;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .source-link:hover {
+      background: #e8f0fb;
+      color: #1a3a5c;
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.65rem;
+    }
+
+    /* ── Description ── */
+    .card-desc {
+      font-size: 0.875rem;
+      color: #4a5568;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.78rem;
+      color: #8a96a3;
+      border-top: 1px solid #dce3ed;
+      background: #fff;
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 480px) {
+      header { padding: 1.75rem 1rem 1.5rem; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
+<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
+
+  <header>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>11 &mdash; SQL Commands for Complex Queries</h1>
+      <p>
+        This module takes you beyond basic SELECT statements into the full power of SQL —
+        exploring JOINs, WHERE clause filtering, sorting, aggregation, and subqueries.
+        Work through the artifacts below in order to build a solid foundation in writing
+        sophisticated, real-world database queries.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <p class="section-title">Module Artifacts &mdash; 7 items</p>
+
+    <div class="card-grid">
+
+      <!-- 1: Module Topics -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Module Topics</span>
+            <span class="badge badge-filetype">.json</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/module_topics.html">Module Topics</a>
+            </span>
+            <a class="source-link" href="source/hierarchy.json">source file</a>
+          </div>
+          <p class="card-desc">
+            Outlines the module's learning topics covering complex SQL queries, including JOIN types
+            (INNER, LEFT, and others), and WHERE clause filtering with comparison and logical operators,
+            serving as a roadmap for learners and instructors to understand what concepts will be taught
+            and in what order.
+          </p>
+        </div>
+      </div>
+
+      <!-- 2: Introduction to Complex SQL Queries -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Topic Detail</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive_topics_t1.html">Introduction to Complex SQL Queries</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading introduces why simple SELECT statements are insufficient for real-world database
+            work and previews the complex SQL concepts — JOINs, filtering, aggregation, and subqueries —
+            that learners will study throughout the module.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3: JOIN Types and Multi-Table Queries -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Topic Detail</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive_topics_t2.html">JOIN Types and Multi-Table Queries</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading explains all major SQL JOIN types (INNER, LEFT, RIGHT, FULL, CROSS) and how to
+            combine data from multiple related tables, serving as a reference and study resource for
+            learners writing multi-table queries.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4: Filtering Data with WHERE Clauses -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Topic Detail</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive_topics_t3.html">Filtering Data with WHERE Clauses</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading covers the SQL WHERE clause in depth — including comparison operators, logical
+            operators (AND, OR, NOT), pattern matching with LIKE, IN, BETWEEN, and NULL handling — so
+            learners can precisely filter query results to only the rows they need.
+          </p>
+        </div>
+      </div>
+
+      <!-- 5: Sorting Results with ORDER BY -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Topic Detail</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive_topics_t4.html">Sorting Results with ORDER BY</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading explains how the ORDER BY clause controls the sequence of query results, covering
+            ascending and descending sorts, multi-column sort keys, and sorting by expressions, so learners
+            can return data in a predictable, meaningful order.
+          </p>
+        </div>
+      </div>
+
+      <!-- 6: Aggregating Data with GROUP BY and HAVING -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Topic Detail</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive_topics_t5.html">Aggregating Data with GROUP BY and HAVING</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading covers the GROUP BY clause and aggregate functions (COUNT, SUM, AVG, MIN, MAX)
+            along with the HAVING clause for filtering grouped results, enabling learners to write queries
+            that produce summary statistics across categories of data.
+          </p>
+        </div>
+      </div>
+
+      <!-- 7: Writing and Using Subqueries (Topic Detail) -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Topic Detail</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive_topics_t6.html">Writing and Using Subqueries</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading introduces subqueries — SELECT statements nested inside other SQL statements —
+            explaining how to write and place them in WHERE, FROM, and SELECT clauses so learners can
+            decompose complex data retrieval problems into manageable logical steps.
+          </p>
+        </div>
+      </div>
+
+      <!-- 8: Writing and Using Subqueries (Text Content) -->
+      <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="badge badge-type">Text Content</span>
+            <span class="badge badge-filetype">.html</span>
+          </div>
+          <div class="card-title-row">
+            <span class="card-name">
+              <a href="content/SQL_Commands_for_interactive.html">Writing and Using Subqueries</a>
+            </span>
+          </div>
+          <p class="card-desc">
+            This reading is a duplicate of artifact 6 and covers the same subquery concepts — nested SELECT
+            statements, inner/outer query terminology, and practical placement strategies — providing learners
+            with the same reference material on writing and using subqueries.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    COP4708 &mdash; Module 11: SQL Commands for Complex Queries &nbsp;&bull;&nbsp;
+    All materials are for educational use.
+  </footer>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+</html>

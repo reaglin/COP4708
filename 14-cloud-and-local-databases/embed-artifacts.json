@@ -1,0 +1,57 @@
+﻿[
+  {
+    "title": "14 - Cloud and Local Databases \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "14 - Cloud and Local Databases \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "Availability, Reliability, and Security",
+    "href": "content/Cloud_and_Local_interactive.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Database Deployment Models",
+    "href": "content/Cloud_and_Local_interactive_topics_t1.html",
+    "type": "Content"
+  },
+  {
+    "title": "Locally Hosted Database Systems",
+    "href": "content/Cloud_and_Local_interactive_topics_t2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Cloud-Based Database Services",
+    "href": "content/Cloud_and_Local_interactive_topics_t3.html",
+    "type": "Content"
+  },
+  {
+    "title": "Cost Comparison: Cloud vs. Local",
+    "href": "content/Cloud_and_Local_interactive_topics_t4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Scalability and Performance",
+    "href": "content/Cloud_and_Local_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Maintenance and Administration",
+    "href": "content/Cloud_and_Local_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Availability, Reliability, and Security",
+    "href": "content/Cloud_and_Local_interactive_topics_t7.html",
+    "type": "Content"
+  },
+  {
+    "title": "14 - Cloud and Local Databases \u2014 Module Topics",
+    "href": "content/module_topics.html",
+    "type": "Content"
+  }
+]

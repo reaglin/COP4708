@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The ALTER Command</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+  <header>
+    <h1>The ALTER Command</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>The ALTER Command</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Once a database table has been created and populated with real data, the need to change its structure is almost inevitable. Business requirements evolve, new features demand additional information, and occasionally a design decision made early on turns out to be too restrictive or simply wrong. The <strong>ALTER TABLE</strong> command is the SQL mechanism that allows you to make those structural changes — adding new columns, modifying existing ones, dropping obsolete columns, and managing constraints — all without destroying the rows of data already stored in the table. Understanding ALTER TABLE thoroughly is essential for any developer or database administrator who works with live systems.</p>
+
+<p><strong>ALTER TABLE</strong> belongs to the <em>Data Definition Language (DDL)</em> category of SQL commands, alongside CREATE TABLE and DROP TABLE. DDL commands modify the <em>schema</em> — the structural blueprint of the database — rather than the data itself. Because DDL changes are applied immediately and are auto-committed in most database systems (MySQL, Oracle, SQL Server), they take effect the moment the statement executes. There is no implicit transaction wrapper that lets you roll them back with a simple ROLLBACK in those environments, so care and preparation are critical before issuing ALTER TABLE on a production database. PostgreSQL is a notable exception: its DDL statements participate in transactions and can be rolled back, which gives developers an important safety net.</p>
+
+<p>The defining characteristic that sets ALTER TABLE apart from DROP TABLE followed by CREATE TABLE is <strong>data preservation</strong>. When you alter a table, all existing rows survive the structural change. You are reshaping the container, not discarding its contents. This makes ALTER TABLE the correct tool whenever the goal is to evolve a design rather than replace it entirely.</p>
+
+<p><strong>Adding Columns with ALTER TABLE</strong></p>
+
+<p>The most common use of ALTER TABLE is adding a new column to accommodate new information. The syntax uses an <strong>ADD</strong> clause followed by the column definition, which includes the column name, its data type, and any optional constraints such as NOT NULL, DEFAULT, or UNIQUE.</p>
+
+<pre><code>-- Add a single new column to an existing table
+ALTER TABLE employees
+ADD hire_date DATE;
+
+-- Add a column with a default value
+ALTER TABLE employees
+ADD is_active BOOLEAN DEFAULT TRUE;
+
+-- Add a column with a NOT NULL constraint and a default to satisfy existing rows
+ALTER TABLE employees
+ADD department_code VARCHAR(10) NOT NULL DEFAULT 'UNASSIGNED';
+</code></pre>
+
+<p>When a new column is added, it is appended to the <strong>end of the column list</strong> by default in most databases. MySQL is an exception: it allows you to specify <code>FIRST</code> or <code>AFTER column_name</code> to control the position of the new column, which can be useful for readability but has no impact on data integrity or query behavior.</p>
+
+<p>The behavior for <strong>existing rows</strong> is critical to understand. Every row that existed before the ALTER TABLE statement ran will now have a value in the new column. If you provided a <code>DEFAULT</code>, each existing row receives that default value immediately. If you did not provide a default and the column allows NULLs, each existing row receives NULL. If you attempt to add a NOT NULL column without a default value, the database will typically refuse because it cannot assign a valid value to the existing rows — they would immediately violate the constraint.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Column Allows NULL?</th>
+      <th>DEFAULT Provided?</th>
+      <th>Value in Existing Rows</th>
+      <th>Statement Succeeds?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ADD col VARCHAR(50)</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>NULL</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ADD col VARCHAR(50) DEFAULT 'N/A'</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>'N/A'</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ADD col INT NOT NULL DEFAULT 0</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>0</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ADD col INT NOT NULL</td>
+      <td>No</td>
+      <td>No</td>
+      <td>Cannot assign a value</td>
+      <td>No (error)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Modifying Existing Columns</strong></p>
+
+<p>Over time you may need to change the properties of a column that already exists — perhaps the original VARCHAR length is too short, a column that was nullable should now be required, or a default value needs updating. The syntax for modifying a column varies across database platforms more than any other ALTER TABLE operation.</p>
+
+<pre><code>-- SQL Server / MS SQL syntax
+ALTER TABLE products
+ALTER COLUMN description VARCHAR(500);
+
+-- MySQL syntax
+ALTER TABLE products
+MODIFY COLUMN description VARCHAR(500) NOT NULL;
+
+-- Oracle syntax
+ALTER TABLE products
+MODIFY (description VARCHAR2(500));
+
+-- PostgreSQL syntax
+ALTER TABLE products
+ALTER COLUMN description TYPE VARCHAR(500);
+</code></pre>
+
+<p>The safest type of modification is <strong>widening</strong> a character or numeric column — for example, changing VARCHAR(50) to VARCHAR(100), or SMALLINT to INT. This is safe because no existing value can be too large for the new, larger container. The database simply updates its metadata and all existing data remains intact.</p>
+
+<p><strong>Narrowing</strong> a column (e.g., VARCHAR(200) to VARCHAR(50)) is dangerous. If any existing row contains a value longer than 50 characters, the database will refuse the change and raise an error. You must either clean up the data first, truncating long values, or reconsider whether narrowing is truly necessary. Changing a data type incompatibly — such as from VARCHAR to INT when the column contains non-numeric text — will similarly fail because the existing data cannot be converted.</p>
+
+<p>Changing <strong>nullability</strong> is another common modification. Adding NOT NULL to a column that currently contains NULL values will fail. The typical approach is to first update all NULLs to a sensible value, then apply the NOT NULL constraint:</p>
+
+<pre><code>-- Step 1: Replace existing NULLs
+UPDATE employees
+SET middle_name = ''
+WHERE middle_name IS NULL;
+
+-- Step 2: Now safely add the NOT NULL constraint
+ALTER TABLE employees
+ALTER COLUMN middle_name VARCHAR(50) NOT NULL;
+</code></pre>
+
+<p><strong>Dropping Columns with ALTER TABLE</strong></p>
+
+<p>When a column is no longer needed, it can be removed with the <strong>DROP COLUMN</strong> clause. This is a permanent, destructive operation — all data stored in that column across every row is deleted immediately and cannot be recovered from the table itself.</p>
+
+<pre><code>-- Standard syntax supported by most databases
+ALTER TABLE employees
+DROP COLUMN fax_number;
+
+-- MySQL supports dropping multiple columns in one statement
+ALTER TABLE employees
+DROP COLUMN fax_number,
+DROP COLUMN pager_number;
+</code></pre>
+
+<p>Before dropping a column, you must consider <strong>dependencies</strong>. Most databases will refuse to drop a column that is:</p>
+
+<ul>
+  <li>Part of a <strong>PRIMARY KEY</strong> constraint</li>
+  <li>Referenced by a <strong>FOREIGN KEY</strong> in another table</li>
+  <li>Included in an <strong>index</strong></li>
+  <li>Referenced in a <strong>CHECK constraint</strong> or computed column definition</li>
+  <li>Used in a <strong>view</strong> or stored procedure (some databases allow this but the dependent objects break)</li>
+</ul>
+
+<p>In such cases you must first drop or modify the dependent objects before you can drop the column. In PostgreSQL, the <code>CASCADE</code> option can automate this, but it should be used with extreme caution because it may silently remove constraints and dependent objects you did not intend to delete:</p>
+
+<pre><code>-- PostgreSQL CASCADE example -- use with caution
+ALTER TABLE employees
+DROP COLUMN department_id CASCADE;
+</code></pre>
+
+<p>Best practice before any column drop is to run a dependency query against the database's system catalog to identify every object that references the column, and to back up the data in that column (e.g., by exporting it to a separate archive table) if there is any possibility it will be needed in the future.</p>
+
+<p><strong>Adding Constraints with ALTER TABLE</strong></p>
+
+<p>Constraints can be added to an existing table to enforce data integrity rules that were not defined at creation time, or that have become necessary as the application evolved. The <strong>ADD CONSTRAINT</strong> clause is used for this purpose.</p>
+
+<pre><code>-- Adding a PRIMARY KEY constraint
+ALTER TABLE orders
+ADD CONSTRAINT pk_orders PRIMARY KEY (order_id);
+
+-- Adding a UNIQUE constraint
+ALTER TABLE employees
+ADD CONSTRAINT uq_employees_email UNIQUE (email);
+
+-- Adding a CHECK constraint
+ALTER TABLE products
+ADD CONSTRAINT chk_price_positive CHECK (price > 0);
+
+-- Adding a FOREIGN KEY constraint
+ALTER TABLE orders
+ADD CONSTRAINT fk_orders_customer
+  FOREIGN KEY (customer_id)
+  REFERENCES customers(customer_id);
+
+-- Adding a NOT NULL constraint (syntax varies by database)
+-- SQL Server:
+ALTER TABLE employees
+ALTER COLUMN last_name VARCHAR(100) NOT NULL;
+</code></pre>
+
+<p>The most important rule for adding constraints to an existing table is this: <strong>the current data must already satisfy the constraint</strong>. When you issue ADD CONSTRAINT, the database immediately validates every existing row against the new rule. If even one row violates it, the entire ALTER TABLE statement fails and the constraint is not added. For example, if you try to add a UNIQUE constraint on an email column but the table already contains two rows with the same email address, you will receive a constraint violation error.</p>
+
+<p>This makes <strong>named constraints</strong> strongly preferable to unnamed ones. When you name a constraint (using the CONSTRAINT keyword followed by a meaningful name), you can reference it precisely when you need to drop or modify it later. Unnamed constraints receive a system-generated name that varies by database vendor and is often opaque and hard to discover:</p>
+
+<pre><code>-- Named constraint -- easy to manage
+ADD CONSTRAINT fk_orders_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+
+-- Unnamed constraint -- harder to drop or reference later
+ADD FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+</code></pre>
+
+<p><strong>Foreign key constraints</strong> added via ALTER TABLE enforce <em>referential integrity</em> between two existing tables. Once in place, the database will prevent inserting a value into the child table's foreign key column if no matching value exists in the parent table's referenced column, and will prevent deleting a row from the parent table if child rows depend on it (unless ON DELETE CASCADE or ON DELETE SET NULL is specified).</p>
+
+<p><strong>Dropping Constraints with ALTER TABLE</strong></p>
+
+<p>Constraints can be removed when the rules they enforce are no longer appropriate for the data model. The syntax for dropping a constraint uses its name:</p>
+
+<pre><code>-- Dropping a named constraint (works across most databases)
+ALTER TABLE orders
+DROP CONSTRAINT fk_orders_customer;
+
+-- Dropping a PRIMARY KEY (SQL Server)
+ALTER TABLE orders
+DROP CONSTRAINT pk_orders;
+
+-- Dropping a PRIMARY KEY (MySQL)
+ALTER TABLE orders
+DROP PRIMARY KEY;
+
+-- Dropping a UNIQUE constraint (MySQL uses DROP INDEX)
+ALTER TABLE employees
+DROP INDEX uq_employees_email;
+</code></pre>
+
+<p>Dropping a <strong>PRIMARY KEY</strong> requires special care because it is often referenced by foreign keys in child tables. Most databases will refuse to drop a primary key if foreign keys pointing to it still exist. The correct sequence is to first drop all foreign key constraints in the child tables that reference this primary key, then drop the primary key itself. Attempting to skip this step will result in an error.</p>
+
+<p>Dropping a <strong>NOT NULL</strong> or <strong>CHECK constraint</strong> relaxes the validation rules going forward. Existing data is not retroactively altered, but new inserts and updates will no longer be checked against the removed rule. This is sometimes necessary during a data migration phase where you need to load imperfect data before cleaning it, but it is a deliberate loosening of data quality controls and should be documented accordingly.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Constraint Type</th>
+      <th>Effect of Dropping</th>
+      <th>Special Considerations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PRIMARY KEY</td>
+      <td>Rows no longer have a guaranteed unique identifier</td>
+      <td>Must drop referencing FOREIGN KEY constraints first</td>
+    </tr>
+    <tr>
+      <td>FOREIGN KEY</td>
+      <td>Referential integrity between tables is no longer enforced</td>
+      <td>Child table may accumulate orphaned rows after drop</td>
+    </tr>
+    <tr>
+      <td>UNIQUE</td>
+      <td>Duplicate values in the column are now permitted</td>
+      <td>Also drops the underlying unique index</td>
+    </tr>
+    <tr>
+      <td>CHECK</td>
+      <td>The custom validation rule is no longer applied</td>
+      <td>Existing violating data is not flagged retroactively</td>
+    </tr>
+    <tr>
+      <td>NOT NULL</td>
+      <td>NULL values are now permitted in the column</td>
+      <td>Syntax varies significantly across database platforms</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Evolving Table Designs Without Losing Data</strong></p>
+
+<p>In real-world systems, schema changes happen in production environments where the database is being actively used by applications and users. Careful planning is what separates a smooth schema evolution from an outage or data loss incident.</p>
+
+<p>One key strategy is <strong>backward-compatible changes first</strong>. Adding a nullable column or a column with a default value is backward compatible — existing queries and application code that do not reference the new column continue to work without modification. In contrast, dropping a column or renaming one is immediately breaking if any existing query or application code references it by name. A safer pattern for renaming is to add the new column, copy the data, update the application to use the new column name, then drop the old column in a later deployment once the application no longer references it.</p>
+
+<p>Some databases allow <strong>multiple ALTER TABLE operations in a single statement</strong>. This can reduce the number of times the table is locked and restructured, which matters for large tables where each ALTER TABLE locks the table (in older MySQL versions, for example) and prevents concurrent writes:</p>
+
+<pre><code>-- MySQL: combine multiple changes in one statement to minimize locking
+ALTER TABLE employees
+  ADD COLUMN middle_name VARCHAR(50),
+  ADD COLUMN linkedin_url VARCHAR(255),
+  DROP COLUMN fax_number,
+  MODIFY COLUMN phone_number VARCHAR(20) NOT NULL DEFAULT '';
+</code></pre>
+
+<p>Modern database systems like MySQL 5.6+ and PostgreSQL support <strong>online DDL</strong> operations that allow reads and writes to continue while some types of ALTER TABLE are in progress, but not all operations are online-safe, and the rules vary by version and operation type. For very large tables, tools like <em>pt-online-schema-change</em> (Percona) or <em>gh-ost</em> (GitHub) are used to perform schema migrations with near-zero downtime by working on a shadow copy of the table.</p>
+
+<p><strong>Version-controlled migration scripts</strong> are the professional standard for tracking schema changes across a team and across environments (development, staging, production). Tools such as Flyway, Liquibase, and Django's built-in migrations store each schema change as a numbered script that is applied in order. This approach ensures that every environment can be brought to exactly the same schema state, changes are peer-reviewed before deployment, and the history of every structural modification is preserved in source control alongside the application code. A typical migration script for adding a column might look like this:</p>
+
+<pre><code>-- Migration V012__add_hire_date_to_employees.sql
+ALTER TABLE employees
+ADD COLUMN hire_date DATE;
+
+UPDATE employees
+SET hire_date = '2000-01-01'
+WHERE hire_date IS NULL;
+
+ALTER TABLE employees
+ALTER COLUMN hire_date DATE NOT NULL;
+</code></pre>
+
+<p>This three-step pattern — add the column as nullable, populate it with data, then tighten the constraint — is a widely adopted safe migration pattern that works correctly whether the table has zero rows or tens of millions. It is the practical expression of the principle that evolving a live schema is not a single atomic action but a carefully sequenced series of steps that keep the data valid and the application running at every point along the way.</p>
+        <div class="notes"><strong>Notes</strong>Covers ALTER TABLE comprehensively: DDL nature and auto-commit behavior, adding/modifying/dropping columns, adding/dropping constraints, and safe schema evolution strategies. Includes syntax examples for MySQL, PostgreSQL, SQL Server, and Oracle where they differ. Tables summarise key behavioral rules for quick reference. Migration script pattern (add nullable → populate → tighten) is highlighted as a professional best practice.</div>
+      </div>
+    </details>
+  </main>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body></html>
