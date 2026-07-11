@@ -1,9 +1,9 @@
 {
   "Id": "62850735-694f-4e61-979d-ede3d9456c82",
-  "Name": "Relational Databases and Normalization Concepts",
+  "Name": "3 - Relational Databases and Normalization Concepts",
   "Description": "This lesson introduces relational databases and the core motivation behind normalization, explaining how data anomalies arise in poorly structured tables. Students will explore insertion, update, and deletion anomalies and how normalization addresses them.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.6600814-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.6607105-04:00",
+  "LastModifiedDate": "2026-06-29T19:21:27.4614923-04:00",
   "Actions": []
 }

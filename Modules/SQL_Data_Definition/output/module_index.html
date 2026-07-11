@@ -6,38 +6,34 @@
   <title>SQL Data Definition Language (DDL) — COP4708</title>
   <style>
     /* ── Reset & Base ── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: #f4f6f9;
-      color: #1e2a38;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f6f9;
+      color: #1e2b3a;
       line-height: 1.6;
       min-height: 100vh;
     }
 
     /* ── Header / Hero ── */
     header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #25567a 60%, #2e7aa8 100%);
-      color: #ffffff;
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #fff;
       padding: 3rem 2rem 2.5rem;
       text-align: center;
     }
 
     header .course-label {
       display: inline-block;
-      font-size: 0.78rem;
+      background: rgba(255,255,255,0.15);
+      color: #cfe3ff;
+      font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      background-color: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.3rem 0.9rem;
       border-radius: 20px;
-      padding: 0.25rem 0.9rem;
       margin-bottom: 1rem;
     }
 
@@ -48,221 +44,348 @@
       margin-bottom: 1rem;
     }
 
-    header p.intro {
+    header p {
       max-width: 680px;
       margin: 0 auto;
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.88);
+      font-size: 1.05rem;
+      color: #cfe3ff;
+      line-height: 1.7;
     }
 
     /* ── Main Content ── */
     main {
-      max-width: 960px;
+      max-width: 1100px;
       margin: 2.5rem auto 4rem;
       padding: 0 1.25rem;
     }
 
-    .section-label {
-      font-size: 0.72rem;
+    .section-heading {
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #5a7a99;
-      margin-bottom: 1.1rem;
-      padding-left: 0.1rem;
+      letter-spacing: 0.08em;
+      color: #2563a8;
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #d0dff0;
     }
 
-    /* ── Artifact Card Grid ── */
+    /* ── Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.25rem;
     }
 
     .card {
-      background: #ffffff;
-      border: 1px solid #dde4ed;
+      background: #fff;
+      border: 1px solid #dce6f0;
       border-radius: 10px;
       padding: 1.4rem 1.5rem;
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
-      box-shadow: 0 2px 8px rgba(30, 42, 56, 0.06);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
     }
 
     .card:hover {
-      box-shadow: 0 6px 20px rgba(30, 42, 56, 0.11);
+      box-shadow: 0 6px 22px rgba(37, 99, 168, 0.12);
       transform: translateY(-2px);
     }
 
-    /* ── Card Header Row ── */
-    .card-header {
+    /* ── Card Meta Row ── */
+    .card-meta {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.45rem;
     }
 
-    .card-title-group {
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-type {
+      background: #e8f0fb;
+      color: #1a4a8a;
+    }
+
+    .badge-filetype {
+      background: #eef7ee;
+      color: #2a6b2a;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── Card Title Row ── */
+    .card-title-row {
       display: flex;
-      align-items: center;
       flex-wrap: wrap;
-      gap: 0.55rem;
+      align-items: baseline;
+      gap: 0.5rem;
     }
 
     .card-name {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #1a3a5c;
+      color: #1e2b3a;
+      line-height: 1.35;
     }
 
     .card-name a {
-      color: #1a6faa;
+      color: #1a4a8a;
       text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.18s;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.15s, color 0.15s;
     }
 
-    .card-name a:hover {
-      border-bottom-color: #1a6faa;
+    .card-name a:hover,
+    .card-name a:focus {
+      color: #2563a8;
+      border-bottom-color: #2563a8;
+      outline: none;
     }
 
     .source-link {
-      font-size: 0.73rem;
-      font-weight: 600;
-      color: #ffffff;
-      background-color: #5a7a99;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #5a7fa8;
       text-decoration: none;
-      padding: 0.18rem 0.6rem;
-      border-radius: 4px;
       white-space: nowrap;
-      transition: background-color 0.18s;
+      padding: 0.15rem 0.5rem;
+      border: 1px solid #b0c8e4;
+      border-radius: 4px;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
     }
 
-    .source-link:hover {
-      background-color: #3e5f7f;
-    }
-
-    /* ── Badges ── */
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-    }
-
-    .badge {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.6rem;
-      border-radius: 20px;
-    }
-
-    .badge-type {
-      background-color: #e8f0fb;
-      color: #2055a4;
-      border: 1px solid #c4d5f5;
-    }
-
-    .badge-filetype {
-      background-color: #eaf4ee;
-      color: #1e6b3a;
-      border: 1px solid #b8dfc5;
+    .source-link:hover,
+    .source-link:focus {
+      background: #e8f0fb;
+      color: #1a3a5c;
+      outline: none;
     }
 
     /* ── Description ── */
-    .card-description {
+    .card-desc {
       font-size: 0.9rem;
-      color: #3d5166;
+      color: #4a5f74;
       line-height: 1.65;
+      flex: 1;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      font-size: 0.78rem;
-      color: #8fa5bc;
-      padding: 1.5rem 1rem 2rem;
-      border-top: 1px solid #dde4ed;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: #8a9eb5;
+      border-top: 1px solid #dce6f0;
+      background: #f4f6f9;
     }
 
-    /* ── Responsive tweaks ── */
+    /* ── Responsive ── */
     @media (max-width: 480px) {
-      header {
-        padding: 2.2rem 1.2rem 2rem;
-      }
-
-      .card {
-        padding: 1.2rem 1.15rem;
-      }
-
-      .card-name {
-        font-size: 0.98rem;
-      }
+      header { padding: 2rem 1.25rem 2rem; }
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════ HEADER ══════════════ -->
   <header>
-    <span class="course-label">COP4708</span>
+    <div class="course-label">COP4708</div>
     <h1>SQL Data Definition Language (DDL)</h1>
-    <p class="intro">
-      This module introduces the foundational commands of SQL's Data Definition Language.
-      You will explore how to create and manage database structures, work with a variety of
-      data types, and enforce data integrity through key constraints such as
-      <code style="background:rgba(255,255,255,0.15);padding:0.1em 0.35em;border-radius:4px;">PRIMARY KEY</code>,
-      <code style="background:rgba(255,255,255,0.15);padding:0.1em 0.35em;border-radius:4px;">FOREIGN KEY</code>,
-      and <code style="background:rgba(255,255,255,0.15);padding:0.1em 0.35em;border-radius:4px;">NOT NULL</code>.
+    <p>
+      This module introduces the SQL Data Definition Language—the sublanguage
+      used to create, modify, and remove database structures. You will explore
+      DDL commands such as <strong>CREATE</strong>, <strong>ALTER</strong>,
+      <strong>DROP</strong>, and <strong>TRUNCATE</strong>; common data types;
+      integrity constraints; and schema management, building the foundational
+      skills needed to design and maintain relational databases.
     </p>
   </header>
 
-  <!-- ══════════════ MAIN ══════════════ -->
   <main>
-    <p class="section-label">Module Artifacts</p>
+    <h2 class="section-heading">Module Artifacts</h2>
 
     <div class="card-grid">
 
-      <!-- ── Artifact: Module Topics ── -->
+      <!-- 1 — Module Topics -->
       <div class="card">
-        <div class="card-header">
-          <div class="card-title-group">
-            <span class="card-name">
-              <a href="module_topics.html">Module Topics</a>
-            </span>
-            <a
-              class="source-link"
-              href="../hierarchy.json"
-              title="View raw source file"
-            >source file</a>
-          </div>
-        </div>
-
-        <div class="badge-row">
+        <div class="card-meta">
           <span class="badge badge-type">Module Topics</span>
           <span class="badge badge-filetype">.json</span>
         </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="module_topics.html">Module Topics</a>
+          </span>
+          <a class="source-link" href="../hierarchy.json">source file</a>
+        </div>
+        <p class="card-desc">
+          Covers the core SQL DDL concepts—including what DDL is and how it differs
+          from other SQL sublanguages, the CREATE command for databases and schemas,
+          numeric/string/date data types, and key constraints (PRIMARY KEY, FOREIGN KEY,
+          NOT NULL)—serving as the outline that organizes the module's learning topics
+          for both learners navigating the content and instructors structuring their lessons.
+        </p>
+      </div>
 
-        <p class="card-description">
-          Covers the core SQL DDL concepts — including what DDL is and how it differs from
-          other SQL sublanguages, the <strong>CREATE</strong> command for databases and schemas,
-          numeric, string, and date data types, and key constraints
-          (<strong>PRIMARY KEY</strong>, <strong>FOREIGN KEY</strong>, <strong>NOT NULL</strong>) —
-          serving as the outline that organizes the module's learning topics for both learners
-          navigating the content and instructors structuring their lessons.
+      <!-- 2 — Introduction to SQL DDL -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t1.html">Introduction to SQL DDL</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Introduces SQL DDL as a sublanguage of SQL responsible for defining database
+          structure, distinguishing it from other SQL sublanguages, and giving learners
+          a conceptual foundation before studying individual DDL commands.
+        </p>
+      </div>
+
+      <!-- 3 — The CREATE Command -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t2.html">The CREATE Command</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Explains the CREATE statement's syntax and purpose for building database objects
+          such as tables, giving learners a reference for writing and understanding CREATE
+          commands within the broader DDL context.
+        </p>
+      </div>
+
+      <!-- 4 — Data Types and Column Definitions -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t3.html">Data Types and Column Definitions</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Covers the major SQL data types (numeric, character, date/time, etc.) and how
+          to define columns with appropriate types, helping learners make informed design
+          decisions when creating or modifying tables.
+        </p>
+      </div>
+
+      <!-- 5 — Constraints in SQL -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t4.html">Constraints in SQL</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Describes the SQL constraint types—such as PRIMARY KEY, FOREIGN KEY, NOT NULL,
+          UNIQUE, and CHECK—explaining how each enforces data integrity rules at the
+          database level so learners can apply them when defining or altering tables.
+        </p>
+      </div>
+
+      <!-- 6 — The ALTER Command -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t5.html">The ALTER Command</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Explains the ALTER TABLE command and its operations (adding, modifying, or
+          dropping columns and constraints), giving learners the knowledge to safely
+          modify an existing table's structure as requirements change.
+        </p>
+      </div>
+
+      <!-- 7 — The DROP and TRUNCATE Commands -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t6.html">The DROP and TRUNCATE Commands</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Compares the DROP and TRUNCATE commands, clarifying that DROP removes a table
+          and its structure entirely while TRUNCATE deletes all rows but preserves the
+          structure, helping learners choose the correct command for a given scenario.
+        </p>
+      </div>
+
+      <!-- 8 — Working with Schemas (Topic Detail) -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive_topics_t7.html">Working with Schemas</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Explains what a database schema is, how it acts as a named namespace to logically
+          group related objects, and how to create, use, and manage schemas, helping learners
+          organise objects in larger, more complex databases.
+        </p>
+      </div>
+
+      <!-- 9 — Working with Schemas (Text Content) -->
+      <div class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title-row">
+          <span class="card-name">
+            <a href="SQL_Data_Definition_interactive.html">Working with Schemas</a>
+          </span>
+        </div>
+        <p class="card-desc">
+          Explains what a database schema is, how it acts as a named namespace to logically
+          group related objects, and how to create, use, and manage schemas, helping learners
+          organise objects in larger, more complex databases.
         </p>
       </div>
 
     </div><!-- /.card-grid -->
   </main>
 
-  <!-- ══════════════ FOOTER ══════════════ -->
   <footer>
-    COP4708 &mdash; SQL Data Definition Language (DDL) &mdash; Course Module Index
+    <p>COP4708 &mdash; SQL Data Definition Language (DDL) &mdash; Course Module Index</p>
   </footer>
 
 

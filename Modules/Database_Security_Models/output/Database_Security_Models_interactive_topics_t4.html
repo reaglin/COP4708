@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Injection Prevention</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>SQL Injection Prevention</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>SQL Injection Prevention</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>SQL injection remains one of the most dangerous and pervasive vulnerabilities in web application security, consistently appearing near the top of the OWASP Top Ten list. At its core, SQL injection exploits the failure to cleanly separate <em>code</em> from <em>data</em>: when an application constructs a database query by concatenating raw user input directly into a SQL string, an attacker can craft that input to alter the query's meaning entirely. Understanding how this attack works, why it is so destructive, and how to reliably prevent it is essential knowledge for any developer or security professional working with database-backed applications.</p>
+
+<p><strong>Understanding the SQL Injection Attack Vector</strong></p>
+
+<p>SQL injection occurs when an application incorporates untrusted input — data from a form field, a URL parameter, a cookie, or any other external source — directly into a SQL query without adequate sanitization. The database engine receives what it believes to be a well-formed query, with no way to distinguish the intended command from the attacker's injected payload.</p>
+
+<p>Consider a classic login form. A naive implementation might build a query like this:</p>
+
+<pre><code>query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";</code></pre>
+
+<p>If a user supplies the username <code>admin'--</code> and any password, the resulting query becomes:</p>
+
+<pre><code>SELECT * FROM users WHERE username = 'admin'--' AND password = 'anything'</code></pre>
+
+<p>The double-dash (<code>--</code>) is a SQL comment delimiter. Everything after it is ignored by the database engine, so the password check is effectively removed. The attacker logs in as <code>admin</code> without knowing the password. More destructive payloads can use <code>UNION</code> statements to retrieve data from other tables, <code>DROP TABLE</code> commands to destroy data, or stacked queries to execute arbitrary commands.</p>
+
+<p>Common injection points include login and registration forms, search fields, product filters, URL query strings such as <code>/item?id=42</code>, HTTP headers like <code>User-Agent</code> or <code>X-Forwarded-For</code>, and any other channel where user-supplied data reaches a database query. The consequences of a successful attack range from unauthorized data retrieval — leaking passwords, personal information, or business secrets — to data modification, deletion, or in some database configurations, operating-system-level command execution via features like SQL Server's <code>xp_cmdshell</code>.</p>
+
+<p><strong>Parameterized Queries</strong></p>
+
+<p>Parameterized queries are the single most effective and straightforward defense against SQL injection. Instead of embedding user data directly into the query string, the developer writes the query with <em>placeholders</em> and then supplies the actual values separately through the database driver's API.</p>
+
+<p>The placeholder syntax varies slightly by language and driver. Python's <code>sqlite3</code> and most DB-API 2.0 drivers use <code>?</code> or <code>%s</code>; Java's JDBC uses <code>?</code>; PostgreSQL's <code>psycopg2</code> uses <code>%s</code>. The key principle is always the same: the query template is defined first, and data values are passed as a separate argument list.</p>
+
+<pre><code># Python example using sqlite3
+import sqlite3
+
+conn = sqlite3.connect("app.db")
+cursor = conn.cursor()
+
+username = input("Enter username: ")
+password = input("Enter password: ")
+
+cursor.execute(
+    "SELECT * FROM users WHERE username = ? AND password = ?",
+    (username, password)
+)
+row = cursor.fetchone()</code></pre>
+
+<p>No matter what the user types — including <code>admin'--</code> or <code>' OR '1'='1</code> — the database driver transmits the values as <em>data parameters</em>, not as SQL syntax. The database engine processes the pre-parsed query structure and substitutes the bound values into the designated slots, treating them purely as string literals. There is no structural ambiguity for the engine to exploit.</p>
+
+<p>Parameterized queries are supported in virtually every modern database driver: JDBC for Java, PDO and MySQLi for PHP, <code>psycopg2</code> and SQLAlchemy for Python, ADO.NET for C#, and many more. Switching from string concatenation to parameterized queries is often a minimal code change with an enormous security benefit.</p>
+
+<p>An important caveat: parameterization protects <em>values</em> — strings, numbers, dates. It cannot parameterize structural SQL elements such as table names, column names, or <code>ORDER BY</code> directions, because those are not data; they are part of the query structure itself. When dynamic table or column names are unavoidable, they must be handled through strict allowlisting, covered below.</p>
+
+<p><strong>Prepared Statements</strong></p>
+
+<p>Prepared statements are closely related to parameterized queries but introduce an additional step: the query template is <em>sent to the database server and pre-compiled</em> before any user data is involved. The database parses the SQL, builds an execution plan, and returns a handle. Subsequently, the application binds parameter values and executes the pre-compiled plan, possibly multiple times with different values.</p>
+
+<pre><code>// Java JDBC example
+String sql = "SELECT * FROM orders WHERE customer_id = ? AND status = ?";
+PreparedStatement pstmt = connection.prepareStatement(sql);
+
+pstmt.setInt(1, customerId);      // binds an integer to the first placeholder
+pstmt.setString(2, statusFilter); // binds a string to the second placeholder
+
+ResultSet rs = pstmt.executeQuery();</code></pre>
+
+<p>Because the SQL structure is fully parsed and compiled before user data ever arrives, it is structurally impossible for that data to alter the query's logic. The database engine simply fills the designated slots with the bound values and executes the already-fixed plan. Even if a user passes <code>' OR 1=1--</code> as the <code>statusFilter</code>, the engine treats the entire string as a literal value to match against the <code>status</code> column — it cannot escape the parameter slot and become SQL syntax.</p>
+
+<p>MySQL, PostgreSQL, Oracle, Microsoft SQL Server, SQLite, and virtually all production-grade relational databases support prepared statements natively. ORMs (Object-Relational Mappers) such as Hibernate, Entity Framework, Django ORM, and ActiveRecord generate prepared statements automatically when using their standard query-building APIs, providing injection protection as a built-in default provided the developer avoids raw SQL interpolation escape hatches.</p>
+
+<p>Beyond security, prepared statements offer a performance benefit when the same query is executed repeatedly: the database only parses and plans the query once, reusing the compiled plan for each subsequent execution with different parameter values.</p>
+
+<p><strong>Input Validation and Allowlisting</strong></p>
+
+<p>Parameterized queries and prepared statements handle data values securely, but a comprehensive defense-in-depth strategy also includes validating input <em>before</em> it ever reaches a database call. Input validation catches malformed, unexpected, or malicious data early in the request lifecycle.</p>
+
+<p><em>Allowlisting</em> (sometimes called whitelisting) defines what <em>is</em> permitted, rather than trying to enumerate and block every possible bad value. For example, a username field might be restricted to alphanumeric characters and underscores, 3–30 characters long:</p>
+
+<pre><code># Python allowlist validation with a regex
+import re
+
+def validate_username(value):
+    pattern = r'^[a-zA-Z0-9_]{3,30}$'
+    if not re.match(pattern, value):
+        raise ValueError("Invalid username format.")
+    return value</code></pre>
+
+<p>An ID parameter expected to be a positive integer should be rejected immediately if it contains anything other than digits:</p>
+
+<pre><code>// PHP type check example
+$id = $_GET['id'];
+if (!ctype_digit($id)) {
+    http_response_code(400);
+    exit("Invalid ID.");
+}
+$id = (int)$id; // safe to use in query</code></pre>
+
+<p>Type checking is a natural extension of allowlisting: if a field is supposed to receive an integer, parse it as an integer and reject the request if the parse fails. If a field expects a date, validate it against a date format. This approach eliminates entire classes of injection payloads before they reach query construction.</p>
+
+<p>A critical principle is that input validation <strong>must be performed server-side</strong>. Client-side JavaScript validation improves user experience and reduces unnecessary server load, but an attacker can send raw HTTP requests bypassing the browser entirely — using tools like <code>curl</code>, Burp Suite, or custom scripts. Server-side validation is the authoritative gate.</p>
+
+<p>For the special case of dynamic SQL identifiers such as column names or sort directions, an allowlist is the correct and only safe approach. If a URL parameter <code>sort</code> controls the <code>ORDER BY</code> clause, define exactly which column names are valid and map the input to one of those fixed values:</p>
+
+<pre><code>ALLOWED_SORT_COLUMNS = {"name", "created_at", "price"}
+
+sort_param = request.args.get("sort", "created_at")
+if sort_param not in ALLOWED_SORT_COLUMNS:
+    sort_param = "created_at"  # fall back to a safe default
+
+query = f"SELECT * FROM products ORDER BY {sort_param}"  # safe — value is from our allowlist</code></pre>
+
+<p><strong>Escaping and Encoding User Input</strong></p>
+
+<p>When migrating legacy code or working in contexts where parameterized queries are not feasible, escaping user input provides a layer of protection. Escaping converts characters that carry special meaning in SQL syntax — most importantly the single quote <code>'</code>, which delimits string literals — into their safe, literal equivalents that the database will not interpret as syntax.</p>
+
+<p>For example, the single quote <code>'</code> is typically escaped by doubling it to <code>''</code> in standard SQL, or with a backslash <code>\'</code> in MySQL's default mode. So the malicious input <code>O'Reilly</code> becomes <code>O''Reilly</code> and is safely treated as the string value "O'Reilly" rather than terminating a string literal early.</p>
+
+<p>Most database libraries provide built-in escaping functions specifically for this purpose. PHP's MySQLi extension offers <code>mysqli_real_escape_string()</code>; Python's older MySQL connector libraries have similar utilities. The critical rule is to <strong>always use the library's provided function rather than writing custom escape logic</strong>. Custom implementations almost always contain edge cases — null bytes, multi-byte character sequences, or database-specific syntax variants — that an attacker can exploit.</p>
+
+<p>Equally important: escaping must be matched to the specific database engine in use. MySQL, PostgreSQL, and SQL Server differ in their escape sequences, string quoting rules, and special characters. Using PostgreSQL-style escaping against a MySQL backend, or vice versa, can leave gaps. This complexity is itself a strong argument for preferring parameterized queries over manual escaping: parameterization is correct by construction, while escaping requires careful, consistent, engine-specific application.</p>
+
+<p>Escaping is best viewed as a <em>secondary</em> or <em>legacy</em> measure. It should never be the primary line of defense in new code. Where parameterized queries or prepared statements are available — which is nearly everywhere — they should be used instead.</p>
+
+<p><strong>Least Privilege as a Defense-in-Depth Strategy</strong></p>
+
+<p>Even with parameterized queries in place, a layered security posture demands that the damage from any successful breach be minimized. The principle of least privilege applied to database accounts is one of the most impactful architectural controls available.</p>
+
+<p>Each application component should connect to the database using an account granted only the permissions necessary for its specific function — nothing more. A public-facing product catalog feature that only reads data should use a database user with <code>SELECT</code> permissions on the relevant tables, with no <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, or <code>DROP</code> rights whatsoever. An order-processing service that needs to write new records should have <code>INSERT</code> and <code>UPDATE</code> on the orders table, but not <code>DROP TABLE</code> or access to unrelated tables containing user credentials.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Application Role</th>
+      <th>Required Permissions</th>
+      <th>Permissions to Withhold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Read-only reporting</td>
+      <td>SELECT on report tables</td>
+      <td>INSERT, UPDATE, DELETE, DROP, CREATE</td>
+    </tr>
+    <tr>
+      <td>User authentication</td>
+      <td>SELECT on users table</td>
+      <td>UPDATE (except own password), DELETE, DROP</td>
+    </tr>
+    <tr>
+      <td>Order processing</td>
+      <td>INSERT, UPDATE on orders; SELECT on products</td>
+      <td>DELETE, DROP, access to users or payment tables</td>
+    </tr>
+    <tr>
+      <td>Admin panel</td>
+      <td>SELECT, INSERT, UPDATE, DELETE on managed tables</td>
+      <td>DROP TABLE, GRANT, server-level commands</td>
+    </tr>
+    <tr>
+      <td>Application (general)</td>
+      <td>Only tables/columns the app actually queries</td>
+      <td>System tables, DBA roles, file system access</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The database account used by an application should <strong>never</strong> be a database administrator or root-equivalent account. If an attacker does manage to inject a malicious query through a read-only connection, they can read data they should not see — serious, but far less catastrophic than if the connection had administrative rights allowing table drops, schema changes, or stored procedure creation.</p>
+
+<p>Least privilege does not prevent SQL injection from occurring; it limits the attacker's ability to leverage a successful injection. It is a defense-in-depth control that works alongside, not instead of, parameterized queries and input validation.</p>
+
+<p><strong>Testing and Ongoing Prevention Practices</strong></p>
+
+<p>Prevention is not a one-time activity. SQL injection vulnerabilities can be introduced incrementally as code evolves, new features are added, or libraries are upgraded. A sustainable security posture requires continuous testing and organizational practices that make secure coding the path of least resistance.</p>
+
+<p><em>Static Application Security Testing (SAST)</em> tools analyze source code without executing it, scanning for patterns where user input flows into query construction without passing through a parameterized interface. Tools such as Semgrep, Checkmarx, SonarQube, and Bandit (Python) can be integrated into CI/CD pipelines to automatically flag potential injection points on every commit. A SAST finding like "user input reaches a SQL query via string concatenation at line 47" gives developers precise, actionable feedback early in the development cycle when fixes are cheapest.</p>
+
+<p><em>Dynamic Application Security Testing (DAST)</em> tests the running application by sending crafted inputs — single quotes, comment sequences, <code>UNION</code> payloads, time-delay probes — and observing responses for signs of injection vulnerability: database error messages, unexpected data in responses, or anomalous response times indicating a time-based blind injection. Tools like OWASP ZAP and Burp Suite Pro automate this process. DAST is valuable because it tests the application as attackers experience it, potentially catching vulnerabilities that SAST missed due to dynamic code paths or third-party library behavior.</p>
+
+<p><em>Manual code review</em> by security-aware developers remains irreplaceable. Automated tools miss context: they may flag safe code or miss clever injection paths that only a human reviewer following the data flow can identify. Establishing a practice of peer code review with explicit attention to how user input is handled before reaching database calls is one of the most effective long-term investments.</p>
+
+<p><em>Developer security training</em> addresses the root cause. Developers who understand why parameterized queries work, what makes concatenation dangerous, and how to recognize injection-prone code patterns will write more secure code by default. Training should include hands-on exercises — actually exploiting a vulnerable application in a lab environment — because experiencing the attack makes the abstract risk concrete and memorable.</p>
+
+<p><em>Dependency management</em> is also relevant: ORM libraries and database drivers occasionally have their own injection vulnerabilities in specific API methods. Keeping dependencies updated and monitoring security advisories for components in use ensures that patches for known vulnerabilities are applied promptly.</p>
+
+<p>Together, these practices form a robust, layered defense: parameterized queries and prepared statements eliminate the structural vulnerability; input validation catches malformed data early; escaping provides a safety net for legacy paths; least privilege limits blast radius; and continuous testing with trained developers prevents regressions from creeping in over time.</p>
+        <div class="notes"><strong>Notes</strong>Covers the full SQL injection prevention landscape from attack mechanics through architectural controls. Examples span Python, Java, and PHP to reflect common real-world environments. The least privilege table provides a quick reference for role-based DB permission design. Emphasizes that parameterized queries/prepared statements are the primary defense, with all other techniques serving as complementary layers.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

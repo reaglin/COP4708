@@ -1,311 +1,385 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Designing Databases for Concurrent Use – COP4708</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designing Databases for Concurrent Use | COP4708</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --color-bg: #f4f6f9;
-      --color-surface: #ffffff;
-      --color-primary: #1a4f7a;
-      --color-primary-dark: #133a5c;
-      --color-accent: #2e7fc1;
-      --color-accent-light: #e8f2fb;
-      --color-text: #1e2a35;
-      --color-text-muted: #5a6a78;
-      --color-border: #d0dbe5;
-      --color-badge-bg: #e8f2fb;
-      --color-badge-text: #1a4f7a;
-      --color-tag-bg: #eef6ee;
-      --color-tag-text: #2a6b2a;
-      --radius: 8px;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.13);
-      --font-sans: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
-    }
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-sans);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.65;
+      font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+      background: #f4f6f9;
+      color: #1e2a38;
+      line-height: 1.6;
       min-height: 100vh;
     }
 
-    /* ── Header ── */
+    /* ── Header Banner ── */
     header {
-      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-accent) 100%);
-      color: #ffffff;
-      padding: 3rem 2rem 2.5rem;
-      text-align: center;
+      background: linear-gradient(135deg, #1a3a5c 0%, #24578a 100%);
+      color: #fff;
+      padding: 2.5rem 2rem 2rem;
+      border-bottom: 4px solid #e8a020;
     }
 
-    header .course-code {
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .course-label {
       display: inline-block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 20px;
-      padding: 0.25rem 0.85rem;
-      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.15);
+      color: #d9eaf7;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 3px;
+      padding: 0.2rem 0.65rem;
+      margin-bottom: 0.75rem;
     }
 
     header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
       font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.9rem;
       line-height: 1.25;
+      margin-bottom: 0.85rem;
+      letter-spacing: -0.01em;
     }
 
-    header p.intro {
-      max-width: 680px;
-      margin: 0 auto;
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.88);
-      line-height: 1.7;
+    header p {
+      font-size: 0.97rem;
+      color: #c8dcee;
+      max-width: 70ch;
     }
 
-    /* ── Main content ── */
+    /* ── Main Content ── */
     main {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.25rem 3rem;
     }
 
-    .section-label {
+    .section-title {
       font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      color: #5a7a99;
       margin-bottom: 1.2rem;
       padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--color-border);
+      border-bottom: 2px solid #dce4ec;
     }
 
-    /* ── Card grid ── */
+    /* ── Card Grid ── */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.4rem;
+      gap: 1.25rem;
     }
 
     .card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.5rem 1.6rem;
+      background: #fff;
+      border: 1px solid #dce4ec;
+      border-radius: 8px;
+      padding: 1.3rem 1.4rem 1.2rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      gap: 0.5rem;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+      position: relative;
     }
 
     .card:hover {
-      box-shadow: var(--shadow-hover);
+      box-shadow: 0 4px 18px rgba(24, 58, 100, 0.12);
       transform: translateY(-2px);
     }
 
-    /* ── Card header row ── */
-    .card-header {
+    /* ── Card Badges ── */
+    .badge-row {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      padding: 0.18rem 0.5rem;
+    }
+
+    .badge-type {
+      background: #e8f0fb;
+      color: #2a5fa0;
+      border: 1px solid #c2d5f2;
+    }
+
+    .badge-filetype {
+      background: #f0f4f0;
+      color: #3a6b3a;
+      border: 1px solid #c0d8c0;
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 0;
+    }
+
+    /* ── Card Title & Links ── */
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      line-height: 1.35;
+      display: flex;
+      align-items: baseline;
       gap: 0.6rem;
       flex-wrap: wrap;
     }
 
-    .card-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--color-text);
-      flex: 1 1 auto;
-      line-height: 1.3;
-    }
-
-    .card-name a {
-      color: var(--color-accent);
+    .card-title a {
+      color: #1a5ca0;
       text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.18s ease, color 0.18s ease;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
     }
 
-    .card-name a:hover,
-    .card-name a:focus {
-      color: var(--color-primary-dark);
-      border-bottom-color: var(--color-primary-dark);
-      outline: none;
+    .card-title a:hover {
+      border-bottom-color: #1a5ca0;
+      color: #0d3f7a;
     }
 
-    .card-name a:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
-      border-radius: 2px;
+    .card-title span.plain {
+      color: #1a3a5c;
     }
 
-    /* ── Source link ── */
     .source-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.28rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--color-text-muted);
-      text-decoration: none;
-      background: #f0f3f7;
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      padding: 0.18rem 0.5rem;
-      white-space: nowrap;
-      transition: background 0.15s, color 0.15s;
-      align-self: flex-start;
-      margin-top: 0.05rem;
-    }
-
-    .source-link:hover,
-    .source-link:focus {
-      background: var(--color-accent-light);
-      color: var(--color-accent);
-      outline: none;
-    }
-
-    .source-link:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
-    }
-
-    .source-link svg {
-      flex-shrink: 0;
-    }
-
-    /* ── Meta badges ── */
-    .card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      align-items: center;
-    }
-
-    .badge {
+      gap: 0.25rem;
       font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      border-radius: 4px;
-      padding: 0.18rem 0.55rem;
+      color: #5a7a99;
+      text-decoration: none;
+      border: 1px solid #c4d3e0;
+      border-radius: 3px;
+      padding: 0.12rem 0.45rem;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
     }
 
-    .badge-type {
-      background: var(--color-badge-bg);
-      color: var(--color-badge-text);
-      border: 1px solid #b8d4ed;
+    .source-link:hover {
+      background: #e6f0f9;
+      color: #1a5ca0;
+      border-color: #a0bedb;
     }
 
-    .badge-filetype {
-      background: var(--color-tag-bg);
-      color: var(--color-tag-text);
-      border: 1px solid #b5d8b5;
-      font-family: 'Consolas', 'Courier New', monospace;
+    .source-link::before {
+      content: '⬇';
+      font-size: 0.65rem;
     }
 
-    /* ── Description ── */
-    .card-description {
-      font-size: 0.9rem;
-      color: var(--color-text-muted);
-      line-height: 1.65;
+    /* ── Card Description ── */
+    .card-desc {
+      font-size: 0.875rem;
+      color: #4a5e72;
+      line-height: 1.55;
       flex: 1;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.4rem 1rem;
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      border-top: 1px solid var(--color-border);
-      background: var(--color-surface);
+      font-size: 0.78rem;
+      color: #8a9db0;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dce4ec;
+      background: #f4f6f9;
     }
 
     /* ── Responsive ── */
-    @media (max-width: 520px) {
-      header {
-        padding: 2.2rem 1.2rem 2rem;
-      }
-
-      main {
-        padding: 1.8rem 1rem 3rem;
-      }
-
-      .card {
-        padding: 1.2rem 1.2rem;
-      }
+    @media (max-width: 600px) {
+      header { padding: 1.75rem 1rem 1.5rem; }
+      main { margin-top: 1.75rem; padding: 0 0.85rem 2.5rem; }
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="course-code">COP4708</div>
-    <h1>Designing Databases for Concurrent Use</h1>
-    <p class="intro">
-      This module explores the principles and techniques required to design robust database systems
-      that support multiple simultaneous users. Topics include ACID transaction properties, common
-      concurrency anomalies such as dirty reads and phantom reads, and the locking mechanisms used
-      to ensure data integrity in multi-user environments.
-    </p>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Designing Databases for Concurrent Use</h1>
+      <p>
+        This module explores the principles and techniques required to build reliable database systems
+        that serve many users simultaneously. Topics span ACID transaction properties, classic
+        concurrency anomalies, locking mechanisms, isolation levels, deadlock resolution, and
+        proven design best practices for high-concurrency environments.
+      </p>
+    </div>
   </header>
 
   <main>
-    <div class="section-label">Module Artifacts</div>
-
+    <p class="section-title">Module Artifacts &mdash; 9 items</p>
     <div class="card-grid">
 
-      <!-- Artifact: Module Topics -->
-      <article class="card">
-        <div class="card-header">
-          <span class="card-name">
-            <a href="module_topics.html">Module Topics</a>
-          </span>
-          <a
-            class="source-link"
-            href="../hierarchy.json"
-            aria-label="Source file for Module Topics"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2.4"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-            source file
-          </a>
-        </div>
-
-        <div class="card-meta">
+      <!-- Card 1: Module Topics -->
+      <div class="card">
+        <div class="badge-row">
           <span class="badge badge-type">Module Topics</span>
           <span class="badge badge-filetype">.json</span>
         </div>
-
-        <p class="card-description">
+        <div class="card-title">
+          <a href="module_topics.html">Module Topics</a>
+          <a class="source-link" href="../hierarchy.json">source file</a>
+        </div>
+        <p class="card-desc">
           Outlines the module's topic sequence covering multi-user database environments, ACID
           transaction properties, concurrency problems such as dirty reads and phantom reads, and
           locking mechanisms, serving as a navigation guide for learners and instructors to
           understand the scope and order of the module's content.
         </p>
-      </article>
+      </div>
+
+      <!-- Card 2: Introduction to Multi-User Database Environments -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t1.html">Introduction to Multi-User Database Environments</a>
+        </div>
+        <p class="card-desc">
+          This reading introduces why single-user database assumptions break down in real-world
+          multi-user environments, explaining the challenges that arise when many transactions
+          execute simultaneously, and serves as a conceptual foundation for the rest of the module.
+        </p>
+      </div>
+
+      <!-- Card 3: Transactions and ACID Properties -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t2.html">Transactions and ACID Properties</a>
+        </div>
+        <p class="card-desc">
+          This reading explains what a database transaction is, defines the four ACID properties
+          (Atomicity, Consistency, Isolation, Durability), and illustrates how they protect data
+          integrity across multi-step operations such as bank transfers or order placement, giving
+          learners a framework for evaluating database reliability.
+        </p>
+      </div>
+
+      <!-- Card 4: Concurrency Problems and Data Conflicts -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t3.html">Concurrency Problems and Data Conflicts</a>
+        </div>
+        <p class="card-desc">
+          This reading identifies and explains the classic concurrency problems—dirty reads, lost
+          updates, non-repeatable reads, and phantom reads—that occur when transactions interfere
+          with one another, helping learners recognize the specific failure modes they must design
+          against.
+        </p>
+      </div>
+
+      <!-- Card 5: Locking Mechanisms -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t4.html">Locking Mechanisms</a>
+        </div>
+        <p class="card-desc">
+          This reading covers how relational database engines use shared and exclusive locks to
+          serialize access to shared data, explaining lock types, lock granularity, and how locking
+          enforces transaction isolation, so learners understand the primary mechanism behind
+          concurrency control.
+        </p>
+      </div>
+
+      <!-- Card 6: Deadlocks and Conflict Resolution -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t5.html">Deadlocks and Conflict Resolution</a>
+        </div>
+        <p class="card-desc">
+          This reading explains what deadlocks are, why they occur when transactions compete for
+          shared resources, and how database systems detect and resolve them, equipping learners
+          to anticipate, prevent, and handle deadlock scenarios in their designs.
+        </p>
+      </div>
+
+      <!-- Card 7: Transaction Isolation Levels -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t6.html">Transaction Isolation Levels</a>
+        </div>
+        <p class="card-desc">
+          This reading describes the standard SQL transaction isolation levels—Read Uncommitted,
+          Read Committed, Repeatable Read, and Serializable—explaining what concurrency anomalies
+          each level permits or prevents, so learners can choose the appropriate level for a given
+          application's consistency and performance requirements.
+        </p>
+      </div>
+
+      <!-- Card 8: Concurrency Control Strategies and Best Practices (Topic Detail) -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive_topics_t7.html">Concurrency Control Strategies and Best Practices</a>
+        </div>
+        <p class="card-desc">
+          This reading surveys practical concurrency control strategies and design best
+          practices—such as optimistic versus pessimistic locking and transaction scope
+          management—giving learners actionable guidance for building database-backed systems
+          that are both correct and performant under concurrent load.
+        </p>
+      </div>
+
+      <!-- Card 9: Concurrency Control Strategies and Best Practices (Text Content) -->
+      <div class="card">
+        <div class="badge-row">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Designing_Databases_for_interactive.html">Concurrency Control Strategies and Best Practices</a>
+        </div>
+        <p class="card-desc">
+          This reading surveys practical concurrency control strategies and design best
+          practices—such as optimistic versus pessimistic locking and transaction scope
+          management—giving learners actionable guidance for building database-backed systems
+          that are both correct and performant under concurrent load.
+        </p>
+      </div>
 
     </div>
   </main>

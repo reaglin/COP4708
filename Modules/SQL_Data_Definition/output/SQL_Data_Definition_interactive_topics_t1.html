@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to SQL DDL</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Introduction to SQL DDL</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to SQL DDL</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When working with relational databases, SQL is not a single monolithic language but rather a family of closely related sublanguages, each designed for a distinct purpose. <strong>Data Definition Language (DDL)</strong> is the sublanguage responsible for creating, modifying, and removing the structural components of a database. Think of DDL as the architectural blueprint layer of your database: before any data can be stored, queried, or manipulated, the structures that will hold that data must first be designed and built. DDL is the toolset you use to do exactly that.</p>
+
+<p>At its core, DDL communicates with the database engine about <em>how</em> data should be organized, what rules it must follow, and how different pieces of data relate to one another. Every table you query, every column you insert into, and every constraint that prevents bad data from entering the system was put in place through DDL instructions. Understanding DDL deeply is therefore a prerequisite for doing meaningful work with any relational database system, whether that is PostgreSQL, MySQL, Microsoft SQL Server, Oracle, or SQLite.</p>
+
+<p><strong>What is SQL DDL?</strong></p>
+
+<p>SQL DDL encompasses the set of SQL commands that operate on <em>database objects</em> rather than on the data stored within them. A database object is any named entity managed by the database engine — tables, schemas, indexes, views, sequences, and constraints are all examples. DDL commands tell the engine what these objects look like and how they should behave. The four commands you will encounter most frequently are:</p>
+
+<ul>
+  <li><strong>CREATE</strong> — brings a new database object into existence. For example, <code>CREATE TABLE</code> defines a new table along with its columns, data types, and constraints.</li>
+  <li><strong>ALTER</strong> — modifies the structure of an existing object. You might use <code>ALTER TABLE</code> to add a new column, change a column's data type, or add a constraint after the table was originally created.</li>
+  <li><strong>DROP</strong> — permanently removes a database object and, in the case of tables, all of the data stored within it. A <code>DROP TABLE</code> statement is irreversible under normal circumstances.</li>
+  <li><strong>TRUNCATE</strong> — removes all rows from a table very efficiently while keeping the table structure itself intact. It is faster than a <code>DELETE</code> with no <code>WHERE</code> clause because it deallocates data pages directly rather than logging individual row deletions.</li>
+</ul>
+
+<p>A simple example helps ground these concepts. Suppose you are building a system to manage a library's book inventory. Before you can store any book records, you need to define what a "book" looks like in the database:</p>
+
+<pre><code>CREATE TABLE books (
+    book_id     INT           PRIMARY KEY,
+    title       VARCHAR(255)  NOT NULL,
+    author      VARCHAR(150)  NOT NULL,
+    isbn        CHAR(13)      UNIQUE,
+    published   DATE,
+    copies      INT           DEFAULT 1
+);</code></pre>
+
+<p>This single DDL statement tells the database engine to create a new table called <code>books</code> with six columns, each with a specified data type, and to enforce three structural rules: <code>book_id</code> must uniquely identify every row, <code>title</code> and <code>author</code> cannot be left empty, and <code>isbn</code> must be unique across all rows. None of this involves any data yet — it is purely structural definition.</p>
+
+<p><strong>DDL vs. Other SQL Sublanguages</strong></p>
+
+<p>To fully appreciate what DDL does, it helps to contrast it with the other recognized sublanguages of SQL. Each sublanguage addresses a different concern, and they are designed to work together:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sublanguage</th>
+      <th>Abbreviation</th>
+      <th>Primary Purpose</th>
+      <th>Representative Commands</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data Definition Language</td>
+      <td>DDL</td>
+      <td>Define and manage database structures</td>
+      <td>CREATE, ALTER, DROP, TRUNCATE</td>
+    </tr>
+    <tr>
+      <td>Data Manipulation Language</td>
+      <td>DML</td>
+      <td>Read and modify data within structures</td>
+      <td>SELECT, INSERT, UPDATE, DELETE</td>
+    </tr>
+    <tr>
+      <td>Data Control Language</td>
+      <td>DCL</td>
+      <td>Manage user permissions and access rights</td>
+      <td>GRANT, REVOKE</td>
+    </tr>
+    <tr>
+      <td>Transaction Control Language</td>
+      <td>TCL</td>
+      <td>Manage transaction boundaries</td>
+      <td>COMMIT, ROLLBACK, SAVEPOINT</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>DDL versus DML</strong> is the distinction most developers need to internalize first. DML commands — <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> — work with the <em>rows of data</em> that live inside database objects. DDL, by contrast, works with the objects themselves. You cannot insert a row into a table that has not been created with DDL, and you cannot meaningfully define a table with DDL if you do not understand what data it will need to hold. The two sublanguages are deeply interdependent, even though they operate at different levels of abstraction.</p>
+
+<p>A critical practical difference is that <strong>DDL changes are typically auto-committed</strong>. In most database systems (including MySQL and Oracle), executing a DDL statement like <code>DROP TABLE</code> causes the change to be permanently saved to the database immediately, without requiring an explicit <code>COMMIT</code> command. This also means the change <em>cannot be rolled back</em> using a standard <code>ROLLBACK</code> statement, even if you issued it within what you thought was an open transaction. Some systems, notably PostgreSQL, are an exception — they support transactional DDL, meaning you can wrap DDL statements inside a transaction and roll them back if something goes wrong. Understanding this difference is essential for avoiding accidental, irreversible structural changes in production environments.</p>
+
+<p>DML operations, on the other hand, are typically wrapped in transactions that can be rolled back. If you accidentally delete the wrong rows with a <code>DELETE</code> statement inside a transaction, you can issue a <code>ROLLBACK</code> to undo the damage — but only if you have not yet committed. DDL grants no such safety net in most systems.</p>
+
+<p><strong>DCL</strong> manages who is allowed to do what — which users can read from a table, who can execute DDL to modify the schema, and so on. DCL commands like <code>GRANT</code> and <code>REVOKE</code> operate on permissions rather than on structural definitions or data content. It is conceptually separate from DDL because it answers the question "who is allowed?" rather than "what does the structure look like?"</p>
+
+<p><strong>The Role of DDL in Database Management</strong></p>
+
+<p>DDL plays three interlocking roles across the full lifecycle of a database-backed application: initial schema creation, ongoing structural evolution, and data integrity enforcement.</p>
+
+<p>During the <strong>initial design phase</strong>, database administrators and developers translate business requirements — often captured in entity-relationship (ER) diagrams or data models — into concrete DDL statements. Every entity becomes a table, every attribute becomes a column, and every relationship becomes a foreign key constraint or a junction table. This translation is one of the most consequential design activities in software development because mistakes made at the structural level are expensive to fix later.</p>
+
+<p>For example, an e-commerce application might begin with an ER diagram showing customers, orders, and products. The DDL that implements this model might look like:</p>
+
+<pre><code>CREATE TABLE customers (
+    customer_id   INT          PRIMARY KEY,
+    email         VARCHAR(255) NOT NULL UNIQUE,
+    full_name     VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE products (
+    product_id    INT          PRIMARY KEY,
+    name          VARCHAR(200) NOT NULL,
+    price         DECIMAL(10, 2) NOT NULL CHECK (price >= 0)
+);
+
+CREATE TABLE orders (
+    order_id      INT          PRIMARY KEY,
+    customer_id   INT          NOT NULL,
+    order_date    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+
+<p>During the <strong>ongoing evolution phase</strong>, DDL enables structural changes to accommodate new business requirements. Applications are never static — requirements change, new features are added, and data models must evolve accordingly. A business might decide it needs to track customer phone numbers, requiring a new column to be added to the existing <code>customers</code> table:</p>
+
+<pre><code>ALTER TABLE customers
+    ADD COLUMN phone VARCHAR(20);</code></pre>
+
+<p>Or perhaps a column's data type turns out to be too narrow and needs to be expanded:</p>
+
+<pre><code>ALTER TABLE products
+    ALTER COLUMN name TYPE VARCHAR(500);</code></pre>
+
+<p>These modifications must be performed carefully in production environments where the database is actively serving users, which is why DDL skills — and an understanding of how DDL changes interact with running queries and locks — are so valuable for database administrators.</p>
+
+<p>The third role, <strong>data integrity enforcement</strong>, is one of DDL's most powerful contributions. By defining constraints at the structural level, DDL ensures that rules about data validity are enforced by the database engine itself, regardless of which application or user inserts or updates data. This is far more reliable than enforcing rules only in application code, because application-level validation can be bypassed by direct database access, bugs, or multiple application entry points. Constraints defined in DDL — such as <code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code>, <code>PRIMARY KEY</code>, and <code>FOREIGN KEY</code> — create a permanent, engine-enforced guarantee about the shape and validity of the data.</p>
+
+<p><strong>Database Objects Defined by DDL</strong></p>
+
+<p>While tables are the most prominent database objects created with DDL, the full scope of what DDL can define is considerably broader.</p>
+
+<p><strong>Tables</strong> are the fundamental storage units in a relational database. Each table represents a specific type of entity and consists of a fixed set of named columns, each with a defined data type. Rows are then inserted into tables to represent individual instances of that entity. Everything in a relational database ultimately resolves back to data stored in rows and columns of tables.</p>
+
+<p><strong>Schemas</strong> are logical namespaces or containers that group related database objects together. They serve both an organizational and a security function. Organizationally, schemas allow you to keep objects from different application modules or teams neatly separated within the same database. For example, a large enterprise database might have a <code>sales</code> schema containing sales-related tables, an <code>hr</code> schema containing human resources tables, and a <code>finance</code> schema for financial data. Securely, permissions can be granted at the schema level, controlling which users or roles can access the objects within a given schema. Creating a schema is itself a DDL operation: <code>CREATE SCHEMA sales;</code></p>
+
+<p><strong>Constraints</strong> are rules attached to tables or columns that the database engine enforces on every data operation. They are defined using DDL and include:</p>
+
+<ul>
+  <li><strong>PRIMARY KEY</strong> — uniquely identifies each row in a table; implies both <code>UNIQUE</code> and <code>NOT NULL</code>.</li>
+  <li><strong>FOREIGN KEY</strong> — enforces referential integrity by ensuring a column's values must match values in the primary key column of another (or the same) table.</li>
+  <li><strong>UNIQUE</strong> — ensures all values in a column or combination of columns are distinct across all rows.</li>
+  <li><strong>NOT NULL</strong> — prevents null (missing) values from being stored in a column.</li>
+  <li><strong>CHECK</strong> — allows you to define an arbitrary boolean condition that every row's value must satisfy, such as <code>CHECK (age >= 18)</code>.</li>
+  <li><strong>DEFAULT</strong> — specifies a value to use automatically when no value is provided during an insert.</li>
+</ul>
+
+<p><strong>Indexes</strong> are also created with DDL commands (<code>CREATE INDEX</code>) and significantly affect query performance by allowing the database engine to locate rows without scanning the entire table. While not directly visible when querying data, indexes are structural objects that DDL brings into being. <strong>Views</strong> (defined with <code>CREATE VIEW</code>) are named queries stored in the database that behave like virtual tables. <strong>Sequences</strong> (defined with <code>CREATE SEQUENCE</code>) generate auto-incrementing numeric values, often used as surrogate primary keys.</p>
+
+<p><strong>Why DDL Skills Are Essential for Developers and Administrators</strong></p>
+
+<p>For <strong>developers</strong>, DDL is the bridge between a conceptual data model and a working database. When a developer receives a requirements document or reviews an ER diagram, they must be able to write the DDL that brings that design to life. Errors at this stage — choosing an inappropriate data type, omitting a necessary constraint, or failing to define a foreign key — can propagate through an entire application, causing data quality problems that are difficult and costly to correct after the fact.</p>
+
+<p>Developers also benefit from understanding DDL because modern software development practices increasingly treat database schema changes as first-class code artifacts. Tools like <strong>Flyway</strong> and <strong>Liquibase</strong> manage database schema migrations by versioning DDL scripts alongside application source code in version control systems like Git. Each migration script contains DDL statements that advance the schema from one version to the next. This approach brings the same rigor to database changes that developers apply to application code: changes are tracked, reviewed, tested, and deployed systematically rather than applied ad hoc. Without a solid understanding of DDL, a developer cannot write effective migration scripts.</p>
+
+<p>For <strong>database administrators (DBAs)</strong>, DDL expertise is foundational to safely managing production systems. Altering a live schema — adding a column, rebuilding an index, or modifying a constraint — can lock tables and interrupt service for users if done carelessly. Experienced DBAs understand which DDL operations are safe to perform online (without locking) and which require a maintenance window, and they plan schema changes accordingly. They also use DDL to implement disaster recovery structures, partition large tables for performance, and create materialized views to accelerate reporting queries.</p>
+
+<p>Ultimately, a thorough understanding of SQL DDL empowers both developers and administrators to build databases that are well-structured, performant, and resilient — databases that faithfully represent business requirements and reliably protect the integrity of the data they store.</p>
+        <div class="notes"><strong>Notes</strong>Emphasise the auto-commit behaviour difference between DDL and DML early, as students often conflate transaction control with DDL operations. The PostgreSQL transactional DDL exception is worth flagging so learners do not generalise incorrectly across all RDBMS platforms. The e-commerce multi-table example is useful to revisit in later modules on foreign keys and referential integrity.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

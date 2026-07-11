@@ -1,9 +1,9 @@
 {
   "Id": "3502b927-300a-431b-a929-ffe232904a29",
-  "Name": "SQL Commands for Complex Queries",
+  "Name": "11 - SQL Commands for Complex Queries",
   "Description": "This lesson focuses on advanced SQL querying techniques including JOIN types (INNER, LEFT, RIGHT, FULL), WHERE clauses, ORDER BY, GROUP BY, HAVING, and subqueries. Students will write multi-table queries to extract and analyze data from relational databases.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.7291514-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.7296352-04:00",
+  "LastModifiedDate": "2026-07-07T20:42:37.2845833-04:00",
   "Actions": []
 }

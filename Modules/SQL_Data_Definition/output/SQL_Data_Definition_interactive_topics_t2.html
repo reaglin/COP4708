@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The CREATE Command</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>The CREATE Command</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>The CREATE Command</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>The <strong>CREATE</strong> statement is one of the foundational commands in SQL, belonging to the category known as <strong>Data Definition Language (DDL)</strong>. DDL commands are responsible for defining, modifying, and removing the structural elements of a database — the containers and frameworks that hold data — rather than the data itself. Alongside <strong>ALTER</strong>, <strong>DROP</strong>, and <strong>TRUNCATE</strong>, the CREATE command gives database designers the tools to build and shape the architecture of a relational database from the ground up. Understanding CREATE thoroughly is essential because every table, schema, and database that will ever hold your organization's data must first be formally declared and defined using this command.</p>
+
+<p>What makes CREATE distinctive is that it is purely structural. When you execute a CREATE statement, you are not inserting a single row of data, not querying anything, and not transforming existing records. You are simply telling the database engine: <em>"I want a new object of this type, with these properties, organized in this way."</em> The database engine then allocates the necessary system resources, registers the object in its internal catalog, and makes it available for subsequent use. This is why CREATE statements are typically written and executed at the very beginning of a database design project — they establish the skeleton upon which everything else is built.</p>
+
+<p>The three most common targets of the CREATE command in everyday database work are <strong>databases</strong>, <strong>schemas</strong>, and <strong>tables</strong>. Each operates at a different level of the organizational hierarchy and serves a distinct purpose. A database is the top-level container. A schema is a logical namespace within that database. A table is the actual structure that stores rows and columns of data. Together, they form a three-tier hierarchy that allows developers and administrators to organize even the most complex data environments cleanly and consistently.</p>
+
+<p><strong>Creating a New Database</strong></p>
+
+<p>The most fundamental use of CREATE is to initialize a brand-new database. The syntax is straightforward:</p>
+
+<pre><code>CREATE DATABASE database_name;</code></pre>
+
+<p>When this statement is executed, the database management system (DBMS) registers a new, empty database container under the given name. At this stage, the database exists as a named shell — it has no tables, no schemas beyond possibly a default one, and no data. Before you can begin adding objects to it, you must direct the DBMS to use that database. In MySQL and MariaDB, for example, you would write:</p>
+
+<pre><code>CREATE DATABASE company_records;
+USE company_records;</code></pre>
+
+<p>In SQL Server, the equivalent is:</p>
+
+<pre><code>CREATE DATABASE company_records;
+GO
+USE company_records;
+GO</code></pre>
+
+<p>Choosing a good database name matters more than beginners often appreciate. The name should be <strong>descriptive</strong> enough that anyone reading it understands what the database stores, <strong>concise</strong> enough to be practical in scripts and connection strings, and <strong>formatted consistently</strong> using underscores in place of spaces (since spaces in names require special quoting syntax that creates unnecessary friction). Names like <code>crm_system</code>, <code>inventory_db</code>, or <code>hr_records</code> are far preferable to vague names like <code>db1</code> or <code>new_database</code>. Databases are often long-lived — sometimes persisting for decades — so a moment of thoughtfulness at naming time pays dividends across the entire lifetime of the system.</p>
+
+<p><strong>Creating a Schema</strong></p>
+
+<p>Within a database, a <strong>schema</strong> acts as a logical namespace or folder that groups related database objects together. In large, complex databases that serve multiple departments or business functions, storing every table in a single flat namespace quickly becomes unmanageable. Schemas solve this problem by allowing you to cluster related objects under a named grouping. The syntax to create a schema is:</p>
+
+<pre><code>CREATE SCHEMA schema_name;</code></pre>
+
+<p>For example, a company might maintain a single database called <code>enterprise_db</code> but divide its contents across several schemas reflecting different business domains:</p>
+
+<pre><code>CREATE SCHEMA sales;
+CREATE SCHEMA hr;
+CREATE SCHEMA finance;
+CREATE SCHEMA logistics;</code></pre>
+
+<p>Once schemas exist, objects within them are referenced using <strong>dot notation</strong> — that is, by prefixing the object name with the schema name and a period:</p>
+
+<pre><code>SELECT * FROM sales.customers;
+SELECT * FROM hr.employees;
+SELECT * FROM finance.invoices;</code></pre>
+
+<p>This notation makes it immediately obvious, even to someone reading a query cold, which area of the business the data belongs to. It also allows the same logical name to exist in multiple schemas without conflict. For instance, both <code>sales.contacts</code> and <code>hr.contacts</code> can coexist in the same database because the schema prefix distinguishes them. This kind of organized separation is especially valuable in enterprise environments where tens or hundreds of tables might otherwise pile up in a single disorganized namespace.</p>
+
+<p><strong>Creating a Table with Column Definitions</strong></p>
+
+<p>The most frequently written form of the CREATE command is <code>CREATE TABLE</code>. A table is the core storage unit in a relational database — it is where actual data rows live. The basic syntax is:</p>
+
+<pre><code>CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+    ...
+);</code></pre>
+
+<p>Every column definition requires, at minimum, two things: a <strong>column name</strong> and a <strong>data type</strong>. The column name identifies the attribute being stored, and the data type tells the DBMS what kind of value is legal in that column. Consider a simple example of creating a table to store information about employees:</p>
+
+<pre><code>CREATE TABLE employees (
+    employee_id     INT,
+    first_name      VARCHAR(50),
+    last_name       VARCHAR(50),
+    hire_date       DATE,
+    salary          DECIMAL(10, 2),
+    department_code CHAR(5)
+);</code></pre>
+
+<p>Reading this definition, a developer immediately knows: there is an integer identifier, two variable-length text fields for names, a date for when the employee was hired, a precise decimal number for their salary, and a fixed-length code for their department. The structure is self-explanatory because both the column names and the data types have been chosen deliberately.</p>
+
+<p>It is important to understand that the <strong>number of columns and their order</strong> are fixed at the time of table creation. Adding or removing columns later is possible using the <code>ALTER TABLE</code> command, but doing so after data has been loaded can be operationally complex and sometimes disruptive. This is why careful planning before executing a CREATE TABLE statement is considered a professional best practice rather than an optional nicety.</p>
+
+<p><strong>Choosing Appropriate Data Types</strong></p>
+
+<p>Selecting the right data type for each column is one of the most consequential decisions made during table design. The choice affects storage efficiency, query performance, data integrity, and the types of operations that can legally be performed on the column. SQL offers a rich library of data types, organized into several broad families:</p>
+
+<p><em>Numeric types</em> are used for columns that store numbers, whether for counting, identification, or mathematical calculation. The most common include:</p>
+
+<ul>
+    <li><strong>INT</strong> (or INTEGER): Stores whole numbers, typically in the range of roughly −2.1 billion to +2.1 billion. Suitable for identifiers, counts, and quantities.</li>
+    <li><strong>SMALLINT</strong>: A smaller integer type consuming less storage, appropriate when values are guaranteed to stay within a narrower range (roughly −32,768 to +32,767).</li>
+    <li><strong>BIGINT</strong>: For whole numbers that may exceed INT's range — for example, row counts in very large datasets or financial transaction identifiers in high-volume systems.</li>
+    <li><strong>DECIMAL(p, s)</strong> or <strong>NUMERIC(p, s)</strong>: Stores exact fixed-point numbers where <code>p</code> is the total number of significant digits and <code>s</code> is the number of digits after the decimal point. Essential for monetary values where floating-point rounding errors are unacceptable.</li>
+    <li><strong>FLOAT</strong> / <strong>REAL</strong>: Approximate floating-point numbers, appropriate for scientific measurements where slight rounding is tolerable but the range of values is very large.</li>
+</ul>
+
+<p><em>Character and string types</em> store text data:</p>
+
+<ul>
+    <li><strong>CHAR(n)</strong>: A fixed-length character string. If the stored value is shorter than <code>n</code> characters, the remaining space is padded with spaces. Best used when all values in a column are guaranteed to be the same length — for example, two-letter country codes (<code>CHAR(2)</code>) or fixed-format product codes.</li>
+    <li><strong>VARCHAR(n)</strong>: A variable-length character string that stores only as many characters as the value actually contains (up to the maximum <code>n</code>). More storage-efficient than CHAR for columns where lengths vary widely, such as names, descriptions, or email addresses.</li>
+    <li><strong>TEXT</strong>: For very long strings of arbitrary length, such as comments, notes, or article bodies. Behavior and maximum size vary by DBMS.</li>
+</ul>
+
+<p><em>Date and time types</em> store temporal information:</p>
+
+<ul>
+    <li><strong>DATE</strong>: Stores a calendar date (year, month, day) with no time component. Ideal for birthdates, hire dates, or any date-only record.</li>
+    <li><strong>TIME</strong>: Stores a time of day (hours, minutes, seconds) with no date component.</li>
+    <li><strong>DATETIME</strong> or <strong>TIMESTAMP</strong>: Stores both a date and a time together. Used for audit timestamps, order placement times, and any moment that must be pinpointed precisely.</li>
+</ul>
+
+<p>The consequences of choosing the wrong data type are concrete and sometimes severe. Assigning a column as <code>VARCHAR(5)</code> when some values are six characters long will cause truncation errors or rejected insertions. Declaring a salary column as <code>INT</code> instead of <code>DECIMAL</code> will silently discard cents from every stored value. Conversely, assigning <code>VARCHAR(5000)</code> to a column that will only ever hold a two-character code wastes storage space and can degrade performance across millions of rows. Matching the type precisely to the real-world range and nature of the data is a discipline worth developing early.</p>
+
+<p>The table below summarizes some of the most commonly used data types, their storage characteristics, and typical use cases:</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Data Type</th>
+            <th>Category</th>
+            <th>Typical Storage</th>
+            <th>Common Use Case</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>INT</code></td>
+            <td>Numeric</td>
+            <td>4 bytes</td>
+            <td>Primary keys, counts, whole-number quantities</td>
+        </tr>
+        <tr>
+            <td><code>SMALLINT</code></td>
+            <td>Numeric</td>
+            <td>2 bytes</td>
+            <td>Small-range integers such as age or rating scores</td>
+        </tr>
+        <tr>
+            <td><code>BIGINT</code></td>
+            <td>Numeric</td>
+            <td>8 bytes</td>
+            <td>Very large identifiers or high-volume transaction IDs</td>
+        </tr>
+        <tr>
+            <td><code>DECIMAL(p, s)</code></td>
+            <td>Numeric</td>
+            <td>Varies by precision</td>
+            <td>Monetary values, precise measurements</td>
+        </tr>
+        <tr>
+            <td><code>FLOAT</code></td>
+            <td>Numeric</td>
+            <td>4–8 bytes</td>
+            <td>Scientific or engineering measurements</td>
+        </tr>
+        <tr>
+            <td><code>CHAR(n)</code></td>
+            <td>Character</td>
+            <td>n bytes (fixed)</td>
+            <td>Fixed-length codes such as country codes or status flags</td>
+        </tr>
+        <tr>
+            <td><code>VARCHAR(n)</code></td>
+            <td>Character</td>
+            <td>Up to n bytes (variable)</td>
+            <td>Names, email addresses, descriptions of varying length</td>
+        </tr>
+        <tr>
+            <td><code>TEXT</code></td>
+            <td>Character</td>
+            <td>Up to DBMS maximum</td>
+            <td>Long-form text such as notes, comments, or article content</td>
+        </tr>
+        <tr>
+            <td><code>DATE</code></td>
+            <td>Date/Time</td>
+            <td>3 bytes</td>
+            <td>Birthdates, hire dates, deadline dates</td>
+        </tr>
+        <tr>
+            <td><code>TIME</code></td>
+            <td>Date/Time</td>
+            <td>3 bytes</td>
+            <td>Shift start/end times, scheduled appointment times</td>
+        </tr>
+        <tr>
+            <td><code>DATETIME</code></td>
+            <td>Date/Time</td>
+            <td>8 bytes</td>
+            <td>Order timestamps, audit log entries, event scheduling</td>
+        </tr>
+    </tbody>
+</table>
+
+<p><strong>Defining a Table Within a Specific Schema</strong></p>
+
+<p>When creating a table, you can assign it directly to a specific schema at the time of creation by incorporating the schema name into the table name using dot notation:</p>
+
+<pre><code>CREATE TABLE schema_name.table_name (
+    column1 datatype,
+    column2 datatype,
+    ...
+);</code></pre>
+
+<p>For example, to create a <code>customers</code> table explicitly within the <code>sales</code> schema:</p>
+
+<pre><code>CREATE TABLE sales.customers (
+    customer_id   INT,
+    company_name  VARCHAR(100),
+    contact_email VARCHAR(150),
+    region        VARCHAR(50),
+    created_date  DATE
+);</code></pre>
+
+<p>If you were to omit the schema prefix and simply write <code>CREATE TABLE customers (...)</code>, the DBMS would place the table in whatever schema is currently set as the default for the active session or user account. In many systems this default is a schema named <code>dbo</code> (in SQL Server) or <code>public</code> (in PostgreSQL). Relying on this implicit default is a common source of confusion, especially in multi-schema environments, because tables can end up in unintended locations. Explicitly naming the schema at creation time removes this ambiguity entirely and is strongly preferred in professional and enterprise settings.</p>
+
+<p>Consider a scenario where a developer intends to create a new table in the <code>finance</code> schema but forgets to specify it. The table lands in <code>dbo</code> or <code>public</code> instead. Other queries written to reference <code>finance.transactions</code> will fail or return unexpected results until the error is discovered and corrected — possibly after data has already been loaded into the wrong location. Explicit schema qualification in the CREATE TABLE statement eliminates this class of mistake entirely.</p>
+
+<p><strong>Best Practices for Writing CREATE Statements</strong></p>
+
+<p>Experienced database professionals follow a set of conventions when writing CREATE statements that significantly improve the long-term maintainability and clarity of the database design. These practices are not enforced by the DBMS — you can violate all of them and still produce a technically valid schema — but they represent hard-won wisdom from years of real-world database development and administration.</p>
+
+<ul>
+    <li><strong>Use meaningful, descriptive names.</strong> Every database, schema, table, and column name should communicate its purpose without requiring additional documentation to understand it. A column named <code>emp_hire_dt</code> is reasonably clear; a column named <code>col7</code> is not. Treat your CREATE statements as part of your system's documentation — a future developer (who might be you, six months from now) should be able to read the table definition and immediately understand what is being stored.</li>
+    <li><strong>Format CREATE TABLE statements for readability.</strong> Placing each column definition on its own line, aligning the data types vertically, and using consistent indentation makes the structure dramatically easier to read, review, and edit. Compare this cluttered single-line version:
+        <pre><code>CREATE TABLE orders (order_id INT, customer_id INT, order_date DATE, total_amount DECIMAL(10,2), status VARCHAR(20));</code></pre>
+        with this well-formatted equivalent:
+        <pre><code>CREATE TABLE orders (
+    order_id      INT,
+    customer_id   INT,
+    order_date    DATE,
+    total_amount  DECIMAL(10, 2),
+    status        VARCHAR(20)
+);</code></pre>
+        Both are syntactically identical to the DBMS, but the second version is vastly easier for a human to parse at a glance.</li>
+    <li><strong>Plan column names and data types before executing.</strong> Changing a column's data type after data has been loaded can be a complex, sometimes dangerous operation — especially if the existing data does not fit cleanly into the new type. Changing a column name can break application code, stored procedures, and views that reference the old name. Taking ten extra minutes to finalize the schema design on paper or in a design tool before writing any SQL is almost always time well spent.</li>
+    <li><strong>Avoid reserved SQL keywords as object names.</strong> Words like <code>SELECT</code>, <code>TABLE</code>, <code>ORDER</code>, <code>GROUP</code>, <code>DATE</code>, and hundreds of others have special meaning in SQL syntax. Using them as column or table names forces you to wrap them in special quoting characters (such as square brackets in SQL Server or backticks in MySQL) every time you reference them, which is tedious and error-prone. Choosing non-reserved alternatives — for example, <code>order_date</code> instead of <code>date</code>, or <code>customer_group</code> instead of <code>group</code> — avoids this problem entirely.</li>
+    <li><strong>Be consistent with naming conventions across the entire schema.</strong> Whether you choose <code>snake_case</code> (using underscores between words) or <code>camelCase</code> or some other convention, apply it uniformly. A schema where some tables use <code>customerID</code>, others use <code>customer_id</code>, and still others use <code>custId</code> for what is logically the same kind of column is a maintenance nightmare. Pick a convention and stick to it from the first CREATE statement.</li>
+</ul>
+
+<p>Putting all of these principles together, consider a complete, well-structured example that creates a schema and two related tables within it:</p>
+
+<pre><code>-- Create the schema for the sales domain
+CREATE SCHEMA sales;
+
+-- Create the customers table
+CREATE TABLE sales.customers (
+    customer_id    INT,
+    first_name     VARCHAR(50),
+    last_name      VARCHAR(50),
+    email_address  VARCHAR(150),
+    phone_number   CHAR(12),
+    signup_date    DATE
+);
+
+-- Create the orders table
+CREATE TABLE sales.orders (
+    order_id       INT,
+    customer_id    INT,
+    order_date     DATETIME,
+    shipped_date   DATE,
+    total_amount   DECIMAL(12, 2),
+    order_status   VARCHAR(20)
+);</code></pre>
+
+<p>This example demonstrates how the principles work in harmony: the schema name clearly marks the business domain, each table name is unambiguous, every column has a name that describes its content, data types are chosen to match the real-world nature of each attribute, and the formatting makes the entire definition readable at a glance. This is the standard to aim for every time you reach for the CREATE command.</p>
+        <div class="notes"><strong>Notes</strong>Covers how to use the CREATE statement to build new databases, schemas, and tables. Students practice defining table structures with appropriate column names and data types.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

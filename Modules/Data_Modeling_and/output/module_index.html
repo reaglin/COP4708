@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Modeling and Entity-Relationship Modeling | COP4708</title>
+  <title>Module 6 – Data Modeling and Entity-Relationship Modeling | COP4708</title>
   <style>
     /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,135 +16,95 @@
       min-height: 100vh;
     }
 
-    /* ── Header / Hero ── */
+    /* ── Header Banner ── */
     header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 100%);
+      background: linear-gradient(135deg, #1a3a5c 0%, #25567e 60%, #2e7aaa 100%);
       color: #fff;
-      padding: 2.8rem 1.5rem 2.4rem;
-      text-align: center;
+      padding: 2.5rem 2rem 2rem;
     }
 
-    header .course-label {
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .course-label {
       display: inline-block;
       font-size: 0.78rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 999px;
-      padding: 0.25rem 0.9rem;
-      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 4px;
+      padding: 0.2rem 0.65rem;
+      margin-bottom: 0.85rem;
+      color: #d6eaf8;
     }
 
     header h1 {
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
       font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
       line-height: 1.25;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
     }
 
-    header p.intro {
-      max-width: 680px;
-      margin: 0 auto;
+    header p {
       font-size: 1rem;
-      color: rgba(255,255,255,0.88);
+      max-width: 720px;
+      color: #cde3f5;
+      line-height: 1.65;
     }
 
     /* ── Main Content ── */
     main {
-      max-width: 960px;
-      margin: 2.5rem auto 3rem;
-      padding: 0 1.25rem;
+      max-width: 1100px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 3rem;
     }
 
     .section-heading {
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.13em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #5a7a99;
-      margin-bottom: 1.1rem;
-      border-bottom: 2px solid #dde4ed;
+      color: #5a7a96;
+      margin-bottom: 1.2rem;
       padding-bottom: 0.45rem;
+      border-bottom: 2px solid #dce6ef;
     }
 
     /* ── Card Grid ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.25rem;
     }
 
     .card {
       background: #ffffff;
-      border: 1px solid #dde4ed;
+      border: 1px solid #dce6ef;
       border-radius: 10px;
       padding: 1.4rem 1.5rem 1.3rem;
-      box-shadow: 0 2px 8px rgba(30,42,56,0.06);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      position: relative;
     }
 
     .card:hover {
-      box-shadow: 0 6px 20px rgba(30,42,56,0.11);
+      box-shadow: 0 6px 22px rgba(30, 80, 130, 0.12);
       transform: translateY(-2px);
     }
 
-    /* ── Card Header Row ── */
-    .card-title-row {
+    /* ── Card Meta Row ── */
+    .card-meta {
       display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .card-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #1a3a5c;
-    }
-
-    .card-name a {
-      color: #1a6fbf;
-      text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.18s;
-    }
-
-    .card-name a:hover,
-    .card-name a:focus {
-      border-bottom-color: #1a6fbf;
-      outline: none;
-    }
-
-    .source-link {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #fff;
-      background: #5a7a99;
-      border-radius: 999px;
-      padding: 0.18rem 0.65rem;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.18s;
-    }
-
-    .source-link:hover,
-    .source-link:focus {
-      background: #3d5f7a;
-      outline: none;
-    }
-
-    /* ── Badges ── */
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
       align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .badge {
@@ -152,56 +112,133 @@
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      border-radius: 4px;
-      padding: 0.2rem 0.55rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      white-space: nowrap;
     }
 
     .badge-type {
       background: #e8f0fb;
-      color: #1a55a0;
-      border: 1px solid #c3d5f0;
+      color: #2558a8;
+      border: 1px solid #c3d5f5;
     }
 
     .badge-filetype {
-      background: #f0f4f0;
-      color: #2e6b3e;
-      border: 1px solid #b8d6bf;
-      font-family: 'Courier New', monospace;
+      background: #eef6ee;
+      color: #2d7a3a;
+      border: 1px solid #b6ddb9;
     }
 
-    /* ── Description ── */
+    /* ── Card Title ── */
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      line-height: 1.35;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .card-title a {
+      color: #1a5fa8;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .card-title a:hover,
+    .card-title a:focus {
+      color: #0d3f7a;
+      border-bottom-color: #0d3f7a;
+    }
+
+    .card-title a:focus {
+      outline: 3px solid #5aacf0;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .plain-title {
+      color: #1a3a5c;
+    }
+
+    /* ── Source Link ── */
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #5a7a96;
+      text-decoration: none;
+      background: #f0f4f8;
+      border: 1px solid #c8d8e8;
+      border-radius: 4px;
+      padding: 0.15rem 0.45rem;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .source-link::before {
+      content: "⬇";
+      font-size: 0.65rem;
+    }
+
+    .source-link:hover,
+    .source-link:focus {
+      background: #d9e8f5;
+      color: #1a3a5c;
+    }
+
+    .source-link:focus {
+      outline: 3px solid #5aacf0;
+      outline-offset: 2px;
+    }
+
+    /* ── Card Description ── */
     .card-description {
       font-size: 0.9rem;
-      color: #3d5068;
-      line-height: 1.55;
+      color: #445566;
+      line-height: 1.6;
       flex-grow: 1;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 1.5rem 1rem 2rem;
       font-size: 0.8rem;
       color: #8a9bb0;
+      padding: 1.5rem 1rem 2rem;
+      border-top: 1px solid #dce6ef;
     }
 
-    /* ── Responsive tweak ── */
-    @media (max-width: 480px) {
-      header { padding: 2rem 1rem 1.8rem; }
-      .card  { padding: 1.1rem 1.1rem 1rem; }
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      header { padding: 2rem 1.25rem 1.75rem; }
+      main { padding: 0 1rem 2.5rem; }
+      .card { padding: 1.2rem 1.2rem 1.1rem; }
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <span class="course-label">COP4708</span>
-    <h1>Data Modeling and Entity-Relationship Modeling</h1>
-    <p class="intro">
-      This module introduces the foundational concepts of data modeling, guiding learners through
-      entities, attributes, relationships, and cardinality — culminating in a solid understanding
-      of the Entity-Relationship (ER) model used in modern database design.
-    </p>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Module 6 &mdash; Data Modeling and Entity-Relationship Modeling</h1>
+      <p>
+        This module introduces the foundational concepts behind data modeling and the
+        Entity-Relationship (ER) model. Learners will explore how to identify entities,
+        attributes, and relationships, construct ER diagrams following standard conventions,
+        and apply these techniques to real-world problem domains as a precursor to full
+        database design and implementation.
+      </p>
+    </div>
   </header>
 
   <main>
@@ -209,31 +246,142 @@
 
     <div class="card-grid">
 
-        <div class="card">
-          <div class="card-title-row">
-            <span class="card-name">
-                <a href="module_topics.html">Module Topics</a>
-            </span>
-              <a
-                class="source-link"
-                href="../hierarchy.json"
-                aria-label="Source file for Module Topics"
-              >source file</a>
-          </div>
-          <div class="badge-row">
-            <span class="badge badge-type">Module Topics</span>
-            <span class="badge badge-filetype">.json</span>
-          </div>
-          <p class="card-description">
-            Outlines the module&#x27;s core topics—data modeling concepts, entities and attributes, relationships and cardinality, and the Entity-Relationship (ER) model—serving as a syllabus-style roadmap that helps learners and instructors understand what will be covered and in what order.
-          </p>
+      <!-- Card 1: Module Topics -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Module Topics</span>
+          <span class="badge badge-filetype">.json</span>
         </div>
+        <div class="card-title">
+          <a href="module_topics.html">Module Topics</a>
+          <a class="source-link" href="../hierarchy.json">source file</a>
+        </div>
+        <p class="card-description">
+          Outlines the module's core topics&mdash;data modeling concepts, entities and attributes,
+          relationships and cardinality, and the Entity-Relationship (ER) model&mdash;serving as a
+          syllabus-style roadmap that helps learners and instructors understand what will be covered
+          and in what order.
+        </p>
+      </article>
+
+      <!-- Card 2: Introduction to Data Modeling -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive_topics_t1.html">Introduction to Data Modeling</a>
+        </div>
+        <p class="card-description">
+          A foundational reading that explains what data modeling is, why it is essential before
+          database construction begins, and how it fits into the broader software engineering
+          process, used by learners to build conceptual grounding before diving into specific
+          modeling techniques.
+        </p>
+      </article>
+
+      <!-- Card 3: Entities and Attributes -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive_topics_t2.html">Entities and Attributes</a>
+        </div>
+        <p class="card-description">
+          A reading that defines entities as real-world objects a system needs to track and explains
+          how attributes describe them, helping learners understand the first step in identifying
+          what information a database should store.
+        </p>
+      </article>
+
+      <!-- Card 4: Relationships Between Entities -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive_topics_t3.html">Relationships Between Entities</a>
+        </div>
+        <p class="card-description">
+          A reading that covers how entities relate to one another in a data model, including
+          relationship types and why capturing those connections is critical for a functional
+          database, used by learners to understand the associative structure between data objects.
+        </p>
+      </article>
+
+      <!-- Card 5: The Entity-Relationship (ER) Model -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive_topics_t4.html">The Entity-Relationship (ER) Model</a>
+        </div>
+        <p class="card-description">
+          A reading that introduces Peter Chen's Entity-Relationship model as a conceptual framework
+          for database design, explaining its core components and how it allows designers to represent
+          data requirements independently of physical implementation details.
+        </p>
+      </article>
+
+      <!-- Card 6: Creating ER Diagrams -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive_topics_t5.html">Creating ER Diagrams</a>
+        </div>
+        <p class="card-description">
+          A reading that teaches learners the practical steps and conventions for constructing ER
+          diagrams, including how to represent entities, attributes, and relationships visually so
+          the diagram can later be translated into a database schema.
+        </p>
+      </article>
+
+      <!-- Card 7: Applying ER Modeling – Topic Detail -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Topic Detail</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive_topics_t6.html">Applying ER Modeling to a Problem Domain</a>
+        </div>
+        <p class="card-description">
+          A reading that walks learners through the process of analyzing a real-world business
+          scenario and systematically applying ER modeling techniques to produce a structured
+          database design from a problem description.
+        </p>
+      </article>
+
+      <!-- Card 8: Applying ER Modeling – Text Content -->
+      <article class="card">
+        <div class="card-meta">
+          <span class="badge badge-type">Text Content</span>
+          <span class="badge badge-filetype">.html</span>
+        </div>
+        <div class="card-title">
+          <a href="Data_Modeling_and_interactive.html">Applying ER Modeling to a Problem Domain</a>
+        </div>
+        <p class="card-description">
+          A reading that walks learners through the process of analyzing a real-world business
+          scenario and systematically applying ER modeling techniques to produce a structured
+          database design from a problem description.
+        </p>
+      </article>
 
     </div>
   </main>
 
   <footer>
-    COP4708 &mdash; Data Modeling and Entity-Relationship Modeling &mdash; Course Module Index
+    COP4708 &mdash; Module 6: Data Modeling and Entity-Relationship Modeling
   </footer>
 
 

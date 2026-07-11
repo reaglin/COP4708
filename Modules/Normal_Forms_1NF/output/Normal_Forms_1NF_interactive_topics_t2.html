@@ -1,0 +1,512 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>First Normal Form (1NF)</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>First Normal Form (1NF)</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>First Normal Form (1NF)</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>First Normal Form, universally abbreviated as <strong>1NF</strong>, is the foundational rule of relational database normalization. Every higher normal form builds on top of it, which means a table that violates 1NF cannot meaningfully be evaluated against 2NF, 3NF, or any of the more advanced forms. Understanding 1NF thoroughly — not just as a checklist but as a philosophy about how relational data should be structured — is essential before moving anywhere else in normalization theory.</p>
+
+<p>The core idea behind 1NF comes directly from the relational model introduced by Edgar F. Codd in the 1970s. Codd's model treats a database table as a mathematical relation: a set of tuples, where each tuple represents a single fact and each attribute (column) holds a single, well-defined value. When tables deviate from this model — by cramming multiple values into one cell or by repeating the same attribute across many columns — they introduce ambiguity, redundancy, and fragility that makes the data hard to query, maintain, and trust.</p>
+
+<p>A table is in 1NF when it satisfies four conditions simultaneously:</p>
+
+<ul>
+  <li>Every column contains only <strong>atomic</strong> (indivisible) values — no lists, sets, arrays, or nested structures inside a single cell.</li>
+  <li>Every column holds values of a <strong>single, consistent data type</strong> — every entry in a given column is of the same kind.</li>
+  <li>Every row is <strong>unique</strong>, enforced by declaring a primary key.</li>
+  <li>There are <strong>no repeating groups</strong> — no pattern of multiple columns that all represent different instances of the same attribute.</li>
+</ul>
+
+<p>These four rules are deeply interrelated. A table that violates any one of them will typically violate the spirit of the others as well. Let us examine each rule and its practical implications in detail.</p>
+
+<p><strong>The Atomicity Requirement</strong></p>
+
+<p>Atomicity is the most discussed rule of 1NF. An <em>atomic value</em> is one that, from the database's perspective, cannot and should not be broken down further. A person's first name is atomic. A date stored as a proper DATE type is atomic. A numeric price is atomic. These are single, indivisible facts.</p>
+
+<p>A <em>non-atomic value</em> is one where multiple pieces of information have been packed into a single field. The most common examples are comma-separated lists, space-delimited strings, JSON arrays stored in a text column, or pipe-separated codes. Consider a <code>Students</code> table with a <code>Courses</code> column that looks like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>StudentName</th>
+      <th>Courses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Alice Marsh</td>
+      <td>Math, History, Biology</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Ben Okafor</td>
+      <td>English, Art</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>Math, Physics, Chemistry, English</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code>Courses</code> column is not atomic. Each cell contains multiple course names fused together as a single string. This creates a cascade of practical problems:</p>
+
+<ul>
+  <li><strong>Querying is difficult.</strong> To find all students enrolled in Math, the database cannot do a simple equality check. It must search inside strings, typically using a <code>LIKE '%Math%'</code> pattern, which is slow, error-prone, and will produce false positives (e.g., matching "Mathematics" when you searched for "Math").</li>
+  <li><strong>Indexing is impossible at the value level.</strong> A standard B-tree index on the <code>Courses</code> column indexes the entire string "Math, History, Biology" as one value — it cannot index the individual courses within it.</li>
+  <li><strong>Updates are fragile.</strong> Removing Alice from History requires parsing her string, editing it, and writing it back. Any parsing error corrupts the data.</li>
+  <li><strong>Counting and aggregation break.</strong> How many students are enrolled in Math? There is no clean SQL to answer this without complicated string manipulation.</li>
+</ul>
+
+<p>The fix for non-atomic data is to expand the table so that each individual value gets its own row. Every row then describes one atomic fact — one student enrolled in one course — and all the other column values are duplicated as needed to preserve context:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>StudentName</th>
+      <th>Course</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Alice Marsh</td>
+      <td>Math</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>Alice Marsh</td>
+      <td>History</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>Alice Marsh</td>
+      <td>Biology</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Ben Okafor</td>
+      <td>English</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Ben Okafor</td>
+      <td>Art</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>Math</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>Physics</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>Chemistry</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>English</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now every cell contains exactly one value. Querying for students in Math is a simple <code>WHERE Course = 'Math'</code>. Indexing works perfectly. Counting enrollments per course is a straightforward <code>GROUP BY</code>. The data has become genuinely queryable.</p>
+
+<p>It is worth noting that the definition of "atomic" is context-dependent. A full mailing address stored in one column is technically non-atomic (it contains street, city, state, and zip code), but if your application never needs to query or filter by individual parts of the address, storing it as one string may be a reasonable practical choice. Atomicity is about whether the database needs to interpret the internal structure of a value. If it never does, the value is atomic from the system's perspective. That said, when in doubt, it is almost always better to separate values — storage is cheap, and future requirements are unpredictable.</p>
+
+<p><strong>Eliminating Repeating Groups</strong></p>
+
+<p>A <em>repeating group</em> is a different kind of 1NF violation. Instead of hiding multiple values inside one column, a repeating group spreads multiple instances of the same attribute across multiple columns. This design pattern was common in pre-relational, flat-file systems and still appears frequently when developers design tables without normalization in mind.</p>
+
+<p>Imagine an <code>Orders</code> table designed to hold the items within each order:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID</th>
+      <th>CustomerName</th>
+      <th>Item1</th>
+      <th>Qty1</th>
+      <th>Item2</th>
+      <th>Qty2</th>
+      <th>Item3</th>
+      <th>Qty3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5001</td>
+      <td>Alice Marsh</td>
+      <td>Notebook</td>
+      <td>2</td>
+      <td>Pen</td>
+      <td>5</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>5002</td>
+      <td>Ben Okafor</td>
+      <td>Stapler</td>
+      <td>1</td>
+      <td>Paper</td>
+      <td>3</td>
+      <td>Clips</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>5003</td>
+      <td>Cora Li</td>
+      <td>Ruler</td>
+      <td>1</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The columns <code>Item1/Qty1</code>, <code>Item2/Qty2</code>, <code>Item3/Qty3</code> are a classic repeating group. They represent the same concept — an item in an order — just numbered to allow more than one. This design fails badly in several ways:</p>
+
+<ul>
+  <li><strong>It caps capacity arbitrarily.</strong> The table supports at most three items per order. The fourth item of an order has nowhere to go without altering the table schema to add <code>Item4</code> and <code>Qty4</code>.</li>
+  <li><strong>It wastes space and creates NULLs.</strong> Orders with fewer than three items leave columns NULL, as seen in Alice's and Cora's rows. This is wasteful and makes aggregate queries awkward.</li>
+  <li><strong>Queries are complicated.</strong> To find every order containing a Stapler, you cannot just write <code>WHERE Item = 'Stapler'</code>. You must write <code>WHERE Item1 = 'Stapler' OR Item2 = 'Stapler' OR Item3 = 'Stapler'</code> — and this query would need updating every time you add a new item column.</li>
+  <li><strong>Sorting and ranking by item is meaningless.</strong> The position of an item (Item1 vs. Item2) carries no semantic value, yet the schema implies an ordering.</li>
+</ul>
+
+<p>The correct solution is to move the repeating group into a separate, dedicated table. The new table references the original table through a foreign key, naturally creating a one-to-many relationship:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID</th>
+      <th>CustomerName</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>5001</td>
+      <td>Alice Marsh</td>
+    </tr>
+    <tr>
+      <td>5002</td>
+      <td>Ben Okafor</td>
+    </tr>
+    <tr>
+      <td>5003</td>
+      <td>Cora Li</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderItemID</th>
+      <th>OrderID</th>
+      <th>ItemName</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>5001</td>
+      <td>Notebook</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5001</td>
+      <td>Pen</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5002</td>
+      <td>Stapler</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5002</td>
+      <td>Paper</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>5002</td>
+      <td>Clips</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>5003</td>
+      <td>Ruler</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code>Orders</code> table now holds only order-level information. The <code>OrderItems</code> table holds item-level information, with each row representing one item in one order. An order can now contain any number of items without any schema changes. There are no NULLs. Querying for all orders containing a Stapler is a single <code>WHERE ItemName = 'Stapler'</code>. The repeating group has been eliminated and replaced with a proper relational structure.</p>
+
+<p><strong>Identifying a Primary Key</strong></p>
+
+<p>A table in 1NF must have a <strong>primary key</strong> — one column or a combination of columns (a composite key) whose values uniquely identify every row in the table. This rule is what gives "every row must be unique" its teeth. Without a primary key, the database has no reliable mechanism to address a specific row.</p>
+
+<p>Two absolute rules govern primary keys:</p>
+
+<ul>
+  <li><strong>Uniqueness:</strong> No two rows may share the same primary key value. If <code>StudentID</code> is the primary key, no two students can have the same ID.</li>
+  <li><strong>Non-nullability:</strong> A primary key column may never contain NULL. NULL represents an unknown or missing value — and if we do not know the identifier, we cannot reliably identify the record. Most database systems enforce this automatically when you declare a column as <code>PRIMARY KEY</code>.</li>
+</ul>
+
+<p>When transforming an unnormalized table into 1NF, you must explicitly identify or create an appropriate primary key. In many cases, the original table may not have a clear natural key after the transformation (especially when rows have been split), so introducing a surrogate key — an artificial, system-generated integer identifier — is common and perfectly acceptable.</p>
+
+<p>Consider the flattened <code>Students</code>/<code>Course</code> table from earlier. After splitting, <code>StudentID</code> alone is no longer unique (Alice appears three times). The primary key for that table must be the <em>combination</em> of <code>StudentID</code> and <code>Course</code>, because together they uniquely identify each enrollment row:</p>
+
+<pre><code>PRIMARY KEY (StudentID, Course)
+</code></pre>
+
+<p>Alternatively, a surrogate key <code>EnrollmentID</code> could be introduced as an auto-incrementing integer, making each row uniquely addressable by a single column. Either approach is valid; the choice depends on the broader design requirements of the system.</p>
+
+<p><strong>Transforming an Unnormalized Table into 1NF: Step-by-Step</strong></p>
+
+<p>Let us consolidate everything into a clear, repeatable process. Given any unnormalized table, apply these five steps to bring it into 1NF:</p>
+
+<ul>
+  <li><strong>Step 1 — Identify non-atomic columns.</strong> Examine every column and look for cells that contain multiple values. Telltale signs include comma-separated strings, slash-delimited codes, semicolon-separated names, or free-text fields that encode structured information. Any such column violates atomicity and must be fixed.</li>
+  <li><strong>Step 2 — Identify repeating groups.</strong> Look for families of similarly named columns — anything following a pattern like <code>Phone1</code>, <code>Phone2</code>, <code>Phone3</code> or <code>Address_Line1</code>, <code>Address_Line2</code> where the intent is to store multiple instances of the same concept. These must be extracted into a child table.</li>
+  <li><strong>Step 3 — Flatten the data.</strong> For each non-atomic column, split the multi-valued cell into individual rows. Duplicate the values of all other columns in each new row as needed to preserve the context. For repeating groups, create a new table with a foreign key pointing back to the parent table, and move each instance into its own row in that new table.</li>
+  <li><strong>Step 4 — Define a primary key.</strong> After flattening, determine which column or combination of columns uniquely identifies each row. Declare this as the primary key. If no natural candidate exists, introduce a surrogate key.</li>
+  <li><strong>Step 5 — Verify compliance.</strong> Do a final check: every cell should contain exactly one atomic value; every row should be unique (provable by the primary key); no column should be NULL-heavy in a way that suggests a repeating group; and no column should be a delimited list.</li>
+</ul>
+
+<p><strong>Before and After: A Complete 1NF Example</strong></p>
+
+<p>To bring all of these concepts together, consider the following unnormalized <code>StudentCourses</code> table from a school's legacy system:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>StudentName</th>
+      <th>Advisor</th>
+      <th>Course1</th>
+      <th>Grade1</th>
+      <th>Course2</th>
+      <th>Grade2</th>
+      <th>Course3</th>
+      <th>Grade3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Alice Marsh</td>
+      <td>Dr. Reed</td>
+      <td>Math</td>
+      <td>A</td>
+      <td>History</td>
+      <td>B+</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Ben Okafor</td>
+      <td>Dr. Pham</td>
+      <td>English</td>
+      <td>B</td>
+      <td>Art</td>
+      <td>A-</td>
+      <td>Physics</td>
+      <td>C+</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>Dr. Reed</td>
+      <td>Chemistry</td>
+      <td>A+</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+      <td>NULL</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This table has a clear repeating group: the <code>Course1/Grade1</code>, <code>Course2/Grade2</code>, <code>Course3/Grade3</code> triplets. It is capped at three courses per student, contains numerous NULLs, and makes it impossible to efficiently query "which students received an A in any course?" without checking all three grade columns.</p>
+
+<p>Applying the five steps:</p>
+
+<ul>
+  <li>No non-atomic columns are present (each individual cell holds one value), so Step 1 reveals no comma-separated lists. However, Step 2 reveals the obvious repeating group.</li>
+  <li>We create a separate <code>Enrollments</code> table and move the course/grade pairs there, each as its own row.</li>
+  <li>The <code>Students</code> table retains only student-level data, with <code>StudentID</code> as its primary key.</li>
+  <li>The <code>Enrollments</code> table uses a composite primary key of <code>(StudentID, CourseName)</code>, since a student can only have one grade per course.</li>
+</ul>
+
+<p>The resulting 1NF-compliant <strong>Students</strong> table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>StudentName</th>
+      <th>Advisor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Alice Marsh</td>
+      <td>Dr. Reed</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Ben Okafor</td>
+      <td>Dr. Pham</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Cora Li</td>
+      <td>Dr. Reed</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The resulting 1NF-compliant <strong>Enrollments</strong> table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>CourseName</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>101</td>
+      <td>Math</td>
+      <td>A</td>
+    </tr>
+    <tr>
+      <td>101</td>
+      <td>History</td>
+      <td>B+</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>English</td>
+      <td>B</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Art</td>
+      <td>A-</td>
+    </tr>
+    <tr>
+      <td>102</td>
+      <td>Physics</td>
+      <td>C+</td>
+    </tr>
+    <tr>
+      <td>103</td>
+      <td>Chemistry</td>
+      <td>A+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The transformation has several immediate benefits. The total row count grew from 3 to 6 (in <code>Enrollments</code>), but every row now represents exactly one logical fact: one student's grade in one course. All NULLs are gone. A query like "find all students who earned an A" is now simply:</p>
+
+<pre><code>SELECT s.StudentName, e.CourseName
+FROM Students s
+JOIN Enrollments e ON s.StudentID = e.StudentID
+WHERE e.Grade = 'A';
+</code></pre>
+
+<p>This is clean, readable, and fully indexable. There is no limit on how many courses a student can enroll in — adding a fourth course is just a new row in <code>Enrollments</code>, not a schema change. The data is now a proper foundation on which Second Normal Form and beyond can be applied.</p>
+
+<p>It is important to understand that 1NF does not, by itself, eliminate all redundancy. Notice that <code>Dr. Reed</code> appears twice in the <code>Students</code> table. Removing that kind of redundancy is the job of higher normal forms. But 1NF is the essential prerequisite — it establishes that the data is structured as a proper relational table in the first place, with clean atomic values, unique rows, and no hidden multi-valued columns. Everything else in normalization theory depends on this foundation being solid.</p>
+        <div class="notes"><strong>Notes</strong>The atomicity discussion includes a note on context-dependence (e.g., addresses) to help learners apply judgment rather than apply rules mechanically. The before/after SQL query example grounds the theory in practical querying. Both violation types (non-atomic values and repeating groups) are illustrated with distinct, concrete table examples to avoid conflating the two concepts.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

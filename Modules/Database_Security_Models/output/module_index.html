@@ -3,269 +3,493 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Database Security Models, Users, and Application Connections – COP4708</title>
+  <title>Database Security Models, Users, and Application Connections — COP4708</title>
   <style>
     /* ── Reset & Base ── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
+    :root {
+      --color-bg:         #f4f6f9;
+      --color-surface:    #ffffff;
+      --color-border:     #dde2ea;
+      --color-primary:    #1a4f8a;
+      --color-primary-dk: #133b6a;
+      --color-accent:     #2e7d9f;
+      --color-text:       #1e2430;
+      --color-muted:      #5a6478;
+      --color-tag-bg:     #e8edf5;
+      --color-tag-text:   #2d4270;
+      --radius:           8px;
+      --shadow:           0 2px 8px rgba(0,0,0,.08);
+      --transition:       0.2s ease;
     }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: #f4f6f9;
-      color: #1e2a3a;
-      line-height: 1.65;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
       min-height: 100vh;
     }
 
     /* ── Header / Hero ── */
     header {
-      background: linear-gradient(135deg, #0d2b4e 0%, #1a4a7a 60%, #1e6091 100%);
-      color: #ffffff;
-      padding: 3rem 2rem 2.5rem;
-      text-align: center;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+      color: #fff;
+      padding: 3rem 1.5rem 2.5rem;
     }
 
-    header .course-label {
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .course-label {
       display: inline-block;
-      background-color: rgba(255, 255, 255, 0.15);
-      color: #cfe4f7;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      border-radius: 3px;
-      padding: 0.25rem 0.75rem;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px;
+      padding: .25rem .85rem;
       margin-bottom: 1rem;
     }
 
     header h1 {
-      font-size: clamp(1.55rem, 4vw, 2.4rem);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
       font-weight: 700;
-      letter-spacing: -0.01em;
       line-height: 1.25;
-      max-width: 800px;
-      margin: 0 auto 1.1rem;
+      margin-bottom: 1rem;
+      max-width: 720px;
     }
 
-    header p.intro {
+    header p {
       font-size: 1rem;
-      color: #c8def4;
       max-width: 680px;
-      margin: 0 auto;
+      opacity: .92;
+      line-height: 1.7;
     }
 
     /* ── Main Content ── */
     main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      max-width: 1080px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 3rem;
     }
 
     .section-label {
-      font-size: 0.72rem;
+      font-size: .7rem;
       font-weight: 700;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      letter-spacing: 0.13em;
-      color: #5a7490;
-      margin-bottom: 1.2rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #dde4ed;
+      color: var(--color-muted);
+      margin-bottom: 1.25rem;
+      padding-bottom: .5rem;
+      border-bottom: 2px solid var(--color-border);
     }
 
-    /* ── Artifact Grid ── */
-    .artifact-grid {
+    /* ── Card Grid ── */
+    .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.35rem;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
 
-    .artifact-card {
-      background: #ffffff;
-      border: 1px solid #dde4ed;
-      border-radius: 8px;
-      padding: 1.4rem 1.5rem 1.35rem;
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow var(--transition), transform var(--transition);
     }
 
-    .artifact-card:hover {
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,.12);
       transform: translateY(-2px);
     }
 
-    /* ── Card Header Row ── */
-    .card-header {
+    .card-top {
+      padding: 1.25rem 1.25rem .75rem;
+      border-bottom: 1px solid var(--color-border);
       display: flex;
       align-items: flex-start;
-      gap: 0.65rem;
-      flex-wrap: wrap;
+      gap: .75rem;
     }
 
-    .artifact-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #1e2a3a;
-      flex: 1 1 auto;
+    .card-icon {
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: var(--color-tag-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .artifact-name a {
-      color: #1056a0;
+    .card-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--color-primary);
+    }
+
+    .card-title-block {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .card-name a {
+      color: var(--color-primary);
       text-decoration: none;
-      border-bottom: 1.5px solid transparent;
-      transition: border-color 0.18s ease, color 0.18s ease;
+      transition: color var(--transition);
     }
 
-    .artifact-name a:hover,
-    .artifact-name a:focus {
-      color: #0a3e7a;
-      border-bottom-color: #0a3e7a;
-      outline: none;
+    .card-name a:hover,
+    .card-name a:focus {
+      color: var(--color-primary-dk);
+      text-decoration: underline;
     }
 
     .source-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
-      font-size: 0.72rem;
+      gap: .28rem;
+      margin-left: .55rem;
+      font-size: .72rem;
       font-weight: 600;
-      color: #5a7490;
+      color: var(--color-accent);
       text-decoration: none;
-      background: #eef3f9;
-      border: 1px solid #c9d8ea;
-      border-radius: 3px;
-      padding: 0.18rem 0.5rem;
       white-space: nowrap;
-      align-self: flex-start;
-      transition: background 0.18s ease, color 0.18s ease;
+      vertical-align: middle;
+      transition: color var(--transition);
     }
 
     .source-link:hover,
     .source-link:focus {
-      background: #d8e6f5;
-      color: #0d2b4e;
-      outline: none;
+      color: var(--color-primary-dk);
+      text-decoration: underline;
     }
 
-    .source-link::before {
-      content: "⬇";
-      font-size: 0.65rem;
+    .source-link svg {
+      width: 11px;
+      height: 11px;
+      fill: currentColor;
+      flex-shrink: 0;
     }
 
-    /* ── Metadata Badges ── */
-    .card-meta {
+    /* ── Badges ── */
+    .badge-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.45rem;
-      align-items: center;
+      gap: .4rem;
+      margin-top: .5rem;
     }
 
     .badge {
       display: inline-block;
-      font-size: 0.7rem;
+      font-size: .68rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      border-radius: 3px;
-      padding: 0.18rem 0.55rem;
+      letter-spacing: .04em;
+      padding: .18rem .6rem;
+      border-radius: 20px;
+      line-height: 1.5;
     }
 
     .badge-type {
-      background-color: #e8f0fb;
-      color: #2a5fa5;
-      border: 1px solid #b8d0f0;
+      background: var(--color-tag-bg);
+      color: var(--color-tag-text);
+      border: 1px solid #c4cedf;
     }
 
     .badge-filetype {
-      background-color: #f0f5e8;
-      color: #3a6a1a;
-      border: 1px solid #bdd9a0;
+      background: #edf7f0;
+      color: #1e6644;
+      border: 1px solid #b5dfc4;
     }
 
-    /* ── Description ── */
-    .card-description {
-      font-size: 0.88rem;
-      color: #3d526a;
-      line-height: 1.6;
+    /* ── Card Body ── */
+    .card-body {
+      padding: 1rem 1.25rem 1.25rem;
+      flex: 1;
+    }
+
+    .card-body p {
+      font-size: .875rem;
+      color: var(--color-muted);
+      line-height: 1.65;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      font-size: 0.78rem;
-      color: #8a9bb0;
-      padding: 1.5rem 1rem 2rem;
-      border-top: 1px solid #dde4ed;
+      padding: 1.5rem;
+      font-size: .8rem;
+      color: var(--color-muted);
+      border-top: 1px solid var(--color-border);
+      background: var(--color-surface);
     }
 
     /* ── Responsive ── */
     @media (max-width: 480px) {
-      header {
-        padding: 2.2rem 1.25rem 2rem;
-      }
-
-      main {
-        padding: 2rem 1rem 3rem;
-      }
-
-      .artifact-card {
-        padding: 1.2rem 1.1rem;
-      }
+      header { padding: 2rem 1rem 1.75rem; }
+      main { margin: 1.5rem auto; padding: 0 1rem 2rem; }
+      .card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ═══════════════ HEADER ═══════════════ -->
   <header>
-    <div class="course-label">COP4708</div>
-    <h1>Database Security Models, Users, and Application Connections</h1>
-    <p class="intro">
-      This module explores the foundational principles of database security, covering user management,
-      authentication and authorization mechanisms, role-based access control, and application-level
-      connection strategies. Use the artifacts below to navigate the module's content and resources.
-    </p>
+    <div class="header-inner">
+      <span class="course-label">COP4708</span>
+      <h1>Database Security Models, Users, and Application Connections</h1>
+      <p>
+        This module explores the principles and practices that protect database systems from
+        unauthorized access, misuse, and data loss. Learners will study the CIA triad, user
+        roles and privilege management, authentication and authorization mechanisms, SQL
+        injection prevention, and the techniques used to establish secure, efficient
+        application-to-database connections including ORM frameworks and connection pooling.
+      </p>
+    </div>
   </header>
 
+  <!-- ═══════════════ MAIN ═══════════════ -->
   <main>
-    <p class="section-label">Module Artifacts</p>
+    <p class="section-label">Module Artifacts &mdash; 9 items</p>
 
-    <div class="artifact-grid">
+    <div class="card-grid">
 
-      <!-- Artifact: Module Topics -->
-      <div class="artifact-card">
-        <div class="card-header">
-          <span class="artifact-name">
-            <a href="module_topics.html">Module Topics</a>
-          </span>
-          <a class="source-link" href="../hierarchy.json" aria-label="Source file for Module Topics">source file</a>
+      <!-- ── Card 1: Module Topics ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <!-- Map / nav icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="module_topics.html">Module Topics</a>
+              <a class="source-link" href="../hierarchy.json" title="View source file">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-1 9H8v-2h4v2zm4-4H8v-2h8v2z"/></svg>
+                source file
+              </a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Module Topics</span>
+              <span class="badge badge-filetype">.json</span>
+            </div>
+          </div>
         </div>
-        <div class="card-meta">
-          <span class="badge badge-type">Module Topics</span>
-          <span class="badge badge-filetype">.json</span>
+        <div class="card-body">
+          <p>Covers the core topics of the module — including the CIA triad, user roles and permissions, authentication and authorization, and least-privilege principles — serving as a navigational overview that helps learners and instructors understand what concepts will be taught and in what order.</p>
         </div>
-        <p class="card-description">
-          Covers the core topics of the module—including the CIA triad, user roles and permissions,
-          authentication and authorization, and least-privilege principles—serving as a navigational
-          overview that helps learners and instructors understand what concepts will be taught and in
-          what order.
-        </p>
       </div>
 
-    </div>
+      <!-- ── Card 2: Database Security Fundamentals ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4c1.86 0 3.41 1.28 3.86 3H8.14C8.59 6.28 10.14 5 12 5zm0 14c-3.87 0-7-3.13-7-7v-1h14v1c0 3.87-3.13 7-7 7z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t1.html">Database Security Fundamentals</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that introduces core database security concepts — including protecting a DBMS from unauthorized access, misuse, and data loss — giving learners foundational context for the security topics covered throughout the module.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 3: User Roles and Permissions ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t2.html">User Roles and Permissions</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that explains how user roles, accounts, privileges, and access-control policies govern who can read, write, modify, or administer a database, helping learners understand how to design and manage permission structures.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 4: Authentication and Authorization ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t3.html">Authentication and Authorization</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that distinguishes authentication (verifying identity) from authorization (controlling access) in database systems, guiding learners through the mechanisms and best practices for implementing both layers of security.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 5: SQL Injection Prevention ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t4.html">SQL Injection Prevention</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that covers how SQL injection attacks work by mixing user input with query logic, and teaches learners the techniques — such as parameterized queries and input validation — used to prevent them.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 6: Application-to-Database Connections ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t5.html">Application-to-Database Connections</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that explains how applications establish connections to a database — covering credentials, connection strings, host configuration, and security considerations — so learners can correctly and safely wire applications to a DBMS.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 7: ORM Frameworks and Database Abstraction ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6h-2.18c.07-.44.18-.88.18-1.34C18 2.54 15.6.12 12.66.03 9.5-.06 7 2.42 7 5.5c0 .5.07.98.18 1.5H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h15c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7.66-4c1.9 0 3.45 1.55 3.45 3.45 0 .38-.09.75-.21 1.1-.01.02-.02.03-.02.05H9.56c-.01-.02-.01-.03-.02-.05C9.33 6.2 9.22 5.83 9.22 5.45 9.22 3.55 10.44 2 12.34 2zM20 20H5V8h15v12z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t6.html">ORM Frameworks and Database Abstraction</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that introduces Object-Relational Mapping frameworks as an alternative to raw SQL, explaining how they abstract database interactions into application objects and the security and maintainability benefits they provide.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 8: Connection Pooling Best Practices (Topic Detail) ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive_topics_t7.html">Connection Pooling Best Practices</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Topic Detail</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A reading that explains why raw database connections are expensive and how connection pooling works — covering pool configuration, sizing, and security best practices — to help learners build efficient, scalable application-to-database integrations.</p>
+        </div>
+      </div>
+
+      <!-- ── Card 9: Connection Pooling Best Practices (Text Content) ── -->
+      <div class="card">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+            </svg>
+          </div>
+          <div class="card-title-block">
+            <div class="card-name">
+              <a href="Database_Security_Models_interactive.html">Connection Pooling Best Practices</a>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-type">Text Content</span>
+              <span class="badge badge-filetype">.html</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>A duplicate of the Connection Pooling Best Practices reading, covering the same content on the cost of raw connections and pooling configuration, sizing, and security best practices for efficient application-to-database integrations.</p>
+        </div>
+      </div>
+
+    </div><!-- /.card-grid -->
   </main>
 
+  <!-- ═══════════════ FOOTER ═══════════════ -->
   <footer>
-    COP4708 &mdash; Database Security Models, Users, and Application Connections
+    <p>COP4708 &mdash; Database Security Models, Users, and Application Connections &nbsp;|&nbsp; Course Module Index</p>
   </footer>
 
 

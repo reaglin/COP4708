@@ -1,9 +1,9 @@
 {
   "Id": "596464b1-2cb9-47d9-b53a-fa3d8b94b7fd",
-  "Name": "Relational Theory and Functional Dependencies",
+  "Name": "2 - Relational Theory and Functional Dependencies",
   "Description": "This lesson covers the mathematical foundations of relational theory, including relations, tuples, and attributes. Students will learn how functional dependencies define relationships between data attributes and serve as the basis for database design decisions.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.6501647-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.6508407-04:00",
+  "LastModifiedDate": "2026-06-29T12:44:03.8499224-04:00",
   "Actions": []
 }

@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparing 3NF and BCNF</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Comparing 3NF and BCNF</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Comparing 3NF and BCNF</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Normal form theory gives database designers a vocabulary for measuring how cleanly a schema separates independent facts and eliminates redundancy. Two of the most important normal forms in relational design are <strong>Third Normal Form (3NF)</strong> and <strong>Boyce-Codd Normal Form (BCNF)</strong>. On the surface they look similar — both are concerned with functional dependencies (FDs) and both aim to reduce anomalies — but they make subtly different promises, and understanding the gap between them is essential for making principled design decisions. This topic provides a thorough comparison of the two forms, works through the conditions under which they coincide or diverge, and gives practical guidance for choosing between them.</p>
+
+<p><strong>Recap: What 3NF and BCNF Require</strong></p>
+
+<p>To compare the two forms precisely it helps to restate their definitions side by side. Both operate on <em>non-trivial</em> functional dependencies — those where the right-hand side is not already a subset of the left-hand side. A <strong>prime attribute</strong> is any attribute that participates in at least one candidate key. A <strong>superkey</strong> is any set of attributes whose closure covers every attribute in the relation.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Normal Form</th>
+      <th>Rule for a non-trivial FD X → Y</th>
+      <th>Escape clause?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3NF</td>
+      <td>X must be a superkey <em>OR</em> every attribute in Y must be a prime attribute</td>
+      <td>Yes — prime attributes on the right-hand side are permitted even when X is not a superkey</td>
+    </tr>
+    <tr>
+      <td>BCNF</td>
+      <td>X must be a superkey — no exceptions</td>
+      <td>No — the prime-attribute escape clause is removed entirely</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Because BCNF removes the escape clause that 3NF permits, <strong>BCNF is strictly stronger than 3NF</strong>: every relation that is in BCNF is automatically in 3NF, but a relation can be in 3NF without being in BCNF. The difference only surfaces in specific structural situations, which the sections below explore in detail.</p>
+
+<p><strong>When 3NF and BCNF Coincide</strong></p>
+
+<p>The gap between 3NF and BCNF is not always observable. In many practical schemas the two forms are completely equivalent, meaning satisfying one automatically satisfies the other. There are two important scenarios where this happens.</p>
+
+<p>First, consider a relation that has exactly <strong>one candidate key</strong>. Because there is only one candidate key, the only superkey subsets that can appear as determinants in non-trivial FDs are either that key itself (or a superset of it). If X → Y holds and X is not a superkey, then under 3NF the FD is allowed only if Y is prime — but with a single candidate key the only prime attributes are the key's own members, and if Y is a subset of the key then the FD is trivial. Therefore no non-trivial FD with a non-superkey determinant can survive the 3NF test when there is only one candidate key. BCNF imposes no additional restrictions, so the two normal forms are equivalent in this scenario.</p>
+
+<p>Second, consider a relation where <strong>every attribute is prime</strong> — that is, every attribute participates in at least one candidate key. In such a relation, the right-hand side Y of any non-trivial FD is automatically composed of prime attributes. This means the 3NF escape clause is always satisfied, so 3NF can never be violated at all in such a schema. But note that BCNF <em>can</em> still be violated: even though Y consists of prime attributes, X might not be a superkey. So at first this seems like a case where they differ — but in practice, if the relation is in 3NF and all attributes are prime, one must still check whether determinants are superkeys to confirm BCNF. The important design implication is that overlapping candidate keys are the <em>signal</em> to look for, because they are what creates determinants that are neither superkeys nor non-prime determinants.</p>
+
+<p>A concise way to remember the boundary:</p>
+
+<ul>
+  <li>Single candidate key → 3NF and BCNF are equivalent.</li>
+  <li>Multiple, non-overlapping candidate keys → likely still equivalent; check to be sure.</li>
+  <li>Multiple <em>overlapping</em> candidate keys → the classic gap where 3NF and BCNF diverge.</li>
+</ul>
+
+<p><strong>The Classic Gap: Overlapping Candidate Keys</strong></p>
+
+<p>The most instructive illustration of the difference between 3NF and BCNF is a relation that has <strong>two or more candidate keys that share at least one attribute</strong>. Consider the following scheduling scenario:</p>
+
+<p>A university records which <em>student</em> is enrolled in which <em>course</em>, taught by which <em>instructor</em>, with the constraint that each instructor teaches exactly one course, and each student is enrolled in at most one section of a course (so the combination of student and course uniquely identifies the instructor). This gives the relation:</p>
+
+<pre><code>Enrollment(Student, Course, Instructor)</code></pre>
+
+<p>The functional dependencies are:</p>
+
+<ul>
+  <li><strong>Instructor → Course</strong> (each instructor teaches exactly one course)</li>
+  <li><strong>(Student, Course) → Instructor</strong> (a student takes a course from exactly one instructor)</li>
+  <li><strong>(Student, Instructor) → Course</strong> (derived from the above two: knowing the student and instructor determines the course)</li>
+</ul>
+
+<p>The candidate keys are <strong>{Student, Course}</strong> and <strong>{Student, Instructor}</strong>. All three attributes are prime because each one participates in a candidate key. Now evaluate the FD <em>Instructor → Course</em> under each normal form:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Check</th>
+      <th>3NF Verdict</th>
+      <th>BCNF Verdict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Is <em>Instructor</em> a superkey?</td>
+      <td>No</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Is <em>Course</em> a prime attribute?</td>
+      <td>Yes → FD is <strong>allowed</strong></td>
+      <td>Irrelevant → FD is a <strong>violation</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is the essence of the gap. The relation is in 3NF because the 3NF escape clause saves the FD <em>Instructor → Course</em>. But it violates BCNF because <em>Instructor</em> is not a superkey. To eliminate the BCNF violation the designer would decompose the relation into:</p>
+
+<ul>
+  <li><strong>InstructorCourse(Instructor, Course)</strong> — capturing the FD <em>Instructor → Course</em></li>
+  <li><strong>StudentInstructor(Student, Instructor)</strong> — capturing enrollment</li>
+</ul>
+
+<p>Both resulting relations are in BCNF. But notice what has been lost: the FD <em>(Student, Course) → Instructor</em> can no longer be checked in a single table — it requires joining the two decomposed tables, which brings us directly to the topic of dependency preservation.</p>
+
+<p><strong>Dependency Preservation: 3NF's Advantage</strong></p>
+
+<p>A decomposition is <strong>dependency-preserving</strong> if every functional dependency from the original set of FDs can be checked by examining a single relation in the decomposition, without needing to join relations together. Formally, if F is the set of FDs on the original relation R and the decomposition produces relations R₁, R₂, …, Rₙ, the decomposition is dependency-preserving if the union of the projections of F onto each Rᵢ logically implies all of F.</p>
+
+<p>Dependency preservation matters enormously for practical enforcement. If an FD can only be verified by performing a join, then enforcing it requires either:</p>
+
+<ul>
+  <li>Application-level logic that executes the join before every insert or update — fragile and error-prone.</li>
+  <li>Database triggers that reconstruct the join at runtime — expensive and complex to maintain.</li>
+  <li>Leaving the constraint unenforced — a data integrity risk.</li>
+</ul>
+
+<p>With declarative integrity constraints (PRIMARY KEY, UNIQUE, FOREIGN KEY, CHECK), a database can enforce an FD cheaply only when all the attributes involved live in the same relation. Once they are split across tables, standard SQL constraints are no longer sufficient.</p>
+
+<p>The <strong>3NF synthesis algorithm</strong> — which creates one relation for each FD in a minimal cover, adds a relation containing a candidate key if none of the synthesized relations already contains one, and removes redundant relations — is <em>guaranteed</em> to produce a decomposition that is both <strong>dependency-preserving</strong> and <strong>lossless-join</strong>. BCNF decomposition algorithms, by contrast, guarantee lossless-join but carry no such guarantee about dependency preservation, as the scheduling example above demonstrates.</p>
+
+<p>Returning to the <em>Enrollment</em> example: after BCNF decomposition into <em>InstructorCourse</em> and <em>StudentInstructor</em>, the FD <em>(Student, Course) → Instructor</em> cannot be enforced within either table alone. To verify that no student is enrolled under two different instructors for the same course, a system would need to join <em>StudentInstructor</em> and <em>InstructorCourse</em> on <em>Instructor</em> and then check uniqueness of (Student, Course). This is a real operational cost that must be weighed consciously.</p>
+
+<p><strong>Lossless-Join Decomposition in Both Forms</strong></p>
+
+<p>A decomposition is <strong>lossless-join</strong> (also called lossless) if, when the decomposed relations are naturally joined back together, the result is exactly the original relation — neither spurious (extra) tuples nor missing tuples appear. This property is non-negotiable: a decomposition that introduces spurious tuples or loses rows corrupts data semantics and makes queries over the decomposed schema unreliable.</p>
+
+<p>A useful test for a binary decomposition of relation R into R₁ and R₂ is the <strong>lossless-join condition</strong>: the decomposition is lossless if and only if the set of shared attributes (R₁ ∩ R₂) is a superkey of either R₁ or R₂ under the FDs of R.</p>
+
+<p>In the BCNF decomposition of <em>Enrollment</em>:</p>
+
+<ul>
+  <li><em>InstructorCourse(Instructor, Course)</em> ∩ <em>StudentInstructor(Student, Instructor)</em> = {Instructor}</li>
+  <li><em>Instructor → Course</em> holds, so <em>Instructor</em> is a superkey of <em>InstructorCourse</em> → lossless. ✓</li>
+</ul>
+
+<p>Both BCNF and 3NF decompositions guarantee lossless-join when the algorithms are applied correctly. The 3NF synthesis algorithm explicitly adds a relation containing a candidate key if none of the generated relations contains one, which is the mechanism that ensures losslessness. The BCNF decomposition algorithm recursively splits on the violating FD, using the lossless-join condition to guarantee no information is lost at each step.</p>
+
+<p>The key summary of guarantees is:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Lossless-Join Guaranteed?</th>
+      <th>Dependency Preservation Guaranteed?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3NF Synthesis</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BCNF Decomposition</td>
+      <td>Yes</td>
+      <td>No (sometimes impossible)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Designers should verify losslessness explicitly for any decomposition, regardless of target normal form, because errors in determining candidate keys or FD sets can produce lossy decompositions even when following a standard algorithm.</p>
+
+<p><strong>Redundancy: BCNF's Advantage</strong></p>
+
+<p>The core motivation for normalization is the elimination of redundancy and the update anomalies it causes. Consider the 3NF-compliant <em>Enrollment(Student, Course, Instructor)</em> relation with the FD <em>Instructor → Course</em> present but not removed. Suppose the table contains these rows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Course</th>
+      <th>Instructor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>Databases</td>
+      <td>Dr. Smith</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>Databases</td>
+      <td>Dr. Smith</td>
+    </tr>
+    <tr>
+      <td>Carol</td>
+      <td>Databases</td>
+      <td>Dr. Smith</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The fact that Dr. Smith teaches Databases is stored three times — once per enrolled student. This redundancy leads directly to anomalies:</p>
+
+<ul>
+  <li><strong>Update anomaly:</strong> If Dr. Smith transfers to a different course, every row must be updated. Missing even one row leaves the database in an inconsistent state where Dr. Smith appears to teach two courses.</li>
+  <li><strong>Insertion anomaly:</strong> The fact that Dr. Smith teaches Databases cannot be recorded until at least one student enrolls, because Student is part of the candidate key and cannot be null.</li>
+  <li><strong>Deletion anomaly:</strong> If all students drop the course, the record of Dr. Smith's course assignment is lost entirely.</li>
+</ul>
+
+<p>In the BCNF decomposition (<em>InstructorCourse</em> and <em>StudentInstructor</em>), the fact "Dr. Smith teaches Databases" appears exactly once in <em>InstructorCourse</em>, and enrollment is tracked separately. All three anomalies are eliminated. BCNF schemas are provably free of redundancy that arises from functional dependencies — this is BCNF's defining advantage.</p>
+
+<p>The trade-off is clear: by refusing to decompose when it would lose dependency preservation, 3NF accepts a certain level of FD-based redundancy as the price of keeping all constraints enforceable within individual tables.</p>
+
+<p><strong>Choosing Between 3NF and BCNF in Practice</strong></p>
+
+<p>With the trade-offs understood, the practical design decision can be framed as follows. Most schemas do not have overlapping candidate keys, so the choice is academic — targeting BCNF is sufficient and both properties are achieved automatically. The decision becomes meaningful only when overlapping candidate keys create a schema where BCNF decomposition would sacrifice dependency preservation.</p>
+
+<p>Consider the following decision framework:</p>
+
+<ul>
+  <li><strong>Step 1 — Identify candidate keys.</strong> If there is only one candidate key, BCNF and 3NF are equivalent. Proceed with BCNF and move on.</li>
+  <li><strong>Step 2 — Check for overlapping keys.</strong> If all candidate keys are disjoint (share no attributes), the risk of a 3NF/BCNF gap is low. Still verify each FD.</li>
+  <li><strong>Step 3 — Test whether BCNF decomposition loses dependencies.</strong> Apply the BCNF algorithm tentatively and check whether any FD from the minimal cover can no longer be checked in a single resulting relation.</li>
+  <li><strong>Step 4 — Choose the target normal form.</strong>
+    <ul>
+      <li>If no dependency is lost under BCNF decomposition → choose BCNF for better redundancy elimination.</li>
+      <li>If a dependency is lost and it is a constraint that must be enforced declaratively (without joins, triggers, or application logic) → stop at 3NF and document explicitly which FDs would be lost under BCNF.</li>
+      <li>If a dependency is lost but the team is comfortable enforcing it via triggers or application logic, or if the lost FD is not a critical integrity constraint → choose BCNF.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>A brief summary of when to prefer each form:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Priority</th>
+      <th>Preferred Form</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Eliminate all FD-based redundancy and update anomalies</td>
+      <td>BCNF</td>
+      <td>BCNF guarantees no non-trivial FD has a non-superkey determinant; no FD-based redundancy can exist</td>
+    </tr>
+    <tr>
+      <td>Enforce all FDs declaratively within single tables</td>
+      <td>3NF</td>
+      <td>3NF synthesis guarantees dependency preservation; every FD can be checked in one relation</td>
+    </tr>
+    <tr>
+      <td>Both lossless-join and dependency preservation are required</td>
+      <td>3NF</td>
+      <td>3NF synthesis is the only algorithm guaranteed to achieve both simultaneously</td>
+    </tr>
+    <tr>
+      <td>Schema has only one candidate key</td>
+      <td>Either (they are equivalent)</td>
+      <td>With a single candidate key, no schema can be in 3NF without also being in BCNF</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>One further practical note: when a design team chooses to stop at 3NF rather than proceed to BCNF, the decision should be made <em>deliberately and explicitly</em>. The design record should note:</p>
+
+<ul>
+  <li>Which FDs would be lost if BCNF decomposition were applied.</li>
+  <li>Why those FDs must be enforceable within a single table (or why the team is comfortable accepting the residual redundancy as a consequence).</li>
+  <li>What mechanism — if any — is used to compensate for the remaining anomaly risk (for example, application-level validation logic or a scheduled consistency check).</li>
+</ul>
+
+<p>Leaving this reasoning undocumented risks a future maintainer inadvertently pushing the schema to BCNF without realizing that doing so silently breaks declarative constraint enforcement. Normalization decisions have long-lasting architectural consequences and deserve the same level of documentation as any other major design choice.</p>
+        <div class="notes"><strong>Notes</strong>The scheduling/enrollment example (Student, Course, Instructor) is the canonical textbook illustration of the 3NF/BCNF gap and is referenced in Ramakrishnan &amp; Gehrke as well as Silberschatz et al. The lossless-join binary test (shared attributes form a superkey of one side) is sometimes called the FD-based lossless join test or the Heath theorem corollary. Instructors may wish to reinforce dependency preservation with a live SQL exercise: decompose Enrollment into BCNF, then attempt to enforce (Student, Course) → Instructor with only CHECK and UNIQUE constraints to demonstrate why it fails without a join.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

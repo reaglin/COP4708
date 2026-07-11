@@ -4,80 +4,80 @@
   "Description": "Applied Database",
   "CreatedBy": "",
   "CreatedDate": "2026-06-27T14:40:49.6316545-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.7611402-04:00",
+  "LastModifiedDate": "2026-07-07T20:44:04.4943162-04:00",
   "Modules": [
     {
-      "ModuleName": "Introduction to Databases, Types, and Applications",
+      "ModuleName": "1 - Introduction to Databases, Types, and Applications",
       "FolderName": "Introduction_to_Databases",
       "Order": 1
     },
     {
-      "ModuleName": "Relational Theory and Functional Dependencies",
+      "ModuleName": "2 - Relational Theory and Functional Dependencies",
       "FolderName": "Relational_Theory_and",
       "Order": 2
     },
     {
-      "ModuleName": "Relational Databases and Normalization Concepts",
+      "ModuleName": "3 - Relational Databases and Normalization Concepts",
       "FolderName": "Relational_Databases_and",
       "Order": 3
     },
     {
-      "ModuleName": "Normal Forms: 1NF, 2NF, and 3NF",
+      "ModuleName": "4 - Normal Forms: 1NF, 2NF, and 3NF",
       "FolderName": "Normal_Forms_1NF",
       "Order": 4
     },
     {
-      "ModuleName": "Advanced Normal Forms: BCNF, 4NF, and 5NF",
+      "ModuleName": "5 - Advanced Normal Forms: BCNF, 4NF, and 5NF",
       "FolderName": "Advanced_Normal_Forms",
       "Order": 5
     },
     {
-      "ModuleName": "Data Modeling and Entity-Relationship Modeling",
+      "ModuleName": "6 - Data Modeling and Entity-Relationship Modeling",
       "FolderName": "Data_Modeling_and",
       "Order": 6
     },
     {
-      "ModuleName": "Designing Relational Databases from ER Diagrams",
+      "ModuleName": "7 - Designing Relational Databases from ER Diagrams",
       "FolderName": "Designing_Relational_Databas",
       "Order": 7
     },
     {
-      "ModuleName": "SQL Data Modeling Language",
+      "ModuleName": "8 - SQL Data Modeling Language",
       "FolderName": "SQL_Data_Modeling",
       "Order": 8
     },
     {
-      "ModuleName": "SQL Data Definition Language (DDL)",
+      "ModuleName": "9 - SQL Data Definition Language (DDL)",
       "FolderName": "SQL_Data_Definition",
       "Order": 9
     },
     {
-      "ModuleName": "Using Keys and Key Types in SQL",
+      "ModuleName": "10 - Using Keys and Key Types in SQL",
       "FolderName": "Using_Keys_and",
       "Order": 10
     },
     {
-      "ModuleName": "SQL Commands for Complex Queries",
+      "ModuleName": "11 - SQL Commands for Complex Queries",
       "FolderName": "SQL_Commands_for",
       "Order": 11
     },
     {
-      "ModuleName": "Normalization, Denormalization, and Practical Database Design",
+      "ModuleName": "12 - Normalization, Denormalization, and Practical Database Design",
       "FolderName": "Normalization_Denormalizatio",
       "Order": 12
     },
     {
-      "ModuleName": "Designing Databases for Concurrent Use",
+      "ModuleName": "13 - Designing Databases for Concurrent Use",
       "FolderName": "Designing_Databases_for",
       "Order": 13
     },
     {
-      "ModuleName": "Cloud and Local Databases",
+      "ModuleName": "14 - Cloud and Local Databases",
       "FolderName": "Cloud_and_Local",
       "Order": 14
     },
     {
-      "ModuleName": "Database Security Models, Users, and Application Connections",
+      "ModuleName": "15 - Database Security Models, Users, and Application Connections",
       "FolderName": "Database_Security_Models",
       "Order": 15
     }

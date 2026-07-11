@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multivalued Dependencies and Fourth Normal Form (4NF)</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Multivalued Dependencies and Fourth Normal Form (4NF)</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Multivalued Dependencies and Fourth Normal Form (4NF)</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Relational database normalization is a progressive discipline: each successive normal form addresses a category of redundancy that its predecessors cannot detect. Third Normal Form (3NF) and Boyce-Codd Normal Form (BCNF) are built entirely around <em>functional dependencies</em>, where one set of attribute values uniquely determines another. But there exists a distinct class of data anomaly that functional dependency theory is simply blind to — one that arises when an entity legitimately has two or more independent collections of related values, and those collections are stored together in a single table. Understanding this phenomenon requires a new concept: the <strong>multivalued dependency</strong>. Once multivalued dependencies are understood, the rule for eliminating them — <strong>Fourth Normal Form (4NF)</strong> — follows naturally as an extension of the BCNF principle.</p>
+
+<p>A <strong>multivalued dependency (MVD)</strong> is a constraint between attributes in a relation that expresses a fundamentally different kind of determination than a functional dependency. It is written as <strong>X ↠ Y</strong> and is read as "<em>X multidetermines Y</em>." The precise meaning is this: in any valid tuple of the relation, for a given value of X, the complete set of Y values that appear alongside it is entirely independent of whatever other attributes are present in the relation. In other words, the pairing of X with Y values has nothing to do with any third set of attributes Z.</p>
+
+<p>To make this concrete, consider a university scenario. Suppose a professor can teach multiple courses and also speaks multiple languages, and these two facts are recorded in a single relation:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Professor</th>
+      <th>Course</th>
+      <th>Language</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Databases</td>
+      <td>English</td>
+    </tr>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Databases</td>
+      <td>Hindi</td>
+    </tr>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Algorithms</td>
+      <td>English</td>
+    </tr>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Algorithms</td>
+      <td>Hindi</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Dr. Patel teaches Databases and Algorithms. She also speaks English and Hindi. These two facts are completely independent of each other — which courses she teaches has absolutely no bearing on which languages she speaks. Because of this independence, every course must be paired with every language in the table. The relation is expressing two separate MVDs: <strong>Professor ↠ Course</strong> and <strong>Professor ↠ Language</strong>. For any given professor, the set of courses is determined solely by the professor (independent of language), and the set of languages is determined solely by the professor (independent of course).</p>
+
+<p>It is important to understand the relationship between MVDs and functional dependencies. <strong>Every functional dependency X → Y is also an MVD X ↠ Y</strong>, but the converse is not true. A functional dependency says that for each X value there is exactly <em>one</em> Y value — a special case of multidetermination where the "set" of Y values always has exactly one member. An MVD is strictly more general: the set of Y values can have any number of members. This means that functional dependency theory, and the normal forms built on it (including BCNF), cannot detect or repair MVD-driven redundancy. MVDs are a genuine generalization requiring their own analysis.</p>
+
+<p>MVDs arise naturally whenever an entity has two or more independent multi-valued attributes that are forced into a single relation. The key word is <em>independent</em>: if knowing which courses a professor teaches told you anything about which languages she speaks, the relationship would not be an MVD in the pure sense. It is the independence of the two attribute sets with respect to a common determinant that creates the problem.</p>
+
+<p><strong>How MVDs cause redundancy that BCNF cannot resolve</strong> is best understood by examining what happens when data changes. In the table above, every combination of course and language must be present for Dr. Patel. This is a <em>Cartesian-product redundancy</em>: if she teaches <em>c</em> courses and speaks <em>l</em> languages, the table must contain <em>c × l</em> rows for her alone. This redundancy immediately produces serious update anomalies:</p>
+
+<ul>
+  <li><strong>Insertion anomaly:</strong> If Dr. Patel begins teaching a new course, say "Machine Learning," a new row must be inserted for <em>each</em> language she speaks (English and Hindi), not just one row. Forgetting to insert one of these rows leaves the database in an inconsistent state where the Cartesian-product property is violated.</li>
+  <li><strong>Deletion anomaly:</strong> If Dr. Patel stops speaking Hindi, every row containing Hindi must be deleted — one for each course she teaches. A partial deletion produces an inconsistent state.</li>
+  <li><strong>Update anomaly:</strong> The same piece of information — that Dr. Patel speaks Hindi — is stored redundantly in multiple rows, creating opportunities for inconsistency if rows are updated individually.</li>
+</ul>
+
+<p>Crucially, <strong>BCNF decomposition offers no remedy here</strong>. BCNF requires that for every non-trivial functional dependency X → Y, X must be a superkey. In our Professor–Course–Language table, the only key is the entire tuple {Professor, Course, Language} — no non-trivial functional dependency exists at all, because no single attribute or pair of attributes functionally determines any other. BCNF analysis therefore concludes that the table is already in BCNF and requires no decomposition. Yet the redundancy and anomalies are obvious. This is precisely the gap that Fourth Normal Form is designed to close.</p>
+
+<p>The <strong>formal definition of 4NF</strong> mirrors the BCNF definition almost word for word, but substitutes multivalued dependencies for functional dependencies. A relation R is in <strong>Fourth Normal Form</strong> if and only if, for every non-trivial multivalued dependency X ↠ Y that holds in R, X is a superkey of R.</p>
+
+<p>The term <strong>non-trivial MVD</strong> requires careful definition, because trivial MVDs are satisfied automatically and cause no redundancy. An MVD X ↠ Y in relation R(X, Y, Z) is trivial if either:</p>
+<ul>
+  <li>Y is a subset of X (Y is already contained within the determining attributes), or</li>
+  <li>X ∪ Y constitutes all the attributes of R (there is no remaining attribute set Z that could form independent combinations).</li>
+</ul>
+
+<p>Any non-trivial MVD where X is not a superkey is a 4NF violation. In our example, <strong>Professor ↠ Course</strong> is non-trivial (Course is not a subset of Professor, and {Professor, Course} does not cover all three attributes), and Professor is not a superkey of the three-attribute relation. The violation is confirmed.</p>
+
+<p>The following table summarizes the parallel structure of BCNF and 4NF rules:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>BCNF</th>
+      <th>4NF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dependency type addressed</td>
+      <td>Functional dependency (FD)</td>
+      <td>Multivalued dependency (MVD)</td>
+    </tr>
+    <tr>
+      <td>Notation</td>
+      <td>X → Y</td>
+      <td>X ↠ Y</td>
+    </tr>
+    <tr>
+      <td>Rule</td>
+      <td>For every non-trivial FD X → Y, X must be a superkey</td>
+      <td>For every non-trivial MVD X ↠ Y, X must be a superkey</td>
+    </tr>
+    <tr>
+      <td>Redundancy it eliminates</td>
+      <td>FD-based redundancy</td>
+      <td>MVD-based (Cartesian-product) redundancy</td>
+    </tr>
+    <tr>
+      <td>Prerequisite</td>
+      <td>3NF</td>
+      <td>BCNF</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Identifying 4NF violations</strong> in a given relation requires a two-stage analysis. First, you must identify which attributes are genuinely multi-valued for a single entity. Ask the question: "Can one instance of the entity key have more than one value of this attribute?" If yes, the attribute is multi-valued. In our example, a single professor can teach multiple courses and speak multiple languages — both are multi-valued attributes with respect to Professor.</p>
+
+<p>Second, and more critically, you must verify <strong>independence</strong>. Ask: "Does knowing which values of attribute A are present tell us anything about which values of attribute B are present, for a fixed key value?" If the answer is no — if the sets of values are completely independent of each other — then you have a genuine MVD, and the two attribute sets will generate Cartesian-product redundancy when combined in a single relation. If, on the other hand, there is some application-level constraint linking the two (for example, a professor only teaches a course in one specific language, making Course and Language dependent on each other), then no MVD holds, and the combination does not constitute a 4NF violation.</p>
+
+<p>A practical checklist for identifying 4NF violations:</p>
+<ul>
+  <li>List all attributes in the relation and identify those that can take multiple values per entity instance.</li>
+  <li>For each pair of multi-valued attributes, ask whether their value sets are independent of each other given the key.</li>
+  <li>If independent, write out the MVD: <em>Key ↠ AttributeSetA</em> and <em>Key ↠ AttributeSetB</em>.</li>
+  <li>Check whether the left-hand side (Key) is a superkey of the entire relation. If the relation has additional attributes beyond Key, AttributeSetA, and AttributeSetB, the answer is no — and a violation exists.</li>
+  <li>Examine the actual data: if you see rows that look like every combination of two sets of values is required for completeness, that is a strong empirical signal of an MVD.</li>
+</ul>
+
+<p><strong>Decomposing relations to achieve 4NF</strong> follows a clean, principled procedure. Given a relation R with attributes (X, Y, Z) where X ↠ Y is a non-trivial MVD and X is not a superkey, decompose R into two relations:</p>
+
+<ul>
+  <li><strong>R1(X, Y)</strong> — captures the relationship between X and the independently multi-valued attribute set Y.</li>
+  <li><strong>R2(X, Z)</strong> — captures the relationship between X and the remaining attribute set Z.</li>
+</ul>
+
+<p>Applying this to the Professor–Course–Language example:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Relation</th>
+      <th>Attributes</th>
+      <th>Sample Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ProfessorCourse</td>
+      <td>(Professor, Course)</td>
+      <td>(Dr. Patel, Databases), (Dr. Patel, Algorithms)</td>
+    </tr>
+    <tr>
+      <td>ProfessorLanguage</td>
+      <td>(Professor, Language)</td>
+      <td>(Dr. Patel, English), (Dr. Patel, Hindi)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each resulting relation now stores only one independent multi-valued fact per row. Adding a new course for Dr. Patel requires inserting exactly one row into ProfessorCourse, with no corresponding requirement to touch ProfessorLanguage. The Cartesian-product redundancy is completely eliminated.</p>
+
+<p>A vital property of this decomposition is that it must be <strong>lossless-join</strong>: joining R1 and R2 on X must reproduce the original relation R exactly, with no spurious tuples and no missing tuples. The theoretical guarantee here is provided by the definition of MVDs themselves — when X ↠ Y holds in R, the decomposition into R1(X, Y) and R2(X, Z) is provably lossless. This is analogous to the lossless-join guarantee for BCNF decompositions based on functional dependencies.</p>
+
+<p>To verify: joining ProfessorCourse and ProfessorLanguage on Professor yields:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Professor</th>
+      <th>Course</th>
+      <th>Language</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Databases</td>
+      <td>English</td>
+    </tr>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Databases</td>
+      <td>Hindi</td>
+    </tr>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Algorithms</td>
+      <td>English</td>
+    </tr>
+    <tr>
+      <td>Dr. Patel</td>
+      <td>Algorithms</td>
+      <td>Hindi</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is exactly the original relation — the decomposition is lossless. The decomposition process should be applied <strong>iteratively</strong>: after splitting a relation, each resulting relation must itself be examined for further 4NF violations. It is possible for R1(X, Y) or R2(X, Z) to contain their own MVDs if X, Y, or Z are themselves composite sets of attributes with independent subsets. Continue decomposing until every relation in the schema satisfies 4NF.</p>
+
+<p>Finally, it is essential to appreciate the <strong>trade-offs and practical considerations</strong> involved in applying 4NF. Several important points must guide real-world decisions:</p>
+
+<ul>
+  <li><strong>Domain knowledge is indispensable.</strong> MVDs are not derivable from the data alone without understanding the business rules. Two attributes that <em>appear</em> to be independent in the current dataset may actually be constrained in ways not yet reflected in the data. For instance, if a company policy dictates that certain skills are only relevant in combination with specific project types, those attributes are not truly independent, and no MVD exists. Misidentifying a dependency as an MVD leads to incorrect decomposition.</li>
+  <li><strong>Increased number of relations.</strong> Decomposing to 4NF splits relations that were combined, potentially doubling or tripling the number of tables in a schema. Queries that previously required reading a single table now require joins, which can increase query complexity and execution time. In read-heavy analytical workloads, this trade-off may favor keeping some redundancy in denormalized structures, while in write-heavy transactional systems, 4NF is strongly beneficial.</li>
+  <li><strong>Relationship to 5NF.</strong> 4NF is a necessary stepping stone toward Fifth Normal Form (5NF), also called Project-Join Normal Form (PJNF). While 4NF handles the case where one relation decomposes into two projections based on an MVD, 5NF addresses the more exotic case of <em>join dependencies</em> — where a relation can only be losslessly decomposed into three or more projections, but not into any two. Getting 4NF correct is therefore not only valuable in its own right but also a prerequisite for understanding and achieving the highest standard of normalization.</li>
+  <li><strong>MVDs in composite contexts.</strong> It is worth noting that a relation can have MVDs that are not directly apparent from the key alone. For example, in a relation with attributes (A, B, C, D), it might be that A, B together multidetermines C independent of D. Such MVDs must also be checked and resolved. The analysis of all possible left-hand sides — not just the primary key — is important for thorough 4NF verification.</li>
+</ul>
+
+<p>In summary, multivalued dependencies represent an important class of constraint that falls entirely outside the scope of functional dependency theory. They arise whenever an entity has two or more independent multi-valued attributes stored in the same relation, and they produce a distinctive Cartesian-product redundancy that BCNF is powerless to address. Fourth Normal Form closes this gap by requiring that the left-hand side of every non-trivial MVD be a superkey, and the decomposition strategy — splitting R(X, Y, Z) into R1(X, Y) and R2(X, Z) — is both intuitive and theoretically guaranteed to be lossless. Applying 4NF demands careful business-domain analysis, an iterative approach to decomposition, and a clear-eyed evaluation of the resulting trade-offs between data integrity and query performance.</p>
+        <div class="notes"><strong>Notes</strong>The professor/course/language example is a classic illustration used across most database textbooks (Ramakrishnan &amp; Gehrke, Silberschatz et al.) and is well-suited to conveying the Cartesian-product nature of MVD-induced redundancy. The formal definition of trivial MVDs and the parallel table comparing BCNF and 4NF rules are included to reinforce the structural relationship between the two normal forms.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

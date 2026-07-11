@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Third Normal Form (3NF)</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Third Normal Form (3NF)</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Third Normal Form (3NF)</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Third Normal Form (3NF) is one of the foundational milestones in relational database design. Once a table has been brought into Second Normal Form (2NF) — meaning every non-key column depends on the <em>entire</em> primary key, not just part of it — the next question is whether any non-key column is secretly determined by <em>another</em> non-key column rather than directly by the primary key. That indirect dependency is called a <strong>transitive dependency</strong>, and eliminating it is precisely what 3NF is about. A table is in Third Normal Form when every non-key attribute depends on the primary key, the <em>whole</em> primary key, and <em>nothing but</em> the primary key.</p>
+
+<p>Understanding 3NF thoroughly requires first mastering transitive dependencies, then learning the formal rule, then recognising violations in real table structures, and finally applying the decomposition technique that resolves them. Each of those steps is developed in full below.</p>
+
+<p><strong>What Is a Transitive Dependency?</strong></p>
+
+<p>A transitive dependency arises when one non-key column functionally determines another non-key column. The classic pattern looks like this:</p>
+
+<pre><code>Primary Key → Column A → Column B</code></pre>
+
+<p>Here, the primary key determines Column A directly. Column A, in turn, determines Column B. Column B is therefore only <em>indirectly</em> linked to the primary key — it reaches the primary key by travelling through Column A. That indirect path is the transitive dependency.</p>
+
+<p>Consider a concrete example. Suppose you have a <strong>Student</strong> table that stores information about students and their academic advisors:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>StudentID</th>
+      <th>StudentName</th>
+      <th>AdvisorID</th>
+      <th>AdvisorName</th>
+      <th>AdvisorOffice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>Alice Marsh</td>
+      <td>A01</td>
+      <td>Dr. Patel</td>
+      <td>Room 204</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>Ben Torres</td>
+      <td>A01</td>
+      <td>Dr. Patel</td>
+      <td>Room 204</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>Cara Singh</td>
+      <td>A02</td>
+      <td>Prof. Okafor</td>
+      <td>Room 317</td>
+    </tr>
+    <tr>
+      <td>1004</td>
+      <td>Dan Lee</td>
+      <td>A02</td>
+      <td>Prof. Okafor</td>
+      <td>Room 317</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The primary key is <strong>StudentID</strong>. Tracing the functional dependencies reveals:</p>
+
+<ul>
+  <li><strong>StudentID → StudentName</strong> — direct and correct.</li>
+  <li><strong>StudentID → AdvisorID</strong> — direct and correct; each student is assigned one advisor.</li>
+  <li><strong>AdvisorID → AdvisorName</strong> — the advisor's name is determined by the AdvisorID, <em>not</em> by the StudentID directly.</li>
+  <li><strong>AdvisorID → AdvisorOffice</strong> — likewise, the office is a fact about the advisor, not the student.</li>
+</ul>
+
+<p>The chain <code>StudentID → AdvisorID → AdvisorName</code> and <code>StudentID → AdvisorID → AdvisorOffice</code> are transitive dependencies. <strong>AdvisorName</strong> and <strong>AdvisorOffice</strong> belong logically to the advisor, not to the student. Storing them in the Student table introduces serious problems:</p>
+
+<ul>
+  <li><strong>Update anomaly:</strong> If Dr. Patel moves to Room 210, every student row that references advisor A01 must be updated. Miss even one row and the database becomes inconsistent.</li>
+  <li><strong>Insertion anomaly:</strong> You cannot record a new advisor's name and office until at least one student is assigned to them, because those columns live in the Student table.</li>
+  <li><strong>Deletion anomaly:</strong> If the only student assigned to an advisor graduates and their row is deleted, the advisor's name and office information is permanently lost.</li>
+</ul>
+
+<p>These anomalies are the practical cost of tolerating transitive dependencies, and they are exactly what 3NF is designed to prevent.</p>
+
+<p><strong>The 3NF Rule Defined</strong></p>
+
+<p>Third Normal Form builds directly on Second Normal Form. A table that already violates 2NF cannot be meaningfully evaluated for 3NF — you must resolve partial dependencies first. Once 2NF is confirmed, 3NF imposes this additional requirement:</p>
+
+<ul>
+  <li>Every non-key column must be determined <em>solely and directly</em> by the primary key.</li>
+  <li>No non-key column may be determined by another non-key column.</li>
+  <li>Formally: for every functional dependency <code>X → Y</code> in the table, either X is a superkey (it contains the primary key), or Y is a prime attribute (part of a candidate key).</li>
+</ul>
+
+<p>The plain-language test is simple: take any non-key column and ask, "What determines the value in this column?" If the honest answer names the primary key, you are fine. If the honest answer names some <em>other</em> non-key column, you have a transitive dependency and a 3NF violation.</p>
+
+<p>It is worth emphasising the progression: 1NF removes repeating groups, 2NF removes partial dependencies (non-key columns that depend only on part of a composite primary key), and 3NF removes transitive dependencies (non-key columns that depend on other non-key columns). Each normal form assumes all previous normal forms are already satisfied.</p>
+
+<p><strong>Recognising 3NF Violations in a Table</strong></p>
+
+<p>Spotting a 3NF violation requires a systematic approach. Work through these steps whenever you analyse a table:</p>
+
+<ul>
+  <li><strong>Identify the primary key</strong> precisely. Know exactly which column or combination of columns uniquely identifies each row.</li>
+  <li><strong>List every non-key column</strong> and write down what truly determines it — not what <em>happens</em> to correlate with it, but what logically, definitionally determines it.</li>
+  <li><strong>Flag any non-key determinant.</strong> If a non-key column is determining another non-key column, that is a transitive dependency and a 3NF violation.</li>
+</ul>
+
+<p>A reliable signal of a transitive dependency is <strong>repeated descriptive data</strong> that belongs to an entity other than the one the table is primarily about. In the student example above, "Dr. Patel" and "Room 204" appear multiple times not because of anything intrinsic to those students, but because they share an advisor. That repetition is a tell-tale sign that the repeated data is determined by some non-key identifier (AdvisorID) rather than by the primary key (StudentID).</p>
+
+<p>Another common scenario involves geography. Imagine an <strong>Employee</strong> table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>EmployeeID</th>
+      <th>EmployeeName</th>
+      <th>DepartmentID</th>
+      <th>DepartmentName</th>
+      <th>DepartmentLocation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>E001</td>
+      <td>Maria Kovacs</td>
+      <td>D10</td>
+      <td>Finance</td>
+      <td>Floor 3</td>
+    </tr>
+    <tr>
+      <td>E002</td>
+      <td>James Wu</td>
+      <td>D10</td>
+      <td>Finance</td>
+      <td>Floor 3</td>
+    </tr>
+    <tr>
+      <td>E003</td>
+      <td>Priya Nair</td>
+      <td>D20</td>
+      <td>Engineering</td>
+      <td>Floor 7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The primary key is <strong>EmployeeID</strong>. The functional dependency chain is <code>EmployeeID → DepartmentID → DepartmentName</code> and <code>EmployeeID → DepartmentID → DepartmentLocation</code>. Both <strong>DepartmentName</strong> and <strong>DepartmentLocation</strong> are facts about the department, not facts about the employee. They are transitively dependent through <strong>DepartmentID</strong>, and the table violates 3NF.</p>
+
+<p><strong>Decomposing Tables to Achieve 3NF</strong></p>
+
+<p>The remedy for a transitive dependency is <strong>decomposition</strong>: split the original table into two tables, each of which satisfies 3NF. The procedure is well-defined:</p>
+
+<ul>
+  <li><strong>Create a new table</strong> whose primary key is the non-key column that was acting as a determinant — the "middle" element of the transitive chain.</li>
+  <li><strong>Move the transitively dependent columns</strong> into the new table. These columns now depend directly on the new table's primary key, so the dependency is no longer transitive — it is direct and correct.</li>
+  <li><strong>Retain the determinant column</strong> in the original table, but now treat it as a <strong>foreign key</strong> that references the new table. This preserves the relationship between the two entities without duplicating the descriptive data.</li>
+  <li><strong>Verify the result.</strong> In the original table, confirm every remaining non-key column depends only on the primary key. In the new table, confirm every non-key column depends only on its primary key. Neither table should contain any further transitive dependencies.</li>
+</ul>
+
+<p>Applying this to the Employee example produces two clean tables:</p>
+
+<p><em>Employee table (after decomposition):</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>EmployeeID</th>
+      <th>EmployeeName</th>
+      <th>DepartmentID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>E001</td>
+      <td>Maria Kovacs</td>
+      <td>D10</td>
+    </tr>
+    <tr>
+      <td>E002</td>
+      <td>James Wu</td>
+      <td>D10</td>
+    </tr>
+    <tr>
+      <td>E003</td>
+      <td>Priya Nair</td>
+      <td>D20</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Department table (newly created):</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>DepartmentID</th>
+      <th>DepartmentName</th>
+      <th>DepartmentLocation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>D10</td>
+      <td>Finance</td>
+      <td>Floor 3</td>
+    </tr>
+    <tr>
+      <td>D20</td>
+      <td>Engineering</td>
+      <td>Floor 7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the Employee table, <strong>EmployeeName</strong> and <strong>DepartmentID</strong> both depend directly on <strong>EmployeeID</strong>. In the Department table, <strong>DepartmentName</strong> and <strong>DepartmentLocation</strong> both depend directly on <strong>DepartmentID</strong>. Neither table contains a transitive dependency. Both are in 3NF.</p>
+
+<p><strong>Step-by-Step 3NF Transformation Example</strong></p>
+
+<p>To make the full process concrete, work through a detailed transformation using a <strong>CourseEnrollment</strong> table. Suppose an educational database stores the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>EnrollmentID</th>
+      <th>StudentID</th>
+      <th>CourseID</th>
+      <th>CourseName</th>
+      <th>Credits</th>
+      <th>InstructorID</th>
+      <th>InstructorName</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EN001</td>
+      <td>1001</td>
+      <td>CS101</td>
+      <td>Intro to Programming</td>
+      <td>3</td>
+      <td>I01</td>
+      <td>Dr. Reyes</td>
+    </tr>
+    <tr>
+      <td>EN002</td>
+      <td>1002</td>
+      <td>CS101</td>
+      <td>Intro to Programming</td>
+      <td>3</td>
+      <td>I01</td>
+      <td>Dr. Reyes</td>
+    </tr>
+    <tr>
+      <td>EN003</td>
+      <td>1001</td>
+      <td>MA201</td>
+      <td>Calculus II</td>
+      <td>4</td>
+      <td>I02</td>
+      <td>Prof. Diallo</td>
+    </tr>
+    <tr>
+      <td>EN004</td>
+      <td>1003</td>
+      <td>MA201</td>
+      <td>Calculus II</td>
+      <td>4</td>
+      <td>I02</td>
+      <td>Prof. Diallo</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 1 — Confirm 2NF.</strong> The primary key is <strong>EnrollmentID</strong>, a single-column surrogate key. Because the primary key is not composite, there can be no partial dependencies by definition. The table is already in 2NF. Proceed to 3NF analysis.</p>
+
+<p><strong>Step 2 — List all functional dependencies and flag any where the determinant is a non-key column.</strong></p>
+
+<ul>
+  <li><code>EnrollmentID → StudentID</code> — direct; StudentID depends on the primary key. ✓</li>
+  <li><code>EnrollmentID → CourseID</code> — direct; which course is enrolled depends on the enrollment record. ✓</li>
+  <li><code>CourseID → CourseName</code> — <em>flagged</em>. CourseName is a fact about the course, determined by CourseID, not by EnrollmentID directly. ✗</li>
+  <li><code>CourseID → Credits</code> — <em>flagged</em>. Credits belong to the course definition, not the enrollment. ✗</li>
+  <li><code>EnrollmentID → InstructorID</code> — direct; which instructor is linked to this enrollment. ✓</li>
+  <li><code>InstructorID → InstructorName</code> — <em>flagged</em>. The instructor's name is a fact about the instructor, not the enrollment. ✗</li>
+</ul>
+
+<p>Two transitive chains are present: <code>EnrollmentID → CourseID → CourseName, Credits</code> and <code>EnrollmentID → InstructorID → InstructorName</code>.</p>
+
+<p><strong>Step 3 — Extract the transitively dependent columns and their determinants into new tables.</strong> There are two determinants acting as the "middle" elements: <strong>CourseID</strong> and <strong>InstructorID</strong>. Each becomes the primary key of its own new table.</p>
+
+<p><em>Course table (new):</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>CourseID</th>
+      <th>CourseName</th>
+      <th>Credits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CS101</td>
+      <td>Intro to Programming</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>MA201</td>
+      <td>Calculus II</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Instructor table (new):</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>InstructorID</th>
+      <th>InstructorName</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>I01</td>
+      <td>Dr. Reyes</td>
+    </tr>
+    <tr>
+      <td>I02</td>
+      <td>Prof. Diallo</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 4 — Replace the extracted columns in the original table with only the foreign key.</strong> The CourseEnrollment table retains <strong>CourseID</strong> and <strong>InstructorID</strong> as foreign keys but drops CourseName, Credits, and InstructorName, since those now live in their respective tables.</p>
+
+<p><em>Enrollment table (after decomposition):</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>EnrollmentID</th>
+      <th>StudentID</th>
+      <th>CourseID</th>
+      <th>InstructorID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EN001</td>
+      <td>1001</td>
+      <td>CS101</td>
+      <td>I01</td>
+    </tr>
+    <tr>
+      <td>EN002</td>
+      <td>1002</td>
+      <td>CS101</td>
+      <td>I01</td>
+    </tr>
+    <tr>
+      <td>EN003</td>
+      <td>1001</td>
+      <td>MA201</td>
+      <td>I02</td>
+    </tr>
+    <tr>
+      <td>EN004</td>
+      <td>1003</td>
+      <td>MA201</td>
+      <td>I02</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 5 — Validate all tables.</strong> Check each table independently:</p>
+
+<ul>
+  <li><strong>Enrollment:</strong> StudentID, CourseID, and InstructorID all depend directly on EnrollmentID. No non-key column determines another non-key column. <em>3NF satisfied.</em></li>
+  <li><strong>Course:</strong> CourseName and Credits depend directly on CourseID. No further dependencies exist. <em>3NF satisfied.</em></li>
+  <li><strong>Instructor:</strong> InstructorName depends directly on InstructorID. <em>3NF satisfied.</em></li>
+</ul>
+
+<p>The decomposition is complete. All three tables are in Third Normal Form, and no information has been lost — joining Enrollment to Course on CourseID and to Instructor on InstructorID reconstructs the original data exactly.</p>
+
+<p><strong>Benefits of Achieving 3NF</strong></p>
+
+<p>Reaching Third Normal Form delivers concrete, measurable improvements to database quality:</p>
+
+<ul>
+  <li><strong>Elimination of update anomalies.</strong> Because each fact is stored in exactly one place, an update requires changing only a single row in a single table. If Dr. Reyes changes her name, only one row in the Instructor table needs updating — not every enrollment row that referenced her. The risk of inconsistency is removed.</li>
+  <li><strong>Reduced data redundancy.</strong> Descriptive attributes such as course names, credit values, and instructor names appear once each. The database is leaner, uses less storage, and is easier to read and audit.</li>
+  <li><strong>Simpler enforcement of referential integrity.</strong> With each entity in its own table and clear primary key/foreign key relationships defined, database constraints such as <code>FOREIGN KEY</code> can be applied precisely. You cannot insert an enrollment referencing a nonexistent CourseID or InstructorID, which keeps the data consistent automatically.</li>
+  <li><strong>Easier maintenance and evolution.</strong> Adding a new attribute about courses — say, a prerequisite field — requires altering only the Course table, not every table that references courses. The schema is more modular and adaptable.</li>
+  <li><strong>Clearer data semantics.</strong> Each table represents one coherent concept: an enrollment, a course, or an instructor. Queries and business logic become easier to reason about because the scope of each table is unambiguous.</li>
+</ul>
+
+<p>It is worth noting that in some high-performance or analytical scenarios, designers deliberately <em>denormalise</em> tables — intentionally reintroducing redundancy to speed up read-heavy queries by reducing the number of joins required. This is a conscious, justified trade-off made after normalisation is understood and the performance bottleneck is confirmed. Denormalisation is not an excuse to skip normalisation; it is a deliberate optimisation applied on top of a well-normalised baseline design.</p>
+        <div class="notes"><strong>Notes</strong>Topic covers transitive dependencies, the 3NF rule, how to identify violations, the decomposition technique, a full worked step-by-step example, and the practical benefits of 3NF. All tabular data rendered as HTML tables. No headings used per formatting constraints.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

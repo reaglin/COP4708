@@ -1,0 +1,682 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applying Normal Forms: End-to-End Practice</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Applying Normal Forms: End-to-End Practice</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Applying Normal Forms: End-to-End Practice</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Database normalization is not a collection of isolated techniques — it is a sequential, cumulative process in which each step builds directly on the last. Understanding any single normal form in isolation is useful, but the real skill lies in applying all of them together: starting with a messy, real-world table full of redundancy and anomalies, and methodically transforming it into a clean, dependency-correct relational schema. This end-to-end walkthrough does exactly that. A single realistic unnormalized table will be carried all the way through First Normal Form (1NF), Second Normal Form (2NF), and Third Normal Form (3NF), with every decision explained in detail so that the reasoning — not just the mechanics — is fully clear.</p>
+
+<p>To make the journey concrete, consider a business scenario: a small company records its customer orders in a single spreadsheet-style table. That table looks like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID</th>
+      <th>CustomerID</th>
+      <th>CustomerName</th>
+      <th>CustomerCity</th>
+      <th>CustomerZip</th>
+      <th>Products</th>
+      <th>Salesperson</th>
+      <th>SalespersonRegion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Widget (×2, $10), Gadget (×1, $25)</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>C02</td>
+      <td>Globex</td>
+      <td>Austin</td>
+      <td>73301</td>
+      <td>Gadget (×3, $25)</td>
+      <td>Tom Ray</td>
+      <td>South</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Widget (×5, $10), Sprocket (×2, $15)</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Starting Point: Recognizing an Unnormalized Table</strong></p>
+
+<p>Before touching a single column, the first discipline is <em>documentation and diagnosis</em>. You must inventory exactly what is wrong with the table before deciding how to fix it. Attempting to normalize without a clear baseline leads to inconsistent transformations and the risk of losing data or relationships in the restructuring process.</p>
+
+<p>The table above exhibits several classic problems that define an unnormalized relation:</p>
+
+<ul>
+  <li><strong>Repeating groups / multi-valued cells:</strong> The <em>Products</em> column stores multiple product names, quantities, and unit prices all crammed into one cell as a comma-separated list. A single cell holding <code>Widget (×2, $10), Gadget (×1, $25)</code> is not atomic — it is a miniature table inside a cell. Relational databases cannot query or index into that structure reliably.</li>
+  <li><strong>Redundant descriptive data:</strong> <em>CustomerName</em>, <em>CustomerCity</em>, and <em>CustomerZip</em> repeat every time the same customer places another order. If Acme Corp moves to a new city, every row for that customer must be updated — miss one and the database becomes inconsistent. This is an <em>update anomaly</em>.</li>
+  <li><strong>Deletion anomalies:</strong> If order 1002 is deleted because Globex cancelled it, all knowledge that Globex exists and is based in Austin disappears from the database entirely.</li>
+  <li><strong>Insertion anomalies:</strong> A new salesperson cannot be recorded until they are assigned to an order. There is no place to store a salesperson's region independently.</li>
+  <li><strong>No clear primary key:</strong> OrderID alone almost works, but because one order can contain multiple products, it does not uniquely identify a row once we expand the repeating group.</li>
+</ul>
+
+<p>Document these findings explicitly before proceeding. The original column list is: <code>OrderID, CustomerID, CustomerName, CustomerCity, CustomerZip, Products (multi-valued), Salesperson, SalespersonRegion</code>. The anomalies are: multi-valued Products cell, customer data repeated per order, and salesperson region repeated per salesperson appearance. This baseline will serve as the reference point for every transformation that follows.</p>
+
+<p><strong>Step 1 — Transforming to First Normal Form (1NF)</strong></p>
+
+<p>The fundamental requirement of 1NF is <em>atomicity</em>: every cell must hold exactly one value, and every row must be uniquely identifiable by a primary key. The transformation from the unnormalized table to 1NF involves two actions: expanding the multi-valued column into separate rows, and establishing a composite primary key that uniquely identifies each resulting row.</p>
+
+<p>The multi-valued <em>Products</em> cell must be decomposed. Each product mentioned in an order becomes its own row. The hidden attributes inside that cell — product name, quantity ordered, and unit price — are separated into their own dedicated columns. Once expanded, <em>OrderID</em> alone no longer uniquely identifies a row (the same OrderID now spans multiple rows, one per product). The solution is a <strong>composite primary key</strong> of <em>(OrderID, ProductID)</em>, where ProductID is a stable identifier assigned to each product.</p>
+
+<p>The resulting 1NF table looks like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID <em>(PK)</em></th>
+      <th>ProductID <em>(PK)</em></th>
+      <th>CustomerID</th>
+      <th>CustomerName</th>
+      <th>CustomerCity</th>
+      <th>CustomerZip</th>
+      <th>ProductName</th>
+      <th>UnitPrice</th>
+      <th>Quantity</th>
+      <th>Salesperson</th>
+      <th>SalespersonRegion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>P01</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Widget</td>
+      <td>10.00</td>
+      <td>2</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>P02</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Gadget</td>
+      <td>25.00</td>
+      <td>1</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P02</td>
+      <td>C02</td>
+      <td>Globex</td>
+      <td>Austin</td>
+      <td>73301</td>
+      <td>Gadget</td>
+      <td>25.00</td>
+      <td>3</td>
+      <td>Tom Ray</td>
+      <td>South</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P01</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Widget</td>
+      <td>10.00</td>
+      <td>5</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P03</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Sprocket</td>
+      <td>15.00</td>
+      <td>2</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The table is now in 1NF. Every cell holds a single atomic value, and the composite key <em>(OrderID, ProductID)</em> uniquely identifies every row. However, looking at the data reveals that redundancy has <em>increased</em> — customer details and salesperson details now repeat even more than before, once for every product on an order. This is expected and correct: 1NF is a necessary foundation, not a finished product. The redundancy will be systematically eliminated in the next steps.</p>
+
+<p><strong>Step 2 — Identifying Partial Dependencies Before 2NF</strong></p>
+
+<p>Second Normal Form applies only to tables with a composite primary key. The 1NF table has the composite key <em>(OrderID, ProductID)</em>. A <strong>partial dependency</strong> exists when a non-key attribute is functionally determined by <em>part</em> of that composite key rather than the whole key together.</p>
+
+<p>The diagnostic step is to take every non-key column and ask: <em>"To know this value, do I need both OrderID AND ProductID, or just one of them?"</em> This question surfaces the structure of every functional dependency in the table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Non-Key Attribute</th>
+      <th>Determined By</th>
+      <th>Dependency Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quantity</td>
+      <td>OrderID + ProductID (full key)</td>
+      <td>Full dependency — stays in original table</td>
+    </tr>
+    <tr>
+      <td>CustomerID</td>
+      <td>OrderID only</td>
+      <td>Partial dependency on OrderID</td>
+    </tr>
+    <tr>
+      <td>CustomerName</td>
+      <td>OrderID only (via CustomerID)</td>
+      <td>Partial dependency on OrderID</td>
+    </tr>
+    <tr>
+      <td>CustomerCity</td>
+      <td>OrderID only (via CustomerID)</td>
+      <td>Partial dependency on OrderID</td>
+    </tr>
+    <tr>
+      <td>CustomerZip</td>
+      <td>OrderID only (via CustomerID)</td>
+      <td>Partial dependency on OrderID</td>
+    </tr>
+    <tr>
+      <td>Salesperson</td>
+      <td>OrderID only</td>
+      <td>Partial dependency on OrderID</td>
+    </tr>
+    <tr>
+      <td>SalespersonRegion</td>
+      <td>OrderID only (via Salesperson)</td>
+      <td>Partial dependency on OrderID</td>
+    </tr>
+    <tr>
+      <td>ProductName</td>
+      <td>ProductID only</td>
+      <td>Partial dependency on ProductID</td>
+    </tr>
+    <tr>
+      <td>UnitPrice</td>
+      <td>ProductID only</td>
+      <td>Partial dependency on ProductID</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Only <em>Quantity</em> is fully dependent on the composite key — it requires knowing both which order and which product to determine how many units were ordered. All other non-key attributes depend on only one part of the composite key. These partial dependencies are the problem that 2NF will resolve.</p>
+
+<p>Identifying them explicitly before making structural changes is important. Writing them down in a table like the one above makes the decomposition decisions obvious and auditable. It also prevents the common mistake of accidentally leaving a partial dependency in one of the new tables.</p>
+
+<p><strong>Step 2 — Transforming to Second Normal Form (2NF)</strong></p>
+
+<p>The rule for 2NF transformation is mechanical once the dependencies are mapped: <em>each partial dependency determinant becomes the primary key of a new table, and all attributes it determines move into that table</em>. The original table retains only those non-key attributes with full dependencies on the composite key, plus the composite key itself (which doubles as the foreign key linkage mechanism).</p>
+
+<p>From the dependency analysis, three groups emerge:</p>
+
+<ul>
+  <li><strong>Determined by OrderID alone:</strong> CustomerID, CustomerName, CustomerCity, CustomerZip, Salesperson, SalespersonRegion → these move to an <em>Orders</em> table with OrderID as the primary key.</li>
+  <li><strong>Determined by ProductID alone:</strong> ProductName, UnitPrice → these move to a <em>Products</em> table with ProductID as the primary key.</li>
+  <li><strong>Determined by the full (OrderID, ProductID) composite key:</strong> Quantity → this stays in the intersection table, now called <em>OrderItems</em>.</li>
+</ul>
+
+<p>The resulting 2NF schema consists of three tables:</p>
+
+<p><strong>Orders table</strong> (primary key: OrderID):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID <em>(PK)</em></th>
+      <th>CustomerID</th>
+      <th>CustomerName</th>
+      <th>CustomerCity</th>
+      <th>CustomerZip</th>
+      <th>Salesperson</th>
+      <th>SalespersonRegion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>C02</td>
+      <td>Globex</td>
+      <td>Austin</td>
+      <td>73301</td>
+      <td>Tom Ray</td>
+      <td>South</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Products table</strong> (primary key: ProductID):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ProductID <em>(PK)</em></th>
+      <th>ProductName</th>
+      <th>UnitPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P01</td>
+      <td>Widget</td>
+      <td>10.00</td>
+    </tr>
+    <tr>
+      <td>P02</td>
+      <td>Gadget</td>
+      <td>25.00</td>
+    </tr>
+    <tr>
+      <td>P03</td>
+      <td>Sprocket</td>
+      <td>15.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>OrderItems table</strong> (composite primary key: OrderID + ProductID):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID <em>(PK, FK)</em></th>
+      <th>ProductID <em>(PK, FK)</em></th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>P01</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>P02</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P02</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P01</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P03</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Notice the improvement immediately: Widget's unit price of $10.00 now appears in exactly one place. If the price changes, one row in the Products table is updated — no risk of inconsistency. The same applies to Acme Corp's city. The foreign key relationships (OrderItems.OrderID → Orders.OrderID and OrderItems.ProductID → Products.ProductID) preserve all original data relationships without any loss. Any query that could be answered from the 1NF table can still be answered by joining these three tables.</p>
+
+<p>However, the Orders table still has redundancy. Look at CustomerName, CustomerCity, and CustomerZip repeating across orders 1001 and 1003 (both for Acme Corp). And SalespersonRegion repeats every time Sarah Lee appears. These are not partial dependencies — they are a different kind of problem called transitive dependencies, which 3NF addresses.</p>
+
+<p><strong>Step 3 — Identifying Transitive Dependencies Before 3NF</strong></p>
+
+<p>A <strong>transitive dependency</strong> occurs when a non-key attribute determines another non-key attribute. More precisely: if the primary key determines attribute A, and A determines attribute B, then B depends on the key only <em>indirectly</em> — transitively through A. The presence of B in the same table as A causes the same kinds of update, deletion, and insertion anomalies seen earlier.</p>
+
+<p>Focus on the Orders table, which now has a simple primary key (OrderID). The non-key attributes are: CustomerID, CustomerName, CustomerCity, CustomerZip, Salesperson, SalespersonRegion. The question to ask for each pair of non-key attributes is: <em>"Does one of these determine the other?"</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Functional Dependency</th>
+      <th>Analysis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OrderID → CustomerID</td>
+      <td>Direct — each order belongs to one customer. Not transitive.</td>
+    </tr>
+    <tr>
+      <td>CustomerID → CustomerName, CustomerCity, CustomerZip</td>
+      <td><strong>Transitive:</strong> CustomerID (a non-key) determines three other non-key attributes. Knowing the CustomerID tells you the name, city, and zip — the OrderID is not needed.</td>
+    </tr>
+    <tr>
+      <td>OrderID → Salesperson</td>
+      <td>Direct — each order is assigned to one salesperson. Not transitive.</td>
+    </tr>
+    <tr>
+      <td>Salesperson → SalespersonRegion</td>
+      <td><strong>Transitive:</strong> Salesperson (a non-key) determines SalespersonRegion. Sarah Lee is always in the West regardless of which order we look at.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Two transitive dependency chains are identified:</p>
+<ul>
+  <li><strong>Chain 1:</strong> OrderID → CustomerID → {CustomerName, CustomerCity, CustomerZip}</li>
+  <li><strong>Chain 2:</strong> OrderID → Salesperson → SalespersonRegion</li>
+</ul>
+
+<p>A practical signal to watch for: whenever you notice a set of attributes that always travel together — the same city and zip always appear alongside the same CustomerID, or the same region always appears alongside the same salesperson name — you are almost certainly looking at a transitive dependency. These "lookup-style" attributes are the most common real-world manifestation.</p>
+
+<p>It is worth noting that the Products table (ProductID → ProductName, UnitPrice) has no transitive dependencies; both ProductName and UnitPrice depend directly on ProductID and not on each other. The OrderItems table has only one non-key attribute (Quantity), so there are no non-key-to-non-key dependencies possible. Only the Orders table needs further decomposition.</p>
+
+<p><strong>Step 3 — Transforming to Third Normal Form (3NF)</strong></p>
+
+<p>The 3NF transformation follows the same logic as 2NF: <em>the transitive determinant becomes the primary key of a new table, and all attributes it determines move into that table</em>. In the original table, the transitive determinant is replaced by a foreign key referencing the new table.</p>
+
+<p>For the two transitive chains in the Orders table:</p>
+
+<ul>
+  <li><strong>CustomerID → {CustomerName, CustomerCity, CustomerZip}:</strong> Create a <em>Customers</em> table with CustomerID as the primary key. Move CustomerName, CustomerCity, and CustomerZip into it. The Orders table retains CustomerID as a foreign key.</li>
+  <li><strong>Salesperson → SalespersonRegion:</strong> Create a <em>Salespersons</em> table with Salesperson as the primary key (or better, introduce a SalespersonID). Move SalespersonRegion into it. The Orders table retains the salesperson reference as a foreign key.</li>
+</ul>
+
+<p>For clarity, a <em>SalespersonID</em> surrogate key is introduced. The final 3NF schema has five tables:</p>
+
+<p><strong>Customers table</strong> (primary key: CustomerID):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>CustomerID <em>(PK)</em></th>
+      <th>CustomerName</th>
+      <th>CustomerCity</th>
+      <th>CustomerZip</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C01</td>
+      <td>Acme Corp</td>
+      <td>Denver</td>
+      <td>80201</td>
+    </tr>
+    <tr>
+      <td>C02</td>
+      <td>Globex</td>
+      <td>Austin</td>
+      <td>73301</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Salespersons table</strong> (primary key: SalespersonID):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>SalespersonID <em>(PK)</em></th>
+      <th>SalespersonName</th>
+      <th>Region</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S01</td>
+      <td>Sarah Lee</td>
+      <td>West</td>
+    </tr>
+    <tr>
+      <td>S02</td>
+      <td>Tom Ray</td>
+      <td>South</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Orders table</strong> (primary key: OrderID — now fully in 3NF):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID <em>(PK)</em></th>
+      <th>CustomerID <em>(FK)</em></th>
+      <th>SalespersonID <em>(FK)</em></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>C01</td>
+      <td>S01</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>C02</td>
+      <td>S02</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>C01</td>
+      <td>S01</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Products table</strong> (unchanged from 2NF):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ProductID <em>(PK)</em></th>
+      <th>ProductName</th>
+      <th>UnitPrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P01</td>
+      <td>Widget</td>
+      <td>10.00</td>
+    </tr>
+    <tr>
+      <td>P02</td>
+      <td>Gadget</td>
+      <td>25.00</td>
+    </tr>
+    <tr>
+      <td>P03</td>
+      <td>Sprocket</td>
+      <td>15.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>OrderItems table</strong> (unchanged from 2NF):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>OrderID <em>(PK, FK)</em></th>
+      <th>ProductID <em>(PK, FK)</em></th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1001</td>
+      <td>P01</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1001</td>
+      <td>P02</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1002</td>
+      <td>P02</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P01</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>1003</td>
+      <td>P03</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now every non-key attribute in every table depends on the primary key of that table, and <em>only</em> on the primary key. The classic mnemonic captures the requirement perfectly: <em>"The key, the whole key, and nothing but the key."</em> If Sarah Lee transfers to the East region, exactly one row in the Salespersons table is updated. If Acme Corp moves to Boulder, exactly one row in the Customers table changes. No anomalies, no inconsistency risk.</p>
+
+<p><strong>Validating the Final Schema and Reviewing the Full Journey</strong></p>
+
+<p>Completing the normalization is only part of the work. A rigorous validation pass over the finished schema confirms that every transformation was correct and that no information was accidentally lost or corrupted. The validation has four distinct checks.</p>
+
+<p><strong>1NF Verification:</strong> Examine every column in every table and confirm that all values are atomic — no lists, no sets, no comma-separated values, no repeating groups hidden inside a single field. Then confirm that every table has a declared primary key. In our schema: Customers (CustomerID), Salespersons (SalespersonID), Orders (OrderID), Products (ProductID), OrderItems (OrderID + ProductID). All columns hold atomic values. <em>1NF confirmed.</em></p>
+
+<p><strong>2NF Verification:</strong> For every table that has a <em>composite</em> primary key, confirm that every non-key attribute depends on the <em>entire</em> composite key, not just part of it. Only OrderItems has a composite key. Its only non-key attribute is Quantity, which requires knowing both OrderID and ProductID to determine. A Quantity of 2 means nothing without knowing both the order and the product it refers to. <em>2NF confirmed.</em></p>
+
+<p><strong>3NF Verification:</strong> In every table, confirm that no non-key attribute determines any other non-key attribute. Work through each table systematically:</p>
+
+<ul>
+  <li><strong>Customers:</strong> Does CustomerName determine CustomerCity or CustomerZip? No — two companies can share a city, and a city name certainly does not determine a zip code in general. Each attribute describes the customer independently.</li>
+  <li><strong>Salespersons:</strong> Does SalespersonName determine Region? That was exactly the transitive dependency we removed by creating this table. Now Region depends on SalespersonID (the primary key), not on the name. If two salespeople happen to share a name, they would have different IDs and could have different regions. <em>No transitive dependencies remain.</em></li>
+  <li><strong>Orders:</strong> The only non-key attributes are CustomerID and SalespersonID, both of which are foreign keys. Does CustomerID determine SalespersonID or vice versa? No — a customer can be served by different salespeople on different orders, and a salesperson can serve different customers. They are independent facts about the order.</li>
+  <li><strong>Products and OrderItems:</strong> Products has ProductName and UnitPrice, neither of which determines the other. OrderItems has only Quantity.</li>
+</ul>
+
+<p><em>3NF confirmed across all five tables.</em></p>
+
+<p><strong>Lossless-Join Check:</strong> The most important practical test is to confirm that the original data can be fully recovered by joining the decomposed tables. This is called a <em>lossless join</em> (sometimes lossless decomposition). The test is to mentally or physically reconstruct the original 1NF table from the 3NF schema using SQL joins, and verify that every original row reappears exactly — no rows added, no rows lost.</p>
+
+<p>The reconstruction query would be:</p>
+
+<pre><code>SELECT
+    oi.OrderID,
+    oi.ProductID,
+    o.CustomerID,
+    c.CustomerName,
+    c.CustomerCity,
+    c.CustomerZip,
+    p.ProductName,
+    p.UnitPrice,
+    oi.Quantity,
+    sp.SalespersonName AS Salesperson,
+    sp.Region AS SalespersonRegion
+FROM OrderItems oi
+JOIN Orders o         ON oi.OrderID      = o.OrderID
+JOIN Customers c      ON o.CustomerID    = c.CustomerID
+JOIN Products p       ON oi.ProductID    = p.ProductID
+JOIN Salespersons sp  ON o.SalespersonID = sp.SalespersonID;
+</code></pre>
+
+<p>Running this query against the 3NF tables would produce exactly the five rows of the 1NF table shown earlier — all data preserved, all relationships intact. No row is duplicated because all join keys are primary keys (one-to-many relationships with no fan-out on the "one" side). This confirms the decomposition was lossless.</p>
+
+<p>It is worth pausing to survey the
+      </div>
+    </details>
+  </main>
+</body></html>

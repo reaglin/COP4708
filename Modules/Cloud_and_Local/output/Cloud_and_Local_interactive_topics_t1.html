@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Database Deployment Models</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Introduction to Database Deployment Models</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Introduction to Database Deployment Models</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Every organization that relies on data — whether for a small internal application or a globally distributed platform — must make a foundational decision: <strong>where will the database live, and who will be responsible for keeping it running?</strong> This decision is captured in the concept of a <em>database deployment model</em>. Far from being a purely technical choice, the deployment model shapes everything from monthly operating costs and IT staffing needs to how quickly the business can respond to sudden growth and what legal obligations it must satisfy regarding data storage. Understanding deployment models is therefore one of the first and most important steps in any database architecture discussion.</p>
+
+<p>A <strong>database deployment model</strong> defines where the database software and the data it manages physically or virtually reside, and it determines the division of responsibility between the organization and any external parties for operating, securing, and maintaining that database. Think of it as the operational contract around the database: it answers questions such as "Who buys and maintains the servers?", "Who applies security patches?", "Who guarantees uptime?", and "Where, geographically and legally, does the data actually sit?" Different answers to these questions produce meaningfully different environments with different strengths and weaknesses.</p>
+
+<p>At the broadest level there are <strong>two primary deployment models</strong>:</p>
+
+<ul>
+  <li><strong>Locally hosted (on-premises) systems</strong> — the organization owns or leases physical hardware, installs and configures the database software on that hardware, and takes on full responsibility for every layer of the stack.</li>
+  <li><strong>Cloud-based database services</strong> — a third-party cloud provider owns and operates the underlying infrastructure, and the organization consumes database capacity as a service, accessed over a network connection.</li>
+</ul>
+
+<p>Neither model is universally superior. Each represents a distinct set of trade-offs, and the right choice depends on the specific circumstances, priorities, and constraints of the organization. What follows is a thorough examination of both models, the key dimensions along which they differ, and why understanding those differences matters to anyone involved in designing, building, or operating data-driven systems.</p>
+
+<p><strong>Locally hosted database systems</strong> represent the traditional approach to running a database. In this model, the organization is entirely self-reliant. It procures the physical servers, storage arrays, networking equipment, and any necessary power and cooling infrastructure. It licenses (or deploys open-source versions of) the database software, installs it, configures it to meet performance and security requirements, and then assumes ongoing responsibility for every aspect of its operation.</p>
+
+<p>One of the most frequently cited advantages of on-premises deployment is <strong>direct control</strong>. Because the hardware is physically present within the organization's own data center or server room, administrators have unrestricted access to it. They can tune operating system parameters, adjust storage configurations at a hardware level, apply network security policies exactly as required, and inspect every aspect of the system without depending on a third party. This degree of control is particularly valuable in environments where security policies are strict, where performance tuning must be extremely granular, or where integration with other on-premises systems is complex.</p>
+
+<p><strong>Data sovereignty</strong> is a closely related benefit. When data resides on hardware the organization physically controls, there is no ambiguity about where the data is stored. For industries subject to regulations that require data to remain within specific geographic or jurisdictional boundaries — healthcare, financial services, and government contracting are prominent examples — on-premises deployment can be the most straightforward path to compliance, because the organization does not need to verify or negotiate where a cloud provider routes or replicates data.</p>
+
+<p>However, on-premises deployment carries substantial costs and operational burdens. The <strong>upfront capital expenditure</strong> can be significant: servers capable of running a production database workload, redundant storage systems to protect against disk failure, networking hardware, uninterruptible power supplies, and physical security for the facility all require investment before a single query is run. Beyond the initial purchase, there are ongoing expenses: hardware maintenance contracts, software licensing renewals, electricity, cooling, and — critically — the IT staff with the expertise to keep everything running. A database administrator (DBA) responsible for an on-premises system must handle capacity planning, performance tuning, backup and recovery testing, software patching, and incident response, often across multiple systems simultaneously.</p>
+
+<p><strong>Scalability</strong> is where on-premises systems can become constrained. If a workload grows beyond the capacity of existing hardware, the organization must plan, procure, receive, rack, configure, and test new equipment — a process that can take weeks or months. Conversely, if workloads shrink, the organization still owns and pays for the hardware it provisioned to handle peak demand. This asymmetry between provisioning time and actual need is one of the defining limitations of the on-premises model.</p>
+
+<p><strong>Cloud-based database services</strong> emerged as a direct response to many of the pain points of on-premises deployment. In this model, a cloud provider — such as Amazon Web Services, Microsoft Azure, or Google Cloud — owns and operates vast pools of physical hardware distributed across geographically dispersed data centers. Organizations do not purchase hardware; instead, they provision database instances through a web console or API, and the provider handles the underlying infrastructure. This arrangement is sometimes described as <em>managed database service</em> or <em>Database as a Service (DBaaS)</em>.</p>
+
+<p>The operational responsibilities shifted to the provider typically include hardware provisioning and replacement, network infrastructure management, operating system maintenance, routine database patching, automated backups, and in many cases high-availability configuration and failover. What the organization retains responsibility for varies by service tier, but commonly includes schema design, query optimization, user access management, and application-level security. This division of labor allows development teams to focus on building and running applications rather than managing infrastructure.</p>
+
+<p><strong>Pricing models</strong> in cloud deployments are fundamentally different from on-premises. Rather than a large upfront capital expenditure, organizations pay recurring fees structured around consumption or subscription. Common pricing dimensions include the number and size of virtual machine instances running the database, the volume of data stored, the number of read and write operations performed, data transfer costs, and charges for optional features such as automated backups or read replicas. This pay-as-you-go structure means costs scale with actual usage — a small startup pays for small capacity, and a large enterprise pays for large capacity, without either having to over-provision for a worst-case scenario.</p>
+
+<p>Cloud providers offer <strong>multiple service tiers and configurations</strong>, allowing organizations to select environments suited to their performance requirements and budget. A development team might choose a small, low-cost instance for testing, then seamlessly scale to a larger instance type for production without changing their application connection string. Some cloud database services are designed to scale automatically in response to workload changes, a capability called <em>autoscaling</em>, which is difficult or impossible to replicate with on-premises hardware.</p>
+
+<p>To compare these two models rigorously, it helps to examine them across a set of <strong>key dimensions</strong> that matter most to architects, operators, and business decision-makers:</p>
+
+<ul>
+  <li><strong>Cost</strong> — On-premises systems require significant upfront capital investment and ongoing operational expenses including hardware maintenance, software licensing, power, cooling, and specialized IT staff. Cloud services convert most of this to operational expenditure that scales with usage, but at scale the cumulative cost of cloud consumption can exceed what equivalent on-premises hardware would have cost. Organizations must model their specific workload to determine the true cost comparison, factoring in not just infrastructure but also staffing overhead. A small organization without an existing data center and IT team will almost always find cloud more economical; a large enterprise with established infrastructure and staff may find on-premises competitive for stable, predictable workloads.</li>
+  <li><strong>Scalability</strong> — Cloud services excel here. Provisioning additional capacity typically takes minutes, not weeks, and many managed services support autoscaling that adjusts resources automatically without human intervention. On-premises scaling requires physical procurement and installation cycles and often leads to either under-provisioning (limiting performance) or over-provisioning (wasting capital on idle hardware). For workloads with highly variable demand — seasonal retail applications, event-driven analytics, or rapidly growing startups — cloud scalability is a major advantage.</li>
+  <li><strong>Maintenance</strong> — On-premises systems place the full maintenance burden on the organization: applying database patches, replacing failed disks, upgrading operating systems, and testing backup and recovery procedures all fall to internal staff. Cloud managed services offload most routine maintenance to the provider, including automated patching and hardware replacement. This reduces staffing requirements and the risk of delayed patching leaving systems vulnerable, but it also means the organization may have less control over exactly when updates are applied and what changes they introduce.</li>
+  <li><strong>Availability</strong> — Cloud providers invest heavily in redundant infrastructure across multiple availability zones and regions, and many managed database services offer service level agreements (SLAs) guaranteeing uptime of 99.9% or higher. Achieving equivalent availability on-premises requires significant investment in redundant hardware, power, networking, and carefully designed failover configurations — costs that are only justifiable for organizations with demanding availability requirements and the resources to meet them. For most small and medium-sized organizations, cloud services can deliver higher availability at lower cost than a self-managed on-premises setup.</li>
+</ul>
+
+<p>The following table summarizes how the two models compare across these key dimensions:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dimension</th>
+      <th>Locally Hosted (On-Premises)</th>
+      <th>Cloud-Based Database Service</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Cost structure</strong></td>
+      <td>High upfront capital; ongoing hardware, staffing, and facilities costs</td>
+      <td>Low upfront; recurring operational spend scaled to usage</td>
+    </tr>
+    <tr>
+      <td><strong>Scalability</strong></td>
+      <td>Slow; constrained by hardware procurement cycles</td>
+      <td>Rapid; often minutes; autoscaling available</td>
+    </tr>
+    <tr>
+      <td><strong>Maintenance responsibility</strong></td>
+      <td>Entirely on the organization</td>
+      <td>Shared; provider handles infrastructure and patching</td>
+    </tr>
+    <tr>
+      <td><strong>Availability guarantees</strong></td>
+      <td>Depends on organization's investment in redundancy</td>
+      <td>Provider SLAs typically 99.9%+; built-in redundancy</td>
+    </tr>
+    <tr>
+      <td><strong>Control over infrastructure</strong></td>
+      <td>Full control at hardware and OS level</td>
+      <td>Limited to database and application layer</td>
+    </tr>
+    <tr>
+      <td><strong>Data sovereignty</strong></td>
+      <td>Clear; data resides on organization's hardware</td>
+      <td>Depends on provider region and configuration</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <strong>significance of choosing a deployment model</strong> extends well beyond immediate technical convenience. The model chosen shapes the organization's ability to respond to the future. A startup that deploys on-premises may find itself unable to scale quickly when growth accelerates. An enterprise that moves entirely to cloud may face unexpected costs as data volumes grow, or discover that a regulatory audit requires documentation of exactly where data was processed. The deployment model also influences hiring: on-premises environments demand deeper hardware and systems administration expertise, while cloud environments place a premium on expertise with provider-specific services and cloud-native architectures.</p>
+
+<p><strong>Compliance and regulatory constraints</strong> deserve particular emphasis. Laws such as the European Union's General Data Protection Regulation (GDPR), the United States Health Insurance Portability and Accountability Act (HIPAA), and various national data sovereignty statutes can dictate not just how data is protected, but where it may be stored and processed. An organization operating under strict data residency requirements must carefully evaluate whether a cloud provider can guarantee that data will remain within a specific jurisdiction and what contractual and technical mechanisms enforce that guarantee. On-premises deployment eliminates this uncertainty by design, though it shifts the compliance burden of securing and auditing the data to the organization itself.</p>
+
+<p>For architects and developers, the practical takeaway is that <strong>neither model should be selected by default or habit</strong>. A disciplined evaluation should weigh the organization's current technical capabilities, growth trajectory, budget structure, compliance obligations, and tolerance for operational complexity. Many organizations today adopt <em>hybrid</em> approaches — running some databases on-premises for sensitive or latency-critical workloads while using cloud services for development environments, analytics, or applications with variable demand — precisely because no single model satisfies every requirement equally well. Building a clear understanding of what each model offers and what it costs is the essential first step toward making that evaluation thoughtfully.</p>
+        <div class="notes"><strong>Notes</strong>Overview topic — establishes foundational vocabulary (deployment model, on-premises, cloud/DBaaS) and the comparison framework used throughout the module. The comparison table provides a quick reference anchor. No code examples are appropriate here; the content is conceptual and strategic.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

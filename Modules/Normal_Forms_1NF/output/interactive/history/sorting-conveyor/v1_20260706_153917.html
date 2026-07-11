@@ -1,0 +1,1322 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorting Conveyor: Detecting Partial Dependencies</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    color: #e0c97f;
+    text-align: center;
+    margin: 10px 0 4px 0;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: #a0b4cc;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .instructions {
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    color: #c8d8e8;
+    max-width: 820px;
+    width: 100%;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .instructions strong {
+    color: #e0c97f;
+  }
+
+  .score-bar {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 8px;
+    padding: 8px 20px;
+    max-width: 820px;
+    width: 100%;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .score-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+  }
+
+  .score-label {
+    color: #a0b4cc;
+  }
+
+  .score-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #e0c97f;
+    min-width: 28px;
+    text-align: center;
+  }
+
+  .score-value.correct-val { color: #6dd5a8; }
+  .score-value.incorrect-val { color: #e87a7a; }
+
+  .progress-container {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .progress-bar-bg {
+    background: #0f3460;
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    background: linear-gradient(90deg, #6dd5a8, #4ab8e0);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  /* Composite key reference panel */
+  .table-reference {
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 8px;
+    padding: 8px 14px;
+    max-width: 820px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+  }
+
+  .table-reference h3 {
+    color: #e0c97f;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+  }
+
+  .table-ref-content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .current-table-info {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .dep-legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  /* Game canvas area */
+  .game-area {
+    max-width: 820px;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Conveyor belt */
+  .conveyor-wrapper {
+    position: relative;
+    background: #0d1b2a;
+    border: 2px solid #0f3460;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .conveyor-label {
+    font-size: 0.78rem;
+    color: #6a8ca8;
+    margin-bottom: 4px;
+  }
+
+  .conveyor-track {
+    position: relative;
+    height: 90px;
+    background: linear-gradient(180deg, #1a2a3a 0%, #0d1b2a 100%);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #1e3a5f;
+  }
+
+  /* Animated belt stripes */
+  .belt-stripe {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: repeating-linear-gradient(
+      90deg,
+      #2a3a4a 0px,
+      #2a3a4a 20px,
+      #1a2a3a 20px,
+      #1a2a3a 40px
+    );
+    animation: beltMove 1.5s linear infinite;
+  }
+
+  @keyframes beltMove {
+    from { background-position: 0 0; }
+    to { background-position: -40px 0; }
+  }
+
+  /* Item cards on conveyor */
+  .conveyor-item {
+    position: absolute;
+    top: 8px;
+    background: #1e3a5f;
+    border: 2px solid #4ab8e0;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    min-width: 160px;
+    max-width: 220px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    user-select: none;
+    z-index: 10;
+  }
+
+  .conveyor-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(74, 184, 224, 0.5);
+  }
+
+  .conveyor-item .item-attr {
+    font-weight: bold;
+    color: #e0c97f;
+    font-size: 0.85rem;
+  }
+
+  .conveyor-item .item-desc {
+    color: #a0b4cc;
+    font-size: 0.72rem;
+    margin-top: 2px;
+  }
+
+  .conveyor-item.flash-correct {
+    animation: flashCorrect 0.5s ease;
+  }
+
+  .conveyor-item.flash-wrong {
+    animation: flashWrong 0.5s ease;
+  }
+
+  @keyframes flashCorrect {
+    0% { background: #1e3a5f; }
+    40% { background: #1a4a30; border-color: #6dd5a8; }
+    100% { background: #1e3a5f; }
+  }
+
+  @keyframes flashWrong {
+    0% { background: #1e3a5f; }
+    40% { background: #4a1a1a; border-color: #e87a7a; }
+    100% { background: #1e3a5f; }
+  }
+
+  /* Bins row */
+  .bins-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  .bin {
+    flex: 1;
+    min-width: 180px;
+    max-width: 280px;
+    background: #16213e;
+    border: 2px dashed #3a5a8a;
+    border-radius: 10px;
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.1s;
+    min-height: 100px;
+  }
+
+  .bin:hover {
+    border-color: #e0c97f;
+    background: #1c2a4a;
+    transform: translateY(-2px);
+  }
+
+  .bin.bin-highlight {
+    border-color: #6dd5a8;
+    background: #1a3a2a;
+    animation: binPulse 0.4s ease;
+  }
+
+  .bin.bin-wrong {
+    border-color: #e87a7a;
+    background: #3a1a1a;
+    animation: binShake 0.4s ease;
+  }
+
+  @keyframes binPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes binShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+  }
+
+  .bin-icon {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+  }
+
+  .bin-title {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #e0c97f;
+    margin-bottom: 4px;
+  }
+
+  .bin-description {
+    font-size: 0.74rem;
+    color: #8aaccf;
+    line-height: 1.35;
+  }
+
+  .bin-count {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: #6dd5a8;
+    font-weight: bold;
+  }
+
+  /* Feedback overlay */
+  .feedback-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(22, 33, 62, 0.97);
+    border: 2px solid #4ab8e0;
+    border-radius: 14px;
+    padding: 24px 32px;
+    text-align: center;
+    z-index: 200;
+    max-width: 440px;
+    width: 90%;
+    display: none;
+    box-shadow: 0 0 40px rgba(74, 184, 224, 0.4);
+  }
+
+  .feedback-overlay.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -48%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+  }
+
+  .feedback-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+
+  .feedback-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #e0c97f;
+    margin-bottom: 8px;
+  }
+
+  .feedback-body {
+    font-size: 0.9rem;
+    color: #c8d8e8;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .feedback-explanation {
+    background: #0f1f3a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #a0c4e0;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    text-align: left;
+  }
+
+  .feedback-explanation strong {
+    color: #e0c97f;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, #0f3460, #1a5a9a);
+    color: #e0e0e0;
+    border: 1px solid #4ab8e0;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    min-height: 44px;
+  }
+
+  .btn:hover {
+    background: linear-gradient(135deg, #1a5a9a, #2a7abf);
+    transform: translateY(-1px);
+  }
+
+  .btn-reset {
+    background: linear-gradient(135deg, #3a2060, #5a3090);
+    border-color: #a070e0;
+    color: #e8e0ff;
+  }
+
+  .btn-reset:hover {
+    background: linear-gradient(135deg, #5a3090, #7a50b0);
+  }
+
+  /* End screen */
+  .end-screen {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #16213e;
+    border: 2px solid #e0c97f;
+    border-radius: 16px;
+    padding: 30px 36px;
+    text-align: center;
+    z-index: 300;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 0 60px rgba(224, 201, 127, 0.3);
+  }
+
+  .end-screen.show {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .end-screen h2 {
+    font-size: 1.8rem;
+    color: #e0c97f;
+    margin-bottom: 10px;
+  }
+
+  .end-stars {
+    font-size: 2.5rem;
+    margin: 10px 0;
+  }
+
+  .end-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 14px 0;
+    flex-wrap: wrap;
+  }
+
+  .end-stat {
+    text-align: center;
+  }
+
+  .end-stat-val {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6dd5a8;
+  }
+
+  .end-stat-label {
+    font-size: 0.78rem;
+    color: #8aaccf;
+  }
+
+  .end-summary {
+    font-size: 0.85rem;
+    color: #c8d8e8;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .dim-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 150;
+  }
+
+  .dim-overlay.show {
+    display: block;
+  }
+
+  /* Timer bar */
+  .timer-bar-bg {
+    height: 6px;
+    background: #0f3460;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .timer-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.1s linear, background 0.5s;
+    background: #6dd5a8;
+  }
+
+  .missed-label {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    color: #e87a7a;
+    background: rgba(60,20,20,0.85);
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  @media (max-width: 600px) {
+    .bins-row {
+      flex-wrap: wrap;
+    }
+    .bin {
+      min-width: 140px;
+    }
+    h1 { font-size: 1.2rem; }
+    .conveyor-item { min-width: 120px; font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>🏭 Sorting Conveyor: Partial Dependencies</h1>
+<p class="subtitle">Module 4 — Normal Forms: Detecting Partial Dependencies in Composite-Key Tables</p>
+
+<div class="instructions">
+  <strong>How to play:</strong> Each item on the conveyor belt shows an attribute from a composite-key table. 
+  Click the item to <strong>select it</strong>, then click the correct <strong>bin</strong> to sort it — 
+  or click the bin directly while an item is selected. 
+  Sort each attribute based on whether it has a <strong>partial dependency</strong> (depends on only <em>part</em> of the composite key) 
+  or a <strong>full dependency</strong> (depends on the <em>entire</em> composite key). 
+  Don't let items fall off the end of the belt!
+</div>
+
+<div class="score-bar">
+  <div class="score-item">
+    <span class="score-label">✅ Correct:</span>
+    <span class="score-value correct-val" id="scoreCorrect">0</span>
+  </div>
+  <div class="score-item">
+    <span class="score-label">❌ Missed:</span>
+    <span class="score-value incorrect-val" id="scoreMissed">0</span>
+  </div>
+  <div class="score-item">
+    <span class="score-label">📦 Remaining:</span>
+    <span class="score-value" id="scoreRemaining">0</span>
+  </div>
+  <div class="progress-container">
+    <div style="font-size:0.75rem; color:#6a8ca8; margin-bottom:3px;">Progress</div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+  <button class="btn btn-reset" id="resetBtn" onclick="resetGame()">🔄 Restart</button>
+</div>
+
+<div class="table-reference">
+  <h3>📋 Current Table Reference</h3>
+  <div class="table-ref-content">
+    <div class="current-table-info" id="tableRefText">
+      Loading...
+    </div>
+    <div class="dep-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#e0c97f;"></div>
+        <span>Composite PK attribute</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#6dd5a8;"></div>
+        <span>Full dependency (→ whole key)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#e87a7a;"></div>
+        <span>Partial dependency (→ part of key)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="game-area">
+  <!-- Timer bar above conveyor -->
+  <div class="timer-bar-bg">
+    <div class="timer-bar-fill" id="timerBar" style="width:100%"></div>
+  </div>
+
+  <!-- Conveyor belt -->
+  <div class="conveyor-wrapper">
+    <div class="conveyor-label">▶ Conveyor Belt — items move left to right →</div>
+    <div class="conveyor-track" id="conveyorTrack">
+      <div class="belt-stripe" id="beltStripe"></div>
+    </div>
+  </div>
+
+  <!-- Sorting bins -->
+  <div class="bins-row">
+    <div class="bin" id="binPartial" onclick="sortIntoSelectedBin('partial')">
+      <div class="bin-icon">⚠️</div>
+      <div class="bin-title">Partial Dependency</div>
+      <div class="bin-description">
+        Attribute depends on <em>only part</em> of the composite key<br>
+        (violates 2NF — should be moved to a separate table)
+      </div>
+      <div class="bin-count" id="binPartialCount">Sorted: 0</div>
+    </div>
+    <div class="bin" id="binFull" onclick="sortIntoSelectedBin('full')">
+      <div class="bin-icon">✅</div>
+      <div class="bin-title">Full Dependency</div>
+      <div class="bin-description">
+        Attribute depends on the <em>entire</em> composite key<br>
+        (satisfies 2NF — stays in this table)
+      </div>
+      <div class="bin-count" id="binFullCount">Sorted: 0</div>
+    </div>
+  </div>
+</div>
+
+<!-- Dim overlay for modals -->
+<div class="dim-overlay" id="dimOverlay"></div>
+
+<!-- Per-item feedback popup -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-icon" id="feedbackIcon"></div>
+  <div class="feedback-title" id="feedbackTitle"></div>
+  <div class="feedback-body" id="feedbackBody"></div>
+  <div class="feedback-explanation" id="feedbackExplanation"></div>
+  <button class="btn" onclick="closeFeedback()">Continue →</button>
+</div>
+
+<!-- End screen -->
+<div class="end-screen" id="endScreen">
+  <h2 id="endTitle"></h2>
+  <div class="end-stars" id="endStars"></div>
+  <div class="end-stats">
+    <div class="end-stat">
+      <div class="end-stat-val" id="endCorrect">0</div>
+      <div class="end-stat-label">Correct</div>
+    </div>
+    <div class="end-stat">
+      <div class="end-stat-val" id="endMissed" style="color:#e87a7a">0</div>
+      <div class="end-stat-label">Missed / Wrong</div>
+    </div>
+    <div class="end-stat">
+      <div class="end-stat-val" id="endPct">0%</div>
+      <div class="end-stat-label">Accuracy</div>
+    </div>
+  </div>
+  <div class="end-summary" id="endSummary"></div>
+  <button class="btn btn-reset" onclick="resetGame()">🔄 Play Again</button>
+</div>
+
+<script>
+// ============================================================
+// DATA: Composite-key table scenarios with dependency items
+// ============================================================
+
+const TABLE_SCENARIOS = [
+  {
+    tableName: "ORDER_LINE (OrderID, ProductID, Quantity, ProductName, UnitPrice, OrderDate)",
+    compositeKey: ["OrderID", "ProductID"],
+    referenceText: `
+      <strong>Table:</strong> ORDER_LINE<br>
+      <strong>Composite PK:</strong> (<span style="color:#e0c97f">OrderID</span>, <span style="color:#e0c97f">ProductID</span>)<br>
+      <strong>Ask:</strong> Does each attribute depend on the full pair (OrderID + ProductID), 
+      or on just one of them?
+    `
+  },
+  {
+    tableName: "ENROLLMENT (StudentID, CourseID, Grade, StudentName, CourseTitle, EnrollDate)",
+    compositeKey: ["StudentID", "CourseID"],
+    referenceText: `
+      <strong>Table:</strong> ENROLLMENT<br>
+      <strong>Composite PK:</strong> (<span style="color:#e0c97f">StudentID</span>, <span style="color:#e0c97f">CourseID</span>)<br>
+      <strong>Ask:</strong> Does each attribute depend on the full pair (StudentID + CourseID), 
+      or on just one of them?
+    `
+  },
+  {
+    tableName: "ASSIGNMENT (EmpID, ProjectID, HoursWorked, EmpName, ProjectBudget, Role)",
+    compositeKey: ["EmpID", "ProjectID"],
+    referenceText: `
+      <strong>Table:</strong> ASSIGNMENT<br>
+      <strong>Composite PK:</strong> (<span style="color:#e0c97f">EmpID</span>, <span style="color:#e0c97f">ProjectID</span>)<br>
+      <strong>Ask:</strong> Does each attribute depend on the full pair (EmpID + ProjectID), 
+      or on just one of them?
+    `
+  }
+];
+
+const ALL_ITEMS = [
+  // ---- ORDER_LINE scenario ----
+  {
+    scenarioIndex: 0,
+    attribute: "Quantity",
+    subtext: "How many units were ordered for this product on this order",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>Quantity</strong> is the number of a specific product on a specific order. You need <em>both</em> OrderID and ProductID to determine this — it's a <strong>full dependency</strong>."
+  },
+  {
+    scenarioIndex: 0,
+    attribute: "ProductName",
+    subtext: "The name of the product (e.g., 'Wireless Mouse')",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>ProductName</strong> depends only on <em>ProductID</em> alone — you don't need the OrderID to know a product's name. This is a <strong>partial dependency</strong> (violates 2NF)."
+  },
+  {
+    scenarioIndex: 0,
+    attribute: "UnitPrice",
+    subtext: "The standard list price of the product",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>UnitPrice</strong> (the standard list price) is a property of the product itself, so it depends only on <em>ProductID</em>. This is a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 0,
+    attribute: "OrderDate",
+    subtext: "The date the order was placed",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>OrderDate</strong> is a property of the order, not of a specific product on the order. It depends only on <em>OrderID</em> — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 0,
+    attribute: "LineDiscount",
+    subtext: "Special discount applied to this product on this specific order",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>LineDiscount</strong> is a negotiated discount for a specific product on a specific order. It requires <em>both</em> OrderID and ProductID — a <strong>full dependency</strong>."
+  },
+  // ---- ENROLLMENT scenario ----
+  {
+    scenarioIndex: 1,
+    attribute: "Grade",
+    subtext: "The grade a student received in a course",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>Grade</strong> records how a particular student performed in a particular course. You need <em>both</em> StudentID and CourseID — a <strong>full dependency</strong>."
+  },
+  {
+    scenarioIndex: 1,
+    attribute: "StudentName",
+    subtext: "The full name of the student",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>StudentName</strong> is a property of the student, not of the enrollment. It depends only on <em>StudentID</em> — a <strong>partial dependency</strong> (violates 2NF)."
+  },
+  {
+    scenarioIndex: 1,
+    attribute: "CourseTitle",
+    subtext: "The title of the course (e.g., 'Database Systems')",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>CourseTitle</strong> belongs to the course, not to the enrollment relationship. It depends only on <em>CourseID</em> — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 1,
+    attribute: "EnrollDate",
+    subtext: "The date the student registered for the course",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>EnrollDate</strong> is specific to <em>when this student enrolled in this course</em>. It requires both StudentID and CourseID — a <strong>full dependency</strong>."
+  },
+  {
+    scenarioIndex: 1,
+    attribute: "StudentEmail",
+    subtext: "The student's institutional email address",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>StudentEmail</strong> is a property of the student, not of any particular enrollment. It depends only on <em>StudentID</em> — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 1,
+    attribute: "CourseCredits",
+    subtext: "Number of credit hours the course is worth",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>CourseCredits</strong> is a fixed property of the course. It depends only on <em>CourseID</em> — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 1,
+    attribute: "FinalExamScore",
+    subtext: "Score this student got on the final exam of this course",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>FinalExamScore</strong> is specific to a student's performance in a particular course. Both StudentID and CourseID are needed — a <strong>full dependency</strong>."
+  },
+  // ---- ASSIGNMENT scenario ----
+  {
+    scenarioIndex: 2,
+    attribute: "HoursWorked",
+    subtext: "Hours an employee has logged on a project",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>HoursWorked</strong> records effort for a specific employee on a specific project. Both EmpID and ProjectID are required — a <strong>full dependency</strong>."
+  },
+  {
+    scenarioIndex: 2,
+    attribute: "EmpName",
+    subtext: "The employee's full name",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>EmpName</strong> is a property of the employee alone. It depends only on <em>EmpID</em> — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 2,
+    attribute: "ProjectBudget",
+    subtext: "Total budget allocated to the project",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>ProjectBudget</strong> is a property of the project, not of the assignment. It depends only on <em>ProjectID</em> — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 2,
+    attribute: "Role",
+    subtext: "The role this employee plays on this specific project (e.g., Lead, Developer)",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>Role</strong> describes the position of this employee on this project. Different assignments can have different roles, so both EmpID and ProjectID are needed — a <strong>full dependency</strong>."
+  },
+  {
+    scenarioIndex: 2,
+    attribute: "EmpDepartment",
+    subtext: "The department the employee belongs to",
+    dependencyType: "partial",
+    correctBin: "partial",
+    explanation: "<strong>EmpDepartment</strong> is a property of the employee. It depends only on <em>EmpID</em>, not on which project they're assigned to — a <strong>partial dependency</strong>."
+  },
+  {
+    scenarioIndex: 2,
+    attribute: "StartDate",
+    subtext: "The date this employee started working on this project",
+    dependencyType: "full",
+    correctBin: "full",
+    explanation: "<strong>StartDate</strong> records when this specific employee began this specific project. Both EmpID and ProjectID are needed — a <strong>full dependency</strong>."
+  }
+];
+
+// ============================================================
+// GAME STATE
+// ============================================================
+
+let gameState = {
+  queue: [],           // shuffled items to sort
+  currentItemIndex: 0, // which item is currently on belt
+  selectedItem: null,  // the currently selected conveyor item
+  scoreCorrect: 0,
+  scoreMissed: 0,
+  binPartialCount: 0,
+  binFullCount: 0,
+  totalItems: 0,
+  gameOver: false,
+  paused: false,
+  conveyorX: 0,        // current X position of item on belt
+  animationId: null,
+  beltWidth: 0,
+  itemWidth: 180,
+  beltSpeed: 0.45,     // pixels per ms
+  lastTimestamp: null,
+  timerMax: 15000,     // ms per item before it falls off
+  timerElapsed: 0,
+  showingFeedback: false
+};
+
+// ============================================================
+// UTILITY
+// ============================================================
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function updateScoreDisplay() {
+  document.getElementById('scoreCorrect').textContent = gameState.scoreCorrect;
+  document.getElementById('scoreMissed').textContent = gameState.scoreMissed;
+  const remaining = gameState.totalItems - gameState.currentItemIndex;
+  document.getElementById('scoreRemaining').textContent = Math.max(0, remaining);
+  const done = gameState.currentItemIndex;
+  const pct = gameState.totalItems > 0 ? (done / gameState.totalItems) * 100 : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('binPartialCount').textContent = 'Sorted: ' + gameState.binPartialCount;
+  document.getElementById('binFullCount').textContent = 'Sorted: ' + gameState.binFullCount;
+}
+
+function getConveyorTrackWidth() {
+  return document.getElementById('conveyorTrack').offsetWidth;
+}
+
+// ============================================================
+// INIT / RESET
+// ============================================================
+
+function resetGame() {
+  // Cancel any running animation
+  if (gameState.animationId) {
+    cancelAnimationFrame(gameState.animationId);
+    gameState.animationId = null;
+  }
+  // Close modals
+  document.getElementById('endScreen').classList.remove('show');
+  document.getElementById('feedbackOverlay').classList.remove('show');
+  document.getElementById('dimOverlay').classList.remove('show');
+
+  // Clear conveyor
+  const track = document.getElementById('conveyorTrack');
+  const existingItems = track.querySelectorAll('.conveyor-item');
+  existingItems.forEach(el => el.remove());
+
+  // Build shuffled queue from a subset of items (12 items for a good game)
+  const shuffled = shuffleArray(ALL_ITEMS).slice(0, 12);
+
+  gameState = {
+    queue: shuffled,
+    currentItemIndex: 0,
+    selectedItem: null,
+    scoreCorrect: 0,
+    scoreMissed: 0,
+    binPartialCount: 0,
+    binFullCount: 0,
+    totalItems: shuffled.length,
+    gameOver: false,
+    paused: false,
+    conveyorX: -200,
+    animationId: null,
+    beltWidth: getConveyorTrackWidth(),
+    itemWidth: 185,
+    beltSpeed: 0.38,
+    lastTimestamp: null,
+    timerMax: 14000,
+    timerElapsed: 0,
+    showingFeedback: false
+  };
+
+  updateScoreDisplay();
+  resetBinHighlights();
+  spawnNextItem();
+}
+
+// ============================================================
+// ITEM SPAWNING & ANIMATION
+// ============================================================
+
+let currentConveyorElement = null;
+
+function spawnNextItem() {
+  if (gameState.currentItemIndex >= gameState.totalItems) {
+    endGame();
+    return;
+  }
+
+  const item = gameState.queue[gameState.currentItemIndex];
+  const scenario = TABLE_SCENARIOS[item.scenarioIndex];
+
+  // Update table reference
+  document.getElementById('tableRefText').innerHTML = scenario.referenceText;
+
+  // Remove old item if present
+  if (currentConveyorElement) {
+    currentConveyorElement.remove();
+    currentConveyorElement = null;
+  }
+
+  // Create item DOM element
+  const el = document.createElement('div');
+  el.className = 'conveyor-item';
+  el.innerHTML = `
+    <div class="item-attr">${item.attribute}</div>
+    <div class="item-desc">${item.subtext}</div>
+  `;
+  el.dataset.itemIndex = gameState.currentItemIndex;
+
+  el.addEventListener('click', function(e) {
+    e.stopPropagation();
+    selectConveyorItem(el);
+  });
+
+  const track = document.getElementById('conveyorTrack');
+  track.appendChild(el);
+  currentConveyorElement = el;
+
+  // Start position: off left edge
+  gameState.conveyorX = -210;
+  gameState.timerElapsed = 0;
+  gameState.lastTimestamp = null;
+  gameState.selectedItem = null;
+  el.style.left = gameState.conveyorX + 'px';
+
+  updateScoreDisplay();
+
+  // Start animation
+  if (gameState.animationId) cancelAnimationFrame(gameState.animationId);
+  gameState.animationId = requestAnimationFrame(animationLoop);
+}
+
+function animationLoop(timestamp) {
+  if (gameState.paused || gameState.showingFeedback) {
+    gameState.lastTimestamp = timestamp;
+    gameState.animationId = requestAnimationFrame(animationLoop);
+    return;
+  }
+
+  if (gameState.lastTimestamp === null) {
+    gameState.lastTimestamp = timestamp;
+  }
+
+  const delta = timestamp - gameState.lastTimestamp;
+  gameState.lastTimestamp = timestamp;
+
+  gameState.timerElapsed += delta;
+  gameState.conveyorX += gameState.beltSpeed * delta;
+
+  if (currentConveyorElement) {
+    currentConveyorElement.style.left = gameState.conveyorX + 'px';
+  }
+
+  // Update timer bar
+  const fraction = Math.max(0, 1 - (gameState.timerElapsed / gameState.timerMax));
+  const timerFill = document.getElementById('timerBar');
+  timerFill.style.width = (fraction * 100) + '%';
+  if (fraction > 0.5) {
+    timerFill.style.background = '#6dd5a8';
+  } else if (fraction > 0.25) {
+    timerFill.style.background = '#e0c97f';
+  } else {
+    timerFill.style.background = '#e87a7a';
+  }
+
+  // Check if item fell off
+  const beltWidth = getConveyorTrackWidth();
+  if (gameState.conveyorX > beltWidth + 10) {
+    // Item missed
+    itemMissed();
+    return;
+  }
+
+  gameState.animationId = requestAnimationFrame(animationLoop);
+}
+
+function selectConveyorItem(el) {
+  if (gameState.showingFeedback || gameState.paused) return;
+
+  if (gameState.selectedItem === el) {
+    // Deselect
+    el.style.border = '2px solid #4ab8e0';
+    el.style.boxShadow = '';
+    gameState.selectedItem = null;
+  } else {
+    // Deselect any previous
+    if (gameState.selectedItem) {
+      gameState.selectedItem.style.border = '2px solid #4ab8e0';
+      gameState.selectedItem.style.boxShadow = '';
+    }
+    // Select this one
+    el.style.border = '2px solid #e0c97f';
+    el.style.boxShadow = '0 0 14px rgba(224,201,127,0.7)';
+    gameState.selectedItem = el;
+  }
+}
+
+// ============================================================
+// SORTING LOGIC
+// ============================================================
+
+function sortIntoSelectedBin(binType) {
+  if (gameState.showingFeedback || gameState.paused || gameState.gameOver) return;
+  if (!gameState.selectedItem && !currentConveyorElement) return;
+
+  // If nothing is selected, auto-select current item
+  if (!gameState.selectedItem && currentConveyorElement) {
+    gameState.selectedItem = currentConveyorElement;
+  }
+  if (!gameState.selectedItem) return;
+
+  const item = gameState.queue[gameState.currentItemIndex];
+  const isCorrect = (binType === item.correctBin);
+
+  if (isCorrect) {
+    gameState.scoreCorrect++;
+    if (binType === 'partial') gameState.binPartialCount++;
+    else gameState.binFullCount++;
+  } else {
+    gameState.scoreMissed++;
+  }
+
+  // Visual feedback on item
+  if (currentConveyorElement) {
+    currentConveyorElement.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
+  }
+
+  // Visual feedback on bin
+  const binId = binType === 'partial' ? 'binPartial' : 'binFull';
+  const binEl = document.getElementById(binId);
+  binEl.classList.add(isCorrect ? 'bin-highlight' : 'bin-wrong');
+  setTimeout(() => {
+    binEl.classList.remove('bin-highlight', 'bin-wrong');
+  }, 500);
+
+  // Pause belt
+  gameState.showingFeedback = true;
+  if (gameState.animationId) {
+    cancelAnimationFrame(gameState.animationId);
+    gameState.animationId = null;
+  }
+
+  // Show feedback popup
+  setTimeout(() => {
+    showFeedbackPopup(item, isCorrect, binType);
+  }, 300);
+
+  updateScoreDisplay();
+}
+
+function itemMissed() {
+  if (gameState.animationId) {
+    cancelAnimationFrame(gameState.animationId);
+    gameState.animationId = null;
+  }
+
+  const item = gameState.queue[gameState.currentItemIndex];
+  gameState.scoreMissed++;
+  gameState.showingFeedback = true;
+
+  updateScoreDisplay();
+
+  // Show a "missed" feedback
+  showFeedbackPopup(item, false, null, true);
+}
+
+// ============================================================
+// FEEDBACK POPUP
+// ============================================================
+
+function showFeedbackPopup(item, isCorrect, chosenBin, wasMissed = false) {
+  const overlay = document.getElementById('feedbackOverlay');
+  const dim = document.getElementById('dimOverlay');
+
+  let icon, title, body;
+
+  if (wasMissed) {
+    icon = '⏰';
+    title = 'Item Missed!';
+    body = `<strong>${item.attribute}</strong> fell off the belt before being sorted.`;
+  } else if (isCorrect) {
+    icon = '🎉';
+    title = 'Correct!';
+    body = `<strong>${item.attribute}</strong> was correctly sorted into the <strong>${chosenBin === 'partial' ? 'Partial Dependency' : 'Full Dependency'}</strong> bin.`;
+  } else {
+    const wrongBinName = chosenBin === 'partial' ? 'Partial Dependency' : 'Full Dependency';
+    const correctBinName = item.correctBin === 'partial' ? 'Partial Dependency' : 'Full Dependency';
+    icon = '🔍';
+    title = 'Not Quite!';
+    body = `<strong>${item.attribute}</strong> was sent to <strong>${wrongBinName}</strong>, but it actually belongs in <strong>${correctBinName}</strong>.`;
+  }
+
+  document.getElementById('feedbackIcon').textContent = icon;
+  document.getElementById('feedbackTitle').textContent = title;
+  document.getElementById('feedbackBody').innerHTML = body;
+  document.getElementById('feedbackExplanation').innerHTML = '<strong>Why?</strong> ' + item.explanation;
+
+  overlay.classList.add('show');
+  dim.classList.add('show');
+}
+
+function closeFeedback() {
+  document.getElementById('feedbackOverlay').classList.remove('show');
+  document.getElementById('dimOverlay').classList.remove('show');
+
+  // Advance to next item
+  gameState.currentItemIndex++;
+  gameState.showingFeedback = false;
+  gameState.selectedItem = null;
+
+  // Reset timer bar
+  document.getElementById('timerBar').style.width = '100%';
+  document.getElementById('timerBar').style.background = '#6dd5a8';
+
+  if (gameState.currentItemIndex >= gameState.totalItems) {
+    endGame();
+  } else {
+    spawnNextItem();
+  }
+}
+
+function resetBinHighlights() {
+  document.getElementById('binPartial').classList.remove('bin-highlight', 'bin-wrong');
+  document.getElementById('binFull').classList.remove('bin-highlight', 'bin-wrong');
+}
+
+// ============================================================
+// END GAME
+// ============================================================
+
+function endGame() {
+  gameState.gameOver = true;
+  if (gameState.animationId) {
+    cancelAnimationFrame(gameState.animationId);
+    gameState.animationId = null;
+  }
+  if (currentConveyorElement) {
+    currentConveyorElement.remove();
+    currentConveyorElement = null;
+  }
+
+  // Close feedback if somehow open
+  document.getElementById('feedbackOverlay').classList.remove('show');
+  document.getElementById('dimOverlay').classList.remove('show');
+
+  const total = gameState.totalItems;
+  const correct = gameState.scoreCorrect;
+  const missed = gameState.scoreMissed;
+  const pct = Math.round((correct / total) * 100);
+
+  let stars, title, summary;
+
+  if (pct >= 90) {
+    stars = '⭐⭐⭐';
+    title = 'Excellent Work!';
+    summary = 'You have a strong grasp of partial vs. full dependencies in composite-key tables. Remember: partial dependencies violate 2NF and should be split into a separate table with only the part of the key they depend on.';
+  } else if (pct >= 70) {
+    stars = '⭐⭐';
+    title = 'Good Job!';
+    summary = 'You understand the concept of partial dependencies. Review the items you missed — ask yourself: "Does this attribute need the WHOLE composite key, or just one part?"';
+  } else {
+    stars = '⭐';
+    title = 'Keep Practicing!';
+    summary = 'Partial dependencies can be tricky! A partial dependency occurs when a non-key attribute depends on only one column of a multi-column primary key. Try again and focus on which part of the key determines each attribute.';
+  }
+
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endStars').textContent = stars;
+  document.getElementById('endCorrect').textContent = correct;
+  document.getElementById('endMissed').textContent = missed;
+  document.getElementById('endPct').textContent = pct + '%';
+  document.getElementById('endSummary').textContent = summary;
+
+  const endScreen = document.getElementById('endScreen');
+  const dim = document.getElementById('dimOverlay');
+  endScreen.classList.add('show');
+  dim.classList.add('show');
+
+  // Update progress to 100%
+  document.getElementById('progressFill').style.width = '100%';
+}
+
+// ============================================================
+// KEYBOARD SHORTCUT: Press 1 for Partial, 2 for Full
+// ============================================================
+
+document.addEventListener('keydown', function(e) {
+  if (gameState.showingFeedback || gameState.gameOver) return;
+  if (e.key === '1') {
+    if (currentConveyorElement) gameState.selectedItem = currentConveyorElement;
+    sortIntoSelectedBin('partial');
+  } else if (e.key === '2') {
+    if (currentConveyorElement) gameState.selectedItem = currentConveyorElement;
+    sortIntoSelectedBin('full');
+  } else if (e.key === ' ' || e.key === 'Enter') {
+    // Select current item
+    if (currentConveyorElement) selectConveyorItem(currentConveyorElement);
+  }
+});
+
+// ============================================================
+// START THE GAME
+// ============================================================
+
+window.addEventListener('load', function() {
+  // Give layout time to settle before measuring belt width
+  setTimeout(resetGame, 100);
+});
+
+window.addEventListener('resize', function() {
+  gameState.beltWidth = getConveyorTrackWidth();
+});
+</script>
+
+<div style="text-align:center; font-size:0.72rem; color:#4a6a8a; margin-top:12px; padding-bottom:10px;">
+  💡 Tip: Click an item on the belt, then click a bin — or press <kbd style="background:#1a3a5a; padding:1px 5px; border-radius:3px; color:#a0c4e0;">1</kbd> for Partial / <kbd style="background:#1a3a5a; padding:1px 5px; border-radius:3px; color:#a0c4e0;">2</kbd> for Full
+</div>
+
+</body>
+</html>

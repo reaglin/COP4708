@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relationships Between Entities</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Relationships Between Entities</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Relationships Between Entities</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>In any data model, it is rarely enough to identify the things — the entities — that a system needs to track. Equally important is understanding how those things relate to one another. A database that stores customers but cannot connect them to orders, or one that records employees but cannot express who manages whom, is of very limited practical use. Relationships are the structural glue of a data model: they capture real-world interactions, dependencies, and associations between entities, allowing data to be queried, combined, and reasoned about in meaningful ways. Understanding how to identify, classify, and represent relationships is therefore one of the most fundamental skills in database design.</p>
+
+<p><strong>What Is a Relationship?</strong></p>
+
+<p>A <em>relationship</em> in data modeling represents a real-world interaction, dependency, or association between two or more entities. Where an entity represents a <em>thing</em> — a person, place, object, concept, or event — a relationship represents a <em>fact about things</em>. The statement "a customer <em>places</em> an order" captures a relationship; so does "an employee <em>works in</em> a department," or "a student <em>enrolls in</em> a course."</p>
+
+<p>Relationships are almost always named using a verb or verb phrase. The verb describes the nature of the association from the perspective of one entity acting upon or being associated with another. Good relationship names are active and specific: <em>places</em>, <em>manages</em>, <em>supplies</em>, <em>belongs to</em>. Vague names like <em>has</em> or <em>is related to</em> should be avoided when a more precise verb is available, because clarity in the model leads directly to clarity in the resulting schema.</p>
+
+<p>In Entity-Relationship (ER) diagrams following the classic <em>Chen notation</em> (introduced by Peter Chen in 1976), relationships are drawn as diamond shapes. Lines connect the diamond to each of the participating entity rectangles, and labels along those lines describe the cardinality — for example, <code>1</code> or <code>N</code>. This visual convention makes it immediately obvious which entities are involved and what the nature of their connection is.</p>
+
+<p>A relationship involving exactly two entity types is called <em>binary</em>, and it is by far the most common. A relationship involving three entity types simultaneously is called <em>ternary</em>. Although ternary and higher-degree relationships are less frequent, they arise whenever an association cannot be accurately decomposed into a collection of binary relationships without losing essential information. Consider the example of a <strong>SUPPLIER</strong> providing a <strong>PART</strong> to a <strong>PROJECT</strong>: removing any one of those three participants from the relationship changes its meaning entirely, so a ternary relationship is required.</p>
+
+<p><strong>Cardinality of Relationships</strong></p>
+
+<p>Cardinality defines the numerical nature of an association: specifically, how many instances of one entity can be associated with how many instances of another. It is one of the most consequential design decisions a database designer makes, because cardinality directly determines how tables, columns, and foreign keys will be structured in the eventual relational schema.</p>
+
+<p>There are three fundamental cardinality types:</p>
+
+<ul>
+  <li><strong>One-to-One (1:1):</strong> Each instance of Entity A is associated with at most one instance of Entity B, and each instance of Entity B is associated with at most one instance of Entity A. True 1:1 relationships are relatively rare in practice. A common example is a <strong>PERSON</strong> and their <strong>PASSPORT</strong> — a person holds at most one passport, and a passport belongs to exactly one person. In a relational schema, a 1:1 relationship is typically implemented by placing a foreign key in one of the two tables, or by merging the two entities into a single table if they always co-exist.</li>
+  <li><strong>One-to-Many (1:N):</strong> One instance of Entity A can be associated with many instances of Entity B, but each instance of Entity B is associated with at most one instance of Entity A. This is the most prevalent cardinality in relational databases. A classic example is <strong>CUSTOMER</strong> and <strong>ORDER</strong>: one customer can place many orders, but each order belongs to exactly one customer. In a relational schema, 1:N relationships are implemented by placing a foreign key in the table on the "many" side (in this case, a <code>customer_id</code> column in the <strong>ORDER</strong> table).</li>
+  <li><strong>Many-to-Many (M:N):</strong> Multiple instances of Entity A can be associated with multiple instances of Entity B, and vice versa. For example, a <strong>STUDENT</strong> can enroll in many <strong>COURSES</strong>, and a <strong>COURSE</strong> can have many students enrolled. M:N relationships cannot be directly represented with a single foreign key; they require a separate <em>junction table</em> (also called a bridge table, associative table, or linking table) that holds foreign keys referencing both participating entities. This junction table may also carry attributes of the relationship itself — for instance, an enrollment date or a grade.</li>
+</ul>
+
+<p>The following table summarizes how cardinality maps to relational implementation:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cardinality</th>
+      <th>Description</th>
+      <th>Example</th>
+      <th>Relational Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1:1</td>
+      <td>Each instance on both sides relates to at most one instance on the other</td>
+      <td>PERSON — PASSPORT</td>
+      <td>Foreign key in either table, or merged into one table</td>
+    </tr>
+    <tr>
+      <td>1:N</td>
+      <td>One instance on the "one" side relates to many on the "many" side</td>
+      <td>CUSTOMER — ORDER</td>
+      <td>Foreign key placed in the "many" side table</td>
+    </tr>
+    <tr>
+      <td>M:N</td>
+      <td>Many instances on both sides can relate to many on the other</td>
+      <td>STUDENT — COURSE</td>
+      <td>Separate junction/bridge table with foreign keys to both entities</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Misidentifying cardinality is a common and costly mistake. Treating a genuinely M:N relationship as 1:N, for example, will force data to be duplicated or lost. Always validate cardinality against real-world business rules: ask "can one A relate to many Bs?" and "can one B relate to many As?" and let the answers drive the model.</p>
+
+<p><strong>Participation Constraints</strong></p>
+
+<p>Cardinality tells us the <em>maximum</em> number of relationship instances an entity can participate in. Participation constraints tell us the <em>minimum</em>. Together they fully describe the range of participation for each entity in a relationship.</p>
+
+<p><em>Total participation</em> (also called mandatory participation) means that every instance of an entity <em>must</em> participate in at least one instance of the relationship. No entity instance of that type is allowed to exist without being related to some instance of the other entity. In Chen notation, total participation is indicated by a <em>double line</em> between the entity rectangle and the relationship diamond.</p>
+
+<p><em>Partial participation</em> (also called optional participation) means that some instances of an entity may exist without participating in any instance of the relationship. They are permitted but not required to have an association. In Chen notation, partial participation is shown as a single line.</p>
+
+<p>Consider a concrete example using <strong>CUSTOMER</strong> and <strong>ORDER</strong> linked by the relationship <em>places</em>:</p>
+
+<ul>
+  <li><strong>ORDER</strong> has <em>total participation</em> in <em>places</em>: every order must have been placed by some customer. An order that belongs to no customer is meaningless and should not exist. This translates to a <code>NOT NULL</code> constraint on the foreign key <code>customer_id</code> in the <strong>ORDER</strong> table.</li>
+  <li><strong>CUSTOMER</strong> has <em>partial participation</em> in <em>places</em>: a customer may exist in the system — perhaps as a registered account — without having placed any orders yet. This means the foreign key reference from ORDER to CUSTOMER is required, but no corresponding requirement forces a customer row to appear in any order row.</li>
+</ul>
+
+<p>Participation constraints have direct implications for database integrity rules. Total participation typically maps to a <code>NOT NULL</code> foreign key constraint, or occasionally to a trigger or check constraint. Partial participation means the foreign key is allowed to be null or simply that no mandatory back-reference exists.</p>
+
+<p>When combined with cardinality, participation constraints give rise to what is sometimes written as a <em>(min, max)</em> notation. For instance, <code>(1, N)</code> on the ORDER side of <em>places</em> means an order must participate in at least 1 and at most N instances of <em>places</em> — more precisely, here N equals 1, so an order is placed by exactly one customer. On the CUSTOMER side <code>(0, N)</code> means a customer participates in zero or more instances of <em>places</em>.</p>
+
+<p><strong>Degree of a Relationship</strong></p>
+
+<p>The <em>degree</em> of a relationship refers to the number of distinct entity types that participate in it. Understanding degree is essential to ensure the model does not oversimplify or misrepresent complex real-world associations.</p>
+
+<ul>
+  <li><strong>Unary (Degree 1) — Recursive Relationship:</strong> A single entity type participates in a relationship with itself. The entity appears on both "sides" of the relationship. A canonical example is an <strong>EMPLOYEE</strong> entity in which some employees <em>manage</em> other employees. The relationship involves only one entity type: EMPLOYEE. Unary relationships are discussed in detail below.</li>
+  <li><strong>Binary (Degree 2):</strong> Two distinct entity types participate. This is the most common and most directly translatable relationship type. Examples include <strong>DEPARTMENT</strong> <em>employs</em> <strong>EMPLOYEE</strong>, or <strong>AUTHOR</strong> <em>writes</em> <strong>BOOK</strong>. The vast majority of relationships modeled in practice are binary.</li>
+  <li><strong>Ternary (Degree 3):</strong> Three distinct entity types participate simultaneously in a single relationship. The classic textbook example is <strong>SUPPLIER</strong> <em>supplies</em> <strong>PART</strong> to <strong>PROJECT</strong>. This cannot be accurately decomposed into two separate binary relationships without potentially losing information about which combination of supplier, part, and project is valid. In a relational schema, a ternary relationship is implemented with a junction table that holds foreign keys to all three participating entities.</li>
+</ul>
+
+<p>It is worth noting that higher-degree relationships (quaternary, etc.) exist in theory but are exceptionally rare. In practice, when a designer encounters what appears to be a high-degree relationship, it often signals either a missing entity or an opportunity to restructure the model. Always ask: "Is there an implicit entity here that should be made explicit?" For ternary relationships, the answer is sometimes yes — for example, a ternary supplier-part-project relationship might be better modeled as a <strong>SUPPLY_CONTRACT</strong> entity with binary relationships to SUPPLIER, PART, and PROJECT.</p>
+
+<p><strong>Recursive (Self-Referencing) Relationships</strong></p>
+
+<p>A <em>recursive relationship</em> (also called a unary or self-referencing relationship) is one in which an entity participates in a relationship with other instances of the same entity type. These arise naturally when modeling hierarchies, organizational structures, networks, and classification systems.</p>
+
+<p>The most frequently cited example is the <em>manages</em> relationship on <strong>EMPLOYEE</strong>: an employee can be the manager of other employees, yet all individuals involved are employees. In an ER diagram, the relationship diamond connects back to the same EMPLOYEE rectangle using two separate lines. To avoid ambiguity about which role each line represents, <em>role names</em> are attached to the lines. In the manages example, one role might be labeled <em>manager</em> and the other <em>subordinate</em>, clearly distinguishing which side of the relationship each participating employee occupies.</p>
+
+<p>Cardinality applies to recursive relationships just as it does to binary ones:</p>
+
+<ul>
+  <li>A <strong>1:N recursive relationship</strong> — one manager can supervise many employees, but each employee has at most one direct manager — is the standard representation of a strict organizational hierarchy or a tree structure. In a relational table, this is implemented with a self-referencing foreign key column, such as <code>manager_id</code> in the <strong>EMPLOYEE</strong> table that references <code>employee_id</code> in the same table. Employees at the top of the hierarchy (who have no manager) will have a <code>NULL</code> value in <code>manager_id</code>.</li>
+  <li>An <strong>M:N recursive relationship</strong> — for example, a <em>friendship</em> relationship where one person can befriend many others and each person can be befriended by many — requires a junction table. In a social network model, a <strong>FRIENDSHIP</strong> table with columns <code>person_id_1</code> and <code>person_id_2</code>, both referencing the primary key of a <strong>PERSON</strong> table, would capture this structure.</li>
+</ul>
+
+<p>An illustrative self-referencing table structure for the 1:N manager-employee hierarchy looks like this in SQL:</p>
+
+<pre><code>CREATE TABLE employee (
+    employee_id   INT PRIMARY KEY,
+    name          VARCHAR(100) NOT NULL,
+    manager_id    INT NULL,
+    FOREIGN KEY (manager_id) REFERENCES employee(employee_id)
+);
+</code></pre>
+
+<p>Recursive relationships also appear in product hierarchies (a <strong>CATEGORY</strong> that has sub-categories), bill-of-materials structures (a <strong>COMPONENT</strong> that consists of other components), and prerequisite chains (a <strong>COURSE</strong> that requires other courses). In each case, recognizing the self-referencing nature of the relationship and applying appropriate role names and cardinality is essential to building a correct schema.</p>
+
+<p><strong>Representing Relationships in ER Diagrams</strong></p>
+
+<p>Two notations dominate practical ER diagram drawing: <em>Chen notation</em> and <em>Crow's Foot notation</em>. Both convey the same semantic information — entity types, relationship names, cardinality, and participation — but use different visual vocabularies.</p>
+
+<p>In <strong>Chen notation</strong>:</p>
+
+<ul>
+  <li>Entities are drawn as <strong>rectangles</strong> labeled with the entity name.</li>
+  <li>Relationships are drawn as <strong>diamonds</strong> labeled with the relationship verb.</li>
+  <li>Lines connect each entity rectangle to the relationship diamond.</li>
+  <li>Cardinality ratios (<code>1</code>, <code>N</code>, <code>M</code>) are written alongside the connecting lines, near each entity.</li>
+  <li><strong>Total participation</strong> is indicated by a <em>double line</em> between the entity and the relationship diamond.</li>
+  <li><strong>Partial participation</strong> is indicated by a <em>single line</em>.</li>
+  <li>In recursive relationships, role names are written on the two lines connecting the entity to the relationship diamond.</li>
+</ul>
+
+<p>In <strong>Crow's Foot notation</strong> (used by many modern modeling tools such as Lucidchart, ERDPlus, and MySQL Workbench):</p>
+
+<ul>
+  <li>Relationships are shown as lines directly connecting entity rectangles — no diamond shapes are used.</li>
+  <li>The end of each line carries a <em>symbol</em> indicating cardinality and participation:
+    <ul>
+      <li>A <strong>single vertical bar</strong> ( | ) means "exactly one."</li>
+      <li>A <strong>crow's foot</strong> (three diverging lines resembling a bird's foot) means "many."</li>
+      <li>A <strong>circle</strong> (○) means "zero" (used alongside the other symbols to indicate optionality).</li>
+    </ul>
+  </li>
+  <li>Combining these symbols: a crow's foot with a circle means "zero or many" (partial participation, many side); a crow's foot with a single bar means "one or many" (total participation, many side); a single bar with a circle means "zero or one"; two single bars mean "exactly one."</li>
+</ul>
+
+<p>The following table shows the combined cardinality and participation symbols used in Crow's Foot notation:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol at Line End</th>
+      <th>Meaning</th>
+      <th>Participation</th>
+      <th>Chen Equivalent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>○ — ○&lt; (circle + crow's foot)</td>
+      <td>Zero or many</td>
+      <td>Partial (optional)</td>
+      <td>Single line, N label</td>
+    </tr>
+    <tr>
+      <td>| — ○&lt; (bar + crow's foot)</td>
+      <td>One or many</td>
+      <td>Total (mandatory)</td>
+      <td>Double line, N label</td>
+    </tr>
+    <tr>
+      <td>○ — | (circle + bar)</td>
+      <td>Zero or one</td>
+      <td>Partial (optional)</td>
+      <td>Single line, 1 label</td>
+    </tr>
+    <tr>
+      <td>| — | (bar + bar)</td>
+      <td>Exactly one</td>
+      <td>Total (mandatory)</td>
+      <td>Double line, 1 label</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Regardless of notation, the goal of the ER diagram is to produce an unambiguous, communicable model that a developer, business analyst, or stakeholder can interpret correctly. Consistent use of notation conventions, meaningful entity and relationship names, clear role labels on recursive relationships, and accurate cardinality markings all contribute to a diagram that translates reliably into a well-structured relational database schema. A designer who is meticulous at this stage prevents a wide range of data integrity problems, redundant structures, and query complexity from arising later.</p>
+        <div class="notes"><strong>Notes</strong>Covers the full spectrum of relationship concepts in ER modeling: definition and naming, cardinality types (1:1, 1:N, M:N) with relational implementation implications, participation constraints (total/partial) and their mapping to NOT NULL and nullable foreign keys, relationship degree (unary/binary/ternary), recursive self-referencing relationships with SQL example, and both Chen and Crow&#39;s Foot notation conventions including a symbol reference table.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

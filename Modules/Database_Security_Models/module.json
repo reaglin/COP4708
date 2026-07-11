@@ -1,9 +1,9 @@
 {
   "Id": "fe246d88-7587-40b7-890e-dec285aaf62a",
-  "Name": "Database Security Models, Users, and Application Connections",
+  "Name": "15 - Database Security Models, Users, and Application Connections",
   "Description": "This lesson covers database security including user roles, permissions, authentication, and SQL injection prevention. Students will also learn how applications connect to databases using connection strings, ORM frameworks, and connection pooling best practices.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.7602626-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.7607838-04:00",
+  "LastModifiedDate": "2026-07-07T20:44:04.4936668-04:00",
   "Actions": []
 }

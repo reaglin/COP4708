@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Entity-Relationship (ER) Model</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>The Entity-Relationship (ER) Model</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>The Entity-Relationship (ER) Model</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>The <strong>Entity-Relationship (ER) model</strong> is one of the most widely used and enduring conceptual frameworks in database design. Introduced by Peter Chen in 1976, it provides a structured, intuitive way to describe the data requirements of a system before any physical database is built. Rather than thinking in terms of tables, rows, and columns — constructs that belong to a specific technology — the ER model lets designers and stakeholders reason about a problem domain in terms of the real-world objects that exist within it, the characteristics that describe those objects, and the meaningful connections between them. The result of this modeling exercise is an <strong>ER diagram (ERD)</strong>, a visual blueprint that documents the intended data structure in a form that both technical and non-technical participants can read and critique.</p>
+
+<p>Because the ER model is <em>technology-independent</em>, the same diagram can later be translated into a relational database, a document store, or virtually any other data management system. Its value lies entirely in capturing what data matters and how it is organized — not in how that data will ultimately be stored.</p>
+
+<p><strong>Entities are the core building blocks of every ER model.</strong> An entity represents a <em>category</em> or <em>type</em> of thing that is meaningful to the domain being modeled and about which data needs to be stored. It is critical to understand that an entity is not a single specific object; it is the class to which individual objects belong. A specific object belonging to an entity type is called an <strong>entity instance</strong>. For example, <em>Student</em> is an entity type, while the student named Maria Santos with student ID 10042 is one instance of that entity.</p>
+
+<p>Identifying entities requires a careful reading of the problem domain. A useful approach is to ask: <em>What distinct kinds of things does the system need to track?</em> Candidate entities often appear as nouns in business requirements documents — <em>Customer</em>, <em>Order</em>, <em>Product</em>, <em>Employee</em>, <em>Course</em>, <em>Invoice</em>. Not every noun qualifies, however; some nouns turn out to be attributes of other entities rather than independent entities in their own right. This distinction is resolved by checking whether the candidate object needs its own descriptive characteristics and whether it participates independently in relationships. In an ER diagram, entities are drawn as <strong>named rectangles</strong>, with the entity name written in uppercase or title case inside the rectangle.</p>
+
+<p><strong>Attributes describe entities</strong> by capturing the specific pieces of information worth recording for every instance of that entity. Taken together, an entity's attributes form a complete descriptive profile of that object type. For a <em>Student</em> entity, relevant attributes might include <em>StudentID</em>, <em>FirstName</em>, <em>LastName</em>, <em>DateOfBirth</em>, <em>Email</em>, and <em>GPA</em>. In an ER diagram, attributes are drawn as <strong>ovals</strong> connected to their entity by a straight line.</p>
+
+<p>Attributes come in several varieties, and recognizing these differences matters for both diagram accuracy and eventual database implementation:</p>
+
+<ul>
+  <li><strong>Simple (atomic) attributes</strong> hold a single, indivisible value. <em>DateOfBirth</em> is a simple attribute — it represents one date and cannot be split into logically independent sub-parts in a way that adds modeling value.</li>
+  <li><strong>Composite attributes</strong> are made up of smaller sub-attributes that each carry independent meaning. <em>Name</em> might be composite, decomposing into <em>FirstName</em>, <em>MiddleName</em>, and <em>LastName</em>. <em>Address</em> is another classic composite attribute, breaking into <em>Street</em>, <em>City</em>, <em>State</em>, and <em>PostalCode</em>. In the diagram, sub-attributes appear as additional ovals attached to the composite attribute oval.</li>
+  <li><strong>Multi-valued attributes</strong> can hold more than one value for a single entity instance. A <em>PhoneNumber</em> attribute on an <em>Employee</em> entity might need to store a mobile number, a work number, and a home number simultaneously. Multi-valued attributes are drawn with a <strong>double oval</strong> in the traditional ER notation. In a relational database, a multi-valued attribute typically warrants its own separate table.</li>
+  <li><strong>Derived attributes</strong> can be computed from other stored data and are drawn with a <strong>dashed oval</strong>. <em>Age</em> derived from <em>DateOfBirth</em>, or <em>TotalOrderValue</em> derived from line-item prices and quantities, are typical examples.</li>
+</ul>
+
+<p>Among all attributes, the <strong>key attribute</strong> occupies a special role: it is the attribute (or minimal combination of attributes) whose value <em>uniquely identifies</em> each instance of the entity. No two instances may share the same key value. <em>StudentID</em> uniquely identifies each student; <em>ISBN</em> uniquely identifies each book. In an ER diagram, the key attribute's name is <strong>underlined</strong> inside its oval to signal this distinguishing role. The key attribute corresponds directly to the primary key when the entity is later converted to a relational table.</p>
+
+<p><strong>Relationships connect entities</strong> and express the meaningful associations that exist between them in the real world. Just as entities model the nouns of a domain, relationships model the verbs — the actions or associations that link one type of object to another. A relationship is given a descriptive name, usually a verb or verb phrase, that makes the association immediately understandable. Examples include <em>TEACHES</em> (linking <em>Instructor</em> to <em>Course</em>), <em>ENROLLS IN</em> (linking <em>Student</em> to <em>Course</em>), and <em>PLACES</em> (linking <em>Customer</em> to <em>Order</em>).</p>
+
+<p>In an ER diagram, a relationship is drawn as a <strong>diamond shape</strong>, with the relationship name written inside. Lines extend from the diamond to each of the participating entity rectangles. The entities connected by a relationship are said to <em>participate</em> in that relationship.</p>
+
+<p>Most relationships are <strong>binary</strong> — they involve exactly two entity types. Occasionally a relationship involves three entity types simultaneously; this is called a <strong>ternary relationship</strong>. An example might be a <em>SUPPLIES</em> relationship among <em>Supplier</em>, <em>Part</em>, and <em>Project</em>, where the association only makes sense when all three entities are considered together. Ternary and higher-order relationships are less common but important to recognize when the semantics genuinely require them.</p>
+
+<p><strong>Cardinality constraints</strong> specify how many instances of one entity can be associated with how many instances of another through a given relationship. They are one of the most informative parts of an ER diagram because they encode critical business rules. The three fundamental cardinality ratios are:</p>
+
+<ul>
+  <li><strong>One-to-One (1:1):</strong> One instance of entity A is associated with at most one instance of entity B, and vice versa. Example: one <em>Employee</em> is assigned one <em>ParkingSpace</em>, and each parking space is assigned to at most one employee.</li>
+  <li><strong>One-to-Many (1:N):</strong> One instance of entity A is associated with many instances of entity B, but each instance of B is associated with at most one instance of A. Example: one <em>Department</em> employs many <em>Employees</em>, but each employee belongs to exactly one department. This is the most common cardinality in practice.</li>
+  <li><strong>Many-to-Many (M:N):</strong> Many instances of entity A can be associated with many instances of entity B. Example: many <em>Students</em> enroll in many <em>Courses</em>, and each course has many students enrolled in it.</li>
+</ul>
+
+<p><strong>Participation constraints</strong> express whether every instance of an entity <em>must</em> participate in a relationship or whether participation is optional. These are sometimes called <em>existence constraints</em>:</p>
+
+<ul>
+  <li><strong>Total participation</strong> means every instance of the entity must be involved in at least one relationship instance. It is drawn as a <strong>double line</strong> between the entity and the relationship diamond. Example: every <em>Order</em> must be placed by a <em>Customer</em> — an order cannot exist without an associated customer.</li>
+  <li><strong>Partial participation</strong> means some instances may exist without participating in the relationship. It is drawn as a <strong>single line</strong>. Example: not every <em>Employee</em> manages a department — most employees have no management role at all.</li>
+</ul>
+
+<p>Together, cardinality and participation constraints give a complete picture of the structural rules governing a relationship. The table below summarizes the key notational elements of a traditional ER diagram:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ER Component</th>
+      <th>Symbol / Notation</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Entity</td>
+      <td>Rectangle with entity name inside</td>
+      <td>STUDENT, COURSE, INSTRUCTOR</td>
+    </tr>
+    <tr>
+      <td>Attribute</td>
+      <td>Oval connected to entity by a line</td>
+      <td>StudentID, FirstName, GPA</td>
+    </tr>
+    <tr>
+      <td>Key attribute</td>
+      <td>Oval with underlined attribute name</td>
+      <td><u>StudentID</u>, <u>ISBN</u></td>
+    </tr>
+    <tr>
+      <td>Composite attribute</td>
+      <td>Oval with sub-ovals attached</td>
+      <td>Name → (FirstName, LastName)</td>
+    </tr>
+    <tr>
+      <td>Multi-valued attribute</td>
+      <td>Double oval</td>
+      <td>PhoneNumber, Skill</td>
+    </tr>
+    <tr>
+      <td>Derived attribute</td>
+      <td>Dashed oval</td>
+      <td>Age (derived from DateOfBirth)</td>
+    </tr>
+    <tr>
+      <td>Relationship</td>
+      <td>Diamond with relationship name inside</td>
+      <td>TEACHES, ENROLLS IN, PLACES</td>
+    </tr>
+    <tr>
+      <td>Cardinality (1:N)</td>
+      <td>"1" and "N" on connecting lines</td>
+      <td>One DEPARTMENT employs many EMPLOYEEs</td>
+    </tr>
+    <tr>
+      <td>Total participation</td>
+      <td>Double line between entity and diamond</td>
+      <td>Every ORDER must involve a CUSTOMER</td>
+    </tr>
+    <tr>
+      <td>Partial participation</td>
+      <td>Single line between entity and diamond</td>
+      <td>Some EMPLOYEEs manage a DEPARTMENT</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Good <strong>naming conventions</strong> are not merely cosmetic — they directly affect how readable and maintainable a diagram is over time. Standard practice uses <strong>singular nouns</strong> for entity names (<em>Student</em>, not <em>Students</em>; <em>Order</em>, not <em>Orders</em>), because an entity type describes one representative instance. Relationship names use <strong>active verb phrases</strong> that read naturally in the direction of the association (<em>TEACHES</em>, <em>MANAGES</em>, <em>BELONGS TO</em>). Attribute names are kept concise but descriptive, and consistent capitalization styles are applied throughout the diagram. When a relationship name is directional by nature, a reading direction arrow is sometimes added to the diagram to eliminate ambiguity.</p>
+
+<p>To see these concepts working together, consider a simplified university registration domain. The key entities are <em>Student</em>, <em>Course</em>, and <em>Instructor</em>. The <em>Student</em> entity has attributes <em>StudentID</em> (key), <em>Name</em> (composite: <em>FirstName</em>, <em>LastName</em>), <em>Email</em>, and <em>DateOfBirth</em> (with derived <em>Age</em>). The <em>Course</em> entity has <em>CourseID</em> (key), <em>Title</em>, <em>Credits</em>, and <em>Description</em>. The <em>Instructor</em> entity has <em>InstructorID</em> (key), <em>Name</em>, and <em>OfficeNumber</em>. Between <em>Student</em> and <em>Course</em> exists an <em>ENROLLS IN</em> relationship with M:N cardinality — many students can enroll in many courses. Between <em>Instructor</em> and <em>Course</em> exists a <em>TEACHES</em> relationship with 1:N cardinality — one instructor teaches many courses. Every <em>Course</em> must have an instructor (total participation on the <em>Course</em> side), but not every instructor is currently teaching a course (partial participation on the <em>Instructor</em> side).</p>
+
+<p><strong>The ER model plays a foundational role in the database design process.</strong> Designing the ER diagram before writing a single line of SQL forces designers to think carefully about the data itself — its structure, its rules, and its boundaries — rather than jumping prematurely into implementation details. Errors in data structure that are caught at the ER diagram stage are inexpensive to fix: changing a label on a diagram takes seconds. The same error discovered after tables have been built, populated, and integrated into application code can require days of refactoring.</p>
+
+<p>The ERD is also an exceptionally effective <strong>communication tool</strong>. Business analysts, domain experts, and managers who have no knowledge of SQL can look at a well-drawn ER diagram and immediately recognize whether the entities match the real-world objects they work with and whether the relationships reflect actual business rules. This shared understanding is invaluable for catching misinterpretations early and for securing sign-off before implementation begins.</p>
+
+<p>Once the ER model has been reviewed, validated, and agreed upon by all stakeholders, it becomes the direct input to the next stage of database design: <strong>logical design</strong>, where the ER diagram is systematically translated into a relational schema. Entities become tables, key attributes become primary keys, and relationships are implemented through foreign keys or junction tables (in the case of M:N relationships). Every structural decision made in the ER model carries forward into the physical database, which is why investing care and rigor in the ER modeling phase pays dividends throughout the entire lifecycle of the system.</p>
+        <div class="notes"><strong>Notes</strong>Topic covers all listed subtopics: ER model definition and purpose, entities and instances, attributes (simple, composite, multi-valued, derived, key), relationships (binary, ternary, naming), cardinality (1:1, 1:N, M:N) and participation constraints (total, partial), standard ER diagram notation and naming conventions, and the role of the ER model in the database design workflow. A summary table of notation is included for reference.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

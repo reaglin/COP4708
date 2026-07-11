@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boyce-Codd Normal Form (BCNF)</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Boyce-Codd Normal Form (BCNF)</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Boyce-Codd Normal Form (BCNF)</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Boyce-Codd Normal Form (BCNF) is one of the most important normalization standards in relational database design. It was introduced by Raymond Boyce and Edgar Codd in 1974 as a refinement of Third Normal Form (3NF), designed to close certain loopholes that 3NF leaves open. While 3NF significantly reduces data redundancy and anomalies, it does not eliminate all problematic functional dependencies — particularly those involving prime attributes (attributes that participate in at least one candidate key). BCNF addresses this gap by imposing a single, clean, uncompromising rule: for every non-trivial functional dependency in a relation, the left-hand side must be a superkey. Understanding BCNF requires a solid grasp of functional dependencies, candidate keys, and superkeys, as well as the practical trade-offs that arise when decomposing schemas to meet its requirements.</p>
+
+<p><strong>What is BCNF and How Does It Differ from 3NF?</strong></p>
+
+<p>To appreciate BCNF, it helps to recall what 3NF permits. A relation is in 3NF if every non-trivial functional dependency X → Y satisfies at least one of the following: X is a superkey, or Y consists entirely of prime attributes. That second condition is the escape clause. It means a relation can be in 3NF even if some non-superkey set of attributes determines a prime attribute, as long as no non-prime attribute is transitively dependent on a non-superkey. This escape clause can lead to residual redundancy in relations that have multiple overlapping candidate keys.</p>
+
+<p>BCNF removes that escape clause entirely. A relation is in BCNF if and only if for every non-trivial functional dependency X → Y, X is a superkey of the relation — full stop. There is no secondary condition about prime attributes. This makes BCNF a strictly stronger requirement than 3NF: every relation in BCNF is automatically in 3NF, but a relation in 3NF is not necessarily in BCNF. The cases where 3NF and BCNF diverge are precisely those relations with multiple overlapping candidate keys where one candidate key (or part of it) functionally determines attributes in another candidate key.</p>
+
+<p>BCNF provides a stronger guarantee against update anomalies (inconsistencies when changing a value stored redundantly), insertion anomalies (inability to record certain facts without other unrelated facts), and deletion anomalies (unintended loss of information when deleting a row). For example, if a non-superkey set of attributes determines some prime attribute and that fact is repeated across many rows, updating it in one row but not others creates an inconsistency — exactly the kind of anomaly BCNF is designed to prevent.</p>
+
+<p><strong>Formal Definition of BCNF</strong></p>
+
+<p>The formal definition is concise: a relation R with a set of functional dependencies F is in BCNF if and only if for every non-trivial functional dependency X → Y that holds in R, X is a superkey of R.</p>
+
+<p>Breaking this down:</p>
+<ul>
+  <li><strong>Non-trivial functional dependency:</strong> A functional dependency X → Y is trivial if Y ⊆ X (i.e., the right-hand side is a subset of the left-hand side). Trivial dependencies are always true by definition and carry no information, so they are exempt from the BCNF requirement. For example, {StudentID, CourseID} → {StudentID} is trivial and irrelevant to BCNF analysis.</li>
+  <li><strong>Superkey:</strong> A set of attributes X is a superkey of R if X functionally determines all attributes of R — in other words, no two distinct tuples in any valid instance of R can agree on all attributes in X. Every candidate key is a superkey, but a superkey may contain extra attributes beyond the minimal set needed to uniquely identify a row.</li>
+  <li><strong>Scope of the rule:</strong> The rule applies to every non-trivial FD, regardless of whether the attributes on the right-hand side are prime (part of a candidate key) or non-prime. This is the critical distinction from 3NF.</li>
+</ul>
+
+<p>Consider a simple example. Suppose a relation <em>Enrollment(StudentID, CourseID, InstructorID)</em> has the following functional dependencies:</p>
+<ul>
+  <li>{StudentID, CourseID} → {InstructorID} — each student in a course is taught by one instructor</li>
+  <li>{InstructorID} → {CourseID} — each instructor teaches exactly one course</li>
+</ul>
+
+<p>The candidate keys here are {StudentID, CourseID} and {StudentID, InstructorID}, because either pair uniquely identifies an enrollment tuple. Now examine the FD {InstructorID} → {CourseID}. Is {InstructorID} a superkey? No — knowing the instructor alone does not tell us which student we are talking about, so it cannot uniquely identify a tuple in Enrollment. Yet {InstructorID} → {CourseID} is a non-trivial FD. This is a BCNF violation. Notice that CourseID is a prime attribute (it participates in the candidate key {StudentID, CourseID}), so 3NF's escape clause would allow this dependency — meaning this relation can be in 3NF but is not in BCNF.</p>
+
+<p><strong>Identifying BCNF Violations</strong></p>
+
+<p>To check whether a relation is in BCNF, follow a systematic procedure:</p>
+<ul>
+  <li><strong>Step 1 — Enumerate all functional dependencies:</strong> Start with the given FDs and compute the closure of each subset of attributes to find all implied FDs. In practice, working with the minimal cover (canonical cover) of FDs is efficient, but you must be careful not to miss any FD that can be derived by Armstrong's axioms (reflexivity, augmentation, transitivity).</li>
+  <li><strong>Step 2 — Identify all candidate keys:</strong> A candidate key is a minimal superkey — a minimal set of attributes whose closure equals the full set of attributes in the relation. Finding all candidate keys is crucial because an attribute's prime/non-prime status depends on whether it appears in any candidate key.</li>
+  <li><strong>Step 3 — Test each non-trivial FD:</strong> For each non-trivial FD X → Y, compute the closure of X. If the closure equals the full set of attributes in R, then X is a superkey and the FD satisfies BCNF. If the closure does not include all attributes, X is not a superkey and you have found a BCNF violation.</li>
+  <li><strong>Step 4 — Conclude:</strong> A single violating FD is sufficient to declare the entire relation not in BCNF. You do not need to find all violations before taking action, but finding them all helps in planning the decomposition.</li>
+</ul>
+
+<p>BCNF violations are especially common in relations with multiple overlapping candidate keys. Consider a university scheduling relation <em>Schedule(Room, Period, Course, Instructor)</em> with these FDs:</p>
+<ul>
+  <li>{Room, Period} → {Course, Instructor}</li>
+  <li>{Instructor, Period} → {Room, Course}</li>
+  <li>{Course, Period} → {Room, Instructor}</li>
+  <li>{Instructor} → {Course} — each instructor teaches only one course</li>
+</ul>
+
+<p>The candidate keys are {Room, Period}, {Instructor, Period}, and {Course, Period}. The FD {Instructor} → {Course} is non-trivial. Is {Instructor} a superkey? Its closure is {Instructor, Course} — it does not determine Room or Period. Therefore {Instructor} is not a superkey, and this relation violates BCNF. Note that Course is a prime attribute (it appears in the candidate key {Course, Period}), so 3NF's escape clause would save this relation — it can be in 3NF — but it fails BCNF. The redundancy is real: if an instructor teaches Chemistry, that fact (Instructor → Course = Chemistry) is repeated once for every room-period combination in which that instructor is scheduled, creating update anomalies.</p>
+
+<p><strong>Decomposing a Schema to Achieve BCNF</strong></p>
+
+<p>When a BCNF violation is found, the relation must be decomposed into two or more smaller relations. The decomposition algorithm works as follows:</p>
+<ul>
+  <li><strong>Step 1:</strong> Identify a violating non-trivial FD X → Y where X is not a superkey of the current relation R.</li>
+  <li><strong>Step 2:</strong> Create a new relation R1 consisting of the attributes X ∪ Y. The set X serves as the key (or at least a superkey) of R1. By construction, in R1 the FD X → Y holds and X is a superkey, so R1 is in BCNF with respect to this FD.</li>
+  <li><strong>Step 3:</strong> Create a new relation R2 consisting of the attributes of R minus the attributes in (Y − X). In other words, remove from R the attributes determined by X that are not in X itself, but keep X in R2 so it can serve as a foreign key reference back to R1.</li>
+  <li><strong>Step 4:</strong> Recursively check R1 and R2 for further BCNF violations and repeat the process until all resulting relations are in BCNF.</li>
+</ul>
+
+<p>Returning to the Enrollment example: R = {StudentID, CourseID, InstructorID} with violating FD {InstructorID} → {CourseID}.</p>
+<ul>
+  <li>X = {InstructorID}, Y = {CourseID}</li>
+  <li>R1 = X ∪ Y = {InstructorID, CourseID} — this table records which course each instructor teaches; InstructorID is the key.</li>
+  <li>R2 = R − (Y − X) = {StudentID, CourseID, InstructorID} − {CourseID} = {StudentID, InstructorID} — this table records which instructor each student is assigned to; {StudentID, InstructorID} is the key.</li>
+</ul>
+
+<p>Now check R1 ({InstructorID, CourseID}): the only non-trivial FD is {InstructorID} → {CourseID}, and InstructorID is a superkey of R1. R1 is in BCNF. Check R2 ({StudentID, InstructorID}): no non-trivial FD exists other than the key {StudentID, InstructorID} → everything, and the relation has no redundancy. R2 is in BCNF. The decomposition is complete.</p>
+
+<p>A slightly more involved example using the Schedule relation above, focusing on the FD {Instructor} → {Course}:</p>
+<ul>
+  <li>R = {Room, Period, Course, Instructor}</li>
+  <li>Violating FD: {Instructor} → {Course}</li>
+  <li>R1 = {Instructor, Course} with key {Instructor}</li>
+  <li>R2 = {Room, Period, Instructor} — removing Course from the original relation but keeping Instructor as the link</li>
+</ul>
+
+<p>Check R2 ({Room, Period, Instructor}): the FDs {Room, Period} → {Instructor} and {Instructor, Period} → {Room} both hold. The candidate keys are {Room, Period} and {Instructor, Period}. No non-trivial FD in R2 has a non-superkey left-hand side, so R2 is in BCNF. The schema {Instructor, Course} and {Room, Period, Instructor} is now fully in BCNF.</p>
+
+<p><strong>Lossless Decomposition and the BCNF Trade-off</strong></p>
+
+<p>A fundamental requirement of any valid decomposition is that it be <em>lossless-join</em> (also called lossless). A decomposition of relation R into relations R1 and R2 is lossless if and only if the natural join of R1 and R2 always reconstructs exactly R — no spurious (extra, incorrect) tuples are introduced and no original tuples are lost. Spurious tuples are dangerous because they represent facts that were never stored in the original relation, polluting query results.</p>
+
+<p>For a binary decomposition into R1 and R2, the decomposition is guaranteed to be lossless if and only if at least one of the following holds:</p>
+<ul>
+  <li>The attributes common to R1 and R2 (i.e., R1 ∩ R2) form a superkey of R1, or</li>
+  <li>The attributes common to R1 and R2 form a superkey of R2.</li>
+</ul>
+
+<p>The BCNF decomposition algorithm is specifically designed to satisfy this condition. When we decompose using X → Y (where X is not a superkey of R), the common attributes between R1 = X ∪ Y and R2 = R − (Y − X) are exactly the attributes in X. Since X is the key of R1, the condition is satisfied and the decomposition is lossless.</p>
+
+<p>However, BCNF decomposition does <em>not</em> always preserve functional dependencies. Dependency preservation means that every original FD can be checked within a single resulting relation (or enforced without performing joins). When a BCNF decomposition splits the attributes of a functional dependency across two different result relations, that FD can only be enforced by joining the relations together first — an expensive operation that may be impractical in a high-throughput system.</p>
+
+<p>This is the central trade-off of BCNF: it guarantees lossless decomposition but not dependency preservation. 3NF is the highest normal form that always guarantees both. When a schema cannot simultaneously achieve BCNF and preserve all dependencies, the database designer must make a deliberate choice:</p>
+<ul>
+  <li>Accept BCNF and enforce non-preserved dependencies through application logic, triggers, or periodic integrity checks (accepting a possible performance cost at constraint-checking time).</li>
+  <li>Accept 3NF and tolerate the residual redundancy and anomalies it permits (accepting a possible data integrity risk).</li>
+  <li>Use a hybrid approach: decompose as far as possible toward BCNF while tracking which dependencies are lost and implementing compensating mechanisms.</li>
+</ul>
+
+<p>The following table summarizes the key properties of 3NF and BCNF side by side:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>3NF</th>
+      <th>BCNF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Eliminates partial dependencies</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Eliminates transitive dependencies on non-prime attributes</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Eliminates FDs where determinant is not a superkey</td>
+      <td>No (allows if dependent is prime)</td>
+      <td>Yes (no exceptions)</td>
+    </tr>
+    <tr>
+      <td>Guarantees lossless decomposition</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Guarantees dependency preservation</td>
+      <td>Yes</td>
+      <td>Not always</td>
+    </tr>
+    <tr>
+      <td>Handles overlapping candidate keys fully</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Strictness</td>
+      <td>Less strict</td>
+      <td>Stricter</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>When 3NF is Insufficient and BCNF is Needed</strong></p>
+
+<p>In most straightforward database schemas — those where relations have a single candidate key — 3NF and BCNF are equivalent. The difference only manifests in relations with multiple overlapping candidate keys. This is a scenario that arises frequently in many-to-many relationships with additional constraints, scheduling systems, course-instructor-room assignments, and similar domains.</p>
+
+<p>The distinguishing scenario works as follows. Suppose a relation has candidate keys K1 and K2 that share some attributes. An attribute in K1 might be functionally determined by part of K2 or by some other subset of attributes that is not a superkey. Because that attribute is prime (it is part of K1), 3NF's second condition saves the relation — the FD is permissible under 3NF. But BCNF looks only at whether the determinant is a superkey, regardless of what is being determined, so BCNF flags the same FD as a violation.</p>
+
+<p>The practical implication is real redundancy. In the Enrollment example, the fact "Instructor Jones teaches Database Systems" is stored once per student enrolled with Jones, rather than once in a separate table. If Jones switches to teaching Algorithms, every row must be updated. Miss one row and the database becomes inconsistent. BCNF's decomposition eliminates this by isolating the Instructor → Course fact in its own table, where it appears exactly once.</p>
+
+<p>Recognizing these edge cases requires thorough analysis:</p>
+<ul>
+  <li>Compute the full set of functional dependencies (or at least the minimal cover) — do not rely solely on the FDs as stated in a specification, because additional FDs may be implied by transitivity or augmentation.</li>
+  <li>Identify <em>all</em> candidate keys — not just the most obvious one. A relation with three attributes can sometimes have two or three candidate keys, each overlapping the others.</li>
+  <li>Explicitly check every non-trivial FD against the superkey condition rather than relying on intuition.</li>
+</ul>
+
+<p>Applying BCNF in situations where 3NF falls short produces a schema with minimal redundancy, cleaner update semantics, and more predictable integrity behavior. The cost — potential loss of dependency preservation — is real but manageable with careful application design. Understanding when and why to apply BCNF is a hallmark of mature database design practice.</p>
+        <div class="notes"><strong>Notes</strong>The Enrollment(StudentID, CourseID, InstructorID) example is a classic illustration of a schema that satisfies 3NF but not BCNF. Instructors may wish to walk through the closure computations step by step to reinforce the candidate key identification process, which is often where students make errors. The lossless decomposition guarantee relies on the shared attributes forming a superkey in one of the resulting relations — emphasizing this point helps students avoid incorrect decompositions. The trade-off table can be used as a quick reference in assessments.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

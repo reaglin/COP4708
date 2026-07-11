@@ -1,9 +1,9 @@
 {
   "Id": "4add2244-1d94-41ca-a0b5-cad4e54d17c7",
-  "Name": "Normalization, Denormalization, and Practical Database Design",
+  "Name": "12 - Normalization, Denormalization, and Practical Database Design",
   "Description": "This lesson revisits normalization in a practical context and introduces denormalization as a deliberate performance optimization strategy. Students will learn to balance theoretical purity with real-world performance needs when designing production databases.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.737493-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.7388275-04:00",
+  "LastModifiedDate": "2026-07-07T20:43:27.4872419-04:00",
   "Actions": []
 }

@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foreign Keys and Referential Integrity</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Foreign Keys and Referential Integrity</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Foreign Keys and Referential Integrity</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>In a relational database, data is deliberately spread across multiple tables to reduce redundancy and keep each table focused on a single subject. The power of this design, however, depends entirely on the ability to <em>connect</em> those tables in a reliable and consistent way. Foreign keys are the mechanism that makes those connections formal and enforceable. A <strong>foreign key</strong> is a column, or a set of columns, in one table whose values correspond to the values of a primary key (or unique key) in another table. By declaring a foreign key constraint, you instruct the database engine to guarantee that any value stored in the foreign key column actually exists in the referenced table — and that no action will silently break that guarantee.</p>
+
+<p>This kind of guarantee is called <strong>referential integrity</strong>, and it is one of the foundational rules of the relational model. Without it, rows in a child table could point to parent rows that no longer exist — so-called "orphan" records — leading to corrupted query results, broken application logic, and data that cannot be trusted. Understanding foreign keys therefore means understanding not just the syntax to define them, but the full lifecycle of constraints: what they prevent, what automatic actions they can trigger, and how NULL values interact with them.</p>
+
+<p><strong>What Is a Foreign Key?</strong></p>
+
+<p>A foreign key is defined in the context of a relationship between two tables. Consider a classic example: an <code>orders</code> table and a <code>customers</code> table. Every order belongs to exactly one customer, so the <code>orders</code> table stores a <code>customer_id</code> column whose value must match an existing <code>customer_id</code> in the <code>customers</code> table. The <code>customer_id</code> in <code>orders</code> is the foreign key.</p>
+
+<p>Several key properties define how foreign keys behave:</p>
+
+<ul>
+  <li><strong>No uniqueness requirement on the referencing side.</strong> Unlike a primary key, a foreign key column does not need to hold unique values. Many rows in the <code>orders</code> table can share the same <code>customer_id</code> — this is precisely how a one-to-many relationship is expressed. Customer 42 can appear in hundreds of order rows; that is entirely valid. The uniqueness requirement belongs to the <em>parent</em> table's primary key, not to the child's foreign key.</li>
+  <li><strong>Child table and parent table roles.</strong> The table that <em>contains</em> the foreign key is called the <strong>child table</strong> (also called the referencing table). The table whose primary key is being pointed to is the <strong>parent table</strong> (also called the referenced table). In the example above, <code>orders</code> is the child and <code>customers</code> is the parent. Deletions and updates on the parent side are the operations that most directly stress referential integrity, because removing a parent row can leave child rows without a valid reference.</li>
+  <li><strong>Composite foreign keys.</strong> When a parent table's primary key spans more than one column — a composite primary key — the foreign key must mirror that structure exactly. If a <code>shipments</code> table references a <code>warehouse_inventory</code> table whose primary key is <code>(warehouse_id, product_id)</code>, then the <code>shipments</code> table must carry both a <code>warehouse_id</code> and a <code>product_id</code> column, declared together as a single composite foreign key. The number of columns, their order, and their data types must all match.</li>
+</ul>
+
+<p><strong>Defining a Foreign Key Constraint in SQL</strong></p>
+
+<p>Foreign key constraints can be written either inline within a <code>CREATE TABLE</code> statement or added to an existing table with <code>ALTER TABLE</code>. Both approaches produce identical constraints at the database level.</p>
+
+<p>The most common pattern — declaring the constraint at table creation — looks like this:</p>
+
+<pre><code>CREATE TABLE customers (
+    customer_id   INT          PRIMARY KEY,
+    full_name     VARCHAR(100) NOT NULL,
+    email         VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE orders (
+    order_id      INT          PRIMARY KEY,
+    order_date    DATE         NOT NULL,
+    customer_id   INT          NOT NULL,
+    CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers (customer_id)
+);</code></pre>
+
+<p>Breaking down the syntax:</p>
+
+<ul>
+  <li><strong>CONSTRAINT fk_orders_customer</strong> gives the constraint a meaningful name. Naming constraints is optional in some databases but strongly recommended because it makes error messages and future <code>ALTER TABLE</code> operations far easier to read and maintain.</li>
+  <li><strong>FOREIGN KEY (customer_id)</strong> identifies the column in the <em>child</em> table that holds the foreign key values.</li>
+  <li><strong>REFERENCES customers (customer_id)</strong> uses the <code>REFERENCES</code> keyword to name the <em>parent</em> table and, in parentheses, the specific column being referenced. The referenced column must be the primary key or a unique key of the parent table.</li>
+</ul>
+
+<p>If the table already exists and you need to add the constraint later, the <code>ALTER TABLE ... ADD CONSTRAINT</code> syntax is used:</p>
+
+<pre><code>ALTER TABLE orders
+    ADD CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers (customer_id);</code></pre>
+
+<p>One critical rule applies in both cases: <strong>the data types of the foreign key column and the referenced primary key column must be compatible</strong>. An <code>INT</code> foreign key referencing an <code>INT</code> primary key works perfectly. Mixing <code>INT</code> with <code>VARCHAR</code>, or signed with unsigned integers, will cause the database to reject the constraint definition. This type-compatibility requirement is not just a syntax rule — it reflects the logical requirement that comparison between the two columns must be meaningful.</p>
+
+<p>For a composite example, suppose a parent table uses a two-column primary key:</p>
+
+<pre><code>CREATE TABLE warehouse_inventory (
+    warehouse_id  INT         NOT NULL,
+    product_id    INT         NOT NULL,
+    quantity      INT         NOT NULL,
+    PRIMARY KEY (warehouse_id, product_id)
+);
+
+CREATE TABLE shipments (
+    shipment_id   INT         PRIMARY KEY,
+    warehouse_id  INT         NOT NULL,
+    product_id    INT         NOT NULL,
+    units_shipped INT         NOT NULL,
+    CONSTRAINT fk_shipments_inventory
+        FOREIGN KEY (warehouse_id, product_id)
+        REFERENCES warehouse_inventory (warehouse_id, product_id)
+);</code></pre>
+
+<p>Notice that the column order inside <code>FOREIGN KEY (...)</code> and <code>REFERENCES ... (...)</code> must correspond positionally — the first column maps to the first, the second to the second, and so on.</p>
+
+<p><strong>Understanding Referential Integrity</strong></p>
+
+<p>Referential integrity is the rule that every non-NULL foreign key value in a child table must match an existing primary key value in the parent table. The database enforces this rule automatically on every data-modification operation that could threaten it. There are two directions in which integrity can be violated, and the constraint guards against both.</p>
+
+<ul>
+  <li><strong>INSERT and UPDATE on the child table.</strong> If an application tries to insert a row into <code>orders</code> with a <code>customer_id</code> of 999, but no customer with that ID exists in <code>customers</code>, the database raises an error and rejects the operation. The same applies to an <code>UPDATE</code> that would change a <code>customer_id</code> to a non-existent value. This prevents orphaned child rows from being created in the first place.</li>
+  <li><strong>DELETE and UPDATE on the parent table.</strong> If a customer with <code>customer_id = 5</code> has associated orders in the <code>orders</code> table, a plain <code>DELETE FROM customers WHERE customer_id = 5</code> would leave those order rows pointing at a customer that no longer exists. By default, the database blocks this operation. The same applies to an <code>UPDATE</code> that changes the primary key value of the parent row — the child rows would still hold the old value.</li>
+</ul>
+
+<p>Enforcing referential integrity consistently across all tables ensures that JOIN queries produce meaningful, accurate results, that application-level assumptions about data relationships hold true, and that analytical reports built on the database reflect reality rather than artifacts of incomplete data management.</p>
+
+<p><strong>Referential Actions: ON DELETE and ON UPDATE</strong></p>
+
+<p>The default behavior when a parent row is deleted or its primary key is updated is to <em>block</em> the operation if child rows exist. This is often appropriate, but there are many real-world scenarios where a different automatic response is more useful. SQL allows you to declare a <strong>referential action</strong> that the database should take automatically. These actions are appended to the foreign key definition using the <code>ON DELETE</code> and <code>ON UPDATE</code> clauses.</p>
+
+<pre><code>CONSTRAINT fk_orders_customer
+    FOREIGN KEY (customer_id)
+    REFERENCES customers (customer_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE</code></pre>
+
+<p>The four standard referential actions are:</p>
+
+<ul>
+  <li><strong>CASCADE.</strong> When the parent row is deleted, all matching child rows are automatically deleted as well. When the parent's primary key is updated, the foreign key in all matching child rows is automatically updated to the new value. CASCADE is useful when child records have no meaning without their parent — for example, deleting an <code>invoice</code> should probably also delete all its <code>invoice_line_items</code>. It can, however, trigger large cascading deletes across many rows and even chain through multiple levels of foreign keys, so it must be used thoughtfully.</li>
+  <li><strong>SET NULL.</strong> When the parent row is deleted or updated, the foreign key column in the matching child rows is set to <code>NULL</code>. This is appropriate when the relationship is optional — for instance, if an employee's department is dissolved, the employee record might set <code>department_id = NULL</code> rather than being deleted. The foreign key column must be defined to allow NULL values for this action to work.</li>
+  <li><strong>RESTRICT / NO ACTION.</strong> These prevent the delete or update on the parent row entirely if matching child rows exist, raising an error instead. The distinction between <code>RESTRICT</code> and <code>NO ACTION</code> is subtle and database-specific: in most systems, both produce the same immediate error, but <code>NO ACTION</code> can be deferred in databases that support deferred constraint checking (meaning the check happens at the end of a transaction rather than immediately). When neither action clause is specified, the default behavior is equivalent to <code>RESTRICT</code> or <code>NO ACTION</code>.</li>
+  <li><strong>SET DEFAULT.</strong> When the parent row is deleted or updated, the foreign key column in the child rows is set to the column's declared default value. This requires that the column has a meaningful default and, in strict implementations, that the default value itself is a valid key in the parent table. Support for <code>SET DEFAULT</code> varies by database system — PostgreSQL supports it, while MySQL/InnoDB does not.</li>
+</ul>
+
+<p>These actions can be combined independently for delete and update events:</p>
+
+<pre><code>CONSTRAINT fk_orders_customer
+    FOREIGN KEY (customer_id)
+    REFERENCES customers (customer_id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE</code></pre>
+
+<p>This would cascade key updates (keeping child rows synchronized if a customer's ID changes) while setting the foreign key to NULL if the customer record is deleted outright.</p>
+
+<p>The table below summarizes what each referential action does in response to parent-side operations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>When Parent Row Is Deleted</th>
+      <th>When Parent Primary Key Is Updated</th>
+      <th>NULL Allowed in FK?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CASCADE</td>
+      <td>Child rows are automatically deleted</td>
+      <td>Child FK values are automatically updated</td>
+      <td>Not required</td>
+    </tr>
+    <tr>
+      <td>SET NULL</td>
+      <td>Child FK columns are set to NULL</td>
+      <td>Child FK columns are set to NULL</td>
+      <td>Required</td>
+    </tr>
+    <tr>
+      <td>RESTRICT</td>
+      <td>Operation is blocked immediately</td>
+      <td>Operation is blocked immediately</td>
+      <td>Not required</td>
+    </tr>
+    <tr>
+      <td>NO ACTION</td>
+      <td>Operation is blocked (may be deferred)</td>
+      <td>Operation is blocked (may be deferred)</td>
+      <td>Not required</td>
+    </tr>
+    <tr>
+      <td>SET DEFAULT</td>
+      <td>Child FK columns are set to their default</td>
+      <td>Child FK columns are set to their default</td>
+      <td>Depends on default</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Foreign Keys and NULL Values</strong></p>
+
+<p>A NULL value stored in a foreign key column is a special case. By definition, NULL means "unknown" or "not applicable," and the database treats a NULL foreign key as meaning "this row has no parent at this time." Because there is no value to check, a NULL foreign key is <em>not</em> considered a referential integrity violation. The database will accept the row without checking the parent table.</p>
+
+<ul>
+  <li><strong>NULL as an optional relationship.</strong> This behavior is intentional and useful. Consider an <code>employees</code> table with a <code>manager_id</code> foreign key referencing <code>employees (employee_id)</code> — a self-referential relationship. The CEO of a company has no manager, so their <code>manager_id</code> should be NULL. Requiring a non-NULL value for every employee's manager would make it impossible to store the top of the hierarchy.</li>
+  <li><strong>Making a relationship mandatory.</strong> If every row in the child table <em>must</em> be associated with a parent, define the foreign key column with a <code>NOT NULL</code> constraint. This forces every inserted or updated row to supply a valid foreign key value, and in combination with the foreign key constraint, ensures both that a value is present and that it exists in the parent table.</li>
+  <li><strong>Flexibility through optional associations.</strong> Allowing NULLs in foreign key columns models scenarios where an association is possible but not required. An <code>orders</code> table might have a <code>promo_code_id</code> foreign key referencing a <code>promo_codes</code> table. Most orders may have no promotion applied, making NULL the normal case for that column, while the foreign key constraint still ensures that when a promo code ID <em>is</em> entered, it corresponds to a real promotion record.</li>
+</ul>
+
+<pre><code>-- Mandatory relationship: every order must have a customer
+ALTER TABLE orders
+    MODIFY customer_id INT NOT NULL;
+
+-- Optional relationship: an order may or may not have a promo code
+ALTER TABLE orders
+    ADD COLUMN promo_code_id INT NULL,
+    ADD CONSTRAINT fk_orders_promo
+        FOREIGN KEY (promo_code_id)
+        REFERENCES promo_codes (promo_code_id)
+        ON DELETE SET NULL;</code></pre>
+
+<p><strong>Foreign Keys vs. Primary Keys: Roles in Relationships</strong></p>
+
+<p>Primary keys and foreign keys serve complementary but distinct roles. A primary key <em>identifies</em> a row uniquely within its own table. A foreign key <em>references</em> a primary key in another table, establishing a directional link between the two. Several important distinctions emerge from these roles:</p>
+
+<ul>
+  <li><strong>One primary key, many foreign keys.</strong> Every table can have at most one primary key (though that key may be composite). The same table can, however, carry any number of foreign keys, each pointing to a different parent table. An <code>orders</code> table might simultaneously have foreign keys referencing <code>customers</code>, <code>products</code>, <code>sales_reps</code>, and <code>shipping_addresses</code>. Each foreign key formalizes a separate relationship with a separate parent.</li>
+  <li><strong>Foreign keys as the engine of JOIN operations.</strong> When you write a JOIN query, you are typically matching a foreign key column in the child table against the primary key column in the parent table. The foreign key constraint does not make JOIN queries syntactically mandatory — you could join on any column — but it documents and enforces the <em>intended</em> join relationship. Query optimizers in modern database engines also use foreign key metadata to make smarter execution plan decisions.</li>
+</ul>
+
+<pre><code>-- Joining orders to customers using the foreign key relationship
+SELECT
+    o.order_id,
+    o.order_date,
+    c.full_name,
+    c.email
+FROM orders o
+JOIN customers c
+    ON o.customer_id = c.customer_id
+WHERE o.order_date >= '2024-01-01';</code></pre>
+
+<ul>
+  <li><strong>Formalizing the ER model in SQL.</strong> When database designers draw an entity-relationship (ER) diagram, they describe entities (customers, products, orders) and the relationships among them (a customer places orders, an order contains products). Primary keys represent the entity identifiers in that diagram. Foreign keys are the SQL implementation of the relationship lines. Together, the two constraint types translate an abstract conceptual model into a concrete, enforced database schema. This alignment between the ER model and the physical schema is what makes relational databases predictable, self-documenting, and auditable.</li>
+</ul>
+
+<p>The practical consequence of understanding both constraint types together is that you can read a schema's table definitions and immediately understand the data model it encodes: which tables are parents, which are children, which relationships are mandatory, which are optional, and what happens when data is removed. This transparency is a hallmark of well-designed relational databases.</p>
+        <div class="notes"><strong>Notes</strong>The composite foreign key example uses a warehouse/shipments scenario to make the multi-column mapping concrete. The referential actions table provides a quick comparison reference. The NULL section uses both a self-referential (employees/manager) and an optional-association (promo codes) scenario to illustrate the two main use cases for nullable foreign keys.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

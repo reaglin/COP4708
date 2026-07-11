@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Roles and Permissions</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>User Roles and Permissions</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>User Roles and Permissions</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>Every database system that stores sensitive or critical information must answer a fundamental question: <em>who is allowed to do what?</em> The answer lives in the system of user roles and permissions — a layered architecture of accounts, privileges, and access-control policies that determines which people, applications, and services can read, write, modify, or administer data. Getting this architecture right is one of the most consequential decisions in database security. A well-designed permission model limits the blast radius of a compromised credential, makes auditing straightforward, and enforces organizational policies automatically. A poorly designed one — built on shared passwords, over-broad privileges, and undocumented role assignments — can turn a single stolen credential into a catastrophic breach. This topic examines every layer of that architecture in depth.</p>
+
+<p><strong>Creating and Managing Database Users</strong></p>
+
+<p>A database user account is the foundational identity unit in any access-control system. At its most basic level, a user account is a named principal that the database engine recognizes and to which it can attach privileges. Most SQL-compliant databases create users with a variant of the <code>CREATE USER</code> statement:</p>
+
+<pre><code>-- PostgreSQL example
+CREATE USER alice WITH PASSWORD 'Str0ng!Pass#2024';
+
+-- SQL Server example
+CREATE LOGIN alice WITH PASSWORD = 'Str0ng!Pass#2024';
+CREATE USER alice FOR LOGIN alice;
+
+-- Oracle example
+CREATE USER alice IDENTIFIED BY "Str0ng!Pass#2024"
+  DEFAULT TABLESPACE users
+  QUOTA 100M ON users;</code></pre>
+
+<p>The syntax differs across platforms, but the intent is the same: establish a named identity that the engine can authenticate before granting any access at all.</p>
+
+<p>A critical design principle is that <strong>each user account should correspond to exactly one person, application, or service</strong>. This one-to-one mapping makes it possible to answer questions like "who deleted those rows?" or "which application is executing these expensive queries?" with certainty. When multiple people share a single account — say, a generic <code>admin</code> or <code>app_user</code> account — the audit trail becomes useless because every action looks identical regardless of who actually performed it.</p>
+
+<p>For application service accounts, the convention is to create a dedicated account per application, and often per environment (development, staging, production). An e-commerce platform might have accounts such as <code>shop_app_prod</code>, <code>shop_reporting</code>, and <code>shop_etl</code>, each with only the privileges its specific function requires.</p>
+
+<p>User accounts are not static; they require active lifecycle management. Key practices include:</p>
+
+<ul>
+  <li><strong>Credential rotation:</strong> Passwords and authentication tokens should be changed on a regular schedule — typically every 90 days for human accounts and managed programmatically (often via secrets managers like HashiCorp Vault or AWS Secrets Manager) for service accounts. The SQL command for this is typically <code>ALTER USER alice WITH PASSWORD 'NewPass!'</code> in PostgreSQL or <code>ALTER LOGIN alice WITH PASSWORD = 'NewPass!'</code> in SQL Server.</li>
+  <li><strong>Account deactivation and removal:</strong> When an employee leaves or an application is decommissioned, the corresponding account must be disabled immediately. Leaving dormant accounts active is a well-known attack vector. Disabling rather than immediately deleting an account preserves the audit trail while preventing any further access: <code>ALTER USER alice NOLOGIN;</code> in PostgreSQL, or <code>ALTER LOGIN alice DISABLE;</code> in SQL Server.</li>
+  <li><strong>Periodic account review:</strong> A scheduled review — often quarterly — should confirm that every existing account still has a legitimate owner, the right level of access, and a current password. Accounts with no recent login activity are strong candidates for deactivation.</li>
+</ul>
+
+<p>Separating individual accounts from shared or generic accounts also simplifies the work of security auditors. When an audit report shows that <code>alice</code> accessed the <code>payments</code> table at 2 a.m. on a Sunday, investigators know exactly whose workstation to examine. That clarity disappears entirely when the audit log shows only that <code>app_user</code> performed the action.</p>
+
+<p><strong>Privileges and Access Rights</strong></p>
+
+<p>Having a user account only proves identity — it does not automatically grant the ability to do anything useful inside the database. That ability comes from <em>privileges</em>, which are explicit permissions attached to an account (or to a role the account inherits). Privileges fall into two broad categories: object-level and system-level.</p>
+
+<p><strong>Object-level privileges</strong> control what a user can do with a specific database object — a table, view, sequence, stored procedure, or schema. The standard SQL object privileges include:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Privilege</th>
+      <th>Applies To</th>
+      <th>What It Permits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SELECT</code></td>
+      <td>Tables, Views, Sequences</td>
+      <td>Reading rows or sequence values</td>
+    </tr>
+    <tr>
+      <td><code>INSERT</code></td>
+      <td>Tables, Views</td>
+      <td>Adding new rows</td>
+    </tr>
+    <tr>
+      <td><code>UPDATE</code></td>
+      <td>Tables, Views</td>
+      <td>Modifying existing rows (can be column-restricted)</td>
+    </tr>
+    <tr>
+      <td><code>DELETE</code></td>
+      <td>Tables, Views</td>
+      <td>Removing rows</td>
+    </tr>
+    <tr>
+      <td><code>TRUNCATE</code></td>
+      <td>Tables</td>
+      <td>Removing all rows without logging each deletion</td>
+    </tr>
+    <tr>
+      <td><code>REFERENCES</code></td>
+      <td>Tables</td>
+      <td>Creating foreign key constraints referencing the table</td>
+    </tr>
+    <tr>
+      <td><code>EXECUTE</code></td>
+      <td>Functions, Procedures</td>
+      <td>Running the routine</td>
+    </tr>
+    <tr>
+      <td><code>USAGE</code></td>
+      <td>Schemas, Sequences, Types</td>
+      <td>Accessing the object namespace or using the object</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>System-level privileges</strong> (called <em>system privileges</em> in Oracle, <em>server roles</em> or <em>permissions</em> in SQL Server, and various <em>role attributes</em> in PostgreSQL) govern capabilities that transcend individual objects. Examples include the ability to create new databases or schemas, create or drop user accounts, perform backups and restores, kill running sessions, or read the server error log. Because system-level privileges can affect the entire server, they should be granted extremely sparingly and only to dedicated administrative accounts.</p>
+
+<p>The SQL commands for assigning and removing privileges are <code>GRANT</code> and <code>REVOKE</code>. Their basic syntax is consistent across most SQL-compliant databases:</p>
+
+<pre><code>-- Grant SELECT on a specific table to a user
+GRANT SELECT ON TABLE orders TO alice;
+
+-- Grant multiple privileges at once
+GRANT SELECT, INSERT, UPDATE ON TABLE products TO bob;
+
+-- Grant privileges on all tables in a schema (PostgreSQL)
+GRANT SELECT ON ALL TABLES IN SCHEMA sales TO reporting_user;
+
+-- Grant a system-level privilege (SQL Server)
+GRANT CREATE TABLE TO alice;
+
+-- Revoke a previously granted privilege
+REVOKE DELETE ON TABLE orders FROM alice;
+
+-- Revoke all privileges on a table
+REVOKE ALL PRIVILEGES ON TABLE orders FROM bob;</code></pre>
+
+<p>An important nuance is that <code>REVOKE</code> only removes privileges that were granted directly. If the same privilege was also conferred via a role, the role grant must be revoked separately. This is one of many reasons why managing privileges through roles rather than direct grants is strongly preferred — it keeps the permission model easier to reason about and audit.</p>
+
+<p><strong>Principle of Least Privilege</strong></p>
+
+<p>The principle of least privilege (PoLP) states that every user, application, or process should have access to <em>exactly</em> the resources it needs to perform its legitimate function — and nothing more. This is not merely a best practice; it is a foundational security control that appears in frameworks such as NIST SP 800-53, ISO 27001, and the CIS Controls.</p>
+
+<p>The practical motivation is straightforward: if a credential is stolen or an account is compromised, the attacker inherits only the privileges of that account. An application service account that can only <code>SELECT</code> from one schema cannot be used to drop tables, exfiltrate an entire database, or escalate privileges further. An overly permissive account with broad <code>UPDATE</code>, <code>DELETE</code>, or administrative rights turns a credential theft into a catastrophic breach.</p>
+
+<p>A concrete example illustrates the difference. Consider a web application that displays product listings. It only needs to read from the <code>products</code> and <code>categories</code> tables:</p>
+
+<pre><code>-- Overly permissive (dangerous)
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO webapp_user;
+
+-- Least-privilege (correct)
+GRANT SELECT ON TABLE products TO webapp_user;
+GRANT SELECT ON TABLE categories TO webapp_user;</code></pre>
+
+<p>With the first grant, if an attacker exploits an SQL injection vulnerability in the application, they can read every table including <code>users</code> and <code>payment_methods</code>, delete records, and potentially escalate further. With the second grant, the worst outcome is limited to reading product data — which is already publicly visible anyway.</p>
+
+<p>Least privilege must be enforced at every layer of the stack:</p>
+
+<ul>
+  <li><strong>Database user accounts:</strong> Grant only the specific object privileges needed, on specific objects, within specific schemas.</li>
+  <li><strong>Application service accounts:</strong> The account used by an ORM or connection pool should never be a DBA or schema owner. It should have no DDL privileges (no <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>) in production.</li>
+  <li><strong>Administrative access:</strong> DBA accounts should be used only when administrative work is actively being performed, not for routine application operations. Some organizations implement "break-glass" procedures for superuser access, requiring approval and full audit logging before the credentials are released.</li>
+  <li><strong>Operating system and network layers:</strong> Least privilege at the database layer is undermined if the database server process itself runs as root, or if firewall rules allow any host to connect on the database port.</li>
+</ul>
+
+<p><strong>Privilege auditing</strong> — the regular, systematic review of what privileges exist and whether they are still justified — is necessary to maintain a least-privilege posture over time. Permissions accumulate. A developer granted temporary <code>UPDATE</code> access to fix a production incident may never have that access revoked. Quarterly privilege reviews, combined with automated queries against the system catalog, help surface these anomalies:</p>
+
+<pre><code>-- PostgreSQL: list all table-level privileges granted to non-superuser roles
+SELECT grantee, table_schema, table_name, privilege_type
+FROM information_schema.role_table_grants
+WHERE grantee NOT IN ('postgres', 'PUBLIC')
+ORDER BY grantee, table_schema, table_name;
+
+-- SQL Server: list explicit permissions granted to database principals
+SELECT dp.name AS principal, o.name AS object_name,
+       p.permission_name, p.state_desc
+FROM sys.database_permissions p
+JOIN sys.database_principals dp ON p.grantee_principal_id = dp.principal_id
+LEFT JOIN sys.objects o ON p.major_id = o.object_id
+WHERE dp.type NOT IN ('R') -- exclude roles
+ORDER BY dp.name, o.name;</code></pre>
+
+<p><strong>Role-Based Access Control (RBAC)</strong></p>
+
+<p>Managing privileges one user at a time does not scale. In an organization with dozens of developers, a reporting team, a group of ETL engineers, and a small DBA team, granting and revoking privileges individually for each person is slow, error-prone, and produces an inconsistent permission landscape that is nearly impossible to audit. Role-Based Access Control solves this by introducing an abstraction layer: the <em>role</em>.</p>
+
+<p>A role is a named collection of privileges. Instead of granting <code>SELECT</code> on twenty tables to every developer individually, you grant those privileges to a role called <code>developer_readonly</code>, and then grant that role to each developer. The privileges are defined once, applied consistently, and modified in one place when requirements change.</p>
+
+<pre><code>-- PostgreSQL RBAC example
+
+-- Step 1: Create the role
+CREATE ROLE developer_readonly;
+
+-- Step 2: Grant object privileges to the role
+GRANT USAGE ON SCHEMA app TO developer_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA app TO developer_readonly;
+
+-- Step 3: Grant the role to users
+GRANT developer_readonly TO alice;
+GRANT developer_readonly TO bob;
+GRANT developer_readonly TO carol;
+
+-- Now alice, bob, and carol all have identical, consistent SELECT access</code></pre>
+
+<p>The benefits of this approach are substantial:</p>
+
+<ul>
+  <li><strong>Consistency:</strong> Every member of a role has exactly the same permissions. There is no risk that one developer has <code>UPDATE</code> access that others do not because someone made a typographical error during a manual grant.</li>
+  <li><strong>Reduced administrative overhead:</strong> Adding a new developer requires only <code>GRANT developer_readonly TO new_developer;</code>. Removing one requires only <code>REVOKE developer_readonly FROM departing_developer;</code>. There is no need to enumerate individual object privileges.</li>
+  <li><strong>Easier auditing:</strong> Auditors can review the definition of each role rather than scanning thousands of individual privilege records.</li>
+  <li><strong>Faster onboarding and offboarding:</strong> Role grants and revocations take effect immediately, eliminating the risk that a new hire cannot work because their privileges were not fully provisioned, or that a departed employee retains access because revocation was incomplete.</li>
+</ul>
+
+<p><strong>Role hierarchies</strong> add further expressiveness. In most enterprise database systems, roles can be granted to other roles, creating an inheritance tree. A <code>senior_developer</code> role might inherit everything from <code>developer_readonly</code> and add write privileges on top:</p>
+
+<pre><code>-- Create base role
+CREATE ROLE developer_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA app TO developer_readonly;
+
+-- Create elevated role that inherits the base role
+CREATE ROLE senior_developer;
+GRANT developer_readonly TO senior_developer;  -- inheritance
+GRANT INSERT, UPDATE, DELETE ON TABLE app.feature_flags TO senior_developer;
+
+-- Grant the senior role to a specific user
+GRANT senior_developer TO dave;</code></pre>
+
+<p>Dave now has <code>SELECT</code> on all tables (inherited from <code>developer_readonly</code>) plus write access to <code>feature_flags</code>. If the base <code>developer_readonly</code> role later gains access to a new table, Dave's access automatically expands — no separate grant required.</p>
+
+<p>All major enterprise database platforms support native RBAC:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Role Creation</th>
+      <th>Key Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PostgreSQL</td>
+      <td><code>CREATE ROLE</code></td>
+      <td>Roles and users are unified; a role with <code>LOGIN</code> attribute is a user. Supports full role nesting.</td>
+    </tr>
+    <tr>
+      <td>Oracle</td>
+      <td><code>CREATE ROLE</code></td>
+      <td>Roles can be password-protected. Supports role hierarchies and default roles per session.</td>
+    </tr>
+    <tr>
+      <td>SQL Server</td>
+      <td><code>CREATE ROLE</code></td>
+      <td>Distinguishes server roles (instance-wide) from database roles (per-database). Built-in fixed roles exist for common needs.</td>
+    </tr>
+    <tr>
+      <td>MySQL / MariaDB</td>
+      <td><code>CREATE ROLE</code> (MySQL 8+)</td>
+      <td>Role support added in MySQL 8.0. Roles must be activated per session unless <code>activate_all_roles_on_login</code> is set.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Granting and Revoking Roles</strong></p>
+
+<p>Granting a role to a user is the mechanism by which all of the role's accumulated privileges become available to that user — without having to list each privilege individually. The grant takes effect immediately (within the same session in some databases; in others the user must reconnect or re-authenticate):</p>
+
+<pre><code>-- Grant a role to a user
+GRANT reporting_analyst TO alice;
+
+-- Grant multiple roles at once (PostgreSQL)
+GRANT developer_readonly, etl_writer TO bob;
+
+-- Confirm role membership (PostgreSQL)
+SELECT rolname, member::regrole
+FROM pg_auth_members
+JOIN pg_roles ON pg_roles.oid = pg_auth_members.roleid
+WHERE rolname = 'developer_readonly';</code></pre>
+
+<p>Revoking a role is equally immediate and comprehensive — when <code>REVOKE developer_readonly FROM alice;</code> executes, Alice loses every privilege that came from that role at once. This makes offboarding clean and reliable. There is no risk of forgetting to revoke one of twenty individual privileges because only one revocation statement is needed.</p>
+
+<p>The <strong><code>WITH GRANT OPTION</code></strong> clause deserves special attention because it is frequently misused. When a role (or privilege) is granted with this option, the recipient can in turn grant the same role or privilege to others:</p>
+
+<pre><code>-- Alice can now grant developer_readonly to anyone she chooses
+GRANT developer_readonly TO alice WITH GRANT OPTION;
+
+-- Alice then grants the role to dave (without a DBA doing so)
+-- As alice:
+GRANT developer_readonly TO dave;</code></pre>
+
+<p>This creates a delegation chain that is difficult to track. If Alice later has her role revoked, what happens to Dave's grant? Behavior varies by platform. More importantly, it means privilege expansion can happen outside the DBA's awareness. <code>WITH GRANT OPTION</code> should be used only in specific, well-documented scenarios — for example, a team lead who is explicitly authorized to manage access for their team — and it should be monitored as part of the privilege audit process.</p>
+
+<p><strong>Separation of Duties and Administrative Roles</strong></p>
+
+<p>Separation of duties (SoD) is the principle that no single person or account should have unchecked end-to-end control over a sensitive process. In database administration, this means distinguishing between users who access data operationally and those who administer the database engine itself — and ensuring these are not the same people using the same accounts.</p>
+
+<p>Highly privileged roles — database administrator, superuser, <code>sysadmin</code> in SQL Server, <code>SYSDBA</code> in Oracle — carry the power to create or destroy entire databases, read any data regardless of object-level privileges, modify audit logs, and bypass most security controls. For this reason:</p>
+
+<ul>
+  <li>These roles should be assigned to <strong>as few accounts as possible</strong> — ideally one or two named individuals per system, plus a documented emergency break-glass account.</li>
+  <li>DBA accounts should be <strong>distinct from the personal accounts</strong> those individuals use for non-administrative work. A DBA might have both <code>alice</code> (used for querying data as part of their job) and <code>alice_dba</code> (used only when performing administrative tasks). This ensures that routine work does not accidentally happen under an over-privileged context.</li>
+  <li><strong>Administrative actions must be logged separately and monitored.</strong> Every DDL statement, privilege change, and authentication event performed by a superuser account should be captured in an immutable audit log — ideally one that the superuser cannot modify. Database-native audit extensions (pgAudit for PostgreSQL, Oracle Unified Auditing, SQL Server's SQL Audit) provide this capability. Anomalies like a DBA account running <code>SELECT</code> queries against the <code>payments</code> table at 3 a.m. should trigger alerts.</li>
+</ul>
+
+<p>Combining operational and administrative privileges in a single account is a common but dangerous pattern. A developer who is also a DBA on the same account might accidentally run a destructive DDL command in production when they intended to run it in development. Worse, if their credentials are phished, the attacker gets full administrative control. The separation not only limits human error; it limits attacker capability.</p>
+
+<p>A well-structured role hierarchy for a medium-sized team might look like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role Name</th>
+      <th>Privileges</th>
+      <th>Assigned To</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>readonly_user</code></td>
+      <td>SELECT on all tables in app schema</td>
+      <td>Reporting analysts, support staff</td>
+    </tr>
+    <tr>
+      <td><code>app_writer</code></td>
+      <td>SELECT, INSERT, UPDATE on operational tables; no DELETE, no DDL</td>
+      <td>Application service accounts</td>
+    </tr>
+    <tr>
+      <td><code>etl_role</code></td>
+      <td>SELECT on source tables; INSERT, TRUNCATE on staging tables</td>
+      <td>ETL pipeline service accounts</td>
+    </tr>
+    <tr>
+      <td><code>developer_role</code></td>
+      <td>All DML on non-production schemas; SELECT on production</td>
+      <td>Software developers (non-production environments)</td>
+    </tr>
+    <tr>
+      <td><code>dba_role</code></td>
+      <td>Full DDL, user management, backup operations</td>
+      <td>Named DBA individuals via dedicated admin accounts only</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This table illustrates a key property of well-designed RBAC: roles should be named for <em>job functions</em>, not for individual people, and the set of roles should cover every legitimate access pattern without overlap or unnecessary breadth. When a new person joins the team, they receive the role that matches their function — nothing more, nothing less.</p>
+
+<p>Taken together, these practices — careful account creation, precise privilege assignment, least-privilege enforcement, role-based management, and separation of administrative duties — form a defense-in-depth model for database access control. Each layer independently reduces risk, and together they make unauthorized access, accidental data loss, and insider threats substantially harder to execute and easier to detect.</p>
+        <div class="notes"><strong>Notes</strong>Covers all six subtopic groups: user account creation and lifecycle management, object-level and system-level privileges with GRANT/REVOKE syntax, the principle of least privilege with concrete examples, RBAC including role hierarchies and platform comparisons, granting/revoking roles including WITH GRANT OPTION caveats, and separation of duties for administrative roles. Includes working SQL examples for PostgreSQL, SQL Server, Oracle, and MySQL, plus three HTML tables for structured comparisons.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

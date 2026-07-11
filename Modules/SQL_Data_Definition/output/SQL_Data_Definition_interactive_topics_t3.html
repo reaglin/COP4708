@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Types and Column Definitions</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Data Types and Column Definitions</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Data Types and Column Definitions</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>When you create a table in a relational database, every column you define must be assigned a <strong>data type</strong>. The data type tells the database engine what kind of information that column can hold, how much physical storage to allocate for each value, and what operations are valid on that column. Choosing the right data type is one of the most consequential decisions in database design: it prevents nonsensical data from being stored, keeps storage usage efficient, and removes the need to write extensive validation logic in application code. This topic explores every major category of SQL data types, explains how and when to use each one, and shows how they come together inside a <code>CREATE TABLE</code> statement.</p>
+
+<p><strong>Numeric Data Types</strong></p>
+
+<p>Numeric types are divided into two broad families: <em>exact</em> numeric types, which store numbers with perfect precision, and <em>approximate</em> numeric types, which trade a small degree of precision for the ability to represent an enormous range of values.</p>
+
+<p>The most commonly used exact integer type is <strong>INT</strong> (also written <strong>INTEGER</strong>). It uses 4 bytes of storage and can represent any whole number from <em>–2,147,483,648</em> to <em>2,147,483,647</em>. This range is more than sufficient for most everyday counters, identifiers, quantities, and ages. Consider a column storing the number of items in a warehouse shipment — INT handles that comfortably without wasting space.</p>
+
+<p><strong>SMALLINT</strong> uses only 2 bytes and covers the range –32,768 to 32,767. It is an excellent choice when you know with certainty that values will always remain small — for example, a column storing a star rating from 1 to 5, or a column holding the number of seats in a small meeting room. Using SMALLINT instead of INT in such cases cuts storage per row in half for that column. On the other end of the spectrum, <strong>BIGINT</strong> uses 8 bytes and can store values from roughly –9.2 quintillion to 9.2 quintillion. BIGINT is appropriate for columns such as global transaction identifiers, row counts in very large datasets, or financial ledger sequence numbers where the value might eventually exceed the INT ceiling.</p>
+
+<p>When you need to store numbers that include a decimal point and precision is critical — such as monetary amounts — you should use <strong>DECIMAL(p, s)</strong> or its synonym <strong>NUMERIC(p, s)</strong>. Here, <em>p</em> is the total <strong>precision</strong> (the maximum total number of significant digits, both before and after the decimal point) and <em>s</em> is the <strong>scale</strong> (the number of digits to the right of the decimal point). For example, <code>DECIMAL(10, 2)</code> can store a value such as <em>12345678.99</em> — up to 10 significant digits with exactly 2 after the decimal. This type is essential for financial columns because it stores the value exactly as specified, with no rounding error.</p>
+
+<p><strong>FLOAT</strong> and <strong>REAL</strong> are approximate numeric types based on the IEEE floating-point standard. They can represent a vast range of values including extremely small fractions and enormously large numbers, but they introduce tiny rounding errors because they store values in binary form. <code>FLOAT</code> typically uses 8 bytes (double precision) and <code>REAL</code> typically uses 4 bytes (single precision). These types are well-suited for scientific or engineering calculations — storing the result of a physics simulation, a GPS coordinate measurement error, or a machine-learning model output — where a tiny rounding difference has no practical consequence. They should <em>never</em> be used to store currency values, because repeated arithmetic on approximate types can accumulate rounding discrepancies.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Storage</th>
+      <th>Range / Precision</th>
+      <th>Best Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SMALLINT</td>
+      <td>2 bytes</td>
+      <td>–32,768 to 32,767</td>
+      <td>Small counts, ratings, flags as integers</td>
+    </tr>
+    <tr>
+      <td>INT / INTEGER</td>
+      <td>4 bytes</td>
+      <td>–2,147,483,648 to 2,147,483,647</td>
+      <td>General-purpose whole numbers, IDs</td>
+    </tr>
+    <tr>
+      <td>BIGINT</td>
+      <td>8 bytes</td>
+      <td>±9.2 × 10¹⁸</td>
+      <td>Very large counts, global identifiers</td>
+    </tr>
+    <tr>
+      <td>DECIMAL(p, s) / NUMERIC(p, s)</td>
+      <td>Varies</td>
+      <td>Exact, up to p digits</td>
+      <td>Currency, financial calculations</td>
+    </tr>
+    <tr>
+      <td>REAL</td>
+      <td>4 bytes</td>
+      <td>Approximate, ~7 decimal digits</td>
+      <td>Scientific values, sensor readings</td>
+    </tr>
+    <tr>
+      <td>FLOAT</td>
+      <td>8 bytes</td>
+      <td>Approximate, ~15 decimal digits</td>
+      <td>High-range scientific calculations</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Character and String Data Types</strong></p>
+
+<p>String types store textual data. The critical distinction among them is whether the stored length is <em>fixed</em> or <em>variable</em>, and whether a length limit exists at all.</p>
+
+<p><strong>CHAR(n)</strong> stores a fixed-length string of exactly <em>n</em> characters. If you insert a value shorter than <em>n</em>, the database pads it with trailing spaces to reach the full length. This behavior may seem wasteful, but it makes CHAR very efficient for columns where every value will always be the same width. Classic examples include two-letter country codes (<code>CHAR(2)</code>), nine-digit postal codes stored uniformly (<code>CHAR(9)</code>), or ISO currency codes (<code>CHAR(3)</code>). Because all values occupy identical storage, certain comparisons and indexing operations can be slightly faster.</p>
+
+<p><strong>VARCHAR(n)</strong> stores a variable-length string of <em>up to</em> <em>n</em> characters. The database uses only as much space as the actual content requires, plus a small overhead to record the length. This makes VARCHAR the right choice when values differ substantially in length — full names, email addresses, product descriptions, street addresses. For instance, a <code>VARCHAR(255)</code> column storing the name <em>"Ana"</em> uses only 3 characters of data storage, whereas a <code>CHAR(255)</code> column storing the same value would always consume 255 characters of space.</p>
+
+<p><strong>TEXT</strong> (available in PostgreSQL, MySQL, SQLite, and others, though not in all systems) stores large amounts of character data with no enforced length limit, or an extremely large one. It is appropriate for free-form content such as blog post bodies, product review text, legal document text, or log messages. However, TEXT columns are typically excluded from standard indexing in many databases, and some systems impose restrictions on using TEXT in certain expressions, so they should only be used when genuinely large content is expected.</p>
+
+<p>The decision between CHAR and VARCHAR comes down to consistency. If every row in a column will hold a value of the same length, CHAR may be marginally more efficient and self-documenting. If values vary in length, VARCHAR saves space and is almost always preferred.</p>
+
+<p><strong>Date and Time Data Types</strong></p>
+
+<p>Temporal data types store information about points in time. Using proper date/time types — rather than storing dates as plain strings — allows the database to validate dates, perform date arithmetic, sort chronologically, and work with time zones correctly.</p>
+
+<p><strong>DATE</strong> stores only the calendar date: year, month, and day. It carries no time-of-day component. A typical stored value looks like <em>'2024-06-15'</em>. DATE is perfect for columns such as a customer's date of birth, an order's delivery date, an employee's hire date, or a contract's expiration date — situations where knowing the specific time of day is irrelevant.</p>
+
+<p><strong>TIME</strong> stores only the time of day — hours, minutes, and seconds, sometimes including fractional seconds — with no date component. It suits columns such as a store's daily opening time, a scheduled departure time in a timetable, or a recurring alarm setting.</p>
+
+<p><strong>DATETIME</strong> (used in MySQL and SQL Server) and <strong>TIMESTAMP</strong> (used in PostgreSQL, MySQL, and others) both store a combined date and time value. The difference between them is subtle and varies by database system. In MySQL, <code>DATETIME</code> stores a literal date-and-time value with no time zone conversion and supports a wide range of dates, while <code>TIMESTAMP</code> stores values internally as UTC and converts them to the session's time zone on retrieval — making TIMESTAMP better for recording when events occurred across multiple time zones. In PostgreSQL, you can use <code>TIMESTAMP WITH TIME ZONE</code> (also called <code>TIMESTAMPTZ</code>) for full time zone awareness. These types are commonly used for <em>created_at</em> and <em>updated_at</em> audit columns that record when a row was inserted or last modified.</p>
+
+<p>Many database systems allow a TIMESTAMP column to be defined with <code>DEFAULT CURRENT_TIMESTAMP</code>, so the database automatically records the exact moment of insertion without requiring the application to supply the value explicitly.</p>
+
+<p><strong>Boolean and Binary Data Types</strong></p>
+
+<p>Beyond numbers, text, and dates, databases also need to represent true/false conditions and raw binary content.</p>
+
+<p><strong>BOOLEAN</strong> (sometimes written <strong>BOOL</strong>) stores a logical truth value: <em>TRUE</em> or <em>FALSE</em>. It is the natural choice for flag columns — <em>is_active</em>, <em>is_verified</em>, <em>is_deleted</em>, <em>has_subscription</em>. Using a proper BOOLEAN type rather than storing 1 and 0 in an INT column makes the schema's intent immediately clear and can enable cleaner query expressions. Note that some databases, such as older versions of MySQL, implement BOOLEAN as a synonym for <code>TINYINT(1)</code>, so behaviour may vary slightly across systems.</p>
+
+<p><strong>BINARY(n)</strong> and <strong>VARBINARY(n)</strong> are the binary counterparts of CHAR and VARCHAR. BINARY(n) stores exactly <em>n</em> bytes of raw binary data, padding with zero bytes if necessary, while VARBINARY(n) stores up to <em>n</em> bytes using only as much space as the content requires. These types are used for storing fixed or variable-length binary values such as cryptographic hashes (a SHA-256 hash is always 32 bytes, making <code>BINARY(32)</code> ideal), encrypted tokens, or binary-encoded identifiers.</p>
+
+<p><strong>BLOB</strong> (Binary Large Object) stores large binary payloads — images, audio files, PDFs, video clips, or any other file content. Just as TEXT is the large-content counterpart of VARCHAR, BLOB is the large-content counterpart of VARBINARY. While storing files directly in the database guarantees transactional consistency and simplifies backup (everything is in one place), it can also increase database size dramatically and put pressure on database memory. Many production systems choose instead to store only a file path or URL in a VARCHAR column, with the actual file living in object storage. The right approach depends on the specific use case and operational requirements.</p>
+
+<p><strong>Choosing Appropriate Data Types for Data Integrity</strong></p>
+
+<p>Data integrity means that the values stored in the database accurately and reliably represent the real-world information they are meant to capture. Data types are the database's first line of defense against invalid data.</p>
+
+<p>When a column is defined as <code>INT</code>, the database will reject any attempt to insert the string <em>"hello"</em> into it — no application-level code needed. When a column is defined as <code>DATE</code>, the database will reject <em>'2024-02-30'</em> because February never has 30 days. When a column is defined as <code>DECIMAL(10, 2)</code>, the database ensures the value is numeric and rounds or rejects values that exceed the specified scale. This automatic enforcement is far more reliable than relying on every application layer to validate data correctly before sending it to the database.</p>
+
+<p>Choosing appropriately <em>sized</em> types also matters. A column that stores a person's age in whole years will never exceed 150. Defining it as <code>BIGINT</code> wastes 6 bytes per row compared to <code>SMALLINT</code>. In a table with millions of rows, that difference multiplies into meaningful storage and memory costs. Conversely, using too small a type creates a correctness risk — if a column tracking page view counts is defined as <code>SMALLINT</code> and the count exceeds 32,767, the database will either reject the update or, worse in some systems, silently overflow to a negative number.</p>
+
+<p>Overly permissive types should be avoided when a stricter type fits. Storing a phone number as <code>TEXT</code> instead of <code>CHAR(15)</code> (using the E.164 international standard) allows arbitrarily long or short values that may be invalid. Storing a price as <code>FLOAT</code> instead of <code>DECIMAL(10, 2)</code> introduces subtle rounding errors that compound over thousands of transactions. Every column definition is an opportunity to encode business knowledge directly into the schema.</p>
+
+<p><strong>Defining Columns in a CREATE TABLE Statement</strong></p>
+
+<p>A <code>CREATE TABLE</code> statement defines the table's name and lists each column with its data type and optional constraints. The general syntax for each column follows this pattern:</p>
+
+<pre><code>column_name  data_type  [DEFAULT default_value]  [NULL | NOT NULL]  [other constraints]</code></pre>
+
+<p>Multiple column definitions are separated by commas inside the parentheses. Here is a fully annotated example that brings together all the data type categories covered above:</p>
+
+<pre><code>CREATE TABLE employees (
+    employee_id    INT             NOT NULL,
+    first_name     VARCHAR(50)     NOT NULL,
+    last_name      VARCHAR(50)     NOT NULL,
+    gender_code    CHAR(1)         NULL,
+    salary         DECIMAL(12, 2)  NOT NULL,
+    hourly_rate    REAL            NULL,
+    date_of_birth  DATE            NOT NULL,
+    hired_at       TIMESTAMP       NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    shift_start    TIME            NULL,
+    is_active      BOOLEAN         NOT NULL  DEFAULT TRUE,
+    notes          TEXT            NULL,
+    profile_photo  BLOB            NULL
+);</code></pre>
+
+<p>Walking through this definition column by column:</p>
+
+<ul>
+  <li><strong>employee_id INT NOT NULL</strong> — A whole-number identifier that must always be provided. INT is sufficient because a company is unlikely to employ more than 2 billion people.</li>
+  <li><strong>first_name VARCHAR(50) NOT NULL</strong> — A variable-length name up to 50 characters. VARCHAR is used because names vary in length. NOT NULL means every employee must have a first name recorded.</li>
+  <li><strong>gender_code CHAR(1) NULL</strong> — A single fixed-width character code. CHAR(1) is efficient when every value is always exactly one character. NULL is permitted because this may be optional.</li>
+  <li><strong>salary DECIMAL(12, 2) NOT NULL</strong> — An exact monetary value with up to 12 significant digits and 2 decimal places. DECIMAL prevents floating-point rounding errors in financial data.</li>
+  <li><strong>hourly_rate REAL NULL</strong> — An approximate numeric value for cases where slight rounding is acceptable, here left nullable because not all employees are paid hourly.</li>
+  <li><strong>date_of_birth DATE NOT NULL</strong> — A calendar date with no time component. NOT NULL enforces that every employee's birthdate is recorded.</li>
+  <li><strong>hired_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP</strong> — Records the exact date and time the row was inserted. The DEFAULT means the application does not need to supply this value; the database fills it in automatically.</li>
+  <li><strong>shift_start TIME NULL</strong> — Stores a time of day with no date. Nullable for employees without fixed shifts.</li>
+  <li><strong>is_active BOOLEAN NOT NULL DEFAULT TRUE</strong> — A flag indicating whether the employee is currently active. Defaults to TRUE so new rows are active unless explicitly marked otherwise.</li>
+  <li><strong>notes TEXT NULL</strong> — An unrestricted free-text field for comments or additional information. Nullable and uses TEXT because content length is unpredictable.</li>
+  <li><strong>profile_photo BLOB NULL</strong> — Stores raw binary image data. Nullable because a photo may not always be available.</li>
+</ul>
+
+<p>The <code>DEFAULT</code> keyword deserves special attention. When a row is inserted without specifying a value for a column that has a DEFAULT, the database automatically uses the default value. This is especially useful for audit timestamps (<code>DEFAULT CURRENT_TIMESTAMP</code>), boolean flags (<code>DEFAULT FALSE</code>), and numeric counters (<code>DEFAULT 0</code>). It reduces the amount of data applications must supply and ensures sensible initial values are always in place.</p>
+
+<p>The <code>NULL</code> and <code>NOT NULL</code> constraints work hand-in-hand with data types. A column defined as <code>NOT NULL</code> will cause the database to reject any <code>INSERT</code> or <code>UPDATE</code> that would leave that column without a value, unless a DEFAULT covers the omission. Together, well-chosen data types, appropriate sizes, thoughtful use of NULL vs NOT NULL, and carefully placed DEFAULT values create a schema that accurately models the real world and actively enforces the rules of the business domain it represents.</p>
+        <div class="notes"><strong>Notes</strong>Emphasise to students that DECIMAL and NUMERIC are interchangeable synonyms in the SQL standard, but FLOAT/REAL should never be used for money. It is also worth noting that exact syntax and available types vary between database engines (MySQL, PostgreSQL, SQL Server, SQLite), so students should always consult the documentation for the specific system they are using.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

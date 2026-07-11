@@ -1,0 +1,264 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deadlocks and Conflict Resolution</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Deadlocks and Conflict Resolution</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Deadlocks and Conflict Resolution</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>In any system where multiple transactions execute concurrently and compete for shared resources, a deadlock represents one of the most disruptive failure modes a database can encounter. Unlike ordinary lock contention — where one transaction simply waits for another to finish and then proceeds — a deadlock is a permanent standstill. None of the transactions involved can ever make forward progress on their own, because each one is holding something that another transaction needs, and each one is waiting for something that another transaction holds. This circular dependency means the system is stuck forever unless something from the outside breaks the cycle. Understanding how deadlocks arise, how they are detected, how they can be prevented, and how they are ultimately resolved is essential knowledge for anyone designing or operating transactional database applications.</p>
+
+<p><strong>What Is a Deadlock?</strong></p>
+
+<p>A deadlock is a situation in which two or more transactions are each waiting for a lock held by another transaction in the group, forming a closed chain of mutual dependency from which no transaction can escape without external intervention. The key word here is <em>permanent</em>: a deadlock does not resolve itself the way ordinary lock contention does. When Transaction A is simply waiting for Transaction B to release a lock, A will eventually proceed once B commits or rolls back. But when A is waiting for B <em>and</em> B is waiting for A, neither will ever release what the other needs, because neither can finish.</p>
+
+<p>This distinction from simple lock contention is critical. Lock contention is a performance issue — it slows things down, but the situation is self-correcting. A deadlock is a correctness issue — the system has reached a state it cannot exit without throwing away work. Consider a straightforward two-transaction example:</p>
+
+<ul>
+  <li>Transaction 1 acquires an exclusive lock on Row A, then tries to acquire an exclusive lock on Row B.</li>
+  <li>Transaction 2 acquires an exclusive lock on Row B, then tries to acquire an exclusive lock on Row A.</li>
+  <li>Transaction 1 is blocked waiting for Row B, which Transaction 2 holds.</li>
+  <li>Transaction 2 is blocked waiting for Row A, which Transaction 1 holds.</li>
+</ul>
+
+<p>Neither transaction will ever release its held lock, because releasing locks is something that happens at the end of a transaction (commit or rollback), and neither transaction can reach its end. The database engine must intervene by detecting this cycle, selecting one of the transactions as a victim, and forcibly rolling it back so the other can proceed.</p>
+
+<p><strong>How Deadlocks Form: The Mutual Blocking Cycle</strong></p>
+
+<p>Computer scientists have long studied the conditions that must all be present simultaneously for a deadlock to occur. Four classical conditions, originally articulated by Coffman et al. in 1971, define the necessary ingredients:</p>
+
+<ul>
+  <li><strong>Mutual exclusion:</strong> At least one resource must be held in a non-shareable mode. In database terms, an exclusive (write) lock on a row or page can be held by only one transaction at a time. A transaction holding an exclusive lock prevents all others from acquiring any lock — shared or exclusive — on that same resource. This is not an arbitrary restriction; it exists to protect data integrity.</li>
+  <li><strong>Hold-and-wait:</strong> A transaction holds at least one lock while simultaneously waiting to acquire additional locks held by other transactions. This is the normal operating mode of most database transactions, which acquire locks incrementally as they proceed through their logic rather than all at once at the start.</li>
+  <li><strong>No preemption:</strong> Locks cannot be forcibly stripped from a transaction while it is running. A transaction voluntarily releases its locks only when it commits or rolls back. (Deadlock resolution is the notable exception — the system forcibly rolls back a victim precisely to break this condition in an emergency.)</li>
+  <li><strong>Circular wait:</strong> There exists a set of transactions {T1, T2, ..., Tn} such that T1 is waiting for a lock held by T2, T2 is waiting for a lock held by T3, and so on, with Tn waiting for a lock held by T1. This closed loop is the defining signature of a deadlock.</li>
+</ul>
+
+<p>All four conditions must hold simultaneously. This is important because it suggests that eliminating <em>any one</em> of the four conditions prevents deadlocks entirely. Prevention strategies exploit exactly this insight.</p>
+
+<p>The likelihood of deadlocks is not uniform — it increases sharply as the system becomes busier. More concurrent transactions means more overlapping lock requests. Transactions that each require many locks create more opportunities for crossing paths with other transactions. High-contention resources like heavily updated index root pages or popular lookup tables become frequent deadlock participants. In practice, a well-tuned low-traffic system may never experience a deadlock, while a high-throughput OLTP system may encounter them regularly.</p>
+
+<p><strong>Deadlock Detection</strong></p>
+
+<p>Most production database engines — including SQL Server, PostgreSQL, and MySQL InnoDB — rely primarily on deadlock detection rather than prevention. Detection is reactive: the engine does not try to stop deadlocks from forming; instead it lets them form and then discovers and breaks them.</p>
+
+<p>The central data structure used for detection is the <strong>wait-for graph</strong>. The database engine maintains a directed graph in which each node represents an active transaction, and a directed edge from node A to node B means "Transaction A is currently waiting for a lock held by Transaction B." As transactions acquire and release locks, the engine continuously updates this graph.</p>
+
+<p>A deadlock corresponds exactly to a <strong>cycle</strong> in the wait-for graph. If following the directed edges from any node eventually leads back to that same node, the transactions on that cycle are deadlocked. Cycle detection on a directed graph is a well-understood algorithmic problem (depth-first search with back-edge detection runs in O(V+E) time), so the engine can determine whether a deadlock exists efficiently even with many active transactions.</p>
+
+<p>Consider the following wait-for graph state:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Transaction</th>
+      <th>Is Waiting For Lock Held By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>T1</td>
+      <td>T2</td>
+    </tr>
+    <tr>
+      <td>T2</td>
+      <td>T3</td>
+    </tr>
+    <tr>
+      <td>T3</td>
+      <td>T1</td>
+    </tr>
+    <tr>
+      <td>T4</td>
+      <td>T2</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Following the edges: T1 → T2 → T3 → T1 forms a cycle, so T1, T2, and T3 are deadlocked. T4 is also blocked (waiting on T2), but T4 is not part of the deadlock cycle — if T2 is freed, T4 can proceed. This distinction matters for victim selection.</p>
+
+<p>The detection mechanism runs on a configurable interval. In SQL Server, the deadlock monitor is a background thread that wakes up every five seconds by default (accelerating to every 100 milliseconds when it has recently found deadlocks). Running the detection cycle more frequently allows faster resolution but consumes CPU and memory to traverse the graph. The interval is typically tuned based on observed deadlock frequency and acceptable latency.</p>
+
+<p>A key limitation of detection is that the deadlock must fully form before it can be found. There is an irreducible latency between the moment a deadlock occurs and the moment it is detected and resolved. During that window, the transactions in the cycle are doing nothing useful — they are simply blocked. In a high-throughput system this wasted time can accumulate.</p>
+
+<p><strong>Deadlock Prevention Strategies</strong></p>
+
+<p>Prevention strategies attack one of the four Coffman conditions directly, ensuring that at least one condition is never satisfied and therefore deadlocks can never form.</p>
+
+<p><strong>Consistent lock-acquisition ordering</strong> is the most widely applicable and practical prevention technique. If every transaction in the entire application acquires locks in the same global order — for example, always locking Table A before Table B, and always locking rows in ascending primary key order within a table — then circular wait becomes impossible. Imagine all transactions are required to acquire locks on tables in alphabetical order. No transaction can wait for a lock on "Accounts" while holding a lock on "Orders," because every other transaction that touches "Orders" must have already acquired its lock on "Accounts" first. The circular dependency cannot form. This approach requires discipline: developers must know and follow the ordering convention, which can be enforced through stored procedures, application-layer conventions, or code review.</p>
+
+<p><strong>Lock pre-claiming</strong> (also called two-phase locking with pre-declaration, or static locking) attacks the hold-and-wait condition. A transaction declares all the resources it will need before it starts executing, acquires all those locks at once, and only then begins. If it cannot acquire all of them simultaneously, it acquires none — it waits until all are available and then locks them atomically. This guarantees that a transaction never holds some locks while waiting for others. The cost is reduced concurrency: a transaction may hold locks on resources it will not touch for many milliseconds, blocking other transactions unnecessarily. It also requires the transaction to know in advance exactly which resources it will need, which is not always possible with dynamic queries.</p>
+
+<p><strong>Optimistic concurrency control (OCC)</strong> takes a fundamentally different approach by avoiding locks entirely during transaction execution. Transactions read data and make changes to local copies without acquiring any locks. Only at commit time does the system check whether any of the data read or written was modified by another transaction in the interim. If a conflict is detected, the transaction is aborted and retried; if not, it commits. Because no locks are held during execution, the hold-and-wait condition never exists, and deadlocks become structurally impossible. OCC works best when conflicts are genuinely rare — in read-heavy workloads or systems where rows accessed by different transactions seldom overlap. In high-contention write-heavy workloads, OCC can produce a high abort-and-retry rate, which may actually be worse than the deadlock rate under pessimistic locking.</p>
+
+<p>Some systems also use <strong>timestamp ordering</strong> or <strong>wait-die / wound-wait</strong> protocols, which assign each transaction a timestamp at start and use it to resolve conflicts without ever forming a cycle. In the wait-die scheme, an older transaction waits for a younger one, but a younger transaction is rolled back (dies) rather than waiting for an older one. In wound-wait, an older transaction preempts a younger one by forcing it to roll back (wounds it), while a younger transaction simply waits for an older one. Both schemes guarantee no circular wait, but both also produce unnecessary rollbacks in some cases.</p>
+
+<p>A summary of the prevention approaches and the Coffman condition each targets:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prevention Strategy</th>
+      <th>Coffman Condition Eliminated</th>
+      <th>Primary Trade-off</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Consistent lock-acquisition order</td>
+      <td>Circular wait</td>
+      <td>Development discipline required</td>
+    </tr>
+    <tr>
+      <td>Lock pre-claiming</td>
+      <td>Hold-and-wait</td>
+      <td>Reduced concurrency, requires advance knowledge</td>
+    </tr>
+    <tr>
+      <td>Optimistic concurrency control</td>
+      <td>Hold-and-wait (no locks held)</td>
+      <td>High abort rate under contention</td>
+    </tr>
+    <tr>
+      <td>Wait-die / wound-wait protocols</td>
+      <td>Circular wait</td>
+      <td>Unnecessary rollbacks of younger transactions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Timeout Policies for Deadlock Resolution</strong></p>
+
+<p>Even in systems that implement detection, timeouts serve as a critical safety net. A <strong>lock-wait timeout</strong> is a configuration parameter that specifies the maximum number of seconds (or milliseconds) a transaction will wait to acquire a lock before it gives up, rolls back, and returns an error to the caller. In SQL Server this is <code>SET LOCK_TIMEOUT</code>; in MySQL it is <code>innodb_lock_wait_timeout</code>; in PostgreSQL it is <code>lock_timeout</code>.</p>
+
+<p>Timeouts address scenarios that detection might miss or handle too slowly. If the deadlock detection cycle has not yet run, a transaction involved in a deadlock will simply sit blocked. With a timeout, that transaction will abort itself after the configured interval regardless of whether detection has fired. Timeouts also protect against scenarios that are not technically deadlocks but that still cause indefinite blocking — for example, a long-running transaction that holds locks for minutes while performing an external service call.</p>
+
+<p>Calibrating the timeout value is a genuinely difficult engineering decision:</p>
+
+<ul>
+  <li><strong>Too short:</strong> Legitimate transactions that are simply waiting for a busy but progressing peer will time out prematurely, causing unnecessary aborts and retries. In a high-throughput system this can produce a cascade of spurious failures that increase load on the retry path.</li>
+  <li><strong>Too long:</strong> Deadlocked transactions wait for the full timeout before being resolved, during which all their held locks block every transaction waiting for those resources. The blast radius of the deadlock expands over time as more transactions queue up waiting for the locked resources.</li>
+</ul>
+
+<p>A common practice is to set the timeout to a value meaningfully longer than the 99th-percentile transaction duration — enough that normal slow transactions are not affected — but short enough that a genuine deadlock is resolved in an acceptable time. Values between 5 and 30 seconds are typical for OLTP systems, though batch or reporting workloads may warrant longer timeouts.</p>
+
+<p>Because a timed-out transaction is aborted, the application must handle the error and retry the transaction. This is exactly the same retry requirement as deadlock victim selection, and in practice applications often handle both with the same retry logic: catch the deadlock or timeout error, wait a brief random backoff interval to avoid immediate re-collision, and resubmit the transaction.</p>
+
+<p><strong>Deadlock Victim Selection</strong></p>
+
+<p>When the database engine detects a deadlock cycle, it must choose exactly one transaction from the cycle to be the <strong>victim</strong> — the transaction that will be forcibly rolled back so the others can proceed. Selecting the right victim matters because it determines how much work must be redone.</p>
+
+<p>Different database engines use different criteria, and most allow some degree of application control. Common victim-selection heuristics include:</p>
+
+<ul>
+  <li><strong>Least work done:</strong> The transaction that has consumed the fewest resources (CPU time, log records written, rows modified) is selected. Rolling it back discards the smallest amount of completed work, minimizing wasted effort system-wide. SQL Server uses this as one of its primary criteria, measured by the number of log records the transaction has generated.</li>
+  <li><strong>Fewest locks held:</strong> The transaction holding the smallest number of locks is chosen. Releasing fewer locks has less impact on other waiting transactions and simplifies the lock table cleanup.</li>
+  <li><strong>Lowest assigned priority:</strong> Some systems allow explicit deadlock priority levels. SQL Server supports <code>SET DEADLOCK_PRIORITY</code> with values from -10 (most likely to be victim) to 10 (least likely), with LOW, NORMAL, and HIGH as named shortcuts. A transaction set to HIGH is essentially protected from being chosen as a victim unless all other participants are also HIGH.</li>
+  <li><strong>Transaction age:</strong> Younger transactions (started more recently) are sometimes preferred as victims on the theory that they have less accumulated work to lose.</li>
+</ul>
+
+<p>When a transaction is selected as a deadlock victim, the engine rolls it back completely — undoing all of its modifications — and releases all of its locks. The other transactions in the cycle can then acquire the resources they were waiting for and continue. The victim transaction receives an error (for example, SQL Server error 1205, "Transaction was deadlocked on resources with another process and has been chosen as the deadlock victim"). The application must catch this error and retry the transaction.</p>
+
+<p>The retry pattern for deadlock victims typically looks like this at the application layer:</p>
+
+<pre><code>MAX_RETRIES = 3
+RETRY_DELAY_BASE_MS = 100
+
+for attempt in range(MAX_RETRIES):
+    try:
+        begin_transaction()
+        execute_transaction_logic()
+        commit()
+        break  # success, exit loop
+    except DeadlockVictimError:
+        rollback()
+        if attempt < MAX_RETRIES - 1:
+            sleep(RETRY_DELAY_BASE_MS * (2 ** attempt) + random_jitter())
+        else:
+            raise  # exhausted retries, propagate the failure
+</code></pre>
+
+<p>The exponential backoff with random jitter is important: if two transactions deadlocked each other and both retry immediately with the same timing, they will very likely deadlock each other again. Random jitter staggers their retry times, breaking the symmetry.</p>
+
+<p>It is also worth noting that deadlock victim selection must be deterministic enough to always resolve the cycle — the engine cannot select zero victims (the deadlock persists) or select all victims (unnecessary rollbacks). Exactly one victim from each deadlock cycle is the correct choice.</p>
+
+<p><strong>Best Practices for Minimizing Deadlocks</strong></p>
+
+<p>While deadlocks can never be completely eliminated in a general-purpose concurrent system, their frequency can be dramatically reduced through good design and operational discipline.</p>
+
+<ul>
+  <li><strong>Keep transactions short and focused.</strong> The single most effective measure is reducing transaction duration. Locks are held for the life of the transaction. A transaction that takes 500 milliseconds holds its locks for 500 milliseconds, during which it can collide with many other transactions. A transaction that takes 5 milliseconds is exposed for only a tiny window. Avoid doing non-database work — network calls, file I/O, user prompts, complex computations — inside a transaction. Open the transaction as late as possible and close it as soon as possible.</li>
+  <li><strong>Access objects in a consistent order.</strong> As discussed under prevention strategies, enforcing a canonical order for lock acquisition across all code paths that touch the same set of tables or rows eliminates circular waits. This should be an explicit documented convention for any codebase that uses concurrent transactions. Consider enforcing it through shared stored procedures or a data access layer that automatically orders operations.</li>
+  <li><strong>Use the least restrictive lock type necessary.</strong> An exclusive lock blocks everyone; a shared lock blocks only exclusive-lock requests. If a transaction only needs to read a row, requesting a shared lock (or using snapshot isolation to avoid a lock entirely) instead of an exclusive lock dramatically reduces the chance of conflict. Many deadlocks involve transactions that unnecessarily escalate to exclusive locks for reads they could have performed with a shared or no lock at all.</li>
+  <li><strong>Break large batch operations into smaller transactions.</strong> A bulk operation that updates 100,000 rows in a single transaction holds exclusive locks on all 100,000 rows for its entire duration, creating enormous contention and deadlock surface area. Processing the same 100,000 rows in batches of 500 rows per transaction means locks are held and released frequently, reducing the chance of overlap with other transactions.</li>
+  <li><strong>Consider row-level locking and appropriate indexing.</strong> Table-level or page-level lock escalation dramatically increases the blast radius of each transaction's locking. Proper indexing allows the engine to identify and lock only the specific rows needed, rather than escalating to a page or table lock because a table scan is necessary. Review query execution plans to ensure transactions are using index seeks, not scans, on high-contention tables.</li>
+  <li><strong>Regularly review deadlock logs and traces.</strong> Most database engines provide detailed deadlock information through logs, extended events (SQL Server), or the <code>pg_locks</code> and <code>pg_stat_activity</code> views (PostgreSQL). These logs identify exactly which transactions were involved, which resources they were contending over, and the queries executing at the time. Recurring deadlock patterns involving the same tables or stored procedures are strong signals that those code paths need refactoring — perhaps to change their lock-acquisition order, add a covering index, or break the transaction into smaller pieces.</li>
+  <li><strong>Use snapshot isolation where appropriate.</strong> Row versioning-based isolation levels (such as Read Committed Snapshot Isolation in SQL Server, or Repeatable Read with MVCC in PostgreSQL) allow readers to see a consistent snapshot of the data without acquiring shared locks. This eliminates an entire class of reader-writer deadlocks, because readers no longer block writers and writers no longer block readers. The trade-off is increased storage for version history and slightly higher overhead for version chain traversal.</li>
+</ul>
+
+<p>Deadlock management is ultimately a combination of engineering (designing transactions to be short, ordered, and minimally locking), operational awareness (monitoring deadlock logs and responding to recurring patterns), and application resilience (implementing robust retry logic that handles victim selection gracefully). Systems that treat deadlocks as exceptional one-off events rather than an expected operational condition will struggle; systems that design explicitly for their occurrence — making retry logic a first-class feature — handle them smoothly and invisibly to end users.</p>
+        <div class="notes"><strong>Notes</strong>Covers the full lifecycle of a deadlock: formation conditions (Coffman&#39;s four conditions), detection via wait-for graph cycle analysis, prevention strategies targeting each condition, timeout calibration, victim selection criteria and retry patterns, and operational best practices including snapshot isolation and batch sizing. The wait-for graph table and prevention strategy comparison table are rendered as proper HTML tables. Code example illustrates retry-with-backoff pattern in pseudocode.</div>
+      </div>
+    </details>
+  </main>
+</body></html>

@@ -1,9 +1,9 @@
 {
   "Id": "81be3407-0309-4c9c-b0bd-314962a8599e",
-  "Name": "Using Keys and Key Types in SQL",
+  "Name": "10 - Using Keys and Key Types in SQL",
   "Description": "This lesson provides an in-depth look at primary keys, foreign keys, candidate keys, composite keys, and surrogate keys in SQL databases. Students will learn how to define and enforce key constraints to maintain data integrity and support referential integrity.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.7210448-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.7217977-04:00",
+  "LastModifiedDate": "2026-07-07T20:42:19.3802719-04:00",
   "Actions": []
 }

@@ -1,0 +1,150 @@
+{
+  "PresentationTitle": "Normal Forms: 1NF, 2NF, and 3NF",
+  "Topic": "Introduction to Normalization, First Normal Form (1NF), Second Normal Form (2NF), Third Normal Form (3NF), Applying Normal Forms: End-to-End Practice",
+  "Audience": "undergraduate students",
+  "Tone": "Professional",
+  "Slides": [
+    {
+      "SlideNumber": 1,
+      "Title": "Normal Forms: 1NF, 2NF, and 3NF",
+      "Bullets": [
+        "A structured guide to reducing redundancy and ensuring data integrity through database normalization."
+      ],
+      "SpeakerNotes": "Welcome students to the presentation. This session covers the foundational principles of database normalization, progressing through the first three normal forms. By the end, students will understand how to transform an unnormalized table into a clean, 3NF-compliant schema. Emphasize that normalization is a core skill for anyone designing or working with relational databases."
+    },
+    {
+      "SlideNumber": 2,
+      "Title": "Introduction to Database Normalization",
+      "Bullets": [
+        "Normalization organizes databases to reduce redundancy and improve integrity.",
+        "Data redundancy stores the same information in multiple places unnecessarily.",
+        "Data integrity ensures information remains accurate and consistent over time.",
+        "Normalization prevents insertion, update, and deletion anomalies.",
+        "Normal forms are progressive criteria numbered from 1NF upward."
+      ],
+      "SpeakerNotes": "Begin by defining normalization: it is the process of structuring a relational database to eliminate redundant data and enforce data integrity. Redundancy wastes storage and causes inconsistencies \u2014 for example, updating a customer\u0027s address in one row but not others. Data integrity means the database reflects reality accurately at all times. The three anomalies to highlight: insertion anomalies prevent adding data without unrelated data; update anomalies require changing the same fact in many rows; deletion anomalies accidentally destroy useful information. Normal forms provide a numbered checklist \u2014 each form builds on the previous one. Also introduce the key concept that normalization is fundamentally about managing dependencies: partial dependencies (a non-key attribute depends on only part of a composite key) and transitive dependencies (a non-key attribute depends on another non-key attribute)."
+    },
+    {
+      "SlideNumber": 3,
+      "Title": "First Normal Form (1NF): Rules and Requirements",
+      "Bullets": [
+        "1NF establishes the foundational structural rules for any table.",
+        "Atomicity: each cell must contain exactly one indivisible value.",
+        "Repeating groups \u2014 horizontal lists \u2014 must be eliminated.",
+        "Every table in 1NF must have a valid primary key.",
+        "Rows must be uniquely identifiable; no duplicate rows allowed."
+      ],
+      "SpeakerNotes": "First Normal Form is the starting point for all normalization. Atomicity is the most important rule: a cell storing \u0027Math, Science, English\u0027 violates 1NF because it contains multiple values. Repeating groups are a related violation \u2014 for example, columns like Course1, Course2, Course3 encode a list horizontally instead of as separate rows. The fix is to store each value in its own row. A primary key is required to uniquely identify each row; without it, the table cannot be considered normalized. Stress to students that if a table violates 1NF, there is no point evaluating it for 2NF or 3NF \u2014 1NF must be satisfied first."
+    },
+    {
+      "SlideNumber": 4,
+      "Title": "Transforming a Table into 1NF: Before and After",
+      "Bullets": [
+        "Identify multi-valued cells and repeating column groups.",
+        "Split multi-valued cells into separate rows for each value.",
+        "Remove repeated column groups; add rows instead.",
+        "Assign or confirm a primary key after restructuring.",
+        "Result: every cell holds one value; every row is unique."
+      ],
+      "SpeakerNotes": "Walk students through a step-by-step example. Consider a StudentCourses table with columns: StudentID, StudentName, Courses \u2014 where Courses holds \u0027Math, Science\u0027. Step 1: identify the violation \u2014 Courses is not atomic. Step 2: create a separate row for each course, so StudentID 1 appears twice, once for Math and once for Science. If the original table also had Course1, Course2, Course3 columns, remove those and convert each into its own row. Step 3: confirm the primary key \u2014 in this case, a composite key of (StudentID, Course) uniquely identifies each row. The before table is messy and hard to query; the after table is clean, consistent, and ready for further normalization."
+    },
+    {
+      "SlideNumber": 5,
+      "Title": "Second Normal Form (2NF): Eliminating Partial Dependencies",
+      "Bullets": [
+        "2NF requires the table to already satisfy 1NF.",
+        "A functional dependency: one attribute uniquely determines another.",
+        "Partial dependency: a non-key attribute depends on part of a composite key.",
+        "2NF rule: every non-key attribute must depend on the full key.",
+        "Solution: decompose the table to remove partial dependencies."
+      ],
+      "SpeakerNotes": "Second Normal Form builds directly on 1NF by adding a constraint about functional dependencies. Begin by explaining functional dependency: if knowing StudentID always tells you the StudentName, then StudentID \u2192 StudentName is a functional dependency. A partial dependency is a specific problem that arises only with composite primary keys: if a non-key attribute depends on just one part of the composite key, that is a partial dependency. For example, in a table keyed on (StudentID, CourseID), if StudentName depends only on StudentID and not on CourseID, that is a partial dependency. To identify partial dependencies, test each non-key attribute against every proper subset of the composite key. The remedy is table decomposition: split the table so that each resulting table contains only attributes that are fully dependent on its primary key. Partial dependencies cause redundancy \u2014 StudentName would repeat for every course a student takes."
+    },
+    {
+      "SlideNumber": 6,
+      "Title": "Achieving 2NF: Decomposition in Practice",
+      "Bullets": [
+        "Identify all non-key attributes and their dependencies.",
+        "Group attributes that depend only on part of the key.",
+        "Extract those groups into new, separate tables.",
+        "Retain foreign keys to preserve relationships between tables.",
+        "2NF reduces redundancy and prevents update and deletion anomalies."
+      ],
+      "SpeakerNotes": "Illustrate with a concrete example. Suppose a table Enrollment(StudentID, CourseID, StudentName, CourseName, Grade) has a composite key of (StudentID, CourseID). StudentName depends only on StudentID \u2014 partial dependency. CourseName depends only on CourseID \u2014 another partial dependency. Grade depends on both StudentID and CourseID \u2014 fully dependent, stays in the original table. Decompose into: Student(StudentID, StudentName), Course(CourseID, CourseName), and Enrollment(StudentID, CourseID, Grade). Now each table has attributes fully dependent on its primary key. This eliminates the redundancy of repeating StudentName and CourseName across many enrollment rows, and it prevents anomalies: you can add a student without enrolling them in a course, and deleting an enrollment does not lose the student\u0027s name."
+    },
+    {
+      "SlideNumber": 7,
+      "Title": "Third Normal Form (3NF): Eliminating Transitive Dependencies",
+      "Bullets": [
+        "A transitive dependency: a non-key column depends on another non-key column.",
+        "3NF requires the table to already satisfy 2NF.",
+        "3NF rule: every non-key attribute depends only on the primary key.",
+        "Spot violations by checking if non-key columns determine other non-key columns.",
+        "Solution: decompose to remove transitive dependencies."
+      ],
+      "SpeakerNotes": "Third Normal Form extends 2NF by targeting a different type of dependency. A transitive dependency chain looks like this: PrimaryKey \u2192 NonKeyA \u2192 NonKeyB. NonKeyB is not directly dependent on the primary key \u2014 it depends on NonKeyA instead. For example, in an Employee table with (EmployeeID, DepartmentID, DepartmentName): EmployeeID \u2192 DepartmentID (direct), and DepartmentID \u2192 DepartmentName (transitive). DepartmentName does not depend on EmployeeID directly \u2014 it depends on DepartmentID. To spot violations, examine every non-key attribute and ask: is its value determined by the primary key, or by some other non-key attribute? If the latter, there is a 3NF violation. The fix is decomposition: extract the transitive chain into its own table with the determining non-key attribute as the primary key."
+    },
+    {
+      "SlideNumber": 8,
+      "Title": "Achieving 3NF: Decomposition Example",
+      "Bullets": [
+        "Identify the non-key attribute causing the transitive chain.",
+        "Extract it and its dependent(s) into a new table.",
+        "Use the determining attribute as the new table\u0027s primary key.",
+        "Replace the dependent columns with a foreign key reference.",
+        "3NF yields cleaner, more maintainable schemas with less redundancy."
+      ],
+      "SpeakerNotes": "Continue with the Employee example. Original table: Employee(EmployeeID, EmployeeName, DepartmentID, DepartmentName, DepartmentLocation). Transitive dependencies: DepartmentID \u2192 DepartmentName and DepartmentID \u2192 DepartmentLocation. Decompose into: Employee(EmployeeID, EmployeeName, DepartmentID) and Department(DepartmentID, DepartmentName, DepartmentLocation). DepartmentID in Employee is now a foreign key referencing Department. This eliminates the redundancy of repeating DepartmentName and DepartmentLocation for every employee in the same department. Benefits of 3NF include: updating a department name requires changing only one row in the Department table; deleting all employees in a department does not delete the department\u0027s information; and inserting a new department does not require a corresponding employee record."
+    },
+    {
+      "SlideNumber": 9,
+      "Title": "End-to-End Practice: Starting Point and 1NF",
+      "Bullets": [
+        "Begin with a raw, unnormalized table containing multiple problems.",
+        "Identify multi-valued cells, repeating groups, and missing keys.",
+        "Eliminate non-atomic values by splitting into individual rows.",
+        "Remove repeating column groups; represent data as additional rows.",
+        "Confirm a valid primary key; the table now satisfies 1NF."
+      ],
+      "SpeakerNotes": "This section consolidates the entire normalization journey in one practice example. Start with a table such as Orders(OrderID, CustomerName, CustomerCity, Product1, Product2, Product3, Price1, Price2, Price3). Problems: Product1/2/3 and Price1/2/3 are repeating groups; a customer\u0027s city may appear redundantly; there may be no clear primary key. Step 1 \u2014 convert to 1NF: remove the repeating product/price columns and create a separate row for each product ordered. The new table might be OrderDetails(OrderID, CustomerName, CustomerCity, ProductName, Price) with a composite key of (OrderID, ProductName). Every cell now holds one value, every row is unique, and the table satisfies 1NF. Encourage students to verbalize why each change was necessary before moving on."
+    },
+    {
+      "SlideNumber": 10,
+      "Title": "End-to-End Practice: 2NF and 3NF Transformations",
+      "Bullets": [
+        "Check each non-key attribute against every part of the composite key.",
+        "CustomerName and CustomerCity depend only on OrderID \u2014 partial dependencies.",
+        "Decompose: extract Customer data into its own table for 2NF.",
+        "Check remaining tables for transitive dependencies.",
+        "Extract any transitive chains into new tables to achieve 3NF."
+      ],
+      "SpeakerNotes": "Continuing the example from the previous slide. After 1NF, the table is OrderDetails(OrderID, CustomerName, CustomerCity, ProductName, Price) with composite key (OrderID, ProductName). Step 2 \u2014 identify partial dependencies: CustomerName and CustomerCity depend only on OrderID, not on ProductName. Decompose into: Customer(OrderID, CustomerName, CustomerCity) and OrderItem(OrderID, ProductName, Price). Now check for 3NF: in Customer, does CustomerCity depend on CustomerName? If CustomerName \u2192 CustomerCity (e.g., all rows with \u0027Alice\u0027 always show \u0027Boston\u0027), that is a transitive dependency. If so, decompose further into Customer(OrderID, CustomerName) and CustomerLocation(CustomerName, CustomerCity). Step 3 \u2014 validate: each table now has only attributes directly dependent on its primary key. No partial or transitive dependencies remain. Walk students through the full before-and-after comparison to solidify understanding."
+    },
+    {
+      "SlideNumber": 11,
+      "Title": "Validating the Final Schema",
+      "Bullets": [
+        "Confirm every table satisfies atomicity and has a primary key (1NF).",
+        "Verify all non-key attributes are fully dependent on the whole key (2NF).",
+        "Ensure no non-key attribute depends on another non-key attribute (3NF).",
+        "Check that all original data is preserved across decomposed tables.",
+        "Use foreign keys to confirm relationships between tables are intact."
+      ],
+      "SpeakerNotes": "The validation step is critical and often overlooked. Students should work through a checklist: First, confirm 1NF \u2014 are all values atomic? Does every table have a primary key? No duplicate rows? Second, confirm 2NF \u2014 for every table with a composite key, does every non-key attribute depend on the entire key? If any attribute depends on a subset, decomposition is incomplete. Third, confirm 3NF \u2014 for every table, do any non-key attributes determine other non-key attributes? If yes, further decomposition is needed. Finally, perform a lossless join check: joining all decomposed tables back together using their foreign key relationships should reconstruct the original data without duplication or data loss. This step confirms that normalization preserved data integrity throughout the process."
+    },
+    {
+      "SlideNumber": 12,
+      "Title": "Summary: The Normalization Journey",
+      "Bullets": [
+        "Normalization reduces redundancy and protects data integrity.",
+        "1NF: atomic values, no repeating groups, valid primary key.",
+        "2NF: eliminate partial dependencies on composite keys.",
+        "3NF: eliminate transitive dependencies among non-key attributes.",
+        "Each normal form builds on the previous, progressively cleaning the schema."
+      ],
+      "SpeakerNotes": "Close by reinforcing the progression and purpose of normalization. Start with the why: unnormalized databases are fragile \u2014 redundancy causes anomalies that corrupt data over time. 1NF is the baseline: enforce atomicity and row uniqueness. 2NF targets composite-key tables and removes partial dependencies, reducing row-level redundancy. 3NF goes further, eliminating transitive chains so that every fact in a table is a direct statement about the primary key. Together, these three normal forms transform messy, ad hoc tables into a clean, maintainable relational schema. Remind students that normalization is not just an academic exercise \u2014 it directly impacts query performance, data consistency, and the long-term maintainability of any database system. Encourage them to practice the full end-to-end process until it becomes second nature."
+    }
+  ],
+  "GeneratedDate": "2026-07-06T15:06:54.4463163-04:00",
+  "PptxFileName": ""
+}

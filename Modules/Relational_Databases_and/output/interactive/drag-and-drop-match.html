@@ -1,0 +1,790 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database Anomalies – Drag-and-Drop Match</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    color: #1a2a3a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  header h1 {
+    font-size: 1.7rem;
+    color: #1e3a5f;
+    margin-bottom: 6px;
+  }
+
+  header .subtitle {
+    font-size: 1rem;
+    color: #4a6080;
+    margin-bottom: 10px;
+  }
+
+  .instructions {
+    background: #dbeafe;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    color: #1e3a5f;
+    max-width: 900px;
+    width: 100%;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .score-bar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    background: #1e3a5f;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 24px;
+    max-width: 900px;
+    width: 100%;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .score-bar span { color: #93c5fd; }
+  .score-bar .score-value { color: #fbbf24; font-size: 1.2rem; }
+
+  .game-area {
+    display: flex;
+    gap: 18px;
+    width: 100%;
+    max-width: 900px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* SOURCE COLUMN */
+  .source-column {
+    flex: 1 1 260px;
+    min-width: 240px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .source-column h2, .target-column h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 14px;
+    color: #1e3a5f;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+  }
+
+  .draggable-item {
+    background: #1e3a5f;
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+    cursor: grab;
+    line-height: 1.45;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+    user-select: none;
+    border: 2px solid transparent;
+    position: relative;
+  }
+
+  .draggable-item:active { cursor: grabbing; }
+
+  .draggable-item.dragging {
+    opacity: 0.45;
+    transform: scale(0.97);
+  }
+
+  .draggable-item.placed {
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .draggable-item .anomaly-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    font-size: 0.72rem;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-bottom: 4px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  /* TARGET COLUMN */
+  .target-column {
+    flex: 2 1 400px;
+    min-width: 320px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .drop-zone {
+    background: #f8fafc;
+    border: 2px dashed #94a3b8;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    min-height: 80px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .drop-zone .scenario-text {
+    font-size: 0.88rem;
+    color: #374151;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .drop-zone .scenario-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+
+  .drop-zone.drag-over {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  .drop-zone.correct {
+    border-style: solid;
+    border-color: #0d9488;
+    background: #f0fdfa;
+  }
+
+  .drop-zone.incorrect-flash {
+    border-color: #dc2626;
+    background: #fef2f2;
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes shake {
+    0%   { transform: translateX(0); }
+    20%  { transform: translateX(-6px); }
+    40%  { transform: translateX(6px); }
+    60%  { transform: translateX(-4px); }
+    80%  { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+  }
+
+  .drop-zone .placed-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #0d9488;
+    color: #fff;
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 4px;
+    animation: popIn 0.3s ease;
+  }
+
+  @keyframes popIn {
+    0%   { transform: scale(0.8); opacity: 0; }
+    70%  { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .drop-zone .placed-label .check-icon {
+    font-size: 1rem;
+  }
+
+  .feedback-msg {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-top: 4px;
+    min-height: 18px;
+    color: #dc2626;
+  }
+
+  /* WIN / GAME OVER */
+  .end-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 40, 0.75);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+  }
+  .end-overlay.visible { display: flex; }
+
+  .end-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px 40px;
+    text-align: center;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    animation: fadeUp 0.4s ease;
+  }
+
+  @keyframes fadeUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0);   opacity: 1; }
+  }
+
+  .end-card.win { border-top: 6px solid #0d9488; }
+  .end-card.lose { border-top: 6px solid #f59e0b; }
+
+  .end-card h2 { font-size: 1.6rem; margin-bottom: 10px; color: #1e3a5f; }
+  .end-card p  { font-size: 1rem; color: #374151; margin-bottom: 20px; line-height: 1.6; }
+
+  .end-card .final-score {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0d9488;
+    margin-bottom: 18px;
+  }
+
+  .btn-reset {
+    background: #1e3a5f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 32px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    min-height: 46px;
+  }
+
+  .btn-reset:hover { background: #2d5080; }
+  .btn-reset:active { transform: scale(0.97); }
+
+  .inline-reset {
+    display: block;
+    margin: 18px auto 0;
+    background: #64748b;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    min-height: 42px;
+    transition: background 0.2s;
+  }
+  .inline-reset:hover { background: #475569; }
+
+  .attempts-indicator {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .attempt-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #fbbf24;
+    display: inline-block;
+  }
+  .attempt-dot.used { background: #dc2626; }
+
+  @media (max-width: 620px) {
+    header h1 { font-size: 1.3rem; }
+    .game-area { flex-direction: column; }
+    .end-card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗂️ Database Anomalies – Drag-and-Drop Match</h1>
+  <p class="subtitle">Module 3 · Relational Databases and Normalization Concepts</p>
+</header>
+
+<div class="instructions">
+  <strong>Instructions:</strong> Drag each <em>anomaly label</em> from the left column and drop it onto the scenario in the right column that it best describes. Correct matches lock in place. Incorrect drops bounce back. You have <strong>3 attempts</strong> per scenario. Match all scenarios to win!
+</div>
+
+<div class="score-bar">
+  <div>Matched: <span class="score-value" id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
+  <div>Mistakes: <span class="score-value" id="mistakesDisplay">0</span></div>
+  <button class="btn-reset" id="topResetBtn" style="min-height:36px;padding:6px 18px;font-size:0.88rem;">↺ Restart</button>
+</div>
+
+<div class="game-area">
+  <div class="source-column">
+    <h2>Anomaly Types</h2>
+    <div id="sourceContainer"></div>
+  </div>
+  <div class="target-column">
+    <h2>Scenarios</h2>
+    <div id="targetContainer"></div>
+  </div>
+</div>
+
+<!-- End overlay -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card" id="endCard">
+    <h2 id="endTitle"></h2>
+    <div class="final-score" id="endScore"></div>
+    <p id="endMessage"></p>
+    <button class="btn-reset" id="overlayResetBtn">↺ Play Again</button>
+  </div>
+</div>
+
+<script>
+  // ─── GAME DATA ────────────────────────────────────────────────────────────────
+  // Each scenario has an id, description text, and the correct anomaly label id.
+  // Labels correspond to the three core anomaly types plus structural concepts.
+
+  const ANOMALY_LABELS = [
+    {
+      id: "insertion",
+      shortName: "Insertion Anomaly",
+      description: "Cannot add new data without including unrelated or unavailable data"
+    },
+    {
+      id: "update",
+      shortName: "Update Anomaly",
+      description: "Changing one fact requires updating the same value in many rows"
+    },
+    {
+      id: "deletion",
+      shortName: "Deletion Anomaly",
+      description: "Deleting one record causes unintended loss of other important data"
+    },
+    {
+      id: "redundancy",
+      shortName: "Data Redundancy",
+      description: "The same information is stored repeatedly across multiple rows"
+    },
+    {
+      id: "partial_dep",
+      shortName: "Partial-Key Dependency",
+      description: "A non-key attribute depends on only part of a composite primary key"
+    },
+    {
+      id: "mixed_entity",
+      shortName: "Mixed Entity Types",
+      description: "A single table stores facts about more than one real-world entity"
+    }
+  ];
+
+  const SCENARIOS = [
+    {
+      id: "s1",
+      label: "Scenario A",
+      text: "A university stores all course information inside the Enrollment table. When a new course is added before any student enrolls, the row cannot be inserted because StudentID (part of the primary key) would be NULL.",
+      correctLabel: "insertion"
+    },
+    {
+      id: "s2",
+      label: "Scenario B",
+      text: "A company's Orders table stores the customer's address in every order row. When a customer moves, a data-entry clerk must find and change the address in dozens of separate order records.",
+      correctLabel: "update"
+    },
+    {
+      id: "s3",
+      label: "Scenario C",
+      text: "An Enrollment table also holds instructor contact details. When the last student drops a course, that entire row is deleted — and the instructor's phone number is permanently lost from the database.",
+      correctLabel: "deletion"
+    },
+    {
+      id: "s4",
+      label: "Scenario D",
+      text: "A ProductOrders table repeats the product name, product category, and supplier contact in every row for every order that includes that product.",
+      correctLabel: "redundancy"
+    },
+    {
+      id: "s5",
+      label: "Scenario E",
+      text: "In a table with a composite key (OrderID, ProductID), the column ProductName depends only on ProductID and not on the full composite key.",
+      correctLabel: "partial_dep"
+    },
+    {
+      id: "s6",
+      label: "Scenario F",
+      text: "A single table called Staff_Project holds columns for employee salary and personal details alongside project budget and project deadline — combining two unrelated entities in one relation.",
+      correctLabel: "mixed_entity"
+    }
+  ];
+
+  // ─── STATE ────────────────────────────────────────────────────────────────────
+  let scoreMatched = 0;
+  let totalMistakes = 0;
+  let attemptsPerZone = {};   // { scenarioId: remainingAttempts }
+  let lockedZones = new Set();
+  let currentDragId = null;
+  const MAX_ATTEMPTS = 3;
+
+  // ─── DOM REFERENCES ───────────────────────────────────────────────────────────
+  const sourceContainer = document.getElementById('sourceContainer');
+  const targetContainer = document.getElementById('targetContainer');
+  const scoreDisplay    = document.getElementById('scoreDisplay');
+  const mistakesDisplay = document.getElementById('mistakesDisplay');
+  const totalDisplay    = document.getElementById('totalDisplay');
+  const endOverlay      = document.getElementById('endOverlay');
+  const endCard         = document.getElementById('endCard');
+  const endTitle        = document.getElementById('endTitle');
+  const endScore        = document.getElementById('endScore');
+  const endMessage      = document.getElementById('endMessage');
+
+  // ─── INIT ─────────────────────────────────────────────────────────────────────
+  function initGame() {
+    scoreMatched  = 0;
+    totalMistakes = 0;
+    lockedZones   = new Set();
+    attemptsPerZone = {};
+    currentDragId = null;
+
+    SCENARIOS.forEach(s => { attemptsPerZone[s.id] = MAX_ATTEMPTS; });
+
+    sourceContainer.innerHTML = '';
+    targetContainer.innerHTML = '';
+    endOverlay.classList.remove('visible');
+
+    updateScoreBar();
+    totalDisplay.textContent = SCENARIOS.length;
+
+    // Build draggable items (shuffled for variety)
+    const shuffledLabels = [...ANOMALY_LABELS].sort(() => Math.random() - 0.5);
+    shuffledLabels.forEach(label => {
+      const el = createDraggableItem(label);
+      sourceContainer.appendChild(el);
+    });
+
+    // Build drop zones
+    const shuffledScenarios = [...SCENARIOS].sort(() => Math.random() - 0.5);
+    shuffledScenarios.forEach(scenario => {
+      const el = createDropZone(scenario);
+      targetContainer.appendChild(el);
+    });
+  }
+
+  // ─── BUILD DRAGGABLE ITEM ─────────────────────────────────────────────────────
+  function createDraggableItem(label) {
+    const div = document.createElement('div');
+    div.classList.add('draggable-item');
+    div.id = 'label-' + label.id;
+    div.setAttribute('draggable', 'true');
+    div.dataset.labelId = label.id;
+    div.innerHTML = `<div class="anomaly-badge">${label.shortName}</div><br>${label.description}`;
+
+    // Desktop drag events
+    div.addEventListener('dragstart', onDragStart);
+    div.addEventListener('dragend',   onDragEnd);
+
+    // Touch events for mobile
+    div.addEventListener('touchstart', onTouchStart, { passive: false });
+
+    return div;
+  }
+
+  // ─── BUILD DROP ZONE ──────────────────────────────────────────────────────────
+  function createDropZone(scenario) {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('drop-zone');
+    wrapper.id = 'zone-' + scenario.id;
+    wrapper.dataset.scenarioId = scenario.id;
+    wrapper.dataset.correctLabel = scenario.correctLabel;
+
+    const labelEl = document.createElement('div');
+    labelEl.classList.add('scenario-label');
+    labelEl.textContent = scenario.label;
+
+    const textEl = document.createElement('div');
+    textEl.classList.add('scenario-text');
+    textEl.textContent = scenario.text;
+
+    const attemptsEl = document.createElement('div');
+    attemptsEl.classList.add('attempts-indicator');
+    attemptsEl.id = 'attempts-' + scenario.id;
+    renderAttemptDots(attemptsEl, MAX_ATTEMPTS, 0);
+
+    const feedbackEl = document.createElement('div');
+    feedbackEl.classList.add('feedback-msg');
+    feedbackEl.id = 'feedback-' + scenario.id;
+
+    wrapper.appendChild(labelEl);
+    wrapper.appendChild(textEl);
+    wrapper.appendChild(attemptsEl);
+    wrapper.appendChild(feedbackEl);
+
+    // Desktop drop events
+    wrapper.addEventListener('dragover',  onDragOver);
+    wrapper.addEventListener('dragleave', onDragLeave);
+    wrapper.addEventListener('drop',      onDrop);
+
+    return wrapper;
+  }
+
+  function renderAttemptDots(container, max, used) {
+    container.innerHTML = '';
+    for (let i = 0; i < max; i++) {
+      const dot = document.createElement('span');
+      dot.classList.add('attempt-dot');
+      if (i < used) dot.classList.add('used');
+      container.appendChild(dot);
+    }
+  }
+
+  // ─── DRAG EVENTS (DESKTOP) ───────────────────────────────────────────────────
+  function onDragStart(e) {
+    const labelId = e.currentTarget.dataset.labelId;
+    currentDragId = labelId;
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', labelId);
+  }
+
+  function onDragEnd(e) {
+    e.currentTarget.classList.remove('dragging');
+  }
+
+  function onDragOver(e) {
+    e.preventDefault();
+    const zone = e.currentTarget;
+    if (!lockedZones.has(zone.dataset.scenarioId)) {
+      zone.classList.add('drag-over');
+    }
+  }
+
+  function onDragLeave(e) {
+    e.currentTarget.classList.remove('drag-over');
+  }
+
+  function onDrop(e) {
+    e.preventDefault();
+    const zone = e.currentTarget;
+    zone.classList.remove('drag-over');
+    const labelId = e.dataTransfer.getData('text/plain') || currentDragId;
+    handleAttempt(zone, labelId);
+  }
+
+  // ─── TOUCH EVENTS (MOBILE) ───────────────────────────────────────────────────
+  let touchDragEl  = null;
+  let touchClone   = null;
+  let touchOffsetX = 0;
+  let touchOffsetY = 0;
+
+  function onTouchStart(e) {
+    const item = e.currentTarget;
+    if (item.classList.contains('placed')) return;
+
+    const touch = e.touches[0];
+    const rect  = item.getBoundingClientRect();
+
+    currentDragId = item.dataset.labelId;
+    touchDragEl   = item;
+    touchOffsetX  = touch.clientX - rect.left;
+    touchOffsetY  = touch.clientY - rect.top;
+
+    // Create floating clone
+    touchClone = item.cloneNode(true);
+    touchClone.style.cssText = `
+      position:fixed; z-index:999; pointer-events:none; opacity:0.85;
+      width:${rect.width}px; left:${touch.clientX - touchOffsetX}px;
+      top:${touch.clientY - touchOffsetY}px; margin:0; transition:none;
+    `;
+    document.body.appendChild(touchClone);
+    item.classList.add('dragging');
+
+    document.addEventListener('touchmove',  onTouchMove,  { passive: false });
+    document.addEventListener('touchend',   onTouchEnd);
+    document.addEventListener('touchcancel',onTouchEnd);
+    e.preventDefault();
+  }
+
+  function onTouchMove(e) {
+    if (!touchClone) return;
+    const touch = e.touches[0];
+    touchClone.style.left = (touch.clientX - touchOffsetX) + 'px';
+    touchClone.style.top  = (touch.clientY - touchOffsetY) + 'px';
+    e.preventDefault();
+  }
+
+  function onTouchEnd(e) {
+    if (!touchClone) return;
+    const touch = e.changedTouches[0];
+    const dropTarget = getDropZoneAtPoint(touch.clientX, touch.clientY);
+
+    document.body.removeChild(touchClone);
+    touchClone = null;
+    if (touchDragEl) touchDragEl.classList.remove('dragging');
+
+    document.removeEventListener('touchmove',   onTouchMove);
+    document.removeEventListener('touchend',    onTouchEnd);
+    document.removeEventListener('touchcancel', onTouchEnd);
+
+    if (dropTarget) {
+      handleAttempt(dropTarget, currentDragId);
+    }
+    touchDragEl = null;
+  }
+
+  function getDropZoneAtPoint(x, y) {
+    const zones = document.querySelectorAll('.drop-zone');
+    for (const zone of zones) {
+      const rect = zone.getBoundingClientRect();
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        return zone;
+      }
+    }
+    return null;
+  }
+
+  // ─── CORE LOGIC ───────────────────────────────────────────────────────────────
+  function handleAttempt(zone, labelId) {
+    const scenarioId    = zone.dataset.scenarioId;
+    const correctLabelId = zone.dataset.correctLabel;
+
+    if (lockedZones.has(scenarioId)) return;
+    if (!labelId) return;
+
+    const labelEl = document.getElementById('label-' + labelId);
+    const attemptsEl = document.getElementById('attempts-' + scenarioId);
+    const feedbackEl = document.getElementById('feedback-' + scenarioId);
+
+    if (labelId === correctLabelId) {
+      // ✅ CORRECT
+      lockedZones.add(scenarioId);
+      zone.classList.add('correct');
+      feedbackEl.textContent = '';
+
+      // Show placed label inside drop zone
+      const matchedLabel = ANOMALY_LABELS.find(l => l.id === labelId);
+      const placedEl = document.createElement('div');
+      placedEl.classList.add('placed-label');
+      placedEl.innerHTML = `<span class="check-icon">✔</span>${matchedLabel.shortName}`;
+      zone.appendChild(placedEl);
+
+      // Remove from source
+      if (labelEl) labelEl.classList.add('placed');
+
+      scoreMatched++;
+      updateScoreBar();
+      checkWinCondition();
+
+    } else {
+      // ❌ INCORRECT
+      totalMistakes++;
+      attemptsPerZone[scenarioId]--;
+      const remaining = attemptsPerZone[scenarioId];
+      const used = MAX_ATTEMPTS - remaining;
+
+      renderAttemptDots(attemptsEl, MAX_ATTEMPTS, used);
+      updateScoreBar();
+
+      // Flash zone
+      zone.classList.add('incorrect-flash');
+      setTimeout(() => zone.classList.remove('incorrect-flash'), 500);
+
+      if (remaining <= 0) {
+        // Out of attempts — reveal correct answer
+        lockedZones.add(scenarioId);
+        zone.classList.add('correct');
+        const matchedLabel = ANOMALY_LABELS.find(l => l.id === correctLabelId);
+        const revealEl = document.createElement('div');
+        revealEl.classList.add('placed-label');
+        revealEl.style.background = '#f59e0b';
+        revealEl.innerHTML = `<span class="check-icon">ℹ️</span>${matchedLabel.shortName} (revealed)`;
+        zone.appendChild(revealEl);
+
+        // Hide correct label from source too
+        const correctLabelEl = document.getElementById('label-' + correctLabelId);
+        if (correctLabelEl) correctLabelEl.classList.add('placed');
+
+        feedbackEl.textContent = '';
+        scoreMatched++; // count as matched (forced)
+        updateScoreBar();
+        checkWinCondition();
+      } else {
+        const labelName = ANOMALY_LABELS.find(l => l.id === labelId)?.shortName || labelId;
+        feedbackEl.textContent = `"${labelName}" is not correct here. ${remaining} attempt${remaining !== 1 ? 's' : ''} left.`;
+      }
+    }
+  }
+
+  function updateScoreBar() {
+    scoreDisplay.textContent    = scoreMatched;
+    mistakesDisplay.textContent = totalMistakes;
+  }
+
+  function checkWinCondition() {
+    if (scoreMatched < SCENARIOS.length) return;
+
+    // Small delay for visual satisfaction
+    setTimeout(() => showEndScreen(), 600);
+  }
+
+  function showEndScreen() {
+    const perfect = totalMistakes === 0;
+    const allRevealedCorrectly = [...lockedZones].length === SCENARIOS.length;
+
+    endCard.className = 'end-card ' + (perfect ? 'win' : 'win');
+    endTitle.textContent = perfect ? '🎉 Perfect Match!' : '✅ All Matched!';
+    endScore.textContent = `${SCENARIOS.length - (totalMistakes > 0 ? 0 : 0)} / ${SCENARIOS.length} scenarios matched`;
+
+    if (perfect) {
+      endMessage.innerHTML = `Excellent! You matched every database anomaly scenario correctly on the <strong>first try</strong>. You have a strong grasp of insertion, update, deletion anomalies, and structural data problems!`;
+    } else if (totalMistakes < 4) {
+      endMessage.innerHTML = `Good work! You matched all scenarios with <strong>${totalMistakes} mistake${totalMistakes !== 1 ? 's' : ''}</strong>. Review any scenarios marked with the ℹ️ icon to reinforce your understanding of each anomaly type.`;
+    } else {
+      endMessage.innerHTML = `You completed all scenarios with <strong>${totalMistakes} mistakes</strong>. Revisit the differences between insertion, update, and deletion anomalies to sharpen your analysis skills.`;
+    }
+
+    endScore.textContent = `Mistakes: ${totalMistakes}`;
+    endOverlay.classList.add('visible');
+  }
+
+  // ─── RESET ────────────────────────────────────────────────────────────────────
+  document.getElementById('topResetBtn').addEventListener('click', initGame);
+  document.getElementById('overlayResetBtn').addEventListener('click', initGame);
+
+  // ─── START ────────────────────────────────────────────────────────────────────
+  initGame();
+</script>
+</body>
+</html>

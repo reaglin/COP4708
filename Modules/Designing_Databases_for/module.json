@@ -1,9 +1,9 @@
 {
   "Id": "48efdcf2-3806-4358-bf6e-ddbd7cf04928",
-  "Name": "Designing Databases for Concurrent Use",
+  "Name": "13 - Designing Databases for Concurrent Use",
   "Description": "This lesson addresses the challenges of multi-user database environments, covering transactions, ACID properties, locking mechanisms, and isolation levels. Students will explore concurrency control strategies to prevent data conflicts and ensure consistency.",
   "CreatedBy": "Ron Eaglin",
   "CreatedDate": "2026-06-27T14:40:49.7453712-04:00",
-  "LastModifiedDate": "2026-06-27T14:40:49.7458125-04:00",
+  "LastModifiedDate": "2026-07-07T20:43:40.9156271-04:00",
   "Actions": []
 }

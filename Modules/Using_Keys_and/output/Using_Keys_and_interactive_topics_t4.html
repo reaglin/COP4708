@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Keys</title>
+  <style>
+:root {
+    --bg:         #ffffff;
+    --surface:    #f8f9fa;
+    --border:     #dee2e6;
+    --accent:     #2563eb;
+    --accent-bg:  #eff6ff;
+    --text:       #1e293b;
+    --muted:      #64748b;
+    --bullet-bg:  #f1f5f9;
+    --notes-bg:   #fefce8;
+    --notes-border:#fbbf24;
+    --code-bg:    #f8fafc;
+    --code-border:#e2e8f0;
+    --radius:     8px;
+    --shadow:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 16px; line-height: 1.7; margin: 0; padding: 0; }
+header { background: var(--accent); color: #fff; padding: 2.5rem 2rem 2rem; }
+header h1 { margin: 0 0 .4rem; font-size: 2rem; font-weight: 700; }
+header p  { margin: 0; opacity: .85; font-size: .95rem; }
+main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem 4rem; }
+.slide-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; box-shadow: var(--shadow); overflow: hidden; }
+.slide-header { display: flex; align-items: center; gap: 1rem; padding: .9rem 1.25rem; cursor: pointer; user-select: none; background: var(--accent-bg); border-bottom: 1px solid var(--border); }
+.slide-header:hover { background: #dbeafe; }
+.slide-num { background: var(--accent); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 700; flex-shrink: 0; }
+.slide-header h2 { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+.chevron { transition: transform .25s; font-size: .8rem; color: var(--muted); }
+.slide-body { padding: 1.25rem; display: none; }
+.slide-body.open { display: block; }
+.bullets { list-style: none; margin: 0 0 1rem; padding: 0; }
+.bullets li { background: var(--bullet-bg); border-radius: 6px; padding: .55rem .9rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: flex-start; }
+.bullets li::before { content: "•"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: .05rem; }
+.notes { background: var(--notes-bg); border-left: 3px solid var(--notes-border); border-radius: 0 6px 6px 0; padding: .75rem 1rem; font-size: .9rem; color: var(--muted); margin-top: .5rem; }
+.notes strong { display: block; margin-bottom: .25rem; color: #92400e; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+/* Document layout */
+.doc-section { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.doc-section:last-child { border-bottom: none; }
+.doc-section h2 { color: var(--accent); font-size: 1.4rem; margin: 0 0 1rem; display: flex; gap: .75rem; align-items: center; }
+pre, code { font-family: 'Cascadia Code', 'Consolas', monospace; }
+pre { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 6px; padding: 1rem; overflow-x: auto; white-space: pre; line-height: 1.5; font-size: .9rem; }
+  </style>
+  <style>
+    body { padding-left: 1.1rem; padding-right: 1.1rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid rgba(128,128,128,.45); padding: .45em .7em; text-align: left; vertical-align: top; }
+    thead th { background: rgba(128,128,128,.18); font-weight: 600; }
+    tbody tr:nth-child(even) { background: rgba(128,128,128,.08); }
+    a.topic-detail-link { text-decoration: underline; }
+  </style>
+  <style>
+    summary.slide-header { list-style: none; }
+    summary.slide-header::-webkit-details-marker { display: none; }
+    details.slide-card[open] > .slide-body { display: block; }
+    details.slide-card[open] .chevron { transform: rotate(90deg); }
+    @media print { details.slide-card > .slide-body { display: block !important; } .chevron { display: none; } }
+  </style>
+</head><body>
+  <header>
+    <h1>Candidate Keys</h1>
+  </header><main>
+    <details class="slide-card" open>
+      <summary class="slide-header"><span class="slide-num">1</span><h2>Candidate Keys</h2><span class="chevron">▶</span></summary>
+      <div class="slide-body">
+        <p>In relational database theory, a <strong>candidate key</strong> is any column — or minimal combination of columns — in a table that is capable of uniquely identifying every row. The word "candidate" is deliberate: each such key is a <em>contender</em> for the role of primary key. Exactly one candidate key is ultimately promoted to primary key status, but the others do not disappear from the design; they remain meaningful structural constraints that protect data integrity. Understanding candidate keys thoroughly is essential because they sit at the very heart of relational theory, normalization, and sound schema design.</p>
+
+<p>Before exploring the formal properties, consider a concrete scenario. Imagine a university maintains a table of enrolled students. Every student is assigned a system-generated student number, and every student also has a government-issued national identity number. Both columns uniquely identify a student with no duplicates and no missing values. Both are therefore candidate keys. The designer must choose one as the primary key, but both deserve to be treated as keys throughout the lifetime of the database.</p>
+
+<p><strong>What Is a Candidate Key?</strong></p>
+
+<p>A candidate key is defined by two non-negotiable requirements: its values must be <em>unique</em> across every row in the table, and it must <em>never contain NULL values</em>. These two requirements work together. Uniqueness alone is not enough — if a column can be NULL, two different rows could both have NULL in that column, making it impossible to tell them apart through the key. NULL represents an unknown or inapplicable value, so a key that permits NULL cannot guarantee that every single row is fully and unambiguously identifiable.</p>
+
+<p>Consider the following <code>students</code> table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>student_number</th>
+      <th>national_id</th>
+      <th>email</th>
+      <th>full_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1001</td><td>NI-884-221</td><td>ana@uni.edu</td><td>Ana Rivera</td></tr>
+    <tr><td>1002</td><td>NI-553-019</td><td>ben@uni.edu</td><td>Ben Okoro</td></tr>
+    <tr><td>1003</td><td>NI-771-340</td><td>cara@uni.edu</td><td>Cara Singh</td></tr>
+  </tbody>
+</table>
+
+<p>Here, <code>student_number</code>, <code>national_id</code>, and <code>email</code> each appear to be unique across all current rows. Whether each qualifies as a true candidate key depends on whether that uniqueness is a <em>guaranteed structural property</em> — not a coincidence of the current data snapshot — and whether NULLs are permitted. If the business rules state that every student must have a student number, a national ID, and an email, and all three must be unique system-wide, then all three are candidate keys.</p>
+
+<p><strong>Properties That Define a Candidate Key</strong></p>
+
+<p>Two formal properties must both be satisfied simultaneously for a set of columns to qualify as a candidate key:</p>
+
+<ul>
+  <li><strong>Uniqueness:</strong> No two rows in the table may share the same value (or the same combination of values, in the case of a composite key) for the candidate key columns. This uniqueness must be a permanent guarantee enforced by the database schema, not merely a characteristic of the rows that happen to exist today. For example, if <code>full_name</code> is unique in the current data only because the university happens to have no name collisions right now, it is <em>not</em> a candidate key — the domain knowledge tells us that two students could share the same name in the future.</li>
+  <li><strong>Irreducibility (Minimality):</strong> No proper subset of the key's columns can provide the same uniqueness guarantee on its own. This property is what distinguishes a candidate key from a mere superkey. A <em>superkey</em> is any set of columns that uniquely identifies rows, including sets with redundant columns. A candidate key is a superkey stripped down to its smallest irreducible form. For example, if <code>student_number</code> alone uniquely identifies every student, then the combination <code>(student_number, email)</code> is a superkey but <em>not</em> a candidate key, because <code>email</code> is unnecessary for uniqueness.</li>
+</ul>
+
+<p>Consider a <code>course_enrollments</code> table that records which student is enrolled in which course in which semester:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>student_number</th>
+      <th>course_code</th>
+      <th>semester</th>
+      <th>grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1001</td><td>CS101</td><td>2024-Fall</td><td>A</td></tr>
+    <tr><td>1001</td><td>MA201</td><td>2024-Fall</td><td>B</td></tr>
+    <tr><td>1002</td><td>CS101</td><td>2024-Fall</td><td>A</td></tr>
+    <tr><td>1001</td><td>CS101</td><td>2025-Spring</td><td>NULL</td></tr>
+  </tbody>
+</table>
+
+<p>No single column is unique here — student 1001 appears multiple times, course CS101 appears multiple times, and semester 2024-Fall appears multiple times. The combination <code>(student_number, course_code, semester)</code> is unique across all rows: a student can enroll in the same course in different semesters, but not twice in the same semester for the same course. Dropping any one of the three columns breaks uniqueness. Therefore, <code>(student_number, course_code, semester)</code> is a candidate key — specifically a <strong>composite candidate key</strong>.</p>
+
+<p><strong>Identifying Candidate Keys in a Table</strong></p>
+
+<p>The process of identifying candidate keys involves both mechanical testing and informed reasoning about the domain:</p>
+
+<ul>
+  <li><strong>Examine single columns first.</strong> For each column, ask whether its values are required to be unique and non-NULL for every possible valid row — not just the rows currently in the table. Columns like sequential IDs, government ID numbers, email addresses (when required and unique by policy), or ISBN numbers for books are strong candidates. Columns like names, dates, or status codes are almost never candidate keys on their own.</li>
+  <li><strong>Test combinations of columns when no single column qualifies.</strong> When no individual column passes the uniqueness test, look for pairs or larger groups. Begin with the smallest combinations and work outward. A combination qualifies only if no smaller subset of it also provides uniqueness — this enforces the minimality requirement.</li>
+  <li><strong>Apply domain knowledge and business rules.</strong> This is the most important step. Current data can be misleading. A column might happen to contain all unique values in a table with ten rows, but the business rules might allow duplicates. Conversely, a business rule might guarantee uniqueness even though duplicate values could theoretically arise — for example, a business rule stating "no two products may share the same SKU code." Always reason about the <em>universe of all valid future states</em> of the table, not just what is stored today.</li>
+</ul>
+
+<p>A practical example: suppose you are designing a table for a product catalog.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>product_id</th>
+      <th>sku</th>
+      <th>barcode</th>
+      <th>product_name</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>SKU-001</td><td>5901234123457</td><td>Wireless Mouse</td><td>29.99</td></tr>
+    <tr><td>2</td><td>SKU-002</td><td>4006381333931</td><td>USB Keyboard</td><td>49.99</td></tr>
+    <tr><td>3</td><td>SKU-003</td><td>7350053850019</td><td>HDMI Cable</td><td>12.99</td></tr>
+  </tbody>
+</table>
+
+<p>Domain knowledge tells us: <code>product_id</code> is a system-generated surrogate that is always unique and never NULL; <code>sku</code> is a mandatory, unique stock-keeping code assigned by the business; <code>barcode</code> is a mandatory, globally unique product barcode. <code>product_name</code> could theoretically repeat (two different products might share a generic name), and <code>price</code> obviously repeats. Therefore, <code>product_id</code>, <code>sku</code>, and <code>barcode</code> are all candidate keys. The combination <code>(sku, barcode)</code> would be a superkey but not a candidate key, because each column alone already guarantees uniqueness.</p>
+
+<p><strong>Candidate Keys vs. Primary Keys</strong></p>
+
+<p>The relationship between candidate keys and the primary key is straightforward but important to be precise about. The <strong>primary key</strong> is simply the one candidate key that the database designer formally designates as the main mechanism for identifying rows. It is declared with the <code>PRIMARY KEY</code> constraint in SQL, and it serves as the target of foreign key references from other tables. Only one primary key is permitted per table.</p>
+
+<p>The candidate keys that are <em>not</em> chosen as the primary key are sometimes called <strong>alternate keys</strong>. They are just as valid from a theoretical standpoint — they still uniquely identify every row — but they play a supporting role in the schema. The choice of which candidate key to promote to primary key is a design decision, not a theoretical one. Designers typically favor:</p>
+
+<ul>
+  <li><strong>Simplicity:</strong> A single-column key is easier to work with as a foreign key than a composite key.</li>
+  <li><strong>Stability:</strong> A key whose value is unlikely to change over time is preferable. A student's email address might change; a system-generated student number typically does not.</li>
+  <li><strong>Performance:</strong> Shorter keys (such as integers) are indexed and compared more efficiently than longer strings like email addresses or barcodes.</li>
+</ul>
+
+<p>In the product catalog example, a designer would likely choose <code>product_id</code> as the primary key because it is a compact integer that never changes. The <code>sku</code> and <code>barcode</code> columns would be enforced as alternate keys using UNIQUE constraints.</p>
+
+<p><strong>Enforcing Candidate Keys with UNIQUE Constraints</strong></p>
+
+<p>Because only one candidate key can become the primary key, the others must be enforced through <strong>UNIQUE constraints</strong>. A UNIQUE constraint tells the database engine that no two rows may hold the same value (or combination of values) in the constrained column or columns. This preserves the integrity of alternate keys at the database level, ensuring that the uniqueness guarantee is not merely a convention documented in design notes but is actively enforced at every insert and update.</p>
+
+<p>The SQL to enforce the product catalog's candidate keys might look like this:</p>
+
+<pre><code>CREATE TABLE products (
+    product_id  INT          NOT NULL,
+    sku         VARCHAR(20)  NOT NULL,
+    barcode     VARCHAR(20)  NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    price       DECIMAL(10,2) NOT NULL,
+    CONSTRAINT pk_products PRIMARY KEY (product_id),
+    CONSTRAINT uq_products_sku UNIQUE (sku),
+    CONSTRAINT uq_products_barcode UNIQUE (barcode)
+);</code></pre>
+
+<p>There is one important distinction between the <code>PRIMARY KEY</code> and <code>UNIQUE</code> constraints regarding NULL values. A <code>PRIMARY KEY</code> column always prohibits NULLs — this is absolute. A <code>UNIQUE</code> constraint, in most relational database systems (including PostgreSQL, MySQL, and SQL Server), permits NULL values in the constrained column, and typically allows <em>multiple rows</em> to each have NULL in that column. The reasoning is that NULL means "unknown," and two unknown values are not considered equal, so they do not violate uniqueness. However, this behavior means a UNIQUE column with NULLs does not fully satisfy the theoretical definition of a candidate key, which requires non-NULL values in every row. To enforce a true alternate key using a UNIQUE constraint, the column should also be declared <code>NOT NULL</code>, as shown in the example above.</p>
+
+<p>For composite alternate keys, the UNIQUE constraint covers the combination:</p>
+
+<pre><code>ALTER TABLE course_enrollments
+    ADD CONSTRAINT uq_enrollment UNIQUE (student_number, course_code, semester);</code></pre>
+
+<p>This ensures the combination is unique across all rows, mirroring the uniqueness guarantee that a composite primary key would provide.</p>
+
+<p><strong>Role of Candidate Keys in Database Design</strong></p>
+
+<p>Candidate keys are not just a bookkeeping formality — they play active, foundational roles in the entire design and optimization of a relational database.</p>
+
+<ul>
+  <li><strong>Foundation for normalization:</strong> The normal forms that drive redundancy elimination — particularly Second Normal Form (2NF) and Third Normal Form (3NF) — are defined in terms of functional dependencies relative to candidate keys, not just the primary key. A non-key attribute that depends on only part of a composite candidate key violates 2NF regardless of which key was chosen as primary. Designers who ignore alternate candidate keys risk creating schemas with hidden redundancy and update anomalies. Recognizing all candidate keys is therefore a prerequisite for a correctly normalized schema.</li>
+  <li><strong>Design flexibility:</strong> Having multiple candidate keys gives the designer choices. If business requirements change — for example, the government stops issuing national identity numbers in the same format — the designer can promote a different candidate key to primary key status, or adjust the schema with confidence because the underlying uniqueness structure was already understood and enforced.</li>
+  <li><strong>Index creation and query performance:</strong> Columns that form candidate keys are excellent candidates for database indexes. Because their values are unique, indexes built on them are maximally selective — a query filtering on a candidate key column can locate a single row with minimal index traversal. Most database engines automatically create an index when a PRIMARY KEY or UNIQUE constraint is declared, so enforcing candidate keys through constraints also brings automatic performance benefits. For large tables, having a unique index on a frequently queried column (like <code>email</code> or <code>barcode</code>) can reduce query execution time from a full table scan to an almost instant lookup.</li>
+  <li><strong>Data integrity at every layer:</strong> Enforcing all candidate keys — not just the primary key — closes the door on subtle data integrity problems. For example, if a business rule says every customer must have a unique email address but only the primary key (a surrogate ID) is enforced in the database, nothing prevents two rows for different customers from sharing the same email address. Declaring a UNIQUE NOT NULL constraint on the email column enforces the candidate key and prevents this class of error entirely, regardless of whether the application layer remembers to check.</li>
+</ul>
+
+<p>To summarize the relationships discussed, the following table contrasts the key concepts:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Definition</th>
+      <th>Allows NULL?</th>
+      <th>How Many Per Table?</th>
+      <th>Enforced By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Superkey</td>
+      <td>Any set of columns that uniquely identifies rows (may include redundant columns)</td>
+      <td>No (for true identification)</td>
+      <td>Many</td>
+      <td>Conceptual only</td>
+    </tr>
+    <tr>
+      <td>Candidate Key</td>
+      <td>A minimal superkey — unique and irreducible, no NULLs</td>
+      <td>No</td>
+      <td>One or more</td>
+      <td>PRIMARY KEY or UNIQUE NOT NULL constraint</td>
+    </tr>
+    <tr>
+      <td>Primary Key</td>
+      <td>The one candidate key chosen as the official row identifier</td>
+      <td>No</td>
+      <td>Exactly one</td>
+      <td>PRIMARY KEY constraint</td>
+    </tr>
+    <tr>
+      <td>Alternate Key</td>
+      <td>A candidate key not chosen as the primary key</td>
+      <td>No (should be NOT NULL)</td>
+      <td>Zero or more</td>
+      <td>UNIQUE NOT NULL constraint</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Mastering candidate keys means understanding that the primary key is not the only key that matters — it is simply the chosen representative of a potentially richer set of uniqueness guarantees that exist in the data. Identifying, documenting, and enforcing all candidate keys produces schemas that are more robust, more flexible, and better aligned with the real-world business rules the database is meant to serve.</p>
+        <div class="notes"><strong>Notes</strong>The explanation covers all listed subtopics: definition and NULL/uniqueness requirements, the two formal properties (uniqueness and irreducibility/minimality), the identification process, the distinction between candidate keys and primary keys (including alternate keys), UNIQUE constraint enforcement with SQL examples, and the broader design roles in normalization, flexibility, and indexing. A summary comparison table is included to consolidate the conceptual distinctions. SQL code blocks illustrate CREATE TABLE and ALTER TABLE UNIQUE constraint syntax.</div>
+      </div>
+    </details>
+  </main>
+</body></html>
