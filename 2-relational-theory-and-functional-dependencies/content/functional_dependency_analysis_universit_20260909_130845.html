@@ -1,0 +1,799 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Functional Dependency Analysis – University Course Registration</title>
+<style>
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #f4f6f9;
+  }
+
+  /* ── Layout ── */
+  header {
+    background: #003366;
+    color: #ffffff;
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+  header h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+  header p  { font-size: 0.95rem; opacity: 0.9; }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  section { margin-bottom: 2rem; }
+
+  h2 {
+    font-size: 1.25rem;
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 { font-size: 1.05rem; color: #003366; margin-bottom: 0.5rem; }
+
+  /* ── Scenario box ── */
+  .scenario-box {
+    background: #e8f0fb;
+    border-left: 5px solid #003366;
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+  }
+  .scenario-box p { margin-top: 0.4rem; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.92rem;
+  }
+  .legend-swatch {
+    width: 18px; height: 18px;
+    border-radius: 3px;
+    border: 1px solid #555;
+    flex-shrink: 0;
+  }
+  .swatch-valid    { background: #2d7a2d; }
+  .swatch-invalid  { background: #b30000; }
+  .swatch-partial  { background: #7a5200; }
+
+  /* ── Data Table ── */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.82rem;
+  }
+
+  thead th {
+    background: #003366;
+    color: #ffffff;
+    padding: 0.55rem 0.6rem;
+    text-align: left;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  tbody tr:nth-child(odd)  { background: #ffffff; }
+  tbody tr:nth-child(even) { background: #dce8f5; }
+
+  tbody td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid #b0c4de;
+    white-space: nowrap;
+  }
+
+  /* ── FD Cards ── */
+  .fd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+
+  .fd-card {
+    background: #ffffff;
+    border: 2px solid #b0c4de;
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.25s;
+  }
+  .fd-card.correct   { border-color: #2d7a2d; background: #f0fff0; }
+  .fd-card.incorrect { border-color: #b30000; background: #fff0f0; }
+
+  .fd-label {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.6rem;
+  }
+
+  .fd-number {
+    display: inline-block;
+    background: #003366;
+    color: #fff;
+    font-size: 0.78rem;
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    line-height: 22px;
+    text-align: center;
+    margin-right: 0.4rem;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    font-size: 0.93rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: background 0.15s;
+  }
+  .radio-group label:hover { background: #e8f0fb; }
+  .radio-group input[type="radio"] { accent-color: #003366; width: 16px; height: 16px; }
+
+  /* Hint */
+  .hint-btn {
+    background: none;
+    border: 1px solid #7a5200;
+    color: #7a5200;
+    font-size: 0.82rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: background 0.15s, color 0.15s;
+  }
+  .hint-btn:hover, .hint-btn:focus {
+    background: #7a5200;
+    color: #ffffff;
+    outline: 2px solid #f0c040;
+    outline-offset: 2px;
+  }
+  .hint-text {
+    display: none;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    background: #fffbea;
+    border: 1px solid #e0c060;
+    border-radius: 4px;
+    padding: 0.5rem 0.7rem;
+    color: #4a3800;
+    line-height: 1.5;
+  }
+  .hint-text.visible { display: block; }
+
+  /* Card feedback */
+  .card-feedback {
+    margin-top: 0.6rem;
+    font-size: 0.87rem;
+    font-weight: bold;
+    min-height: 1.2em;
+  }
+  .card-feedback.correct-msg  { color: #1a5c1a; }
+  .card-feedback.incorrect-msg { color: #8b0000; }
+
+  /* ── Controls ── */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn-check {
+    background: #003366;
+    color: #ffffff;
+    border: none;
+    padding: 0.65rem 2rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+  .btn-check:hover, .btn-check:focus {
+    background: #00509e;
+    outline: 3px solid #f0c040;
+    outline-offset: 2px;
+  }
+
+  .btn-reset {
+    background: #ffffff;
+    color: #003366;
+    border: 2px solid #003366;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-reset:hover, .btn-reset:focus {
+    background: #003366;
+    color: #ffffff;
+    outline: 3px solid #f0c040;
+    outline-offset: 2px;
+  }
+
+  /* ── Score Banner ── */
+  #score-banner {
+    display: none;
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  #score-banner.partial {
+    background: #fff3cd;
+    border: 2px solid #e0a800;
+    color: #664d03;
+  }
+  #score-banner.all-correct {
+    background: #d4edda;
+    border: 2px solid #28a745;
+    color: #155724;
+  }
+  #score-banner strong { font-size: 1.1rem; }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    display: none;
+    margin-top: 0.75rem;
+    width: 100%;
+  }
+  .progress-wrap label {
+    font-size: 0.88rem;
+    font-family: Arial, sans-serif;
+    color: #1a1a1a;
+  }
+  progress {
+    width: 100%;
+    height: 14px;
+    border-radius: 6px;
+    accent-color: #2d7a2d;
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  /* ── Attempts counter ── */
+  #attempts-display {
+    font-size: 0.9rem;
+    font-family: Arial, sans-serif;
+    color: #444;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  /* ── Answer Key (revealed at end) ── */
+  #answer-key {
+    display: none;
+    margin-top: 2rem;
+  }
+  #answer-key table thead th { background: #1a5c1a; }
+  #answer-key table tbody td { font-size: 0.83rem; vertical-align: top; }
+  .validity-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    white-space: nowrap;
+    font-family: Arial, sans-serif;
+  }
+  .badge-valid   { background: #d4edda; color: #155724; border: 1px solid #28a745; }
+  .badge-invalid { background: #f8d7da; color: #721c24; border: 1px solid #dc3545; }
+  .badge-partial { background: #fff3cd; color: #664d03; border: 1px solid #e0a800; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.2rem; }
+    .fd-grid   { grid-template-columns: 1fr; }
+    .controls  { flex-direction: column; align-items: stretch; }
+    .btn-check, .btn-reset { width: 100%; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; }
+    .hint-btn, .btn-check, .btn-reset, .controls { display: none; }
+    .fd-card { break-inside: avoid; border: 1px solid #999; }
+  }
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div>
+
+<header>
+  <h1>Functional Dependency Analysis Exercise</h1>
+  <p>Module 2 – Relational Theory and Functional Dependencies &nbsp;|&nbsp; University Course Registration System</p>
+</header>
+
+<main>
+
+  <!-- ══ Scenario ══ -->
+  <section aria-labelledby="scenario-heading">
+    <h2 id="scenario-heading">Scenario</h2>
+    <div class="scenario-box">
+      <p>You are analyzing a dataset from a university's course registration system. The table below contains information about students, courses, instructors, and enrollments.</p>
+      <p><strong>Your task:</strong> For each potential functional dependency (FD) listed in the exercise, choose whether it is <strong>Valid</strong>, <strong>Invalid</strong>, or <strong>Partially Valid</strong> based on the sample data. Use the <em>Hint</em> button if you need a nudge. When you are ready, click <strong>Check Answers</strong>.</p>
+    </div>
+  </section>
+
+  <!-- ══ Legend ══ -->
+  <section aria-labelledby="legend-heading">
+    <h2 id="legend-heading">Validity Key</h2>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch swatch-valid" aria-hidden="true"></div>
+        <span><strong>Valid</strong> – the FD holds for every row in the data with no counterexamples.</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch swatch-invalid" aria-hidden="true"></div>
+        <span><strong>Invalid</strong> – at least one clear counterexample exists in the data.</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch swatch-partial" aria-hidden="true"></div>
+        <span><strong>Partially Valid</strong> – appears to hold in some cases but breaks down in others due to data variation.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Data Table ══ -->
+  <section aria-labelledby="data-heading">
+    <h2 id="data-heading">Sample Data Table: COURSE_ENROLLMENT</h2>
+    <div class="table-wrapper">
+      <table>
+        <caption class="sr-only">COURSE_ENROLLMENT – 10 sample rows used for the functional dependency analysis exercise.</caption>
+        <thead>
+          <tr>
+            <th scope="col">StudentID</th>
+            <th scope="col">StudentName</th>
+            <th scope="col">Major</th>
+            <th scope="col">GPA</th>
+            <th scope="col">CourseCode</th>
+            <th scope="col">CourseName</th>
+            <th scope="col">Credits</th>
+            <th scope="col">InstructorID</th>
+            <th scope="col">InstructorName</th>
+            <th scope="col">Semester</th>
+            <th scope="col">Grade</th>
+            <th scope="col">ClassSize</th>
+            <th scope="col">RoomNumber</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>S001</td><td>Alice Johnson</td><td>Computer Science</td><td>3.75</td><td>CS101</td><td>Intro to Programming</td><td>3</td><td>I201</td><td>Dr. Smith</td><td>Fall2023</td><td>A</td><td>25</td><td>R101</td></tr>
+          <tr><td>S001</td><td>Alice Johnson</td><td>Computer Science</td><td>3.75</td><td>MATH201</td><td>Calculus II</td><td>4</td><td>I105</td><td>Prof. Wilson</td><td>Fall2023</td><td>B+</td><td>30</td><td>R205</td></tr>
+          <tr><td>S002</td><td>Bob Chen</td><td>Engineering</td><td>3.20</td><td>CS101</td><td>Intro to Programming</td><td>3</td><td>I201</td><td>Dr. Smith</td><td>Fall2023</td><td>B</td><td>25</td><td>R101</td></tr>
+          <tr><td>S003</td><td>Carol Davis</td><td>Mathematics</td><td>3.90</td><td>MATH201</td><td>Calculus II</td><td>4</td><td>I105</td><td>Prof. Wilson</td><td>Fall2023</td><td>A</td><td>30</td><td>R205</td></tr>
+          <tr><td>S001</td><td>Alice Johnson</td><td>Computer Science</td><td>3.85</td><td>CS102</td><td>Data Structures</td><td>3</td><td>I201</td><td>Dr. Smith</td><td>Spring2024</td><td>A−</td><td>20</td><td>R101</td></tr>
+          <tr><td>S004</td><td>David Wilson</td><td>Computer Science</td><td>2.85</td><td>CS101</td><td>Intro to Programming</td><td>3</td><td>I307</td><td>Dr. Taylor</td><td>Spring2024</td><td>C+</td><td>28</td><td>R150</td></tr>
+          <tr><td>S002</td><td>Bob Chen</td><td>Engineering</td><td>3.35</td><td>PHYS201</td><td>Physics II</td><td>4</td><td>I105</td><td>Prof. Wilson</td><td>Spring2024</td><td>B−</td><td>22</td><td>R205</td></tr>
+          <tr><td>S005</td><td>Emma Brown</td><td>Mathematics</td><td>3.60</td><td>MATH201</td><td>Calculus II</td><td>4</td><td>I105</td><td>Prof. Wilson</td><td>Spring2024</td><td>B+</td><td>35</td><td>R301</td></tr>
+          <tr><td>S003</td><td>Carol Davis</td><td>Mathematics</td><td>3.90</td><td>STAT301</td><td>Statistics</td><td>3</td><td>I405</td><td>Dr. Lee</td><td>Fall2023</td><td>A</td><td>18</td><td>R180</td></tr>
+          <tr><td>S006</td><td>Frank Miller</td><td>Engineering</td><td>3.45</td><td>CS101</td><td>Intro to Programming</td><td>3</td><td>I201</td><td>Dr. Smith</td><td>Fall2023</td><td>B+</td><td>25</td><td>R101</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ Exercise ══ -->
+  <section aria-labelledby="exercise-heading">
+    <h2 id="exercise-heading">Exercise: Evaluate Each Functional Dependency</h2>
+
+    <div class="fd-grid" id="fd-grid" role="list">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn-check" id="check-btn" type="button">Check Answers</button>
+      <button class="btn-reset" id="reset-btn" type="button">Reset All</button>
+      <div id="score-banner" role="alert" aria-live="polite"></div>
+      <div class="progress-wrap" id="progress-wrap">
+        <label for="progress-bar">Correct answers: <span id="progress-label">0</span> / 15</label>
+        <progress id="progress-bar" max="15" value="0"></progress>
+      </div>
+      <div id="attempts-display" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ══ Answer Key (shown only when all correct) ══ -->
+  <section id="answer-key" aria-labelledby="key-heading">
+    <h2 id="key-heading">Full Answer Key</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Potential Dependency</th>
+            <th scope="col">Validity</th>
+            <th scope="col">Reason</th>
+          </tr>
+        </thead>
+        <tbody id="answer-key-body">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ================================================================
+   DATA – Functional Dependencies
+================================================================ */
+const FDs = [
+  {
+    id: 1,
+    label: "StudentID → StudentName",
+    answer: "valid",
+    hint: "Check every row where S001 appears. Does 'Alice Johnson' always appear? Do any two different StudentIDs share the same name?",
+    reason: "Each StudentID maps to exactly one student name throughout the dataset. S001 is always 'Alice Johnson', S002 is always 'Bob Chen', etc. No StudentID ever appears with two different names."
+  },
+  {
+    id: 2,
+    label: "StudentID → Major",
+    answer: "valid",
+    hint: "Look at S001 across all rows. Does the Major column ever change for the same StudentID?",
+    reason: "Every occurrence of a given StudentID carries the same Major. S001 is always Computer Science, S002 is always Engineering, etc. There are no counterexamples in the data."
+  },
+  {
+    id: 3,
+    label: "StudentID → GPA",
+    answer: "invalid",
+    hint: "Find all rows for S001. Is the GPA value identical in every row? What about S002?",
+    reason: "S001 appears with GPA 3.75 in Fall2023 and 3.85 in Spring2024. S002 appears with 3.20 and 3.35. The same StudentID maps to different GPA values, so this FD does NOT hold."
+  },
+  {
+    id: 4,
+    label: "CourseCode → CourseName",
+    answer: "valid",
+    hint: "Check all rows where CourseCode = 'CS101'. Is CourseName always the same? Repeat for MATH201.",
+    reason: "Every time CS101 appears the CourseName is 'Intro to Programming'; MATH201 is always 'Calculus II', etc. No CourseCode maps to more than one CourseName."
+  },
+  {
+    id: 5,
+    label: "CourseCode → Credits",
+    answer: "valid",
+    hint: "Does CS101 always carry 3 credits? Does MATH201 always carry 4 credits across all rows?",
+    reason: "Credits are consistent for every CourseCode in the dataset. CS101 = 3, MATH201 = 4, PHYS201 = 4, STAT301 = 3, CS102 = 3. No counterexample exists."
+  },
+  {
+    id: 6,
+    label: "InstructorID → InstructorName",
+    answer: "valid",
+    hint: "Find all rows where InstructorID = 'I105'. Is InstructorName always 'Prof. Wilson'? Check other IDs too.",
+    reason: "Each InstructorID consistently maps to one name: I201→Dr. Smith, I105→Prof. Wilson, I307→Dr. Taylor, I405→Dr. Lee. No ID ever has two different names."
+  },
+  {
+    id: 7,
+    label: "CourseCode → InstructorID",
+    answer: "invalid",
+    hint: "Look at all rows where CourseCode = 'CS101'. How many different InstructorIDs appear? What does that tell you?",
+    reason: "CS101 is taught by I201 (Dr. Smith) in Fall2023 but by I307 (Dr. Taylor) in Spring2024. The same CourseCode maps to two different InstructorIDs, so this FD fails."
+  },
+  {
+    id: 8,
+    label: "CourseCode → InstructorName",
+    answer: "invalid",
+    hint: "If CourseCode → InstructorID is invalid, what does that imply for CourseCode → InstructorName? Check CS101 rows.",
+    reason: "Because the same course can be taught by different instructors in different semesters, CS101 maps to both 'Dr. Smith' and 'Dr. Taylor'. This FD fails for the same reason as CourseCode → InstructorID."
+  },
+  {
+    id: 9,
+    label: "RoomNumber → ClassSize",
+    answer: "invalid",
+    hint: "Find all rows where RoomNumber = 'R205'. Is ClassSize always the same? Look carefully at the numbers.",
+    reason: "R205 appears with ClassSize 30 in Fall2023 and ClassSize 22 in Spring2024 (for PHYS201). The same room hosts different class sizes in different semesters, so this FD does not hold."
+  },
+  {
+    id: 10,
+    label: "InstructorID → RoomNumber",
+    answer: "invalid",
+    hint: "Find all rows for InstructorID = 'I201' (Dr. Smith). Does Dr. Smith always teach in the same room? What about 'I105'?",
+    reason: "I201 (Dr. Smith) uses R101 consistently, but I105 (Prof. Wilson) appears in R205, R205, R205, and R301 across different offerings. Prof. Wilson does not always use the same room, breaking this FD."
+  },
+  {
+    id: 11,
+    label: "(StudentID, CourseCode) → Grade",
+    answer: "valid",
+    hint: "Is there any row in the table where the same student takes the same course more than once? Does the grade differ if so?",
+    reason: "No student appears in the same course more than once in this dataset. The composite key (StudentID, CourseCode) uniquely identifies each enrollment row, so this FD holds."
+  },
+  {
+    id: 12,
+    label: "(CourseCode, Semester) → InstructorID",
+    answer: "valid",
+    hint: "For each unique (CourseCode, Semester) combination, is there always exactly one InstructorID? Look at CS101 in Fall2023 vs. CS101 in Spring2024 as separate pairs.",
+    reason: "When Semester is added to CourseCode, each pair maps to exactly one instructor. CS101/Fall2023→I201, CS101/Spring2024→I307, MATH201/Fall2023→I105, MATH201/Spring2024→I105, etc. No pair maps to two instructors."
+  },
+  {
+    id: 13,
+    label: "(CourseCode, Semester) → ClassSize",
+    answer: "valid",
+    hint: "Compare MATH201 in Fall2023 (ClassSize = 30) vs. MATH201 in Spring2024 (ClassSize = 35). Are they the same? Does the composite key fix one class size per offering?",
+    reason: "Each (CourseCode, Semester) offering has one fixed ClassSize in this data. MATH201/Fall2023=30, MATH201/Spring2024=35. The composite key uniquely determines ClassSize."
+  },
+  {
+    id: 14,
+    label: "Major → GPA",
+    answer: "invalid",
+    hint: "Find all students who are Computer Science majors. Do they all have the same GPA? What about Engineering majors?",
+    reason: "S001 and S004 are both Computer Science majors, yet S001 has GPA 3.75/3.85 and S004 has 2.85. S002 and S006 are both Engineering majors with different GPAs. Major does not determine GPA."
+  },
+  {
+    id: 15,
+    label: "InstructorName → InstructorID",
+    answer: "valid",
+    hint: "Does any instructor name appear with two different InstructorIDs? Check 'Dr. Smith', 'Prof. Wilson', etc.",
+    reason: "In this dataset each distinct instructor name maps to exactly one ID: Dr. Smith→I201, Prof. Wilson→I105, Dr. Taylor→I307, Dr. Lee→I405. There are no duplicate names with different IDs, so this FD holds for this data."
+  }
+];
+
+/* ================================================================
+   STATE
+================================================================ */
+let attempts = 0;
+let checked  = false;
+
+/* ================================================================
+   BUILD CARDS
+================================================================ */
+function buildCards() {
+  const grid = document.getElementById("fd-grid");
+  grid.innerHTML = "";
+
+  FDs.forEach(fd => {
+    const card = document.createElement("article");
+    card.className = "fd-card";
+    card.id = `card-${fd.id}`;
+    card.setAttribute("role", "listitem");
+    card.setAttribute("aria-label", `Functional dependency ${fd.id}: ${fd.label}`);
+
+    const optionHTML = ["valid","invalid","partially valid"].map(opt => {
+      const optId = `fd${fd.id}-${opt.replace(" ","-")}`;
+      const label = opt === "valid" ? "Valid"
+                  : opt === "invalid" ? "Invalid"
+                  : "Partially Valid";
+      return `
+        <label for="${optId}">
+          <input type="radio" id="${optId}" name="fd${fd.id}" value="${opt}">
+          ${label}
+        </label>`;
+    }).join("");
+
+    card.innerHTML = `
+      <div class="fd-label">
+        <span class="fd-number" aria-hidden="true">${fd.id}</span>${fd.label}
+      </div>
+      <fieldset>
+        <legend class="sr-only">Choose validity for: ${fd.label}</legend>
+        <div class="radio-group">${optionHTML}</div>
+      </fieldset>
+      <button class="hint-btn" type="button"
+        aria-expanded="false"
+        aria-controls="hint-${fd.id}"
+        data-fdid="${fd.id}">
+        💡 Show Hint
+      </button>
+      <div class="hint-text" id="hint-${fd.id}" role="note">${fd.hint}</div>
+      <div class="card-feedback" id="feedback-${fd.id}" aria-live="polite"></div>
+    `;
+
+    grid.appendChild(card);
+
+    // Hint toggle
+    card.querySelector(".hint-btn").addEventListener("click", function() {
+      const hintBox = document.getElementById(`hint-${this.dataset.fdid}`);
+      const expanded = this.getAttribute("aria-expanded") === "true";
+      this.setAttribute("aria-expanded", String(!expanded));
+      hintBox.classList.toggle("visible", !expanded);
+      this.textContent = expanded ? "💡 Show Hint" : "🔒 Hide Hint";
+    });
+  });
+}
+
+/* ================================================================
+   CHECK ANSWERS
+================================================================ */
+function checkAnswers() {
+  let correct = 0;
+  let unanswered = 0;
+
+  FDs.forEach(fd => {
+    const selected = document.querySelector(`input[name="fd${fd.id}"]:checked`);
+    const card     = document.getElementById(`card-${fd.id}`);
+    const feedback = document.getElementById(`feedback-${fd.id}`);
+
+    if (!selected) {
+      unanswered++;
+      card.classList.remove("correct","incorrect");
+      feedback.textContent = "";
+      feedback.className = "card-feedback";
+      return;
+    }
+
+    const isCorrect = selected.value === fd.answer;
+
+    if (isCorrect) {
+      correct++;
+      card.classList.add("correct");
+      card.classList.remove("incorrect");
+      feedback.textContent = "✔ Correct!";
+      feedback.className = "card-feedback correct-msg";
+      // Disable radios for correct cards
+      document.querySelectorAll(`input[name="fd${fd.id}"]`).forEach(r => r.disabled = true);
+    } else {
+      card.classList.add("incorrect");
+      card.classList.remove("correct");
+      feedback.textContent = "✘ Not quite — try again.";
+      feedback.className = "card-feedback incorrect-msg";
+    }
+  });
+
+  if (unanswered > 0 && correct === 0) {
+    // Haven't really tried yet – don't count attempt
+    showBanner(`Please select an answer for all ${unanswered} unanswered question(s) before checking.`, "partial");
+    return;
+  }
+
+  attempts++;
+  checked = true;
+
+  // Progress
+  const progressWrap = document.getElementById("progress-wrap");
+  const progressBar  = document.getElementById("progress-bar");
+  const progressLbl  = document.getElementById("progress-label");
+  progressWrap.style.display = "block";
+  progressBar.value = correct;
+  progressLbl.textContent = correct;
+
+  const attemptsDisplay = document.getElementById("attempts-display");
+  attemptsDisplay.textContent = `Attempts so far: ${attempts}`;
+
+  const total = FDs.length;
+  const incorrect = total - correct - unanswered;
+
+  if (correct === total) {
+    showBanner(
+      `🎉 Perfect score! All ${total} answers are correct. The full answer key is now visible below.`,
+      "all-correct"
+    );
+    revealAnswerKey();
+    document.getElementById("check-btn").disabled = true;
+  } else {
+    showBanner(
+      `You got <strong>${correct} of ${total}</strong> correct. ` +
+      `<strong>${incorrect + unanswered}</strong> still need attention. Keep going!`,
+      "partial"
+    );
+  }
+}
+
+/* ================================================================
+   BANNER
+================================================================ */
+function showBanner(html, type) {
+  const banner = document.getElementById("score-banner");
+  banner.innerHTML = html;
+  banner.className = type; // "partial" | "all-correct"
+  banner.style.display = "block";
+}
+
+/* ================================================================
+   ANSWER KEY
+================================================================ */
+function revealAnswerKey() {
+  const section = document.getElementById("answer-key");
+  const tbody   = document.getElementById("answer-key-body");
+  section.style.display = "block";
+  tbody.innerHTML = "";
+
+  FDs.forEach(fd => {
+    const badgeClass = fd.answer === "valid"           ? "badge-valid"
+                     : fd.answer === "invalid"         ? "badge-invalid"
+                     : "badge-partial";
+    const badgeLabel = fd.answer === "valid"           ? "Valid"
+                     : fd.answer === "invalid"         ? "Invalid"
+                     : "Partially Valid";
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${fd.id}</td>
+      <td><code>${fd.label}</code></td>
+      <td><span class="validity-badge ${badgeClass}">${badgeLabel}</span></td>
+      <td>${fd.reason}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* ================================================================
+   RESET
+================================================================ */
+function resetAll() {
+  attempts = 0;
+  checked  = false;
+
+  document.getElementById("score-banner").style.display = "none";
+  document.getElementById("progress-wrap").style.display = "none";
+  document.getElementById("attempts-display").textContent = "";
+  document.getElementById("answer-key").style.display = "none";
+  document.getElementById("check-btn").disabled = false;
+
+  buildCards();
+}
+
+/* ================================================================
+   INIT
+================================================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  buildCards();
+  document.getElementById("check-btn").addEventListener("click", checkAnswers);
+  document.getElementById("reset-btn").addEventListener("click", resetAll);
+});
+
+/* Screen-reader-only utility (used by sr-only class via CSS if needed) */
+</script>
+
+<!-- SR-only style appended inside body for scope -->
+<style>
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>
