@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Functional Dependency Analysis Exercise: University Course Registration System</title>
+  <style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background: #f5f5f5;
+    color: #222;
+    padding: 2rem;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  }
+  h1, h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
+  h1 a, h2 a { color: #1a56a0; text-decoration: none; }
+  h1 a:hover, h2 a:hover { text-decoration: underline; }
+  .link-row { margin: 0.75rem 0; }
+  .link-row a { color: #1a56a0; font-weight: 600; word-break: break-all; }
+  .video-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;   /* 16:9 */
+    margin: 1rem 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .meta { margin-top: 1rem; }
+  .meta p { margin-bottom: 0.5rem; }
+  .label { font-weight: 600; }
+  .pedagogy {
+    margin-top: 1.25rem;
+    background: #f0f6ff;
+    border-left: 4px solid #1a56a0;
+    padding: 0.75rem 1rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .pedagogy h2 { font-size: 1rem; margin-bottom: 0.4rem; color: #1a56a0; }
+  .date { margin-top: 1.25rem; font-size: 0.85rem; color: #888; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div>
+<div class="card">
+<h1>Functional Dependency Analysis Exercise</h1>
+<h2>Scenario: University Course Registration System</h2>
+<p>You are analyzing a dataset from a university's course registration system. The table below contains information about students, courses, instructors, and enrollments. Your task is to identify which attributes have functional dependencies and which do not follow traditional dependency patterns.</p>
+<h2>Sample Data Table: COURSE_ENROLLMENT</h2>
+<pre></pre>
+<table style="border-collapse: collapse; width: 100%; font-size: 14px;">
+<thead>
+<tr style="background-color: #f2f2f2; border: 1px solid #ddd;">
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">StudentID</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">StudentName</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Major</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">GPA</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">CourseCode</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">CourseName</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Credits</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">InstructorID</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">InstructorName</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Semester</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Grade</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">ClassSize</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">RoomNumber</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border: 1px solid #ddd;">
+<td style="border: 1px solid #ddd; padding: 8px;">S001</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Alice Johnson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Computer Science</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.75</td>
+<td style="border: 1px solid #ddd; padding: 8px;">CS101</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Intro to Programming</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Dr. Smith</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Fall2023</td>
+<td style="border: 1px solid #ddd; padding: 8px;">A</td>
+<td style="border: 1px solid #ddd; padding: 8px;">25</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R101</td>
+</tr>
+<tr style="border: 1px solid #ddd; background-color: #f9f9f9;">
+<td style="border: 1px solid #ddd; padding: 8px;">S001</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Alice Johnson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Computer Science</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.75</td>
+<td style="border: 1px solid #ddd; padding: 8px;">MATH201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Calculus II</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I105</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Prof. Wilson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Fall2023</td>
+<td style="border: 1px solid #ddd; padding: 8px;">B+</td>
+<td style="border: 1px solid #ddd; padding: 8px;">30</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R205</td>
+</tr>
+<tr style="border: 1px solid #ddd;">
+<td style="border: 1px solid #ddd; padding: 8px;">S002</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Bob Chen</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Engineering</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.20</td>
+<td style="border: 1px solid #ddd; padding: 8px;">CS101</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Intro to Programming</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Dr. Smith</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Fall2023</td>
+<td style="border: 1px solid #ddd; padding: 8px;">B</td>
+<td style="border: 1px solid #ddd; padding: 8px;">25</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R101</td>
+</tr>
+<tr style="border: 1px solid #ddd; background-color: #f9f9f9;">
+<td style="border: 1px solid #ddd; padding: 8px;">S003</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Carol Davis</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Mathematics</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.90</td>
+<td style="border: 1px solid #ddd; padding: 8px;">MATH201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Calculus II</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I105</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Prof. Wilson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Fall2023</td>
+<td style="border: 1px solid #ddd; padding: 8px;">A</td>
+<td style="border: 1px solid #ddd; padding: 8px;">30</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R205</td>
+</tr>
+<tr style="border: 1px solid #ddd;">
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #ffe6e6;">S001</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #ffe6e6;">Alice Johnson</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #ffe6e6;">Computer Science</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #ffe6e6; font-weight: bold;">3.85</td>
+<td style="border: 1px solid #ddd; padding: 8px;">CS102</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Data Structures</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Dr. Smith</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Spring2024</td>
+<td style="border: 1px solid #ddd; padding: 8px;">A-</td>
+<td style="border: 1px solid #ddd; padding: 8px;">20</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R101</td>
+</tr>
+<tr style="border: 1px solid #ddd; background-color: #f9f9f9;">
+<td style="border: 1px solid #ddd; padding: 8px;">S004</td>
+<td style="border: 1px solid #ddd; padding: 8px;">David Wilson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Computer Science</td>
+<td style="border: 1px solid #ddd; padding: 8px;">2.85</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6;">CS101</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6;">Intro to Programming</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6;">3</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6; font-weight: bold;">I307</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6; font-weight: bold;">Dr. Taylor</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Spring2024</td>
+<td style="border: 1px solid #ddd; padding: 8px;">C+</td>
+<td style="border: 1px solid #ddd; padding: 8px;">28</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R150</td>
+</tr>
+<tr style="border: 1px solid #ddd;">
+<td style="border: 1px solid #ddd; padding: 8px;">S002</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Bob Chen</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Engineering</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.35</td>
+<td style="border: 1px solid #ddd; padding: 8px;">PHYS201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Physics II</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I105</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Prof. Wilson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Spring2024</td>
+<td style="border: 1px solid #ddd; padding: 8px;">B-</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #e6f3ff;">22</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #e6f3ff;">R205</td>
+</tr>
+<tr style="border: 1px solid #ddd; background-color: #f9f9f9;">
+<td style="border: 1px solid #ddd; padding: 8px;">S005</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Emma Brown</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Mathematics</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.60</td>
+<td style="border: 1px solid #ddd; padding: 8px;">MATH201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Calculus II</td>
+<td style="border: 1px solid #ddd; padding: 8px;">4</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I105</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Prof. Wilson</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Spring2024</td>
+<td style="border: 1px solid #ddd; padding: 8px;">B+</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #e6f3ff; font-weight: bold;">35</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #e6f3ff;">R301</td>
+</tr>
+<tr style="border: 1px solid #ddd;">
+<td style="border: 1px solid #ddd; padding: 8px;">S003</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Carol Davis</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Mathematics</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.90</td>
+<td style="border: 1px solid #ddd; padding: 8px;">STAT301</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Statistics</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I405</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Dr. Lee</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Fall2023</td>
+<td style="border: 1px solid #ddd; padding: 8px;">A</td>
+<td style="border: 1px solid #ddd; padding: 8px;">18</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R180</td>
+</tr>
+<tr style="border: 1px solid #ddd; background-color: #f9f9f9;">
+<td style="border: 1px solid #ddd; padding: 8px;">S006</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Frank Miller</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Engineering</td>
+<td style="border: 1px solid #ddd; padding: 8px;">3.45</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6;">CS101</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6;">Intro to Programming</td>
+<td style="border: 1px solid #ddd; padding: 8px; background-color: #fff2e6;">3</td>
+<td style="border: 1px solid #ddd; padding: 8px;">I201</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Dr. Smith</td>
+<td style="border: 1px solid #ddd; padding: 8px;">Fall2023</td>
+<td style="border: 1px solid #ddd; padding: 8px;">B+</td>
+<td style="border: 1px solid #ddd; padding: 8px;">25</td>
+<td style="border: 1px solid #ddd; padding: 8px;">R101</td>
+</tr>
+</tbody>
+</table>
+<h2>Student Analysis Task</h2>
+<p><strong>Instructions:</strong> For each potential functional dependency listed below, determine whether it is:</p>
+<ul>
+<li><strong>VALID</strong> (always true based on the data)</li>
+<li><strong>INVALID</strong> (counterexamples exist in the data)</li>
+<li><strong>PARTIALLY VALID</strong> (true in some cases but not others)</li>
+</ul>
+<h3>Potential Functional Dependencies to Analyze:</h3>
+<ol>
+<li><strong>StudentID → StudentName</strong></li>
+<li><strong>StudentID → Major</strong></li>
+<li><strong>StudentID → GPA</strong></li>
+<li><strong>CourseCode → CourseName</strong></li>
+<li><strong>CourseCode → Credits</strong></li>
+<li><strong>InstructorID → InstructorName</strong></li>
+<li><strong>CourseCode → InstructorID</strong></li>
+<li><strong>CourseCode → InstructorName</strong></li>
+<li><strong>RoomNumber → ClassSize</strong></li>
+<li><strong>InstructorID → RoomNumber</strong></li>
+<li><strong>(StudentID, CourseCode) → Grade</strong></li>
+<li><strong>(CourseCode, Semester) → InstructorID</strong></li>
+<li><strong>(CourseCode, Semester) → ClassSize</strong></li>
+<li><strong>Major → GPA</strong></li>
+<li><strong>InstructorName → InstructorID</strong></li>
+</ol>
+<p></p>
+<h2>Report Requirement</h2>
+<p>Create a report (be sure to title it) and submit it as a Word or PDF file. The Word file should have Name, Data, Class, and Assignment (title page). From the list of potential functional dependencies, create a table (Excel or Word). The table will have 3 columns: Dependency, Validity (Valid, Not Valid, Partially Valid), and Reason (short description of why). You can use the following table (copy/paste) as a template. You may freely discuss your thoughts on&nbsp;<a rel="noopener" href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou={orgUnitId}&amp;type=discuss&amp;rcode=DBC-5301094" target="_blank">Assignments Q &amp; A</a> . Questions should be emailed to your instructor at <a rel="noopener" href="mailto:ronald.eaglin@daytonastate.edu">ronald.eaglin@daytonastate.edu</a>&nbsp;</p>
+<p>All assignments should be submitted in a formal report format (See <a rel="noopener" href="/d2l/common/dialogs/quickLink/quickLink.d2l?ou={orgUnitId}&amp;type=content&amp;rcode=DBC-5570270" target="_blank">Guide to Writing Good Reports</a> ) and submitted in Word or PDF format.&nbsp;</p>
+<p>&nbsp;</p>
+<div class="container">
+<h1>Functional Dependency Analysis Worksheet</h1>
+<div class="instructions"><strong>Instructions:</strong> For each potential functional dependency listed below, determine whether it is <strong>VALID</strong>, <strong>INVALID</strong>, or <strong>PARTIALLY VALID</strong> based on the course enrollment data. Provide a clear reason for your decision in the third column.</div>
+<table>
+<thead>
+<tr>
+<th class="dependency-column">Potential Dependency</th>
+<th class="validity-column">Validity</th>
+<th class="reason-column">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="example-row">
+<td class="dependency-column">StudentID → StudentName</td>
+<td class="validity-column"><span class="example-validity">VALID</span></td>
+<td class="reason-column">Each student ID maps to exactly one student name throughout the dataset. No student ID appears with different names.</td>
+</tr>
+<tr>
+<td class="dependency-column">StudentID → Major</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">StudentID → GPA</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">CourseCode → CourseName</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">CourseCode → Credits</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">InstructorID → InstructorName</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">CourseCode → InstructorID</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">CourseCode → InstructorName</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">RoomNumber → ClassSize</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">InstructorID → RoomNumber</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">(StudentID, CourseCode) → Grade</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">(CourseCode, Semester) → InstructorID</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">(CourseCode, Semester) → ClassSize</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">Major → GPA</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+<tr>
+<td class="dependency-column">InstructorName → InstructorID</td>
+<td class="validity-column"></td>
+<td class="reason-column"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>
