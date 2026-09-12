@@ -1,0 +1,1262 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Split &amp; Prove</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+
+<style>
+:root{
+  --ground:#F1F3F0; --surface:#FCFCFA; --surface-2:#E7EAE5; --surface-3:#DDE2DA;
+  --ink:#191E24; --muted:#5B636C; --hairline:#CBD2CA;
+  --slate:#34506B; --slate-soft:#E1E8EF; --slate-line:#9DB3C6;
+  --brass:#8E6A20; --brass-soft:#F1E8D2; --brass-line:#CBAE6E;
+  --bad:#A33A2C; --bad-soft:#F6E2DE; --bad-line:#D79C90;
+  --ok:#2F6448; --ok-soft:#DEEBE2; --ok-line:#8CBBA1;
+  --warn:#8A5A12; --warn-soft:#F7EAD4;
+  --f-serif:"Source Serif 4",Georgia,serif;
+  --f-sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#11151A; --surface:#191F26; --surface-2:#222A33; --surface-3:#2B343E;
+  --ink:#E4E8EC; --muted:#98A2AD; --hairline:#2F3941;
+  --slate:#8FB4D6; --slate-soft:#1D2A37; --slate-line:#41566B;
+  --brass:#D3AE5E; --brass-soft:#2C2618; --brass-line:#6B5A2F;
+  --bad:#E28372; --bad-soft:#33201D; --bad-line:#7A4237;
+  --ok:#84C29E; --ok-soft:#19281F; --ok-line:#3D6A50;
+  --warn:#D9A94F; --warn-soft:#2E2515;
+}}
+:root[data-theme="dark"]{
+  --ground:#11151A; --surface:#191F26; --surface-2:#222A33; --surface-3:#2B343E;
+  --ink:#E4E8EC; --muted:#98A2AD; --hairline:#2F3941;
+  --slate:#8FB4D6; --slate-soft:#1D2A37; --slate-line:#41566B;
+  --brass:#D3AE5E; --brass-soft:#2C2618; --brass-line:#6B5A2F;
+  --bad:#E28372; --bad-soft:#33201D; --bad-line:#7A4237;
+  --ok:#84C29E; --ok-soft:#19281F; --ok-line:#3D6A50;
+  --warn:#D9A94F; --warn-soft:#2E2515;
+}
+
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-sans);font-size:15px;line-height:1.55;margin:0;padding-inline:18px;padding-block:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin-inline:auto;padding-block:0 60px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0 0 12px}
+a{color:var(--slate)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== top bar ===== */
+.topbar{position:sticky;top:0;z-index:30;background:var(--ground);border-bottom:2px solid var(--ink);
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:12px}
+.brand{font-family:var(--f-serif);font-weight:700;font-size:1.22rem;letter-spacing:-.02em;margin-right:auto;display:flex;align-items:baseline;gap:10px}
+.brand small{font-family:var(--f-mono);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.who{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);border:1px solid var(--hairline);background:var(--surface);padding:4px 9px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who b{color:var(--ink);font-weight:600}
+.btn{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--hairline);background:var(--surface);color:var(--ink)}
+.btn:hover:not(:disabled){background:var(--surface-2)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.btn.primary{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.btn.primary:hover:not(:disabled){opacity:.85;background:var(--ink)}
+.btn.brass{border-color:var(--brass-line);color:var(--brass);background:var(--brass-soft)}
+
+/* ===== start panel ===== */
+.start{padding-block:42px 60px}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.start h1{font-family:var(--f-serif);font-weight:700;font-size:clamp(2.3rem,6.5vw,3.5rem);line-height:1.03;letter-spacing:-.022em;margin-bottom:14px}
+.start .lede{font-family:var(--f-serif);font-size:clamp(1.02rem,2.2vw,1.18rem);line-height:1.5;max-width:56ch;margin-bottom:30px}
+.startgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:28px;align-items:start}
+@media (max-width:800px){.startgrid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--hairline)}
+.panel > h3{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+  background:var(--surface-2);border-bottom:1px solid var(--hairline);padding:9px 14px;font-weight:500}
+.panel .body{padding:14px}
+.rules{list-style:none;margin:0;padding:0;font-size:14px}
+.rules li{display:grid;grid-template-columns:34px 1fr;gap:0 8px;padding-block:7px;border-bottom:1px dotted var(--hairline)}
+.rules li:last-child{border-bottom:none}
+.rules .rid{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--brass);padding-top:2px}
+
+/* live rule checklist */
+.rulechk{display:grid;grid-template-columns:16px 1fr;gap:0 9px;align-items:start;
+  padding:9px 10px;margin-bottom:5px;font-size:12.5px;line-height:1.45;
+  background:var(--ground);border:1px solid var(--hairline);border-left:3px solid var(--hairline);
+  transition:background .3s ease,border-color .3s ease}
+.rulechk.met{background:var(--ok-soft);border-color:var(--ok-line);border-left-color:var(--ok)}
+.rulechk.soft{background:var(--warn-soft);border-left-color:var(--warn)}
+.rulechk .mk{font-family:var(--f-mono);font-weight:600;font-size:12px;color:var(--muted);line-height:1.35}
+.rulechk.met .mk{color:var(--ok)}
+.rulechk.soft .mk{color:var(--warn)}
+.rulechk .rid{font-family:var(--f-mono);font-size:10.5px;font-weight:600;color:var(--brass);margin-right:5px}
+.rulechk .chg{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brass);border:1px solid var(--brass-line);padding:0 4px;margin-left:5px;white-space:nowrap}
+.rulechk .why{display:block;margin-top:5px;font-size:11.5px;color:var(--muted);font-style:italic}
+.rulechk.met .why{color:var(--ok);font-style:normal}
+#rule-score{float:right;font-family:var(--f-mono);letter-spacing:.06em;color:var(--ink);text-transform:none}
+#rule-score.all{color:var(--ok)}
+#rail-rules{max-height:min(50vh,520px);overflow-y:auto;padding-right:4px}
+@media (max-width:900px){#rail-rules{max-height:none;overflow:visible}}
+.namefield{display:flex;flex-direction:column;gap:7px;margin-block:4px 16px}
+.namefield label{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.namefield input{font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--hairline);background:var(--ground);color:var(--ink);width:100%}
+.namefield input:focus{border-color:var(--brass);outline:none}
+.scenpick{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.scenopt{display:grid;grid-template-columns:18px 1fr;gap:0 10px;align-items:start;border:1px solid var(--hairline);background:var(--ground);padding:11px 13px;text-align:left;width:100%}
+.scenopt[aria-pressed="true"]{border-color:var(--slate);background:var(--slate-soft)}
+.scenopt .dot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--slate-line);margin-top:5px}
+.scenopt[aria-pressed="true"] .dot{background:var(--slate);border-color:var(--slate)}
+.scenopt .t{font-weight:600;font-size:14.5px;display:block}
+.scenopt .d{font-size:12.5px;color:var(--muted);line-height:1.45;display:block}
+.scenopt .xc{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);background:var(--brass-soft);border:1px solid var(--brass-line);padding:1px 5px;margin-left:6px;white-space:nowrap}
+
+/* ===== data table ===== */
+.tablewrap{overflow-x:auto}
+table.data{border-collapse:collapse;font-size:12.5px;width:auto;min-width:100%}
+table.data th,table.data td{border:1px solid var(--hairline);padding:5px 9px;text-align:left;white-space:nowrap}
+table.data thead th{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);font-weight:500}
+table.data td{font-family:var(--f-mono);font-size:11.5px}
+table.data tbody tr.hl td{background:var(--bad-soft)}
+table.data td.keycol{color:var(--brass);font-weight:600}
+.rn{color:var(--muted);font-size:10px!important;text-align:right!important;width:1%}
+
+/* ===== board ===== */
+.board{display:grid;grid-template-columns:288px minmax(0,1fr);gap:20px;align-items:start;padding-block:20px}
+@media (max-width:900px){.board{grid-template-columns:1fr}}
+.rail{display:flex;flex-direction:column;gap:14px;position:sticky;top:68px}
+@media (max-width:900px){.rail{position:static}}
+
+/* palette */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--f-mono);font-size:11.5px;padding:5px 9px;border:1px solid var(--slate-line);background:var(--slate-soft);color:var(--slate);
+  touch-action:none;user-select:none;display:inline-flex;align-items:center;gap:6px;max-width:100%}
+.chip.used{opacity:.45}
+.chip.sel{background:var(--brass-soft);border-color:var(--brass);color:var(--brass);box-shadow:0 0 0 2px var(--brass-soft)}
+.chip.syn{border-style:dashed}
+.chip .cnt{font-size:9.5px;color:var(--muted)}
+.ghost{position:fixed;z-index:999;pointer-events:none;opacity:.92;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.hint{font-size:12px;color:var(--muted);line-height:1.45;margin:10px 0 0}
+
+/* status */
+.checkrow{display:grid;grid-template-columns:16px 1fr auto;gap:0 9px;align-items:start;padding-block:8px;border-bottom:1px dotted var(--hairline);font-size:13px}
+.checkrow:last-child{border-bottom:none}
+.mk{font-family:var(--f-mono);font-weight:600;font-size:13px;line-height:1.3;padding-top:1px}
+.mk.y{color:var(--ok)} .mk.n{color:var(--bad)} .mk.w{color:var(--warn)}
+.checkrow .sub{display:block;font-size:11.5px;color:var(--muted);line-height:1.4}
+.checkrow .val{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+
+.meter{margin-top:4px}
+.meter .lab{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meter .lab b{font-size:15px;letter-spacing:0;color:var(--ink);font-weight:600}
+.meter .track{height:8px;background:var(--surface-3);position:relative;overflow:hidden}
+.meter .fill{height:100%;background:var(--bad);transition:width .35s ease}
+.meter .fill.zero{background:var(--ok)}
+.meter .note{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:8px}
+
+/* workspace */
+.wsbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px}
+.wsbar h2{font-family:var(--f-serif);font-size:1.3rem;font-weight:700;letter-spacing:-.015em;margin-right:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(315px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--hairline);border-top:3px solid var(--slate-line);display:flex;flex-direction:column}
+.card.drop{border-color:var(--brass);border-top-color:var(--brass);background:var(--brass-soft)}
+.card.viol{border-top-color:var(--bad)}
+.card.good{border-top-color:var(--ok)}
+.card .chd{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--hairline);background:var(--surface-2)}
+.card .chd input{font-family:var(--f-mono);font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:none;color:var(--ink);width:100%;padding:2px 0;min-width:0}
+.card .chd input:focus{outline:none;border-bottom:1px solid var(--brass)}
+.iconbtn{background:none;border:none;color:var(--muted);font-family:var(--f-mono);font-size:14px;line-height:1;padding:3px 5px}
+.iconbtn:hover{color:var(--bad)}
+.card .cbody{padding:12px;display:flex;flex-direction:column;gap:11px}
+.dropzone{min-height:46px;border:1px dashed var(--hairline);padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start}
+.dropzone.empty{align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-style:italic}
+.colchip{font-family:var(--f-mono);font-size:11.5px;padding:4px 6px 4px 8px;border:1px solid var(--hairline);background:var(--ground);display:inline-flex;align-items:center;gap:5px}
+.colchip.pk{border-color:var(--brass);background:var(--brass-soft);color:var(--brass);font-weight:600}
+.colchip .kb{background:none;border:none;padding:0;font-family:var(--f-mono);font-size:10px;color:inherit;opacity:.65}
+.colchip .kb:hover{opacity:1}
+.colchip .rm{background:none;border:none;padding:0 0 0 2px;color:var(--muted);font-size:12px;line-height:1}
+.colchip .rm:hover{color:var(--bad)}
+.card .diag{font-size:12.5px;line-height:1.45;border-left:3px solid var(--hairline);padding:8px 10px;background:var(--ground)}
+.card .diag.bad{border-color:var(--bad);background:var(--bad-soft)}
+.card .diag.ok{border-color:var(--ok);background:var(--ok-soft)}
+.card .diag.warn{border-color:var(--warn);background:var(--warn-soft)}
+.card .diag .dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;display:block;margin-bottom:4px}
+.diag.bad .dt{color:var(--bad)} .diag.ok .dt{color:var(--ok)} .diag.warn .dt{color:var(--warn)}
+.card .diag .fd{font-family:var(--f-mono);font-size:11.5px;color:var(--ink)}
+.card .diag .also{font-family:var(--f-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;border:1px solid currentColor;padding:1px 5px;margin-left:2px;display:inline-block}
+.mini{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:none;border:none;padding:0;text-decoration:underline;text-underline-offset:3px}
+
+details.fold{border:1px solid var(--hairline);background:var(--surface)}
+details.fold > summary{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);padding:9px 14px;cursor:pointer;list-style:none}
+details.fold > summary::-webkit-details-marker{display:none}
+details.fold > summary::before{content:"▸ ";color:var(--brass)}
+details.fold[open] > summary::before{content:"▾ "}
+details.fold .body{padding:13px 14px}
+
+.fdlist{font-family:var(--f-mono);font-size:11.5px;line-height:1.95;margin:0}
+.fdlist .det{color:var(--brass);font-weight:600}
+.fdlist .arw{color:var(--muted);padding-inline:3px}
+.fdlist .rr{color:var(--muted);font-size:10px}
+
+/* ===== result ===== */
+.result{padding-block:26px 60px}
+.sheet{background:var(--surface);border:1px solid var(--ink);padding:26px 26px 30px}
+.sheet .rhd{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-end}
+.sheet .rhd .nm{margin-right:auto}
+.sheet .rhd .nm .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+.sheet .rhd .nm .v{font-family:var(--f-serif);font-size:1.9rem;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+.sheet .rhd .mt{font-family:var(--f-mono);font-size:11px;color:var(--muted);line-height:1.7}
+.sheet .rhd .mt b{color:var(--ink);font-weight:500}
+.verdict{border:1px solid var(--hairline);padding:14px 16px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start}
+.verdict.pass{background:var(--ok-soft);border-color:var(--ok)}
+.verdict.fail{background:var(--bad-soft);border-color:var(--bad)}
+.verdict .big{font-family:var(--f-mono);font-size:20px;font-weight:600;line-height:1.1}
+.verdict.pass .big{color:var(--ok)} .verdict.fail .big{color:var(--bad)}
+.verdict h3{font-family:var(--f-sans);font-size:1rem;font-weight:600;margin-bottom:3px}
+.verdict p{font-size:13.5px;margin:0;color:var(--ink)}
+.rsec{margin-bottom:24px}
+.rsec > h4{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--hairline);padding-bottom:6px;margin-bottom:12px;font-weight:500}
+.rtable{margin-bottom:18px}
+.rtable .rt-h{font-family:var(--f-mono);font-size:12.5px;font-weight:600;letter-spacing:.05em;margin-bottom:6px}
+.rtable .rt-h .pkn{color:var(--brass);font-weight:500;letter-spacing:0}
+.rchecks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.rchk{border:1px solid var(--hairline);padding:10px 12px;font-size:13px;display:flex;gap:9px;align-items:flex-start}
+.rchk .mk{font-size:14px}
+.rchk .sub{display:block;font-size:11.5px;color:var(--muted)}
+.protonote{font-family:var(--f-mono);font-size:11px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:12px;line-height:1.6}
+
+@media print{
+  body{background:#fff;color:#000;padding:0}
+  .topbar,.noprint{display:none!important}
+  .sheet{border:none;padding:0}
+  .wrap{max-width:none}
+}
+</style>
+
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div>
+<div class="wrap">
+
+<div class="topbar noprint" id="topbar" hidden>
+  <div class="brand">Split &amp; Prove <small id="tb-scen"></small></div>
+  <div class="who" id="tb-who"></div>
+  <button class="btn" id="b-undo" title="Undo">↶ Undo</button>
+  <button class="btn" id="b-redo" title="Redo">↷ Redo</button>
+  <button class="btn" id="b-reset">Reset</button>
+  <button class="btn primary" id="b-finish">Finish →</button>
+</div>
+
+<!-- ============ START ============ -->
+<div id="screen-start" class="start">
+  <p class="eyebrow">COP 4708 · Database Design · Normalization Lab</p>
+  <h1>Split &amp; Prove</h1>
+  <p class="lede">One flat spreadsheet. Pull it apart into tables that hold every fact exactly once — and prove your design survives the join.</p>
+
+  <div class="startgrid">
+    <div>
+      <div class="panel" style="margin-bottom:18px">
+        <h3>The client's spreadsheet</h3>
+        <div class="tablewrap" id="start-data"></div>
+      </div>
+      <div class="panel">
+        <h3>Business rules the client gave you</h3>
+        <div class="body">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">A dependency is a rule about the business, not a pattern in seven rows. The rows can <em>disprove</em> a dependency. They can never prove one.</p>
+          <ul class="rules" id="start-rules"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h3>Begin</h3>
+        <div class="body">
+          <div class="namefield">
+            <label for="f-name">Your name (appears on your result)</label>
+            <input id="f-name" type="text" autocomplete="name" placeholder="e.g. Jordan Alvarez" maxlength="60">
+          </div>
+          <label style="font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px">Scenario</label>
+          <div class="scenpick" id="scenpick"></div>
+          <button class="btn primary" id="b-start" style="width:100%;padding:11px">Start →</button>
+          <p class="hint" id="start-err" style="color:var(--bad);display:none">Enter your name before starting.</p>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <h3>How to play</h3>
+        <div class="body" style="font-size:13.5px">
+          <p><b>1.</b> Make a table, then drag columns from the palette into it. Columns may appear in more than one table — that is how foreign keys work.</p>
+          <p><b>2.</b> Click the <span class="mono" style="color:var(--brass);font-family:var(--f-mono)">key</span> marker on a column to put it in that table's primary key.</p>
+          <p><b>3.</b> Each table is checked live against the rules. A determinant that is not a superkey is a BCNF violation — the card tells you which rows prove it.</p>
+          <p style="margin-bottom:0"><b>4.</b> You may also invent a surrogate key on any table. That is legitimate design, and it is scored as valid.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ BOARD ============ -->
+<div id="screen-board" class="board" hidden>
+  <div class="rail">
+    <div class="panel">
+      <h3>Column palette</h3>
+      <div class="body">
+        <div class="chips" id="palette"></div>
+        <p class="hint">Drag a column onto a table — or click it, then click the table.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Business rules <span id="rule-score"></span></h3>
+      <div class="body">
+        <p class="hint" style="margin:0 0 10px">Each rule turns green when your schema actually enforces it.</p>
+        <div id="rail-rules"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Design check</h3>
+      <div class="body">
+        <div class="meter">
+          <div class="lab"><span>Redundant cells</span><b id="m-num">—</b></div>
+          <div class="track"><div class="fill" id="m-fill" style="width:0%"></div></div>
+          <p class="note" id="m-note"></p>
+        </div>
+        <div style="margin-top:14px" id="checks"></div>
+      </div>
+    </div>
+
+    <details class="fold">
+      <summary>Dependencies these rules imply</summary>
+      <div class="body"><div class="fdlist" id="rail-fds"></div></div>
+    </details>
+
+    <details class="fold">
+      <summary>Source data</summary>
+      <div class="body" style="padding:0"><div class="tablewrap" id="rail-data"></div></div>
+    </details>
+  </div>
+
+  <div>
+    <div class="wsbar">
+      <h2>Your schema</h2>
+      <button class="btn brass" id="b-addtable">+ New table</button>
+    </div>
+    <div class="cards" id="cards"></div>
+    <p class="hint" id="ws-hint" style="margin-top:16px"></p>
+  </div>
+</div>
+
+<!-- ============ RESULT ============ -->
+<div id="screen-result" class="result" hidden>
+  <div class="noprint" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+    <button class="btn" id="b-back">← Back to board</button>
+    <button class="btn brass" id="b-print">Print / Save as PDF</button>
+    <span class="hint" style="margin:0;align-self:center">Screenshot or print this page and upload it.</span>
+  </div>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== SCENARIOS ==================== */
+
+/* shared rule tests for both company rounds */
+const CR = {
+  R1:{id:"R1", text:"Every employee is assigned one Employee ID, and it is never reused.",
+      test:x=>x.with(["emp_id"]).some(t=>x.key(["emp_id"],t)),
+      met:"Employee ID identifies a single row.",
+      todo:"Put Employee ID in a table where it alone identifies a row."},
+  R2:{id:"R2", text:"Each employee has exactly one company mailbox. No two employees share a mailbox.",
+      test:x=>x.with(["emp_id","email"]).some(t=>x.key(["email"],t)),
+      met:"email sits with the employee and is a candidate key — declare it UNIQUE.",
+      todo:"email must live with Employee ID, in a table where email alone identifies a row."},
+  R3:{id:"R3", text:"A phone extension rings one employee. Extensions are never shared.",
+      test:x=>x.with(["emp_id","ext"]).some(t=>x.key(["ext"],t)),
+      met:"Extension is a second candidate key of the employee table.",
+      todo:"Extension must live with Employee ID and identify a row on its own."},
+  R4:{id:"R4", text:"Names, home addresses and hire dates are not unique. Two employees may share any of them.",
+      test:x=>["fname","lname","address","hire"].every(c=>x.placed(c) && !x.inAnyPk(c)),
+      met:"No employee is identified by name, address or hire date.",
+      todo:"Place all four, and keep every one of them out of your primary keys."},
+  R5:{id:"R5", text:"Each department has one Department ID and one department name, both unique across the company.",
+      test:x=>x.with(["dept_id","dept"]).some(t=>x.key(["dept_id"],t) && x.key(["dept"],t)),
+      met:"Department ID and Department name are both candidate keys of the department table.",
+      todo:"Department ID and name belong together, in a table where each identifies a row on its own."},
+  R7:{id:"R7", text:"Every employee belongs to exactly one department.",
+      test:x=>x.with(["emp_id","dept_id"]).some(t=>x.key(["emp_id"],t)),
+      met:"One department per employee — carried as a foreign key.",
+      todo:"Employee ID and Department ID must share a table in which Employee ID is the key."},
+  R8:{id:"R8", text:"A job title is free text. The same title may be held in several departments.",
+      test:x=>x.placed("title") && !x.tables.some(t=>t.cols.includes("title") &&
+              (t.cols.includes("dept")||t.cols.includes("dept_id")) && x.key(["title"],t)),
+      met:"Title determines nothing — Manager can appear in any department.",
+      todo:"Place Title, and never let it act as the key of a table that also carries department."}
+};
+
+const EMP_COLS = [
+  {id:"emp_id",   label:"Employee ID",       short:"EmployeeID"},
+  {id:"fname",    label:"First Name",        short:"FirstName"},
+  {id:"lname",    label:"Last Name",         short:"LastName"},
+  {id:"email",    label:"email",             short:"email"},
+  {id:"title",    label:"Title",             short:"Title"},
+  {id:"address",  label:"Address",           short:"Address"},
+  {id:"ext",      label:"Extension",         short:"Extension"},
+  {id:"dept",     label:"Department",        short:"Department"},
+  {id:"dept_id",  label:"Department ID",     short:"DeptID"},
+  {id:"hire",     label:"Hiring Date",       short:"HireDate"},
+  {id:"dphone",   label:"Department Phone #",short:"DeptPhone"}
+];
+
+const E = {
+  e1:{emp_id:"0001",fname:"John",lname:"Smith",email:"jsmith@yahoo.com",title:"Accountant",address:"1300 West St",ext:"5775",dept:"Accounting",dept_id:"2100",hire:"8/1998"},
+  e2:{emp_id:"0002",fname:"Brian",lname:"Miller",email:"badams@gmail.com",title:"Admin Assistant",address:"1552 Palm Dr",ext:"5367",dept:"Human resource",dept_id:"2300",hire:"4/1995"},
+  e3:{emp_id:"0003",fname:"James",lname:"Miller",email:"miller@yahoo.com",title:"Inventory Manager",address:"2713 Buck Rd",ext:"5432",dept:"Production",dept_id:"2520",hire:"8/1998"},
+  e4:{emp_id:"0004",fname:"John",lname:"Jackson",email:"jackson_sam@gmail.com",title:"Sales Person",address:"433 Tree Dr",ext:"5568",dept:"Sales",dept_id:"2102",hire:"6/1997"},
+  e5:{emp_id:"0005",fname:"Robert",lname:"Davis",email:"Davis@yahoo.com",title:"Manager",address:"713 Corner St",ext:"5642",dept:"Production",dept_id:"2520",hire:"1/2001"},
+  e6:{emp_id:"0006",fname:"Paul",lname:"Thompson",email:"thompsonp@yahoo.com",title:"Market Analyst",address:"205 Bridge dr",ext:"5744",dept:"Marketing",dept_id:"2101",hire:"5/2003"},
+  e7:{emp_id:"0007",fname:"Sandy",lname:"Davis",email:"SDavis@yahoo.com",title:"Manager",address:"713 Corner St",ext:"5702",dept:"Accounting",dept_id:"2100",hire:"11/1999"}
+};
+const row = (e,p)=>Object.assign({}, E[e], {dphone:p});
+
+const SCENARIOS = {
+  round1: {
+    key:"round1",
+    name:"Company Sheet — Round 1",
+    blurb:"A local firm's employee spreadsheet. Eight business rules, two tables.",
+    extra:false,
+    cols:EMP_COLS,
+    rows:[
+      row("e1","407-366-5700"), row("e2","407-366-5300"), row("e3","407-366-5400"),
+      row("e4","407-366-5500"), row("e5","407-366-5400"), row("e6","407-366-5600"),
+      row("e7","407-366-5700")
+    ],
+    rules:[CR.R1, CR.R2, CR.R3, CR.R4, CR.R5,
+      {id:"R6", text:"A department has one main phone number.",
+       test:x=>x.with(["dept_id","dphone"]).some(t=>x.key(["dept_id"],t)),
+       met:"One phone per department, stored once.",
+       todo:"The phone belongs with Department ID, in a table where Department ID is the key."},
+      CR.R7, CR.R8],
+    fds:[
+      {lhs:["emp_id"],  rhs:["fname","lname","email","title","address","ext","hire","dept_id"], rule:"R1, R7"},
+      {lhs:["email"],   rhs:["emp_id"], rule:"R2"},
+      {lhs:["ext"],     rhs:["emp_id"], rule:"R3"},
+      {lhs:["dept_id"], rhs:["dept","dphone"], rule:"R5, R6"},
+      {lhs:["dept"],    rhs:["dept_id","dphone"], rule:"R5, R6"}
+    ],
+    minTables:2,
+    starter:"EMPLOYEE"
+  },
+
+  round2: {
+    key:"round2",
+    name:"Company Sheet — Round 2",
+    blurb:"The client calls back: some departments have more than one phone line.",
+    extra:false,
+    cols:EMP_COLS,
+    rows:[
+      row("e1","407-366-5700"), row("e1","407-366-5750"),
+      row("e2","407-366-5300"),
+      row("e3","407-366-5400"), row("e3","407-366-5410"),
+      row("e4","407-366-5500"),
+      row("e5","407-366-5400"), row("e5","407-366-5410"),
+      row("e6","407-366-5600"),
+      row("e7","407-366-5700"), row("e7","407-366-5750")
+    ],
+    rules:[CR.R1, CR.R2, CR.R3, CR.R4, CR.R5,
+      {id:"R6", changed:true,
+       text:"A department may have several phone numbers, and the client will keep adding them. Adding a fourth line must not mean adding a column.",
+       test:x=>x.with(["dept_id","dphone"]).some(t=>!x.key(["dept_id"],t) && t.pk.includes("dept_id") && t.pk.includes("dphone"))
+             && !x.tables.some(t=>t.cols.includes("emp_id") && t.cols.includes("dphone")),
+       met:"Phones live in their own table, keyed by department and number together. The list can grow forever.",
+       todo:"One phone column cannot hold two numbers, and Phone2 / Phone3 columns are not an answer. Give the phones a table of their own, keyed on both columns."},
+      CR.R7, CR.R8],
+    fds:[
+      {lhs:["emp_id"],  rhs:["fname","lname","email","title","address","ext","hire","dept_id"], rule:"R1, R7"},
+      {lhs:["email"],   rhs:["emp_id"], rule:"R2"},
+      {lhs:["ext"],     rhs:["emp_id"], rule:"R3"},
+      {lhs:["dept_id"], rhs:["dept"], rule:"R5"},
+      {lhs:["dept"],    rhs:["dept_id"], rule:"R5"}
+    ],
+    minTables:3,
+    starter:"EMPLOYEE",
+    note:"R6 changed, and the sheet grew to 11 rows to hold the extra numbers. Nothing now determines the phone column — a department simply has a set of them. Notice what that did to the sheet's primary key."
+  },
+
+  advising: {
+    key:"advising",
+    name:"Advising Load",
+    blurb:"Three columns. Already in 3NF — and still wrong.",
+    extra:true,
+    cols:[
+      {id:"student", label:"Student ID", short:"StudentID"},
+      {id:"subject", label:"Subject",    short:"Subject"},
+      {id:"advisor", label:"Advisor",    short:"Advisor"}
+    ],
+    rows:[
+      {student:"1001",subject:"Databases",advisor:"Ortega"},
+      {student:"1001",subject:"Networking",advisor:"Chen"},
+      {student:"1002",subject:"Databases",advisor:"Ortega"},
+      {student:"1002",subject:"Security",advisor:"Nadeem"},
+      {student:"1003",subject:"Databases",advisor:"Whitfield"},
+      {student:"1003",subject:"Networking",advisor:"Chen"},
+      {student:"1004",subject:"Security",advisor:"Nadeem"}
+    ],
+    rules:[
+      {id:"R1", text:"A student may be advised in several different subjects at the same time.",
+       test:x=>x.placed("student") && !x.tables.some(t=>(t.cols.includes("subject")||t.cols.includes("advisor")) && x.key(["student"],t)),
+       met:"Nothing in your schema limits a student to one subject.",
+       todo:"No table may make Student ID alone the key of a row that also carries a subject or advisor."},
+      {id:"R2", soft:true, text:"Within one subject, a student has exactly one advisor.",
+       test:x=>x.with(["student","subject","advisor"]).some(t=>x.key(["student","subject"],t)),
+       met:"Student + Subject identifies the advisor inside one table.",
+       todo:"No single table can still check this rule. That is the price BCNF charges here — name the tradeoff in your report rather than undoing the split."},
+      {id:"R3", text:"An advisor works in exactly one subject and never changes it.",
+       test:x=>x.with(["advisor","subject"]).some(t=>x.key(["advisor"],t)),
+       met:"Advisor determines subject, stored once.",
+       todo:"Advisor and Subject belong together, in a table where Advisor is the key."}
+    ],
+    fds:[
+      {lhs:["student","subject"], rhs:["advisor"], rule:"R2"},
+      {lhs:["advisor"],           rhs:["subject"], rule:"R3"}
+    ],
+    minTables:2,
+    starter:"ADVISING",
+    note:"Every attribute here belongs to some candidate key, so this table already satisfies 3NF. Only BCNF objects to it. Splitting it will cost you a dependency — decide whether that is a price worth paying, and be ready to defend the answer in your report."
+  }
+};
+
+/* ==================== STATE ==================== */
+
+let S = null;                // active scenario
+let state = null;            // {name, tables:[{id,name,cols:[],pk:[]}], synth:[{id,label,owner}], seq}
+let past = [], future = [];
+let selectedCol = null;
+
+function freshState(name){
+  return {name:name, seq:1, tables:[{id:"t1", name:S.starter, cols:[], pk:[]}], synth:[]};
+}
+function snapshot(){ past.push(JSON.stringify(state)); if(past.length>80) past.shift(); future.length=0; }
+function undo(){ if(!past.length) return; future.push(JSON.stringify(state)); state=JSON.parse(past.pop()); render(); }
+function redo(){ if(!future.length) return; past.push(JSON.stringify(state)); state=JSON.parse(future.pop()); render(); }
+
+/* ==================== COLUMN HELPERS ==================== */
+
+function allCols(){
+  const syn = (state && state.synth) ? state.synth : [];
+  return S.cols.concat(syn.map(s=>({id:s.id,label:s.label,short:s.label,synth:true})));
+}
+function colOf(id){ return allCols().find(c=>c.id===id); }
+function shortOf(id){ const c=colOf(id); return c?c.short:id; }
+function isSynth(id){ return id.startsWith("__syn"); }
+
+/* FD set currently in force: scenario rules + rules created by surrogate keys */
+function activeFds(){
+  const fds = S.fds.map(f=>({lhs:f.lhs.slice(), rhs:f.rhs.slice(), rule:f.rule}));
+  for(const s of state.synth){
+    const t = state.tables.find(t=>t.id===s.owner);
+    if(!t || !t.cols.includes(s.id)) continue;
+    const nat = t.cols.filter(c=>c!==s.id && !isSynth(c));
+    if(!nat.length) continue;
+    fds.push({lhs:[s.id], rhs:nat, rule:"surrogate"});
+    fds.push({lhs:nat, rhs:[s.id], rule:"surrogate"});
+  }
+  return fds;
+}
+
+function closure(attrs, fds){
+  const c = new Set(attrs);
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(const fd of fds){
+      if(fd.lhs.every(a=>c.has(a))){
+        for(const r of fd.rhs) if(!c.has(r)){ c.add(r); changed = true; }
+      }
+    }
+  }
+  return c;
+}
+function isSuperkey(X, cols, fds){ const c = closure(X, fds); return cols.every(a=>c.has(a)); }
+
+function candidateKeys(cols, fds){
+  const n = cols.length, keys = [];
+  if(n === 0 || n > 14) return keys;
+  for(let size=1; size<=n; size++){
+    const combos = [];
+    (function pick(start, acc){
+      if(acc.length === size){ combos.push(acc.slice()); return; }
+      for(let i=start;i<n;i++){ acc.push(cols[i]); pick(i+1, acc); acc.pop(); }
+    })(0, []);
+    for(const X of combos){
+      if(keys.some(k=>k.every(a=>X.includes(a)))) continue;   // not minimal
+      if(isSuperkey(X, cols, fds)) keys.push(X);
+    }
+  }
+  return keys;
+}
+
+/* ==================== DATA PROJECTION ==================== */
+
+/* source rows extended with generated surrogate-key values */
+function extendedRows(){
+  const rows = S.rows.map(r=>Object.assign({}, r));
+  for(const s of state.synth){
+    const t = state.tables.find(t=>t.id===s.owner);
+    if(!t) continue;
+    const nat = t.cols.filter(c=>c!==s.id && !isSynth(c));
+    if(!nat.length){ rows.forEach(r=>r[s.id]=""); continue; }
+    const map = new Map(); let n = 0;
+    for(const r of rows){
+      const k = nat.map(c=>r[c]).join("");
+      if(!map.has(k)) map.set(k, ++n);
+      r[s.id] = String(map.get(k));
+    }
+  }
+  return rows;
+}
+
+function projectRows(cols){
+  if(!cols.length) return [];
+  const src = extendedRows(), seen = new Set(), out = [];
+  for(const r of src){
+    const k = cols.map(c=>r[c]).join("");
+    if(seen.has(k)) continue;
+    seen.add(k);
+    const o = {}; cols.forEach(c=>o[c]=r[c]); out.push(o);
+  }
+  return out;
+}
+
+/* ==================== ANALYSIS ==================== */
+
+function analyzeTable(t){
+  const fds = activeFds();
+  const cols = t.cols;
+  const res = {cols, pkOk:null, keys:[], violations:[], redundancy:0, rows:projectRows(cols), status:"empty"};
+  if(cols.length === 0) return res;
+
+  res.keys = candidateKeys(cols, fds);
+  const prime = new Set(res.keys.flat());
+
+  /* primary key must be declared and must be a key */
+  if(t.pk.length === 0){ res.pkOk = false; res.pkMsg = "No primary key declared. Click the key marker on the columns that identify a row."; }
+  else if(!isSuperkey(t.pk, cols, fds)){
+    res.pkOk = false;
+    const c = closure(t.pk, fds);
+    const missed = cols.filter(a=>!c.has(a));
+    res.pkMsg = shortOf(t.pk[0]) + (t.pk.length>1 ? " + …" : "") + " does not determine " + missed.map(shortOf).join(", ") + ".";
+    res.pkMissed = missed;
+  } else {
+    const minimal = res.keys.some(k=>k.length===t.pk.length && k.every(a=>t.pk.includes(a)));
+    res.pkOk = true;
+    if(!minimal) res.pkWarn = "This key works but is not minimal — it is a superkey, not a candidate key.";
+  }
+
+  /* BCNF */
+  for(const fd of fds){
+    if(!fd.lhs.every(a=>cols.includes(a))) continue;
+    const dep = fd.rhs.filter(a=>cols.includes(a) && !fd.lhs.includes(a));
+    if(!dep.length) continue;
+    if(isSuperkey(fd.lhs, cols, fds)) continue;
+
+    const nonPrime = dep.filter(a=>!prime.has(a));
+    const also = [];
+    if(nonPrime.length){
+      also.push("3NF");
+      if(res.keys.some(k=>fd.lhs.every(a=>k.includes(a)) && fd.lhs.length < k.length)) also.unshift("2NF");
+    }
+    res.violations.push({lhs:fd.lhs, dep, also, rule:fd.rule, evidence:evidenceFor(fd.lhs, dep, cols)});
+  }
+
+  /* redundancy: each attribute determined inside this table by a non-superkey */
+  for(const a of cols){
+    let best = null;
+    for(const fd of fds){
+      if(!fd.rhs.includes(a) || fd.lhs.includes(a)) continue;
+      if(!fd.lhs.every(x=>cols.includes(x))) continue;
+      if(isSuperkey(fd.lhs, cols, fds)) continue;
+      const d = new Set(res.rows.map(r=>fd.lhs.map(x=>r[x]).join(""))).size;
+      const dup = res.rows.length - d;
+      if(best === null || dup < best) best = dup;
+    }
+    if(best) res.redundancy += best;
+  }
+
+  if(res.violations.length) res.status = "viol";
+  else if(res.pkOk) res.status = "good";
+  else res.status = "pending";
+  return res;
+}
+
+/* two rows that store the same determinant value — the proof of redundancy */
+function evidenceFor(lhs, dep, cols){
+  const rows = projectRows(cols);
+  const seen = new Map();
+  for(let i=0;i<rows.length;i++){
+    const k = lhs.map(x=>rows[i][x]).join("");
+    if(seen.has(k)) return {a:seen.get(k), b:i, rows, lhs, dep};
+    seen.set(k, i);
+  }
+  return null;
+}
+
+/* ---- whole-design checks ---- */
+
+/* ---- business rules: does the schema actually enforce each one? ---- */
+
+function ruleCtx(){
+  const fds = activeFds();
+  const live = state.tables.filter(t=>t.cols.length);
+  return {
+    fds, tables:live,
+    with: cols => live.filter(t=>cols.every(c=>t.cols.includes(c))),
+    key: (X,t) => isSuperkey(X, t.cols, fds),
+    placed: c => live.some(t=>t.cols.includes(c)),
+    inAnyPk: c => live.some(t=>t.pk.includes(c))
+  };
+}
+
+function evalRules(){
+  const x = ruleCtx();
+  return S.rules.map(r=>{
+    let ok = false;
+    try { ok = !!r.test(x); } catch(e){ ok = false; }
+    return {id:r.id, text:r.text, soft:!!r.soft, changed:!!r.changed, ok,
+            why: ok ? r.met : r.todo};
+  });
+}
+
+function checkCoverage(){
+  const have = new Set(state.tables.flatMap(t=>t.cols));
+  const missing = S.cols.map(c=>c.id).filter(id=>!have.has(id));
+  return {ok:missing.length===0, missing};
+}
+
+function checkLossless(){
+  const tabs = state.tables.filter(t=>t.cols.length);
+  if(tabs.length === 0) return {ok:false, reason:"no tables"};
+  if(tabs.length === 1) {
+    const cov = checkCoverage();
+    return {ok:cov.ok, spurious:0, reason: cov.ok ? "single table" : "incomplete"};
+  }
+  let cur = {cols:tabs[0].cols.slice(), rows:projectRows(tabs[0].cols)};
+  const rest = tabs.slice(1);
+  while(rest.length){
+    let idx = rest.findIndex(t=>t.cols.some(c=>cur.cols.includes(c)));
+    if(idx === -1) idx = 0;                       // no shared attribute → cartesian product
+    const t = rest.splice(idx,1)[0];
+    const shared = t.cols.filter(c=>cur.cols.includes(c));
+    const newCols = cur.cols.concat(t.cols.filter(c=>!cur.cols.includes(c)));
+    const tRows = projectRows(t.cols);
+    const out = [], seen = new Set();
+    for(const a of cur.rows) for(const b of tRows){
+      if(!shared.every(c=>a[c] === b[c])) continue;
+      const o = Object.assign({}, a);
+      t.cols.forEach(c=>o[c] = b[c]);
+      const k = newCols.map(c=>o[c]).join("");
+      if(seen.has(k)) continue;
+      seen.add(k); out.push(o);
+    }
+    cur = {cols:newCols, rows:out};
+    if(cur.rows.length > 4000) return {ok:false, spurious:-1, reason:"explosion"};
+  }
+  const orig = S.cols.map(c=>c.id);
+  if(!orig.every(c=>cur.cols.includes(c))) return {ok:false, reason:"incomplete"};
+  const origKeys = new Set(extendedRows().map(r=>orig.map(c=>r[c]).join("")));
+  const got = new Set(cur.rows.map(r=>orig.map(c=>r[c]).join("")));
+  const spurious = [...got].filter(k=>!origKeys.has(k));
+  const lost = [...origKeys].filter(k=>!got.has(k));
+  return {ok:spurious.length===0 && lost.length===0, spurious:spurious.length, lost:lost.length,
+          sample: spurious.length ? spurious[0].split("") : null, cols:orig};
+}
+
+function checkPreservation(){
+  const lost = [];
+  for(const fd of S.fds){
+    for(const a of fd.rhs){
+      const need = fd.lhs.concat([a]);
+      if(!state.tables.some(t=>need.every(c=>t.cols.includes(c)))) lost.push({lhs:fd.lhs, rhs:a, rule:fd.rule});
+    }
+  }
+  return {ok:lost.length===0, lost};
+}
+
+function baselineRedundancy(){
+  const cols = S.cols.map(c=>c.id), rows = S.rows, fds = S.fds;
+  let total = 0;
+  for(const a of cols){
+    let best = null;
+    for(const fd of fds){
+      if(!fd.rhs.includes(a) || fd.lhs.includes(a)) continue;
+      if(isSuperkey(fd.lhs, cols, fds)) continue;
+      const d = new Set(rows.map(r=>fd.lhs.map(x=>r[x]).join(""))).size;
+      const dup = rows.length - d;
+      if(best === null || dup < best) best = dup;
+    }
+    if(best) total += best;
+  }
+  return total;
+}
+
+function analyzeAll(){
+  const per = state.tables.map(t=>({t, a:analyzeTable(t)}));
+  const redundancy = per.reduce((s,x)=>s+x.a.redundancy, 0);
+  const coverage = checkCoverage();
+  const lossless = coverage.ok ? checkLossless() : {ok:false, reason:"incomplete"};
+  const preserve = checkPreservation();
+  const allBcnf = per.every(x=>x.t.cols.length===0 || (x.a.violations.length===0 && x.a.pkOk));
+  const nonEmpty = per.filter(x=>x.t.cols.length).length;
+  const rules = evalRules();
+  const hard = rules.filter(r=>!r.soft);
+  const rulesMet = hard.every(r=>r.ok);
+  const ruleCount = {met:rules.filter(r=>r.ok).length, total:rules.length, hardMet:hard.filter(r=>r.ok).length, hard:hard.length};
+  const pass = coverage.ok && lossless.ok && allBcnf && nonEmpty>0 && rulesMet;
+  return {per, redundancy, coverage, lossless, preserve, allBcnf, nonEmpty, rules, rulesMet, ruleCount, pass};
+}
+
+/* ==================== RENDER ==================== */
+
+const $ = id=>document.getElementById(id);
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function dataTableHTML(cols, rows, opts){
+  opts = opts || {};
+  let h = '<table class="data"><thead><tr><th class="rn"></th>';
+  cols.forEach(c=>h += "<th>" + esc(shortOf(c)) + "</th>");
+  h += "</tr></thead><tbody>";
+  rows.forEach((r,i)=>{
+    const hl = opts.hl && opts.hl.includes(i) ? ' class="hl"' : "";
+    h += "<tr"+hl+'><td class="rn">'+(i+1)+"</td>";
+    cols.forEach(c=>{
+      const kc = opts.key && opts.key.includes(c) ? ' class="keycol"' : "";
+      h += "<td"+kc+">"+esc(r[c]==null?"":r[c])+"</td>";
+    });
+    h += "</tr>";
+  });
+  return h + "</tbody></table>";
+}
+
+function rulesHTML(){
+  return S.rules.map(r=>'<li><span class="rid">'+r.id+'</span><span>'+esc(r.text)+"</span></li>").join("");
+}
+function ruleChecklistHTML(rules){
+  return rules.map(r=>{
+    const cls = r.ok ? "met" : (r.soft ? "soft" : "");
+    const mk  = r.ok ? "&#10003;" : (r.soft ? "!" : "&#9633;");
+    return '<div class="rulechk '+cls+'"><span class="mk">'+mk+"</span><span>"+
+      '<b class="rid">'+r.id+"</b>"+esc(r.text)+
+      (r.changed ? '<span class="chg">changed</span>' : "")+
+      '<span class="why">'+esc(r.why)+"</span></span></div>";
+  }).join("");
+}
+function fdsHTML(){
+  return S.fds.map(f=>'<div><span class="det">'+f.lhs.map(shortOf).join(", ")+'</span><span class="arw">→</span>'+
+    f.rhs.map(shortOf).join(", ")+' <span class="rr">'+esc(f.rule)+"</span></div>").join("");
+}
+
+/* ---- start screen ---- */
+function renderStart(){
+  const pick = $("scenpick");
+  pick.innerHTML = Object.values(SCENARIOS).map(s=>
+    '<button class="scenopt" type="button" data-scen="'+s.key+'" aria-pressed="'+(s.key===chosenScen)+'">'+
+    '<span class="dot"></span><span><span class="t">'+esc(s.name)+
+    (s.extra?'<span class="xc">Extra credit</span>':"")+'</span><span class="d">'+esc(s.blurb)+"</span></span></button>").join("");
+  pick.querySelectorAll("[data-scen]").forEach(b=>b.onclick=()=>{ chosenScen=b.dataset.scen; S=SCENARIOS[chosenScen]; renderStart(); });
+  $("start-data").innerHTML = dataTableHTML(S.cols.map(c=>c.id), S.rows, {});
+  $("start-rules").innerHTML = rulesHTML();
+}
+
+/* ---- board ---- */
+function render(){
+  const A = analyzeAll();
+
+  $("tb-scen").textContent = S.name;
+  $("tb-who").innerHTML = "<b>" + esc(state.name) + "</b>";
+  $("b-undo").disabled = !past.length;
+  $("b-redo").disabled = !future.length;
+
+  /* palette */
+  const used = {};
+  state.tables.forEach(t=>t.cols.forEach(c=>used[c]=(used[c]||0)+1));
+  $("palette").innerHTML = allCols().map(c=>
+    '<button class="chip'+(used[c.id]?" used":"")+(c.synth?" syn":"")+(selectedCol===c.id?" sel":"")+
+    '" data-col="'+c.id+'" type="button">'+esc(c.short)+
+    (used[c.id]?'<span class="cnt">×'+used[c.id]+"</span>":"")+"</button>").join("");
+  $("palette").querySelectorAll("[data-col]").forEach(el=>attachDrag(el, el.dataset.col));
+
+  /* meter */
+  const base = baselineRedundancy();
+  const pct = base ? Math.round(100 * A.redundancy / base) : 0;
+  $("m-num").textContent = A.redundancy + " / " + base;
+  const fill = $("m-fill");
+  fill.style.width = Math.max(A.redundancy ? 4 : 0, pct) + "%";
+  fill.classList.toggle("zero", A.redundancy === 0);
+  $("m-note").textContent = A.redundancy === 0
+    ? "No fact is stored twice. Every value in your schema is the only copy of itself."
+    : A.redundancy + " value" + (A.redundancy===1?" is":"s are") + " a repeated copy of a fact the rules already pin down elsewhere." +
+      (A.redundancy >= base ? " Nothing has been split out yet." : "");
+
+  /* business rules */
+  $("rail-rules").innerHTML = ruleChecklistHTML(A.rules);
+  const sc = $("rule-score");
+  sc.textContent = A.ruleCount.met + "/" + A.ruleCount.total;
+  sc.classList.toggle("all", A.rulesMet);
+
+  /* checks */
+  const rows = [];
+  rows.push(chk(A.coverage.ok, "All columns placed",
+    A.coverage.ok ? "Nothing from the sheet was dropped." : "Missing: " + A.coverage.missing.map(shortOf).join(", "), ""));
+  rows.push(chk(A.allBcnf && A.nonEmpty>0, "Every table in BCNF",
+    A.allBcnf && A.nonEmpty>0 ? "No determinant is a non-key." : "See the cards marked in red.", ""));
+  rows.push(chk(A.lossless.ok, "Join reconstructs the sheet",
+    !A.coverage.ok ? "Place every column first."
+      : A.lossless.ok ? "Re-joining your tables returns the original " + S.rows.length + " rows."
+      : A.lossless.spurious > 0 ? "The join invents " + A.lossless.spurious + " row" + (A.lossless.spurious===1?"":"s") + " that were never in the sheet."
+      : "The join loses rows.", ""));
+  const pv = A.preserve;
+  rows.push(chk(pv.ok ? true : "warn", "Dependencies enforceable",
+    pv.ok ? "Every rule can be checked inside one table."
+      : "Split across tables: " + pv.lost.map(l=>l.lhs.map(shortOf).join("+")+"→"+shortOf(l.rhs)).join(", ") + ". Not an error — a tradeoff to defend.", ""));
+  $("checks").innerHTML = rows.join("");
+
+  /* cards */
+  $("cards").innerHTML = A.per.map(x=>cardHTML(x.t, x.a)).join("");
+  wireCards();
+
+  $("ws-hint").innerHTML = A.pass
+    ? '<b style="color:var(--ok)">Design holds.</b> Every business rule is enforced, every table is in BCNF, and the join returns your source rows exactly. Hit <b>Finish</b> for a capturable result.'
+    : (S.note ? esc(S.note) : "Tables so far: " + A.nonEmpty + (S.minTables ? " — this scenario can be solved with " + S.minTables + "." : ""));
+
+  $("rail-fds").innerHTML = fdsHTML();
+  $("rail-data").innerHTML = dataTableHTML(S.cols.map(c=>c.id), S.rows, {});
+}
+
+function chk(ok, label, sub){
+  const cls = ok === "warn" ? "w" : ok ? "y" : "n";
+  const mark = ok === "warn" ? "!" : ok ? "✓" : "✗";
+  return '<div class="checkrow"><span class="mk '+cls+'">'+mark+"</span><span>"+esc(label)+
+    '<span class="sub">'+esc(sub)+"</span></span></div>";
+}
+
+function cardHTML(t, a){
+  const cls = t.cols.length === 0 ? "" : (a.status==="viol" ? " viol" : a.status==="good" ? " good" : "");
+  let h = '<div class="card'+cls+'" data-table="'+t.id+'">';
+  h += '<div class="chd"><input value="'+esc(t.name)+'" data-rename="'+t.id+'" aria-label="Table name" spellcheck="false">'+
+       '<button class="iconbtn" data-del="'+t.id+'" title="Delete table" aria-label="Delete table">✕</button></div>';
+  h += '<div class="cbody">';
+
+  h += '<div class="dropzone'+(t.cols.length?"":" empty")+'" data-zone="'+t.id+'">';
+  if(!t.cols.length) h += "drop columns here";
+  else h += t.cols.map(c=>{
+    const isPk = t.pk.includes(c);
+    return '<span class="colchip'+(isPk?" pk":"")+(isSynth(c)?" syn":"")+'">'+
+      '<button class="kb" data-key="'+t.id+"|"+c+'" title="Toggle primary key">'+(isPk?"▣":"▢")+"</button>"+
+      esc(shortOf(c))+
+      '<button class="rm" data-rm="'+t.id+"|"+c+'" title="Remove">×</button></span>';
+  }).join("");
+  h += "</div>";
+
+  if(t.cols.length){
+    if(a.pkOk === false){
+      h += '<div class="diag bad"><span class="dt">Primary key</span>'+esc(a.pkMsg)+"</div>";
+    } else if(a.pkWarn){
+      h += '<div class="diag warn"><span class="dt">Primary key</span>'+esc(a.pkWarn)+"</div>";
+    }
+
+    a.violations.forEach(v=>{
+      h += '<div class="diag bad"><span class="dt">BCNF violation</span>'+
+        '<span class="fd">'+esc(v.lhs.map(shortOf).join(", "))+" → "+esc(v.dep.map(shortOf).join(", "))+"</span>"+
+        (v.also.length ? v.also.map(n=>'<span class="also">also breaks '+n+"</span>").join("") : '<span class="also">BCNF only — 3NF accepts this</span>')+
+        "<div style='margin-top:6px'>"+esc(v.lhs.map(shortOf).join(", "))+" is not a key of this table, so it repeats. "+
+        (v.also.length===0 ? "Every attribute here belongs to some candidate key, which is exactly why 3NF misses it." : "")+"</div>";
+      if(v.evidence){
+        const e = v.evidence;
+        const pcols = [];
+        const ident = t.pk.length ? t.pk : [t.cols[0]];
+        ident.concat(v.lhs, v.dep).forEach(c=>{ if(!pcols.includes(c)) pcols.push(c); });
+        h += '<button class="mini" data-proof="'+t.id+"|"+v.lhs.join(",")+'" style="margin-top:7px">Show the two rows that prove it</button>'+
+             '<div class="tablewrap" hidden data-proofbox="'+t.id+"|"+v.lhs.join(",")+'" style="margin-top:8px">'+
+             dataTableHTML(pcols, [e.rows[e.a], e.rows[e.b]], {key:v.lhs})+
+             '<p style="font-size:11.5px;color:var(--muted);margin:6px 0 0">Same '+esc(v.lhs.map(shortOf).join(" + "))+
+             ', so '+esc(v.dep.map(shortOf).join(", "))+' is stored twice. Change it in one row and the table contradicts itself.</p></div>';
+      }
+      h += "</div>";
+    });
+
+    if(a.status === "good"){
+      h += '<div class="diag ok"><span class="dt">In BCNF</span>Every determinant in this table is a superkey. '+
+        a.rows.length+" row"+(a.rows.length===1?"":"s")+" after duplicates collapse."+
+        (a.keys.length>1 ? " Candidate keys: "+a.keys.map(k=>k.map(shortOf).join("+")).join(", ")+"." : "")+"</div>";
+    }
+
+    h += '<div><button class="mini" data-peek="'+t.id+'">Show data ('+a.rows.length+" rows)</button>"+
+         '<div class="tablewrap" hidden data-peekbox="'+t.id+'" style="margin-top:8px">'+
+         dataTableHTML(t.cols, a.rows, {key:t.pk})+"</div></div>";
+  }
+
+  h += '<div><button class="mini" data-syn="'+t.id+'">+ Add surrogate key</button></div>';
+  h += "</div></div>";
+  return h;
+}
+
+function wireCards(){
+  document.querySelectorAll("[data-rename]").forEach(el=>{
+    el.onchange = () => { snapshot(); tableById(el.dataset.rename).name = el.value.trim().toUpperCase() || "TABLE"; render(); };
+  });
+  document.querySelectorAll("[data-del]").forEach(el=>{
+    el.onclick = () => {
+      snapshot();
+      const id = el.dataset.del;
+      state.tables = state.tables.filter(t=>t.id!==id);
+      state.synth = state.synth.filter(s=>s.owner!==id);
+      state.tables.forEach(t=>{ t.cols = t.cols.filter(c=>colOf(c)); t.pk = t.pk.filter(c=>t.cols.includes(c)); });
+      if(!state.tables.length) state.tables.push({id:"t"+(++state.seq), name:"TABLE", cols:[], pk:[]});
+      render();
+    };
+  });
+  document.querySelectorAll("[data-key]").forEach(el=>{
+    el.onclick = () => {
+      snapshot();
+      const [tid,c] = el.dataset.key.split("|");
+      const t = tableById(tid);
+      t.pk = t.pk.includes(c) ? t.pk.filter(x=>x!==c) : t.pk.concat([c]);
+      render();
+    };
+  });
+  document.querySelectorAll("[data-rm]").forEach(el=>{
+    el.onclick = () => {
+      snapshot();
+      const [tid,c] = el.dataset.rm.split("|");
+      const t = tableById(tid);
+      t.cols = t.cols.filter(x=>x!==c);
+      t.pk = t.pk.filter(x=>x!==c);
+      if(isSynth(c)) state.synth = state.synth.filter(s=>!(s.id===c && s.owner===tid));
+      render();
+    };
+  });
+  document.querySelectorAll("[data-syn]").forEach(el=>{
+    el.onclick = () => {
+      snapshot();
+      const tid = el.dataset.syn, t = tableById(tid);
+      const id = "__syn" + (++state.seq);
+      const base = t.name.replace(/[^A-Z0-9]/gi,"").slice(0,10) || "TABLE";
+      state.synth.push({id, label: base + "ID", owner: tid});
+      t.cols = [id].concat(t.cols);
+      t.pk = [id];
+      render();
+    };
+  });
+  document.querySelectorAll("[data-peek]").forEach(el=>{
+    el.onclick = () => { const b = document.querySelector('[data-peekbox="'+el.dataset.peek+'"]'); b.hidden = !b.hidden; };
+  });
+  document.querySelectorAll("[data-proof]").forEach(el=>{
+    el.onclick = () => { const b = document.querySelector('[data-proofbox="'+CSS.escape(el.dataset.proof)+'"]'); if(b) b.hidden = !b.hidden; };
+  });
+  document.querySelectorAll("[data-table]").forEach(el=>{
+    el.onclick = e => {
+      if(selectedCol && !e.target.closest("button") && !e.target.closest("input")){
+        placeCol(selectedCol, el.dataset.table);
+      }
+    };
+  });
+}
+
+function tableById(id){ return state.tables.find(t=>t.id===id); }
+
+function placeCol(colId, tableId){
+  const t = tableById(tableId);
+  if(!t) return;
+  if(!t.cols.includes(colId)){ snapshot(); t.cols.push(colId); }
+  selectedCol = null;
+  render();
+}
+
+/* ---- pointer drag + click-to-place ---- */
+function attachDrag(el, colId){
+  let startX=0, startY=0, dragging=false, ghost=null;
+
+  el.addEventListener("pointerdown", e=>{
+    if(e.button && e.button!==0) return;
+    startX=e.clientX; startY=e.clientY; dragging=false;
+    el.setPointerCapture(e.pointerId);
+
+    const move = ev=>{
+      if(!dragging && Math.hypot(ev.clientX-startX, ev.clientY-startY) > 5){
+        dragging = true;
+        ghost = el.cloneNode(true);
+        ghost.classList.add("ghost");
+        ghost.classList.remove("used","sel");
+        document.body.appendChild(ghost);
+      }
+      if(!dragging) return;
+      ghost.style.left = (ev.clientX - 24) + "px";
+      ghost.style.top  = (ev.clientY - 14) + "px";
+      const over = document.elementFromPoint(ev.clientX, ev.clientY);
+      document.querySelectorAll(".card").forEach(c=>c.classList.remove("drop"));
+      const card = over && over.closest(".card");
+      if(card) card.classList.add("drop");
+    };
+
+    const up = ev=>{
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerup", up);
+      el.removeEventListener("pointercancel", up);
+      document.querySelectorAll(".card").forEach(c=>c.classList.remove("drop"));
+      if(ghost){ ghost.remove(); ghost=null; }
+      if(!dragging){
+        selectedCol = (selectedCol === colId) ? null : colId;
+        render();
+        return;
+      }
+      const over = document.elementFromPoint(ev.clientX, ev.clientY);
+      const card = over && over.closest(".card");
+      if(card) placeCol(colId, card.dataset.table);
+      else render();
+    };
+
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", up);
+    el.addEventListener("pointercancel", up);
+  });
+}
+
+/* ==================== RESULT ==================== */
+
+function renderResult(){
+  const A = analyzeAll();
+  const base = baselineRedundancy();
+  const now = new Date();
+  const stamp = now.toLocaleString(undefined, {year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+
+  let h = '<div class="rhd"><div class="nm"><span class="k">Submitted by</span><span class="v">'+esc(state.name || "—")+"</span></div>"+
+    '<div class="mt"><b>Split &amp; Prove</b> · normalization lab<br>Scenario: <b>'+esc(S.name)+(S.extra?" (extra credit)":"")+"</b><br>"+esc(stamp)+"</div></div>";
+
+  h += '<div class="verdict '+(A.pass?"pass":"fail")+'"><span class="big">'+(A.pass?"✓":"✗")+"</span><div>"+
+    "<h3>"+(A.pass?"Design holds":"Design not yet complete")+"</h3><p>"+
+    (A.pass
+      ? "Every business rule is enforced by the schema, every table satisfies BCNF, and re-joining the tables returns the original "+S.rows.length+" rows with nothing invented and nothing lost."
+      : "One or more business rules or checks below did not pass. Go back to the board and resolve them before capturing your result.")+
+    "</p></div></div>";
+
+  h += '<div class="rsec"><h4>Business rules &#8212; '+A.ruleCount.met+" of "+A.ruleCount.total+" enforced</h4>"+
+    ruleChecklistHTML(A.rules)+"</div>";
+
+  h += '<div class="rsec"><h4>Checks</h4><div class="rchecks">';
+  const items = [
+    [A.coverage.ok, "All columns placed", A.coverage.ok ? "Nothing dropped" : "Missing: "+A.coverage.missing.map(shortOf).join(", ")],
+    [A.allBcnf && A.nonEmpty>0, "Every table in BCNF", A.allBcnf && A.nonEmpty>0 ? "No non-key determinants" : "Violations remain"],
+    [A.lossless.ok, "Lossless join", A.lossless.ok ? "Rebuilds the source exactly" : (A.lossless.spurious>0 ? A.lossless.spurious+" spurious rows" : "Does not rebuild")],
+    [A.preserve.ok ? true : "warn", "Dependencies enforceable",
+      A.preserve.ok ? "All rules checkable in one table"
+        : "Split: "+A.preserve.lost.map(l=>l.lhs.map(shortOf).join("+")+"→"+shortOf(l.rhs)).join(", ")]
+  ];
+  items.forEach(([ok,l,s])=>{
+    const cls = ok==="warn"?"w":ok?"y":"n", mk = ok==="warn"?"!":ok?"✓":"✗";
+    h += '<div class="rchk"><span class="mk '+cls+'">'+mk+"</span><span>"+esc(l)+'<span class="sub">'+esc(s)+"</span></span></div>";
+  });
+  h += "</div></div>";
+
+  h += '<div class="rsec"><h4>Redundancy</h4><div class="meter"><div class="lab"><span>Repeated values</span><b>'+
+    base+" → "+A.redundancy+'</b></div><div class="track"><div class="fill'+(A.redundancy===0?" zero":"")+
+    '" style="width:'+(base?Math.max(A.redundancy?4:0,Math.round(100*A.redundancy/base)):0)+'%"></div></div>'+
+    '<p class="note">'+(A.redundancy===0
+      ? "Every fact is stored exactly once."
+      : A.redundancy+" value"+(A.redundancy===1?"":"s")+" still duplicated.")+"</p></div></div>";
+
+  h += '<div class="rsec"><h4>Final tables, with data</h4>';
+  A.per.filter(x=>x.t.cols.length).forEach(x=>{
+    h += '<div class="rtable"><div class="rt-h">'+esc(x.t.name)+" ("+x.t.cols.map(c=>
+      (x.t.pk.includes(c) ? "<u>"+esc(shortOf(c))+"</u>" : esc(shortOf(c)))).join(", ")+")"+
+      (x.t.pk.length ? ' <span class="pkn">primary key underlined</span>' : "")+"</div>"+
+      '<div class="tablewrap">'+dataTableHTML(x.t.cols, x.a.rows, {key:x.t.pk})+"</div></div>";
+  });
+  h += "</div>";
+
+  h += '<div class="rsec"><h4>Dependencies you were given</h4><div class="fdlist">'+fdsHTML()+"</div></div>";
+
+  h += '<p class="protonote">Prototype build — the split board only. Scoring, the key-hunt and FD-forge phases, the stress test and the multivalued-phone finale are not implemented yet. '+
+       'Capture this page (screenshot or Print → Save as PDF) and upload it.</p>';
+
+  $("sheet").innerHTML = h;
+}
+
+/* ==================== WIRING ==================== */
+
+let chosenScen = "round1";
+S = SCENARIOS[chosenScen];
+
+function show(which){
+  $("screen-start").hidden  = which !== "start";
+  $("screen-board").hidden  = which !== "board";
+  $("screen-result").hidden = which !== "result";
+  $("topbar").hidden        = which === "start";
+  window.scrollTo(0,0);
+}
+
+$("b-start").onclick = ()=>{
+  const n = $("f-name").value.trim();
+  if(!n){ $("start-err").style.display="block"; $("f-name").focus(); return; }
+  $("start-err").style.display="none";
+  S = SCENARIOS[chosenScen];
+  state = freshState(n);
+  past.length = 0; future.length = 0; selectedCol = null;
+  show("board"); render();
+};
+$("f-name").addEventListener("keydown", e=>{ if(e.key==="Enter") $("b-start").click(); });
+
+$("b-undo").onclick = undo;
+$("b-redo").onclick = redo;
+$("b-reset").onclick = ()=>{ snapshot(); state = freshState(state.name); render(); };
+$("b-finish").onclick = ()=>{ renderResult(); show("result"); };
+$("b-back").onclick = ()=>{ show("board"); render(); };
+$("b-print").onclick = ()=>window.print();
+
+document.addEventListener("keydown", e=>{
+  if($("screen-board").hidden) return;
+  if((e.metaKey||e.ctrlKey) && e.key==="z" && !e.shiftKey){ e.preventDefault(); undo(); }
+  if((e.metaKey||e.ctrlKey) && (e.key==="y" || (e.key==="z" && e.shiftKey))){ e.preventDefault(); redo(); }
+  if(e.key==="Escape" && selectedCol){ selectedCol=null; render(); }
+});
+
+$("b-addtable").onclick = ()=>{
+  snapshot();
+  state.tables.push({id:"t"+(++state.seq), name:"TABLE"+state.tables.length, cols:[], pk:[]});
+  render();
+};
+
+/* survive a republish without losing a student's work */
+try{
+  const hot = window.claude && window.claude.hot;
+  if(hot){
+    hot.snapshot(()=>({state, chosenScen, screen: $("screen-result").hidden ? ($("screen-board").hidden ? "start" : "board") : "result"}));
+    const boot = d=>{
+      if(d && d.state){
+        chosenScen = SCENARIOS[d.chosenScen] ? d.chosenScen : "round1";
+        S = SCENARIOS[chosenScen];
+        state = d.state;
+        if(d.screen === "result"){ renderResult(); show("result"); }
+        else if(d.screen === "board"){ show("board"); render(); }
+        else { renderStart(); show("start"); }
+      } else { renderStart(); show("start"); }
+    };
+    hot.ready ? hot.ready(boot) : boot(hot.data);
+  } else { renderStart(); show("start"); }
+}catch(err){ renderStart(); show("start"); }
+</script>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>

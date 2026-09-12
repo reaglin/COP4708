@@ -10,6 +10,11 @@
     "type": "Page"
   },
   {
+    "title": "Split \u0026 Prove: Functional Dependency Derivation Practice Tool",
+    "href": "content/ext_09bbcb5b.html",
+    "type": "Content"
+  },
+  {
     "title": "Functional Dependency Analysis Exercise: University Course Registration System",
     "href": "content/ext_d80efe93.html",
     "type": "Content"
@@ -62,6 +67,11 @@
   {
     "title": "Functional Dependencies and Database Design",
     "href": "content/Relational_Theory_and_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Split \u0026 Prove",
+    "href": "content/split-and-prove.html",
     "type": "Content"
   },
   {
