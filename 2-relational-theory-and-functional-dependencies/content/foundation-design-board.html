@@ -1,0 +1,1019 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { color-scheme: light dark; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+<title>Foundation Design Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
+
+<style>
+:root{
+  --ground:#F1F3F0; --surface:#FCFCFA; --surface-2:#E7EAE5; --surface-3:#DDE2DA;
+  --ink:#191E24; --muted:#5B636C; --hairline:#CBD2CA;
+  --slate:#34506B; --slate-soft:#E1E8EF; --slate-line:#9DB3C6;
+  --brass:#8E6A20; --brass-soft:#F1E8D2; --brass-line:#CBAE6E;
+  --bad:#A33A2C; --bad-soft:#F6E2DE; --bad-line:#D79C90;
+  --ok:#2F6448; --ok-soft:#DEEBE2; --ok-line:#8CBBA1;
+  --warn:#8A5A12; --warn-soft:#F7EAD4; --warn-line:#D3B274;
+  --f-serif:"Source Serif 4",Georgia,serif;
+  --f-sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#11151A; --surface:#191F26; --surface-2:#222A33; --surface-3:#2B343E;
+  --ink:#E4E8EC; --muted:#98A2AD; --hairline:#2F3941;
+  --slate:#8FB4D6; --slate-soft:#1D2A37; --slate-line:#41566B;
+  --brass:#D3AE5E; --brass-soft:#2C2618; --brass-line:#6B5A2F;
+  --bad:#E28372; --bad-soft:#33201D; --bad-line:#7A4237;
+  --ok:#84C29E; --ok-soft:#19281F; --ok-line:#3D6A50;
+  --warn:#D9A94F; --warn-soft:#2E2515; --warn-line:#6A5526;
+}}
+:root[data-theme="dark"]{
+  --ground:#11151A; --surface:#191F26; --surface-2:#222A33; --surface-3:#2B343E;
+  --ink:#E4E8EC; --muted:#98A2AD; --hairline:#2F3941;
+  --slate:#8FB4D6; --slate-soft:#1D2A37; --slate-line:#41566B;
+  --brass:#D3AE5E; --brass-soft:#2C2618; --brass-line:#6B5A2F;
+  --bad:#E28372; --bad-soft:#33201D; --bad-line:#7A4237;
+  --ok:#84C29E; --ok-soft:#19281F; --ok-line:#3D6A50;
+  --warn:#D9A94F; --warn-soft:#2E2515; --warn-line:#6A5526;
+}
+
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-sans);font-size:15px;line-height:1.55;margin:0;padding-inline:18px;padding-block:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1320px;margin-inline:auto;padding-block:0 60px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0 0 12px}
+button{font:inherit;cursor:pointer}
+select,input{font:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:1px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.topbar{position:sticky;top:0;z-index:30;background:var(--ground);border-bottom:2px solid var(--ink);
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:12px}
+.brand{font-family:var(--f-serif);font-weight:700;font-size:1.2rem;letter-spacing:-.02em;margin-right:auto;display:flex;align-items:baseline;gap:10px}
+.brand small{font-family:var(--f-mono);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.who{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);border:1px solid var(--hairline);background:var(--surface);padding:4px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.who b{color:var(--ink);font-weight:600}
+.btn{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--hairline);background:var(--surface);color:var(--ink)}
+.btn:hover:not(:disabled){background:var(--surface-2)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.btn.primary{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.btn.brass{border-color:var(--brass-line);color:var(--brass);background:var(--brass-soft)}
+
+.start{padding-block:40px 60px}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.start h1{font-family:var(--f-serif);font-weight:700;font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.03;letter-spacing:-.022em;margin-bottom:14px}
+.start .lede{font-family:var(--f-serif);font-size:clamp(1rem,2.2vw,1.16rem);line-height:1.5;max-width:58ch;margin-bottom:28px}
+.startgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(270px,.8fr);gap:26px;align-items:start}
+@media (max-width:840px){.startgrid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--hairline)}
+.panel>h3{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+  background:var(--surface-2);border-bottom:1px solid var(--hairline);padding:9px 14px;font-weight:500}
+.panel .body{padding:14px}
+.quote{font-family:var(--f-serif);font-size:15.5px;line-height:1.6;border-left:3px solid var(--brass);padding:2px 0 2px 15px;margin:0 0 12px;color:var(--ink)}
+.quote cite{display:block;font-family:var(--f-mono);font-size:10.5px;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:9px}
+.namefield{display:flex;flex-direction:column;gap:7px;margin-block:2px 16px}
+.namefield label{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.namefield input{font-size:16px;padding:10px 12px;border:1px solid var(--hairline);background:var(--ground);color:var(--ink);width:100%}
+.namefield input:focus{border-color:var(--brass);outline:none}
+
+.tablewrap{overflow-x:auto}
+table.data{border-collapse:collapse;font-size:12.5px;width:auto;min-width:100%}
+table.data th,table.data td{border:1px solid var(--hairline);padding:5px 9px;text-align:left;white-space:nowrap}
+table.data thead th{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);font-weight:500}
+table.data td{font-family:var(--f-mono);font-size:11.5px}
+table.data td.keycol{color:var(--brass);font-weight:600}
+table.data tbody tr.hl td{background:var(--bad-soft)}
+table.data td.nul{color:var(--muted);font-style:italic}
+.rn{color:var(--muted);font-size:10px!important;text-align:right!important;width:1%}
+
+.board{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:start;padding-block:18px}
+@media (max-width:980px){.board{grid-template-columns:1fr}}
+.rail{display:flex;flex-direction:column;gap:13px;position:sticky;top:66px}
+@media (max-width:980px){.rail{position:static}}
+
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--f-mono);font-size:11px;padding:4px 8px;border:1px solid var(--slate-line);background:var(--slate-soft);color:var(--slate);
+  touch-action:none;user-select:none;display:inline-flex;align-items:center;gap:5px;max-width:100%}
+.chip.used{opacity:.4}
+.chip.sel{background:var(--brass-soft);border-color:var(--brass);color:var(--brass)}
+.chip .cnt{font-size:9px;color:var(--muted)}
+.ghost{position:fixed;z-index:999;pointer-events:none;opacity:.92;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+.hint{font-size:12px;color:var(--muted);line-height:1.45;margin:9px 0 0}
+.srcgrp{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin:11px 0 5px}
+.srcgrp:first-child{margin-top:0}
+
+.chk{display:grid;grid-template-columns:16px 1fr;gap:0 9px;align-items:start;padding:8px 10px;margin-bottom:5px;
+  font-size:12.5px;line-height:1.45;background:var(--ground);border:1px solid var(--hairline);border-left:3px solid var(--hairline);
+  transition:background .3s ease,border-color .3s ease}
+.chk.met{background:var(--ok-soft);border-color:var(--ok-line);border-left-color:var(--ok)}
+.chk .mk{font-family:var(--f-mono);font-weight:600;font-size:12px;color:var(--muted);line-height:1.35}
+.chk.met .mk{color:var(--ok)}
+.chk .cid{font-family:var(--f-mono);font-size:10.5px;font-weight:600;color:var(--brass);margin-right:5px}
+.chk .why{display:block;margin-top:4px;font-size:11.5px;color:var(--muted);font-style:italic}
+.chk.met .why{color:var(--ok);font-style:normal}
+.score{float:right;font-family:var(--f-mono);letter-spacing:.06em;color:var(--ink);text-transform:none}
+.score.all{color:var(--ok)}
+.scrolly{max-height:min(42vh,420px);overflow-y:auto;padding-right:4px}
+@media (max-width:980px){.scrolly{max-height:none;overflow:visible}}
+
+details.fold{border:1px solid var(--hairline);background:var(--surface)}
+details.fold>summary{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);padding:9px 14px;cursor:pointer;list-style:none}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::before{content:"\25B8\20";color:var(--brass)}
+details.fold[open]>summary::before{content:"\25BE\20"}
+details.fold .body{padding:12px 14px}
+.fdlist{font-family:var(--f-mono);font-size:11px;line-height:1.9;margin:0}
+.fdlist .det{color:var(--brass);font-weight:600}
+.fdlist .arw{color:var(--muted);padding-inline:3px}
+
+.wsbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:13px}
+.wsbar h2{font-family:var(--f-serif);font-size:1.28rem;font-weight:700;letter-spacing:-.015em;margin-right:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(516px,1fr));gap:15px}
+@media (max-width:620px){.cards{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-top:3px solid var(--slate-line);display:flex;flex-direction:column}
+.card.drop{border-color:var(--brass);border-top-color:var(--brass);background:var(--brass-soft)}
+.card.bad{border-top-color:var(--bad)}
+.card.good{border-top-color:var(--ok)}
+.card .chd{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--hairline);background:var(--surface-2)}
+.card .chd input{font-family:var(--f-mono);font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:transparent;border:none;color:var(--ink);width:100%;padding:2px 0;min-width:0}
+.card .chd input:focus{outline:none;border-bottom:1px solid var(--brass)}
+.card .chd .tag{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border:1px solid var(--ok-line);color:var(--ok);background:var(--ok-soft);white-space:nowrap}
+.iconbtn{background:none;border:none;color:var(--muted);font-family:var(--f-mono);font-size:13px;line-height:1;padding:3px 5px}
+.iconbtn:hover{color:var(--bad)}
+
+.spec{padding:0}
+.spechead,.crow{display:grid;grid-template-columns:minmax(84px,1.4fr) 96px 52px 29px 29px minmax(70px,104px) 80px 18px;gap:0 5px;align-items:center}
+.spechead{font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  padding:7px 10px;border-bottom:1px solid var(--hairline);background:var(--surface-3)}
+.crow{padding:4px 10px;border-bottom:1px dotted var(--hairline)}
+.crow:last-of-type{border-bottom:none}
+.cname{font-family:var(--f-mono);font-size:11.5px;overflow:hidden;text-overflow:ellipsis}
+.crow select,.crow input.csize{font-family:var(--f-mono);font-size:10.5px;padding:3px 4px;border:1px solid var(--hairline);background:var(--ground);color:var(--ink);width:100%;min-width:0}
+.crow select.unset,.crow input.csize.unset{border-color:var(--warn-line);background:var(--warn-soft)}
+.crow select.err{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.crow input.csize:disabled{opacity:.3;background:transparent;border-style:dotted}
+.flag{font-family:var(--f-mono);font-size:9.5px;font-weight:600;letter-spacing:.03em;padding:3px 0;border:1px solid var(--hairline);background:var(--ground);color:var(--muted);text-align:center}
+.flag.on{border-color:var(--brass);background:var(--brass-soft);color:var(--brass)}
+.nnb{font-family:var(--f-mono);font-size:9px;letter-spacing:.03em;padding:3px 2px;border:1px solid var(--hairline);background:var(--ground);color:var(--muted);text-align:center;white-space:nowrap}
+.nnb.on{border-color:var(--slate-line);background:var(--slate-soft);color:var(--slate)}
+.cwarn{grid-column:1/-1;font-size:11px;line-height:1.4;color:var(--bad);padding:3px 0 5px 2px}
+.cwarn.soft{color:var(--warn)}
+@media (max-width:620px){
+  .spechead{display:none}
+  .crow{grid-template-columns:1fr 1fr 1fr;gap:5px;padding:9px 12px}
+  .crow .cname{grid-column:1/-1;font-weight:600}
+}
+
+.cfoot{padding:9px 12px;border-top:1px solid var(--hairline);display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.mini{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);background:none;border:none;padding:0;text-decoration:underline;text-underline-offset:3px}
+.mini:hover{color:var(--ink)}
+.diag{font-size:12.5px;line-height:1.45;border-left:3px solid var(--bad);background:var(--bad-soft);padding:8px 11px;margin:0 12px 10px}
+.diag .dt{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--bad);display:block;margin-bottom:3px}
+.dropzone{margin:10px 12px;border:1px dashed var(--hairline);padding:9px;text-align:center;color:var(--muted);font-size:11.5px;font-style:italic}
+
+.result{padding-block:24px 60px}
+.sheet{background:var(--surface);border:1px solid var(--ink);padding:26px 26px 30px}
+.rhd{border-bottom:2px solid var(--ink);padding-bottom:15px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-end}
+.rhd .nm{margin-right:auto}
+.rhd .nm .k{font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+.rhd .nm .v{font-family:var(--f-serif);font-size:1.85rem;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+.rhd .mt{font-family:var(--f-mono);font-size:11px;color:var(--muted);line-height:1.7}
+.rhd .mt b{color:var(--ink);font-weight:500}
+.verdict{border:1px solid var(--hairline);padding:14px 16px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start}
+.verdict.pass{background:var(--ok-soft);border-color:var(--ok)}
+.verdict.fail{background:var(--bad-soft);border-color:var(--bad)}
+.verdict .big{font-family:var(--f-mono);font-size:20px;font-weight:600;line-height:1.1}
+.verdict.pass .big{color:var(--ok)} .verdict.fail .big{color:var(--bad)}
+.verdict h3{font-family:var(--f-sans);font-size:1rem;font-weight:600;margin-bottom:3px}
+.verdict p{font-size:13.5px;margin:0}
+.rsec{margin-bottom:24px}
+.rsec>h4{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--hairline);padding-bottom:6px;margin-bottom:12px;font-weight:500}
+.rspec{margin-bottom:20px}
+.rspec .rt-h{font-family:var(--f-mono);font-size:12.5px;font-weight:600;letter-spacing:.05em;margin-bottom:6px}
+table.spectbl{border-collapse:collapse;width:100%;font-size:12.5px;min-width:520px}
+table.spectbl th,table.spectbl td{border:1px solid var(--hairline);padding:5px 9px;text-align:left}
+table.spectbl thead th{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--surface-2);font-weight:500}
+table.spectbl td{font-family:var(--f-mono);font-size:11.5px}
+table.spectbl td.k{color:var(--brass);font-weight:600}
+.rels{font-family:var(--f-mono);font-size:12px;line-height:2}
+.rels .a{color:var(--brass);font-weight:600}
+.rels .card2{color:var(--muted)}
+.protonote{font-family:var(--f-mono);font-size:11px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:12px;line-height:1.6}
+
+@media print{
+  body{background:#fff;color:#000;padding:0}
+  .topbar,.noprint{display:none!important}
+  .sheet{border:none;padding:0}
+  .wrap{max-width:none}
+}
+</style>
+
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div>
+<div class="wrap">
+
+<div class="topbar noprint" id="topbar" hidden>
+  <div class="brand">Design Board <small>Foundation Database</small></div>
+  <div class="who" id="tb-who"></div>
+  <button class="btn" id="b-undo">&#8630; Undo</button>
+  <button class="btn" id="b-redo">&#8631; Redo</button>
+  <button class="btn" id="b-reset">Reset</button>
+  <button class="btn primary" id="b-finish">Finish &#8594;</button>
+</div>
+
+<!-- ========== START ========== -->
+<div id="screen-start" class="start">
+  <p class="eyebrow">COP 4708 &#183; Assignment 3 &#183; Database Design</p>
+  <h1>Foundation Design Board</h1>
+  <p class="lede">You are the consultant. Four draft entities, a set of functional dependencies, and twenty minutes with the director. Turn it into a database design that satisfies every constraint.</p>
+
+  <div class="startgrid">
+    <div>
+      <div class="panel" style="margin-bottom:16px">
+        <h3>The director's interview</h3>
+        <div class="body">
+          <blockquote class="quote">The fundraising or donations can be through donors or through events. One donor can make recurrent donations or one time donation, which means that a donation must have a donor but a donor does not have to donate always. If donations are not enough an event will be initiated. Usually the collected donation will support one project or several projects. So a project must be supported by a donation, and donations have to be used for projects.
+          <cite>Executive Director, Halifax Community Foundation</cite></blockquote>
+          <p style="font-size:13px;color:var(--muted);margin:0">Every sentence above becomes a constraint your design has to enforce. So does every functional dependency.</p>
+        </div>
+      </div>
+      <div class="panel" style="margin-bottom:16px">
+        <h3>Functional dependencies you recorded</h3>
+        <div class="body"><div class="fdlist" id="start-fds"></div></div>
+      </div>
+      <div class="panel">
+        <h3>Sample records from the current spreadsheets</h3>
+        <div class="body" style="padding:0" id="start-data"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h3>Begin</h3>
+        <div class="body">
+          <div class="namefield">
+            <label for="f-name">Your name (appears on your result)</label>
+            <input id="f-name" type="text" autocomplete="name" placeholder="e.g. Jordan Alvarez" maxlength="60">
+          </div>
+          <button class="btn primary" id="b-start" style="width:100%;padding:11px">Start &#8594;</button>
+          <p class="hint" id="start-err" style="color:var(--bad);display:none">Enter your name before starting.</p>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <h3>What you're building</h3>
+        <div class="body" style="font-size:13.5px">
+          <p>The board opens with the consultant's four draft tables already filled in. They are a starting point, not an answer &#8212; two of them are wrong.</p>
+          <p>For every column you set a <b>data type</b>, a <b>size</b> where the type needs one, whether it is a <b>primary key</b>, whether it is <b>unique</b>, whether it is a <b>foreign key</b> and to which table, and whether it accepts <b>NULL</b>.</p>
+          <p style="margin-bottom:0">Constraints turn green as your design starts to enforce them. All fifteen have to be green.</p>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <h3>Two things to watch</h3>
+        <div class="body" style="font-size:13.5px">
+          <p><b>Minimum cardinality is nullability.</b> "A donation must have a donor" is not a diagram decoration &#8212; it is <span style="font-family:var(--f-mono);font-size:12px">NOT NULL</span> on the foreign key. That is the whole translation.</p>
+          <p style="margin-bottom:0"><b>A column holds one value.</b> If the director says a donation can support several projects, no single column in the donation table can carry that.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== BOARD ========== -->
+<div id="screen-board" class="board" hidden>
+  <div class="rail">
+    <div class="panel">
+      <h3>Business constraints <span class="score" id="sc-biz"></span></h3>
+      <div class="body">
+        <p class="hint" style="margin:0 0 9px">From the interview and the dependencies. Green when the schema enforces it.</p>
+        <div class="scrolly" id="list-biz"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Design requirements <span class="score" id="sc-des"></span></h3>
+      <div class="body"><div class="scrolly" id="list-des"></div></div>
+    </div>
+
+    <div class="panel">
+      <h3>Unplaced attributes</h3>
+      <div class="body">
+        <div id="palette"></div>
+        <p class="hint">Drag onto a table &#8212; or click it, then click the table.</p>
+      </div>
+    </div>
+
+    <details class="fold">
+      <summary>Functional dependencies</summary>
+      <div class="body"><div class="fdlist" id="rail-fds"></div></div>
+    </details>
+
+    <details class="fold">
+      <summary>Sample records</summary>
+      <div class="body" style="padding:0" id="rail-data"></div>
+    </details>
+  </div>
+
+  <div>
+    <div class="wsbar">
+      <h2>Database design</h2>
+      <button class="btn brass" id="b-addtable">+ New table</button>
+    </div>
+    <div class="cards" id="cards"></div>
+    <p class="hint" id="ws-hint" style="margin-top:15px"></p>
+  </div>
+</div>
+
+<!-- ========== RESULT ========== -->
+<div id="screen-result" class="result" hidden>
+  <div class="noprint" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+    <button class="btn" id="b-back">&#8592; Back to board</button>
+    <button class="btn brass" id="b-print">Print / Save as PDF</button>
+    <span class="hint" style="margin:0;align-self:center">Screenshot or print this page and upload it.</span>
+  </div>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+
+/* ==================== DOMAIN ==================== */
+
+const TYPES = ["INT","SMALLINT","BIGINT","DECIMAL","MONEY","CHAR","VARCHAR","TEXT","DATE","DATETIME","BIT"];
+const CAT = {INT:"int",SMALLINT:"int",BIGINT:"int",DECIMAL:"money",MONEY:"money",
+             CHAR:"text",VARCHAR:"text",TEXT:"text",DATE:"date",DATETIME:"date",BIT:"bool"};
+const CATNAME = {int:"a whole-number type",money:"DECIMAL or MONEY",text:"CHAR or VARCHAR",date:"a date type",bool:"BIT"};
+const needsSize = t => t==="CHAR"||t==="VARCHAR"||t==="DECIMAL";
+
+/* id, label, source entity, expected type category, optional note when wrong */
+const ATTRS = [
+  {id:"donor_id",  l:"DonorID",        src:"donors", cat:"int"},
+  {id:"fname",     l:"FirstName",      src:"donors", cat:"text"},
+  {id:"lname",     l:"LastName",       src:"donors", cat:"text"},
+  {id:"street",    l:"StreetAddress",  src:"donors", cat:"text"},
+  {id:"city",      l:"City",           src:"donors", cat:"text"},
+  {id:"state",     l:"State",          src:"donors", cat:"text"},
+  {id:"zip",       l:"ZipCode",        src:"donors", cat:"text",
+   note:"A ZIP code is a label, not a quantity. Stored as a number, 03201 becomes 3201 and you can never get the leading zero back."},
+  {id:"phone",     l:"PhoneNumber",    src:"donors", cat:"text",
+   note:"Phone numbers carry dashes, parentheses and leading zeros, and you never do arithmetic on one."},
+  {id:"email",     l:"Email",          src:"donors", cat:"text"},
+
+  {id:"donation_id",l:"DonationID",    src:"donations", cat:"int"},
+  {id:"amt",       l:"DonationAmt",    src:"donations", cat:"money",
+   note:"Money needs exact decimal arithmetic. FLOAT loses cents; text cannot be summed."},
+  {id:"dtype",     l:"DonationType",   src:"donations", cat:"text"},
+  {id:"ccnum",     l:"DonationCCNum",  src:"donations", cat:"text",
+   note:"A card number is a digit string, not an integer — it overflows, drops leading zeros, and is never summed."},
+  {id:"ccexp",     l:"DonatCCExpDate", src:"donations", cat:"date"},
+
+  {id:"project_id",l:"ProjectID",      src:"projects", cat:"int"},
+  {id:"ptype",     l:"ProjectType",    src:"projects", cat:"text"},
+  {id:"pname",     l:"ProjectName",    src:"projects", cat:"text"},
+  {id:"ploc",      l:"ProjectLocation",src:"projects", cat:"text"},
+  {id:"pdur",      l:"ProjectDuration",src:"projects", cat:"int"},
+  {id:"fdate",     l:"FundingDate",    src:"projects", cat:"date"},
+  {id:"famt",      l:"FundingAmt",     src:"projects", cat:"money"},
+  {id:"cdate",     l:"CompleteDate",   src:"projects", cat:"date"},
+
+  {id:"event_id",  l:"EventID",        src:"events", cat:"int"},
+  {id:"edesc",     l:"EventDescription",src:"events", cat:"text"},
+  {id:"eloc",      l:"EventLocation",  src:"events", cat:"text"},
+  {id:"edate",     l:"EventDate",      src:"events", cat:"date"},
+  {id:"sponsor",   l:"Sponsor",        src:"events", cat:"text"},
+  {id:"egoal",     l:"EventFundGoal",  src:"events", cat:"money"},
+  {id:"ecoll",     l:"CollectedFunding",src:"events", cat:"money"}
+];
+const A = {}; ATTRS.forEach(a=>A[a.id]=a);
+const lab = id => A[id] ? A[id].l : id;
+
+const SRCNAME = {donors:"Donors sheet",donations:"Donations sheet",projects:"Projects sheet",events:"Events sheet",alloc:"Allocation sheet (finance office)"};
+
+/* sample records, one row set per source sheet */
+const DATA = {
+  donors:{cols:["donor_id","fname","lname","street","city","state","zip","phone","email"],rows:[
+    ["101","Maria","Delgado","214 Beach St","Daytona Beach","FL","32114","386-555-0142","mdelgado@example.org"],
+    ["102","James","Okafor","88 Ridgewood Ave","Daytona Beach","FL","32114","386-555-0198","jokafor@example.org"],
+    ["103","Lena","Petrov","1450 Palm Coast Pkwy","Palm Coast","FL","32137","386-555-0231","lpetrov@example.org"],
+    ["104","Andre","Whitfield","77 Orange Ave","DeLand","FL","32720","386-555-0177","awhitfield@example.org"],
+    ["105","Priya","Raman","9 Seabreeze Blvd","Daytona Beach","FL","32118","386-555-0165","praman@example.org"],
+    ["106","Tomas","Ruiz","305 Canal St","New Smyrna Beach","FL","32168","386-555-0119","truiz@example.org"],
+    ["107","Grace","Lindqvist","612 Palm Coast Pkwy","Palm Coast","FL","32137","386-555-0203","glindqvist@example.org"],
+    ["108","Samuel","Boateng","41 Beach St","Daytona Beach","FL","32114","386-555-0188","sboateng@example.org"]
+  ]},
+  donations:{cols:["donation_id","amt","dtype","ccnum","ccexp","donor_id"],rows:[
+    ["7001","500.00","Credit Card","xxxx-xxxx-xxxx-4471","2027-08-01","101"],
+    ["7002","150.00","Credit Card","xxxx-xxxx-xxxx-9920","2026-11-01","102"],
+    ["7003","2500.00","Check",null,null,"103"],
+    ["7004","75.00","Credit Card","xxxx-xxxx-xxxx-4471","2027-08-01","101"],
+    ["7005","1000.00","Bank Transfer",null,null,"104"],
+    ["7006","250.00","Credit Card","xxxx-xxxx-xxxx-3318","2028-02-01","105"],
+    ["7007","60.00","Cash",null,null,"106"],
+    ["7008","4000.00","Check",null,null,"107"],
+    ["7009","320.00","Credit Card","xxxx-xxxx-xxxx-9920","2026-11-01","102"],
+    ["7010","180.00","Credit Card","xxxx-xxxx-xxxx-7702","2027-05-01","108"]
+  ]},
+  projects:{cols:["project_id","ptype","pname","ploc","pdur","fdate","famt","cdate"],rows:[
+    ["5001","Housing","Coastal Rebuild","Daytona Beach","18","2025-03-14","240000.00","2026-09-30"],
+    ["5002","Education","Reading Bridge","DeLand","12","2025-06-02","85000.00",null],
+    ["5003","Food Security","Harvest Table","New Smyrna Beach","9","2026-01-20","42500.00",null],
+    ["5004","Housing","Porch Repair","Palm Coast","6","2026-04-11","31000.00",null]
+  ]},
+  events:{cols:["event_id","project_id","edesc","eloc","edate","sponsor","egoal","ecoll"],rows:[
+    ["9001","5001","Spring gala and silent auction","Ocean Center","2025-04-19","Halifax Bank","75000.00","61200.00"],
+    ["9002","5002","5K fun run along the river","Riverfront Park","2025-07-12","Volusia Print Co","30000.00","33400.00"],
+    ["9003","5001","Autumn benefit dinner","Ocean Center","2025-10-05","Halifax Bank","50000.00","47800.00"]
+  ]},
+  alloc:{cols:["donation_id","project_id"],rows:[
+    ["7001","5001"],["7002","5001"],["7003","5001"],["7003","5002"],["7004","5003"],
+    ["7005","5002"],["7005","5004"],["7006","5001"],["7007","5003"],["7008","5001"],
+    ["7008","5002"],["7008","5004"],["7009","5004"],["7010","5003"]
+  ]}
+};
+
+const FDS = [
+  {lhs:["donor_id"], rhs:["fname","lname","street","city","state","zip","phone","email"]},
+  {lhs:["zip"],      rhs:["city","state"]},
+  {lhs:["email"],    rhs:["donor_id"]},
+  {lhs:["phone"],    rhs:["donor_id"]},
+  {lhs:["donation_id"], rhs:["amt","dtype","ccnum","ccexp","donor_id"]},
+  {lhs:["project_id"],  rhs:["ptype","pname","ploc","pdur","fdate","famt","cdate"]},
+  {lhs:["event_id"],    rhs:["project_id","edesc","eloc","edate","sponsor","egoal","ecoll"]}
+];
+
+/* ==================== STATE ==================== */
+
+let state=null, past=[], future=[], selected=null;
+
+const mkcol = id => ({c:id, type:"", size:"", pk:false, uq:false, fk:"", nn:false});
+
+function freshState(name){
+  return {name, seq:5, tables:[
+    {id:"t1", name:"DONORS",    cols:["donor_id","fname","lname","street","city","state","zip","phone","email"].map(mkcol)},
+    {id:"t2", name:"DONATIONS", cols:["donation_id","amt","dtype","ccnum","ccexp","project_id","donor_id"].map(mkcol)},
+    {id:"t3", name:"PROJECTS",  cols:["project_id","ptype","pname","ploc","pdur","fdate","famt","cdate"].map(mkcol)},
+    {id:"t4", name:"EVENTS",    cols:["event_id","project_id","edesc","eloc","edate","sponsor","egoal","ecoll"].map(mkcol)}
+  ]};
+}
+const snap = ()=>{ past.push(JSON.stringify(state)); if(past.length>90) past.shift(); future.length=0; };
+const undo = ()=>{ if(!past.length) return; future.push(JSON.stringify(state)); state=JSON.parse(past.pop()); render(); };
+const redo = ()=>{ if(!future.length) return; past.push(JSON.stringify(state)); state=JSON.parse(future.pop()); render(); };
+const tbl = id => state.tables.find(t=>t.id===id);
+const live = () => state.tables.filter(t=>t.cols.length);
+const pkOf = t => t.cols.filter(c=>c.pk).map(c=>c.c);
+const colIn = (t,id) => t.cols.find(c=>c.c===id);
+const tWith = ids => live().filter(t=>ids.every(i=>t.cols.some(c=>c.c===i)));
+const tByPk = key => live().find(t=>pkOf(t).slice().sort().join(",")===key);
+
+/* ==================== FD ENGINE ==================== */
+
+function closure(attrs){
+  const s=new Set(attrs); let ch=true;
+  while(ch){ ch=false;
+    for(const f of FDS) if(f.lhs.every(a=>s.has(a)))
+      for(const r of f.rhs) if(!s.has(r)){ s.add(r); ch=true; }
+  }
+  return s;
+}
+const isSuper = (X,cols) => { const c=closure(X); return cols.every(a=>c.has(a)); };
+
+/* every FD whose determinant is not a key of the table it sits in */
+function bcnfViolations(t){
+  const cols=t.cols.map(c=>c.c), out=[];
+  for(const f of FDS){
+    if(!f.lhs.every(a=>cols.includes(a))) continue;
+    const dep=f.rhs.filter(a=>cols.includes(a)&&!f.lhs.includes(a));
+    if(!dep.length) continue;
+    if(isSuper(f.lhs,cols)) continue;
+    out.push({lhs:f.lhs, dep, evidence:evidence(f.lhs,dep)});
+  }
+  return out;
+}
+function evidence(lhs,dep){
+  for(const k of Object.keys(DATA)){
+    const d=DATA[k];
+    if(!lhs.concat(dep).every(a=>d.cols.includes(a))) continue;
+    const seen=new Map();
+    for(let i=0;i<d.rows.length;i++){
+      const key=lhs.map(a=>d.rows[i][d.cols.indexOf(a)]).join("");
+      if(seen.has(key)) return {src:k, a:seen.get(key), b:i, cols:lhs.concat(dep)};
+      seen.set(key,i);
+    }
+  }
+  return null;
+}
+
+/* which sample sheet can populate this table */
+function sourceFor(t){
+  const ids=t.cols.map(c=>c.c);
+  if(!ids.length) return null;
+  let best=null;
+  for(const k of Object.keys(DATA)){
+    if(!ids.every(a=>DATA[k].cols.includes(a))) continue;
+    if(!best || DATA[k].cols.length<DATA[best].cols.length) best=k;
+  }
+  return best;
+}
+function rowsFor(t){
+  const k=sourceFor(t); if(!k) return null;
+  const d=DATA[k], ids=t.cols.map(c=>c.c), seen=new Set(), out=[];
+  for(const r of d.rows){
+    const v=ids.map(a=>r[d.cols.indexOf(a)]);
+    const key=v.join("");
+    if(seen.has(key)) continue;
+    seen.add(key); out.push(v);
+  }
+  return {ids, rows:out, src:k};
+}
+
+/* ==================== COLUMN-LEVEL VALIDATION ==================== */
+
+function colIssues(t,c){
+  const out=[];
+  const a=A[c.c];
+  if(c.type && a && CAT[c.type]!==a.cat)
+    out.push({lv:"hard", m:lab(c.c)+" should be "+CATNAME[a.cat]+", not "+c.type+"."+(a.note?" "+a.note:"")});
+  if(c.type && needsSize(c.type) && !String(c.size).trim())
+    out.push({lv:"soft", m:c.type+" needs a size."});
+  if(c.type && !needsSize(c.type) && String(c.size).trim())
+    out.push({lv:"soft", m:c.type+" does not take a size."});
+  if(c.pk && !c.nn) out.push({lv:"hard", m:"A primary key column can never be NULL."});
+  if(c.fk){
+    const tg=tbl(c.fk);
+    if(!tg) out.push({lv:"hard", m:"Foreign key points at a table that no longer exists."});
+    else if(!pkOf(tg).includes(c.c))
+      out.push({lv:"hard", m:lab(c.c)+" is not part of "+tg.name+"'s primary key, so it cannot be referenced."});
+    else {
+      const tc=colIn(tg,c.c);
+      if(tc && tc.type && c.type && (tc.type!==c.type || String(tc.size).trim()!==String(c.size).trim()))
+        out.push({lv:"hard", m:"Type must match "+tg.name+"."+lab(c.c)+" exactly ("+fmtType(tc)+")."});
+    }
+  }
+  return out;
+}
+const fmtType = c => c.type ? (needsSize(c.type)&&String(c.size).trim() ? c.type+"("+String(c.size).trim()+")" : c.type) : "—";
+
+/* ==================== CONSTRAINTS ==================== */
+
+function fkOk(c, targetPkKey){
+  if(!c || !c.fk) return false;
+  const tg=tbl(c.fk); if(!tg) return false;
+  return pkOf(tg).slice().sort().join(",")===targetPkKey && pkOf(tg).includes(c.c);
+}
+
+const BIZ = [
+  {id:"C1", text:"A donation must have a donor.",
+   test:()=>{ const t=tByPk("donation_id"); if(!t) return false;
+     const c=colIn(t,"donor_id"); return !!c && c.nn && fkOk(c,"donor_id"); },
+   met:"DonorID is a NOT NULL foreign key on the donation — the database refuses an orphan donation.",
+   todo:"Give the donation table a DonorID foreign key to the donor table, and make it NOT NULL. Minimum cardinality of one is exactly that."},
+
+  {id:"C2", text:"A donor does not have to donate, and one donor may donate many times.",
+   test:()=>{ const t=tByPk("donation_id"); if(!t) return false;
+     const c=colIn(t,"donor_id"); if(!c) return false;
+     return !c.pk && !c.uq && !live().some(x=>pkOf(x).join(",")==="donor_id" && x.cols.some(y=>y.c==="donation_id"&&y.nn)); },
+   met:"DonorID repeats freely in the donation table, and nothing in the donor table demands a donation.",
+   todo:"DonorID must not be the donation table's key or unique — that would cap a donor at one gift — and the donor table must not carry a required donation."},
+
+  {id:"C3", text:"A donation may support one project or several projects.",
+   test:()=>{ const b=tByPk("donation_id,project_id"); if(!b) return false;
+     const d=tByPk("donation_id");
+     return (!d || !colIn(d,"project_id"));},
+   met:"A bridge table keyed on DonationID and ProjectID together — one donation can now fund any number of projects.",
+   todo:"One ProjectID column holds exactly one project. Build a table whose primary key is DonationID and ProjectID together, and remove ProjectID from the donation table."},
+
+  {id:"C4", text:"A project must be supported by a donation, and donations have to be used for projects.",
+   test:()=>{ const b=tByPk("donation_id,project_id"); if(!b) return false;
+     const d=colIn(b,"donation_id"), p=colIn(b,"project_id");
+     return !!d&&!!p&&d.nn&&p.nn&&fkOk(d,"donation_id")&&fkOk(p,"project_id"); },
+   met:"Both halves of the bridge are NOT NULL foreign keys. Note in your report that the 'at least one' minimum still needs a trigger or application rule — a foreign key cannot express it.",
+   todo:"Both bridge columns must be NOT NULL foreign keys, pointing at the donation table and the project table."},
+
+  {id:"C5", text:"If donations are not enough an event will be initiated for a project.",
+   test:()=>{ const t=tByPk("event_id"); if(!t) return false;
+     const c=colIn(t,"project_id"); return !!c && c.nn && !c.uq && fkOk(c,"project_id"); },
+   met:"Every event belongs to one project, and a project can run as many events as it needs.",
+   todo:"The event table needs ProjectID as a NOT NULL foreign key — and not unique, or a project could hold only one event."},
+
+  {id:"C6", text:"(ZipCode) → (City, State). City and state are facts about the ZIP, not about the donor.",
+   test:()=>{ const z=tByPk("zip"); const d=tByPk("donor_id");
+     if(!z||!d) return false;
+     if(!z.cols.some(c=>c.c==="city")||!z.cols.some(c=>c.c==="state")) return false;
+     if(d.cols.some(c=>c.c==="city"||c.c==="state")) return false;
+     const c=colIn(d,"zip"); return !!c && c.nn && fkOk(c,"zip"); },
+   met:"City and state live once per ZIP code, and the donor carries only the ZIP as a foreign key.",
+   todo:"Three Daytona Beach donors store 'Daytona Beach, FL' three times. Move City and State into a table keyed on ZipCode, and leave ZipCode behind as a NOT NULL foreign key."},
+
+  {id:"C7", text:"(Email) and (PhoneNumber) each determine the whole donor — both are candidate keys.",
+   test:()=>{ const d=tByPk("donor_id"); if(!d) return false;
+     return ["email","phone"].every(id=>{ const c=colIn(d,id); return !!c && c.uq && c.nn; }); },
+   met:"Email and PhoneNumber are declared UNIQUE and NOT NULL — alternate keys you can search on, like an SSN beside a student ID.",
+   todo:"A determinant of the whole row is a candidate key. Mark Email and PhoneNumber UNIQUE and NOT NULL even though neither is the primary key."},
+
+  {id:"C8", text:"Each entity is identified by its own ID.",
+   test:()=>["donor_id","donation_id","project_id","event_id"].every(id=>!!tByPk(id)),
+   met:"Donor, donation, project and event each have a single-column primary key.",
+   todo:"Every one of DonorID, DonationID, ProjectID and EventID must be the sole primary key of some table."}
+];
+
+const DES = [
+  {id:"D1", text:"Every attribute appears in the design.",
+   test:()=>ATTRS.every(a=>live().some(t=>t.cols.some(c=>c.c===a.id))),
+   met:"Nothing from the four sheets was dropped.",
+   todo:()=>{ const m=ATTRS.filter(a=>!live().some(t=>t.cols.some(c=>c.c===a.id))).map(a=>a.l);
+     return "Still unplaced: "+m.slice(0,4).join(", ")+(m.length>4?" and "+(m.length-4)+" more":"")+"."; }},
+
+  {id:"D2", text:"Every column has a data type.",
+   test:()=>live().every(t=>t.cols.every(c=>!!c.type)),
+   met:"No column is left untyped.",
+   todo:()=>{ let n=0; live().forEach(t=>t.cols.forEach(c=>{ if(!c.type) n++; }));
+     return n+" column"+(n===1?"":"s")+" still have no type."; }},
+
+  {id:"D3", text:"Types match what the data actually is.",
+   test:()=>live().length>0 && live().every(t=>t.cols.every(c=>!!c.type && (!A[c.c] || CAT[c.type]===A[c.c].cat))),
+   met:"Amounts are decimal, dates are dates, and ZIP, phone and card numbers are stored as text.",
+   todo:"At least one column has a type its data will not survive. The red notes on the cards say which."},
+
+  {id:"D4", text:"Sized types carry a size; unsized types do not.",
+   test:()=>live().length>0 && live().every(t=>t.cols.every(c=>!!c.type &&
+     (needsSize(c.type) ? !!String(c.size).trim() : !String(c.size).trim()))),
+   met:"Every CHAR, VARCHAR and DECIMAL is sized; nothing else carries a stray length.",
+   todo:"CHAR, VARCHAR and DECIMAL need a size. INT, DATE, MONEY and TEXT must not have one."},
+
+  {id:"D5", text:"Every primary key column is NOT NULL.",
+   test:()=>live().length>0 && live().every(t=>pkOf(t).length>0 && t.cols.every(c=>!c.pk||c.nn)),
+   met:"Every table has a key, and no key column can go missing.",
+   todo:"Every table needs a primary key. A primary key identifies a row, and a NULL identifies nothing — mark every key column NOT NULL."},
+
+  {id:"D6", text:"Every foreign key matches the type and size of the key it references.",
+   test:()=>live().some(t=>t.cols.some(c=>!!c.fk)) && live().every(t=>t.cols.every(c=>{
+     if(!c.fk) return true;
+     const tg=tbl(c.fk); if(!tg||!pkOf(tg).includes(c.c)) return false;
+     const tc=colIn(tg,c.c); if(!tc||!tc.type||!c.type) return false;
+     return tc.type===c.type && String(tc.size).trim()===String(c.size).trim(); })),
+   met:"Every reference lines up with the key it points at.",
+   todo:"A foreign key must be declared exactly like the primary key it references, or the join will not hold."},
+
+  {id:"D7", text:"A project's completion date is unknown until the project finishes.",
+   test:()=>{ const p=tByPk("project_id"); if(!p) return false;
+     const c=colIn(p,"cdate"); return !!c && !c.nn; },
+   met:"CompleteDate accepts NULL — three of the four sample projects are still running.",
+   todo:"Three sample projects have no completion date yet. Forcing NOT NULL here would make them unstorable."}
+];
+
+function evalList(list){
+  return list.map(r=>{ let ok=false;
+    try{ ok=!!r.test(); }catch(e){ ok=false; }
+    return {id:r.id, text:r.text, ok, why: ok ? r.met : (typeof r.todo==="function" ? r.todo() : r.todo)};
+  });
+}
+
+function analyze(){
+  const biz=evalList(BIZ), des=evalList(DES);
+  const per=live().map(t=>({t, viol:bcnfViolations(t), issues:t.cols.map(c=>({c, is:colIssues(t,c)}))}));
+  const pass=biz.every(r=>r.ok)&&des.every(r=>r.ok);
+  return {biz, des, per, pass,
+    bizN:biz.filter(r=>r.ok).length, desN:des.filter(r=>r.ok).length};
+}
+
+/* ==================== RENDER ==================== */
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function dataHTML(key, hl){
+  const d=DATA[key];
+  let h='<div class="tablewrap"><table class="data"><thead><tr><th class="rn"></th>';
+  d.cols.forEach(c=>h+="<th>"+esc(lab(c))+"</th>");
+  h+="</tr></thead><tbody>";
+  d.rows.forEach((r,i)=>{
+    h+="<tr"+(hl&&hl.includes(i)?' class="hl"':"")+'><td class="rn">'+(i+1)+"</td>";
+    r.forEach(v=>h+=(v==null?'<td class="nul">NULL</td>':"<td>"+esc(v)+"</td>"));
+    h+="</tr>";
+  });
+  return h+"</tbody></table></div>";
+}
+function allDataHTML(){
+  return Object.keys(DATA).map(k=>
+    '<details class="fold" style="border:none;border-top:1px solid var(--hairline)"><summary>'+
+    esc(SRCNAME[k])+" ("+DATA[k].rows.length+" rows)</summary><div class=\"body\" style=\"padding:0\">"+
+    dataHTML(k)+"</div></details>").join("");
+}
+function fdsHTML(){
+  return FDS.map(f=>'<div><span class="det">('+f.lhs.map(lab).join(", ")+')</span><span class="arw">→</span>('+
+    f.rhs.map(lab).join(", ")+")</div>").join("");
+}
+function listHTML(rows){
+  return rows.map(r=>'<div class="chk'+(r.ok?" met":"")+'"><span class="mk">'+(r.ok?"&#10003;":"&#9633;")+
+    "</span><span><b class=\"cid\">"+r.id+"</b>"+esc(r.text)+'<span class="why">'+esc(r.why)+"</span></span></div>").join("");
+}
+
+function render(){
+  const R=analyze();
+
+  $("tb-who").innerHTML="<b>"+esc(state.name)+"</b>";
+  $("b-undo").disabled=!past.length;
+  $("b-redo").disabled=!future.length;
+
+  $("list-biz").innerHTML=listHTML(R.biz);
+  $("list-des").innerHTML=listHTML(R.des);
+  const sb=$("sc-biz"), sd=$("sc-des");
+  sb.textContent=R.bizN+"/"+BIZ.length; sb.classList.toggle("all",R.bizN===BIZ.length);
+  sd.textContent=R.desN+"/"+DES.length; sd.classList.toggle("all",R.desN===DES.length);
+
+  /* palette: only attributes not yet placed, grouped by source sheet */
+  const used={}; live().forEach(t=>t.cols.forEach(c=>{ used[c.c]=(used[c.c]||0)+1; }));
+  const groups={};
+  ATTRS.forEach(a=>{ (groups[a.src]=groups[a.src]||[]).push(a); });
+  let ph="";
+  Object.keys(groups).forEach(g=>{
+    const items=groups[g];
+    ph+='<div class="srcgrp">'+esc(SRCNAME[g])+'</div><div class="chips">'+
+      items.map(a=>'<button class="chip'+(used[a.id]?" used":"")+(selected===a.id?" sel":"")+
+        '" data-col="'+a.id+'" type="button">'+esc(a.l)+
+        (used[a.id]?'<span class="cnt">&#215;'+used[a.id]+"</span>":"")+"</button>").join("")+"</div>";
+  });
+  $("palette").innerHTML=ph;
+  $("palette").querySelectorAll("[data-col]").forEach(el=>attachDrag(el, el.dataset.col));
+
+  $("cards").innerHTML=R.per.map(x=>cardHTML(x)).join("") +
+    (state.tables.filter(t=>!t.cols.length).map(t=>cardHTML({t,viol:[],issues:[]})).join(""));
+  wire();
+
+  $("ws-hint").innerHTML = R.pass
+    ? '<b style="color:var(--ok)">Design complete.</b> All eight business constraints and all seven design requirements are enforced. Hit <b>Finish</b> for a capturable result.'
+    : "Constraints met: "+R.bizN+" of "+BIZ.length+" business, "+R.desN+" of "+DES.length+" design.";
+
+  $("rail-fds").innerHTML=fdsHTML();
+  if(!$("rail-data").dataset.done){ $("rail-data").innerHTML=allDataHTML(); $("rail-data").dataset.done="1"; }
+}
+
+function cardHTML(x){
+  const t=x.t, hardCount=x.issues.reduce((n,i)=>n+i.is.filter(z=>z.lv==="hard").length,0);
+  const clean = t.cols.length && !hardCount && !x.viol.length &&
+                x.issues.every(i=>i.is.length===0) && pkOf(t).length>0;
+  let h='<div class="card'+(t.cols.length?(hardCount||x.viol.length?" bad":(clean?" good":"")):"")+'" data-table="'+t.id+'">';
+  h+='<div class="chd"><input value="'+esc(t.name)+'" data-rename="'+t.id+'" aria-label="Table name" spellcheck="false">'+
+     (clean?'<span class="tag">complete</span>':"")+
+     '<button class="iconbtn" data-del="'+t.id+'" title="Delete table" aria-label="Delete table">&#10005;</button></div>';
+
+  if(!t.cols.length){
+    h+='<div class="dropzone">drop columns here</div>';
+  } else {
+    h+='<div class="spec"><div class="spechead"><span>Column</span><span>Type</span><span>Size</span><span>PK</span>'+
+       '<span>UQ</span><span>FK &#8594;</span><span>Null</span><span></span></div>';
+    x.issues.forEach(({c,is})=>{
+      const hard=is.filter(z=>z.lv==="hard"), soft=is.filter(z=>z.lv==="soft");
+      h+='<div class="crow">';
+      h+='<span class="cname">'+esc(lab(c.c))+"</span>";
+      h+='<select title="Data type" aria-label="Data type for '+esc(lab(c.c))+'" data-type="'+t.id+"|"+c.c+'" class="'+(!c.type?"unset":(hard.some(z=>z.m.indexOf("should be")>-1)?"err":""))+'">'+
+         '<option value="">type…</option>'+TYPES.map(ty=>'<option value="'+ty+'"'+(c.type===ty?" selected":"")+">"+ty+"</option>").join("")+"</select>";
+      const sz=c.type&&needsSize(c.type);
+      h+='<input title="Size or precision" aria-label="Size for '+esc(lab(c.c))+'" class="csize'+(sz&&!String(c.size).trim()?" unset":"")+'" data-size="'+t.id+"|"+c.c+
+         '" value="'+esc(c.size)+'" placeholder="'+(sz?(c.type==="DECIMAL"?"10,2":"50"):"—")+'"'+(sz?"":" disabled")+">";
+      h+='<button class="flag'+(c.pk?" on":"")+'" data-pk="'+t.id+"|"+c.c+'" title="Primary key">PK</button>';
+      h+='<button class="flag'+(c.uq?" on":"")+'" data-uq="'+t.id+"|"+c.c+'" title="Unique">UQ</button>';
+      h+='<select title="Foreign key reference" aria-label="Foreign key target for '+esc(lab(c.c))+'" data-fk="'+t.id+"|"+c.c+'"><option value="">—</option>'+
+         state.tables.filter(o=>o.id!==t.id).map(o=>'<option value="'+o.id+'"'+(c.fk===o.id?" selected":"")+">"+esc(o.name)+"</option>").join("")+"</select>";
+      h+='<button class="nnb'+(c.nn?" on":"")+'" data-nn="'+t.id+"|"+c.c+'">'+(c.nn?"NOT NULL":"NULL")+"</button>";
+      h+='<button class="iconbtn" data-rm="'+t.id+"|"+c.c+'" title="Remove column">&#215;</button>';
+      hard.forEach(z=>h+='<div class="cwarn">'+esc(z.m)+"</div>");
+      soft.forEach(z=>h+='<div class="cwarn soft">'+esc(z.m)+"</div>");
+      h+="</div>";
+    });
+    h+="</div>";
+
+    if(!pkOf(t).length) h+='<div class="diag"><span class="dt">No primary key</span>Mark the column, or columns, that identify one row of '+esc(t.name)+".</div>";
+
+    x.viol.forEach(v=>{
+      h+='<div class="diag"><span class="dt">Normalization</span>'+
+         "<b>"+esc(v.lhs.map(lab).join(", "))+" → "+esc(v.dep.map(lab).join(", "))+
+         "</b> holds, but "+esc(v.lhs.map(lab).join(", "))+" is not a key of "+esc(t.name)+
+         ", so those values repeat.";
+      if(v.evidence){
+        const e=v.evidence, d=DATA[e.src], idx=e.cols.map(a=>d.cols.indexOf(a));
+        h+='<button class="mini" data-proof="'+t.id+"|"+v.lhs.join(",")+'" style="display:block;margin-top:7px">Show the rows that prove it</button>'+
+           '<div hidden data-proofbox="'+t.id+"|"+v.lhs.join(",")+'" style="margin-top:8px"><div class="tablewrap"><table class="data"><thead><tr>'+
+           e.cols.map(a=>"<th>"+esc(lab(a))+"</th>").join("")+"</tr></thead><tbody>"+
+           [e.a,e.b].map(i=>"<tr>"+idx.map(j=>'<td class="keycol">'+esc(d.rows[i][j])+"</td>").join("")+"</tr>").join("")+
+           "</tbody></table></div></div>";
+      }
+      h+="</div>";
+    });
+
+    const rf=rowsFor(t);
+    h+='<div class="cfoot">';
+    if(rf) h+='<button class="mini" data-peek="'+t.id+'">Sample rows ('+rf.rows.length+")</button>";
+    else h+='<span class="hint" style="margin:0">No single sheet covers these columns — this table mixes entities, or its data is recorded elsewhere.</span>';
+    h+="</div>";
+    if(rf){
+      h+='<div hidden data-peekbox="'+t.id+'" style="padding:0 12px 12px"><div class="tablewrap"><table class="data"><thead><tr>'+
+        rf.ids.map(a=>"<th>"+esc(lab(a))+"</th>").join("")+"</tr></thead><tbody>"+
+        rf.rows.map(r=>"<tr>"+r.map((v,i)=>v==null?'<td class="nul">NULL</td>':"<td"+(pkOf(t).includes(rf.ids[i])?' class="keycol"':"")+">"+esc(v)+"</td>").join("")+"</tr>").join("")+
+        "</tbody></table></div></div>";
+    }
+  }
+  return h+"</div>";
+}
+
+function wire(){
+  const sp=k=>k.split("|");
+  document.querySelectorAll("[data-rename]").forEach(el=>el.onchange=()=>{
+    snap(); tbl(el.dataset.rename).name=el.value.trim().toUpperCase()||"TABLE"; render(); });
+  document.querySelectorAll("[data-del]").forEach(el=>el.onclick=()=>{
+    snap(); const id=el.dataset.del;
+    state.tables=state.tables.filter(t=>t.id!==id);
+    state.tables.forEach(t=>t.cols.forEach(c=>{ if(c.fk===id) c.fk=""; }));
+    if(!state.tables.length) state.tables.push({id:"t"+(++state.seq),name:"TABLE",cols:[]});
+    render(); });
+  document.querySelectorAll("[data-type]").forEach(el=>el.onchange=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.type); const c=colIn(tbl(ti),ci);
+    c.type=el.value; if(!needsSize(c.type)) c.size=""; render(); });
+  document.querySelectorAll("[data-size]").forEach(el=>el.onchange=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.size); colIn(tbl(ti),ci).size=el.value.trim(); render(); });
+  document.querySelectorAll("[data-pk]").forEach(el=>el.onclick=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.pk); const c=colIn(tbl(ti),ci);
+    c.pk=!c.pk; if(c.pk) c.nn=true; render(); });
+  document.querySelectorAll("[data-uq]").forEach(el=>el.onclick=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.uq); const c=colIn(tbl(ti),ci); c.uq=!c.uq; render(); });
+  document.querySelectorAll("[data-nn]").forEach(el=>el.onclick=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.nn); const c=colIn(tbl(ti),ci); c.nn=!c.nn; render(); });
+  document.querySelectorAll("[data-fk]").forEach(el=>el.onchange=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.fk); colIn(tbl(ti),ci).fk=el.value; render(); });
+  document.querySelectorAll("[data-rm]").forEach(el=>el.onclick=()=>{
+    snap(); const [ti,ci]=sp(el.dataset.rm); const t=tbl(ti);
+    t.cols=t.cols.filter(c=>c.c!==ci); render(); });
+  document.querySelectorAll("[data-peek]").forEach(el=>el.onclick=()=>{
+    const b=document.querySelector('[data-peekbox="'+el.dataset.peek+'"]'); if(b) b.hidden=!b.hidden; });
+  document.querySelectorAll("[data-proof]").forEach(el=>el.onclick=()=>{
+    const b=document.querySelector('[data-proofbox="'+CSS.escape(el.dataset.proof)+'"]'); if(b) b.hidden=!b.hidden; });
+  document.querySelectorAll("[data-table]").forEach(el=>el.onclick=e=>{
+    if(selected && !e.target.closest("button") && !e.target.closest("input") && !e.target.closest("select"))
+      place(selected, el.dataset.table); });
+}
+
+function place(cid, tid){
+  const t=tbl(tid); if(!t) return;
+  if(!t.cols.some(c=>c.c===cid)){ snap(); t.cols.push(mkcol(cid)); }
+  selected=null; render();
+}
+
+function attachDrag(el, cid){
+  el.addEventListener("pointerdown", e=>{
+    if(e.button&&e.button!==0) return;
+    const sx=e.clientX, sy=e.clientY; let dragging=false, ghost=null;
+    el.setPointerCapture(e.pointerId);
+    const move=ev=>{
+      if(!dragging && Math.hypot(ev.clientX-sx, ev.clientY-sy)>5){
+        dragging=true; ghost=el.cloneNode(true);
+        ghost.classList.add("ghost"); ghost.classList.remove("used","sel");
+        document.body.appendChild(ghost);
+      }
+      if(!dragging) return;
+      ghost.style.left=(ev.clientX-24)+"px"; ghost.style.top=(ev.clientY-12)+"px";
+      document.querySelectorAll(".card").forEach(c=>c.classList.remove("drop"));
+      const o=document.elementFromPoint(ev.clientX,ev.clientY), card=o&&o.closest(".card");
+      if(card) card.classList.add("drop");
+    };
+    const up=ev=>{
+      el.removeEventListener("pointermove",move); el.removeEventListener("pointerup",up); el.removeEventListener("pointercancel",up);
+      document.querySelectorAll(".card").forEach(c=>c.classList.remove("drop"));
+      if(ghost){ ghost.remove(); ghost=null; }
+      if(!dragging){ selected = (selected===cid)?null:cid; render(); return; }
+      const o=document.elementFromPoint(ev.clientX,ev.clientY), card=o&&o.closest(".card");
+      if(card) place(cid, card.dataset.table); else render();
+    };
+    el.addEventListener("pointermove",move);
+    el.addEventListener("pointerup",up);
+    el.addEventListener("pointercancel",up);
+  });
+}
+
+/* ==================== RESULT ==================== */
+
+function relationships(){
+  const out=[];
+  live().forEach(t=>t.cols.forEach(c=>{
+    if(!c.fk) return;
+    const tg=tbl(c.fk); if(!tg) return;
+    const many = !(c.pk && pkOf(t).length===1) && !c.uq;
+    out.push({from:t.name, col:lab(c.c), to:tg.name,
+      max: many ? "many-to-one" : "one-to-one",
+      min: c.nn ? "mandatory" : "optional"});
+  }));
+  return out;
+}
+
+function renderResult(){
+  const R=analyze();
+  const stamp=new Date().toLocaleString(undefined,{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+
+  let h='<div class="rhd"><div class="nm"><span class="k">Submitted by</span><span class="v">'+esc(state.name||"—")+"</span></div>"+
+    '<div class="mt"><b>Foundation Design Board</b><br>COP 4708 · Assignment 3 · Database Design<br>'+esc(stamp)+"</div></div>";
+
+  h+='<div class="verdict '+(R.pass?"pass":"fail")+'"><span class="big">'+(R.pass?"&#10003;":"&#10007;")+"</span><div><h3>"+
+    (R.pass?"Design complete":"Design not yet complete")+"</h3><p>"+
+    (R.pass?"Every business constraint from the interview and the dependencies is enforced by the schema, and every design requirement is satisfied."
+           :"Some constraints below are not yet enforced. Go back to the board and resolve them before capturing your result.")+
+    "</p></div></div>";
+
+  h+='<div class="rsec"><h4>Business constraints — '+R.bizN+" of "+BIZ.length+" enforced</h4>"+listHTML(R.biz)+"</div>";
+  h+='<div class="rsec"><h4>Design requirements — '+R.desN+" of "+DES.length+" satisfied</h4>"+listHTML(R.des)+"</div>";
+
+  h+='<div class="rsec"><h4>Database design</h4>';
+  live().forEach(t=>{
+    h+='<div class="rspec"><div class="rt-h">'+esc(t.name)+'</div><div class="tablewrap"><table class="spectbl"><thead><tr>'+
+      "<th>Column</th><th>Data type</th><th>Key</th><th>Null</th><th>References</th></tr></thead><tbody>";
+    t.cols.forEach(c=>{
+      const keys=[]; if(c.pk) keys.push("PK"); if(c.uq) keys.push("UQ"); if(c.fk) keys.push("FK");
+      const tg=c.fk?tbl(c.fk):null;
+      h+="<tr><td"+(c.pk?' class="k"':"")+">"+esc(lab(c.c))+"</td><td>"+esc(fmtType(c))+"</td><td"+(keys.length?' class="k"':"")+">"+
+         (keys.join(" ")||"—")+"</td><td>"+(c.nn?"NOT NULL":"NULL")+"</td><td>"+
+         (tg?esc(tg.name)+"."+esc(lab(c.c)):"—")+"</td></tr>";
+    });
+    h+="</tbody></table></div></div>";
+  });
+  h+="</div>";
+
+  const rel=relationships();
+  h+='<div class="rsec"><h4>Relationships and cardinality</h4><div class="rels">'+
+    (rel.length?rel.map(r=>'<div><span class="a">'+esc(r.from)+"."+esc(r.col)+"</span> → <span class=\"a\">"+esc(r.to)+
+      '</span> <span class="card2">'+r.max+", "+r.min+" on the "+esc(r.from)+" side</span></div>").join("")
+     :'<div class="card2">No foreign keys declared.</div>')+
+    '</div><p style="font-size:12.5px;color:var(--muted);margin:10px 0 0">Minimum cardinality is carried by nullability: NOT NULL means mandatory, NULL means optional. A "must have at least one" on the other side cannot be expressed by a foreign key and needs a trigger or application rule.</p></div>';
+
+  h+='<div class="rsec"><h4>Functional dependencies given</h4><div class="fdlist">'+fdsHTML()+"</div></div>";
+  h+='<p class="protonote">Generated by the Foundation Design Board. Capture this page (screenshot, or Print → Save as PDF) and upload it.</p>';
+
+  $("sheet").innerHTML=h;
+}
+
+/* ==================== WIRING ==================== */
+
+function show(w){
+  $("screen-start").hidden=w!=="start";
+  $("screen-board").hidden=w!=="board";
+  $("screen-result").hidden=w!=="result";
+  $("topbar").hidden=w==="start";
+  window.scrollTo(0,0);
+}
+function renderStart(){
+  $("start-fds").innerHTML=fdsHTML();
+  $("start-data").innerHTML=allDataHTML();
+}
+
+$("b-start").onclick=()=>{
+  const n=$("f-name").value.trim();
+  if(!n){ $("start-err").style.display="block"; $("f-name").focus(); return; }
+  $("start-err").style.display="none";
+  state=freshState(n); past.length=0; future.length=0; selected=null;
+  show("board"); render();
+};
+$("f-name").addEventListener("keydown",e=>{ if(e.key==="Enter") $("b-start").click(); });
+$("b-undo").onclick=undo;
+$("b-redo").onclick=redo;
+$("b-reset").onclick=()=>{ snap(); state=freshState(state.name); render(); };
+$("b-finish").onclick=()=>{ renderResult(); show("result"); };
+$("b-back").onclick=()=>{ show("board"); render(); };
+$("b-print").onclick=()=>window.print();
+$("b-addtable").onclick=()=>{ snap();
+  state.tables.push({id:"t"+(++state.seq), name:"TABLE"+(state.tables.length+1), cols:[]}); render(); };
+
+document.addEventListener("keydown",e=>{
+  if($("screen-board").hidden) return;
+  if((e.metaKey||e.ctrlKey)&&e.key==="z"&&!e.shiftKey){ e.preventDefault(); undo(); }
+  if((e.metaKey||e.ctrlKey)&&(e.key==="y"||(e.key==="z"&&e.shiftKey))){ e.preventDefault(); redo(); }
+  if(e.key==="Escape"&&selected){ selected=null; render(); }
+});
+
+try{
+  const hot=window.claude&&window.claude.hot;
+  if(hot){
+    hot.snapshot(()=>({state, screen: $("screen-result").hidden ? ($("screen-board").hidden?"start":"board") : "result"}));
+    const boot=d=>{
+      if(d&&d.state){ state=d.state;
+        if(d.screen==="result"){ renderResult(); show("result"); }
+        else if(d.screen==="board"){ show("board"); render(); }
+        else { renderStart(); show("start"); }
+      } else { renderStart(); show("start"); }
+    };
+    hot.ready?hot.ready(boot):boot(hot.data);
+  } else { renderStart(); show("start"); }
+}catch(err){ renderStart(); show("start"); }
+</script>
+
+
+<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+</body>
+</html>
