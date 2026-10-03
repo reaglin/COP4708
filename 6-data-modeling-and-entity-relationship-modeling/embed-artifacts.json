@@ -78,5 +78,15 @@
     "title": "6 - Data Modeling and Entity-Relationship Modeling",
     "href": "content/Data_Modeling_and_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Foundation Design Board",
+    "href": "interactive/foundation-design-board-assignment-3.html",
+    "type": "Interactive"
+  },
+  {
+    "title": "Interactive Activities \u2014 6 - Data Modeling and Entity-Relationship Modeling",
+    "href": "interactive/index.html",
+    "type": "Interactive"
   }
 ]

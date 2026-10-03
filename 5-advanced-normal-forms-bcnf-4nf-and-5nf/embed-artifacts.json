@@ -83,5 +83,15 @@
     "title": "Applying Higher Normal Forms to Complex Schemas",
     "href": "content/Advanced_Normal_Forms_interactive_topics_t6.html",
     "type": "Content"
+  },
+  {
+    "title": "Interactive Activities \u2014 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF",
+    "href": "interactive/index.html",
+    "type": "Interactive"
+  },
+  {
+    "title": "Split \u0026 Prove",
+    "href": "interactive/split-prove-bcnf-decomposition-lab.html",
+    "type": "Interactive"
   }
 ]

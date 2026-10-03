@@ -93,5 +93,15 @@
     "title": "9 - SQL Data Definition Language (DDL)",
     "href": "content/SQL_Data_Definition_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Interactive Activities \u2014 9 - SQL Data Definition Language (DDL)",
+    "href": "interactive/index.html",
+    "type": "Interactive"
+  },
+  {
+    "title": "SQL Showdown",
+    "href": "interactive/sql-showdown-race-the-query-bot.html",
+    "type": "Interactive"
   }
 ]
