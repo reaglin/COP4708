@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "4 - Normal Forms: 1NF, 2NF, and 3NF (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "4 - Normal Forms: 1NF, 2NF, and 3NF \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -10,8 +15,33 @@
     "type": "Page"
   },
   {
-    "title": "4 - Normal Forms: 1NF, 2NF, and 3NF \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "Introduction to Normalization",
+    "href": "content/Normal_Forms_1NF_generated_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "First Normal Form (1NF)",
+    "href": "content/Normal_Forms_1NF_generated_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Second Normal Form (2NF)",
+    "href": "content/Normal_Forms_1NF_generated_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Third Normal Form (3NF)",
+    "href": "content/Normal_Forms_1NF_generated_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Applying Normal Forms: End-to-End Practice",
+    "href": "content/Normal_Forms_1NF_generated_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "4 - Normal Forms: 1NF, 2NF, and 3NF",
+    "href": "content/Normal_Forms_1NF_generated_videos_merged.html",
     "type": "Content"
   },
   {

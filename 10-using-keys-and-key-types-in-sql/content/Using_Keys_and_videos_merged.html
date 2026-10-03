@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>10 - Using Keys and Key Types in SQL</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 10 - Using Keys and Key Types in SQL</a></div>
+<h1>10 - Using Keys and Key Types in SQL</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Introduction to Keys in SQL</a>
+<a href="#part2">Primary Keys</a>
+<a href="#part3">Foreign Keys and Referential Integrity</a>
+<a href="#part4">Candidate Keys</a>
+<a href="#part5">Composite Keys</a>
+<a href="#part6">Enforcing Key Constraints for Data Integrity</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Introduction to Keys in SQL</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>A key is a column, or a combination of columns, whose values let you identify rows in a table or connect rows across tables. Without keys, a relational database is just a collection of lists: you cannot reliably say which row you mean, you cannot stop duplicates from creeping in, and you cannot tell which order belongs to which customer. Keys are what turn separate tables into a connected, trustworthy model of your data.</p>
+<p>In this module you will work with several kinds of keys — primary, foreign, candidate, composite, and surrogate — and you will declare them in SQL as constraints using CREATE TABLE and ALTER TABLE. This first topic lays the groundwork: what a key is, why keys matter for organizing and identifying data, how they protect data integrity, and how the database engine enforces them automatically once you declare them.</p>
+<p>As you watch the videos below, keep three questions in mind. First, what makes a set of column values suitable as an identifier (uniqueness, non-null, stability)? Second, how does a foreign key in one table point back to a key in another, and what happens when the referenced row changes or is deleted? Third, notice the difference between a key as a design idea and a key as a constraint you actually write in SQL — that distinction carries through the rest of the module.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: What is a Relational Database?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/OqjJjpjDRLc?cc_load_policy=1&amp;rel=0" title="Video: What is a Relational Database? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 7:54 · 310,821 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=OqjJjpjDRLc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An introductory overview of the relational model: tables made of rows and columns, how related data is split across multiple tables, and how those tables are linked together rather than duplicated. Based on its title and description, it should also touch on how SQL is used to query data across related tables and why this structure is useful compared with other data stores.</p>
+<h4>Why this video</h4>
+<p>It sets the context for why keys exist at all — you cannot appreciate identifiers and relationships without first understanding the table-based model, and IBM Technology's explainers are short, accurate, and whiteboard-clear.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>The second part of Lucid Software's ERD tutorial series, focused specifically on primary keys, foreign keys, and bridge (junction) tables. Expect to see how an entity gets a unique identifier, how a foreign key in one entity references the primary key of another, and how many-to-many relationships are resolved with an extra table that often uses a composite key.</p>
+<h4>Why this video</h4>
+<p>It connects key concepts directly to data modeling diagrams, which previews the primary, foreign, and composite key types introduced in this topic and used throughout the module.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5kiMg7GXAsY?cc_load_policy=1&amp;rel=0" title="Video: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:53 · 110,538 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=5kiMg7GXAsY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused explanation of what a foreign key constraint is, how it differs from a primary key, and why the constraint matters for keeping references valid between tables. The video is produced by a database vendor, so expect practical framing around what the database enforces when rows are inserted, changed, or removed.</p>
+<h4>Why this video</h4>
+<p>It makes the shift from key-as-concept to key-as-constraint explicit, which is exactly the final subtopic here and the bridge to the SQL syntax and referential actions covered later in the module.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the vocabulary and mental model the module's outcomes depend on. The relational database overview grounds the idea that data lives in linked tables; the ERD tutorial introduces primary, foreign, and composite keys as design choices, supporting MO1 and giving you a way to reason about candidate and surrogate key decisions in MO3 and MO4; and the foreign key constraint video frames keys as rules the database enforces, previewing the constraint-writing work of MO2 and the ON DELETE/ON UPDATE referential actions of MO5. None of the videos replaces hands-on SQL practice, so treat them as conceptual preparation for the syntax-focused topics that follow.</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>Primary Keys</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>A primary key is the column — or combination of columns — that uniquely identifies every row in a table. Because no two rows may share the same primary key value, and because a primary key column cannot be left empty (NULL), the primary key is the database's guarantee that each record can be found, updated, or referenced without ambiguity. In SQL you declare this guarantee as a constraint, either while creating the table or later with an ALTER TABLE statement, and the database engine enforces it on every insert and update from that point forward.</p>
+<p>Primary keys matter in this course for two reasons. First, they are the foundation of data integrity: without one, duplicate or near-duplicate rows creep in and queries return unreliable results. Second, they are the anchor point for relationships — a foreign key in one table points at the primary key of another, so every topic later in this module depends on understanding this one. Choosing a key well also has practical consequences for performance and for how painful future schema changes will be.</p>
+<p>As you watch the videos below, pay attention to three things: the exact SQL syntax used to declare, add, and drop the constraint; what the database does when you try to insert a duplicate or NULL value; and the reasoning behind choosing one column (or set of columns) over another as the key. Note also that syntax and behavior differ slightly between database systems, so compare what you see against the system you are using in this course.</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: How To Design Primary Keys &amp; Make Your Database Faster</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/RZjMbhLYesU?cc_load_policy=1&amp;rel=0" title="Video: How To Design Primary Keys &amp; Make Your Database Faster (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 6:10 · 1,145 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=RZjMbhLYesU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short talk from Cockroach Labs on how to think about primary key design rather than just how to type the syntax. It covers the basics of what makes a good key and connects key choice to database performance, which is the practical argument behind most best-practice advice. Expect discussion of the tradeoffs involved in selecting key columns.</p>
+<h4>Why this video</h4>
+<p>This video speaks directly to the "Why Primary Keys Matter" and "Best Practices for Choosing a Primary Key" subtopics, and comes from a database vendor's technical evangelist, so the design reasoning is grounded in real engine behavior.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: Add PRIMARY KEY to existing column in sql | Mysql primary key constraint</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Pu1_FcSi9wE?cc_load_policy=1&amp;rel=0" title="Video: Add PRIMARY KEY to existing column in sql | Mysql primary key constraint (United Top Tech)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>United Top Tech</strong> · 4:18 · 25,284 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=Pu1_FcSi9wE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A focused, step-by-step demonstration of adding a PRIMARY KEY constraint to a column in a table that already exists, using MySQL. It shows the ALTER TABLE syntax and walks through the operation on a live table rather than describing it abstractly. At just over four minutes, it is a direct how-to with little digression.</p>
+<h4>Why this video</h4>
+<p>It maps exactly onto the "Adding a Primary Key to an Existing Table" subtopic and gives you the ALTER TABLE form you will need alongside the CREATE TABLE form.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: Remove or drop Primary Key constraint from existing column of a table in Mysql</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/OwnH8X8cZcY?cc_load_policy=1&amp;rel=0" title="Video: Remove or drop Primary Key constraint from existing column of a table in Mysql (United Top Tech)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>United Top Tech</strong> · 4:20 · 8,795 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=OwnH8X8cZcY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>The companion demonstration from the same channel, showing how to remove or drop an existing primary key constraint from a MySQL table. It walks through the statement used to drop the constraint and the effect on the table afterward. Watching this immediately after the previous video gives you both directions of the operation.</p>
+<h4>Why this video</h4>
+<p>It covers the "Dropping a Primary Key Constraint" subtopic directly, and its consistent format and tooling with the previous video make the add/drop pair easy to compare and remember.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos concentrate on the constraint mechanics and design judgment at the heart of this topic. The MySQL add and drop demonstrations give you the ALTER TABLE syntax called for in MO2, complementing the CREATE TABLE form you will practice in the module readings and exercises. The CockroachDB design talk supports MO4 by framing primary key selection as a reasoned tradeoff rather than a default choice, and it reinforces MO1 by clarifying what distinguishes the primary key from other keys in a table. Use the module materials and labs to extend this foundation to foreign keys, candidate keys, and referential actions (MO3 and MO5), which these videos do not address.</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>Foreign Keys and Referential Integrity</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>A foreign key is a column (or set of columns) in one table whose values must match an existing primary key or unique key value in another table. That simple rule is what turns a collection of separate tables into a connected relational database: an order row can point to the customer who placed it, an enrollment row can point to both a student and a course. Without foreign keys, nothing stops your database from storing an order for a customer who does not exist.</p>
+<p>The rule that these references must always point to something real is called referential integrity, and the database enforces it for you through FOREIGN KEY constraints. In this topic you will see how to declare those constraints in CREATE TABLE and ALTER TABLE statements, how NULL values are handled in a foreign key column (a NULL means "no relationship yet," not a broken one), and how referential actions such as ON DELETE CASCADE, ON DELETE SET NULL, and ON UPDATE CASCADE tell the database what to do when a referenced parent row is deleted or changed.</p>
+<p>As you watch, keep three questions in mind. First, which table is the parent (the one holding the referenced key) and which is the child (the one holding the foreign key)? Second, what exact SQL syntax creates the constraint, and what error does the database raise when the constraint is violated? Third, what happens to the child rows when a parent row is deleted — and why choosing the right referential action matters more than it first appears. Note that syntax and default behavior can vary slightly between database systems, so compare what you see in the videos with the syntax used in our course environment.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5kiMg7GXAsY?cc_load_policy=1&amp;rel=0" title="Video: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:53 · 110,538 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=5kiMg7GXAsY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short conceptual introduction to foreign key constraints: what a foreign key is, how it differs from a primary key, and why the constraint matters for keeping related tables consistent. Based on its title and description, it frames foreign keys as references from a child table to a parent table's key and explains why the database refuses data that would break that reference.</p>
+<h4>Why this video</h4>
+<p>It directly addresses the "What Is a Foreign Key?" and "Foreign Keys vs. Primary Keys" subtopics in under four minutes, and it comes from CockroachDB, a distributed SQL database vendor whose educational material is aimed at developers learning relational fundamentals.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: How to Create Tables with Foreign Keys in SQL</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/mFQk1VsIkZA?cc_load_policy=1&amp;rel=0" title="Video: How to Create Tables with Foreign Keys in SQL (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:42 · 19,553 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=mFQk1VsIkZA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A practical follow-up that walks through writing the SQL to create tables containing foreign keys. Expect to see CREATE TABLE statements in which a child table declares a FOREIGN KEY (or REFERENCES) clause pointing at a parent table's key column, with discussion of how this maintains referential integrity.</p>
+<h4>Why this video</h4>
+<p>It moves from concept to syntax, covering the "Defining a Foreign Key Constraint in SQL" and "Understanding Referential Integrity" subtopics with hands-on examples you can adapt to your own tables.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>Video 3: Sql query to delete from multiple tables</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/61HcHPdpm0c?cc_load_policy=1&amp;rel=0" title="Video: Sql query to delete from multiple tables (kudvenkat)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>kudvenkat</strong> · 9:57 · 188,064 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=61HcHPdpm0c" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This lesson from the kudvenkat SQL Server series looks at deleting rows that participate in parent-child relationships, including cascade delete behavior and the complication of the same foreign key appearing in multiple child tables. It demonstrates the practical consequences of referential actions when you try to remove a referenced parent row.</p>
+<h4>Why this video</h4>
+<p>It gives concrete, demonstrated coverage of the ON DELETE subtopic — the piece students most often misunderstand — from a long-running and widely used SQL tutorial channel; just be aware the demos use SQL Server syntax.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build from concept to code to consequence. The first clarifies the distinct roles of primary and foreign keys, supporting MO1's requirement that you distinguish key types by their function in a relational design. The second models the actual SQL for declaring a FOREIGN KEY constraint inside CREATE TABLE, which feeds directly into MO2 (you should then practice the equivalent ALTER TABLE form in the course materials). The third demonstrates what happens when a referenced parent row is deleted and how cascade behavior resolves it, giving you the practical grounding needed for MO5's goal of configuring ON DELETE and ON UPDATE actions. Outcomes MO3 and MO4, which concern candidate and surrogate keys, are addressed elsewhere in this module.</p>
+</section>
+<section class="item" id="p3-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>Candidate Keys</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>A candidate key is any column, or combination of columns, that could legitimately serve as the primary key of a table. To qualify, the column set must satisfy two properties: uniqueness, meaning no two rows can ever share the same value for that set, and irreducibility (minimality), meaning you cannot remove any column from the set and still guarantee uniqueness. A table often has more than one candidate key; the designer selects one to be the primary key, and the others become alternate keys.</p>
+<p>This distinction matters in COP4708 because key selection drives much of your schema design. The primary key you choose determines how other tables reference this one through foreign keys, while the candidate keys you do not choose still need protection so that duplicate values never slip in. In SQL, that protection comes from UNIQUE constraints, which enforce the uniqueness property of alternate keys without making them the table's identifying key.</p>
+<p>As you watch the videos below, pay close attention to the relationship between super keys, candidate keys, and primary keys: every candidate key is a super key, but not every super key is minimal enough to be a candidate key. Try to follow the reasoning the presenters use when they test a column combination for uniqueness and then strip away unnecessary columns. Then practice that same reasoning on a sample table of your own before moving on to writing the SQL constraints.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: All DBMS Keys Explained | Primary, Super, Candidate, Alternate, Foreign, Composite &amp; Unique Key</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/eexceRsWt3g?cc_load_policy=1&amp;rel=0" title="Video: All DBMS Keys Explained | Primary, Super, Candidate, Alternate, Foreign, Composite &amp; Unique Key (Learn with Whiteboard)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Learn with Whiteboard</strong> · 10:32 · 14,067 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=eexceRsWt3g" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This is a broad tour of the key types used in relational database management systems, covering primary, super, candidate, alternate, foreign, composite, and unique keys in one sitting. Based on its title and description, it defines each key type and contrasts them so you can see where candidate keys sit among the others. Expect whiteboard-style explanations with example tables illustrating each definition.</p>
+<h4>Why this video</h4>
+<p>Because it treats all the key types together, it is a strong fit for the subtopic comparing candidate keys to primary keys and for seeing how alternate keys and UNIQUE constraints relate to candidate keys in practice.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: Super Key vs Candidate Key vs Primary Key. Understand the difference.</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_UqSgxC1kK8?cc_load_policy=1&amp;rel=0" title="Video: Super Key vs Candidate Key vs Primary Key. Understand the difference. (Web Tech Paradise)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Web Tech Paradise</strong> · 6:21 · 17,857 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=_UqSgxC1kK8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video focuses narrowly on the three concepts students most often confuse: super keys, candidate keys, and primary keys. Its description states the core idea directly, that a super key is any set of attributes that uniquely identifies a record and a candidate key is the minimal super key, with the primary key chosen from among the candidates. Expect worked examples that build super keys from a sample table and then reduce them to candidate keys.</p>
+<h4>Why this video</h4>
+<p>The minimality idea is the hardest part of identifying candidate keys, and this video makes it the centerpiece, which directly supports the properties and identification subtopics.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: Types of Keys in Database |Primary Key |Candidate Key |Super Key |Surrogate Key| Natural Key</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/1obYexonVDo?cc_load_policy=1&amp;rel=0" title="Video: Types of Keys in Database |Primary Key |Candidate Key |Super Key |Surrogate Key| Natural Key (Tech Coach)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech Coach</strong> · 5:20 · 30,263 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=1obYexonVDo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A compact, high-level overview that sorts out primary, candidate, super, surrogate, and natural keys and explains how they differ from one another. The description notes that the goal is to clear up confusion among the many key terms used in DBMS courses. At roughly five minutes, it works well as a quick orientation or a review before an assessment.</p>
+<h4>Why this video</h4>
+<p>It adds the surrogate key and natural key vocabulary to the discussion, which helps you understand why a designer might pass over a perfectly valid natural candidate key when selecting a primary key.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the vocabulary and reasoning MO1 requires by placing candidate keys alongside primary, foreign, composite, and surrogate keys rather than treating them in isolation. The emphasis on uniqueness and minimality, especially in the super key versus candidate key comparison, directly prepares you for MO3, where you must evaluate column combinations and identify every candidate key in a table. The treatment of surrogate and natural keys supports the judgment called for in MO4, and the coverage of unique and alternate keys sets up MO2 by showing why candidate keys you do not select still need UNIQUE constraints in your CREATE TABLE and ALTER TABLE statements. Use the module readings and hands-on SQL exercises to practice the constraint syntax and the referential actions in MO5, which these conceptual videos introduce only in passing.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>Composite Keys</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>A composite key is a key made up of two or more columns that, taken together, uniquely identify a row. No single column in the combination is unique on its own, but the combination is. Composite keys show up constantly in real schemas: in bridge (junction) tables that resolve many-to-many relationships, in line-item tables keyed by order number plus line number, and in any table where the natural identifier is genuinely multi-part.</p>
+<p>In this module you are learning to tell key types apart and to write the constraints that enforce them. Composite keys are where that gets interesting, because the syntax changes: you can no longer declare the key inline next to a single column, so you use a table-level PRIMARY KEY (col1, col2) or UNIQUE (col1, col2) clause, or add it later with ALTER TABLE ... ADD CONSTRAINT. Foreign keys that point at a composite key must also list the matching columns in the same order.</p>
+<p>As you watch, pay attention to three things: the exact placement and syntax of the table-level constraint, how the videos justify choosing a multi-column natural key instead of a single surrogate ID, and how a child table references a composite parent key. Also note the trade-offs mentioned — composite keys can enforce meaningful business rules, but they make joins wordier and propagate more columns into every referencing table.</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: Primary key on two columns SQL Server</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/1kDVpWVCrEw?cc_load_policy=1&amp;rel=0" title="Video: Primary key on two columns SQL Server (kudvenkat)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>kudvenkat</strong> · 5:39 · 99,465 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=1kDVpWVCrEw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, demo-driven lesson on creating a primary key across two columns in SQL Server. Based on its title and description, it walks through a composite primary key example, showing the table-level syntax needed when the key spans more than one column, and likely demonstrates both the CREATE TABLE form and how uniqueness is enforced across the pair rather than each column individually.</p>
+<h4>Why this video</h4>
+<p>kudvenkat is a long-running, well-regarded SQL tutorial channel, and this video targets exactly the core mechanical skill in this topic: writing a composite PRIMARY KEY constraint in SQL.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part 2 of Lucid Software's ERD tutorial series, covering primary keys, foreign keys, and bridge tables in database design. Expect a visual, diagram-based treatment showing how a many-to-many relationship is resolved with a bridge table whose key is typically the combination of the two foreign keys — the classic use case for a composite key.</p>
+<h4>Why this video</h4>
+<p>It supplies the design-level reasoning behind composite keys (when and why you need them) that pure syntax videos skip, and the bridge-table discussion directly supports the "referencing a composite key with foreign keys" subtopic.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>Video 3: Composite key foreign key and primary key full explanation in Database@COMPUTEREXCELSOLUTION</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/A8CHH5G3YyM?cc_load_policy=1&amp;rel=0" title="Video: Composite key foreign key and primary key full explanation in Database@COMPUTEREXCELSOLUTION (COMPUTER &amp; EXCEL SOLUTION)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>COMPUTER &amp; EXCEL SOLUTION</strong> · 7:44 · 842 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=A8CHH5G3YyM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A compact explanation that places composite keys alongside primary keys and foreign keys, defining each and showing how they relate within a database. It is positioned as a full-explanation overview, so expect definitions and simple examples rather than extended hands-on coding.</p>
+<h4>Why this video</h4>
+<p>It reinforces the vocabulary distinctions at the heart of this module by presenting composite, primary, and foreign keys together, which is useful review before or after the more technical demonstrations.</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from concept to code. The Lucid Software ERD tutorial and the COMPUTER &amp; EXCEL SOLUTION overview help you distinguish composite keys from primary, foreign, and surrogate keys and judge when a multi-column natural key is the right design choice (MO1, MO3, MO4). The kudvenkat demonstration gives you the concrete SQL syntax for declaring a multi-column key constraint, which you will extend in practice to UNIQUE constraints and ALTER TABLE statements (MO2). The bridge-table material shows composite keys being referenced across related tables, providing the structural context in which you will later configure ON DELETE and ON UPDATE referential actions (MO5).</p>
+</section>
+<section class="item" id="p5-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part6">
+<h2>Enforcing Key Constraints for Data Integrity</h2>
+<section class="item" id="p6-sec1">
+<h3>Introduction</h3>
+<p>Keys are only useful if the database actually enforces them. In this topic we move from identifying keys conceptually to declaring them as constraints that the database management system checks on every insert, update, and delete. PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints are the mechanisms that turn a design decision on paper into a guarantee the data cannot violate.</p>
+<p>You will look at why constraints matter for data integrity, how to declare them in CREATE TABLE and later add them with ALTER TABLE, how foreign keys protect referential integrity between related tables, and how UNIQUE enforces candidate keys that were not chosen as the primary key. You will also weigh composite natural keys against surrogate keys, and learn the practical side of constraint management: naming, adding, disabling, and dropping constraints without breaking existing data.</p>
+<p>As you watch, pay attention to three things: the exact SQL syntax used (especially the CONSTRAINT name clause), what error the database raises when a constraint is violated, and what happens when you try to add a constraint to a table that already contains rows that would violate it. Those details are what separate working schemas from fragile ones.</p>
+</section>
+<section class="item" id="p6-sec2">
+<h3>Video 1: What is SQL Constraints? | Key Interview Questions Answered</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/j-ckf0F6UW8?cc_load_policy=1&amp;rel=0" title="Video: What is SQL Constraints? | Key Interview Questions Answered (Tech And Talk)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech And Talk</strong> · 10:08 · 925 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=j-ckf0F6UW8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An overview of SQL constraints framed around common interview questions, so it defines each constraint type and explains the role it plays in protecting data integrity. Expect coverage of the main constraint family, including PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, and DEFAULT, with the distinctions between them made explicit.</p>
+<h4>Why this video</h4>
+<p>It is a good entry point for the subtopic on why key constraints matter, because the question-and-answer framing forces clear, short explanations of what each constraint actually guarantees.</p>
+</section>
+<section class="item" id="p6-sec3">
+<h3>Video 2: How to Apply Constraints on an Existing table? | SQL Tips | Tech and Talk</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/vW5yhYkecGg?cc_load_policy=1&amp;rel=0" title="Video: How to Apply Constraints on an Existing table? | SQL Tips | Tech and Talk (Tech And Talk)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech And Talk</strong> · 10:54 · 1,421 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=vW5yhYkecGg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video focuses on the realistic case of a table that already exists and already holds data, then shows how to apply constraints to it after the fact. It should demonstrate ALTER TABLE syntax for attaching constraints and discuss what to do when existing rows conflict with the rule you are trying to impose.</p>
+<h4>Why this video</h4>
+<p>Adding constraints to live tables is exactly the constraint-management subtopic, and this video addresses the practical obstacles that a CREATE TABLE-only treatment would never surface.</p>
+</section>
+<section class="item" id="p6-sec4">
+<h3>Video 3: How to use ADD CONSTRAINT in SQL (with examples)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/MvogGSS9Stc?cc_load_policy=1&amp;rel=0" title="Video: How to use ADD CONSTRAINT in SQL (with examples) (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:18 · 3,858 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=MvogGSS9Stc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, example-driven walkthrough of ADD CONSTRAINT in SQL, with the companion operations for dropping and renaming constraints. Produced by CockroachDB, it keeps the focus on the statement syntax and on naming constraints so they can be referenced later.</p>
+<h4>Why this video</h4>
+<p>Its brevity and concrete examples make it an efficient reference for the add, disable, and drop lifecycle, and the emphasis on named constraints reinforces a core best practice for consistent enforcement across a schema.</p>
+</section>
+<section class="item" id="p6-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos reinforce the declarative half of the module. The constraints overview supports MO1 by tying each key type to the constraint that enforces it, and supports MO3 indirectly by clarifying how UNIQUE expresses a candidate key that is not the primary key. The two ALTER TABLE videos directly serve MO2, showing how PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints are written both at table creation and afterward, and the foreign key discussion provides the syntactic foundation you will extend in MO5 when configuring ON DELETE and ON UPDATE actions. MO4 remains largely a design judgment you will practice in the module activities, but seeing how composite and single-column constraints are declared gives you a concrete sense of the trade-offs involved.</p>
+</section>
+<section class="item" id="p6-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

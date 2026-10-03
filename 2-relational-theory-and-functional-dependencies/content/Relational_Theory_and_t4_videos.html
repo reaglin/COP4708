@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Types and Properties of Functional Dependencies</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div>
+<h1>Types and Properties of Functional Dependencies</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: ARMSTRONG AXIOMS|ARMSTRONGS INFERENCE RULES|FUNCTIONAL DEPENDENCY AND TYPES |DBMS|MALAYALAM|CHAPTERS</a>
+<a href="#sec3">Video 2: How to find closure of attribute sets in DBMS | How to check equivalence of functional dependencies</a>
+<a href="#sec4">Video 3: What is Canonical Cover in DBMS | How to find Canonical Cover in DBMS | Irreducible Sets in DBMS</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>A functional dependency (written X -&gt; Y) says that the values of attribute set X determine the values of attribute set Y: any two tuples that agree on X must agree on Y. Once you can state dependencies formally, you can classify them. A dependency is trivial when the right side is already contained in the left side (for example, {StudentID, Name} -&gt; Name), and non-trivial when it tells you something new about the data. Trivial dependencies always hold by definition; non-trivial ones encode real business rules and are the ones that drive key discovery and normalization.</p>
+<p>Armstrong&#39;s Axioms give you a sound and complete set of inference rules for reasoning about dependencies: reflexivity (if Y is a subset of X, then X -&gt; Y), augmentation (if X -&gt; Y, then XZ -&gt; YZ), and transitivity (if X -&gt; Y and Y -&gt; Z, then X -&gt; Z). From these three, the commonly used derived rules follow — union, decomposition, and pseudotransitivity. Applying them repeatedly lets you compute the closure of an attribute set (X+), which is the practical tool for testing whether a dependency is implied, identifying candidate keys, checking whether two FD sets are equivalent, and reducing an FD set to a canonical (irreducible) cover.</p>
+<p>As you watch the videos below, keep three questions in mind. First, for every example dependency, decide for yourself whether it is trivial or non-trivial before the narrator says so. Second, when a new dependency is derived, name the axiom or derived rule that justifies each step. Third, notice how closure computation is really just Armstrong&#39;s Axioms applied mechanically — that connection is what makes the later topics of candidate keys and normalization manageable.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: ARMSTRONG AXIOMS|ARMSTRONGS INFERENCE RULES|FUNCTIONAL DEPENDENCY AND TYPES |DBMS|MALAYALAM|CHAPTERS</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/tiKSgW3qDnQ?cc_load_policy=1&amp;rel=0" title="Video: ARMSTRONG AXIOMS|ARMSTRONGS INFERENCE RULES|FUNCTIONAL DEPENDENCY AND TYPES |DBMS|MALAYALAM|CHAPTERS (CHAPTERS)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>CHAPTERS</strong> · 13:38 · 7,836 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=tiKSgW3qDnQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This lecture introduces functional dependency in a DBMS and then walks through the types of dependencies, including trivial, non-trivial, and multivalued dependencies. It also presents Armstrong&#39;s Axioms (Armstrong&#39;s inference rules), which is the standard set of reflexivity, augmentation, and transitivity rules, typically with worked examples showing how new dependencies are inferred. Note that the narration is in Malayalam with English technical terms and on-screen notation, and the video is chaptered so you can jump to the section you need.</p>
+<h3>Why this video</h3>
+<p>It is the one video here that directly addresses the two core subtopics — the trivial/non-trivial classification and the three Armstrong&#39;s Axioms — in a single, clearly chaptered presentation, so it maps most closely to the definitional part of this topic.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: How to find closure of attribute sets in DBMS | How to check equivalence of functional dependencies</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/WzFJ__6P8eY?cc_load_policy=1&amp;rel=0" title="Video: How to find closure of attribute sets in DBMS | How to check equivalence of functional dependencies (SKM Tutorials Hub)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>SKM Tutorials Hub</strong> · 12:36 · 2,127 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=WzFJ__6P8eY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This tutorial explains what the closure of an attribute set means and demonstrates the step-by-step procedure for computing X+ from a given set of functional dependencies. It then shows how closures are used to test whether two sets of functional dependencies are equivalent, that is, whether each set implies all the dependencies of the other.</p>
+<h3>Why this video</h3>
+<p>Closure is Armstrong&#39;s Axioms put to work algorithmically, so this video shows the practical payoff of the inference rules and gives you the technique used for implication testing and candidate-key identification.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: What is Canonical Cover in DBMS | How to find Canonical Cover in DBMS | Irreducible Sets in DBMS</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/8Plf7Q848t8?cc_load_policy=1&amp;rel=0" title="Video: What is Canonical Cover in DBMS | How to find Canonical Cover in DBMS | Irreducible Sets in DBMS (SKM Tutorials Hub)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>SKM Tutorials Hub</strong> · 11:39 · 5,085 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=8Plf7Q848t8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This lecture defines the canonical cover (also called the irreducible set or minimal cover) of a set of functional dependencies and demonstrates the procedure for computing one. The steps shown typically involve decomposing right-hand sides to single attributes, removing extraneous attributes from left-hand sides, and eliminating redundant dependencies — each check relying on closure and the inference rules.</p>
+<h3>Why this video</h3>
+<p>It extends the reasoning skills from the previous video into a complete, repeatable procedure, showing how FD properties are used to simplify a schema&#39;s dependency set without losing information.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos move from definition to application. The first supports MO2 by distinguishing trivial from non-trivial dependencies and supports MO3 directly by presenting reflexivity, augmentation, and transitivity along with the derived inference rules. The second video targets MO4, giving the closure algorithm you need to identify candidate keys and to test whether one FD set implies another, and it reinforces MO3 because every closure step is an application of the axioms. The third video builds on both, using closure-based reasoning to produce a minimal, redundancy-free set of dependencies, which prepares you for the schema evaluation work in MO5 and connects back to the formal relational vocabulary of MO1.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

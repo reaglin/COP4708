@@ -18,13 +18,13 @@ li{margin:5px 0}
 .el-body{color:#555}
 .prefix{color:#555;font-style:italic;margin:6px 0 14px}
 .mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
-.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
 .mo .statement{font-weight:600;margin:4px 0 8px}
 .meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
 .meta .map{background:#eaf6ec;color:#137333}
 .co{margin:7px 0}
 .co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
-.empty{color:#888}
+.empty{color:#595959}
 </style>
 </head>
 <body>
@@ -33,7 +33,7 @@ li{margin:5px 0}
 <div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
 
 <h2 id="topics">Module Topics</h2>
-<h3>Database Security Fundamentals</h3>
+<h3 id="topic-1">Database Security Fundamentals</h3>
 <div class="summary">Introduces the core principles of database security, including the importance of protecting data integrity, confidentiality, and availability. Establishes the foundation for understanding security models and access control strategies.</div>
 <ul>
 <li><strong>The CIA Triad in Database Security</strong> <span class="el-body">— Database security is built on three foundational principles: Confidentiality, Integrity, and Availability, collectively known as the CIA Triad.</span></li>
@@ -44,7 +44,7 @@ li{margin:5px 0}
 <li><strong>Threats to Database Security</strong> <span class="el-body">— Understanding common threats is essential for building effective defenses, as security measures must be designed with real attack vectors in mind.</span></li>
 <li><strong>Defense in Depth for Databases</strong> <span class="el-body">— Defense in depth is a layered security strategy that applies multiple overlapping controls so that if one layer fails, additional layers continue to protect the data.</span></li>
 </ul>
-<h3>User Roles and Permissions</h3>
+<h3 id="topic-2">User Roles and Permissions</h3>
 <div class="summary">Explores how database users are created and managed, including the assignment of roles and privileges to control access to data and operations. Covers the principle of least privilege and role-based access control models.</div>
 <ul>
 <li><strong>Creating and Managing Database Users</strong> <span class="el-body">— Database users are distinct accounts that authenticate to the database system and are granted specific access rights. Managing users involves creating, modifying, and removing accounts as organizational needs change.</span></li>
@@ -54,7 +54,7 @@ li{margin:5px 0}
 <li><strong>Granting and Revoking Roles</strong> <span class="el-body">— Roles are assigned to users through GRANT statements and removed through REVOKE statements, giving administrators fine-grained control over who has access to what. Changes to role assignments take effect immediately or upon next session, depending on the database system.</span></li>
 <li><strong>Separation of Duties and Administrative Roles</strong> <span class="el-body">— Separation of duties ensures that no single user holds all privileges, reducing the risk of fraud, error, or insider threats. Administrative roles should be distinct from operational roles and granted only to qualified personnel.</span></li>
 </ul>
-<h3>Authentication and Authorization</h3>
+<h3 id="topic-3">Authentication and Authorization</h3>
 <div class="summary">Examines the mechanisms databases use to verify user identity and enforce access policies. Discusses authentication methods, password policies, and how authorization rules are applied at the database level.</div>
 <ul>
 <li><strong>Authentication: Verifying User Identity</strong> <span class="el-body">— Authentication is the process by which a database system confirms that a user or application is who they claim to be before granting any access.</span></li>
@@ -64,7 +64,7 @@ li{margin:5px 0}
 <li><strong>Applying Authorization Rules at the Database Level</strong> <span class="el-body">— Enforcing authorization within the database engine itself provides a security layer that remains effective regardless of the application layer.</span></li>
 <li><strong>Authentication and Authorization for Application Accounts</strong> <span class="el-body">— Applications connecting to databases should use dedicated service accounts with tightly scoped permissions rather than shared or administrative credentials.</span></li>
 </ul>
-<h3>SQL Injection Prevention</h3>
+<h3 id="topic-4">SQL Injection Prevention</h3>
 <div class="summary">Covers the SQL injection attack vector, explaining how malicious input can compromise database security. Presents prevention strategies including parameterized queries, prepared statements, and input validation techniques.</div>
 <ul>
 <li><strong>Understanding the SQL Injection Attack Vector</strong> <span class="el-body">— SQL injection occurs when an attacker inserts or manipulates SQL code through user-supplied input, causing the database to execute unintended commands.</span></li>
@@ -75,7 +75,7 @@ li{margin:5px 0}
 <li><strong>Least Privilege as a Defense-in-Depth Strategy</strong> <span class="el-body">— Applying the principle of least privilege to database user accounts limits the potential damage that can be caused even if a SQL injection attack succeeds.</span></li>
 <li><strong>Testing and Ongoing Prevention Practices</strong> <span class="el-body">— Proactive testing and secure development practices are essential to identifying and eliminating SQL injection vulnerabilities throughout the application lifecycle.</span></li>
 </ul>
-<h3>Application-to-Database Connections</h3>
+<h3 id="topic-5">Application-to-Database Connections</h3>
 <div class="summary">Describes how applications establish connections to databases using connection strings and configuration best practices. Addresses secure storage of credentials and environment-based configuration management.</div>
 <ul>
 <li><strong>What Is a Connection String?</strong> <span class="el-body">— A connection string is a formatted string of parameters that an application uses to establish a connection to a database.</span></li>
@@ -85,7 +85,7 @@ li{margin:5px 0}
 <li><strong>Environment-Based Configuration Management</strong> <span class="el-body">— Applications typically run in multiple environments such as development, staging, and production, each requiring its own database configuration.</span></li>
 <li><strong>Encrypting Connections in Transit</strong> <span class="el-body">— All communication between an application and its database should be encrypted to prevent interception of sensitive data, including credentials and query results.</span></li>
 </ul>
-<h3>ORM Frameworks and Database Abstraction</h3>
+<h3 id="topic-6">ORM Frameworks and Database Abstraction</h3>
 <div class="summary">Introduces Object-Relational Mapping frameworks as a layer between application code and the database. Explains how ORMs can simplify development while also contributing to security and consistency in data access.</div>
 <ul>
 <li><strong>What Is an ORM Framework?</strong> <span class="el-body">— An Object-Relational Mapping (ORM) framework is a software layer that translates between object-oriented application code and a relational database.</span></li>
@@ -95,7 +95,7 @@ li{margin:5px 0}
 <li><strong>ORM Limitations and Security Considerations</strong> <span class="el-body">— While ORMs improve security and productivity, they are not a complete security solution and can introduce their own risks if misused.</span></li>
 <li><strong>ORMs in the Context of Application Database Connections</strong> <span class="el-body">— ORMs sit between the application logic and the database connection layer, working alongside connection strings and connection pooling to manage data access.</span></li>
 </ul>
-<h3>Connection Pooling Best Practices</h3>
+<h3 id="topic-7">Connection Pooling Best Practices</h3>
 <div class="summary">Explains the concept of connection pooling and why it is essential for application performance and scalability. Covers configuration considerations, resource management, and security implications of shared connection pools.</div>
 <ul>
 <li><strong>What Is Connection Pooling?</strong> <span class="el-body">— Connection pooling is a technique where a set of pre-established database connections is maintained and reused by multiple application requests, rather than opening and closing a new connection for each request.</span></li>
@@ -138,6 +138,6 @@ li{margin:5px 0}
 <div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
 <div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
 
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
 </body>
 </html>

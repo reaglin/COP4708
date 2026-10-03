@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "6 - Data Modeling and Entity-Relationship Modeling (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "6 - Data Modeling and Entity-Relationship Modeling \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -45,8 +50,33 @@
     "type": "Content"
   },
   {
-    "title": "6 - Data Modeling and Entity-Relationship Modeling \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "Introduction to Data Modeling",
+    "href": "content/Data_Modeling_and_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Relationships Between Entities",
+    "href": "content/Data_Modeling_and_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "The Entity-Relationship (ER) Model",
+    "href": "content/Data_Modeling_and_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Creating ER Diagrams",
+    "href": "content/Data_Modeling_and_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Applying ER Modeling to a Problem Domain",
+    "href": "content/Data_Modeling_and_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "6 - Data Modeling and Entity-Relationship Modeling",
+    "href": "content/Data_Modeling_and_videos_merged.html",
     "type": "Content"
   }
 ]

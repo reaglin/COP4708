@@ -18,13 +18,13 @@ li{margin:5px 0}
 .el-body{color:#555}
 .prefix{color:#555;font-style:italic;margin:6px 0 14px}
 .mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
-.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
 .mo .statement{font-weight:600;margin:4px 0 8px}
 .meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
 .meta .map{background:#eaf6ec;color:#137333}
 .co{margin:7px 0}
 .co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
-.empty{color:#888}
+.empty{color:#595959}
 </style>
 </head>
 <body>
@@ -33,7 +33,7 @@ li{margin:5px 0}
 <div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
 
 <h2 id="topics">Module Topics</h2>
-<h3>Introduction to Database Deployment Models</h3>
+<h3 id="topic-1">Introduction to Database Deployment Models</h3>
 <div class="summary">Overview of the two primary database deployment approaches: locally hosted systems and cloud-based services. Establishes foundational concepts and context for comparing the two models.</div>
 <ul>
 <li><strong>What Is a Database Deployment Model?</strong> <span class="el-body">— A database deployment model refers to the environment and infrastructure strategy used to host, manage, and access a database system.</span></li>
@@ -42,7 +42,7 @@ li{margin:5px 0}
 <li><strong>Key Dimensions for Comparing the Two Models</strong> <span class="el-body">— When evaluating locally hosted versus cloud-based databases, several core dimensions help frame the comparison objectively.</span></li>
 <li><strong>Why the Choice of Deployment Model Matters</strong> <span class="el-body">— Selecting the right deployment model is a foundational architectural decision that influences an organization&#39;s agility, security posture, and long-term operational costs.</span></li>
 </ul>
-<h3>Locally Hosted Database Systems</h3>
+<h3 id="topic-2">Locally Hosted Database Systems</h3>
 <div class="summary">Examination of on-premises database infrastructure, including setup, management responsibilities, and common use cases. Covers the characteristics that define local deployment environments.</div>
 <ul>
 <li><strong>Definition and Core Characteristics of Local Deployment</strong> <span class="el-body">— A locally hosted database system is one that runs on physical hardware owned and operated by the organization itself, typically within its own data center or server room.</span></li>
@@ -53,7 +53,7 @@ li{margin:5px 0}
 <li><strong>Common Use Cases for Local Database Deployment</strong> <span class="el-body">— Despite the rise of cloud services, certain organizational needs and constraints make locally hosted databases the preferred or required choice.</span></li>
 <li><strong>Availability and Disaster Recovery Challenges</strong> <span class="el-body">— Ensuring high availability and disaster recovery for locally hosted databases requires deliberate design and significant additional investment in redundant infrastructure.</span></li>
 </ul>
-<h3>Cloud-Based Database Services</h3>
+<h3 id="topic-3">Cloud-Based Database Services</h3>
 <div class="summary">Introduction to major cloud database platforms including AWS RDS, Azure SQL, and Google Cloud SQL. Explores how these managed services operate and what features they offer.</div>
 <ul>
 <li><strong>What Are Managed Cloud Database Services?</strong> <span class="el-body">— Managed cloud database services are fully hosted database solutions provided by cloud vendors, where the provider handles infrastructure, maintenance, and availability.</span></li>
@@ -63,7 +63,7 @@ li{margin:5px 0}
 <li><strong>Core Features Common to Cloud Database Platforms</strong> <span class="el-body">— Despite differences in vendor ecosystems, major cloud database services share a consistent set of features designed to reduce operational burden and ensure reliability.</span></li>
 <li><strong>Connectivity and Access to Cloud Databases</strong> <span class="el-body">— Cloud database services are accessed remotely via secure connection endpoints, requiring configuration of network rules and authentication credentials.</span></li>
 </ul>
-<h3>Cost Comparison: Cloud vs. Local</h3>
+<h3 id="topic-4">Cost Comparison: Cloud vs. Local</h3>
 <div class="summary">Analysis of the financial trade-offs between cloud and local database deployments, including capital expenditure versus operational expenditure models. Covers licensing, hardware, and ongoing service costs.</div>
 <ul>
 <li><strong>Capital Expenditure vs. Operational Expenditure</strong> <span class="el-body">— Local database deployments typically follow a capital expenditure (CapEx) model, requiring large upfront investments, while cloud deployments shift costs to an operational expenditure (OpEx) model with ongoing subscription or usage-based payments.</span></li>
@@ -73,7 +73,7 @@ li{margin:5px 0}
 <li><strong>Scalability and Cost Efficiency</strong> <span class="el-body">— Cloud databases offer the ability to scale resources up or down based on demand, which can improve cost efficiency compared to local deployments that must provision for peak capacity at all times.</span></li>
 <li><strong>Total Cost of Ownership (TCO) Analysis</strong> <span class="el-body">— A complete financial comparison between cloud and local databases requires a total cost of ownership (TCO) analysis that accounts for all direct and indirect costs over a defined time horizon.</span></li>
 </ul>
-<h3>Scalability and Performance</h3>
+<h3 id="topic-5">Scalability and Performance</h3>
 <div class="summary">Comparison of how cloud and local databases handle growing data demands and performance requirements. Highlights the scalability advantages and limitations of each deployment model.</div>
 <ul>
 <li><strong>Elastic Scalability in Cloud Databases</strong> <span class="el-body">— Cloud databases such as AWS RDS, Azure SQL, and Google Cloud SQL offer elastic scalability, allowing resources to be scaled up or down dynamically based on workload demands.</span></li>
@@ -83,7 +83,7 @@ li{margin:5px 0}
 <li><strong>Handling Growing Data Demands</strong> <span class="el-body">— As data volumes grow, the deployment model significantly influences how easily and cost-effectively a database system can accommodate increased storage and throughput needs.</span></li>
 <li><strong>Trade-offs Between Scalability and Cost</strong> <span class="el-body">— While cloud databases offer superior scalability flexibility, the ongoing operational costs of scaling can exceed the capital costs of on-premises infrastructure for certain workloads.</span></li>
 </ul>
-<h3>Maintenance and Administration</h3>
+<h3 id="topic-6">Maintenance and Administration</h3>
 <div class="summary">Evaluation of the administrative burden associated with each deployment model, including patching, backups, and monitoring responsibilities. Contrasts self-managed maintenance with provider-managed services.</div>
 <ul>
 <li><strong>Self-Managed Maintenance in Local Deployments</strong> <span class="el-body">— When hosting a database locally, the organization assumes full responsibility for all maintenance tasks, including software updates, patching, and hardware upkeep.</span></li>
@@ -93,7 +93,7 @@ li{margin:5px 0}
 <li><strong>Administrative Staffing and Expertise Requirements</strong> <span class="el-body">— The choice between local and cloud-managed databases has direct implications for the type and volume of database administration expertise an organization must maintain.</span></li>
 <li><strong>Shared Responsibility Model</strong> <span class="el-body">— Cloud database deployments operate under a shared responsibility model, where the provider and customer each own distinct maintenance and security obligations.</span></li>
 </ul>
-<h3>Availability, Reliability, and Security</h3>
+<h3 id="topic-7">Availability, Reliability, and Security</h3>
 <div class="summary">Examination of uptime guarantees, disaster recovery options, and security considerations for both deployment models. Discusses how each approach addresses data protection and business continuity.</div>
 <ul>
 <li><strong>Uptime Guarantees and SLAs</strong> <span class="el-body">— Cloud database providers typically offer formal Service Level Agreements (SLAs) that guarantee a specific percentage of uptime, often 99.9% or higher.</span></li>
@@ -136,6 +136,6 @@ li{margin:5px 0}
 <div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
 <div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
 
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
 </body>
 </html>

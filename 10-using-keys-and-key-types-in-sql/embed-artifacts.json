@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "10 - Using Keys and Key Types in SQL (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "10 - Using Keys and Key Types in SQL \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -8,11 +13,6 @@
     "title": "10 - Using Keys and Key Types in SQL \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
-  },
-  {
-    "title": "10 - Using Keys and Key Types in SQL \u2014 Module Topics",
-    "href": "content/module_topics.html",
-    "type": "Content"
   },
   {
     "title": "Enforcing Key Constraints for Data Integrity",
@@ -52,6 +52,41 @@
   {
     "title": "Enforcing Key Constraints for Data Integrity",
     "href": "content/Using_Keys_and_interactive_topics_t7.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Keys in SQL",
+    "href": "content/Using_Keys_and_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Primary Keys",
+    "href": "content/Using_Keys_and_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Foreign Keys and Referential Integrity",
+    "href": "content/Using_Keys_and_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Candidate Keys",
+    "href": "content/Using_Keys_and_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Composite Keys",
+    "href": "content/Using_Keys_and_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Enforcing Key Constraints for Data Integrity",
+    "href": "content/Using_Keys_and_t7_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "10 - Using Keys and Key Types in SQL",
+    "href": "content/Using_Keys_and_videos_merged.html",
     "type": "Content"
   }
 ]

@@ -18,13 +18,13 @@ li{margin:5px 0}
 .el-body{color:#555}
 .prefix{color:#555;font-style:italic;margin:6px 0 14px}
 .mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
-.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
 .mo .statement{font-weight:600;margin:4px 0 8px}
 .meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
 .meta .map{background:#eaf6ec;color:#137333}
 .co{margin:7px 0}
 .co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
-.empty{color:#888}
+.empty{color:#595959}
 </style>
 </head>
 <body>
@@ -33,7 +33,7 @@ li{margin:5px 0}
 <div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
 
 <h2 id="topics">Module Topics</h2>
-<h3>Introduction to Normalization</h3>
+<h3 id="topic-1">Introduction to Normalization</h3>
 <div class="summary">Overview of database normalization, its purpose, and why it is essential for reducing redundancy and improving data integrity. Establishes the foundation for understanding the first three normal forms.</div>
 <ul>
 <li><strong>What Is Database Normalization?</strong> <span class="el-body">— Database normalization is the process of organizing a relational database&#39;s structure to reduce redundancy and improve data integrity.</span></li>
@@ -43,7 +43,7 @@ li{margin:5px 0}
 <li><strong>The Concept of Normal Forms</strong> <span class="el-body">— Normal forms are a progressive set of criteria used to evaluate and improve the structure of database tables, numbered from 1NF upward.</span></li>
 <li><strong>Key Dependencies Driving Normalization</strong> <span class="el-body">— Normalization is fundamentally about managing dependencies — specifically partial dependencies and transitive dependencies — between columns in a table.</span></li>
 </ul>
-<h3>First Normal Form (1NF)</h3>
+<h3 id="topic-2">First Normal Form (1NF)</h3>
 <div class="summary">Defines the rules of 1NF, focusing on atomicity and eliminating repeating groups. Walks through step-by-step examples of transforming unnormalized tables into 1NF-compliant structures.</div>
 <ul>
 <li><strong>What Is First Normal Form (1NF)?</strong> <span class="el-body">— First Normal Form (1NF) is the foundational level of database normalization that establishes the basic structural rules a table must satisfy.</span></li>
@@ -53,7 +53,7 @@ li{margin:5px 0}
 <li><strong>Transforming an Unnormalized Table into 1NF: Step-by-Step</strong> <span class="el-body">— Converting an unnormalized table to 1NF involves a systematic process of identifying violations and restructuring the data accordingly.</span></li>
 <li><strong>Before and After: A 1NF Example</strong> <span class="el-body">— Examining a concrete before-and-after comparison reinforces how 1NF rules apply in practice and what the transformed table should look like.</span></li>
 </ul>
-<h3>Second Normal Form (2NF)</h3>
+<h3 id="topic-3">Second Normal Form (2NF)</h3>
 <div class="summary">Introduces the concept of partial dependencies and explains how 2NF builds upon 1NF by requiring full functional dependency on the primary key. Demonstrates how to identify and eliminate partial dependencies through table decomposition.</div>
 <ul>
 <li><strong>Prerequisites: 2NF Builds on 1NF</strong> <span class="el-body">— A table must already satisfy First Normal Form before it can be evaluated for Second Normal Form. 2NF adds an additional constraint on top of the atomicity and row uniqueness requirements established by 1NF.</span></li>
@@ -64,7 +64,7 @@ li{margin:5px 0}
 <li><strong>Eliminating Partial Dependencies Through Decomposition</strong> <span class="el-body">— The solution to partial dependencies is table decomposition: splitting the original table into two or more smaller tables so that each table contains only fully dependent attributes. This process preserves all original data while eliminating redundancy.</span></li>
 <li><strong>Benefits of Achieving 2NF</strong> <span class="el-body">— Eliminating partial dependencies through 2NF reduces data redundancy and prevents several common data anomalies that occur in tables with partial dependencies. These improvements make the database easier to maintain and more consistent.</span></li>
 </ul>
-<h3>Third Normal Form (3NF)</h3>
+<h3 id="topic-4">Third Normal Form (3NF)</h3>
 <div class="summary">Defines transitive dependencies and explains how 3NF extends 2NF by removing them. Provides guided examples of restructuring tables to achieve 3NF compliance.</div>
 <ul>
 <li><strong>What Is a Transitive Dependency?</strong> <span class="el-body">— A transitive dependency occurs when a non-key column depends on another non-key column rather than directly on the primary key.</span></li>
@@ -74,7 +74,7 @@ li{margin:5px 0}
 <li><strong>Step-by-Step 3NF Transformation Example</strong> <span class="el-body">— Walking through a concrete restructuring example reinforces how to apply the 3NF rules systematically from start to finish.</span></li>
 <li><strong>Benefits of Achieving 3NF</strong> <span class="el-body">— Bringing a database to 3NF eliminates transitive dependencies and produces a cleaner, more maintainable schema with reduced redundancy.</span></li>
 </ul>
-<h3>Applying Normal Forms: End-to-End Practice</h3>
+<h3 id="topic-5">Applying Normal Forms: End-to-End Practice</h3>
 <div class="summary">Consolidates learning by guiding students through the complete normalization process from an unnormalized table through 1NF, 2NF, and 3NF. Reinforces identification and elimination of both partial and transitive dependencies.</div>
 <ul>
 <li><strong>Starting Point: Recognizing an Unnormalized Table</strong> <span class="el-body">— The normalization journey begins by examining a raw, unnormalized table and identifying all the structural problems it contains.</span></li>
@@ -118,6 +118,6 @@ li{margin:5px 0}
 <div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
 <div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
 
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
 </body>
 </html>

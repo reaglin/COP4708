@@ -18,13 +18,13 @@ li{margin:5px 0}
 .el-body{color:#555}
 .prefix{color:#555;font-style:italic;margin:6px 0 14px}
 .mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
-.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
 .mo .statement{font-weight:600;margin:4px 0 8px}
 .meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
 .meta .map{background:#eaf6ec;color:#137333}
 .co{margin:7px 0}
 .co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
-.empty{color:#888}
+.empty{color:#595959}
 </style>
 </head>
 <body>
@@ -33,7 +33,7 @@ li{margin:5px 0}
 <div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
 
 <h2 id="topics">Module Topics</h2>
-<h3>Review of 3NF and Its Limitations</h3>
+<h3 id="topic-1">Review of 3NF and Its Limitations</h3>
 <div class="summary">Revisits Third Normal Form and examines specific edge cases where 3NF fails to eliminate all redundancy and anomalies. Establishes the motivation for advancing to higher normal forms.</div>
 <ul>
 <li><strong>Quick Recap of Third Normal Form (3NF)</strong> <span class="el-body">— 3NF requires that a relation be in 2NF and that every non-prime attribute be non-transitively dependent on every candidate key.</span></li>
@@ -43,7 +43,7 @@ li{margin:5px 0}
 <li><strong>Lossless Decomposition and 3NF&#39;s Trade-off</strong> <span class="el-body">— One reason 3NF is sometimes preferred in practice is that it guarantees both lossless-join decomposition and dependency preservation, trade-offs that stricter normal forms may not always offer.</span></li>
 <li><strong>Motivating the Move to Higher Normal Forms</strong> <span class="el-body">— The edge cases where 3NF falls short establish a clear motivation for BCNF, 4NF, and 5NF, each targeting a progressively more subtle class of dependency.</span></li>
 </ul>
-<h3>Boyce-Codd Normal Form (BCNF)</h3>
+<h3 id="topic-2">Boyce-Codd Normal Form (BCNF)</h3>
 <div class="summary">Introduces BCNF as a stricter refinement of 3NF, defining its requirements around functional dependencies and candidate keys. Covers how to identify BCNF violations and decompose schemas to achieve compliance.</div>
 <ul>
 <li><strong>What is BCNF and How Does It Differ from 3NF?</strong> <span class="el-body">— Boyce-Codd Normal Form (BCNF) is a stricter refinement of Third Normal Form (3NF), designed to eliminate certain anomalies that 3NF can still permit.</span></li>
@@ -53,7 +53,7 @@ li{margin:5px 0}
 <li><strong>Lossless Decomposition and the BCNF Trade-off</strong> <span class="el-body">— BCNF decomposition guarantees a lossless join but does not always preserve all functional dependencies, which is an important practical trade-off.</span></li>
 <li><strong>When 3NF is Insufficient and BCNF is Needed</strong> <span class="el-body">— There are specific edge cases where a schema satisfies 3NF but still exhibits anomalies that only BCNF can resolve.</span></li>
 </ul>
-<h3>Comparing 3NF and BCNF</h3>
+<h3 id="topic-3">Comparing 3NF and BCNF</h3>
 <div class="summary">Analyzes the trade-offs between 3NF and BCNF, including cases where BCNF decomposition may sacrifice dependency preservation. Helps students decide which normal form is appropriate for a given schema.</div>
 <ul>
 <li><strong>Recap: What 3NF and BCNF Require</strong> <span class="el-body">— Both 3NF and BCNF address functional dependencies, but they differ in how strictly they eliminate redundancy caused by non-trivial dependencies.</span></li>
@@ -64,7 +64,7 @@ li{margin:5px 0}
 <li><strong>Redundancy: BCNF&#39;s Advantage</strong> <span class="el-body">— BCNF eliminates more redundancy than 3NF because it removes every case where a non-superkey functionally determines another attribute, including when that attribute is prime.</span></li>
 <li><strong>Choosing Between 3NF and BCNF in Practice</strong> <span class="el-body">— The decision between stopping at 3NF or continuing to BCNF depends on weighing redundancy elimination against dependency preservation requirements.</span></li>
 </ul>
-<h3>Multivalued Dependencies and Fourth Normal Form (4NF)</h3>
+<h3 id="topic-4">Multivalued Dependencies and Fourth Normal Form (4NF)</h3>
 <div class="summary">Defines multivalued dependencies and explains how they introduce redundancy that BCNF cannot resolve. Presents 4NF rules and demonstrates how to decompose relations to eliminate multivalued dependency violations.</div>
 <ul>
 <li><strong>What Is a Multivalued Dependency?</strong> <span class="el-body">— A multivalued dependency (MVD) exists when one attribute in a relation independently determines a set of multiple values of another attribute, regardless of other attributes present.</span></li>
@@ -74,7 +74,7 @@ li{margin:5px 0}
 <li><strong>Decomposing Relations to Achieve 4NF</strong> <span class="el-body">— The standard approach to resolving 4NF violations is to decompose the offending relation into two separate relations, each capturing one of the independent multivalued attributes along with the shared determinant.</span></li>
 <li><strong>Trade-offs and Practical Considerations of 4NF</strong> <span class="el-body">— While 4NF eliminates MVD-driven redundancy, achieving it requires careful identification of truly independent multi-valued attributes and results in a larger number of smaller tables.</span></li>
 </ul>
-<h3>Join Dependencies and Fifth Normal Form (5NF)</h3>
+<h3 id="topic-5">Join Dependencies and Fifth Normal Form (5NF)</h3>
 <div class="summary">Introduces join dependencies as the basis for Fifth Normal Form, explaining when a relation cannot be losslessly decomposed into fewer projections. Covers techniques for identifying 5NF violations and achieving full decomposition.</div>
 <ul>
 <li><strong>What Is a Join Dependency?</strong> <span class="el-body">— A join dependency (JD) is a constraint on a relation stating that it can be losslessly reconstructed by joining a specific set of its projections.</span></li>
@@ -84,7 +84,7 @@ li{margin:5px 0}
 <li><strong>Lossless Join Property in 5NF Decomposition</strong> <span class="el-body">— A decomposition is lossless if and only if the natural join of all projections returns precisely the original set of tuples, with no spurious additions or omissions.</span></li>
 <li><strong>Practical Trade-offs of 5NF</strong> <span class="el-body">— While 5NF achieves the highest degree of redundancy elimination, decomposing to 5NF increases the number of tables and the complexity of queries that must rejoin them.</span></li>
 </ul>
-<h3>Applying Higher Normal Forms to Complex Schemas</h3>
+<h3 id="topic-6">Applying Higher Normal Forms to Complex Schemas</h3>
 <div class="summary">Provides practical guidance on analyzing real-world schemas and systematically applying BCNF, 4NF, and 5NF transformations. Students work through multi-step normalization scenarios to reinforce end-to-end skill application.</div>
 <ul>
 <li><strong>Auditing an Existing Schema Before Normalization</strong> <span class="el-body">— Before applying any higher normal form, a systematic audit of the existing schema is essential to identify all functional, multivalued, and join dependencies.</span></li>
@@ -127,6 +127,6 @@ li{margin:5px 0}
 <div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
 <div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
 
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
 </body>
 </html>

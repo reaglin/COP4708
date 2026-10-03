@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connection Pooling Best Practices</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 15 - Database Security Models, Users, and Application Connections</a></div>
+<h1>Connection Pooling Best Practices</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Top 7 Ways to 10x Your API Performance</a>
+<a href="#sec3">Video 2: 7 Must-know Strategies to Scale Your Database</a>
+<a href="#sec4">Video 3: Understanding Connectivity issues in SQL Database | Data Exposed</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Every time an application opens a database connection, work happens behind the scenes: a network socket is created, credentials are authenticated, and the database server allocates memory and a session context. That setup cost is small for one connection but crushing when an application does it for every web request. Connection pooling solves this by keeping a set of already-authenticated connections open and lending them out to application threads as needed, returning them to the pool instead of closing them.</p>
+<p>In this course, pooling sits at the intersection of performance and security. Pool settings such as minimum and maximum pool size, connection timeout, idle timeout, and maximum connection lifetime determine whether your application scales smoothly or exhausts the database&#39;s connection limit. At the same time, a shared pool means many application users may travel over the same physical connection under one service account, which raises questions about session state leakage (temporary tables, session variables, SET ROLE changes), auditing, and applying least privilege when the database only ever sees a single login. Connection leaks — borrowed connections that are never returned because of an unhandled exception or a missing close/dispose — are a classic production failure, and ORM frameworks like Hibernate, Entity Framework, and SQLAlchemy each have their own pooling layer you need to understand rather than accept by default.</p>
+<p>The videos below approach pooling from the systems and operations side. As you watch, look for where pooling appears in the larger list of performance techniques, how it interacts with other scaling strategies, and what connection failures actually look like from the database server&#39;s perspective. Then connect those observations back to the course material: which configuration choices would you make for a web application, and what would you still need to do in code to prevent leaks and isolate session state?</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Top 7 Ways to 10x Your API Performance</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zvWKqUiovAM?cc_load_policy=1&amp;rel=0" title="Video: Top 7 Ways to 10x Your API Performance (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 6:05 · 505,358 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=zvWKqUiovAM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A fast-paced overview of seven common techniques for improving API throughput and latency, with connection pooling presented as one of the core strategies alongside items such as caching, pagination, asynchronous processing, compression, and avoiding chatty request patterns. The video is likely to explain why reusing established connections avoids repeated handshake and authentication overhead on every request. The animated format gives a clear mental model of where the pool sits between application code and the database.</p>
+<h3>Why this video</h3>
+<p>It places connection pooling in its natural context — as a first-line performance optimization for applications that talk to databases — and ByteByteGo is a widely used, technically careful source for system design explanations, which fits the &quot;What Is Connection Pooling?&quot; and &quot;Why Pooling Is Essential for Performance&quot; subtopics.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: 7 Must-know Strategies to Scale Your Database</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_1IKwnbscQU?cc_load_policy=1&amp;rel=0" title="Video: 7 Must-know Strategies to Scale Your Database (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 8:42 · 285,678 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=_1IKwnbscQU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video walks through strategies for scaling a database as load grows, typically covering approaches such as indexing, caching, replication, read replicas, partitioning or sharding, and vertical scaling. Connection handling and pooling are discussed as part of the broader toolkit for supporting more concurrent clients without overwhelming the server. Expect diagrams showing how traffic flows and where bottlenecks form.</p>
+<h3>Why this video</h3>
+<p>It helps you see pooling as a scalability lever rather than just a coding convenience, which is essential when reasoning about maximum pool size versus the database&#39;s own connection limit — a key configuration parameter in this topic.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Understanding Connectivity issues in SQL Database | Data Exposed</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/BkDz9OTdypI?cc_load_policy=1&amp;rel=0" title="Video: Understanding Connectivity issues in SQL Database | Data Exposed (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 13:18 · 3,578 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=BkDz9OTdypI" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A Data Exposed episode in which Microsoft engineers discuss why connections to Azure SQL Database get unexpectedly terminated and how applications should respond. Based on the description, it covers the causes of connection drops, their impact on applications, and the role of retry logic and resilient connection handling. It is a practitioner-oriented conversation rather than a scripted tutorial.</p>
+<h3>Why this video</h3>
+<p>It grounds the abstract idea of a pool in real operational failure modes — dropped, stale, or leaked connections — which directly supports the resource management, leak prevention, and configuration (timeout and lifetime) subtopics from a vendor with authoritative knowledge of its own platform.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>These videos primarily serve MO5: they give you the performance rationale for pooling, the configuration parameters that govern pool behavior, and a realistic look at how connections fail or go stale in production — all prerequisites for evaluating a pool configuration and identifying leak and session-state risks. They also reinforce MO4, since a pooled connection strategy is part of designing a secure application-to-database connection path with a least-privilege service account and properly managed credentials. The videos do not cover the CIA Triad, GRANT/REVOKE role design, or parameterized queries (MO1–MO3); for those outcomes, rely on the module readings, lecture material, and hands-on lab exercises.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing and Using Subqueries</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 11 - SQL Commands for Complex Queries</a></div>
+<h1>Writing and Using Subqueries</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: When to Use a Subquery in SQL</a>
+<a href="#sec3">Video 2: Subquery in SQL || SQL Subquery tutorial with examples</a>
+<a href="#sec4">Video 3: SQL EXISTS</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>A subquery is simply a SELECT statement nested inside another SQL statement. Instead of running one query, writing down the result, and then typing a second query that uses that result, you let the database do both steps at once. The inner query runs and hands its result to the outer query, which uses it as a value, a list of values, or even a temporary table.</p>
+<p>Where you place the subquery determines what it does. In the WHERE clause, a subquery supplies values to filter on, often with operators such as =, IN, &gt;, or ALL/ANY. In the FROM clause, it acts as a derived table — a result set you can join to or filter like any other table. In the SELECT clause, a scalar subquery returns exactly one value per row, useful for adding a computed column such as a count or an average. You will also meet correlated subqueries, which reference a column from the outer query and therefore re-evaluate for each outer row, and the EXISTS / NOT EXISTS operators, which test whether a subquery returns any rows at all.</p>
+<p>As you watch the videos below, pay attention to three things: where the subquery sits in the statement, how many rows and columns it is allowed to return in that position, and whether it depends on the outer query (correlated) or can run on its own (non-correlated). Try pausing and predicting the result before the presenter reveals it, and notice when a subquery could have been written more simply as a JOIN — that judgment is part of good practice.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: When to Use a Subquery in SQL</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/tlvxb7UduJw?cc_load_policy=1&amp;rel=0" title="Video: When to Use a Subquery in SQL (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 8:50 · 59,026 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=tlvxb7UduJw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Database Star explains what a subquery is and, more importantly, when reaching for one makes sense. The video works through a straightforward query and then transforms it into a subquery version, so you can see the before-and-after side by side. Expect discussion of the reasoning behind choosing a subquery over an alternative formulation.</p>
+<h3>Why this video</h3>
+<p>It frames the &#39;What Is a Subquery?&#39; and &#39;Best Practices&#39; subtopics directly, and Database Star is a well-established SQL teaching channel known for clear, accurate explanations aimed at learners.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Subquery in SQL || SQL Subquery tutorial with examples</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EQbhKjBmW88?cc_load_policy=1&amp;rel=0" title="Video: Subquery in SQL || SQL Subquery tutorial with examples (Coding Glitz)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Coding Glitz</strong> · 18:38 · 147,622 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=EQbhKjBmW88" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A longer tutorial that walks through SQL subqueries step by step with worked examples, including the distinction between single-row and multi-row subqueries. The extended runtime allows the presenter to demonstrate several query patterns rather than just one, which helps you see how subquery results feed the outer statement.</p>
+<h3>Why this video</h3>
+<p>The single-row versus multi-row distinction is exactly what governs which operators you can use in the WHERE clause, making this a practical companion to the placement subtopics and to writing subqueries you can run yourself.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: SQL EXISTS</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/XfQJI-KF6FA?cc_load_policy=1&amp;rel=0" title="Video: SQL EXISTS (Learn SQL Fast: Dr. Cecelia Allison)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Learn SQL Fast: Dr. Cecelia Allison</strong> · 3:02 · 1,326 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=XfQJI-KF6FA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, focused demonstration of the SQL EXISTS operator in SQL Server, showing how EXISTS tests whether a subquery returns any rows rather than comparing values. At three minutes it is a targeted reference clip rather than a full lesson, so use it alongside the longer videos.</p>
+<h3>Why this video</h3>
+<p>EXISTS and NOT EXISTS are their own subtopic and are easy to confuse with IN; this concise clip isolates the operator so the behavior is clear, and it naturally illustrates the correlated subquery pattern that EXISTS usually relies on.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these three videos target MO5 most directly: students see subqueries defined, placed in different clauses, and evaluated for whether they return one row or many, which is the core skill of composing a subquery to solve a multi-step retrieval problem in a single statement. Because subqueries in the WHERE clause depend on comparison and membership operators such as =, IN, and EXISTS, the videos also reinforce the filtering skills in MO2, and the comparisons between subquery and non-subquery formulations connect back to the JOIN decisions in MO1. Viewing them in order — concept and purpose, worked examples, then the EXISTS special case — builds from understanding to construction.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

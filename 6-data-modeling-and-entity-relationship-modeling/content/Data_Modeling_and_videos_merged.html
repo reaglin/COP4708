@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>6 - Data Modeling and Entity-Relationship Modeling</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 6 - Data Modeling and Entity-Relationship Modeling</a></div>
+<h1>6 - Data Modeling and Entity-Relationship Modeling</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Introduction to Data Modeling</a>
+<a href="#part2">Relationships Between Entities</a>
+<a href="#part3">The Entity-Relationship (ER) Model</a>
+<a href="#part4">Creating ER Diagrams</a>
+<a href="#part5">Applying ER Modeling to a Problem Domain</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Introduction to Data Modeling</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>Data modeling is the practice of describing the data an organization cares about — the things it tracks, the facts it stores about those things, and the connections between them — before any tables are created in a database system. Think of it as the architectural drawing that comes before construction: it lets you reason about structure, catch problems, and agree with stakeholders on meaning while changes are still cheap.</p>
+<p>In this course, data modeling is the bridge between a written problem description and a working relational database. It matters because design decisions made at the modeling stage ripple through everything that follows: query complexity, data integrity, redundancy, and how easily the system can grow. The topic also introduces the idea of levels of abstraction — conceptual, logical, and physical — which gives you a vocabulary for talking about the same data at different degrees of detail and independence from any particular DBMS.</p>
+<p>As you watch the videos below, look for three things. First, note how each presenter defines a model and what they say it is for. Second, pay close attention to where the boundary falls between conceptual, logical, and physical descriptions, and what information is added at each step. Third, watch how modeling fits into an overall design workflow — where requirements come in and where implementation begins.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: What Is Data Modeling?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/VTeYbbI7co8?cc_load_policy=1&amp;rel=0" title="Video: What Is Data Modeling? (365 Data Science)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>365 Data Science</strong> · 7:27 · 13,518 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=VTeYbbI7co8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short introductory explanation of what data modeling is and why organizations do it, aimed at learners new to the subject. Based on its title and the channel's teaching style, it should define the concept, give examples of what a model captures, and explain the role modeling plays in structuring data before it is stored or analyzed.</p>
+<h4>Why this video</h4>
+<p>It is the natural starting point for the subtopics "What is Data Modeling?" and "Purpose and Importance of Data Modeling," and 365 Data Science produces clearly narrated, beginner-oriented explanations that avoid tool-specific jargon.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: Conceptual vs Logical Data Models - What are the key differences?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Ex6wszg2XZ8?cc_load_policy=1&amp;rel=0" title="Video: Conceptual vs Logical Data Models - What are the key differences? (Ellie)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Ellie</strong> · 5:00 · 50,718 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=Ex6wszg2XZ8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A focused five-minute comparison of conceptual and logical data models. The description notes that these two are easily confused when starting data projects, so expect the video to clarify what each level includes, what detail is deliberately left out, and when you would produce each one.</p>
+<h4>Why this video</h4>
+<p>It directly supports the "Levels of Data Abstraction in Modeling" subtopic by sharpening the distinction students most often blur, and its tight length makes it easy to rewatch before working on your own models.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: How to Design a Database</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5RpUmDEsn1k?cc_load_policy=1&amp;rel=0" title="Video: How to Design a Database (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 10:57 · 232,237 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=5RpUmDEsn1k" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A practical walkthrough of the database design process from the Database Star channel, covering how to move from an idea or requirement toward a designed database. Expect it to show the sequence of steps a designer follows and how modeling decisions lead into the structures that are eventually implemented.</p>
+<h4>Why this video</h4>
+<p>It places modeling in its real workflow context, supporting "Data Modeling as a Blueprint" and "Data Modeling in the Database Design Process," and Database Star is a well-established channel focused specifically on database design and SQL.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos establish the foundation the module's outcomes build on. The 365 Data Science overview and the Database Star walkthrough frame modeling as the blueprint stage of design, which is the setting in which you will later identify entities, attributes, and relationships (MO2, MO3) and construct a full ER diagram from business requirements (MO4). The conceptual-versus-logical comparison speaks most directly to MO1 by giving you a precise way to separate the levels of abstraction, and that same vocabulary is what makes it possible to critique a drafted diagram for missing or redundant elements later in the module (MO5).</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>Relationships Between Entities</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>Entities rarely exist in isolation. A student enrolls in a course, an order contains products, an employee reports to another employee — each of these is a relationship, an association between entity types that the data model must capture. This topic examines how those associations are described precisely enough to become part of a database design.</p>
+<p>Three ideas do most of the work here. Cardinality states how many instances of one entity may be associated with instances of another (one-to-one, one-to-many, many-to-many). Participation constraints state whether that association is mandatory (total) or optional (partial) for each side. Degree describes how many entity types take part in the relationship — most are binary, but ternary and recursive (self-referencing) relationships also appear, as when an employee supervises other employees. Getting these details right matters because they determine how the model is later translated into tables, keys, and foreign keys; a many-to-many relationship, for example, cannot be implemented directly and requires a bridge (associative) table.</p>
+<p>As you watch the videos, pay attention to notation. Chen notation draws relationships as diamonds with labels, while Crow's Foot notation encodes cardinality and participation in the line endings themselves. Watch for how each notation shows "one" versus "many" and "optional" versus "mandatory," and try to restate each diagram in a plain English sentence — for example, "each order must be placed by exactly one customer, and a customer may place zero or more orders." If you can move between the sentence and the diagram in both directions, you understand the relationship.</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: Entity Relationship Diagram (ERD) Tutorial - Part 1</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/xsg9BDiwiJE?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 1 (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 6:10 · 1,093,171 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=xsg9BDiwiJE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An introductory walkthrough of building an ER diagram from the ground up, covering entities, attributes, and the cardinalities that connect them. Based on its description, it works through the basics of identifying what belongs in a diagram and how to read the connections between entity types.</p>
+<h4>Why this video</h4>
+<p>Lucid Software produces the widely used Lucidchart diagramming tool, so the notation shown is conventional and clean, and this first part gives you the vocabulary of entities and cardinality that the rest of the topic builds on.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>The follow-up tutorial moves into more advanced ERD concepts, specifically primary keys, foreign keys, and bridge tables. Its stated focus on bridge tables is directly relevant to many-to-many relationships, which cannot be implemented without an intermediate associative entity.</p>
+<h4>Why this video</h4>
+<p>It connects relationship cardinality to its practical consequence in a design, showing why distinguishing one-to-many from many-to-many actually changes the structure of the resulting database.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: Chen notation vs Crow's foot notation (ER diagram)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/yQDG0g5xRe8?cc_load_policy=1&amp;rel=0" title="Video: Chen notation vs Crow's foot notation (ER diagram) (Gleek diagram maker)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gleek diagram maker</strong> · 4:01 · 23,042 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=yQDG0g5xRe8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused comparison of the two most common ER diagram notations: Chen notation, which uses diamonds and labeled connections, and Crow's Foot notation, which encodes cardinality in the symbols at the ends of relationship lines. Expect a side-by-side look at how the same model appears in each style.</p>
+<h4>Why this video</h4>
+<p>Textbooks and tools use both notations interchangeably, so this brief video helps you read whichever one you encounter and understand how participation and cardinality are represented in each.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos support MO3 and MO4 most directly: the Lucid Software tutorials build from basic entities and cardinality toward keys and bridge tables, giving you the reasoning needed to interpret cardinality types and translate business requirements into a correctly drawn diagram. The notation comparison strengthens MO4 and MO5, since evaluating a drafted diagram for errors or missing constraints first requires fluency in reading the symbols that express cardinality and participation. The second Lucid video also touches MO1 by showing how a conceptual relationship becomes a logical structure of keys and tables, while the attribute discussion in the first video reinforces MO2.</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>The Entity-Relationship (ER) Model</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>The Entity-Relationship (ER) model is a conceptual tool for describing what data a system must store and how the pieces of that data relate to one another, before any decisions are made about tables, columns, or storage. It gives designers a small, standardized vocabulary — entities, attributes, relationships, cardinality, and participation — plus a diagram notation that lets a technical team and a non-technical client look at the same picture and agree on what the database is supposed to represent.</p>
+<p>This matters in COP4708 because the ER diagram is the bridge between a written problem description and a working relational schema. If the conceptual model misses an entity, mislabels an attribute, or gets a cardinality backwards, those errors propagate into the logical design and eventually into the database itself. Learning to read, build, and critique ER diagrams is therefore a prerequisite skill for everything that follows in the design process.</p>
+<p>As you watch the videos below, pay attention to three things. First, how each presenter decides what becomes an entity versus what becomes an attribute — this judgment call is the heart of conceptual modeling. Second, how attributes are classified and how the key attribute is identified and marked. Third, how relationships are named and how cardinality (1:1, 1:N, M:N) is written on the diagram. Also notice that notation varies: Chen-style notation uses rectangles, ovals, and diamonds, while crow's-foot style packs attributes inside the entity box. Both encode the same ideas, so focus on the underlying concepts rather than memorizing one drawing style.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: The Entity-Relationship Model. Explained quickly and easily.</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/fVbYB_34v-E?cc_load_policy=1&amp;rel=0" title="Video: The Entity-Relationship Model. Explained quickly and easily. (Patrick Boekhoven)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Patrick Boekhoven</strong> · 7:56 · 107,259 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=fVbYB_34v-E" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A compact, worked walkthrough of building an ER model for a database, taking an example scenario and developing it step by step. Based on its title and description, it should move through identifying entities, attaching attributes, and connecting entities with relationships, showing how the model takes shape as decisions are made.</p>
+<h4>Why this video</h4>
+<p>The step-by-step example format mirrors exactly what you will be asked to do — translate a described situation into entities, attributes, and relationships — and its short length makes it a good first or refresher pass over the whole ER vocabulary.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 1</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/xsg9BDiwiJE?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 1 (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 6:10 · 1,093,171 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=xsg9BDiwiJE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A tutorial on building an entity relationship diagram from scratch, covering the basics of entities, attributes, and cardinalities. As Part 1 of a series from a diagramming software company, it is likely to emphasize clean diagram construction and the conventions used to draw each element correctly.</p>
+<h4>Why this video</h4>
+<p>It directly addresses three of this topic's subtopics — entities, attributes, and cardinality — and comes from a producer whose business is diagram notation, so the drawing conventions shown are consistent and widely used in practice.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>Video 3: Entity-Relationship model: Chen notation example</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/tRWsrRCjF2E?cc_load_policy=1&amp;rel=0" title="Video: Entity-Relationship model: Chen notation example (Gleek diagram maker)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gleek diagram maker</strong> · 3:35 · 21,748 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=tRWsrRCjF2E" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A brief focused look at the entity-relationship model using Chen notation, framed as a tool developers use to design databases. The video works through an example in Chen's symbol set, where entities, attributes, and relationships each get their own distinct shape.</p>
+<h4>Why this video</h4>
+<p>Chen notation is the notation most often used in textbook ER coverage and in classification exercises for attribute types, so this short clip fills in the notational conventions that crow's-foot-style tutorials tend to skip.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the conceptual layer of the design process that MO1 asks you to distinguish from logical and physical design. The attribute coverage in the Lucid Software and Chen notation videos supports MO2's classification task, while the explicit treatment of cardinality in the first two videos supports MO3. All three are example-driven constructions of a diagram from a scenario, which is the skill tested in MO4, and seeing two different notation conventions side by side gives you the vocabulary and the attention to detail needed to review and critique a drafted diagram as required by MO5.</p>
+</section>
+<section class="item" id="p3-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>Creating ER Diagrams</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>An entity-relationship (ER) diagram is a picture of the data a system needs to store. It shows the things we care about (entities), the facts we record about them (attributes), and how those things are connected (relationships). Because the diagram is built before any tables exist, it lets you and your stakeholders agree on the structure of the data while changes are still cheap.</p>
+<p>In this module the ER diagram is the bridge between a written problem description and an actual database. You will practice reading a scenario, pulling out the nouns that become entities, deciding which details belong as attributes, drawing the relationships, and then labeling each relationship with cardinality (one-to-one, one-to-many, many-to-many) and participation (whether every instance must take part). Notation matters here: Chen-style and crow's foot notation express the same ideas with different symbols, so be sure you can read both and stay consistent within a single diagram.</p>
+<p>As you watch the videos below, pay attention to three things. First, how the presenter decides what becomes an entity versus what becomes an attribute. Second, how cardinality symbols are placed and read at each end of a relationship line. Third, how many-to-many relationships are handled, since that choice is where conceptual diagrams begin to turn into something implementable. Try pausing and sketching the examples yourself before the answer appears on screen.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: Entity Relationship Diagram (ERD) Tutorial - Part 1</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/xsg9BDiwiJE?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 1 (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 6:10 · 1,093,171 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=xsg9BDiwiJE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short introductory walkthrough that builds an ER diagram from scratch, starting with the basic building blocks. Based on its title and description, it covers what entities and attributes are, how they are drawn, and how cardinality is shown between connected entities. It is paced as a beginner's orientation to the notation rather than a deep dive.</p>
+<h4>Why this video</h4>
+<p>Lucid Software makes diagramming tools and produces widely used, well-illustrated ERD explanations, and this part-one video maps directly onto the notation, entity-identification, attribute, and cardinality subtopics in a compact six minutes.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>The follow-up video moves past the basics into primary keys, foreign keys, and bridge (junction) tables. Its description indicates it addresses more advanced ERD concepts, including how keys identify entity instances and how a bridge table is used to resolve a many-to-many relationship. At roughly fifteen minutes it has room for worked examples.</p>
+<h4>Why this video</h4>
+<p>Key attributes and the resolution of many-to-many relationships are exactly the points where beginner diagrams most often go wrong, so this video strengthens the relationship-drawing and accuracy subtopics beyond what the introductory part covers.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: LucidChart Tutorial: How to Create an ERD</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/RBZtPhZkUZM?cc_load_policy=1&amp;rel=0" title="Video: LucidChart Tutorial: How to Create an ERD (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 12:14 · 47,594 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=RBZtPhZkUZM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A hands-on tutorial from Database Star showing how to actually create an ERD in Lucidchart. Expect a demonstration of placing entities, adding attributes or columns, connecting them with relationship lines, and setting the crow's foot symbols within the tool. The channel also offers sample database design guides referenced in the description.</p>
+<h4>Why this video</h4>
+<p>This one closes the gap between understanding notation and producing a diagram yourself, which supports the "translate a problem description into an ER diagram" and "best practices for clear diagrams" subtopics through a practical, tool-based workflow.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from vocabulary to construction. The first establishes entities, attributes, and cardinality notation, supporting MO2 and MO3 by showing how real-world details are classified and how relationship ends are read. The second extends that foundation to keys and bridge tables, reinforcing MO3 and giving you the vocabulary needed to move from a conceptual sketch toward a logical design as described in MO1. The third is a build-along that directly serves MO4 by modeling the full process of producing a correctly notated diagram in a tool. Reviewing your own drafts against the conventions demonstrated in all three is good preparation for the error-checking work called for in MO5.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>Applying ER Modeling to a Problem Domain</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>Up to this point you have learned the vocabulary of ER modeling: entities, attributes, keys, relationships, cardinality, and participation. This topic is where that vocabulary gets put to work. Given a messy, informal description of a business — a library, a clinic, an online store — your job is to read it carefully, decide what the system actually needs to keep track of, and turn that into a diagram precise enough that someone else could build tables from it.</p>
+<p>The work usually follows a repeatable path. You analyze the requirements and underline the nouns and verbs that matter, propose a candidate list of entities, decide which details belong to which entity as attributes, name the relationships that connect entities, and then pin down how many of one relate to how many of the other and whether participation is optional or mandatory. Only then do you draw the full diagram, and even then you are not finished: a good designer re-reads the original description and checks the model against it, looking for duplicated data, missing entities, or relationships that were assumed rather than stated.</p>
+<p>As you watch the videos below, pay attention to the reasoning rather than just the finished picture. Notice how a noun in a sentence becomes either an entity or an attribute depending on how much detail the business needs, how a many-to-many relationship is handled, and what kinds of errors experienced designers watch out for. Try pausing each video after the requirements are stated and sketching your own diagram before seeing the presenter's version — comparing the two is where most of the learning happens.</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: How to Go From Requirements to a Database Schema</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/3a-pNh6ykY4?cc_load_policy=1&amp;rel=0" title="Video: How to Go From Requirements to a Database Schema (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 7:40 · 7,863 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=3a-pNh6ykY4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This short video walks through the process of moving from a written set of requirements to a database schema, showing how a problem statement is read and converted into design elements. Based on its title and the channel's usual approach, expect a step-by-step demonstration of identifying what needs to be stored, naming entities and attributes, and connecting them. The description links to a set of database design practice exercises for further work.</p>
+<h4>Why this video</h4>
+<p>It targets the exact skill at the center of this topic — translating business requirements into a model — and its brevity makes it a good first viewing before the longer worked example.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: Database Design for a Library Management System</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/yldrIdoXiYk?cc_load_policy=1&amp;rel=0" title="Video: Database Design for a Library Management System (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 11:06 · 96,643 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=yldrIdoXiYk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A full worked example that designs a database for a library management system, a classic scenario involving books, copies, members, loans, and reservations. The video is likely to move from the scenario description through candidate entities and their attributes to the relationships among them, with the reasoning narrated along the way. At eleven minutes it is long enough to show the trade-offs behind design decisions rather than only the final result.</p>
+<h4>Why this video</h4>
+<p>A single end-to-end case study lets you see entity identification, attribute assignment, relationship definition, and cardinality decisions in one continuous example, which is how these subtopics actually appear in practice.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>Video 3: 7 Database Design Mistakes to Avoid (With Solutions)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/s6m8Aby2at8?cc_load_policy=1&amp;rel=0" title="Video: 7 Database Design Mistakes to Avoid (With Solutions) (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 11:29 · 254,882 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=s6m8Aby2at8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video surveys seven common database design mistakes and offers a fix for each, drawing on patterns the presenter has seen across many designs. Typical issues in this genre include poor naming, storing multiple values in one field, unnecessary duplication, and missing or unclear relationships. The format pairs each problem with a concrete correction.</p>
+<h4>Why this video</h4>
+<p>It supports the validating and refining stage of the topic by giving you a checklist of warning signs to apply when reviewing your own draft diagram against the original requirements.</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from requirements to a finished, checked model. The requirements-to-schema video supports the translation skill in MO4 and touches the shift from conceptual thinking to a concrete schema described in MO1. The library management case study gives sustained practice in classifying attributes (MO2) and in reading relationships and their cardinality and participation out of a scenario (MO3), while also modeling the complete diagram-building process of MO4. The design mistakes video supplies the critical eye required by MO5, offering concrete error patterns — redundancy, missing elements, poorly defined relationships — to look for when evaluating a drafted ER diagram against the problem description it came from.</p>
+</section>
+<section class="item" id="p5-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

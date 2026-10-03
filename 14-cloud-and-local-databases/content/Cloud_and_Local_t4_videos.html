@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost Comparison: Cloud vs. Local</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+<h1>Cost Comparison: Cloud vs. Local</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Lec - 24 : Cost Models: Understanding CapEx vs. OpEx, consumption-based Pricing&#128176;</a>
+<a href="#sec3">Video 2: What is Serverless?</a>
+<a href="#sec4">Video 3: Lowering Costs with Database Consolidation – Technical Deep Dive</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Choosing between a cloud-hosted and a locally hosted database is rarely just a technical decision — it is a financial one. A local deployment usually means buying servers, storage, and networking gear up front, paying for perpetual or per-core database licenses, and staffing people to patch, back up, and monitor the system. A cloud deployment shifts most of that into a recurring bill that scales with what you consume, but that bill never ends and can grow quickly if workloads are not sized and managed carefully.</p>
+<p>This topic gives you the vocabulary and the analytical frame for that comparison: capital expenditure (CapEx) versus operational expenditure (OpEx), hardware and refresh cycles, licensing differences between on-premises and cloud editions, ongoing operational and maintenance labor, and how elasticity changes the cost-efficiency equation. The goal is Total Cost of Ownership (TCO) thinking — accounting for every cost over a multi-year horizon rather than comparing a server price tag to a monthly subscription.</p>
+<p>As you watch the videos below, listen for three things: how each cost is classified (one-time versus recurring), who absorbs the cost under each model, and what assumptions drive the answer — workload steadiness, utilization rates, growth rate, and staffing. Those assumptions are usually what decide whether cloud or local comes out cheaper for a given organization, and you will be expected to state them when you make a recommendation.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Lec - 24 : Cost Models: Understanding CapEx vs. OpEx, consumption-based Pricing&#128176;</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/89qsRB8Kobw?cc_load_policy=1&amp;rel=0" title="Video: Lec - 24 : Cost Models: Understanding CapEx vs. OpEx, consumption-based Pricing&#128176; (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 5:32 · 26,755 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=89qsRB8Kobw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short lecture on cloud cost models that defines capital expenditure and operational expenditure and explains consumption-based (pay-as-you-go) pricing. Based on its title and description, it should walk through how each model affects budgeting and when an organization would prefer one over the other.</p>
+<h3>Why this video</h3>
+<p>It directly addresses the central CapEx versus OpEx distinction of this topic in a compact, lecture-style format, and Gate Smashers presents computing concepts in exam-ready, clearly structured terms.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: What is Serverless?</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/vxJobGtqKVM?cc_load_policy=1&amp;rel=0" title="Video: What is Serverless? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 6:42 · 242,474 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=vxJobGtqKVM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>An IBM lightboard explainer on serverless computing, covering what serverless means, how resources are provisioned on demand, and how billing is tied to actual execution rather than reserved capacity. It is likely to contrast this with traditional always-on server provisioning and to touch on the operational work the provider absorbs.</p>
+<h3>Why this video</h3>
+<p>Serverless is the clearest illustration of consumption-based pricing and elastic scaling, which makes it a useful lens on the scalability-and-cost-efficiency subtopic and on which operational duties shift to the provider.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Lowering Costs with Database Consolidation – Technical Deep Dive</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/8bd-N4Snhss?cc_load_policy=1&amp;rel=0" title="Video: Lowering Costs with Database Consolidation – Technical Deep Dive (Oracle)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Oracle</strong> · 9:09 · 346 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=8bd-N4Snhss" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>An Oracle technical deep dive on consolidating multiple databases onto shared infrastructure, both on Exadata on-premises and in the cloud, as a strategy for lowering cost. Expect discussion of utilization, resource sharing, and features that let many database instances coexist on the same hardware or service.</p>
+<h3>Why this video</h3>
+<p>It brings in the vendor-side realities of hardware and licensing economics and shows that cost reduction is not only a cloud-versus-local choice but also a matter of how efficiently capacity is used in either model.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos build the financial half of the module. The CapEx/OpEx lecture supplies the core cost-structure vocabulary needed for MO2 and feeds directly into TCO reasoning. The serverless explainer makes the consumption-based, elastically scaled cloud model concrete, supporting MO1 and MO3 and hinting at the division of duties you will formalize under the shared responsibility model in MO5. The Oracle consolidation deep dive grounds the discussion in real hardware, licensing, and utilization decisions across both on-premises and cloud environments, giving you the kind of evidence needed to weigh maintenance and efficiency trade-offs and recommend a hosting strategy for a specific organization as required by MO4.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

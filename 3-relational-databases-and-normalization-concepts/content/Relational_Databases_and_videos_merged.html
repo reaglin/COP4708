@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>3 - Relational Databases and Normalization Concepts</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 3 - Relational Databases and Normalization Concepts</a></div>
+<h1>3 - Relational Databases and Normalization Concepts</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Introduction to Relational Databases</a>
+<a href="#part2">Problems with Poorly Structured Tables</a>
+<a href="#part3">Insertion Anomalies</a>
+<a href="#part4">Update Anomalies</a>
+<a href="#part5">Deletion Anomalies</a>
+<a href="#part6">Introduction to Normalization</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Introduction to Relational Databases</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>A relational database organizes information into tables, where each row represents one instance of something (a customer, an order, a course section) and each column represents one attribute of that thing. What makes the model "relational" is that tables are not isolated: a primary key uniquely identifies each row in a table, and a foreign key stored in another table points back to that key, letting you connect related facts without copying them everywhere.</p>
+<p>This topic matters because every later idea in this module depends on it. Normalization, anomalies, and the warning signs of bad table design only make sense once you can look at a schema and say what entity each table describes, what identifies a row, and how the tables link together. Poorly structured data, where one table tries to hold several unrelated entities or repeats the same fact in many rows, is what creates the update and deletion problems you will study next.</p>
+<p>As you watch, keep three questions in mind for every example shown: What single thing does this table describe? What column or combination of columns uniquely identifies a row? And where does one table reference another? Sketch the tables and draw the links yourself rather than only watching; the habit of diagramming structure is what you will be graded on later in the module.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: What is a Relational Database?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/OqjJjpjDRLc?cc_load_policy=1&amp;rel=0" title="Video: What is a Relational Database? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 7:54 · 310,800 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=OqjJjpjDRLc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short conceptual overview from IBM that introduces the relational model: data stored in tables of rows and columns, how keys identify records, and how tables relate to one another. Based on the title and description, it also situates relational databases against other ways of storing data and touches on SQL as the language used to query them.</p>
+<h4>Why this video</h4>
+<p>It is a concise, vendor-neutral explanation from a major database producer, and it maps directly onto the first four subtopics here: what a relational database is, tables as rows and columns, keys, and relationships between tables.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 1</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/xsg9BDiwiJE?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 1 (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 6:10 · 1,093,171 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=xsg9BDiwiJE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part one of Lucid Software's ERD tutorial covers the building blocks of database diagrams: entities, the attributes that describe them, and cardinality, which expresses how many rows on one side of a relationship can connect to rows on the other. It walks through building a diagram from scratch rather than only defining terms.</p>
+<h4>Why this video</h4>
+<p>Thinking in entities and attributes is exactly the discipline that keeps a table focused on one logical thing, so this video gives you a visual vocabulary for discussing relationships before you meet normalization.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part two moves into primary keys, foreign keys, and bridge (junction) tables used to resolve many-to-many relationships. Expect worked examples showing how a key in one table is referenced from another and how an extra table is introduced when two entities relate in both directions.</p>
+<h4>Why this video</h4>
+<p>This is the most direct treatment of primary keys and inter-table relationships among the three videos, and bridge tables preview the restructuring moves you will apply when you break a poorly designed table apart.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the structural vocabulary required by MO1: the IBM overview names tables, rows, columns, and keys, while the two Lucid tutorials show primary and foreign keys at work in concrete diagrams. The ERD videos' emphasis on entities, attributes, and cardinality gives you the lens needed for MO3 and MO5, since spotting mixed entity types or deciding that a table should describe a single logical entity depends on being able to identify entities in the first place. The videos do not themselves cover anomalies or normal forms (MO2 and MO4); treat them as the foundation that the module's readings and exercises on anomalies and normalization will build upon.</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>Problems with Poorly Structured Tables</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>When a single table is asked to store too much at once — customers, orders, products, and salespeople all jammed together — the same facts end up repeated in row after row. That repetition is called data redundancy, and it is the root cause of the three classic problems you will study here: insertion anomalies (you cannot record one fact without inventing another), update anomalies (changing one fact requires finding and editing many rows, and missing one leaves the data contradictory), and deletion anomalies (removing one row accidentally destroys unrelated information).</p>
+<p>This topic matters because it supplies the motivation for everything that follows in the module. Normalization can feel like an abstract set of rules until you have seen a concrete badly designed table and felt why it hurts. Once you can point at a schema and say "this column repeats, this table mixes two entity types, this fact depends on only part of the key," the normal forms stop being memorization and become a repair procedure.</p>
+<p>As you watch, keep a simple checklist in mind: Which values repeat unnecessarily? If I changed one of those values, how many rows would I have to touch? What happens if I delete this row — do I lose something I still need? And what single real-world thing is this table actually about? Try pausing each video when a sample table appears and diagnosing it yourself before the narrator does.</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: 7 Database Design Mistakes to Avoid (With Solutions)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/s6m8Aby2at8?cc_load_policy=1&amp;rel=0" title="Video: 7 Database Design Mistakes to Avoid (With Solutions) (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 11:29 · 254,882 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=s6m8Aby2at8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Database Star walks through seven common mistakes people make when designing databases and proposes a fix for each. Given the title and the channel's focus, expect practical warning signs drawn from real schemas — things like poor naming, storing multiple values in one column, and tables that try to do too much — rather than formal normal-form theory.</p>
+<h4>Why this video</h4>
+<p>It approaches the topic from the diagnostic side, which is exactly what the "Identifying a Poorly Structured Schema" subtopic asks for, and the mistake-plus-solution format makes the cost of each design flaw concrete.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Gate Smashers covers the full progression of normal forms — 1NF, 2NF, 3NF, BCNF, 4NF and 5NF — in a single lecture, using real-life examples for each. The examples typically start with a flawed table, show what goes wrong with it, and then demonstrate the decomposition that fixes the problem.</p>
+<h4>Why this video</h4>
+<p>Seeing anomalies presented as the reason each normal form exists connects the problems in this topic to the solutions in the rest of the module, and this widely viewed lecture is known for clear, example-first explanations.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: Normalization Practice Exercise | Third Normal Form| Denormalization</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/9nm_Cj4M63Q?cc_load_policy=1&amp;rel=0" title="Video: Normalization Practice Exercise | Third Normal Form| Denormalization (Tech Coach)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech Coach</strong> · 4:53 · 205,436 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=9nm_Cj4M63Q" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Tech Coach works through a hands-on exercise that takes a denormalized dataset and reorganizes it into third normal form, and also touches on denormalization as a deliberate trade-off. At under five minutes it is a focused worked example rather than a broad survey.</p>
+<h4>Why this video</h4>
+<p>Short and practice-oriented, it lets you watch someone diagnose redundancy in a messy table and split it into single-entity tables, which is the skill you will be asked to perform yourself.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from symptom to cure. Database Star's mistake catalog trains you to spot the warning signs — repeating groups, mixed entity types, overloaded columns — that MO3 targets, while the sample tables in all three videos reinforce the structural vocabulary of tables, rows, columns and keys from MO1. Gate Smashers' tour of the normal forms explains why each level of normalization exists by first exposing the insertion, update and deletion anomalies it removes, supporting MO2 and MO4. Tech Coach's worked exercise then gives you a model for MO5: taking one poorly structured table and decomposing it until each table describes a single logical entity.</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>Insertion Anomalies</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>An insertion anomaly happens when the design of a table prevents you from recording a fact you legitimately want to store, because the table also demands unrelated information that does not yet exist. A classic example is a table that mixes two different kinds of entities — say, courses and the instructors assigned to them. If the table's primary key requires an instructor, you cannot record a newly approved course until someone is hired to teach it. The problem is not the data; it is the structure.</p>
+<p>In this module, insertion anomalies are one of three related symptoms (alongside update and deletion anomalies) that signal unwanted dependencies in a schema. Watch for the ways designers try to work around the problem rather than fix it: leaving columns NULL, or inventing placeholder rows such as "TBD" or instructor ID 0000. These workarounds look harmless but corrode data integrity, since NULLs and dummy values propagate into queries, joins, constraints, and reports. The real fix is decomposition — splitting the table so each table describes one logical entity, with dependencies pointing only at the whole key.</p>
+<p>As you watch the videos below, keep two questions in mind. First, which functional dependency in the example table is the culprit — what determines what, and is that determinant actually a key? Second, after the table is decomposed, which rows could now be inserted independently that could not be inserted before? Being able to narrate that before-and-after story is exactly what the module outcomes ask of you.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: Database Normalization: What and Why</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Kn5M-x1rH6M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: What and Why (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 15:41 · 2,442 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=Kn5M-x1rH6M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Kevin Feasel introduces database normalization from the perspective of a working data platform professional: what normalization actually is, why practitioners care about it, and how the normal forms stack up in terms of practical value. Based on the title and description, expect a conceptual overview that motivates normalization through the problems unnormalized tables cause — the redundancy and anomaly issues that make tables hard to insert into, update, and delete from. It also offers an opinionated ranking of the normal forms, which helps you see which ones do the heaviest lifting in real designs.</p>
+<h4>Why this video</h4>
+<p>This video supplies the framing for the topic: it explains why normalization exists at all, which is the direct answer to the question "how do I stop insertion anomalies?" The practitioner's viewpoint and the focus on motivation rather than formal proofs make it a good starting point before you work through a specific normal form.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: Learn Boyce-Codd Normal Form (BCNF)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/VWnKUKH4tLg?cc_load_policy=1&amp;rel=0" title="Video: Learn Boyce-Codd Normal Form (BCNF) (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 13:37 · 178,464 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=VWnKUKH4tLg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Decomplexify walks through Boyce-Codd Normal Form with worked examples, building up from the idea of functional dependencies to the rule that every determinant must be a candidate key. Expect the video to show a table that violates BCNF, identify the offending dependency, and then decompose the table into well-formed pieces. The examples are the kind where anomalies — including the inability to insert certain facts — are used to demonstrate that something is structurally wrong.</p>
+<h4>Why this video</h4>
+<p>This is the clearest widely used explanation of how an unwanted dependency produces anomalies and how decomposition removes them, which maps directly onto the subtopics on unwanted dependencies and normalization as the solution. Decomplexify's step-by-step, example-driven style makes the abstract rule concrete enough to apply to your own schemas.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move you from the structural vocabulary of relational tables — keys, determinants, dependencies — toward diagnosis and repair. Feasel's overview supports MO4 by explaining what normalization is for and how it removes redundancy and prevents anomalies, and it gives you the map of normal forms you will apply in MO5. The Decomplexify video supports MO1 and MO3 by making functional dependencies and candidate keys explicit, and supports MO2 and MO5 by showing a flawed table, naming the dependency that causes the trouble, and decomposing it so each resulting table describes one logical entity. Use the module readings and exercises to connect those decompositions back specifically to insertion anomalies: after each split, ask which new row you can now insert on its own, and which NULL or placeholder value you no longer need.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>Update Anomalies</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>An update anomaly occurs when the same fact is stored in more than one place in a table, so changing that fact correctly requires changing every copy of it. If a customer's phone number appears on fifty order rows, a single correction means fifty row updates. Miss one, and the database now contains two contradictory answers to the same question — and there is no reliable way for a query to tell which one is right.</p>
+<p>In this module, update anomalies serve as the practical motivation for normalization. Rather than treating normal forms as abstract rules, we approach them as a response to a concrete problem: redundant storage causes partial updates, partial updates cause inconsistency, and inconsistency destroys data integrity. Recognizing the warning signs in a schema — a non-key column whose value repeats across many rows because it really describes a different entity — is the diagnostic skill that makes the rest of normalization make sense.</p>
+<p>As you watch the videos below, pay attention to three things. First, how each example identifies which column is being duplicated and why. Second, how the update anomaly differs from insertion and deletion anomalies, since all three come from the same root cause but show up differently. Third, how splitting a table into separate tables linked by keys reduces each fact to a single stored copy, so that one update is genuinely enough.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: Database Anomalies Explained Simply (Insertion Anomaly, Update Anomaly, Deletion Anomaly)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/IxYHU3P9HHo?cc_load_policy=1&amp;rel=0" title="Video: Database Anomalies Explained Simply (Insertion Anomaly, Update Anomaly, Deletion Anomaly) (Patrick Boekhoven)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Patrick Boekhoven</strong> · 6:15 · 35,213 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=IxYHU3P9HHo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused explanation of the three classic database anomalies — insertion, update, and deletion — presented in a simple, example-driven way. Based on its title and description, it introduces each anomaly in turn and shows the kind of poorly structured table in which each arises. Expect to see update anomalies framed as the problem of having to change the same value in many rows at once.</p>
+<h4>Why this video</h4>
+<p>At just over six minutes, it gives you the cleanest side-by-side comparison of the three anomaly types, which is exactly what you need to distinguish an update anomaly from its neighbors rather than lumping them together.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,096 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A fast-paced survey of the full progression of normal forms — 1NF, 2NF, 3NF, BCNF, 4NF, and 5NF — illustrated with real-life examples. The video works through what each normal form requires and what kind of redundancy or dependency problem it is designed to remove. Partial dependencies and transitive dependencies, the structural causes behind most update anomalies, are covered as part of the 2NF and 3NF discussion.</p>
+<h4>Why this video</h4>
+<p>Gate Smashers is a widely used exam-preparation channel in database topics, and this single video connects update anomalies to the complete normalization framework, directly supporting the subtopic on how normalization resolves them.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: Database Normalization 1NF 2NF 3NF</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/SK4H5tTT6-M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization 1NF 2NF 3NF (Jesper Lowgren)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Jesper Lowgren</strong> · 10:26 · 262,001 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=SK4H5tTT6-M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A walkthrough of the first three normal forms with emphasis on normalization as a way of understanding and connecting data rather than as a mechanical procedure. The video is likely to take an unnormalized table and decompose it step by step into 1NF, 2NF, and 3NF, explaining the reasoning behind each split. Along the way you should see how the redundancy that causes update anomalies disappears as the design improves.</p>
+<h4>Why this video</h4>
+<p>The slower, more deliberate pace complements the rapid Gate Smashers overview, and the step-by-step decomposition makes the link between redundant storage and anomaly-free design easy to follow.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from symptom to cure. The Boekhoven video directly serves MO2 by separating insertion, update, and deletion anomalies and showing each in a poorly structured schema, while its examples of duplicated values help you recognize the warning signs described in MO3. The Gate Smashers and Lowgren videos address MO4 and MO5 by explaining how each normal form removes a specific class of redundancy and by demonstrating the decomposition of a badly designed table into tables that each describe one entity. Both normalization videos also reinforce MO1, since every decomposition depends on correctly identifying rows, columns, and the primary and foreign keys that reconnect the resulting tables.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>Deletion Anomalies</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>A deletion anomaly happens when removing one piece of information from a table accidentally destroys other, unrelated information that happened to be stored in the same row. If a single table mixes facts about two different things — say, a course and the instructor who teaches it — then deleting the last row about a course can also erase the only record of that instructor. The data was never intentionally discarded; it simply had nowhere else to live.</p>
+<p>This matters in COP4708 because deletion anomalies are one of the three classic symptoms (along with insertion and update anomalies) that signal a table is doing too many jobs at once. Recognizing the symptom is the first step; the cure is normalization, which separates tightly coupled data into tables that each describe a single logical entity, linked by keys. Once the instructor lives in her own table, deleting a course row cannot take her with it.</p>
+<p>As you watch the videos below, look for three things: (1) examples where one row holds facts about more than one entity, (2) the moment a presenter shows what is lost when a row is deleted, and (3) how splitting a table and introducing keys and foreign keys makes the loss impossible. Also pay attention to the denormalization video's discussion of trade-offs — it will help you see why anomalies are the price paid when tables are deliberately merged.</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: Learn Database Denormalization</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/4bTq0GdSeQs?cc_load_policy=1&amp;rel=0" title="Video: Learn Database Denormalization (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 19:08 · 78,727 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=4bTq0GdSeQs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video approaches the subject from the opposite direction: it explains what denormalization is, why engineers sometimes do it deliberately, and what is given up in return. Because denormalization means collapsing data back into wider, more tightly coupled tables, the discussion is likely to cover the redundancy and anomaly risks — including unintended data loss on deletion — that normalization had removed. Expect concrete situations where the trade-off is and is not worth making.</p>
+<h4>Why this video</h4>
+<p>Seeing the reverse operation clarifies exactly why tightly coupled data creates deletion anomalies, and Decomplexify is known for careful, example-driven explanations of relational design.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: Database Normalization: What and Why</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Kn5M-x1rH6M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: What and Why (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 15:41 · 2,442 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=Kn5M-x1rH6M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Kevin Feasel introduces what database normalization is and why data professionals care about it, framing normalization as a practical discipline rather than an academic exercise. The video is likely to motivate normalization by pointing to the problems unnormalized tables cause, including redundancy and the anomalies that follow from it, before ranking and commenting on the normal forms themselves.</p>
+<h4>Why this video</h4>
+<p>It supplies the "why" behind normalization, which is the heart of the subtopic on how normalization prevents deletion anomalies, and it is pitched at a professional audience working with real data platforms.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>Video 3: Database Normalization 1NF 2NF 3NF</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/SK4H5tTT6-M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization 1NF 2NF 3NF (Jesper Lowgren)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Jesper Lowgren</strong> · 10:26 · 262,002 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=SK4H5tTT6-M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This is a compact walkthrough of the first three normal forms, moving step by step from an unnormalized table through 1NF, 2NF, and 3NF. Expect to see a sample table decomposed into smaller tables with keys, which is precisely the mechanism that decouples data so that deleting one fact no longer erases another.</p>
+<h4>Why this video</h4>
+<p>At about ten minutes it gives a clear, concrete procedure for the fix, letting you connect the symptom (a deletion anomaly) to the structural remedy (splitting tables by entity).</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from problem to cure. The normal forms walkthrough reinforces MO1 and MO5 by showing tables, rows, columns, and keys being reorganized so each table describes one entity. The introduction to normalization supports MO2 and MO4 by explaining why redundancy produces anomalies and how normalization removes them. The denormalization video supports MO3 and MO4 by showing what wide, tightly coupled tables look like and what risks they carry, which trains your eye for warning signs such as mixed entity types and repeating groups. Viewed as a set, they let you name a deletion anomaly, explain its cause, and apply normalization to prevent it.</p>
+</section>
+<section class="item" id="p5-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part6">
+<h2>Introduction to Normalization</h2>
+<section class="item" id="p6-sec1">
+<h3>Introduction</h3>
+<p>Normalization is a systematic method for organizing the tables of a relational database so that each table stores facts about one thing, and each fact is stored in exactly one place. Rather than being an arbitrary set of rules, normalization is a response to concrete problems: when the same data is repeated across many rows, the database becomes vulnerable to inconsistency, and ordinary operations like adding, changing, or removing a row can produce unintended side effects. These side effects are called insertion, update, and deletion anomalies, and they are the core motivation for everything that follows in this module.</p>
+<p>In this course, normalization connects the structural vocabulary you already have (tables, rows, columns, keys) to the practical work of schema design. You will see that normal forms are a progressive framework: each form assumes the previous one and removes a specific category of problematic dependency. Understanding this progression lets you look at an existing table, name what is wrong with it, and justify the decomposition you propose instead of guessing.</p>
+<p>As you watch the videos below, keep three questions in mind. First, what specific anomaly or redundancy is each rule designed to prevent? Second, what does the "before" table look like versus the "after" tables, and how are they reconnected through keys? Third, where do the presenters acknowledge trade-offs, such as the extra joins that a highly normalized design can require? Take notes on the example tables used, since you will be asked to perform similar decompositions yourself.</p>
+</section>
+<section class="item" id="p6-sec2">
+<h3>Video 1: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This lecture walks through the full sequence of normal forms, from first normal form through BCNF and on to fourth and fifth normal forms, using real-life example tables for each step. Based on its title and structure, it should show what condition each form imposes and what kind of dependency problem is removed when a table is decomposed. It is a compact overview that treats the normal forms as one connected progression rather than isolated rules.</p>
+<h4>Why this video</h4>
+<p>Gate Smashers is a widely used computer science exam-prep channel, and this video is the clearest fit for the "Normal Forms as a Progressive Framework" subtopic because it presents all the forms in order in a single sitting.</p>
+</section>
+<section class="item" id="p6-sec3">
+<h3>Video 2: Database Normalization 1NF 2NF 3NF</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/SK4H5tTT6-M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization 1NF 2NF 3NF (Jesper Lowgren)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Jesper Lowgren</strong> · 10:26 · 262,002 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=SK4H5tTT6-M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video focuses on the three normal forms you will use most often in practice, first, second, and third, and frames normalization as a way of understanding and connecting data rather than as a mechanical procedure. Expect worked examples that show a problematic table being split into related tables, with keys used to preserve the relationships. The emphasis described in the channel's summary is on the reasoning behind the rules.</p>
+<h4>Why this video</h4>
+<p>Its conceptual framing supports the "What Is Normalization?" and "How Normalization Improves Database Integrity" subtopics, and the 1NF-2NF-3NF scope matches the level of decomposition expected in this module.</p>
+</section>
+<section class="item" id="p6-sec4">
+<h3>Video 3: Database Normalization: What and Why</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Kn5M-x1rH6M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: What and Why (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 15:41 · 2,442 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=Kn5M-x1rH6M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This talk addresses the why rather than only the how, explaining what normalization is and why it matters to people who work with data platforms professionally. The description indicates the presenter also offers his own ranking or assessment of the normal forms, which means you should hear some discussion of which forms carry the most practical weight. It is the most discussion-oriented of the three videos.</p>
+<h4>Why this video</h4>
+<p>Kevin Feasel speaks from a data platform practitioner's perspective, which makes this a good companion for the "Redundancy and Its Consequences" and "Normalization and Database Efficiency" subtopics where real-world trade-offs matter.</p>
+</section>
+<section class="item" id="p6-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos move from motivation to mechanics. The conceptual treatments reinforce MO4 by explaining how removing redundancy prevents insertion, update, and deletion anomalies, and they give you the vocabulary to describe those anomalies precisely as required by MO2. The worked examples of splitting poorly designed tables expose the warning signs named in MO3, such as repeating groups and partial-key dependencies, while keeping tables, rows, columns, and keys in view as in MO1. The full progression through the normal forms provides the step-by-step framework you will apply in MO5 to reorganize a table so each one describes a single logical entity.</p>
+</section>
+<section class="item" id="p6-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

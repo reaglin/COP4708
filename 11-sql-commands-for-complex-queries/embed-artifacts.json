@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "11 - SQL Commands for Complex Queries (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "11 - SQL Commands for Complex Queries \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -8,11 +13,6 @@
     "title": "11 - SQL Commands for Complex Queries \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
-  },
-  {
-    "title": "11 - SQL Commands for Complex Queries \u2014 Module Topics",
-    "href": "content/module_topics.html",
-    "type": "Content"
   },
   {
     "title": "Writing and Using Subqueries",
@@ -47,6 +47,41 @@
   {
     "title": "Writing and Using Subqueries",
     "href": "content/SQL_Commands_for_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Complex SQL Queries",
+    "href": "content/SQL_Commands_for_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "JOIN Types and Multi-Table Queries",
+    "href": "content/SQL_Commands_for_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Filtering Data with WHERE Clauses",
+    "href": "content/SQL_Commands_for_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Sorting Results with ORDER BY",
+    "href": "content/SQL_Commands_for_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Aggregating Data with GROUP BY and HAVING",
+    "href": "content/SQL_Commands_for_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Writing and Using Subqueries",
+    "href": "content/SQL_Commands_for_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "11 - SQL Commands for Complex Queries",
+    "href": "content/SQL_Commands_for_videos_merged.html",
     "type": "Content"
   }
 ]

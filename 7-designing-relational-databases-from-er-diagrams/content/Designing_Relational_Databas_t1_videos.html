@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to ER Diagrams and Relational Schemas</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 7 - Designing Relational Databases from ER Diagrams</a></div>
+<h1>Introduction to ER Diagrams and Relational Schemas</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Entity Relationship Diagram (ERD) Tutorial - Part 1</a>
+<a href="#sec3">Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</a>
+<a href="#sec4">Video 3: How to Design a Database</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Before you can build a working relational database, you need a plan. An Entity-Relationship (ER) diagram is that plan: a visual model that shows the things a system stores information about (entities), the facts recorded about them (attributes), and how those things connect to one another (relationships). A relational schema, by contrast, is the concrete result: the set of tables, columns, primary keys, and foreign keys that a database management system actually implements.</p>
+<p>This topic gives you the vocabulary and notation you will rely on for the rest of the module. You will meet entity types and entity instances, simple versus composite and multivalued attributes, key attributes, cardinality and participation constraints, and the distinction between strong entities and weak entities — entities that cannot be identified on their own and depend on an owner entity for part of their identity. Every conversion rule later in the module refers back to these ideas, so time spent getting the terminology straight now pays off quickly.</p>
+<p>As you watch the videos below, pay attention to three things: how each symbol or shape maps to a specific database concept, how cardinality (one-to-one, one-to-many, many-to-many) is expressed in the diagram, and where primary and foreign keys begin to appear. Try sketching along with the examples rather than only watching — recognizing notation is much easier than producing it, and this module will ask you to produce it.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Entity Relationship Diagram (ERD) Tutorial - Part 1</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/xsg9BDiwiJE?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 1 (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 6:10 · 1,093,171 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=xsg9BDiwiJE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This is the first part of Lucid Software&#39;s two-part ERD tutorial and, based on its description, it builds an entity-relationship diagram from scratch. It introduces the foundational building blocks: entities, attributes, and cardinality notation, and shows how they are drawn and connected. Expect a worked example that moves from a plain-language description of a system to a diagram.</p>
+<h3>Why this video</h3>
+<p>It matches the core subtopics almost exactly — what an ER diagram is, its basic symbols, and the key terminology of entities, attributes, and relationships — and it comes from Lucid Software, the makers of a widely used diagramming tool, so the notation shown is conventional and clean.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Part 2 of the same series moves into the concepts that bridge ER diagrams and relational tables: primary keys, foreign keys, and bridge (junction) tables used to handle many-to-many relationships. The longer running time allows for more detailed worked examples than Part 1. It is described as taking database design &quot;to the next level&quot; with more advanced ERD concepts.</p>
+<h3>Why this video</h3>
+<p>It connects diagram notation to the actual structure of a relational schema, which is the pivot point of this entire module, and it previews the key-placement and junction-table ideas you will apply in the conversion steps that follow.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: How to Design a Database</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5RpUmDEsn1k?cc_load_policy=1&amp;rel=0" title="Video: How to Design a Database (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 10:57 · 232,237 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=5RpUmDEsn1k" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Database Star&#39;s video walks through the database design process as a whole, from understanding requirements to arriving at a workable table structure. It is likely to place ER diagramming within that larger workflow rather than treating it as an isolated drawing exercise. The channel is focused on practical SQL and database design instruction.</p>
+<h3>Why this video</h3>
+<p>It directly supports the subtopic on the role of ER diagrams in database design, giving you the context for why you model first and implement second, and it reinforces the ER-to-schema path from a second instructor&#39;s perspective.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>These three videos supply the conceptual groundwork the module outcomes assume. The Lucid Software Part 1 tutorial establishes entity, attribute, and cardinality notation, which is what you must read correctly before you can identify table structures, primary keys, and column assignments for strong and weak entities (MO1) or recognize the one-to-many relationships that drive foreign key placement (MO2). Part 2 introduces primary keys, foreign keys, and bridge tables, giving you a first model of the junction-table construction required by MO3 and of the key-inheritance reasoning behind weak entity composite keys in MO4. The Database Star overview frames ER diagramming as one stage in a larger design process, which supports the evaluative habit in MO5 of checking a finished schema back against the original diagram. Note that the detailed conversion rules and the Third Normal Form checks in MO5 are developed in the module readings and later materials; these videos prepare you for them rather than fully covering them.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

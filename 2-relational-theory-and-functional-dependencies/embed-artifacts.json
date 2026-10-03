@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "2 - Relational Theory and Functional Dependencies (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "2 - Relational Theory and Functional Dependencies \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -45,11 +50,6 @@
     "type": "Content"
   },
   {
-    "title": "2 - Relational Theory and Functional Dependencies \u2014 Module Topics",
-    "href": "content/module_topics.html",
-    "type": "Content"
-  },
-  {
     "title": "Apply Armstrong\u0027s Axioms \u2014 reflexivity, augmentation, and transitivity \u2014 to derive additional valid functional dependencies from a given FD set",
     "href": "content/Relational_Theory_and_example-problems.html",
     "type": "Content"
@@ -77,6 +77,36 @@
   {
     "title": "Functional Dependencies and Database Design",
     "href": "content/Relational_Theory_and_interactive_topics_t5.html",
+    "type": "Content"
+  },
+  {
+    "title": "Mathematical Foundations of Relational Theory",
+    "href": "content/Relational_Theory_and_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Relations, Tuples, and Attributes",
+    "href": "content/Relational_Theory_and_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Functional Dependencies",
+    "href": "content/Relational_Theory_and_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Types and Properties of Functional Dependencies",
+    "href": "content/Relational_Theory_and_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Functional Dependencies and Database Design",
+    "href": "content/Relational_Theory_and_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "2 - Relational Theory and Functional Dependencies",
+    "href": "content/Relational_Theory_and_videos_merged.html",
     "type": "Content"
   },
   {

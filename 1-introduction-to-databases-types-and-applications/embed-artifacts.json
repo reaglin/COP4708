@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "1 - Introduction to Databases, Types, and Applications (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "1 - Introduction to Databases, Types, and Applications \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -50,8 +55,38 @@
     "type": "Content"
   },
   {
-    "title": "1 - Introduction to Databases, Types, and Applications \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "What is a Database?",
+    "href": "content/Introduction_to_Databases_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Relational Databases",
+    "href": "content/Introduction_to_Databases_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "NoSQL Databases",
+    "href": "content/Introduction_to_Databases_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Hierarchical Databases",
+    "href": "content/Introduction_to_Databases_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Comparing Database Types",
+    "href": "content/Introduction_to_Databases_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Real-World Applications of Databases",
+    "href": "content/Introduction_to_Databases_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "1 - Introduction to Databases, Types, and Applications",
+    "href": "content/Introduction_to_Databases_videos_merged.html",
     "type": "Content"
   },
   {

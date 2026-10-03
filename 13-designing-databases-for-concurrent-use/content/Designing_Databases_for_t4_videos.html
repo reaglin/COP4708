@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locking Mechanisms</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 13 - Designing Databases for Concurrent Use</a></div>
+<h1>Locking Mechanisms</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: 2 Phase Locking (2PL) Protocol in DBMS – Complete Tutorial with Example</a>
+<a href="#sec3">Video 2: Locks, blocks and deadlocks in SQL Server</a>
+<a href="#sec4">Video 3: Database Transactions and Locking</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>When many users read and write the same data at the same time, a database needs a way to decide who may touch what, and when. Locking is the most common mechanism for making that decision. A shared (read) lock lets several transactions read the same item concurrently, while an exclusive (write) lock gives one transaction sole access so that no one else reads or modifies the item mid-change. Intent locks sit above these at coarser levels of the data hierarchy, signaling that a transaction holds or plans to hold locks further down so the engine can detect conflicts without inspecting every row.</p>
+<p>Lock granularity is the second half of the picture: a lock can cover a single row, a page, a partition, or an entire table. Fine granularity allows more concurrency but costs memory and bookkeeping, so engines perform lock escalation, converting many fine-grained locks into one coarse lock once a threshold is crossed. That conversion protects the lock manager but can suddenly block other users. This is the central trade-off of the topic and of this course module: more locking means stronger data protection and fewer anomalies, while less locking means better throughput and more risk.</p>
+<p>As you watch the videos below, keep three questions in mind. First, which lock modes are compatible with which others, and why does that compatibility matrix matter? Second, at what level of the data hierarchy is each lock being taken? Third, what happens when locks collide — blocking, waiting, or deadlock — and what does the database do about it? Connect what you see to the isolation levels and concurrency anomalies covered elsewhere in this module, since isolation levels are largely implemented through locking behavior.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: 2 Phase Locking (2PL) Protocol in DBMS – Complete Tutorial with Example</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/p4simd3z484?cc_load_policy=1&amp;rel=0" title="Video: 2 Phase Locking (2PL) Protocol in DBMS – Complete Tutorial with Example (Arpit Vaish)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Arpit Vaish</strong> · 15:55 · 1,097 views · 9mo ago · captions — <a href="https://www.youtube.com/watch?v=p4simd3z484" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This tutorial walks through the two-phase locking protocol, the classic rule set that governs how transactions acquire and release shared and exclusive locks. Based on its title and description, it explains how growing and shrinking phases of lock acquisition guarantee serializable schedules, and works through a concrete example schedule step by step.</p>
+<h3>Why this video</h3>
+<p>It gives the formal foundation for shared and exclusive locks and shows precisely why lock mode compatibility produces correct, serializable execution — the theory that underlies everything else in this topic.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Locks, blocks and deadlocks in SQL Server</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/nzehJ00Be5c?cc_load_policy=1&amp;rel=0" title="Video: Locks, blocks and deadlocks in SQL Server (Nebula Data Solutions)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Nebula Data Solutions</strong> · 12:27 · 2,368 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=nzehJ00Be5c" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>John McCormack explains locks, blocking, and deadlocks as they actually appear in SQL Server, distinguishing a normal lock from a block caused by waiting and from a true deadlock between transactions. Expect practical discussion of why these conditions arise in production workloads and how a DBA recognizes and responds to them.</p>
+<h3>Why this video</h3>
+<p>It moves the concepts from theory into a real commercial engine, which is exactly where intent locks, granularity, and escalation have visible consequences, and the presenter is an experienced SQL Server practitioner.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Database Transactions and Locking</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/X3dStXN3O3I?cc_load_policy=1&amp;rel=0" title="Video: Database Transactions and Locking (Dargslan)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Dargslan</strong> · 11:04 · 71 views · 3mo ago · captions — <a href="https://www.youtube.com/watch?v=X3dStXN3O3I" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This short overview ties transactions and locking together, covering how a transaction&#39;s boundaries determine how long locks are held and how that affects other users. It is positioned as a concise, no-filler IT skills lesson rather than a deep theoretical treatment.</p>
+<h3>Why this video</h3>
+<p>It is a compact review that reinforces the link between transaction design and lock duration, which is the practical lever students adjust when balancing concurrency against data protection.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>These videos support the module outcomes by showing the mechanism behind the concepts. The two-phase locking tutorial explains how shared and exclusive locks enforce serializability, which underpins the isolation component of ACID (MO1) and clarifies why certain isolation levels prevent certain anomalies such as dirty reads, non-repeatable reads, and lost updates (MO2). The SQL Server video on locks, blocks, and deadlocks demonstrates the real performance cost of strong locking, giving you concrete evidence to weigh when selecting an isolation level (MO3) and a direct view of deadlock detection and resolution that feeds into a mitigation plan involving timeouts and victim selection (MO5). Together, all three illustrate pessimistic concurrency control in action, which is the baseline you need in order to compare it meaningfully with optimistic and multiversion approaches (MO4).</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

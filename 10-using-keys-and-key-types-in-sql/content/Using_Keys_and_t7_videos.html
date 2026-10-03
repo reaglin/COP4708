@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enforcing Key Constraints for Data Integrity</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 10 - Using Keys and Key Types in SQL</a></div>
+<h1>Enforcing Key Constraints for Data Integrity</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: What is SQL Constraints? | Key Interview Questions Answered</a>
+<a href="#sec3">Video 2: How to Apply Constraints on an Existing table? | SQL Tips | Tech and Talk</a>
+<a href="#sec4">Video 3: How to use ADD CONSTRAINT in SQL (with examples)</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Keys are only useful if the database actually enforces them. In this topic we move from identifying keys conceptually to declaring them as constraints that the database management system checks on every insert, update, and delete. PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints are the mechanisms that turn a design decision on paper into a guarantee the data cannot violate.</p>
+<p>You will look at why constraints matter for data integrity, how to declare them in CREATE TABLE and later add them with ALTER TABLE, how foreign keys protect referential integrity between related tables, and how UNIQUE enforces candidate keys that were not chosen as the primary key. You will also weigh composite natural keys against surrogate keys, and learn the practical side of constraint management: naming, adding, disabling, and dropping constraints without breaking existing data.</p>
+<p>As you watch, pay attention to three things: the exact SQL syntax used (especially the CONSTRAINT name clause), what error the database raises when a constraint is violated, and what happens when you try to add a constraint to a table that already contains rows that would violate it. Those details are what separate working schemas from fragile ones.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: What is SQL Constraints? | Key Interview Questions Answered</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/j-ckf0F6UW8?cc_load_policy=1&amp;rel=0" title="Video: What is SQL Constraints? | Key Interview Questions Answered (Tech And Talk)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Tech And Talk</strong> · 10:08 · 925 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=j-ckf0F6UW8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>An overview of SQL constraints framed around common interview questions, so it defines each constraint type and explains the role it plays in protecting data integrity. Expect coverage of the main constraint family, including PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, and DEFAULT, with the distinctions between them made explicit.</p>
+<h3>Why this video</h3>
+<p>It is a good entry point for the subtopic on why key constraints matter, because the question-and-answer framing forces clear, short explanations of what each constraint actually guarantees.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: How to Apply Constraints on an Existing table? | SQL Tips | Tech and Talk</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/vW5yhYkecGg?cc_load_policy=1&amp;rel=0" title="Video: How to Apply Constraints on an Existing table? | SQL Tips | Tech and Talk (Tech And Talk)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Tech And Talk</strong> · 10:54 · 1,421 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=vW5yhYkecGg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video focuses on the realistic case of a table that already exists and already holds data, then shows how to apply constraints to it after the fact. It should demonstrate ALTER TABLE syntax for attaching constraints and discuss what to do when existing rows conflict with the rule you are trying to impose.</p>
+<h3>Why this video</h3>
+<p>Adding constraints to live tables is exactly the constraint-management subtopic, and this video addresses the practical obstacles that a CREATE TABLE-only treatment would never surface.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: How to use ADD CONSTRAINT in SQL (with examples)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/MvogGSS9Stc?cc_load_policy=1&amp;rel=0" title="Video: How to use ADD CONSTRAINT in SQL (with examples) (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:18 · 3,858 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=MvogGSS9Stc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, example-driven walkthrough of ADD CONSTRAINT in SQL, with the companion operations for dropping and renaming constraints. Produced by CockroachDB, it keeps the focus on the statement syntax and on naming constraints so they can be referenced later.</p>
+<h3>Why this video</h3>
+<p>Its brevity and concrete examples make it an efficient reference for the add, disable, and drop lifecycle, and the emphasis on named constraints reinforces a core best practice for consistent enforcement across a schema.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos reinforce the declarative half of the module. The constraints overview supports MO1 by tying each key type to the constraint that enforces it, and supports MO3 indirectly by clarifying how UNIQUE expresses a candidate key that is not the primary key. The two ALTER TABLE videos directly serve MO2, showing how PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints are written both at table creation and afterward, and the foreign key discussion provides the syntactic foundation you will extend in MO5 when configuring ON DELETE and ON UPDATE actions. MO4 remains largely a design judgment you will practice in the module activities, but seeing how composite and single-column constraints are declared gives you a concrete sense of the trade-offs involved.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

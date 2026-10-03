@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "12 - Normalization, Denormalization, and Practical Database Design (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "12 - Normalization, Denormalization, and Practical Database Design \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -8,11 +13,6 @@
     "title": "12 - Normalization, Denormalization, and Practical Database Design \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
-  },
-  {
-    "title": "12 - Normalization, Denormalization, and Practical Database Design \u2014 Module Topics",
-    "href": "content/module_topics.html",
-    "type": "Content"
   },
   {
     "title": "Balancing Theoretical Purity with Real-World Needs",
@@ -47,6 +47,41 @@
   {
     "title": "Balancing Theoretical Purity with Real-World Needs",
     "href": "content/Normalization_Denormalizatio_interactive_topics_t6.html",
+    "type": "Content"
+  },
+  {
+    "title": "Review of Normalization Principles",
+    "href": "content/Normalization_Denormalizatio_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Normalization in a Practical Context",
+    "href": "content/Normalization_Denormalizatio_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Denormalization",
+    "href": "content/Normalization_Denormalizatio_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Denormalization Techniques and Patterns",
+    "href": "content/Normalization_Denormalizatio_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Performance Implications of Normalization vs. Denormalization",
+    "href": "content/Normalization_Denormalizatio_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Balancing Theoretical Purity with Real-World Needs",
+    "href": "content/Normalization_Denormalizatio_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "12 - Normalization, Denormalization, and Practical Database Design",
+    "href": "content/Normalization_Denormalizatio_videos_merged.html",
     "type": "Content"
   }
 ]

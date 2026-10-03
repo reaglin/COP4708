@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "3 - Relational Databases and Normalization Concepts (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "3 - Relational Databases and Normalization Concepts \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -8,11 +13,6 @@
     "title": "3 - Relational Databases and Normalization Concepts \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
-  },
-  {
-    "title": "3 - Relational Databases and Normalization Concepts \u2014 Module Topics",
-    "href": "content/module_topics.html",
-    "type": "Content"
   },
   {
     "title": "Introduction to Relational Databases",
@@ -52,6 +52,41 @@
   {
     "title": "Diagnose warning signs of poor table design, such as repeating groups, mixed entity types, and partial-key dependencies, in a provided schema",
     "href": "content/Relational_Databases_and_o-mo3_example-problems.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Relational Databases",
+    "href": "content/Relational_Databases_and_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Problems with Poorly Structured Tables",
+    "href": "content/Relational_Databases_and_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Insertion Anomalies",
+    "href": "content/Relational_Databases_and_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Update Anomalies",
+    "href": "content/Relational_Databases_and_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Deletion Anomalies",
+    "href": "content/Relational_Databases_and_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to Normalization",
+    "href": "content/Relational_Databases_and_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "3 - Relational Databases and Normalization Concepts",
+    "href": "content/Relational_Databases_and_videos_merged.html",
     "type": "Content"
   },
   {

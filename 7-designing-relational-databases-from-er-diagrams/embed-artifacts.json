@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "7 - Designing Relational Databases from ER Diagrams (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "7 - Designing Relational Databases from ER Diagrams \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -45,8 +50,48 @@
     "type": "Content"
   },
   {
-    "title": "7 - Designing Relational Databases from ER Diagrams \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "Introduction to ER Diagrams and Relational Schemas",
+    "href": "content/Designing_Relational_Databas_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Mapping Strong Entities and Attributes to Tables",
+    "href": "content/Designing_Relational_Databas_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Handling One-to-Many Relationships",
+    "href": "content/Designing_Relational_Databas_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Handling Many-to-Many Relationships",
+    "href": "content/Designing_Relational_Databas_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Mapping Weak Entities and Their Relationships",
+    "href": "content/Designing_Relational_Databas_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Validating and Refining the Relational Schema",
+    "href": "content/Designing_Relational_Databas_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "7 - Designing Relational Databases from ER Diagrams",
+    "href": "content/Designing_Relational_Databas_videos_merged.html",
+    "type": "Content"
+  },
+  {
+    "title": "Foundation Design Board",
+    "href": "content/ext_00b200b8.html",
+    "type": "Content"
+  },
+  {
+    "title": "Foundation Design Board",
+    "href": "content/foundation-design-board.html",
     "type": "Content"
   }
 ]

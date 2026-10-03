@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "13 - Designing Databases for Concurrent Use (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "13 - Designing Databases for Concurrent Use \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -50,8 +55,43 @@
     "type": "Content"
   },
   {
-    "title": "13 - Designing Databases for Concurrent Use \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "Introduction to Multi-User Database Environments",
+    "href": "content/Designing_Databases_for_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Transactions and ACID Properties",
+    "href": "content/Designing_Databases_for_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Concurrency Problems and Data Conflicts",
+    "href": "content/Designing_Databases_for_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Locking Mechanisms",
+    "href": "content/Designing_Databases_for_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Deadlocks and Conflict Resolution",
+    "href": "content/Designing_Databases_for_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Transaction Isolation Levels",
+    "href": "content/Designing_Databases_for_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Concurrency Control Strategies and Best Practices",
+    "href": "content/Designing_Databases_for_t7_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "13 - Designing Databases for Concurrent Use",
+    "href": "content/Designing_Databases_for_videos_merged.html",
     "type": "Content"
   }
 ]

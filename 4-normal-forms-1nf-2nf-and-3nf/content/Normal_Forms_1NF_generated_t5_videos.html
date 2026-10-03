@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Applying Normal Forms: End-to-End Practice</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+<h1>Applying Normal Forms: End-to-End Practice</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Database Normalization 1NF 2NF 3NF</a>
+<a href="#sec3">Video 2: Normalization Practice Exercise | Third Normal Form| Denormalization</a>
+<a href="#sec4">How These Videos Support the Learning Outcomes</a>
+<a href="#sec5">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Up to this point in the module you have studied each normal form on its own: atomicity and repeating groups for 1NF, partial dependencies for 2NF, and transitive dependencies for 3NF. This topic puts those pieces together into a single workflow. You start with a messy, unnormalized table — the kind that holds multiple values in one cell, repeats the same customer or product facts on many rows, and breaks when you try to insert, update, or delete a record — and you carry it step by step all the way to a set of 3NF tables.</p>
+<p>The reason this end-to-end practice matters is that normalization in real design work is rarely one isolated decision. Each step changes the table you are working with, and the dependencies you must examine at step two are the ones left over after step one. Working through a full example also trains you to justify each decomposition: which functional dependency forced the split, which key the new table uses, and how the original data can still be reconstructed through foreign keys.</p>
+<p>As you watch the videos below, keep a pencil moving. Write down the candidate keys at each stage, mark which attributes depend on only part of a composite key (partial dependency) and which depend on another non-key attribute (transitive dependency), and sketch the resulting tables yourself before the presenter reveals them. Afterwards, check your final schema against all three normal forms, table by table, the same way you would validate your own design in an assignment.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Database Normalization 1NF 2NF 3NF</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/SK4H5tTT6-M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization 1NF 2NF 3NF (Jesper Lowgren)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Jesper Lowgren</strong> · 10:26 · 262,010 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=SK4H5tTT6-M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A roughly ten-minute walkthrough of the first three normal forms, presented as a connected progression rather than three separate rules. Based on its title and framing, expect the video to explain the reasoning behind normalization — why data is organized and connected the way it is — and then apply 1NF, 2NF, and 3NF in sequence to sample data. Pay attention to how the presenter motivates each step before performing the decomposition.</p>
+<h3>Why this video</h3>
+<p>It covers the entire 1NF-to-3NF journey in one continuous explanation, which matches this topic&#39;s goal of seeing normalization as a single end-to-end process rather than isolated definitions.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Normalization Practice Exercise | Third Normal Form| Denormalization</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/9nm_Cj4M63Q?cc_load_policy=1&amp;rel=0" title="Video: Normalization Practice Exercise | Third Normal Form| Denormalization (Tech Coach)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Tech Coach</strong> · 4:53 · 205,436 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=9nm_Cj4M63Q" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, exercise-driven video that takes a denormalized dataset and works it into Third Normal Form, with some discussion of denormalization as a contrast. Expect a worked practice problem: identify the problems in the starting table, apply the normal forms in order, and arrive at a final set of related tables. The brief runtime makes it well suited to pausing and attempting each step yourself first.</p>
+<h3>Why this video</h3>
+<p>It is explicitly a practice exercise rather than a lecture, giving you a second worked example to test the procedure you learned from the longer video, and its mention of denormalization helps you see why designers sometimes trade normalization away.</p>
+</section>
+<section class="item" id="sec4">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos trace the same path as the module outcomes. Both begin from a problematic, unnormalized table, which gives you concrete material for spotting insertion, update, and deletion anomalies (MO1) and for removing repeating groups and choosing a primary key on the way to 1NF (MO2). As each example moves into 2NF, you see partial dependencies on a composite key identified and split out (MO3), and the 3NF step demonstrates decomposing transitive dependencies into separate, linked tables (MO4). Because both treat the process as a continuous sequence ending in a finished schema, they also model the final validation pass — checking every resulting table against 1NF, 2NF, and 3NF before calling the design done (MO5).</p>
+</section>
+<section class="item" id="sec5">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

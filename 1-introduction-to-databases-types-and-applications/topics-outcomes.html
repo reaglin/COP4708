@@ -18,13 +18,13 @@ li{margin:5px 0}
 .el-body{color:#555}
 .prefix{color:#555;font-style:italic;margin:6px 0 14px}
 .mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
-.mo .code{font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.04em}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
 .mo .statement{font-weight:600;margin:4px 0 8px}
 .meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
 .meta .map{background:#eaf6ec;color:#137333}
 .co{margin:7px 0}
 .co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
-.empty{color:#888}
+.empty{color:#595959}
 </style>
 </head>
 <body>
@@ -33,7 +33,7 @@ li{margin:5px 0}
 <div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
 
 <h2 id="topics">Module Topics</h2>
-<h3>What is a Database?</h3>
+<h3 id="topic-1">What is a Database?</h3>
 <div class="summary">Introduces the core definition and purpose of a database, establishing foundational vocabulary and concepts essential for the rest of the module.</div>
 <ul>
 <li><strong>Defining a Database</strong> <span class="el-body">— A database is an organized collection of structured information or data, stored electronically so it can be easily accessed, managed, and updated.</span></li>
@@ -43,7 +43,7 @@ li{margin:5px 0}
 <li><strong>Databases vs. Spreadsheets</strong> <span class="el-body">— While spreadsheets and databases both store data, they serve different purposes and have distinct capabilities that make databases better suited for complex, large-scale data management.</span></li>
 <li><strong>The Role of a Database Management System (DBMS)</strong> <span class="el-body">— A Database Management System, or DBMS, is the software layer that allows users and applications to interact with a database in a controlled and efficient way.</span></li>
 </ul>
-<h3>Relational Databases</h3>
+<h3 id="topic-2">Relational Databases</h3>
 <div class="summary">Explores the structure and principles of relational databases, including how data is organized into tables and related through keys.</div>
 <ul>
 <li><strong>What Is a Relational Database?</strong> <span class="el-body">— A relational database is a type of database that organizes data into structured tables made up of rows and columns.</span></li>
@@ -54,7 +54,7 @@ li{margin:5px 0}
 <li><strong>Querying with SQL</strong> <span class="el-body">— Relational databases are typically queried and managed using Structured Query Language (SQL), a standardized language for interacting with relational data.</span></li>
 <li><strong>Common Relational Database Systems</strong> <span class="el-body">— Several widely used relational database management systems (RDBMS) implement these principles and are used across industries.</span></li>
 </ul>
-<h3>NoSQL Databases</h3>
+<h3 id="topic-3">NoSQL Databases</h3>
 <div class="summary">Examines NoSQL database models, their flexible data structures, and the scenarios in which they offer advantages over relational systems.</div>
 <ul>
 <li><strong>What Is a NoSQL Database?</strong> <span class="el-body">— NoSQL databases are non-relational data stores designed to handle a wide variety of data models beyond the traditional table-based structure of relational systems.</span></li>
@@ -64,7 +64,7 @@ li{margin:5px 0}
 <li><strong>When NoSQL Outperforms Relational Systems</strong> <span class="el-body">— NoSQL databases offer meaningful advantages in specific scenarios where relational databases struggle with flexibility, speed, or scale.</span></li>
 <li><strong>Trade-offs and Limitations of NoSQL</strong> <span class="el-body">— While NoSQL databases offer significant benefits, they also come with trade-offs that must be carefully considered when selecting a database system.</span></li>
 </ul>
-<h3>Hierarchical Databases</h3>
+<h3 id="topic-4">Hierarchical Databases</h3>
 <div class="summary">Covers the tree-based structure of hierarchical databases, their historical significance, and how data relationships are defined through parent-child links.</div>
 <ul>
 <li><strong>Tree-Based Structure</strong> <span class="el-body">— Hierarchical databases organize data in a tree-like structure, where each record is called a node and relationships branch downward from a single root.</span></li>
@@ -74,7 +74,7 @@ li{margin:5px 0}
 <li><strong>Strengths of Hierarchical Databases</strong> <span class="el-body">— Hierarchical databases offer notable performance and simplicity advantages for certain types of structured, well-defined data relationships.</span></li>
 <li><strong>Limitations of Hierarchical Databases</strong> <span class="el-body">— Despite their strengths, hierarchical databases have significant limitations that reduce their suitability for complex or flexible data relationships.</span></li>
 </ul>
-<h3>Comparing Database Types</h3>
+<h3 id="topic-5">Comparing Database Types</h3>
 <div class="summary">Provides a side-by-side analysis of relational, NoSQL, and hierarchical databases to help students understand the trade-offs and selection criteria for each.</div>
 <ul>
 <li><strong>Structural Differences at a Glance</strong> <span class="el-body">— Relational, NoSQL, and hierarchical databases each organize data in fundamentally different ways, which drives nearly every trade-off between them.</span></li>
@@ -85,7 +85,7 @@ li{margin:5px 0}
 <li><strong>Ideal Use Cases for Each Type</strong> <span class="el-body">— Understanding which real-world scenarios each database type handles best is the most direct way to apply selection criteria in practice.</span></li>
 <li><strong>Key Selection Criteria Summary</strong> <span class="el-body">— When comparing database types, decision-makers should evaluate a consistent set of criteria to make an informed and defensible choice.</span></li>
 </ul>
-<h3>Real-World Applications of Databases</h3>
+<h3 id="topic-6">Real-World Applications of Databases</h3>
 <div class="summary">Illustrates how databases are applied across industries and modern software systems, connecting theoretical concepts to practical, everyday use cases.</div>
 <ul>
 <li><strong>Databases in E-Commerce and Retail</strong> <span class="el-body">— E-commerce platforms rely heavily on databases to manage product catalogs, customer accounts, and transaction records in real time.</span></li>
@@ -129,6 +129,6 @@ li{margin:5px 0}
 <div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
 <div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
 
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
 </body>
 </html>

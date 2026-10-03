@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problems with Poorly Structured Tables</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 3 - Relational Databases and Normalization Concepts</a></div>
+<h1>Problems with Poorly Structured Tables</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: 7 Database Design Mistakes to Avoid (With Solutions)</a>
+<a href="#sec3">Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</a>
+<a href="#sec4">Video 3: Normalization Practice Exercise | Third Normal Form| Denormalization</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>When a single table is asked to store too much at once — customers, orders, products, and salespeople all jammed together — the same facts end up repeated in row after row. That repetition is called data redundancy, and it is the root cause of the three classic problems you will study here: insertion anomalies (you cannot record one fact without inventing another), update anomalies (changing one fact requires finding and editing many rows, and missing one leaves the data contradictory), and deletion anomalies (removing one row accidentally destroys unrelated information).</p>
+<p>This topic matters because it supplies the motivation for everything that follows in the module. Normalization can feel like an abstract set of rules until you have seen a concrete badly designed table and felt why it hurts. Once you can point at a schema and say &quot;this column repeats, this table mixes two entity types, this fact depends on only part of the key,&quot; the normal forms stop being memorization and become a repair procedure.</p>
+<p>As you watch, keep a simple checklist in mind: Which values repeat unnecessarily? If I changed one of those values, how many rows would I have to touch? What happens if I delete this row — do I lose something I still need? And what single real-world thing is this table actually about? Try pausing each video when a sample table appears and diagnosing it yourself before the narrator does.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: 7 Database Design Mistakes to Avoid (With Solutions)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/s6m8Aby2at8?cc_load_policy=1&amp;rel=0" title="Video: 7 Database Design Mistakes to Avoid (With Solutions) (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 11:29 · 254,882 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=s6m8Aby2at8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Database Star walks through seven common mistakes people make when designing databases and proposes a fix for each. Given the title and the channel&#39;s focus, expect practical warning signs drawn from real schemas — things like poor naming, storing multiple values in one column, and tables that try to do too much — rather than formal normal-form theory.</p>
+<h3>Why this video</h3>
+<p>It approaches the topic from the diagnostic side, which is exactly what the &quot;Identifying a Poorly Structured Schema&quot; subtopic asks for, and the mistake-plus-solution format makes the cost of each design flaw concrete.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Gate Smashers covers the full progression of normal forms — 1NF, 2NF, 3NF, BCNF, 4NF and 5NF — in a single lecture, using real-life examples for each. The examples typically start with a flawed table, show what goes wrong with it, and then demonstrate the decomposition that fixes the problem.</p>
+<h3>Why this video</h3>
+<p>Seeing anomalies presented as the reason each normal form exists connects the problems in this topic to the solutions in the rest of the module, and this widely viewed lecture is known for clear, example-first explanations.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Normalization Practice Exercise | Third Normal Form| Denormalization</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/9nm_Cj4M63Q?cc_load_policy=1&amp;rel=0" title="Video: Normalization Practice Exercise | Third Normal Form| Denormalization (Tech Coach)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Tech Coach</strong> · 4:53 · 205,436 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=9nm_Cj4M63Q" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Tech Coach works through a hands-on exercise that takes a denormalized dataset and reorganizes it into third normal form, and also touches on denormalization as a deliberate trade-off. At under five minutes it is a focused worked example rather than a broad survey.</p>
+<h3>Why this video</h3>
+<p>Short and practice-oriented, it lets you watch someone diagnose redundancy in a messy table and split it into single-entity tables, which is the skill you will be asked to perform yourself.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos move from symptom to cure. Database Star&#39;s mistake catalog trains you to spot the warning signs — repeating groups, mixed entity types, overloaded columns — that MO3 targets, while the sample tables in all three videos reinforce the structural vocabulary of tables, rows, columns and keys from MO1. Gate Smashers&#39; tour of the normal forms explains why each level of normalization exists by first exposing the insertion, update and deletion anomalies it removes, supporting MO2 and MO4. Tech Coach&#39;s worked exercise then gives you a model for MO5: taking one poorly structured table and decomposing it until each table describes a single logical entity.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

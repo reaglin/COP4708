@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "14 - Cloud and Local Databases (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "14 - Cloud and Local Databases \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -50,8 +55,43 @@
     "type": "Content"
   },
   {
-    "title": "14 - Cloud and Local Databases \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "Introduction to Database Deployment Models",
+    "href": "content/Cloud_and_Local_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Locally Hosted Database Systems",
+    "href": "content/Cloud_and_Local_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Cloud-Based Database Services",
+    "href": "content/Cloud_and_Local_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Cost Comparison: Cloud vs. Local",
+    "href": "content/Cloud_and_Local_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Scalability and Performance",
+    "href": "content/Cloud_and_Local_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Maintenance and Administration",
+    "href": "content/Cloud_and_Local_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Availability, Reliability, and Security",
+    "href": "content/Cloud_and_Local_t7_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "14 - Cloud and Local Databases",
+    "href": "content/Cloud_and_Local_videos_merged.html",
     "type": "Content"
   }
 ]

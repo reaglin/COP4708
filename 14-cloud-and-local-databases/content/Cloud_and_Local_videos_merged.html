@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>14 - Cloud and Local Databases</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+<h1>14 - Cloud and Local Databases</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Introduction to Database Deployment Models</a>
+<a href="#part2">Locally Hosted Database Systems</a>
+<a href="#part3">Cloud-Based Database Services</a>
+<a href="#part4">Cost Comparison: Cloud vs. Local</a>
+<a href="#part5">Scalability and Performance</a>
+<a href="#part6">Maintenance and Administration</a>
+<a href="#part7">Availability, Reliability, and Security</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Introduction to Database Deployment Models</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>A database deployment model describes where a database actually runs and who is responsible for keeping it running. In a locally hosted (on-premises) model, your organization owns or leases the physical servers, storage, and network gear, installs the database software, and handles patching, backups, tuning, and physical security. In a cloud-based model, a provider such as AWS, Microsoft Azure, or Google Cloud supplies the infrastructure and, in managed Database-as-a-Service offerings, much of the routine administration as well.</p>
+<p>This distinction matters in COP4708 because almost every design decision later in the module depends on it: how you pay for capacity, how you scale under load, how you achieve availability and disaster recovery, and which security and compliance tasks remain yours. Deployment choice is rarely about which model is technically 'better' — it is about matching infrastructure characteristics to an organization's budget, staffing, regulatory environment, and growth expectations.</p>
+<p>As you watch the videos below, keep a running comparison across a few key dimensions: cost structure (upfront capital spending versus ongoing operational spending), scalability, maintenance effort, availability, security, and control. Also pay attention to the division of labor — note each time a speaker mentions a task the provider handles versus one the customer still owns, since that idea becomes the shared responsibility model later in the module.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: What is DBaaS? Should you use it?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/qfiOVB3yMHQ?cc_load_policy=1&amp;rel=0" title="Video: What is DBaaS? Should you use it? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 7:41 · 40,506 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=qfiOVB3yMHQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An IBM Technology explainer on Database-as-a-Service: what a managed cloud database service is, how it differs from installing and running a database yourself, and the trade-offs involved in adopting it. Based on its title and description, it likely walks through provisioning, provider-handled maintenance tasks such as patching and backups, and the situations in which DBaaS is or is not a good fit.</p>
+<h4>Why this video</h4>
+<p>It directly addresses the cloud-based side of the deployment comparison from a major cloud provider's perspective, and its framing of what the provider manages versus what you still manage previews the shared responsibility idea central to this topic.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: How To Choose The Right Database?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/kkeFE6iRfMM?cc_load_policy=1&amp;rel=0" title="Video: How To Choose The Right Database? (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 6:58 · 445,577 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=kkeFE6iRfMM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>ByteByteGo surveys how engineers choose a database for a given workload, typically covering database families and the requirements — data model, scale, consistency, and query patterns — that drive the decision. The discussion situates deployment and hosting choices within the broader selection process rather than treating them in isolation.</p>
+<h4>Why this video</h4>
+<p>It gives useful context for why deployment model is one dimension among several in a database decision, and ByteByteGo's clear, animated system-design style makes the comparison criteria easy to retain.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: But What Is Cloud Native Really All About?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/p-88GN1WVs8?cc_load_policy=1&amp;rel=0" title="Video: But What Is Cloud Native Really All About? (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 7:32 · 215,406 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=p-88GN1WVs8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This ByteByteGo video unpacks what 'cloud native' actually means, likely touching on managed services, elasticity, containers, and designing systems to take advantage of cloud infrastructure rather than simply relocating existing servers. It helps separate genuine cloud architecture from a lift-and-shift migration.</p>
+<h4>Why this video</h4>
+<p>It supplies the architectural vocabulary behind cloud-based database services and clarifies why cloud scalability mechanisms differ in kind, not just degree, from those of locally hosted systems.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the foundation the module outcomes require. The DBaaS explainer establishes the defining infrastructure characteristics of managed cloud databases against self-hosted installations (MO1) and highlights which maintenance, backup, and security duties shift to the provider, supporting the trade-off analysis in MO4 and the shared responsibility classification in MO5. The cloud-native video clarifies elasticity and managed-service design, giving you the conceptual basis for contrasting cloud scaling with the hardware-bound scaling of local systems (MO3), while the database-selection video models the requirements-driven reasoning — including cost and growth considerations relevant to capital versus operational spending (MO2) — that you will apply when recommending a hosting strategy for a given organizational scenario.</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>Locally Hosted Database Systems</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>A locally hosted (on-premises) database system runs on hardware that your organization owns or leases and physically controls — servers in a rack, in a closet, or in a data center you rent space in. Everything from the power supply and network cabling to the operating system, the database engine, patching, backups, and user security sits with your team. That total ownership is the defining characteristic of local deployment, and it is the baseline against which every cloud database service in this module is compared.</p>
+<p>This matters in COP4708 because deployment choice shapes real decisions: how you budget (large up-front capital purchases plus ongoing staffing, versus metered monthly bills), how you scale (buying and installing more hardware, versus resizing an instance in a console), and who is accountable when a disk fails at 2 a.m. Local deployment is still the right answer in many situations — strict data residency rules, low-latency industrial or lab workloads, legacy applications, and environments with poor or no internet connectivity — so understanding it well is not just historical background.</p>
+<p>As you watch the videos below, keep a running list of tasks that a human has to perform on a local system: provisioning hardware, installing and configuring software, monitoring, applying updates, arranging redundancy, and testing recovery. Note where each of those tasks goes when the same workload moves to a managed cloud service. Also pay attention to cost: notice which costs are visible (hardware, licenses) and which are hidden (staff time, downtime, spare capacity bought "just in case").</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: On Prem To The Cloud: Rub Some DevOps On It (episode 3)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/KEYOsMWA5ak?cc_load_policy=1&amp;rel=0" title="Video: On Prem To The Cloud: Rub Some DevOps On It (episode 3) (DevOps on Azure)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>DevOps on Azure</strong> · 16:17 · 2,335 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=KEYOsMWA5ak" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Episode 3 of Microsoft's On Prem To The Cloud series, in which Abel Wang and Damian Brady discuss why DevOps practices matter for applications still running on on-premises infrastructure and walk through setting up a pipeline for one. The discussion surfaces the operational burden that local deployments place on a team — builds, deployments, configuration, and consistency — before any cloud migration is considered.</p>
+<h4>Why this video</h4>
+<p>It frames local hosting from a practitioner's maintenance and operations perspective, which maps onto the management responsibilities subtopic, and it comes from an official Microsoft DevOps channel with credible, current practice.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: On Prem To The Cloud: Migrating to Azure SQL (episode 7)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/aB64sM5lH38?cc_load_policy=1&amp;rel=0" title="Video: On Prem To The Cloud: Migrating to Azure SQL (episode 7) (DevOps on Azure)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>DevOps on Azure</strong> · 17:24 · 3,077 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=aB64sM5lH38" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Episode 7 of the same series focuses specifically on moving an on-premises application's database to Azure SQL, aimed at viewers who want getting-started material on migration. Expect discussion of what the existing local database looks like, what changes when the database becomes a managed service, and the practical steps involved in the move.</p>
+<h4>Why this video</h4>
+<p>The side-by-side of a local database and its managed Azure SQL counterpart is exactly the contrast this topic is built around, making it useful for seeing which administrative duties stay with you and which shift to the provider.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: Your Old PC is Your New Server</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zPmqbtKwtgw?cc_load_policy=1&amp;rel=0" title="Video: Your Old PC is Your New Server (Linus Tech Tips)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Linus Tech Tips</strong> · 11:07 · 6,864,903 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=zPmqbtKwtgw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A hands-on consumer and enthusiast look at repurposing an older desktop computer as a working server, from the channel's sponsor-supported remote monitoring and management angle. Expect coverage of selecting and preparing the hardware, installing server software, and the ongoing need to monitor and manage the machine once it is running. It illustrates, at small scale, what it actually means to own and operate your own infrastructure.</p>
+<h4>Why this video</h4>
+<p>It makes the abstract idea of "on-premises" concrete and physical, which directly supports the subtopics on infrastructure setup, configuration, and ongoing management responsibilities. Linus Tech Tips is a well-produced, widely viewed technology channel, and the scaled-down example keeps the focus on the responsibilities rather than enterprise procurement details.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the on-premises half of the comparison the module requires. The Linus Tech Tips build grounds MO1 by showing the physical infrastructure characteristics that define local deployment, and it exposes the hardware purchases, spare capacity, and hands-on upkeep that feed the capital-expenditure and total-cost-of-ownership reasoning in MO2 as well as the hardware-bound scaling limits in MO3. The two On Prem To The Cloud episodes supply the operational side: episode 3 catalogs the maintenance, deployment, and reliability work an organization must absorb when it hosts its own systems, supporting the trade-off evaluation in MO4, while episode 7's Azure SQL migration makes visible which of those duties transfer to a provider and which remain with the customer — the core distinction behind the shared responsibility model in MO5.</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>Cloud-Based Database Services</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>A managed cloud database service is a database that runs on a provider's infrastructure, where the provider handles most of the underlying work: provisioning servers, installing and patching the database engine, taking backups, and keeping replicas available. You still design schemas, write queries, tune indexes, and control access, but you no longer rack hardware or babysit an operating system. The three services named in this topic — Amazon RDS, Azure SQL Database, and Google Cloud SQL — are the flagship relational offerings of the three largest public cloud providers, and they share far more in common than their marketing names suggest.</p>
+<p>This matters in COP4708 because the choice between a locally hosted database and a cloud-based one changes how you budget, how you scale, who is responsible when something breaks, and how clients reach the database over a network. Managed services shift costs from large up-front purchases to recurring usage charges, replace manual capacity planning with resizing and read replicas, and divide administrative duties between you and the provider under a shared responsibility model. Understanding where that dividing line falls is the practical skill this topic builds.</p>
+<p>As you watch the videos below, listen for a few recurring ideas: which tasks the provider automates versus which remain yours; how backups, replication, and high availability are described; how elasticity and pay-as-you-go pricing are framed; and how applications connect to a cloud database through endpoints, networking rules, and credentials. Also note that the videos come from IBM and AWS, so vendor terminology will appear — try to map each vendor-specific term back to the general concept it represents, since the same concept exists under a different name on Azure and Google Cloud.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: What are Cloud Databases?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/RUa0GTgYrXc?cc_load_policy=1&amp;rel=0" title="Video: What are Cloud Databases? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 8:29 · 18,316 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=RUa0GTgYrXc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An overview of what a cloud database is and how it differs from a database you install and run on your own hardware. Based on its title and the IBM Technology channel's whiteboard-style format, expect coverage of deployment options, the role of the provider's infrastructure, and typical benefits such as elasticity, availability, and reduced operational overhead. It is pitched at an introductory level and frames cloud databases within a broader hybrid cloud context.</p>
+<h4>Why this video</h4>
+<p>It is the natural starting point for the "What Are Managed Cloud Database Services?" and "Core Features Common to Cloud Database Platforms" subtopics, giving a vendor-neutral conceptual frame before you look at specific products. IBM Technology is a well-established producer of concise, accurate explainer videos aimed at exactly this level.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: What is DBaaS? Should you use it?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/qfiOVB3yMHQ?cc_load_policy=1&amp;rel=0" title="Video: What is DBaaS? Should you use it? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 7:41 · 40,506 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=qfiOVB3yMHQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video explains Database-as-a-Service, the service model that AWS RDS, Azure SQL Database, and Google Cloud SQL all belong to, and then weighs whether it is the right choice. Expect a discussion of which administrative tasks the provider assumes, what you give up in control or customization, and the cost and staffing considerations that drive the decision. The "should you use it?" framing suggests explicit trade-offs rather than a sales pitch.</p>
+<h4>Why this video</h4>
+<p>Its focus on who does what and when DBaaS is appropriate directly supports the shared-responsibility and decision-making side of this topic, which the purely descriptive overviews do not cover as deeply. It pairs well with the first video by adding the evaluative perspective you will need for the module assignment.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>Video 3: Back to Basics: Migrating Your Database to Managed Database Services on AWS</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/8CABO6FdzwU?cc_load_policy=1&amp;rel=0" title="Video: Back to Basics: Migrating Your Database to Managed Database Services on AWS (Amazon Web Services)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Amazon Web Services</strong> · 6:35 · 5,399 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=8CABO6FdzwU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short Back to Basics episode from Amazon Web Services on moving an existing database onto AWS managed database services. It is likely to walk through why organizations migrate, how a managed service such as Amazon RDS changes the operational picture, and the general steps and tooling involved in a migration. The treatment is practical and architecture-oriented rather than theoretical.</p>
+<h4>Why this video</h4>
+<p>It brings the topic down to a concrete platform, giving you a real view of AWS RDS and of the connectivity and configuration decisions that come with it. Coming directly from AWS, it is an authoritative source for how the provider itself describes the managed-service model.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the cloud side of the comparison the module asks you to make. The IBM overview and the DBaaS explainer establish what distinguishes a cloud-hosted database from a locally hosted one and surface the recurring, usage-based cost model that contrasts with on-premises capital spending (MO1, MO2). Discussion of elasticity, replicas, backups, availability, and security controls in all three videos gives you the vocabulary to contrast cloud scalability mechanisms with local ones and to weigh maintenance and availability trade-offs for a given scenario (MO3, MO4). The DBaaS video's explicit treatment of what the provider handles versus what the customer retains, reinforced by the AWS migration episode's view of a real managed service, is the core support for classifying duties under the shared responsibility model (MO5). None of the videos covers Azure SQL Database or Google Cloud SQL by name, so use the module readings to map the same concepts onto those two platforms.</p>
+</section>
+<section class="item" id="p3-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>Cost Comparison: Cloud vs. Local</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>Choosing between a cloud-hosted and a locally hosted database is rarely just a technical decision — it is a financial one. A local deployment usually means buying servers, storage, and networking gear up front, paying for perpetual or per-core database licenses, and staffing people to patch, back up, and monitor the system. A cloud deployment shifts most of that into a recurring bill that scales with what you consume, but that bill never ends and can grow quickly if workloads are not sized and managed carefully.</p>
+<p>This topic gives you the vocabulary and the analytical frame for that comparison: capital expenditure (CapEx) versus operational expenditure (OpEx), hardware and refresh cycles, licensing differences between on-premises and cloud editions, ongoing operational and maintenance labor, and how elasticity changes the cost-efficiency equation. The goal is Total Cost of Ownership (TCO) thinking — accounting for every cost over a multi-year horizon rather than comparing a server price tag to a monthly subscription.</p>
+<p>As you watch the videos below, listen for three things: how each cost is classified (one-time versus recurring), who absorbs the cost under each model, and what assumptions drive the answer — workload steadiness, utilization rates, growth rate, and staffing. Those assumptions are usually what decide whether cloud or local comes out cheaper for a given organization, and you will be expected to state them when you make a recommendation.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: Lec - 24 : Cost Models: Understanding CapEx vs. OpEx, consumption-based Pricing💰</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/89qsRB8Kobw?cc_load_policy=1&amp;rel=0" title="Video: Lec - 24 : Cost Models: Understanding CapEx vs. OpEx, consumption-based Pricing💰 (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 5:32 · 26,755 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=89qsRB8Kobw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short lecture on cloud cost models that defines capital expenditure and operational expenditure and explains consumption-based (pay-as-you-go) pricing. Based on its title and description, it should walk through how each model affects budgeting and when an organization would prefer one over the other.</p>
+<h4>Why this video</h4>
+<p>It directly addresses the central CapEx versus OpEx distinction of this topic in a compact, lecture-style format, and Gate Smashers presents computing concepts in exam-ready, clearly structured terms.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: What is Serverless?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/vxJobGtqKVM?cc_load_policy=1&amp;rel=0" title="Video: What is Serverless? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 6:42 · 242,474 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=vxJobGtqKVM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An IBM lightboard explainer on serverless computing, covering what serverless means, how resources are provisioned on demand, and how billing is tied to actual execution rather than reserved capacity. It is likely to contrast this with traditional always-on server provisioning and to touch on the operational work the provider absorbs.</p>
+<h4>Why this video</h4>
+<p>Serverless is the clearest illustration of consumption-based pricing and elastic scaling, which makes it a useful lens on the scalability-and-cost-efficiency subtopic and on which operational duties shift to the provider.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: Lowering Costs with Database Consolidation – Technical Deep Dive</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/8bd-N4Snhss?cc_load_policy=1&amp;rel=0" title="Video: Lowering Costs with Database Consolidation – Technical Deep Dive (Oracle)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Oracle</strong> · 9:09 · 346 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=8bd-N4Snhss" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An Oracle technical deep dive on consolidating multiple databases onto shared infrastructure, both on Exadata on-premises and in the cloud, as a strategy for lowering cost. Expect discussion of utilization, resource sharing, and features that let many database instances coexist on the same hardware or service.</p>
+<h4>Why this video</h4>
+<p>It brings in the vendor-side realities of hardware and licensing economics and shows that cost reduction is not only a cloud-versus-local choice but also a matter of how efficiently capacity is used in either model.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the financial half of the module. The CapEx/OpEx lecture supplies the core cost-structure vocabulary needed for MO2 and feeds directly into TCO reasoning. The serverless explainer makes the consumption-based, elastically scaled cloud model concrete, supporting MO1 and MO3 and hinting at the division of duties you will formalize under the shared responsibility model in MO5. The Oracle consolidation deep dive grounds the discussion in real hardware, licensing, and utilization decisions across both on-premises and cloud environments, giving you the kind of evidence needed to weigh maintenance and efficiency trade-offs and recommend a hosting strategy for a specific organization as required by MO4.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>Scalability and Performance</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>Scalability is the ability of a database system to keep meeting performance expectations as data volume, user counts, and query complexity grow. Performance is the related but distinct question of how quickly the system responds under a given load. In this topic we look at both through the lens of deployment model: a locally hosted database is bounded by the hardware you bought and the space, power, and procurement cycle around it, while a cloud database service can often add capacity on demand, sometimes automatically, and bill you for what you use.</p>
+<p>This matters in COP4708 because scaling decisions are where the architectural differences between on-premises and cloud deployments become concrete. Vertical scaling (a bigger machine), horizontal scaling (more machines), read replicas, caching, indexing, partitioning, and sharding are techniques available in both worlds, but the cost, speed, and operational burden of applying them differ sharply. Elasticity in the cloud is attractive, yet it is not free: pooled or autoscaling resources introduce their own cost models, limits, and tuning decisions.</p>
+<p>As you watch, keep three questions in mind. First, which scaling techniques require application or schema changes and which are purely infrastructure moves? Second, for each technique, what would it take to implement on a server in your own data center versus on a managed cloud service? Third, where does the money go — what are you paying for when you scale up, scale out, or pool resources, and at what point does the trade-off favor one deployment model over the other?</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: 7 Must-know Strategies to Scale Your Database</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_1IKwnbscQU?cc_load_policy=1&amp;rel=0" title="Video: 7 Must-know Strategies to Scale Your Database (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 8:42 · 285,678 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=_1IKwnbscQU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A survey-style overview of common strategies for scaling a database as load grows. Based on its title and the channel's system design focus, expect coverage of techniques such as indexing, caching, read replicas, partitioning, sharding, and replication, with animated diagrams explaining when each approach is appropriate. It is framed as a practical checklist rather than a product tutorial.</p>
+<h4>Why this video</h4>
+<p>ByteByteGo is a well-known system design channel whose explanations are concise and vendor-neutral, which makes this a good starting point for the 'handling growing data demands' subtopic before you consider how each strategy plays out on-premises versus in the cloud.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: Vertical Vs Horizontal Scaling: Key Differences You Should Know</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/dvRFHG2-uYs?cc_load_policy=1&amp;rel=0" title="Video: Vertical Vs Horizontal Scaling: Key Differences You Should Know (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 4:34 · 103,725 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=dvRFHG2-uYs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused comparison of vertical scaling (adding CPU, memory, or storage to a single machine) and horizontal scaling (distributing work across multiple machines). The video should explain the key differences, the practical ceiling of scaling up, and the complexity that scaling out introduces.</p>
+<h4>Why this video</h4>
+<p>This distinction is the core vocabulary for the whole topic: local databases are typically constrained to vertical scaling with hardware you own, while cloud services make horizontal and elastic scaling routine, so a clear four-minute treatment is worth watching before the cloud-specific material.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>Video 3: Database performance and scalability with Azure SQL Database Hyperscale elastic pools | Data Exposed</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Zhj_EiUEaFk?cc_load_policy=1&amp;rel=0" title="Video: Database performance and scalability with Azure SQL Database Hyperscale elastic pools | Data Exposed (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 14:44 · 1,994 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=Zhj_EiUEaFk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A Data Exposed episode on Azure SQL Database Hyperscale elastic pools, covering how a managed cloud service delivers performance and scalability for applications with growing or unpredictable data needs. Expect discussion of the Hyperscale service tier, how elastic pools share resources across multiple databases, and the scenarios these features are designed for.</p>
+<h4>Why this video</h4>
+<p>Produced by Microsoft Developer, this gives you an authoritative, concrete example of elastic scalability in a real cloud database platform, directly supporting the 'elastic scalability' and 'scalability versus cost' subtopics with a resource-pooling model that has no straightforward on-premises equivalent.</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build from general principles to a specific cloud implementation. The vertical-versus-horizontal comparison and the seven-strategies overview give you the mechanisms you need to contrast cloud and local scaling approaches (MO3) and to recognize how infrastructure ownership shapes what is actually possible in each deployment model (MO1). The Azure Hyperscale elastic pools session shows a managed service handling scaling and resource allocation on the customer's behalf, which illustrates both the consumption-based cost structure you will weigh against on-premises capital purchases (MO2) and the division of tuning and capacity work between provider and customer under the shared responsibility model (MO5). Taken as a set, they supply the evidence you need to argue for a particular hosting strategy in a given organizational scenario (MO4).</p>
+</section>
+<section class="item" id="p5-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part6">
+<h2>Maintenance and Administration</h2>
+<section class="item" id="p6-sec1">
+<h3>Introduction</h3>
+<p>Every database, no matter where it runs, needs ongoing care: operating system and engine patches, index and storage maintenance, backups, restore testing, performance tuning, capacity planning, and security configuration. What changes between a locally hosted deployment and a cloud-managed service is not whether this work happens, but who does it. In a self-managed environment your organization owns nearly all of it and must staff accordingly; with a managed service such as AWS RDS, Azure SQL Database, or Google Cloud SQL, the provider absorbs much of the infrastructure-level work while you remain accountable for schema design, query performance, access control, and your own data.</p>
+<p>This topic matters because administrative burden is one of the most under-estimated cost and risk factors in a hosting decision. A team may choose the cloud expecting "no maintenance" and then discover that backup retention, patch windows, encryption keys, and user privileges are still theirs to manage. The shared responsibility model is the framework that makes those boundaries explicit, and understanding it is essential before you can defend a hosting recommendation in a real scenario.</p>
+<p>As you watch, keep a two-column list: tasks the provider performs versus tasks the customer retains, and note how that line shifts as you move from IaaS toward PaaS and SaaS. Pay attention to the distinction between a backup and a recovery plan, and to what monitoring and expertise each model demands from your staff.</p>
+</section>
+<section class="item" id="p6-sec2">
+<h3>Video 1: The Shared Responsibility Model For Cloud Simplified</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/fWYC2HQKdm8?cc_load_policy=1&amp;rel=0" title="Video: The Shared Responsibility Model For Cloud Simplified (Lacework)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Lacework</strong> · 10:03 · 2,511 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=fWYC2HQKdm8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Revisit this video a second time with a database focus, mapping its general model onto specific tasks such as engine patching, minor version upgrades, failover configuration, user privileges, and data classification. Use it to build the responsibility matrix you will need for the module assessment.</p>
+<h4>Why this video</h4>
+<p>A second pass turns a conceptual framework into a usable classification tool, which is the skill the shared responsibility outcome asks you to demonstrate.</p>
+</section>
+<section class="item" id="p6-sec3">
+<h3>Video 2: Disaster Recovery vs. Backup: What's the difference?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/07EHsPuKXc0?cc_load_policy=1&amp;rel=0" title="Video: Disaster Recovery vs. Backup: What's the difference? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 9:32 · 159,119 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=07EHsPuKXc0" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An IBM Technology explainer that separates two concepts students often merge: taking backups versus planning for disaster recovery. Expect discussion of recovery objectives, what a disaster recovery plan includes beyond stored copies of data, and how the two practices complement each other.</p>
+<h4>Why this video</h4>
+<p>Backup and recovery responsibilities are a core subtopic, and this video makes clear that provider-managed snapshots do not by themselves constitute a recovery strategy, which is exactly the nuance needed when comparing deployment models.</p>
+</section>
+<section class="item" id="p6-sec4">
+<h3>Video 3: What is Cloud Architecture? Understanding SaaS, IaaS, Cloud Delivery Models &amp; More</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/phLPKVx3Cl4?cc_load_policy=1&amp;rel=0" title="Video: What is Cloud Architecture? Understanding SaaS, IaaS, Cloud Delivery Models &amp; More (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 13:02 · 29,113 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=phLPKVx3Cl4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This IBM Technology video surveys cloud architecture and the standard delivery models, including IaaS, PaaS, and SaaS, along with related deployment concepts. It should clarify what the provider supplies at each layer of the stack.</p>
+<h4>Why this video</h4>
+<p>The service model determines where the maintenance line falls, so this video supplies the structural background that makes self-managed versus provider-managed maintenance comparisons meaningful, and it reinforces the infrastructure distinctions used throughout the module.</p>
+</section>
+<section class="item" id="p6-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build from infrastructure concepts to concrete administrative duties. The cloud architecture overview supports distinguishing deployment models by their defining characteristics and clarifies where scalability and management responsibilities sit at each service layer (MO1, MO3). The backup versus disaster recovery discussion supplies the availability and risk considerations needed to weigh maintenance trade-offs and recommend a hosting strategy, and it surfaces hidden operational costs such as staffing, tooling, and recovery testing that feed total cost of ownership reasoning (MO2, MO4). The shared responsibility material gives you the explicit framework for sorting tasks between provider and customer in a managed database service (MO5).</p>
+</section>
+<section class="item" id="p6-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part7">
+<h2>Availability, Reliability, and Security</h2>
+<section class="item" id="p7-sec1">
+<h3>Introduction</h3>
+<p>Choosing where a database lives is not only a question of cost or convenience — it is a question of how much downtime an organization can tolerate, how quickly it can recover when something fails, and who is accountable when data is exposed. This topic brings those concerns together under three headings: availability (will the database respond when users need it), reliability (can it survive hardware failure, human error, or a regional outage), and security (who can reach the data, and how is it protected at rest and in transit).</p>
+<p>In a cloud deployment, much of this is expressed contractually through a Service Level Agreement, and technically through provider features such as redundant replicas, automated backups, and geo-replication. In a local deployment, the same guarantees have to be engineered and funded by the organization itself: backup schedules, standby servers, off-site copies, failover testing, and physical and network security controls. Neither model removes the work — the cloud shifts part of it to the provider under a shared responsibility model, while on-premises keeps all of it in house.</p>
+<p>As you watch the videos, look for three things. First, the vocabulary: RTO (recovery time objective), RPO (recovery point objective), high availability versus disaster recovery, failover, and uptime percentages. Second, the mechanisms: what specifically provides redundancy in each model. Third, the division of labor: note each time a task is performed automatically by a provider versus performed manually by a DBA, because that distinction is the heart of the shared responsibility model and of the recommendations you will be asked to make later in this module.</p>
+</section>
+<section class="item" id="p7-sec2">
+<h3>Video 1: Lec-23 : SLA: Service Level Agreement in Cloud Computing | Need &amp; Use of SLA</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EYrQNUNtPa4?cc_load_policy=1&amp;rel=0" title="Video: Lec-23 : SLA: Service Level Agreement in Cloud Computing | Need &amp; Use of SLA (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 5:18 · 53,847 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=EYrQNUNtPa4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short lecture introducing the Service Level Agreement as the formal contract between a cloud provider and a customer. Based on its title and description, it explains what an SLA specifies regarding expected performance and availability, why such an agreement is needed, and how it is used in practice when evaluating or holding a provider accountable.</p>
+<h4>Why this video</h4>
+<p>It gives you the contractual vocabulary behind uptime guarantees in a compact, lecture-style format, which is the natural starting point for the Uptime Guarantees and SLAs subtopic before moving to the technical mechanisms.</p>
+</section>
+<section class="item" id="p7-sec3">
+<h3>Video 2: Azure SQL DB High Availability &amp; Disaster Recovery overview | Data Exposed</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/E9EafnsThEU?cc_load_policy=1&amp;rel=0" title="Video: Azure SQL DB High Availability &amp; Disaster Recovery overview | Data Exposed (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 11:13 · 3,729 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=E9EafnsThEU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An overview episode from Microsoft's Data Exposed series covering high availability and disaster recovery concepts as they apply to Azure SQL Database. It is positioned to explain the difference between HA and DR, what availability means in a managed cloud database, and the options the platform offers for implementing each.</p>
+<h4>Why this video</h4>
+<p>It comes directly from the platform vendor and addresses Disaster Recovery in Cloud Deployments using a concrete managed service, letting you see which availability tasks the provider handles for you and which remain yours to configure.</p>
+</section>
+<section class="item" id="p7-sec4">
+<h3>Video 3: How to Automate Disaster Recovery in SQL Server On-Prem | Data Exposed: MVP Edition</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Og0OI36Y5-4?cc_load_policy=1&amp;rel=0" title="Video: How to Automate Disaster Recovery in SQL Server On-Prem | Data Exposed: MVP Edition (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 19:02 · 4,780 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=Og0OI36Y5-4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A Data Exposed MVP Edition session on automating disaster recovery for SQL Server running on-premises. Framed around the question of whether you are truly prepared if your primary data center is destroyed, it addresses the gap between simply having database backups and having a tested, automated recovery process.</p>
+<h4>Why this video</h4>
+<p>It is the on-premises counterpart to the Azure video and supports Disaster Recovery in Local Deployments and Business Continuity Considerations by showing the engineering effort an organization must take on itself when no provider is doing it.</p>
+</section>
+<section class="item" id="p7-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos supply the availability and security half of the deployment comparison this module builds toward. The SLA lecture frames the guarantees a cloud provider contractually offers, while the paired Azure SQL and on-premises SQL Server sessions let you contrast how the same recovery goals are met in each infrastructure model (MO1) and where the operational burden and cost of achieving them falls (MO2). Watching the cloud and local disaster recovery episodes side by side is the core preparation for weighing maintenance, availability, and security trade-offs when recommending a hosting strategy (MO4), and each time a video shows a task handled automatically by the platform rather than manually by a DBA, you are collecting evidence for classifying duties under the shared responsibility model (MO5).</p>
+</section>
+<section class="item" id="p7-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

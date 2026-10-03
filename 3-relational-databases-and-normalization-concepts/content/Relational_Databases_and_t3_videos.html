@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insertion Anomalies</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 3 - Relational Databases and Normalization Concepts</a></div>
+<h1>Insertion Anomalies</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Database Normalization: What and Why</a>
+<a href="#sec3">Video 2: Learn Boyce-Codd Normal Form (BCNF)</a>
+<a href="#sec4">How These Videos Support the Learning Outcomes</a>
+<a href="#sec5">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>An insertion anomaly happens when the design of a table prevents you from recording a fact you legitimately want to store, because the table also demands unrelated information that does not yet exist. A classic example is a table that mixes two different kinds of entities — say, courses and the instructors assigned to them. If the table&#39;s primary key requires an instructor, you cannot record a newly approved course until someone is hired to teach it. The problem is not the data; it is the structure.</p>
+<p>In this module, insertion anomalies are one of three related symptoms (alongside update and deletion anomalies) that signal unwanted dependencies in a schema. Watch for the ways designers try to work around the problem rather than fix it: leaving columns NULL, or inventing placeholder rows such as &quot;TBD&quot; or instructor ID 0000. These workarounds look harmless but corrode data integrity, since NULLs and dummy values propagate into queries, joins, constraints, and reports. The real fix is decomposition — splitting the table so each table describes one logical entity, with dependencies pointing only at the whole key.</p>
+<p>As you watch the videos below, keep two questions in mind. First, which functional dependency in the example table is the culprit — what determines what, and is that determinant actually a key? Second, after the table is decomposed, which rows could now be inserted independently that could not be inserted before? Being able to narrate that before-and-after story is exactly what the module outcomes ask of you.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Database Normalization: What and Why</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Kn5M-x1rH6M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: What and Why (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 15:41 · 2,442 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=Kn5M-x1rH6M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Kevin Feasel introduces database normalization from the perspective of a working data platform professional: what normalization actually is, why practitioners care about it, and how the normal forms stack up in terms of practical value. Based on the title and description, expect a conceptual overview that motivates normalization through the problems unnormalized tables cause — the redundancy and anomaly issues that make tables hard to insert into, update, and delete from. It also offers an opinionated ranking of the normal forms, which helps you see which ones do the heaviest lifting in real designs.</p>
+<h3>Why this video</h3>
+<p>This video supplies the framing for the topic: it explains why normalization exists at all, which is the direct answer to the question &quot;how do I stop insertion anomalies?&quot; The practitioner&#39;s viewpoint and the focus on motivation rather than formal proofs make it a good starting point before you work through a specific normal form.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Learn Boyce-Codd Normal Form (BCNF)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/VWnKUKH4tLg?cc_load_policy=1&amp;rel=0" title="Video: Learn Boyce-Codd Normal Form (BCNF) (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 13:37 · 178,464 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=VWnKUKH4tLg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Decomplexify walks through Boyce-Codd Normal Form with worked examples, building up from the idea of functional dependencies to the rule that every determinant must be a candidate key. Expect the video to show a table that violates BCNF, identify the offending dependency, and then decompose the table into well-formed pieces. The examples are the kind where anomalies — including the inability to insert certain facts — are used to demonstrate that something is structurally wrong.</p>
+<h3>Why this video</h3>
+<p>This is the clearest widely used explanation of how an unwanted dependency produces anomalies and how decomposition removes them, which maps directly onto the subtopics on unwanted dependencies and normalization as the solution. Decomplexify&#39;s step-by-step, example-driven style makes the abstract rule concrete enough to apply to your own schemas.</p>
+</section>
+<section class="item" id="sec4">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos move you from the structural vocabulary of relational tables — keys, determinants, dependencies — toward diagnosis and repair. Feasel&#39;s overview supports MO4 by explaining what normalization is for and how it removes redundancy and prevents anomalies, and it gives you the map of normal forms you will apply in MO5. The Decomplexify video supports MO1 and MO3 by making functional dependencies and candidate keys explicit, and supports MO2 and MO5 by showing a flawed table, naming the dependency that causes the trouble, and decomposing it so each resulting table describes one logical entity. Use the module readings and exercises to connect those decompositions back specifically to insertion anomalies: after each split, ask which new row you can now insert on its own, and which NULL or placeholder value you no longer need.</p>
+</section>
+<section class="item" id="sec5">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

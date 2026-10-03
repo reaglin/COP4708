@@ -1,412 +1,179 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module 14 – Cloud and Local Databases | COP4708</title>
-  <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #f4f6f9;
-      color: #1e2530;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    /* ── Header ── */
-    header {
-      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
-      color: #fff;
-      padding: 2.5rem 1.5rem 2rem;
-    }
-
-    .header-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .course-label {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 4px;
-      padding: 0.2rem 0.65rem;
-      margin-bottom: 0.75rem;
-    }
-
-    header h1 {
-      font-size: clamp(1.55rem, 3vw, 2.2rem);
-      font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
-    }
-
-    header p {
-      font-size: 1rem;
-      max-width: 720px;
-      color: rgba(255,255,255,0.88);
-    }
-
-    /* ── Main Content ── */
-    main {
-      max-width: 1100px;
-      margin: 2.25rem auto 3rem;
-      padding: 0 1.25rem;
-    }
-
-    .section-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #5a6a80;
-      margin-bottom: 1.1rem;
-      padding-bottom: 0.45rem;
-      border-bottom: 2px solid #dde3ec;
-    }
-
-    /* ── Card Grid ── */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #dde3ec;
-      border-radius: 10px;
-      padding: 1.35rem 1.4rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-      transition: box-shadow 0.18s ease, border-color 0.18s ease;
-    }
-
-    .card:hover {
-      box-shadow: 0 4px 18px rgba(37, 99, 168, 0.10);
-      border-color: #aac2e0;
-    }
-
-    /* ── Card Header Row ── */
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.55rem;
-      flex-wrap: wrap;
-    }
-
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #1a3a5c;
-      flex: 1 1 auto;
-      line-height: 1.35;
-    }
-
-    .card-title a {
-      color: #1a5ca8;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.15s;
-    }
-
-    .card-title a:hover {
-      border-bottom-color: #1a5ca8;
-    }
-
-    .source-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: #4a7fb5;
-      text-decoration: none;
-      background: #eaf2fb;
-      border: 1px solid #c3d9f0;
-      border-radius: 4px;
-      padding: 0.18rem 0.5rem;
-      white-space: nowrap;
-      margin-top: 0.1rem;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .source-link:hover {
-      background: #d0e6f7;
-      color: #1a3a5c;
-    }
-
-    .source-link::before {
-      content: "⬇";
-      font-size: 0.65rem;
-    }
-
-    /* ── Badges ── */
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      border-radius: 4px;
-      padding: 0.18rem 0.55rem;
-      text-transform: uppercase;
-    }
-
-    .badge-type {
-      background: #eef2f8;
-      color: #3d5470;
-      border: 1px solid #ccd6e8;
-    }
-
-    .badge-filetype {
-      background: #f0faf3;
-      color: #2a6b42;
-      border: 1px solid #b4dcc4;
-      font-family: 'Courier New', monospace;
-    }
-
-    /* ── Description ── */
-    .card-desc {
-      font-size: 0.875rem;
-      color: #3e4f63;
-      line-height: 1.6;
-      flex: 1;
-    }
-
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 1.5rem 1rem 2rem;
-      font-size: 0.8rem;
-      color: #8a97a8;
-      border-top: 1px solid #dde3ec;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 520px) {
-      header { padding: 2rem 1rem 1.5rem; }
-      .card { padding: 1.1rem 1.1rem 1rem; }
-      .card-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>14 - Cloud and Local Databases — COP4708</title>
+  <link rel="stylesheet" href="../assets/site.css">
 </head>
 <body>
-<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
-<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
-
-  <header>
-    <div class="header-inner">
-      <span class="course-label">COP4708</span>
-      <h1>Module 14 &mdash; Cloud and Local Databases</h1>
-      <p>
-        This module compares cloud-based and locally hosted database deployment models,
-        exploring infrastructure setup, management responsibilities, cost trade-offs,
-        scalability, security, and managed services such as AWS RDS and Azure SQL.
-        Use the resources below to navigate the module's lessons and readings.
-      </p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708</a><span class="sep" aria-hidden="true">›</span><span class="current">14 - Cloud and Local Databases</span>
+  </nav>
+      <div class="hero-label">Module 14</div>
+      <h1>Cloud and Local Databases</h1>
+      <p class="hero-desc">This lesson compares locally hosted database systems with cloud-based database services such as AWS RDS, Azure SQL, and Google Cloud SQL. Students will evaluate the trade-offs in cost, scalability, maintenance, and availability between deployment models.</p>
     </div>
   </header>
-
-  <main>
-    <p class="section-label">Module Artifacts &mdash; 9 items</p>
-
-    <div class="card-grid">
-
-      <!-- Card 1: Module Topics -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/module_topics.html">Module Topics</a>
-          </span>
-          <a class="source-link" href="source/hierarchy.json">source file</a>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Module Topics</span>
-          <span class="badge badge-filetype">.json</span>
-        </div>
-        <p class="card-desc">
-          Covers the core topics of the module—comparing locally hosted and cloud-based database
-          deployment models, including infrastructure setup, management responsibilities, and
-          specific managed services such as AWS RDS and Azure—serving as a navigational overview
-          that helps instructors sequence lessons and learners understand what concepts they will study.
-        </p>
-      </div>
-
-      <!-- Card 2: Introduction to Database Deployment Models -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t1.html">Introduction to Database Deployment Models</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading introduces the concept of database deployment models, explaining what they
-          are and why choosing where a database lives—and who manages it—is a foundational
-          organizational decision; learners use it as a conceptual entry point before exploring
-          specific deployment options.
-        </p>
-      </div>
-
-      <!-- Card 3: Locally Hosted Database Systems -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t2.html">Locally Hosted Database Systems</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading covers on-premises database deployments, explaining how locally hosted
-          systems work, what hardware and software responsibilities fall to the organization,
-          and the trade-offs involved; learners use it to understand the full scope of managing
-          a database entirely within their own facilities.
-        </p>
-      </div>
-
-      <!-- Card 4: Cloud-Based Database Services -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t3.html">Cloud-Based Database Services</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading explains managed cloud database services, describing how major cloud
-          providers host and operate database infrastructure on behalf of organizations; learners
-          use it to understand the shift away from physical servers and the capabilities that
-          cloud-based database offerings provide.
-        </p>
-      </div>
-
-      <!-- Card 5: Cost Comparison -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t4.html">Cost Comparison: Cloud vs. Local</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading examines the financial trade-offs between cloud-hosted and on-premises
-          database deployments, covering total cost of ownership beyond surface-level pricing;
-          learners and instructors use it to guide rigorous cost-benefit analysis when evaluating
-          deployment decisions.
-        </p>
-      </div>
-
-      <!-- Card 6: Scalability and Performance -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t5.html">Scalability and Performance</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading compares how cloud and on-premises database deployments handle scalability
-          and performance as data volumes and user demand grow, explaining the mechanisms each
-          model uses to expand capacity and maintain response times; learners use it to evaluate
-          deployment options against operational performance requirements.
-        </p>
-      </div>
-
-      <!-- Card 7: Maintenance and Administration -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t6.html">Maintenance and Administration</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading covers the operational responsibilities of database maintenance and
-          administration under cloud versus on-premises models, addressing patching, backups,
-          monitoring, and optimization along with their staffing and budget implications; learners
-          use it to understand how deployment choice shapes day-to-day administrative workload.
-        </p>
-      </div>
-
-      <!-- Card 8: Availability, Reliability, and Security (Topic Detail) -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive_topics_t7.html">Availability, Reliability, and Security</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Topic Detail</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading examines availability, reliability, and security considerations when
-          choosing between cloud and on-premises database hosting, explaining how each model
-          addresses uptime, data loss prevention, and data protection; learners use it to
-          evaluate deployment options against business continuity and compliance requirements.
-        </p>
-      </div>
-
-      <!-- Card 9: Availability, Reliability, and Security (Text Content) -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">
-            <a href="content/Cloud_and_Local_interactive.html">Availability, Reliability, and Security</a>
-          </span>
-        </div>
-        <div class="badge-row">
-          <span class="badge badge-type">Text Content</span>
-          <span class="badge badge-filetype">.html</span>
-        </div>
-        <p class="card-desc">
-          This reading examines availability, reliability, and security considerations when
-          choosing between cloud and on-premises database hosting, explaining how each model
-          addresses uptime, data loss prevention, and data protection; learners use it to
-          evaluate deployment options against business continuity and compliance requirements.
-        </p>
-      </div>
-
-    </div><!-- /.card-grid -->
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 7 topics. Open a topic to see its subtopics.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num" aria-hidden="true">1</span><span class="topic-text"><span class="topic-title">Introduction to Database Deployment Models</span><span class="topic-meta">5 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num" aria-hidden="true">2</span><span class="topic-text"><span class="topic-title">Locally Hosted Database Systems</span><span class="topic-meta">7 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num" aria-hidden="true">3</span><span class="topic-text"><span class="topic-title">Cloud-Based Database Services</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num" aria-hidden="true">4</span><span class="topic-text"><span class="topic-title">Cost Comparison: Cloud vs. Local</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num" aria-hidden="true">5</span><span class="topic-text"><span class="topic-title">Scalability and Performance</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num" aria-hidden="true">6</span><span class="topic-text"><span class="topic-title">Maintenance and Administration</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-7"><span class="topic-num" aria-hidden="true">7</span><span class="topic-text"><span class="topic-title">Availability, Reliability, and Security</span><span class="topic-meta">6 subtopics</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics and subtopics</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">16 items.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t1.html">Introduction to Database Deployment Models</a></div>
+    <p class="content-desc">This reading introduces the concept of database deployment models, explaining what they are and why choosing where a database lives—and who manages it—is a foundational organizational decision; learners use it as a conceptual entry point before exploring specific deployment options.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t2.html">Locally Hosted Database Systems</a></div>
+    <p class="content-desc">This reading covers on-premises database deployments, explaining how locally hosted systems work, what hardware and software responsibilities fall to the organization, and the trade-offs involved; learners use it to understand the full scope of managing a database entirely within their own facilities.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t3.html">Cloud-Based Database Services</a></div>
+    <p class="content-desc">This reading explains managed cloud database services, describing how major cloud providers host and operate database infrastructure on behalf of organizations; learners use it to understand the shift away from physical servers and the capabilities that cloud-based database offerings provide.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t4.html">Cost Comparison: Cloud vs. Local</a></div>
+    <p class="content-desc">This reading examines the financial trade-offs between cloud-hosted and on-premises database deployments, covering total cost of ownership beyond surface-level pricing; learners and instructors use it to guide rigorous cost-benefit analysis when evaluating deployment decisions.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t5.html">Scalability and Performance</a></div>
+    <p class="content-desc">This reading compares how cloud and on-premises database deployments handle scalability and performance as data volumes and user demand grow, explaining the mechanisms each model uses to expand capacity and maintain response times; learners use it to evaluate deployment options against operational performance requirements.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t6.html">Maintenance and Administration</a></div>
+    <p class="content-desc">This reading covers the operational responsibilities of database maintenance and administration under cloud versus on-premises models, addressing patching, backups, monitoring, and optimization along with their staffing and budget implications; learners use it to understand how deployment choice shapes day-to-day administrative workload.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive_topics_t7.html">Availability, Reliability, and Security</a></div>
+    <p class="content-desc">This reading examines availability, reliability, and security considerations when choosing between cloud and on-premises database hosting, explaining how each model addresses uptime, data loss prevention, and data protection; learners use it to evaluate deployment options against business continuity and compliance requirements.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_interactive.html">Availability, Reliability, and Security</a></div>
+    <p class="content-desc">This reading examines availability, reliability, and security considerations when choosing between cloud and on-premises database hosting, explaining how each model addresses uptime, data loss prevention, and data protection; learners use it to evaluate deployment options against business continuity and compliance requirements.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t1_videos.html">Introduction to Database Deployment Models — Videos</a></div>
+    <p class="content-desc">An introductory reading that defines what a database deployment model is and contrasts on-premises ownership of servers, storage, patching, and backups with provider-managed alternatives, giving learners the vocabulary and framing used throughout the module.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t2_videos.html">Locally Hosted Database Systems — Videos</a></div>
+    <p class="content-desc">A lesson page on locally hosted (on-premises) database systems, covering the hardware, operating system, engine patching, backup, and physical security responsibilities that fall to an in-house team, which learners use to understand the control and burden of self-managed deployments.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t3_videos.html">Cloud-Based Database Services — Videos</a></div>
+    <p class="content-desc">A reading on managed cloud database services that explains the division of labor between provider (provisioning, patching, backups, replicas) and customer (schema design, queries, indexing, access control), helping learners recognize what they still own in the cloud.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t4_videos.html">Cost Comparison: Cloud vs. Local — Videos</a></div>
+    <p class="content-desc">A comparison page examining the financial trade-offs between local and cloud databases, including up-front hardware and license purchases versus ongoing subscription pricing and staffing costs, used by learners to reason about capital versus operating expense decisions.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t5_videos.html">Scalability and Performance — Videos</a></div>
+    <p class="content-desc">A topic page on scalability and performance that distinguishes the two concepts and compares how on-premises hardware limits and cloud elasticity affect response times as data volume, user counts, and query complexity grow.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t6_videos.html">Maintenance and Administration — Videos</a></div>
+    <p class="content-desc">A reading on database maintenance and administration tasks — OS and engine patching, index and storage upkeep, backups, restore testing, tuning, capacity planning, and security configuration — framed around who performs each task in self-managed versus cloud-managed deployments.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_t7_videos.html">Availability, Reliability, and Security — Videos</a></div>
+    <p class="content-desc">A lesson covering availability, reliability, and security considerations in deployment decisions, including tolerable downtime, recovery after failure, and accountability for data exposure, which learners use to evaluate risk alongside cost.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Cloud_and_Local_videos_merged.html">14 - Cloud and Local Databases — 7 topics (merged)</a></div>
+    <p class="content-desc">A consolidated single-page version of the entire Module 14 content, stringing together all topics from deployment models through availability and security, useful for review, printing, or offline study.</p>
+  </div>
+</li>
+</ul>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../13-designing-databases-for-concurrent-use/index.html">← 13 - Designing Databases for Concurrent Use</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../15-database-security-models-users-and-application-connections/index.html">15 - Database Security Models, Users, and Application Connections →</a>
+</nav>
   </main>
-
-  <footer>
-    COP4708 &mdash; Module 14: Cloud and Local Databases &nbsp;|&nbsp; Course Materials Index
-  </footer>
-
-
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
-<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
 </html>

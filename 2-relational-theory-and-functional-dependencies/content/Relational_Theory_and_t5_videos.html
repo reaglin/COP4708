@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functional Dependencies and Database Design</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div>
+<h1>Functional Dependencies and Database Design</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Lec-31: BCNF Always Ensures Dependency Preserving Decomposition?? Normalization Examples</a>
+<a href="#sec3">Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</a>
+<a href="#sec4">Video 3: Database Normalization: What and Why</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Functional dependencies are more than an abstract piece of relational theory — they are the blueprint you use when deciding what tables a database should have and which attributes belong in each one. A dependency such as StudentID -&gt; Advisor is a statement about the real world: it says that knowing a student determines exactly one advisor. Once you write down the dependencies that hold over your data, the structure of a good schema follows from them in a fairly mechanical way.</p>
+<p>When dependencies are ignored, the cost shows up as redundancy and as insertion, deletion, and update anomalies: the same fact stored in many rows, facts that cannot be recorded because no complete row exists yet, and facts that vanish when an unrelated row is deleted. Normalization is the systematic response. Each normal form (2NF, 3NF, BCNF, and beyond) is defined in terms of functional dependencies and keys, and moving a schema into a higher normal form means decomposing relations so that every dependency has a key on its left side. Two properties constrain how you decompose: the decomposition must be lossless (joining the pieces back together recovers exactly the original relation, no spurious tuples) and ideally dependency preserving (every original dependency can still be enforced on a single fragment without a join).</p>
+<p>While watching these videos, keep three questions in mind. First, which attribute closures and candidate keys are being computed, and how are they used to justify a split? Second, what specific anomaly does each decomposition eliminate? Third, note carefully the trade-off the first video highlights: BCNF is the stricter condition, but it does not always allow a dependency-preserving decomposition, which is why 3NF remains a practical target in real designs.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Lec-31: BCNF Always Ensures Dependency Preserving Decomposition?? Normalization Examples</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/qwI0oe3-g9g?cc_load_policy=1&amp;rel=0" title="Video: Lec-31: BCNF Always Ensures Dependency Preserving Decomposition?? Normalization Examples (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 10:04 · 665,546 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=qwI0oe3-g9g" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This lecture examines whether a BCNF decomposition always preserves functional dependencies, working through normalization examples to show the answer. Based on the title and channel&#39;s exam-oriented style, expect worked relations where candidate keys are identified, the schema is split, and the resulting fragments are checked for both losslessness and whether each original dependency can still be enforced.</p>
+<h3>Why this video</h3>
+<p>It directly targets two of the harder subtopics — lossless decomposition and dependency preservation — and the counterexample framing makes the 3NF versus BCNF trade-off concrete rather than a memorized rule.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A single consolidated walkthrough of the normal forms from 1NF through 5NF, including 2NF, 3NF, and BCNF, illustrated with everyday examples rather than purely symbolic relations. The video should show, for each form, which kind of dependency violation it removes and how the schema changes as a result.</p>
+<h3>Why this video</h3>
+<p>Gate Smashers&#39; DBMS series is widely used and consistently accurate on definitions, and this one video gives you the full ladder of normal forms in order, making clear how functional dependencies serve as the foundation for every step.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Database Normalization: What and Why</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Kn5M-x1rH6M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: What and Why (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 15:41 · 2,442 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=Kn5M-x1rH6M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This talk steps back to ask what normalization actually is and why it matters to people who build and maintain data platforms, rather than drilling procedure. Expect discussion of the motivation — redundancy, anomalies, and maintainability — alongside the presenter&#39;s own ranking of the normal forms by practical usefulness.</p>
+<h3>Why this video</h3>
+<p>It supplies the design rationale that complements the mechanical examples, which supports the subtopics on dependencies as design blueprints and on the anomalies that appear when dependencies are ignored.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos carry the formal machinery of Module 2 into design practice. The normal-forms overview and the practitioner talk both show how redundancy and update anomalies trace back to specific functional dependencies, which is exactly the evaluation skill in MO5, and they reinforce the distinction between dependencies that are harmless and those that violate a normal form (MO2). The BCNF and dependency-preservation lecture depends on identifying candidate keys before any split can be justified, giving you repeated practice with the attribute closure reasoning from MO4 and the derivations from Armstrong&#39;s Axioms in MO3. All three keep the relational schema — attributes, keys, and relation structure — at the center, which supports the formal vocabulary established in MO1.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

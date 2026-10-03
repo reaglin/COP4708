@@ -1,5 +1,6 @@
 ﻿{
-  "RepoUrl": "",
-  "Branch": "main",
-  "IncludeQuizzes": true
+  "RepoUrl": "https://github.com/reaglin/COP4708",
+  "Branch": "gh-pages",
+  "IncludeQuizzes": true,
+  "Theme": "classic"
 }

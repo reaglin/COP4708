@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Applying ER Modeling to a Problem Domain</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 6 - Data Modeling and Entity-Relationship Modeling</a></div>
+<h1>Applying ER Modeling to a Problem Domain</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: How to Go From Requirements to a Database Schema</a>
+<a href="#sec3">Video 2: Database Design for a Library Management System</a>
+<a href="#sec4">Video 3: 7 Database Design Mistakes to Avoid (With Solutions)</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Up to this point you have learned the vocabulary of ER modeling: entities, attributes, keys, relationships, cardinality, and participation. This topic is where that vocabulary gets put to work. Given a messy, informal description of a business — a library, a clinic, an online store — your job is to read it carefully, decide what the system actually needs to keep track of, and turn that into a diagram precise enough that someone else could build tables from it.</p>
+<p>The work usually follows a repeatable path. You analyze the requirements and underline the nouns and verbs that matter, propose a candidate list of entities, decide which details belong to which entity as attributes, name the relationships that connect entities, and then pin down how many of one relate to how many of the other and whether participation is optional or mandatory. Only then do you draw the full diagram, and even then you are not finished: a good designer re-reads the original description and checks the model against it, looking for duplicated data, missing entities, or relationships that were assumed rather than stated.</p>
+<p>As you watch the videos below, pay attention to the reasoning rather than just the finished picture. Notice how a noun in a sentence becomes either an entity or an attribute depending on how much detail the business needs, how a many-to-many relationship is handled, and what kinds of errors experienced designers watch out for. Try pausing each video after the requirements are stated and sketching your own diagram before seeing the presenter&#39;s version — comparing the two is where most of the learning happens.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: How to Go From Requirements to a Database Schema</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/3a-pNh6ykY4?cc_load_policy=1&amp;rel=0" title="Video: How to Go From Requirements to a Database Schema (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 7:40 · 7,863 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=3a-pNh6ykY4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This short video walks through the process of moving from a written set of requirements to a database schema, showing how a problem statement is read and converted into design elements. Based on its title and the channel&#39;s usual approach, expect a step-by-step demonstration of identifying what needs to be stored, naming entities and attributes, and connecting them. The description links to a set of database design practice exercises for further work.</p>
+<h3>Why this video</h3>
+<p>It targets the exact skill at the center of this topic — translating business requirements into a model — and its brevity makes it a good first viewing before the longer worked example.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Database Design for a Library Management System</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/yldrIdoXiYk?cc_load_policy=1&amp;rel=0" title="Video: Database Design for a Library Management System (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 11:06 · 96,643 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=yldrIdoXiYk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A full worked example that designs a database for a library management system, a classic scenario involving books, copies, members, loans, and reservations. The video is likely to move from the scenario description through candidate entities and their attributes to the relationships among them, with the reasoning narrated along the way. At eleven minutes it is long enough to show the trade-offs behind design decisions rather than only the final result.</p>
+<h3>Why this video</h3>
+<p>A single end-to-end case study lets you see entity identification, attribute assignment, relationship definition, and cardinality decisions in one continuous example, which is how these subtopics actually appear in practice.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: 7 Database Design Mistakes to Avoid (With Solutions)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/s6m8Aby2at8?cc_load_policy=1&amp;rel=0" title="Video: 7 Database Design Mistakes to Avoid (With Solutions) (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 11:29 · 254,882 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=s6m8Aby2at8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video surveys seven common database design mistakes and offers a fix for each, drawing on patterns the presenter has seen across many designs. Typical issues in this genre include poor naming, storing multiple values in one field, unnecessary duplication, and missing or unclear relationships. The format pairs each problem with a concrete correction.</p>
+<h3>Why this video</h3>
+<p>It supports the validating and refining stage of the topic by giving you a checklist of warning signs to apply when reviewing your own draft diagram against the original requirements.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos move from requirements to a finished, checked model. The requirements-to-schema video supports the translation skill in MO4 and touches the shift from conceptual thinking to a concrete schema described in MO1. The library management case study gives sustained practice in classifying attributes (MO2) and in reading relationships and their cardinality and participation out of a scenario (MO3), while also modeling the complete diagram-building process of MO4. The design mistakes video supplies the critical eye required by MO5, offering concrete error patterns — redundancy, missing elements, poorly defined relationships — to look for when evaluating a drafted ER diagram against the problem description it came from.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

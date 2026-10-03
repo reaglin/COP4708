@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The CREATE Command</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+<h1>The CREATE Command</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: SQL Create Table: How-To with Example</a>
+<a href="#sec3">Video 2: MySQL Create Database: How-To with Examples</a>
+<a href="#sec4">Video 3: How to Create SQL Code from a Database Design</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>The CREATE statement is the starting point of SQL&#39;s Data Definition Language (DDL). While queries with SELECT read data that already exists, DDL commands build and shape the containers that hold data: databases, schemas, and tables. In this topic you will work through that hierarchy from the outside in — creating a database, organizing objects into a schema, and then defining individual tables with named columns and data types.</p>
+<p>This matters in COP4708 because everything you have designed on paper so far — entities, attributes, relationships — eventually has to be expressed as runnable SQL. A well-written CREATE TABLE statement captures your design decisions: what each column is called, what kind of values it may hold, how wide or precise those values are, and which schema the table belongs to. Poor choices here (a text column for a date, an undersized character field, inconsistent naming) are costly to fix once data is loaded.</p>
+<p>As you watch, pay attention to three things: the exact syntax and punctuation of a CREATE statement, how the presenter chooses a data type for each column and justifies it, and how fully qualified names (schema.table) are used. Also notice that syntax varies a little between database products such as MySQL, Oracle, SQL Server, and PostgreSQL, so confirm the dialect your course environment uses before you run anything.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: SQL Create Table: How-To with Example</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/T7eg5uS8VZo?cc_load_policy=1&amp;rel=0" title="Video: SQL Create Table: How-To with Example (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 5:41 · 3,264 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=T7eg5uS8VZo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, focused walkthrough of the CREATE TABLE statement using a worked example. Based on the title and channel, it should show the basic syntax — table name, the list of column definitions, and the data type assigned to each column — and then run the statement to produce a working table.</p>
+<h3>Why this video</h3>
+<p>This is the core subtopic of the lesson delivered concisely, and Database Star is a well-established SQL instruction channel known for accurate, dialect-aware explanations. At under six minutes it gives you a template you can imitate immediately when writing your own column definitions.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: MySQL Create Database: How-To with Examples</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/log1X_L9IZw?cc_load_policy=1&amp;rel=0" title="Video: MySQL Create Database: How-To with Examples (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 6:28 · 15,041 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=log1X_L9IZw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video covers CREATE DATABASE, the command that establishes the top-level container before any tables exist. Given the title and description, expect to see the basic statement, example variations, and likely supporting details such as listing or selecting a database after creating it, demonstrated in MySQL.</p>
+<h3>Why this video</h3>
+<p>It directly addresses the &quot;Creating a New Database&quot; subtopic and sets up the database-schema-table hierarchy, so you understand what a table is being created inside of rather than treating CREATE TABLE as an isolated command.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: How to Create SQL Code from a Database Design</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/F7IDTbentDs?cc_load_policy=1&amp;rel=0" title="Video: How to Create SQL Code from a Database Design (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 13:47 · 10,373 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=F7IDTbentDs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A longer, project-style video that moves from a completed database design to the SQL code that implements it. Expect a demonstration of translating entities and attributes into CREATE statements, including decisions about table names, columns, and data types, as part of a broader design-to-implementation workflow.</p>
+<h3>Why this video</h3>
+<p>It connects CREATE statements back to data modeling, which is exactly the skill this course builds, and it reinforces best practices for writing CREATE statements by showing them applied to a full design rather than a single toy table.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos build the practical foundation for the module&#39;s outcomes. The CREATE TABLE and design-to-SQL videos directly support MO2 by modeling how to write statements with appropriate column names and data types, and they illustrate DDL&#39;s distinct purpose — defining structure rather than retrieving or changing rows — which supports the classification work in MO1. The CREATE DATABASE video establishes the database and schema context in which tables and their constraints live, preparing you for the integrity rules in MO3. Because MO3, MO4, and MO5 extend beyond CREATE into constraints, ALTER TABLE, and DROP/TRUNCATE/DELETE, treat these videos as the base layer and pair them with the module readings and later topics that cover those commands.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

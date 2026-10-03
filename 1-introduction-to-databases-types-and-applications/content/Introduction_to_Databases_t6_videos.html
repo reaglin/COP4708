@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real-World Applications of Databases</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>Real-World Applications of Databases</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: ACID Properties in Databases With Examples</a>
+<a href="#sec3">Video 2: 8 Most Important System Design Concepts You Should Know</a>
+<a href="#sec4">Video 3: What is Data Pipeline? | Why Is It So Popular?</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Almost every digital service you used today was backed by a database. When you browse a product catalog, check a bank balance, refill a prescription, submit an assignment, or scroll a social feed, software is reading from and writing to a data store that someone designed on purpose. This topic looks at that connection between database theory and the systems people actually rely on: e-commerce and retail, healthcare records, banking and financial services, social media and content platforms, education and learning management systems, government and public services, and transportation and logistics.</p>
+<p>The reason this matters in COP4708 is that different industries place very different demands on their data. A bank cannot tolerate a transfer that debits one account without crediting another, so it leans on strict transactional guarantees. A social platform serves enormous volumes of reads and can often accept slightly stale data in exchange for speed and scale. A hospital must keep records accurate, auditable, and available. Those pressures — correctness, scale, flexibility, and reporting needs — are what push designers toward relational, NoSQL, or other models.</p>
+<p>The three videos below come from ByteByteGo, a channel focused on system design. Rather than touring industries one by one, they give you the vocabulary that explains why industries choose what they choose: transactional guarantees, core architectural building blocks, and the pipelines that move data from operational systems into analytics. As you watch, keep asking yourself which industry from the subtopic list would care most about each idea, and why.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: ACID Properties in Databases With Examples</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/GAe5oB742dw?cc_load_policy=1&amp;rel=0" title="Video: ACID Properties in Databases With Examples (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 4:57 · 309,562 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=GAe5oB742dw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video explains the ACID properties — atomicity, consistency, isolation, and durability — that define how reliable database transactions behave, and it works through examples to make each property concrete. Expect scenarios along the lines of money transfers or order processing, where a partially completed operation would leave the data in a broken state. It should also make clear why these guarantees are a feature of transactional database engines rather than something application code can easily fake.</p>
+<h3>Why this video</h3>
+<p>ACID is the single clearest explanation for why banking, financial services, healthcare records, and e-commerce checkout systems overwhelmingly rely on transactional relational databases, which makes this a direct fit for the industry-matching subtopics.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: 8 Most Important System Design Concepts You Should Know</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/BTjxUS_PylA?cc_load_policy=1&amp;rel=0" title="Video: 8 Most Important System Design Concepts You Should Know (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 6:05 · 565,502 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=BTjxUS_PylA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video surveys eight widely used system design concepts, the kind of building blocks that appear in large-scale production architectures. Based on the channel&#39;s focus, expect coverage of ideas such as caching, replication, partitioning or sharding, load balancing, and consistency trade-offs, presented at a high level with animated diagrams. It is a vocabulary-building overview rather than a deep dive into any one mechanism.</p>
+<h3>Why this video</h3>
+<p>It frames the trade-offs — scale, availability, consistency — that separate a social media or content platform&#39;s data layer from a bank&#39;s, giving you the language to justify database choices across different application domains.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: What is Data Pipeline? | Why Is It So Popular?</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/kGT4PcTEPP8?cc_load_policy=1&amp;rel=0" title="Video: What is Data Pipeline? | Why Is It So Popular? (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 5:25 · 492,241 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=kGT4PcTEPP8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video introduces data pipelines: how data is collected from operational sources, moved, transformed, and loaded into systems used for reporting, analytics, or machine learning. It should cover the typical stages of a pipeline and explain why organizations build them instead of querying production databases directly. The emphasis is on the role pipelines play in a larger data ecosystem.</p>
+<h3>Why this video</h3>
+<p>Retail, logistics, government, and learning management systems all depend on moving operational data into analytical stores, so this video extends the topic beyond the single application database to how real organizations actually use their data.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos connect database concepts to working systems. The ACID video supports MO3 and MO5 by showing what data integrity really guarantees and why integrity-critical industries such as banking and healthcare depend on it. The system design overview supports MO2, MO3, and MO4 by surfacing the scalability, consistency, and flexibility trade-offs you use as selection criteria when matching a database model to a scenario. The data pipeline video broadens the picture for MO4 and MO5, showing that real applications in retail, logistics, and public services often combine transactional and analytical stores. The module&#39;s vocabulary outcome (MO1) is reinforced indirectly, since all three videos use terms like transaction, schema, replication, and query in realistic context.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

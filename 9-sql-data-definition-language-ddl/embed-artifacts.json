@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "9 - SQL Data Definition Language (DDL) (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "9 - SQL Data Definition Language (DDL) \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -8,11 +13,6 @@
     "title": "9 - SQL Data Definition Language (DDL) \u2014 Module Topics",
     "href": "topics.html",
     "type": "Page"
-  },
-  {
-    "title": "9 - SQL Data Definition Language (DDL) \u2014 Module Topics",
-    "href": "content/module_topics.html",
-    "type": "Content"
   },
   {
     "title": "Working with Schemas",
@@ -52,6 +52,46 @@
   {
     "title": "Working with Schemas",
     "href": "content/SQL_Data_Definition_interactive_topics_t7.html",
+    "type": "Content"
+  },
+  {
+    "title": "Introduction to SQL DDL",
+    "href": "content/SQL_Data_Definition_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "The CREATE Command",
+    "href": "content/SQL_Data_Definition_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Data Types and Column Definitions",
+    "href": "content/SQL_Data_Definition_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Constraints in SQL",
+    "href": "content/SQL_Data_Definition_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "The ALTER Command",
+    "href": "content/SQL_Data_Definition_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "The DROP and TRUNCATE Commands",
+    "href": "content/SQL_Data_Definition_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Working with Schemas",
+    "href": "content/SQL_Data_Definition_t7_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "9 - SQL Data Definition Language (DDL)",
+    "href": "content/SQL_Data_Definition_videos_merged.html",
     "type": "Content"
   }
 ]

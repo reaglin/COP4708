@@ -1,474 +1,186 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Module 3 – Relational Databases and Normalization Concepts | COP4708</title>
-  <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --color-bg:          #f4f6f9;
-      --color-surface:     #ffffff;
-      --color-primary:     #1a4f8a;
-      --color-primary-dk:  #123762;
-      --color-accent:      #2e7fc1;
-      --color-accent-lt:   #e8f2fb;
-      --color-text:        #1e2a38;
-      --color-muted:       #5a6a7e;
-      --color-border:      #d4dce8;
-      --color-tag-bg:      #edf1f7;
-      --color-tag-text:    #3b5070;
-      --radius:            10px;
-      --shadow:            0 2px 10px rgba(0,0,0,.08);
-      --shadow-hover:      0 6px 20px rgba(0,0,0,.13);
-      --font-sans:         'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
-
-    html { font-size: 16px; scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-sans);
-      background: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.65;
-      min-height: 100vh;
-    }
-
-    /* ── Header / Hero ── */
-    .site-header {
-      background: linear-gradient(135deg, var(--color-primary-dk) 0%, var(--color-accent) 100%);
-      color: #fff;
-      padding: 3rem 1.5rem 2.5rem;
-      text-align: center;
-    }
-
-    .site-header .course-label {
-      display: inline-block;
-      background: rgba(255,255,255,.18);
-      border: 1px solid rgba(255,255,255,.35);
-      border-radius: 20px;
-      font-size: .8rem;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: .3rem .9rem;
-      margin-bottom: 1rem;
-    }
-
-    .site-header h1 {
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .site-header p {
-      font-size: 1.05rem;
-      max-width: 680px;
-      margin: 0 auto;
-      opacity: .9;
-      line-height: 1.7;
-    }
-
-    /* ── Main Container ── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
-    }
-
-    /* ── Section label ── */
-    .section-heading {
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--color-muted);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-    }
-    .section-heading::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--color-border);
-    }
-
-    /* ── Card Grid ── */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.25rem;
-    }
-
-    /* ── Card ── */
-    .card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 1.4rem 1.5rem 1.3rem;
-      display: flex;
-      flex-direction: column;
-      gap: .65rem;
-      transition: box-shadow .2s ease, transform .2s ease;
-    }
-    .card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    /* Card top row: type badge + filetype chip */
-    .card-meta-top {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      padding: .22rem .65rem;
-      border-radius: 20px;
-    }
-
-    /* Badge colours by type */
-    .badge--module-topics    { background: #fff3cd; color: #7a5c00; }
-    .badge--text-content     { background: #d1ecf1; color: #0c5460; }
-    .badge--topic-detail     { background: #d4edda; color: #155724; }
-    .badge--example-problems { background: #fde8d8; color: #7a3000; }
-    .badge--interactive      { background: #e8d5fb; color: #4a1580; }
-
-    .filetype-chip {
-      font-size: .7rem;
-      font-weight: 600;
-      padding: .18rem .55rem;
-      border-radius: 4px;
-      background: var(--color-tag-bg);
-      color: var(--color-tag-text);
-      border: 1px solid var(--color-border);
-      font-family: 'Courier New', monospace;
-    }
-
-    /* Card title row */
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      line-height: 1.35;
-      color: var(--color-text);
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: .45rem;
-    }
-
-    .card-title a {
-      color: var(--color-primary);
-      text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: border-color .15s, color .15s;
-    }
-    .card-title a:hover,
-    .card-title a:focus {
-      color: var(--color-accent);
-      border-bottom-color: var(--color-accent);
-      outline: none;
-    }
-
-    .card-title .plain-name {
-      color: var(--color-text);
-    }
-
-    /* Source link */
-    .source-link {
-      display: inline-flex;
-      align-items: center;
-      gap: .25rem;
-      font-size: .72rem;
-      font-weight: 600;
-      color: var(--color-muted);
-      text-decoration: none;
-      background: var(--color-tag-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      padding: .15rem .45rem;
-      white-space: nowrap;
-      transition: background .15s, color .15s;
-    }
-    .source-link:hover,
-    .source-link:focus {
-      background: var(--color-accent-lt);
-      color: var(--color-primary);
-      outline: none;
-    }
-    .source-link svg {
-      flex-shrink: 0;
-    }
-
-    /* Card description */
-    .card-description {
-      font-size: .9rem;
-      color: var(--color-muted);
-      line-height: 1.6;
-      flex: 1;
-    }
-
-    /* ── Footer ── */
-    .site-footer {
-      text-align: center;
-      font-size: .8rem;
-      color: var(--color-muted);
-      border-top: 1px solid var(--color-border);
-      padding: 1.25rem 1rem;
-      background: var(--color-surface);
-    }
-
-    /* ── Responsive tweaks ── */
-    @media (max-width: 480px) {
-      .card-grid { grid-template-columns: 1fr; }
-      .site-header { padding: 2rem 1rem 1.75rem; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3 - Relational Databases and Normalization Concepts — COP4708</title>
+  <link rel="stylesheet" href="../assets/site.css">
 </head>
 <body>
-<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ COP4708</a></div>
-<div style="border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:0 0 18px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-family:'Segoe UI',Arial,sans-serif"><strong style="color:#1a3c6e">Module outline:</strong><a href="topics-outcomes.html#topics" style="color:#1a3c6e;font-weight:600;text-decoration:none">📋 Module Topics</a><a href="topics-outcomes.html#outcomes" style="color:#137333;font-weight:600;text-decoration:none">🎯 Student Learning Outcomes</a></div>
-
-  <!-- ══ Header ══ -->
-  <header class="site-header">
-    <div class="course-label">COP4708</div>
-    <h1>Module 3 – Relational Databases and Normalization Concepts</h1>
-    <p>
-      This module guides learners through the foundations of relational database design,
-      exploring how data is structured into tables and relationships, why poorly structured
-      schemas lead to anomalies, and how normalization techniques — from 1NF through BCNF —
-      produce clean, consistent, and maintainable database schemas.
-    </p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708</a><span class="sep" aria-hidden="true">›</span><span class="current">3 - Relational Databases and Normalization Concepts</span>
+  </nav>
+      <div class="hero-label">Module 3</div>
+      <h1>Relational Databases and Normalization Concepts</h1>
+      <p class="hero-desc">This lesson introduces relational databases and the core motivation behind normalization, explaining how data anomalies arise in poorly structured tables. Students will explore insertion, update, and deletion anomalies and how normalization addresses them.</p>
+    </div>
   </header>
-
-  <!-- ══ Main Content ══ -->
-  <main class="container">
-
-    <p class="section-heading">Module Artifacts <span aria-hidden="true"></span></p>
-
-    <div class="card-grid">
-
-      <!-- 1 · Module Topics -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--module-topics">Module Topics</span>
-          <span class="filetype-chip">.json</span>
-        </div>
-        <div class="card-title">
-          <a href="content/module_topics.html">Module Topics</a>
-          <a class="source-link" href="source/hierarchy.json">
-            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2.5"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-            source file
-          </a>
-        </div>
-        <p class="card-description">
-          Covers core relational database concepts — including tables, primary keys, data
-          redundancy, and anomalies — alongside normalization principles (1NF through BCNF)
-          and functional dependencies, serving as the structural outline that guides learners
-          and instructors through the sequence of topics in the module.
-        </p>
-      </article>
-
-      <!-- 2 · Introduction to Normalization (Text Content) -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--text-content">Text Content</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/_interactive.html">Introduction to Normalization</a>
-        </div>
-        <p class="card-description">
-          This reading introduces database normalization as a step-by-step process for
-          structuring tables and columns to eliminate redundancy and inconsistency,
-          providing learners with the conceptual foundation and rationale before they
-          study specific normal forms.
-        </p>
-      </article>
-
-      <!-- 3 · Introduction to Relational Databases -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--topic-detail">Topic Detail</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_interactive_topics_t1.html">Introduction to Relational Databases</a>
-        </div>
-        <p class="card-description">
-          This reading explains the core concepts of relational databases — how data is
-          organized into tables with rows and columns, how tables relate to one another,
-          and why this structured approach is foundational to software development and
-          data management.
-        </p>
-      </article>
-
-      <!-- 4 · Problems with Poorly Structured Tables -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--topic-detail">Topic Detail</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_interactive_topics_t2.html">Problems with Poorly Structured Tables</a>
-        </div>
-        <p class="card-description">
-          This reading describes the practical consequences of poorly designed database
-          tables — including wasted storage, increased maintenance burden, and data integrity
-          problems — helping learners recognize why thoughtful schema design matters before
-          studying normalization techniques.
-        </p>
-      </article>
-
-      <!-- 5 · Insertion Anomalies -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--topic-detail">Topic Detail</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_interactive_topics_t3.html">Insertion Anomalies</a>
-        </div>
-        <p class="card-description">
-          This reading defines and illustrates insertion anomalies, explaining how poorly
-          structured tables can make it impossible or awkward to add valid data without
-          fabricating unrelated information, so learners can identify this design flaw
-          in real schemas.
-        </p>
-      </article>
-
-      <!-- 6 · Update Anomalies -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--topic-detail">Topic Detail</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_interactive_topics_t4.html">Update Anomalies</a>
-        </div>
-        <p class="card-description">
-          This reading defines and illustrates update anomalies, showing learners how
-          denormalized tables force multiple row updates to reflect a single real-world
-          change and how failing to do so creates data inconsistencies.
-        </p>
-      </article>
-
-      <!-- 7 · Deletion Anomalies -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--topic-detail">Topic Detail</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_interactive_topics_t5.html">Deletion Anomalies</a>
-        </div>
-        <p class="card-description">
-          This reading defines and illustrates deletion anomalies, explaining how removing
-          a single row in a poorly designed table can unintentionally destroy unrelated
-          data, helping learners understand a key motivation for normalization.
-        </p>
-      </article>
-
-      <!-- 8 · Introduction to Normalization (Topic Detail) -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--topic-detail">Topic Detail</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_interactive_topics_t6.html">Introduction to Normalization</a>
-        </div>
-        <p class="card-description">
-          This reading introduces database normalization as a step-by-step process for
-          structuring tables and columns to eliminate redundancy and inconsistency,
-          providing learners with the conceptual foundation and rationale before they
-          study specific normal forms.
-        </p>
-      </article>
-
-      <!-- 9 · Distinguish between insertion, update, and deletion -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--example-problems">Example Problems</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_o-mo2_example-problems.html">Distinguish between insertion, update, and deletion</a>
-        </div>
-        <p class="card-description">
-          This text-based HTML resource explains and contrasts the three types of data
-          anomalies — insertion, deletion, and update — that arise in poorly structured
-          database schemas, using example problems so learners can practice identifying
-          and differentiating each anomaly type in preparation for analyzing real schema
-          designs.
-        </p>
-      </article>
-
-      <!-- 10 · Diagnose warning signs of poor table -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--example-problems">Example Problems</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="content/Relational_Databases_and_o-mo3_example-problems.html">Diagnose warning signs of poor table</a>
-        </div>
-        <p class="card-description">
-          This reading covers how to identify common flaws in relational table design —
-          including repeating groups, mixed entity types, and partial-key dependencies —
-          and presents worked example problems that learners use to practice diagnosing
-          these issues in a given schema as preparation for the module's analysis-level
-          outcome.
-        </p>
-      </article>
-
-      <!-- 11 · Drag-and-Drop Match -->
-      <article class="card">
-        <div class="card-meta-top">
-          <span class="badge badge--interactive">Interactive Activity</span>
-          <span class="filetype-chip">.html</span>
-        </div>
-        <div class="card-title">
-          <a href="interactive/drag-and-drop-match.html">Drag-and-Drop Match</a>
-        </div>
-        <p class="card-description">
-          This interactive drag-and-drop activity asks learners to match database anomaly
-          types (such as insertion, deletion, and update anomalies) to real-world scenarios
-          that illustrate them, providing immediate feedback on correct and incorrect matches
-          so learners can self-assess their understanding of how and when each anomaly occurs
-          in relational databases.
-        </p>
-      </article>
-
-    </div><!-- /.card-grid -->
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 6 topics. Open a topic to see its subtopics.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num" aria-hidden="true">1</span><span class="topic-text"><span class="topic-title">Introduction to Relational Databases</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num" aria-hidden="true">2</span><span class="topic-text"><span class="topic-title">Problems with Poorly Structured Tables</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num" aria-hidden="true">3</span><span class="topic-text"><span class="topic-title">Insertion Anomalies</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num" aria-hidden="true">4</span><span class="topic-text"><span class="topic-title">Update Anomalies</span><span class="topic-meta">6 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num" aria-hidden="true">5</span><span class="topic-text"><span class="topic-title">Deletion Anomalies</span><span class="topic-meta">5 subtopics</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num" aria-hidden="true">6</span><span class="topic-text"><span class="topic-title">Introduction to Normalization</span><span class="topic-meta">6 subtopics</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics and subtopics</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">17 items.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/_interactive.html">Introduction to Normalization</a></div>
+    <p class="content-desc">This reading introduces database normalization as a step-by-step process for structuring tables and columns to eliminate redundancy and inconsistency, providing learners with the conceptual foundation and rationale before they study specific normal forms.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_interactive_topics_t1.html">Introduction to Relational Databases</a></div>
+    <p class="content-desc">This reading explains the core concepts of relational databases — how data is organized into tables with rows and columns, how tables relate to one another, and why this structured approach is foundational to software development and data management.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_interactive_topics_t2.html">Problems with Poorly Structured Tables</a></div>
+    <p class="content-desc">This reading describes the practical consequences of poorly designed database tables — including wasted storage, increased maintenance burden, and data integrity problems — helping learners recognize why thoughtful schema design matters before studying normalization techniques.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_interactive_topics_t3.html">Insertion Anomalies</a></div>
+    <p class="content-desc">This reading defines and illustrates insertion anomalies, explaining how poorly structured tables can make it impossible or awkward to add valid data without fabricating unrelated information, so learners can identify this design flaw in real schemas.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_interactive_topics_t4.html">Update Anomalies</a></div>
+    <p class="content-desc">This reading defines and illustrates update anomalies, showing learners how denormalized tables force multiple row updates to reflect a single real-world change and how failing to do so creates data inconsistencies.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_interactive_topics_t5.html">Deletion Anomalies</a></div>
+    <p class="content-desc">This reading defines and illustrates deletion anomalies, explaining how removing a single row in a poorly designed table can unintentionally destroy unrelated data, helping learners understand a key motivation for normalization.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_interactive_topics_t6.html">Introduction to Normalization</a></div>
+    <p class="content-desc">This reading introduces database normalization as a step-by-step process for structuring tables and columns to eliminate redundancy and inconsistency, providing learners with the conceptual foundation and rationale before they study specific normal forms.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Example Problems</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_o-mo2_example-problems.html">Distinguish between insertion, update, and deletion</a></div>
+    <p class="content-desc">This text-based HTML resource explains and contrasts the three types of data anomalies—insertion, deletion, and update—that arise in poorly structured database schemas, using example problems so learners can practice identifying and differentiating each anomaly type in preparation for analyzing real schema designs.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Example Problems</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_o-mo3_example-problems.html">Diagnose warning signs of poor table</a></div>
+    <p class="content-desc">This reading covers how to identify common flaws in relational table design — including repeating groups, mixed entity types, and partial-key dependencies — and presents worked example problems that learners use to practice diagnosing these issues in a given schema as preparation for the module&#39;s analysis-level outcome.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_t1_videos.html">Introduction to Relational Databases — Videos</a></div>
+    <p class="content-desc">A foundational reading that explains how relational databases store data in tables of rows and columns and how primary keys and foreign keys link those tables together, giving learners the vocabulary they need before tackling design flaws and normalization.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_t2_videos.html">Problems with Poorly Structured Tables — Videos</a></div>
+    <p class="content-desc">A lesson on how cramming customers, orders, products, and salespeople into one table creates data redundancy, and how that repetition leads to the three classic insertion, update, and deletion anomalies students will examine individually.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_t3_videos.html">Insertion Anomalies — Videos</a></div>
+    <p class="content-desc">A focused reading defining insertion anomalies, using examples such as a course-and-instructor table whose key requirements block recording a legitimate fact, so learners can recognize this flaw in sample table designs.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_t4_videos.html">Update Anomalies — Videos</a></div>
+    <p class="content-desc">A focused reading on update anomalies, showing how a fact repeated across many rows (like a customer&#39;s phone number on fifty orders) leads to incomplete edits and contradictory data, helping learners diagnose redundancy-driven inconsistency.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_t5_videos.html">Deletion Anomalies — Videos</a></div>
+    <p class="content-desc">A focused reading on deletion anomalies, illustrating how removing one row can wipe out unrelated facts stored in that same row, so learners can spot designs that risk unintended data loss.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_t6_videos.html">Introduction to Normalization — Videos</a></div>
+    <p class="content-desc">An overview of normalization as a systematic response to redundancy and anomalies, establishing the principle that each table should describe one thing and each fact be stored once, preparing learners to apply the normal forms.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎬</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topics and Embedded Video</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Databases_and_videos_merged.html">3 - Relational Databases and Normalization Concepts — 6 topics (merged)</a></div>
+    <p class="content-desc">A combined, single-page compilation of all module readings — relational database basics, poorly structured tables, the three anomaly types, and normalization — useful for continuous review, printing, or instructor presentation of the full module.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎮</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Activity</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="interactive/drag-and-drop-match.html">Drag-and-Drop Match</a></div>
+    <p class="content-desc">This interactive drag-and-drop activity asks learners to match database anomaly types (such as insertion, deletion, and update anomalies) to real-world scenarios that illustrate them, providing immediate feedback on correct and incorrect matches so learners can self-assess their understanding of how and when each anomaly occurs in relational databases.</p>
+  </div>
+</li>
+</ul>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../2-relational-theory-and-functional-dependencies/index.html">← 2 - Relational Theory and Functional Dependencies</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../4-normal-forms-1nf-2nf-and-3nf/index.html">4 - Normal Forms: 1NF, 2NF, and 3NF →</a>
+</nav>
   </main>
-
-  <!-- ══ Footer ══ -->
-  <footer class="site-footer">
-    COP4708 &mdash; Module 3: Relational Databases and Normalization Concepts
-  </footer>
-
-
-<footer class="presemaker-credit" style="margin-top:2rem;padding:14px 0;border-top:1px solid #ddd;text-align:center;font:13px/1.4 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#777;">Created with <a href="https://apps.microsoft.com/detail/9mt854nv3fgf?hl=en-US&amp;gl=US" target="_blank" rel="noopener" style="color:#3b6ea5;text-decoration:none;">PreseMaker</a></footer>
-<section class="presemaker-extras" style="max-width:1000px;margin:2rem auto;padding:0 1rem;"><h2>Topics &amp; Learning Outcomes</h2><p><a href="topics-outcomes.html">View Topics &amp; Learning Outcomes</a></p></section><script src="embed-inject.js" defer></script></body>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
 </html>

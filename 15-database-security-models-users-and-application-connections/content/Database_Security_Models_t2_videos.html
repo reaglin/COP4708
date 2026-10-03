@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Roles and Permissions</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 15 - Database Security Models, Users, and Application Connections</a></div>
+<h1>User Roles and Permissions</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Role-based access control (RBAC) vs. Attribute-based access control (ABAC)</a>
+<a href="#sec3">Video 2: How to Create a New User in MySQL</a>
+<a href="#sec4">Video 3: How to Create a New User in Oracle Database</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Every database engine assumes that not everyone who connects should be able to do everything. User accounts identify who is connecting, privileges define what each account is allowed to do, and roles bundle privileges into reusable packages that can be granted and revoked as job responsibilities change. In this topic you will look at how accounts are created with CREATE USER, how access rights are assigned with GRANT and withdrawn with REVOKE, and how a role-based access control (RBAC) model keeps permission management manageable as the number of users grows.</p>
+<p>Two ideas sit underneath the mechanics. The principle of least privilege says each account should hold only the rights it needs for its task and nothing more, so that a compromised or careless account causes limited damage. Separation of duties says that sensitive combinations of power — for example, the ability to both change data and erase the audit trail of that change — should not sit in a single role, and that administrative accounts should be distinct from everyday application accounts.</p>
+<p>The videos below approach this from two directions: one conceptual video on access control models, and two hands-on walkthroughs in MySQL and Oracle. While watching the conceptual video, pay attention to how roles differ from attribute-based rules and when each approach fits. While watching the hands-on videos, note the exact syntax for creating an account, the difference between creating a user and granting that user any privileges, and how the demonstrated grants would change if you deliberately restricted them to the minimum needed.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Role-based access control (RBAC) vs. Attribute-based access control (ABAC)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/rvZ35YW4t5k?cc_load_policy=1&amp;rel=0" title="Video: Role-based access control (RBAC) vs. Attribute-based access control (ABAC) (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 7:39 · 176,854 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=rvZ35YW4t5k" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>An IBM Technology explainer that contrasts role-based access control with attribute-based access control. Expect a definition of RBAC in terms of roles, permissions assigned to roles, and users assigned to roles, followed by ABAC&#39;s use of attributes such as user, resource, and environment characteristics to evaluate access decisions, along with trade-offs between the two models.</p>
+<h3>Why this video</h3>
+<p>It gives you the vocabulary and the mental model behind roles before you start typing GRANT statements, and it comes from a producer with a strong track record for clear, accurate security explainers.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: How to Create a New User in MySQL</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Dz3DIcM19Jk?cc_load_policy=1&amp;rel=0" title="Video: How to Create a New User in MySQL (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 5:04 · 45,521 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=Dz3DIcM19Jk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short Database Star tutorial on creating a new user account in MySQL. It is likely to cover the CREATE USER statement, how MySQL identifies accounts by username and host, setting a password, and then granting privileges to the new account so it can actually do useful work.</p>
+<h3>Why this video</h3>
+<p>It turns the abstract idea of a user account into concrete, runnable syntax in a widely used open-source DBMS, and it highlights the important point that creating a user and granting privileges are two separate steps.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: How to Create a New User in Oracle Database</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zsmMRDdrZRg?cc_load_policy=1&amp;rel=0" title="Video: How to Create a New User in Oracle Database (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 8:48 · 7,010 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=zsmMRDdrZRg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A Database Star walkthrough of creating a user in Oracle Database. Expect coverage of the CREATE USER statement along with Oracle-specific considerations such as pluggable databases and common versus local users, default tablespaces, and the grants (for example CREATE SESSION) a new account needs before it can connect and work.</p>
+<h3>Why this video</h3>
+<p>Seeing the same task in a second engine shows which concepts are universal and which are vendor-specific, which is exactly the judgment you need when applying least privilege in an unfamiliar system.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos support MO1 by framing why access should be constrained at all and giving you the role-centered vocabulary that least privilege is expressed in, and they most directly support MO2 by demonstrating the concrete account-creation and privilege-granting steps in MySQL and Oracle that you will extend into roles, GRANT and REVOKE statements, and separation-of-duties configurations. The least-privilege thinking reinforced here also underpins MO4, since a secure application-to-database connection depends on a service account that holds only the rights the application actually uses; the module&#39;s other materials and your lab work will carry the remaining outcomes on parameterized queries (MO3) and connection pooling risks (MO5).</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

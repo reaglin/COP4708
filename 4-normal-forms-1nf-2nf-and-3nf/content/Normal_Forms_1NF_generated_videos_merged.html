@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>4 - Normal Forms: 1NF, 2NF, and 3NF</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+<h1>4 - Normal Forms: 1NF, 2NF, and 3NF</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Introduction to Normalization</a>
+<a href="#part2">First Normal Form (1NF)</a>
+<a href="#part3">Second Normal Form (2NF)</a>
+<a href="#part4">Third Normal Form (3NF)</a>
+<a href="#part5">Applying Normal Forms: End-to-End Practice</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Introduction to Normalization</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>Normalization is the systematic process of organizing the tables and columns of a relational database so that each fact is stored in exactly one place. When a design stores the same fact repeatedly — a customer's address repeated on every order row, for example — the database becomes vulnerable to inconsistency: one copy gets updated and the others do not. Normalization attacks this problem at the structural level by examining how attributes depend on keys and splitting tables until each table describes one kind of thing.</p>
+<p>In this module you will work through the first three normal forms in detail, so this introductory topic sets up the vocabulary and the motivation you will need. Pay particular attention to the three classic anomalies — insertion, update, and deletion — because they are the practical symptoms that tell you a table is badly designed. Equally important is the idea of a functional dependency: the statement that one set of attributes determines another. Every rule you will learn for 1NF, 2NF, and 3NF is ultimately a statement about which dependencies are allowed to live in a table.</p>
+<p>As you watch the videos below, look for three things: concrete examples of redundancy and the trouble it causes, the role of keys in deciding where an attribute belongs, and the reasoning behind each normal form rather than just its definition. The third video deliberately covers denormalization — the deliberate reintroduction of redundancy — so that you understand normalization as a design judgment with trade-offs, not a rule to be applied blindly.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: Database Normalization 1NF 2NF 3NF</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/SK4H5tTT6-M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization 1NF 2NF 3NF (Jesper Lowgren)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Jesper Lowgren</strong> · 10:26 · 262,010 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=SK4H5tTT6-M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A compact walkthrough of the first three normal forms, presented as a single connected progression from an unnormalized table to a normalized design. Based on its title and description, it frames normalization as both a philosophy and a set of mathematical rules for understanding how data elements relate and connect. Expect worked movement through 1NF, then 2NF, then 3NF, with the reasoning for each step.</p>
+<h4>Why this video</h4>
+<p>At roughly ten minutes it gives you a complete map of the territory this module covers, which is exactly what an introductory topic needs before you study each normal form in depth.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: Database Normalization: What and Why</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Kn5M-x1rH6M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: What and Why (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 15:41 · 2,442 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=Kn5M-x1rH6M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Kevin Feasel focuses on the what and the why of normalization rather than rushing to the mechanics, including why it matters to working data platform professionals. The description also promises his ranking of the normal forms, which implies discussion of several forms and their relative practical value. Likely to cover redundancy, data integrity, and the motivation behind the normal form hierarchy.</p>
+<h4>Why this video</h4>
+<p>This is the strongest fit for the conceptual subtopics here — what normalization is, the redundancy problem, the integrity goal, and the idea of normal forms as a graduated series — and it comes from an experienced data platform presenter speaking to a professional audience.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: Learn Database Denormalization</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/4bTq0GdSeQs?cc_load_policy=1&amp;rel=0" title="Video: Learn Database Denormalization (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 19:08 · 78,727 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=4bTq0GdSeQs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Decomplexify examines denormalization: what it means to deliberately reverse normalization in a relational database and how to recognize situations where doing so is appropriate. Expect discussion of the costs that normalized designs can impose and the redundancy risks you accept in exchange when you denormalize. The video assumes familiarity with normalized design and reasons about when to depart from it.</p>
+<h4>Why this video</h4>
+<p>Seeing the opposite direction sharpens your understanding of what normalization actually buys you in integrity terms, and Decomplexify is widely regarded for clear, carefully reasoned explanations of relational design.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the conceptual foundation the module's outcomes depend on. The discussion of insertion, update, and deletion anomalies and the redundancy that causes them supports MO1, while the end-to-end progression through 1NF, 2NF, and 3NF previews the transformations required by MO2, MO3, and MO4 — atomicity and primary keys, partial dependencies under composite keys, and transitive dependencies. The emphasis on functional dependencies as the reason behind each rule prepares you to validate a finished schema against all three forms as required by MO5, and the denormalization video ensures you can justify your design decisions rather than apply the rules mechanically.</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>First Normal Form (1NF)</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>First Normal Form is the entry point to database normalization. A table is in 1NF when every column holds a single, indivisible (atomic) value, when there are no repeating groups of columns such as Phone1, Phone2, Phone3, and when each row can be uniquely identified by a primary key. These rules sound simple, but applying them to a messy real-world spreadsheet-style table is where most of the learning happens.</p>
+<p>In this course, 1NF matters because every later step depends on it. You cannot meaningfully look for partial dependencies (2NF) or transitive dependencies (3NF) until the data is in a flat, atomic, key-identified structure. The anomalies you studied earlier in this module - insertion, update, and deletion problems - are often made much worse by comma-separated lists and repeated column groups, so putting a table into 1NF is usually the first concrete repair you perform.</p>
+<p>As you watch, keep three questions in mind. First, what exactly counts as atomic, and where do people disagree about it? Second, when a repeating group is removed, how many rows does the table gain, and what does that do to the key? Third, what becomes the primary key after the transformation - a single column, or a composite of two or more? Try to pause each video at the "before" table and sketch your own "after" table before the presenter reveals theirs.</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A fast, widely watched overview that walks through the full normalization ladder - 1NF, 2NF, 3NF, BCNF, and the higher forms - using everyday examples rather than abstract notation. The opening portion focuses on 1NF, where the presenter illustrates multi-valued and composite attributes and shows how to flatten them into atomic columns and rows. The rest of the video previews where the module is headed after 1NF.</p>
+<h4>Why this video</h4>
+<p>Gate Smashers is a well-known exam-prep channel whose explanations are concise and example-driven, and seeing 1NF in the context of the whole normalization sequence helps you understand why atomicity is only the first step.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: Database Normalization:  First Normal Form</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/CN_W71rWBi8?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization:  First Normal Form (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 7:51 · 840 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=CN_W71rWBi8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A focused, single-topic treatment of First Normal Form that distinguishes the popular shorthand definition of 1NF from the more precise relational-theory definition. The presenter addresses common misconceptions about what atomicity really requires and why the rule is sometimes misunderstood or misapplied. Expect discussion of repeating groups and row identity as part of the definition.</p>
+<h4>Why this video</h4>
+<p>Because it is devoted entirely to 1NF, this video gives the depth the topic deserves and directly supports the subtopics on atomicity and what 1NF actually is, including the nuances that textbook summaries gloss over.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: Database: Introducing Normalization and 1NF</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/ABVS1HtHGOQ?cc_load_policy=1&amp;rel=0" title="Video: Database: Introducing Normalization and 1NF (Very Academy)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Very Academy</strong> · 8:24 · 1,413 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=ABVS1HtHGOQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A practical tutorial that introduces normalization generally and then applies 1NF to a sample table. It is structured as a step-by-step walkthrough, so you should see an unnormalized starting table, the problems it creates, and the restructured 1NF result. The format lends itself to following along with your own example.</p>
+<h4>Why this video</h4>
+<p>Very Academy's hands-on, build-it-with-me style matches the "transforming an unnormalized table into 1NF step-by-step" and "before and after" subtopics, making it a good companion to the more definitional videos.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these three videos cover the full 1NF skill set targeted by MO2: recognizing and removing repeating groups, enforcing atomic column values, and designating a primary key for the resulting table. The focused 1NF videos build the conceptual precision needed to judge whether a table truly complies, which feeds directly into the validation work in MO5, while the before-and-after examples make visible the insertion, update, and deletion anomalies described in MO1. The broader normalization overview also previews the dependency analysis required for MO3 and MO4, so you can see how 1NF sets up the decompositions that follow later in this module.</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>Second Normal Form (2NF)</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>Second Normal Form (2NF) is the next step after 1NF in the normalization process. Once a table is in 1NF — every attribute holds a single atomic value and a primary key has been designated — the question becomes whether every non-key attribute actually depends on the whole primary key. When a table has a composite primary key (a key made of two or more attributes), it is possible for some non-key attribute to be determined by only part of that key. That situation is called a partial dependency, and 2NF exists to remove it: a table is in 2NF if it is in 1NF and every non-key attribute is fully functionally dependent on the entire primary key.</p>
+<p>This matters because partial dependencies cause the same anomalies you studied earlier in the module. If a product's name is stored in an order-line table keyed on (OrderID, ProductID), the product name repeats on every line, must be updated in many rows at once, and cannot be recorded at all until some order references it. Decomposing the table — pulling the partially dependent attributes out into their own table keyed on the determinant — removes the redundancy without losing information, because the original table can be reconstructed by joining.</p>
+<p>As you watch the videos below, keep three things in view. First, notice how each presenter writes out the functional dependencies before judging the table; the dependencies, not intuition, decide the answer. Second, watch for the shortcut rule that a table with a single-attribute primary key and no repeating groups is automatically in 2NF, and make sure you understand why. Third, follow the decomposition carefully: which attributes move, what becomes the key of the new table, and what stays behind as a foreign key.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: Database Normalization: 1NF to 5NF in Plain English</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/wY1qqBFnKhk?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: 1NF to 5NF in Plain English (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 16:15 · 8,915 views · 10mo ago · captions — <a href="https://www.youtube.com/watch?v=wY1qqBFnKhk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A single walkthrough that takes one example table from unnormalized form all the way to 5NF, with a timestamped section on Second Normal Form beginning around 6:30. Because it uses the same table throughout, you can see exactly which columns are removed at the 2NF step and why the 1NF result was not yet good enough. The 3NF segment that follows at 10:20 shows what is left over after partial dependencies are handled.</p>
+<h4>Why this video</h4>
+<p>Database Star is a well-known SQL and database-design channel, and the continuous single-example format is ideal for this topic because 2NF only makes sense relative to the 1NF table that preceded it.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A compact lecture-style treatment of all the normal forms — 1NF, 2NF, 3NF, BCNF, 4NF and 5NF — presented with real-life examples in roughly eleven minutes. The 2NF portion focuses on the definition involving full functional dependency on the primary key and the role of composite keys in creating partial dependencies. It is paced like an exam-review session, with the rules stated explicitly.</p>
+<h4>Why this video</h4>
+<p>Gate Smashers is a widely viewed DBMS teaching channel, and this video gives you a crisp, memorizable statement of the 2NF rule and the prime/non-prime attribute vocabulary you will need when detecting partial dependencies.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>Video 3: This Simple Table Exposes Weak Normal Forms Knowledge</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hycFOFnYxQg?cc_load_policy=1&amp;rel=0" title="Video: This Simple Table Exposes Weak Normal Forms Knowledge (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 18:16 · 32,319 views · 4mo ago · captions — <a href="https://www.youtube.com/watch?v=hycFOFnYxQg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Decomplexify builds the discussion around one deceptively simple table and uses it to test whether viewers really understand what each normal form requires. Expect careful attention to where the common shortcut definitions of 1NF, 2NF and 3NF break down, and to reasoning directly from the functional dependencies rather than from memorized phrases.</p>
+<h4>Why this video</h4>
+<p>This is the right video to watch after the overviews: it pushes you past rote recitation of the 2NF rule toward the kind of careful dependency analysis you will need to justify a decomposition.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos target MO3 directly: all three show how to spot a non-key attribute that depends on only part of a composite key, and how to split the table so that every remaining attribute is fully dependent on the whole key. Because each video treats normalization as a continuous sequence rather than isolated rules, they also reinforce MO2 by showing the 1NF starting point that 2NF builds on, and they preview MO4 by continuing into transitive dependencies and 3NF. The anomaly discussions that motivate each step support MO1, and the Decomplexify video in particular models the careful, dependency-by-dependency checking you will use for MO5 when confirming that every table in a finished schema satisfies 1NF, 2NF and 3NF.</p>
+</section>
+<section class="item" id="p3-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>Third Normal Form (3NF)</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>Third Normal Form (3NF) is the point in the normalization process where you remove dependencies that travel through an intermediate attribute. A transitive dependency occurs when a non-key attribute determines another non-key attribute, so the second attribute depends on the primary key only indirectly. A classic pattern looks like this: in an Employee table keyed by EmployeeID, the DepartmentID determines DepartmentName, so DepartmentName depends on EmployeeID only through DepartmentID. The fix is to split the dependent attributes into their own table and keep the determinant as a foreign key.</p>
+<p>In this course, 3NF matters because it is the practical stopping point for most production schemas. Once a table is in 2NF, leftover transitive dependencies are what still cause redundant storage and the insertion, update, and deletion anomalies you studied earlier in the module. Decomposing to 3NF keeps each fact recorded in exactly one place, which makes updates safe and keeps referential integrity meaningful.</p>
+<p>As you watch the videos below, pay attention to three things: how each presenter identifies the determinant of a suspect attribute, how the original table is split (which attribute stays behind as a foreign key), and how the resulting tables are checked against the 1NF and 2NF rules you already know. Try pausing before each worked solution and attempting the decomposition yourself, then compare your answer to the presenter's.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This lecture walks through the full sequence of normal forms, from 1NF through BCNF and the higher forms, using everyday example tables rather than abstract notation. The 3NF portion should show how transitive dependencies are identified and why 3NF builds directly on the 2NF requirements. Because it covers everything in one pass, it also places 3NF in context relative to what comes before and after it.</p>
+<h4>Why this video</h4>
+<p>Gate Smashers is a widely used computer science channel, and this single-session overview is useful for seeing how 3NF fits into the whole normalization ladder rather than treating it as an isolated rule.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: Normalization Practice Exercise | Third Normal Form| Denormalization</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/9nm_Cj4M63Q?cc_load_policy=1&amp;rel=0" title="Video: Normalization Practice Exercise | Third Normal Form| Denormalization (Tech Coach)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech Coach</strong> · 4:53 · 205,436 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=9nm_Cj4M63Q" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, exercise-driven video that takes a denormalized dataset and works it into Third Normal Form step by step. The description also indicates coverage of denormalization, so you should see why designers sometimes deliberately reverse the process for performance reasons. Expect a worked table transformation rather than a lecture on theory.</p>
+<h4>Why this video</h4>
+<p>Its practice-problem format directly supports the "Decomposing Tables to Achieve 3NF" and "Step-by-Step 3NF Transformation Example" subtopics, and the brief running time makes it easy to replay while attempting the exercise yourself.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: Database design made easy, part 4: Third Normal Forum</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/kjkEtLbrtLQ?cc_load_policy=1&amp;rel=0" title="Video: Database design made easy, part 4: Third Normal Forum (Hugo Kornelis)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Hugo Kornelis</strong> · 16:49 · 190 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=kjkEtLbrtLQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part four of a database design series, this video states the 3NF rule explicitly: a table is in 3NF when it satisfies all 2NF rules and no non-key attribute determines another non-key attribute. The longer format allows a careful, definition-first treatment of the rule and its application to sample tables. It assumes you have watched the earlier parts on 1NF and 2NF, which matches the order of this module.</p>
+<h4>Why this video</h4>
+<p>Hugo Kornelis is a veteran database professional, and the precise phrasing of the rule in the video description signals the kind of careful definition students need for recognizing 3NF violations and validating a finished schema.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos carry you from recognizing a problem to fixing and verifying it. The Gate Smashers overview and the Kornelis lesson give you the precise statement of the 3NF rule and the reasoning about anomalies and dependencies that supports MO1 and MO4, while their reviews of the earlier normal forms reinforce the 1NF and 2NF work in MO2 and MO3. The Tech Coach practice exercise provides the hands-on decomposition drill called for by MO4, and the cumulative, build-on-the-previous-form structure of all three videos models the compliance check across every resulting table that MO5 requires.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>Applying Normal Forms: End-to-End Practice</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>Up to this point in the module you have studied each normal form on its own: atomicity and repeating groups for 1NF, partial dependencies for 2NF, and transitive dependencies for 3NF. This topic puts those pieces together into a single workflow. You start with a messy, unnormalized table — the kind that holds multiple values in one cell, repeats the same customer or product facts on many rows, and breaks when you try to insert, update, or delete a record — and you carry it step by step all the way to a set of 3NF tables.</p>
+<p>The reason this end-to-end practice matters is that normalization in real design work is rarely one isolated decision. Each step changes the table you are working with, and the dependencies you must examine at step two are the ones left over after step one. Working through a full example also trains you to justify each decomposition: which functional dependency forced the split, which key the new table uses, and how the original data can still be reconstructed through foreign keys.</p>
+<p>As you watch the videos below, keep a pencil moving. Write down the candidate keys at each stage, mark which attributes depend on only part of a composite key (partial dependency) and which depend on another non-key attribute (transitive dependency), and sketch the resulting tables yourself before the presenter reveals them. Afterwards, check your final schema against all three normal forms, table by table, the same way you would validate your own design in an assignment.</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: Database Normalization 1NF 2NF 3NF</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/SK4H5tTT6-M?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization 1NF 2NF 3NF (Jesper Lowgren)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Jesper Lowgren</strong> · 10:26 · 262,010 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=SK4H5tTT6-M" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A roughly ten-minute walkthrough of the first three normal forms, presented as a connected progression rather than three separate rules. Based on its title and framing, expect the video to explain the reasoning behind normalization — why data is organized and connected the way it is — and then apply 1NF, 2NF, and 3NF in sequence to sample data. Pay attention to how the presenter motivates each step before performing the decomposition.</p>
+<h4>Why this video</h4>
+<p>It covers the entire 1NF-to-3NF journey in one continuous explanation, which matches this topic's goal of seeing normalization as a single end-to-end process rather than isolated definitions.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: Normalization Practice Exercise | Third Normal Form| Denormalization</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/9nm_Cj4M63Q?cc_load_policy=1&amp;rel=0" title="Video: Normalization Practice Exercise | Third Normal Form| Denormalization (Tech Coach)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech Coach</strong> · 4:53 · 205,436 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=9nm_Cj4M63Q" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, exercise-driven video that takes a denormalized dataset and works it into Third Normal Form, with some discussion of denormalization as a contrast. Expect a worked practice problem: identify the problems in the starting table, apply the normal forms in order, and arrive at a final set of related tables. The brief runtime makes it well suited to pausing and attempting each step yourself first.</p>
+<h4>Why this video</h4>
+<p>It is explicitly a practice exercise rather than a lecture, giving you a second worked example to test the procedure you learned from the longer video, and its mention of denormalization helps you see why designers sometimes trade normalization away.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos trace the same path as the module outcomes. Both begin from a problematic, unnormalized table, which gives you concrete material for spotting insertion, update, and deletion anomalies (MO1) and for removing repeating groups and choosing a primary key on the way to 1NF (MO2). As each example moves into 2NF, you see partial dependencies on a composite key identified and split out (MO3), and the 3NF step demonstrates decomposing transitive dependencies into separate, linked tables (MO4). Because both treat the process as a continuous sequence ending in a finished schema, they also model the final validation pass — checking every resulting table against 1NF, 2NF, and 3NF before calling the design done (MO5).</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

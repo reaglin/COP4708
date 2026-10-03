@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Application-to-Database Connections</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 15 - Database Security Models, Users, and Application Connections</a></div>
+<h1>Application-to-Database Connections</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Secrets Management: Secure Credentials &amp; Avoid Data Leaks</a>
+<a href="#sec3">Video 2: What are Environment variables? [10 of 20] | Bash for Beginners</a>
+<a href="#sec4">Video 3: Tutorial: Connect and query from your applications [13 of 16] | Azure Database for MySQL</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Every application that reads or writes data has to tell the database who it is, where the server lives, and how to talk to it. That information is bundled into a connection string: a host or server name, a port, a database name, a user account, credentials, and often options such as whether TLS/SSL is required. Getting the connection string right is a functional requirement; getting it stored and scoped correctly is a security requirement.</p>
+<p>The common failure mode in real projects is hard-coding credentials directly in source files that then end up in a Git repository, a container image, or a log file. The alternative is to keep configuration outside the code: environment variables, configuration files excluded from version control, or a dedicated secrets manager or vault that issues and rotates credentials. Alongside this, the account the application uses should follow the principle of least privilege — a service account with only the SELECT, INSERT, UPDATE, or DELETE rights it actually needs, never a superuser — and the connection itself should be encrypted in transit so credentials and query results are not readable on the wire.</p>
+<p>As you watch, keep three questions in mind. Where does the secret physically live at rest, and who or what can read it? How does the same application move between development, test, and production without editing code? And what would an attacker gain if they obtained this one set of credentials — which is really a question about how narrowly the database user was scoped.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Secrets Management: Secure Credentials &amp; Avoid Data Leaks</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/BqekRTA6VCs?cc_load_policy=1&amp;rel=0" title="Video: Secrets Management: Secure Credentials &amp; Avoid Data Leaks (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 9:40 · 15,957 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=BqekRTA6VCs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>An IBM Technology explainer on secrets management: what counts as a secret (passwords, API keys, database credentials, certificates), why hard-coding them into source code and configuration files leads to leaks, and how centralized secrets management tools address storage, access control, rotation, and auditing. Expect discussion of the lifecycle of a credential rather than a single product tutorial.</p>
+<h3>Why this video</h3>
+<p>It directly covers the &quot;secure storage of database credentials&quot; subtopic at a conceptual level, and IBM Technology&#39;s explainer format is clear and vendor-neutral enough to generalize to whatever stack you use in this course.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: What are Environment variables? [10 of 20] | Bash for Beginners</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/aKghi0hI1OA?cc_load_policy=1&amp;rel=0" title="Video: What are Environment variables? [10 of 20] | Bash for Beginners (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 5:30 · 16,090 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=aKghi0hI1OA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Part of Microsoft&#39;s Bash for Beginners series, this short video explains what environment variables are, how they differ from regular shell variables, and how to view, set, and use them from the command line. It gives you the concrete mechanics behind the advice to &quot;read configuration from the environment.&quot;</p>
+<h3>Why this video</h3>
+<p>Environment variables are the most common practical mechanism for environment-based configuration management, and this video supplies the hands-on foundation you need before wiring a connection string into dev, test, and production environments.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Tutorial: Connect and query from your applications [13 of 16] | Azure Database for MySQL</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/MwxqYHbQxqY?cc_load_policy=1&amp;rel=0" title="Video: Tutorial: Connect and query from your applications [13 of 16] | Azure Database for MySQL (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 12:40 · 3,307 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=MwxqYHbQxqY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A step-by-step Microsoft tutorial showing how application code connects to and queries an Azure Database for MySQL Flexible Server. It walks through the connection parameters an application supplies — server, database, user, password, and SSL settings — and demonstrates running queries from a client application.</p>
+<h3>Why this video</h3>
+<p>It grounds the abstract idea of a connection string in actual code against a managed MySQL service, including the encrypted-connection settings that the &quot;encrypting connections in transit&quot; subtopic addresses.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos support MO4 most directly: the secrets management video addresses keeping credentials out of the codebase, the environment variables video supplies the configuration mechanism used to inject connection settings per environment, and the Azure MySQL tutorial shows a working application connection including SSL/TLS options for encryption in transit. The discussion of scoping and rotating credentials also reinforces the principle of least privilege from MO1 as it applies to application service accounts, and supplies context for the role and privilege work you do in MO2. Note that these videos do not cover parameterized queries (MO3) or connection pooling risks (MO5) — those outcomes are addressed by other materials in the module.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

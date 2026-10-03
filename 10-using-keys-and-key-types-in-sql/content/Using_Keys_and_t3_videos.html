@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foreign Keys and Referential Integrity</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 10 - Using Keys and Key Types in SQL</a></div>
+<h1>Foreign Keys and Referential Integrity</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</a>
+<a href="#sec3">Video 2: How to Create Tables with Foreign Keys in SQL</a>
+<a href="#sec4">Video 3: Sql query to delete from multiple tables</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>A foreign key is a column (or set of columns) in one table whose values must match an existing primary key or unique key value in another table. That simple rule is what turns a collection of separate tables into a connected relational database: an order row can point to the customer who placed it, an enrollment row can point to both a student and a course. Without foreign keys, nothing stops your database from storing an order for a customer who does not exist.</p>
+<p>The rule that these references must always point to something real is called referential integrity, and the database enforces it for you through FOREIGN KEY constraints. In this topic you will see how to declare those constraints in CREATE TABLE and ALTER TABLE statements, how NULL values are handled in a foreign key column (a NULL means &quot;no relationship yet,&quot; not a broken one), and how referential actions such as ON DELETE CASCADE, ON DELETE SET NULL, and ON UPDATE CASCADE tell the database what to do when a referenced parent row is deleted or changed.</p>
+<p>As you watch, keep three questions in mind. First, which table is the parent (the one holding the referenced key) and which is the child (the one holding the foreign key)? Second, what exact SQL syntax creates the constraint, and what error does the database raise when the constraint is violated? Third, what happens to the child rows when a parent row is deleted — and why choosing the right referential action matters more than it first appears. Note that syntax and default behavior can vary slightly between database systems, so compare what you see in the videos with the syntax used in our course environment.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5kiMg7GXAsY?cc_load_policy=1&amp;rel=0" title="Video: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:53 · 110,538 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=5kiMg7GXAsY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short conceptual introduction to foreign key constraints: what a foreign key is, how it differs from a primary key, and why the constraint matters for keeping related tables consistent. Based on its title and description, it frames foreign keys as references from a child table to a parent table&#39;s key and explains why the database refuses data that would break that reference.</p>
+<h3>Why this video</h3>
+<p>It directly addresses the &quot;What Is a Foreign Key?&quot; and &quot;Foreign Keys vs. Primary Keys&quot; subtopics in under four minutes, and it comes from CockroachDB, a distributed SQL database vendor whose educational material is aimed at developers learning relational fundamentals.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: How to Create Tables with Foreign Keys in SQL</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/mFQk1VsIkZA?cc_load_policy=1&amp;rel=0" title="Video: How to Create Tables with Foreign Keys in SQL (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:42 · 19,553 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=mFQk1VsIkZA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A practical follow-up that walks through writing the SQL to create tables containing foreign keys. Expect to see CREATE TABLE statements in which a child table declares a FOREIGN KEY (or REFERENCES) clause pointing at a parent table&#39;s key column, with discussion of how this maintains referential integrity.</p>
+<h3>Why this video</h3>
+<p>It moves from concept to syntax, covering the &quot;Defining a Foreign Key Constraint in SQL&quot; and &quot;Understanding Referential Integrity&quot; subtopics with hands-on examples you can adapt to your own tables.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Sql query to delete from multiple tables</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/61HcHPdpm0c?cc_load_policy=1&amp;rel=0" title="Video: Sql query to delete from multiple tables (kudvenkat)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>kudvenkat</strong> · 9:57 · 188,064 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=61HcHPdpm0c" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This lesson from the kudvenkat SQL Server series looks at deleting rows that participate in parent-child relationships, including cascade delete behavior and the complication of the same foreign key appearing in multiple child tables. It demonstrates the practical consequences of referential actions when you try to remove a referenced parent row.</p>
+<h3>Why this video</h3>
+<p>It gives concrete, demonstrated coverage of the ON DELETE subtopic — the piece students most often misunderstand — from a long-running and widely used SQL tutorial channel; just be aware the demos use SQL Server syntax.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos build from concept to code to consequence. The first clarifies the distinct roles of primary and foreign keys, supporting MO1&#39;s requirement that you distinguish key types by their function in a relational design. The second models the actual SQL for declaring a FOREIGN KEY constraint inside CREATE TABLE, which feeds directly into MO2 (you should then practice the equivalent ALTER TABLE form in the course materials). The third demonstrates what happens when a referenced parent row is deleted and how cascade behavior resolves it, giving you the practical grounding needed for MO5&#39;s goal of configuring ON DELETE and ON UPDATE actions. Outcomes MO3 and MO4, which concern candidate and surrogate keys, are addressed elsewhere in this module.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

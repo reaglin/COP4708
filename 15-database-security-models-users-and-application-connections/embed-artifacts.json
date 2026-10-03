@@ -1,5 +1,10 @@
 ﻿[
   {
+    "title": "15 - Database Security Models, Users, and Application Connections (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
     "title": "15 - Database Security Models, Users, and Application Connections \u2014 Topics \u0026 Learning Outcomes",
     "href": "topics-outcomes.html",
     "type": "Page"
@@ -50,8 +55,43 @@
     "type": "Content"
   },
   {
-    "title": "15 - Database Security Models, Users, and Application Connections \u2014 Module Topics",
-    "href": "content/module_topics.html",
+    "title": "Database Security Fundamentals",
+    "href": "content/Database_Security_Models_t1_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "User Roles and Permissions",
+    "href": "content/Database_Security_Models_t2_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Authentication and Authorization",
+    "href": "content/Database_Security_Models_t3_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "SQL Injection Prevention",
+    "href": "content/Database_Security_Models_t4_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Application-to-Database Connections",
+    "href": "content/Database_Security_Models_t5_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "ORM Frameworks and Database Abstraction",
+    "href": "content/Database_Security_Models_t6_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "Connection Pooling Best Practices",
+    "href": "content/Database_Security_Models_t7_videos.html",
+    "type": "Content"
+  },
+  {
+    "title": "15 - Database Security Models, Users, and Application Connections",
+    "href": "content/Database_Security_Models_videos_merged.html",
     "type": "Content"
   }
 ]
