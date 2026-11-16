@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Table or Many? The Hidden Cost of Keeping Data Tidy — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>One Table or Many? The Hidden Cost of Keeping Data Tidy</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from Topic 2: Relational Databases. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a small community clinic (an invented example) that tracks patients in a single spreadsheet-style table: every visit adds a new row, and the patient's name, phone number, and address are retyped each time. When a patient moves, the new address gets entered on the latest row — and the older rows still carry the old one. Which address is true? A relational database would answer this by splitting the data into tables, giving each patient a primary key, and linking visits back through a foreign key, a process the module calls normalization: organizing data to reduce redundancy and improve integrity. But splitting data apart has its own price — more tables, more joins, more schema to design up front, and more SQL to write before anyone sees an answer. Relational design is therefore a set of trade-offs, not a set of rules to obey, and the same trade-offs shape how relational databases compare to NoSQL and hierarchical models later in this module.</p>
+
+<p><strong>Central question:</strong> When is the structure of a relational database — fixed schema, keys, and normalization — worth its cost, and when does that structure get in the way?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Read the Module 1 material on relational databases: tables and schema, primary keys, foreign keys, normalization, SQL, and common RDBMS.</li>
+<li>Sketch (on paper is fine) two or three tables for a system you know — a club roster, a course catalogue, an online store — and mark which column could serve as a primary key and where a foreign key would go.</li>
+<li>Jot down one situation where you have personally run into duplicated or contradictory data.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>In your own words, what does a schema tell you about a table that looking at a single row would not?</li>
+</ol>
+<p>   <em>Purpose: activates core vocabulary and gives every student an entry point · Understand</em></p>
+
+<ol>
+<li>From the sketch you made before class, which column did you choose as a primary key, and what made you confident it would be unique for every row?</li>
+</ol>
+<p>   <em>Purpose: brings prepared work into the room and surfaces reasoning about uniqueness · Apply</em></p>
+<p>   Watch for: treating a person's name or email as naturally unique and permanent — follow up with: "What happens to your table when two people share that value, or when one person changes it?"</p>
+
+<ol>
+<li>Describe, in one sentence, the relationship a foreign key creates between two tables.</li>
+</ol>
+<p>   <em>Purpose: checks shared understanding of linking before harder questions · Understand</em></p>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>The module says normalization reduces redundancy and improves data integrity. Using the clinic example or one of your own, what specific problem does redundancy cause that integrity-focused design prevents?</li>
+</ol>
+<p>   <em>Purpose: asks for a causal mechanism rather than a definition · Analyze</em></p>
+<p>   Watch for: students equating redundancy with "wasted storage" only — follow up with: "Beyond disk space, what goes wrong when the same fact is stored in two places and only one copy gets updated?"</p>
+
+<ol>
+<li>Splitting data across many tables means SQL queries must join them back together. What evidence or examples would convince you that this trade — more structure for more joins — is worth making in a given system?</li>
+</ol>
+<p>   <em>Purpose: pushes students to state criteria and evidence for a judgement · Evaluate</em></p>
+
+<ol>
+<li>Suppose a team insists that a required schema slows them down because the data they collect keeps changing. How would you respond using what the module says about schema and data types?</li>
+</ol>
+<p>   <em>Purpose: requires students to argue from the content against a plausible objection · Evaluate</em></p>
+<p>   Watch for: the assumption that a schema can never change — follow up with: "What is the difference between a schema that is fixed and a schema that is defined in advance but can be revised?"</p>
+
+<ol>
+<li>Several RDBMS products implement the same relational principles. If the underlying principles are shared, what would actually be at stake in choosing one system over another?</li>
+</ol>
+<p>   <em>Purpose: separates the model from its implementations · Analyze</em></p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>Take one industry context — e-commerce, healthcare, banking, or social media — and argue which relational feature (keys, schema, normalization, or SQL) matters most there, and why.</li>
+</ol>
+<p>   <em>Purpose: links structural features to real data requirements · Analyze</em></p>
+
+<ol>
+<li>Design, in outline, the smallest set of tables you would need for a ride-share service that tracks drivers, riders, and trips (invented example). Where do the primary and foreign keys go, and what would break if you left one out?</li>
+</ol>
+<p>   <em>Purpose: students build a schema and test it against failure · Create</em></p>
+
+<ol>
+<li>Looking ahead to NoSQL and hierarchical models in this module, which specific relational commitment do you expect those models to relax first — and what would they gain by relaxing it?</li>
+</ol>
+<p>    <em>Purpose: builds a bridge to the comparative outcomes of the module · Evaluate</em></p>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>What is one idea from today that changed how you would design the table sketch you brought to class?</li>
+</ol>
+<p>    <em>Purpose: consolidates learning and makes revision visible · Reflect/Evaluate</em></p>
+
+<ol>
+<li>Which term — schema, primary key, foreign key, or normalization — do you still find hardest to explain to someone else, and what about it is slippery?</li>
+</ol>
+<p>    <em>Purpose: surfaces residual confusion for follow-up teaching · Understand</em></p>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Think–pair–share feeding into a whole-class board sketch. The content is both definitional and judgement-based, so students need a private moment to retrieve vocabulary, a low-risk partner to test a schema sketch, and a public stage to argue trade-offs. Drawing tables on the board during the share phase makes abstract talk about keys concrete for visual learners and gives quieter students something to point at rather than perform.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0:00–0:02</td>
+<td>Instructor poses the clinic scenario and the central question; students write silently.</td>
+<td>Frame the scenario in two sentences; state the question; enforce silence for thinking.</td>
+</tr>
+<tr>
+<td>0:02–0:06</td>
+<td>Pairs compare their prepared table sketches and agree on one primary key and one foreign key they would use.</td>
+<td>Circulate, listen for two contrasting sketches to call on later; answer only clarifying questions.</td>
+</tr>
+<tr>
+<td>0:06–0:12</td>
+<td>Three or four pairs report; instructor draws their tables and key links on the board.</td>
+<td>Draw exactly what students say, including flaws; ask "what does this key guarantee?" after each.</td>
+</tr>
+<tr>
+<td>0:12–0:17</td>
+<td>Whole-class debate on Question 5 or 6: when is the structure worth its cost?</td>
+<td>Ask for reasons and counter-examples; keep a visible two-column list of "worth it when / costly when".</td>
+</tr>
+<tr>
+<td>0:17–0:20</td>
+<td>Bridge to Questions 10 and 11; exit ticket.</td>
+<td>Name the trade-offs just listed as the criteria the module will use to compare database types; collect exit tickets.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Critique the design, not the designer — "that table would break if…" rather than "you're wrong".</li>
+<li>Bring a reason: every claim gets a "because".</li>
+<li>Half-formed ideas are welcome; say "I'm thinking out loud" and keep going.</li>
+<li>One voice at a time, and leave room for people who haven't spoken yet.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><em>Wait time:</em> After posing a question, count seven seconds silently before calling on anyone; if the silence feels long, say "take ten more seconds to write a phrase" rather than rescuing it with your own answer.</li>
+<li><em>Drawing in quiet students:</em> Use the pair phase as a scaffold — "Priya, you and your partner disagreed about the primary key; what was the disagreement?" asks about a shared product, not a personal performance. Also offer non-verbal entry: invite someone to come draw the foreign key arrow on the board.</li>
+<li><em>Managing a dominant voice:</em> Acknowledge and redirect — "That's a strong case for normalization; hold it for one minute while we hear a design that does the opposite." Or assign the role: "You're now tracking our 'costly when' column — note what others say."</li>
+<li><em>Responding to a wrong answer:</em> Keep the useful part and test the rest — "Using email as the primary key is appealing because it's unique today; let's stress-test it: what happens when someone changes their email?" Let the student revise their own answer rather than replacing it.</li>
+<li><em>Bringing a drifting discussion back:</em> If talk slides into product preferences or coding syntax, say "Park that — let's bring it back to the structure. Which relational feature is doing the work in that example?" and point to the board.</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Read back the two-column list of "worth it when / costly when" and name those items as the criteria — schema flexibility, query needs, integrity, scale — that the module will use to compare relational, NoSQL, and hierarchical models. Note which student sketches survived stress-testing and which were revised, so revision looks like success.</p>
+
+<p><strong>Exit ticket:</strong> Name one situation where you would accept extra joins to gain data integrity, and one where you would not — one sentence each.</p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong> Initial post early in the week, so classmates have material to respond to. Two replies by the end of the week, to classmates who chose a different application domain or reached a different conclusion than you did. Students should check their thread once more before the week closes to answer questions put to them.</p>
+
+<p><strong>The instructor's role:</strong></p>
+<p>Post a short framing note when the board opens restating the central question and the clinic example. Then read daily but post selectively — roughly four to six substantive replies across the week, concentrating on threads with no responses and on threads with a genuine disagreement worth deepening. Avoid replying to every post; frequent instructor replies tend to end student-to-student conversation. Near the end of the week, post one closing summary.</p>
+
+<p><em>Sample instructor follow-up posts:</em></p>
+<ul>
+<li>"You've chosen order ID as the primary key — good. Now push one step further: if a customer edits an order, which table holds the change, and which foreign key makes that edit visible to the shipping records?"</li>
+<li>"Two of you reached opposite conclusions about normalization in a social media context. Maya emphasised integrity; Tomás emphasised the cost of joins. What would each of you need to know about how the data is actually queried before changing your mind?"</li>
+<li>"You describe the schema as a constraint. The module describes it as a definition of structure and data types. Rewrite your claim using the module's language — does your conclusion survive the rewording?"</li>
+</ul>
+
+<p><em>Handling an inaccurate post:</em> Reply in the thread, never by singling the student out elsewhere. Affirm the reasoning, isolate the error, and ask a question that lets the student correct it: "You're right that foreign keys create a link. Check one detail against the module: which key does a foreign key point to, and what does that tell you about the direction of the relationship?" If a post is off-topic, connect it back rather than deleting it: "Interesting point about data privacy — bring it into our question: which relational feature would you lean on to keep patient records consistent?"</p>
+
+<p><em>Closing summary post:</em> Name three to four patterns that emerged (for example, the recurring argument that integrity matters most where records are legally or financially consequential), quote two or three students by name for specific moves they made, list the open disagreements the class did not settle, and state the one or two criteria that carry forward into the comparison of relational, NoSQL, and hierarchical models.</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>Takes a clear position on when relational structure is worth its cost, rather than summarising what a relational database is.</td>
+</tr>
+<tr>
+<td>Uses evidence from the content</td>
+<td>Names specific features — schema, primary key, foreign key, normalization, SQL — and shows how each one does work in the example chosen.</td>
+</tr>
+<tr>
+<td>Grounds the claim in a case</td>
+<td>Applies the argument to a concrete application or industry context and identifies what would break if the structure were absent.</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Quotes or paraphrases a specific point from another post and extends, qualifies, or respectfully challenges it with a reason.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt:</strong> Relational databases buy you something valuable — a defined schema, keys that uniquely identify and link records, and normalization that cuts redundancy — but you pay for it in up-front design work and in queries that have to join tables back together. When is that structure worth the cost, and when does it get in the way?</p>
+
+<p><strong>Your initial post (about 150–250 words), early in the week, should:</strong></p>
+<ul>
+<li>Take a position on the central question and state it in your first sentence.</li>
+<li>Ground it in one concrete application — a clinic, an online store, a campus club, a banking system, a game, anything you know. A short invented scenario is fine; just label it as an example.</li>
+<li>Sketch the tables you would use (two or three is plenty), name a primary key, and name where a foreign key would link them. Plain text is fine, e.g. <code>Patients(patient_id, name) → Visits(visit_id, patient_id, date)</code>.</li>
+<li>Say what would go wrong in your example without that structure — and name one real cost of having it.</li>
+<li>Use the module's vocabulary precisely: table, row, column, schema, primary key, foreign key, normalization, SQL.</li>
+</ul>
+
+<p><strong>Your replies:</strong> Write two replies by the end of the week, to classmates who picked a different application or reached a different conclusion than you did. A good reply does one of three things: stress-tests their primary key with a situation that would break it, offers a case where their conclusion would not hold, or extends their design by adding a table or relationship they did not need yet — and always says <em>why</em>, with reference to the module's ideas. Replies like "great example, I agree" do not count. Return to your own thread before the week ends to answer questions others have asked you.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on the clarity of your position, the accuracy and precision of your use of relational vocabulary and keys, the concreteness of your example, and whether your replies genuinely advance a classmate's thinking.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<ul>
+<li><strong>MO1:</strong> Every phase of the discussion requires students to use <em>table, row, column, field, record, schema, primary key,</em> and <em>foreign key</em> correctly, and the opening questions plus the post requirements make that vocabulary the basis of assessment.</li>
+<li><strong>MO2:</strong> Question 10 and the closing summary have students predict which relational commitments NoSQL and hierarchical models relax, preparing the structural distinctions the outcome requires, though the discussion treats the non-relational models only in anticipation.</li>
+<li><strong>MO3:</strong> The "worth it when / costly when" board list and Questions 5 and 6 generate the comparison criteria — schema flexibility, query capability, integrity, and scale — that students will later apply across database types.</li>
+<li><strong>MO4:</strong> Questions 8 and 9 and the required initial post ask students to choose a design for a named application and justify it against stated trade-offs, which is the core reasoning move of this outcome.</li>
+<li><strong>MO5:</strong> Question 8 and the reply instruction push students to tie relational features to the data requirements of specific industries such as e-commerce, healthcare, banking, and social media.</li>
+</ul>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

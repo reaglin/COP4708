@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Dataset, Three Shapes: Choosing a Database Model — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>One Dataset, Three Shapes: Choosing a Database Model</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from MO2: By the end of this module, students will be able to distinguish between relational, NoSQL, and hierarchical database models based on their structural organization and data relationship mechanisms.. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a campus food-delivery startup (an invented example for discussion). Every order has a customer, a restaurant, several menu items, a driver, and a stream of GPS pings every few seconds. The founding team argues for three days. One developer wants a <strong>relational</strong> design: tables for customers, orders, and items, linked by keys, with the structure fixed in advance by a schema. Another wants a <strong>NoSQL</strong> design: each order stored as a single self-contained document (or the GPS pings as key-value entries), with fields that can vary from record to record and relationships handled inside the record or in application code. A third, who maintained an older campus system, points out that the restaurant's menu is a natural <strong>hierarchy</strong> — menu → section → item → option — and that hierarchical models store exactly that kind of parent-child tree, where each child has one parent and you navigate down a path to reach data. All three can store the same orders. They organize the data differently and they express relationships differently: by keys and joins, by embedding and references, or by position in a tree. That difference is what this module asks you to see clearly, because it determines what is easy to ask of the data later and what is painful.</p>
+
+<p><strong>Central question:</strong> For a given set of data and the questions you expect to ask of it, which model — relational, NoSQL, or hierarchical — organizes the data and expresses its relationships best, and what do you give up by choosing it?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Review the module material on the three models, noting for each one: how data is structured, and how a relationship between two pieces of data is represented.</li>
+<li>Write down, in your own words, one sentence defining <em>schema</em>, <em>key/join</em>, and <em>parent-child link</em>.</li>
+<li>Think of one real collection of data you know well (a club roster, a playlist, a lab log) and sketch how it would look in two of the three models.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>In one sentence each, how would you describe the <em>shape</em> of data in a relational database, in a NoSQL database, and in a hierarchical database — as if you were drawing each on a whiteboard? (MO2)</li>
+</ol>
+<p>   <em>Purpose: activates prior reading, gives everyone a low-stakes entry · Understand</em></p>
+
+<ol>
+<li>Pick one piece of data from your own life (a playlist, a course schedule, a team roster). Which of the three models does its natural structure most resemble, and what about the structure made you say that? (MO2)</li>
+</ol>
+<p>   <em>Purpose: connects vocabulary to personal, varied examples · Understand</em></p>
+
+<ol>
+<li>Where in each model does a <em>relationship</em> between two records actually live — in what part of the structure would you point to find it? (MO2)</li>
+</ol>
+<p>   <em>Purpose: focuses attention on relationship mechanisms, the core of the outcome · Understand</em></p>
+<p>   Watch for: students saying NoSQL "has no relationships" — follow up with: if one document embeds another document inside it, or stores another record's identifier, what relationship is being expressed, and who is responsible for keeping it consistent?</p>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>Using the campus delivery example, explain how you would represent "this order contains four menu items" in each of the three models. Where does the work happen in each case? (MO2)</li>
+</ol>
+<p>   <em>Purpose: forces concrete comparison rather than vocabulary recall · Analyze</em></p>
+<p>   Watch for: treating "tables vs. documents vs. trees" as purely cosmetic — follow up with: if you now had to list every order that included a particular item, which representation makes that question easy and which makes it expensive, and why?</p>
+
+<ol>
+<li>Hierarchical models typically give each child record one parent. What kinds of real relationships does that handle elegantly, and what kinds does it strain? Give an example of each. (MO2)</li>
+</ol>
+<p>   <em>Purpose: tests understanding of a structural constraint through examples · Analyze</em></p>
+
+<ol>
+<li>A classmate says "NoSQL is just relational without the rules." What part of that is fair, and what does it leave out about how NoSQL organizes data and relationships? (MO2)</li>
+</ol>
+<p>   <em>Purpose: asks students to evaluate a common oversimplification · Evaluate</em></p>
+<p>   Watch for: equating "flexible schema" with "no structure at all" — follow up with: if two documents in the same collection have different fields, what still has to be true for your application to read them reliably?</p>
+
+<ol>
+<li>What evidence from the module material — not from general reputation — would you point to if you had to justify calling two of these models "more similar to each other" than to the third? (MO2)</li>
+</ol>
+<p>   <em>Purpose: demands reasons grounded in structural criteria · Analyze</em></p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>Apply the comparison to a new case: a hospital network stores patient demographics, every lab result ever recorded, and scanned images. Which parts of that data suit which model, and how would you describe the relationships you'd need to preserve across them? (MO2)</li>
+</ol>
+<p>   <em>Purpose: transfers the distinction to an unfamiliar, high-stakes domain · Apply</em></p>
+
+<ol>
+<li>Organizational charts, file systems, and XML documents are often described as hierarchical. Choose one and explain what it would cost you to force it into a relational structure — and what you might gain. (MO2)</li>
+</ol>
+<p>   <em>Purpose: links the model distinction to systems students already use · Analyze</em></p>
+
+<ol>
+<li>If a team must store the same data in two different models at once (say, a relational system of record plus a document store for fast reads), what specific problems about relationships and consistency would you expect them to run into? (MO2)</li>
+</ol>
+<p>    <em>Purpose: extends the distinction into trade-off reasoning · Evaluate</em></p>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>Which of the three models did you understand least well coming in, and what specific idea from today's discussion changed or sharpened that understanding? (MO2)</li>
+</ol>
+<p>    <em>Purpose: metacognitive consolidation · Understand</em></p>
+
+<ol>
+<li>Write the single question you would ask a client first, before recommending a database model — and say what their answer would tell you. (MO2)</li>
+</ol>
+<p>    <em>Purpose: distills the structural criteria into a decision rule · Evaluate</em></p>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Think-pair-share feeding into three small "model advocate" groups that report back. The small-group stage guarantees that every student speaks at least once in a low-exposure setting, and assigning each group a model forces them to articulate structure and relationship mechanisms rather than defaulting to "relational is normal." The report-back makes the comparison visible on the board for the whole class.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0–3 min</td>
+<td>Pose the delivery-startup scenario and the central question. Students write silently: which model, and one structural reason.</td>
+<td>Project the scenario; state the ground rules; keep it to three minutes.</td>
+</tr>
+<tr>
+<td>3–6 min</td>
+<td>Pairs compare answers and sharpen one reason each.</td>
+<td>Circulate, listen for two contrasting pairs to call on later.</td>
+</tr>
+<tr>
+<td>6–13 min</td>
+<td>Three groups, one model each: how does your model store an order, and where does the relationship to menu items live? Name one thing your model makes easy and one it makes hard.</td>
+<td>Visit each group once; ask "point to where the relationship is stored" to keep groups structural, not evaluative.</td>
+</tr>
+<tr>
+<td>13–18 min</td>
+<td>Each group reports in 90 seconds; instructor builds a three-column board: <em>Structure / Relationship mechanism / Hard case</em>.</td>
+<td>Record in students' words; ask one clarifying follow-up per group (Q4 or Q6).</td>
+</tr>
+<tr>
+<td>18–20 min</td>
+<td>Whole class: which two columns look most alike, and why? Exit ticket.</td>
+<td>Name the shared criteria out loud; collect exit tickets.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Critique the model, not the person who argued for it.</li>
+<li>Every claim gets a "because" — a structural reason, not a brand preference.</li>
+<li>Say "I'm not sure I follow" freely; confusion is data for the class.</li>
+<li>Each group member contributes at least one line to the report-back.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><em>Wait time:</em> after each question, count silently to seven before calling on anyone; say "I'm giving everyone a few seconds to think" so the silence reads as deliberate.</li>
+<li><em>Drawing in quiet students:</em> call on the pairs you pre-identified while circulating ("Priya and Marco had a nice disagreement about where the relationship lives — can you two show us?"), which lets a student report a shared idea rather than an exposed one.</li>
+<li><em>Managing a dominant voice:</em> "That's a strong case — hold it for the report-back and let's hear from a group that hasn't gone yet," or assign that student the recorder role so their contribution is captured on the board rather than in the air.</li>
+<li><em>Responding to a wrong answer:</em> keep the usable part and redirect — "You're right that documents can nest data; let's test the next step: if the restaurant's name changes, what happens in each copy?" Never simply say "no"; ask the question whose answer corrects the idea.</li>
+<li><em>Bringing a drifting discussion back:</em> if talk slides into performance benchmarks or vendor names, say "Park that — for today the criterion is structure and relationships. Where does that argument show up in the three columns?" and point at the board.</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Read the three-column board aloud and name the through-line in one sentence: each model stores the same facts but encodes relationships differently — by keys and joins, by embedding or references, or by position in a parent-child tree — and each encoding makes a different question cheap. Ask students what they would add to the "hard case" row for next time.</p>
+
+<p><strong>Exit ticket:</strong> In two sentences, describe one dataset you would store relationally and one you would store hierarchically, and name the structural feature that decided each.</p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong> Post your initial response early in the week, so classmates have something to work with. Post your two replies by the end of the week, and spread them out — reply to at least one thread that currently has no replies. Return once after replying to see whether anyone responded to you.</p>
+
+<p><strong>The instructor's role:</strong></p>
+<p>Post first a short "welcome + what I'm looking for" note when the board opens. Then check in roughly every other day, three to four substantive posts total across the week — enough to shape the thread, not so much that students write to the instructor instead of to each other. Reply to threads with no replies before adding to busy ones.</p>
+
+<p><em>Sample instructor follow-up posts:</em></p>
+<ul>
+<li>"You've described the relational version clearly. Push one step further for us: if this data were stored as documents instead, which of the joins you listed would disappear, and which would reappear inside your application code?"</li>
+<li>"Two of you used the word 'flexible' about NoSQL but seem to mean different things — Amara means fields can vary between records, Daniel means the database doesn't enforce relationships. Can each of you say which meaning you intended and what follows from it?"</li>
+<li>"Your hospital example is a good one. Where would a hierarchical structure fit naturally in it, and what relationship in that data would the one-parent rule make awkward?"</li>
+</ul>
+
+<p><em>Handling an inaccurate post:</em> reply publicly, affirm what is correct, and ask a question that exposes the gap rather than stating the correction — "You're right that a schema constrains what can be stored. Test the next claim for us: if a NoSQL collection has no enforced schema, what does the application still have to assume when it reads a record?" If the error is factual and likely to spread, add one clear sentence of correction after the question. <em>Handling an off-topic post:</em> thank the student, name the connection if there is one, and redirect — "Pricing matters in practice; for this thread, bring it back to structure: how would that cost difference show up in how the data is organized?"</p>
+
+<p><em>Closing summary post:</em> at the end of the week, post a short synthesis naming three or four distinct positions the class took, quoting a sentence from each (with the student's name), laying out the three models side by side on structure and relationship mechanism, and naming one question the class left genuinely unsettled as a bridge to the next module.</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>Takes a clear position on which model fits the data described, rather than summarizing all three neutrally.</td>
+</tr>
+<tr>
+<td>Uses evidence from the content</td>
+<td>Names the specific structural feature at issue — schema, key and join, embedded document, parent-child link — and uses it correctly.</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Quotes or names a specific claim from a classmate's post and extends, qualifies, or respectfully challenges it with a reason.</td>
+</tr>
+<tr>
+<td>Shows the trade-off</td>
+<td>States one question or task the chosen model makes harder, not only what it makes easy.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt:</strong> The same information — say, the orders flowing through a campus food-delivery service — can be stored relationally (tables linked by keys), in NoSQL (documents or key-value records, with relationships embedded or referenced), or hierarchically (a parent-child tree you navigate downward). For a dataset you choose, which model organizes the data and expresses its relationships best, and what do you give up by choosing it?</p>
+
+<p><strong>Your initial post (about 150–250 words), early in the week, should include:</strong></p>
+<ul>
+<li>A dataset you name specifically. Use the delivery scenario, the hospital example, or a collection of data you know well — a club roster, a game's save files, a family recipe archive, anything with more than one kind of record.</li>
+<li>Your choice of model, and a description of how the data would actually be structured in it: what the records or tables or nodes are.</li>
+<li>How at least one relationship in that data would be represented — point to the mechanism (a key and a join, an embedded or referenced document, a parent-child link).</li>
+<li>One question you would want to ask of this data that your chosen model makes harder, and why the structure makes it harder.</li>
+<li>A brief note on which of the other two models came closest to winning, and what tipped it.</li>
+</ul>
+
+<p><strong>Replies:</strong> Write two replies by the end of the week. A good reply does more than agree: it names a specific claim from your classmate's post, then either tests it ("if the menu changed, what would happen to the copies inside each order document?"), offers a different dataset where their reasoning would break down, or supplies the structural detail they left out. Prefer a post that has no replies yet.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on whether you take a clear position, describe the structure and relationship mechanism accurately and specifically, acknowledge a real trade-off, and engage substantively with a classmate's reasoning.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<ul>
+<li><strong>MO2 [Understand] — distinguish between relational, NoSQL, and hierarchical database models based on their structural organization and data relationship mechanisms:</strong> developed by Questions 1, 2, 3 (structural vocabulary and relationship location, pitched at Understand), Questions 4, 5, 7, 9 (comparative analysis of structure and relationship mechanisms, Analyze — exceeding the outcome's floor to secure it), Questions 6, 10, 12 (evaluating claims and trade-offs between models, Evaluate), Question 8 (applying the distinction to a new domain, Apply), and Question 11 (reflective consolidation, Understand). The live-session group task, the exit ticket, and the graded online post all require the same discrimination among the three models.</li>
+</ul>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

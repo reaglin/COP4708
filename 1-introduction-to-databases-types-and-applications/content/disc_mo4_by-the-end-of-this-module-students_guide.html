@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choosing the Right Database: Defending a Decision You Can&#39;t Undo Cheaply — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>Choosing the Right Database: Defending a Decision You Can't Undo Cheaply</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from MO4: By the end of this module, students will be able to select an appropriate database type for a given real-world application scenario by justifying the choice against defined selection criteria.. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a small team launching a campus ride-share app (an invented example for discussion). In week one they need to store rider profiles, trip records, payment transactions, driver locations updating every few seconds, and a feed of ratings and comments. One developer argues for a single relational database because the payment data must never be wrong. Another wants a document store because the app's features change weekly and rigid schemas will slow them down. A third suggests a key-value store for the location pings. All three can point to real strengths — and all three decisions are expensive to reverse once millions of records exist. Database selection is rarely a question of which technology is "best"; it is a question of which criteria you weigh most heavily, and whether you can defend that weighting to a client, a security auditor, or the teammate who inherits your system. This module's work is exactly that: not naming database types, but <em>justifying</em> a choice against criteria you can state out loud.</p>
+
+<p><strong>Central question:</strong> When a real-world application has competing requirements — strict transactional accuracy, a fast-changing data shape, huge read volume, tight budget, a small team — which selection criteria should carry the most weight, and how would you defend the database type you choose?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Review the module material on database types (relational, document, key-value, graph, wide-column, and file/flat-file or spreadsheet approaches) and the typical strengths and limits of each.</li>
+<li>Write down 4–6 selection criteria you would use to judge a database (for example: data structure and relationships, consistency needs, scale and performance, query complexity, team skill, cost, security and compliance).</li>
+<li>Think of one application you personally use and jot down what data it must store.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>Think of an app or system you used in the last 24 hours. What kinds of data must it store, and what shape is that data in — tidy rows, nested documents, connections between people, or something else? <em>(MO4) — </em>Purpose: gives every student a concrete, personal entry point and surfaces the idea that data has shape · Understand*</li>
+<li>From your prepared list, which selection criterion did you put first, and what made it feel most important? <em>(MO4) — </em>Purpose: puts each student's evaluative stance on the table before any debate · Understand*</li>
+<li>What would "the wrong database" actually cost an organisation — name one consequence you can picture. <em>(MO4) — </em>Purpose: establishes stakes and motivates justification · Understand*</li>
+</ol>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>Two teams facing the same ride-share scenario choose differently — one relational, one document. What must each team believe about the application for its choice to be reasonable? <em>(MO4) — </em>Purpose: shows that choices rest on assumptions, not on a single right answer · Analyze*</li>
+</ol>
+<p>   Watch for: the belief that one database type is simply superior ("NoSQL is modern, relational is outdated") — follow up with: "Describe a requirement in this scenario that your preferred type handles <em>worse</em> than the alternative."</p>
+<ol>
+<li>Your client says "accuracy is non-negotiable" and "we expect ten million users in year one." What evidence would you need before deciding which of those two demands drives the choice? <em>(MO4) — </em>Purpose: forces students to prioritise competing criteria and to name the evidence behind the ranking · Evaluate*</li>
+</ol>
+<p>   Watch for: treating every stated requirement as equally binding — follow up with: "Which requirement, if it turned out to be exaggerated, would change your decision most?"</p>
+<ol>
+<li>Someone argues that a spreadsheet or flat file is enough for a 30-person community clinic's appointment list. What criteria make that defensible, and at what point does it stop being defensible? <em>(MO4) — </em>Purpose: tests criteria at the low end and resists over-engineering · Evaluate*</li>
+<li>How would you judge the criterion "the team already knows this technology" against the criterion "this is the best technical fit"? <em>(MO4) — </em>Purpose: asks students to weigh human and organisational factors against technical ones · Evaluate*</li>
+</ol>
+<p>   Watch for: dismissing team skill as "not a real technical criterion" — follow up with: "What happens to a technically ideal choice that nobody on the team can maintain or secure?"</p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>Apply your criteria to a new case (example): a national museum wants a system showing how artists, works, movements and exhibitions influenced one another, with visitors exploring those connections. Which database type would you select, and which criterion does your justification rest on most heavily? <em>(MO4) — </em>Purpose: transfers the criteria to a relationship-heavy case where the obvious default may fail · Evaluate*</li>
+<li>Many real systems use more than one database type together. Build a justified split for the ride-share app: which data goes where, and what criterion justifies each placement? <em>(MO4) — </em>Purpose: moves students beyond a single-choice frame to designing a defensible architecture · Create*</li>
+<li>Imagine a regulator or a privacy officer reviews your choice. Which of your criteria would they press hardest on, and how would your justification need to change? <em>(MO4) — </em>Purpose: connects selection to compliance, security and stakeholder accountability · Evaluate*</li>
+</ol>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>Which argument you heard today was most likely to change your mind, and what would it take for you to actually change it? <em>(MO4) — </em>Purpose: metacognition; models that evaluative judgments are revisable under evidence · Evaluate*</li>
+<li>If you had to give a future client just three selection criteria to always ask about, which three would you keep, and why those? <em>(MO4) — </em>Purpose: consolidates a usable, defensible decision framework · Evaluate*</li>
+</ol>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Structured small-group advocacy with report-back. Groups of 3–4 are each assigned a position (relational / document or key-value / graph / multi-database mix) on the same scenario, then defend it against stated criteria. This fits the Evaluate outcome better than open whole-class talk: every student must produce a justification, assignment of positions removes the pressure to already "have an opinion," and the clash between groups makes the weighting of criteria visible.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0:00–0:03</td>
+<td>Instructor presents the ride-share scenario and the requirement list; students individually rank their top three selection criteria (Q2).</td>
+<td>Post scenario and criteria on screen; keep it brisk; name the task as <em>justify</em>, not <em>name</em>.</td>
+</tr>
+<tr>
+<td>0:03–0:06</td>
+<td>Groups form; each receives an assigned database type and 3 minutes to draft a one-sentence justification plus one weakness they admit.</td>
+<td>Circulate; prompt stalled groups with "Which requirement does your type serve best?"</td>
+</tr>
+<tr>
+<td>0:06–0:12</td>
+<td>Report-back round: each group gets 60–75 seconds — justification, admitted weakness. No rebuttals yet.</td>
+<td>Record each group's lead criterion on the board in a visible grid. Hold the time limit firmly.</td>
+</tr>
+<tr>
+<td>0:12–0:17</td>
+<td>Open challenge round using Q4 and Q5: groups question each other's weighting of criteria.</td>
+<td>Direct traffic; insist challenges target criteria, not technologies; spread turns across groups.</td>
+</tr>
+<tr>
+<td>0:17–0:20</td>
+<td>Whole-class convergence: which criteria did almost every group rely on? Q9 posed as a quick "what would you split?"</td>
+<td>Circle shared criteria on the board; close with exit ticket.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Challenge the justification, not the person — ask "what criterion is that based on?"</li>
+<li>Every claim needs a reason attached; "it's faster" needs "faster at what."</li>
+<li>Assigned positions are roles, not beliefs; you may argue against your own view.</li>
+<li>Each group member speaks at least once during report-back or challenge.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><em>Wait time:</em> after posing Q5, count silently to seven before calling on anyone; say "take fifteen seconds to write your first sentence" so silence feels productive rather than awkward.</li>
+<li><em>Drawing in quiet students:</em> use the group structure — ask the group to nominate a different speaker for the challenge round than for report-back; invite written contributions ("read me the weakness your group admitted").</li>
+<li><em>Managing a dominant voice:</em> thank the contribution, then redirect by role — "That's your group's strongest point; I want to hear the objection from the graph group before you reply." Or assign that student the scribe role at the board.</li>
+<li><em>Responding to a wrong answer:</em> keep the usable part — "You're right that scale matters here; let's test the second half of that claim. What in the scenario tells us read volume is the binding constraint?" Never erase the contribution; convert it into a question for the room.</li>
+<li><em>Bringing drift back:</em> point at the criteria grid on the board — "Which column are we arguing about right now?" If talk slips into vendor or syntax trivia, say "Park that; it's a how question, and we're on a which-and-why question."</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Read the criteria grid aloud and name where the class converged (likely: data structure, consistency needs, scale) and where it genuinely split (likely: team skill vs. technical fit, and whether to mix types). State explicitly that the split is legitimate — different weightings produce different defensible answers. Preview that the assignment will require written justification against stated criteria.</p>
+
+<p><strong>Exit ticket:</strong> <em>In two sentences: which database type would you select for the ride-share app, and which single criterion does your justification depend on most?</em></p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong></p>
+<ul>
+<li><strong>Initial post:</strong> early in the week — students post their selected database type for the given scenario with a justification against at least three named criteria (150–250 words).</li>
+<li><strong>Replies:</strong> by the end of the week — two replies, at least one to a classmate who selected a <em>different</em> database type than they did.</li>
+<li><strong>Optional final reflection:</strong> a short note at the end of the week on whether any reply changed their weighting of criteria.</li>
+</ul>
+
+<p><strong>The instructor's role:</strong></p>
+<p>Post a short welcome and the scenario clarification at the start of the week. Then check in at least three times: mid-week to seed depth in two or three threads, late in the week to make sure no student is unanswered, and at the close to post a summary. Reply to roughly a quarter of threads rather than every post — over-posting ends student-to-student exchange. Aim follow-ups at the <em>weighting</em> of criteria, which is where the Evaluate outcome lives.</p>
+
+<p><em>Sample instructor follow-up posts:</em></p>
+<ol>
+<li>"You've justified the document store on schema flexibility, which is well argued. Now stress-test it: the scenario also says payment records must never be lost or duplicated. Does flexibility still outrank consistency here, or does your answer change if the client adds a financial audit requirement?"</li>
+<li>"Three of you in this thread have landed on the same type for different reasons — Amara on query complexity, Luis on team skill, Priya on cost. Could you each name the one criterion you'd be willing to trade away, and see whether you still agree?"</li>
+<li>"This is a strong case for splitting the data across two database types. What's the cost of that split that a client should hear about before approving it, and does that cost change your recommendation for a three-person team?"</li>
+</ol>
+
+<p><em>Handling an inaccurate post:</em> reply publicly, affirm the defensible part, correct the fact plainly without naming it an error ("Worth clarifying: relational systems can scale horizontally, though usually with more engineering effort than a wide-column store — does that adjustment weaken or strengthen your argument?"), and end with a question so the student can revise in their own words. If the error is likely shared by several students, address it in the summary post as a "common sticking point" with no names attached.</p>
+
+<p><em>Handling an off-topic post:</em> acknowledge the interest, park it, and redirect to the criteria ("Query syntax is a Module 3 question — for now, what does that feature let the client <em>do</em> that affects your selection?"). If a post raises an unrelated but valuable issue, move it to a general questions thread.</p>
+
+<p><em>Closing summary post:</em> name the two or three database types the class selected most often and the criteria behind each; highlight two genuinely opposed justifications by paraphrase to show the question had more than one defensible answer; name one misconception corrected during the week; close by connecting the criteria list to the upcoming assessment.</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>States a specific database type for the scenario and commits to a recommendation rather than surveying all options neutrally.</td>
+</tr>
+<tr>
+<td>Justifies against criteria</td>
+<td>Names at least three selection criteria from the module, weights them explicitly, and shows how the scenario's requirements drive that weighting.</td>
+</tr>
+<tr>
+<td>Uses evidence from the content</td>
+<td>Refers to the documented strengths and limits of the database types covered in the module, not to general impressions or marketing claims.</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Replies engage a specific claim, add a criterion, a counter-case or a condition under which the classmate's choice would be the better one.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt:</strong> A small team is building a campus ride-share app (an example scenario). The system must store rider and driver profiles, trip histories, payment transactions, driver location updates arriving every few seconds, and a public feed of ratings and comments. The team is three people, the budget is tight, feature requirements change almost weekly, and payment records must be exact. Which database type would you select for this application — and which selection criteria does your choice rest on?</p>
+
+<p><strong>Your initial post (150–250 words), early in the week, should:</strong></p>
+<ul>
+<li>State the database type you would select. Commit to one recommendation (or to one clearly described combination).</li>
+<li>Name at least <strong>three selection criteria</strong> you used — for example data structure and relationships, consistency requirements, expected scale and performance, query complexity, team skill, cost, or security and compliance.</li>
+<li>Explain <strong>which criterion you weighted most heavily and why</strong>, pointing to specific details in the scenario.</li>
+<li>Name one <strong>honest weakness</strong> of your choice and how you would live with it.</li>
+</ul>
+
+<p><strong>Replies — two, by the end of the week.</strong> At least one must go to a classmate who selected a <em>different</em> database type from yours. A good reply does more than agree: it names the specific criterion you see differently, offers a reason or a counter-case, or asks what would have to be true about the scenario for their choice to beat yours. Be direct about the argument and generous to the person making it.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on whether you make a clear selection, justify it against explicitly named criteria using the database types and trade-offs covered in this module, and engage substantively with a classmate's reasoning.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<p><strong>MO4 [Evaluate] — Select an appropriate database type for a given real-world application scenario by justifying the choice against defined selection criteria.</strong></p>
+
+<ul>
+<li><em>Entry and criteria-surfacing:</em> Questions 1, 2, 3 (students identify data shape, name their own criteria, and establish the stakes of a poor selection).</li>
+<li><em>Justification and weighting of criteria:</em> Questions 4, 5, 6, 7 (students expose assumptions behind competing choices, prioritise conflicting requirements, test criteria at the low end, and weigh human against technical factors).</li>
+<li><em>Transfer and application to new cases:</em> Questions 8, 9, 10 (a relationship-heavy museum case, a multi-database architecture, and a compliance-stakeholder review).</li>
+<li><em>Consolidation:</em> Questions 11, 12 (revising judgments under evidence; building a portable three-criterion decision framework).</li>
+<li><em>Assessed tasks:</em> the live exit ticket (selection plus governing criterion), the online initial post (selection, three criteria, weighting, admitted weakness) and the required cross-type reply.</li>
+</ul>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

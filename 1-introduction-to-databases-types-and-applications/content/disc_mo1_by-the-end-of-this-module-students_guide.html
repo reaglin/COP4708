@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naming the Parts: Why Database Vocabulary Is Worth Arguing About — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>Naming the Parts: Why Database Vocabulary Is Worth Arguing About</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from MO1: By the end of this module, students will be able to define the key vocabulary of databases — including records, fields, tables, primary keys, foreign keys, and schema — as used in relational database systems.. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a small community clinic (an invented example) that has kept patient information in a shared spreadsheet for years. Each row holds a patient's name, phone number, every appointment they have ever had, and the name of the doctor they saw. When a doctor changes their last name, staff edit dozens of rows by hand; when two patients share a name, nobody is sure which row belongs to whom. A consultant arrives and says the clinic needs "proper tables, a primary key for patients, and a foreign key linking appointments back to them." That sentence is either obvious or meaningless depending on whether you know the vocabulary — and the vocabulary is not just jargon. The words <em>record</em>, <em>field</em>, <em>table</em>, <em>primary key</em>, <em>foreign key</em>, and <em>schema</em> each name a specific idea that relational database systems depend on, and the words people use casually ("row," "column," "ID," "structure") overlap with them without being identical. This module asks you to pin those terms down, because the rest of your work with databases will be built on them.</p>
+
+<p><strong>Central question:</strong> Which of the key database terms — record, field, table, primary key, foreign key, or schema — is the hardest to define precisely in your own words, and what makes it hard?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Write a one-sentence definition, from memory or notes, for each of the six key terms: record, field, table, primary key, foreign key, schema.</li>
+<li>Note any two terms you find easy to confuse with each other, and jot down why.</li>
+<li>Bring one real or imagined collection of information (a club roster, a playlist, a sports league) you could describe using these terms.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>In one sentence each, how would you define <em>record</em> and <em>field</em> to someone who has never used a database? (MO1)</li>
+</ol>
+<p>   <em>Purpose: gets every student to state a definition out loud and gives the instructor a baseline · Remember</em></p>
+<p>   Watch for: students using "record" and "table" interchangeably, or describing a field as "a box you type in" — follow up with: in the clinic roster you brought, point to one record and one field and say what makes them different.</p>
+
+<ol>
+<li>Which of the six terms felt most familiar before this module, and where had you met it before? (MO1)</li>
+</ol>
+<p>   <em>Purpose: low-stakes entry point that surfaces prior language students already have · Remember</em></p>
+
+<ol>
+<li>Using the collection of information you brought, name the table, name two of its fields, and name one record in it. (MO1)</li>
+</ol>
+<p>   <em>Purpose: anchors abstract vocabulary in a student-chosen concrete case · Understand</em></p>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>What exactly does a <em>primary key</em> have to do that an ordinary field does not? Give the reason, not just the rule. (MO1)</li>
+</ol>
+<p>   <em>Purpose: pushes from memorised phrasing toward the function behind the term · Understand</em></p>
+<p>   Watch for: the belief that a primary key is always a number, or always called "ID" — follow up with: in your own example, could an existing field such as a student email address serve as the primary key, and what would have to be true about it?</p>
+
+<ol>
+<li>A classmate says, "A foreign key is just a field that holds the same value as a key in another table." What does that definition capture, and what does it leave out? (MO1)</li>
+</ol>
+<p>   <em>Purpose: asks students to evaluate the precision of a definition rather than recite one · Evaluate</em></p>
+<p>   Watch for: treating "foreign" as meaning "from outside the database" — follow up with: if both tables live in the same clinic database, in what sense is the key "foreign"?</p>
+
+<ol>
+<li>Where would you draw the line between a <em>table</em> and a <em>schema</em>? What evidence from your own example supports that line? (MO1)</li>
+</ol>
+<p>   <em>Purpose: distinguishes a structure from the description of structure, a common blur · Analyze</em></p>
+
+<ol>
+<li>If you had to rank the six terms from most to least precisely defined, where would <em>schema</em> land, and why? (MO1)</li>
+</ol>
+<p>   <em>Purpose: requires reasons and comparison across the whole vocabulary set · Evaluate</em></p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>Take the clinic example: patients, appointments, and doctors. Using only the six terms, describe how you would talk a staff member through the change from one spreadsheet to a relational design. (MO1)</li>
+</ol>
+<p>   <em>Purpose: applies vocabulary to a messy, realistic case where the words have to do work · Apply</em></p>
+
+<ol>
+<li>Think of a non-database system you know well — a library catalogue, a recipe collection, a transit timetable, a payroll sheet. Which of the six terms transfer cleanly to it, and which one breaks down? (MO1)</li>
+</ol>
+<p>   <em>Purpose: tests the boundaries of the vocabulary by moving it to a new context · Analyze</em></p>
+
+<ol>
+<li>Design a two-sentence "definition test" a classmate could use to check whether someone really understands <em>foreign key</em> rather than having memorised the phrase. (MO1)</li>
+</ol>
+<p>    <em>Purpose: asks students to produce an assessment, which requires owning the concept · Create</em></p>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>Which of your six pre-class definitions would you now rewrite, and what would you change in it? (MO1)</li>
+</ol>
+<p>    <em>Purpose: makes revision of understanding visible and explicit · Evaluate</em></p>
+
+<ol>
+<li>Which single term do you still feel least confident about, and what would help you nail it down before the next module? (MO1)</li>
+</ol>
+<p>    <em>Purpose: metacognitive check that tells the instructor where to re-teach · Understand</em></p>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Think–pair–share with a short whole-group synthesis. The vocabulary is new to many students, so a silent writing minute protects those who need processing time, pairs let students test a shaky definition safely before saying it to the room, and the share-out lets the instructor collect competing definitions on the board and compare them. A full debate format would over-dramatise what is at root a precision exercise; pairs plus synthesis gives everyone a way in within 20 minutes.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0:00–0:03</td>
+<td>Instructor poses the central question and the clinic example; students write silently, choosing the term they find hardest to define and one reason why</td>
+<td>Puts the six terms on the board; states the ground rules; keeps the room quiet for the full three minutes</td>
+</tr>
+<tr>
+<td>0:03–0:08</td>
+<td>Pairs compare their chosen terms and definitions, and try to produce one shared sentence for each of two terms (Q1, Q4)</td>
+<td>Circulates, listens for confusions worth surfacing, notes two or three pairs to call on by name</td>
+</tr>
+<tr>
+<td>0:08–0:14</td>
+<td>Share-out: pairs report their hardest term and their best definition; instructor records competing wordings on the board</td>
+<td>Asks Q5 and Q6 as follow-ups; writes rival definitions side by side without ruling on them yet</td>
+</tr>
+<tr>
+<td>0:14–0:18</td>
+<td>Whole group applies the agreed vocabulary to the clinic case (Q8)</td>
+<td>Pushes for the word "key" to be used precisely; asks "what would break if we left that out?"</td>
+</tr>
+<tr>
+<td>0:18–0:20</td>
+<td>Instructor consolidates the board into six working definitions; exit ticket</td>
+<td>Marks which definitions the class owns and which need another pass; collects exit tickets</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Half-formed definitions are welcome; "I think it's something like…" is a full contribution.</li>
+<li>Attack the wording, never the person who offered it.</li>
+<li>Use the term when you mean the term — say "field" if you mean field, not "that column thing."</li>
+<li>One voice at a time; leave room for people who have not spoken yet.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><em>Wait time:</em> after each question, count silently to seven before calling on anyone. Say "I'm giving everyone a few seconds to think" so the silence reads as intentional rather than awkward.</li>
+<li><em>Drawing in quiet students:</em> use the circulation phase to spot a good pair answer, then invite it by name — "Priya, you and your partner had a sharp line between table and schema; would you share it?" Pre-warning a student during pair work removes the ambush.</li>
+<li><em>Managing a dominant voice:</em> affirm and redirect — "That's a useful definition. Let's hear a second version before we compare. Who had different wording?" If it persists, assign a role: "Can you take notes on the board for us while we hear from this side of the room?"</li>
+<li><em>Responding to a wrong answer:</em> keep the part that works, then probe the part that doesn't — "You're right that a foreign key points somewhere else. Where exactly does it point, and what has to exist at the other end?" Record the attempt on the board alongside the corrected version so the class sees the edit, not an erasure.</li>
+<li><em>Bringing a drifting discussion back:</em> if talk slides into software brands, performance, or war stories, say "Hold that — park it on the board for later. Back to the six words: which one is still fuzzy?" Point physically at the term list.</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Read the six definitions on the board aloud as a set, naming which ones the class converged on and which ones still have two live versions; state that the module will settle the open ones. Reinforce the through-line: these words name specific, non-interchangeable things, and precision now saves rework later.</p>
+
+<p><em>Exit ticket:</em> Write the definition of the one term you were least sure about at the start of class, and underline the word in your definition that is doing the most work.</p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong></p>
+<ul>
+<li><strong>Initial post:</strong> post your response to the central question early in the week, so classmates have something to reply to.</li>
+<li><strong>Replies:</strong> post two replies by the end of the week, to classmates who chose a <em>different</em> hardest term than you did.</li>
+<li>Late initial posts leave nothing for others to build on, so post before you reply.</li>
+</ul>
+
+<p><strong>The instructor's role:</strong></p>
+<p>Check the board at least three times: once early in the week (to confirm the first few posts are on track and model the kind of reply you want), once mid-week (to seed depth in two or three threads), and once at the end (to summarise). Keep instructor posts short — a long instructor post ends a thread; a question continues it. Reply to perhaps a third of threads directly, and make sure no student's post sits with zero responses by the mid-week check.</p>
+
+<p><em>Sample instructor follow-up posts:</em></p>
+<ol>
+<li>"You've written that a primary key 'identifies the record.' Push on <em>identifies</em> for me — what has to be true of the values in that field for identification to actually work? Use your own example to show it."</li>
+<li>"Two of you here have given different lines between <em>table</em> and <em>schema</em>. Omar, yours makes the schema the description; Lena, yours makes it the whole collection. Can you each name one situation where your version is the more useful one?"</li>
+<li>"Nice concrete example of a foreign key in a playlist. Now break it: what would go wrong in that design if the row the foreign key points to were deleted? Answer in terms of records and fields."</li>
+</ol>
+
+<p><em>Handling an inaccurate post:</em> reply publicly, keep the correct portion visible, and ask a question rather than issuing a correction — "You've got the direction of the relationship right. Check the term 'foreign' though: does it mean the key comes from outside this database, or something narrower? Have another look at the module definition and repost your sentence." If the error is spreading through a thread, post one short clarifying note at the top level so the whole class sees it. <em>Handling an off-topic post:</em> acknowledge and redirect — "Interesting question about cloud hosting; start a separate thread for it. For this one, bring it back to the six terms: which of them does hosting not touch at all?"</p>
+
+<p><em>Closing summary post:</em> at the end of the week, post a short synthesis naming the terms the class defined confidently, the one or two that generated genuine disagreement, the best student-authored definition for each of the six (quoted with the student's name), and one sentence on what carries forward into the next module.</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>Names one specific term as the hardest to define and states clearly why that term resists a clean definition</td>
+</tr>
+<tr>
+<td>Uses the vocabulary precisely</td>
+<td>Uses <em>record</em>, <em>field</em>, <em>table</em>, <em>primary key</em>, <em>foreign key</em>, and <em>schema</em> with their distinct meanings rather than as loose synonyms</td>
+</tr>
+<tr>
+<td>Grounds it in an example</td>
+<td>Points to a concrete collection of information and identifies the tables, fields, records and keys inside it</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Quotes or names a specific sentence from another post, then extends, tests or respectfully contests it with a reason</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt:</strong> Of the six key database terms in this module — <em>record</em>, <em>field</em>, <em>table</em>, <em>primary key</em>, <em>foreign key</em>, and <em>schema</em> — which one is hardest to define precisely in your own words, and what makes it hard?</p>
+
+<p><strong>Your initial post (150–250 words), early in the week, should include:</strong></p>
+<ul>
+<li>Your definition, in your own words, of all six terms (one short line each — these can be brisk).</li>
+<li>Your pick for the hardest term, and a clear explanation of what makes it slippery: is it that everyday language uses the word differently, that it overlaps with another term, or that you can state it but not yet apply it?</li>
+<li>One concrete example from a collection of information you know — a club roster, a playlist, a recipe box, a league table, a payroll sheet. Point to what counts as a table, a field, a record, and at least one key in it.</li>
+<li>One honest question you still have about the vocabulary.</li>
+</ul>
+
+<p><strong>Replies:</strong> Post two replies by the end of the week, to classmates who picked a <em>different</em> hardest term than yours. A good reply quotes the specific sentence you're responding to, then does one of three things: tests their definition against a new example, offers a sharper wording and says why it's sharper, or answers the open question they posed. Replies that only say "I agree" or "great post" don't count — add a reason, an example, or a challenge.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on whether you use all six terms accurately and distinctly, support your claims with a concrete example, and engage substantively with at least two classmates.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<p><strong>MO1 [Remember] — Define the key vocabulary of databases, including records, fields, tables, primary keys, foreign keys, and schema, as used in relational database systems.</strong></p>
+
+<ul>
+<li>Opening questions 1, 2, 3 — recall and first statement of each term, anchored to a student-chosen example.</li>
+<li>Probing questions 4, 5, 6, 7 — test the precision and boundaries of each definition, distinguishing terms that are easily conflated (primary key vs. ordinary field; foreign key; table vs. schema).</li>
+<li>Connecting and applying questions 8, 9, 10 — move the defined vocabulary into the clinic case and into non-database systems, and ask students to build a test of the definition.</li>
+<li>Closing and reflection questions 11, 12 — consolidate revised definitions and identify remaining gaps.</li>
+<li>Live discussion: think–pair–share definition-building, board synthesis of six working definitions, and the exit ticket.</li>
+<li>Online discussion: the initial post requires a definition of all six terms plus a worked example; the reply criteria require precise, distinct use of the vocabulary.</li>
+</ul>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

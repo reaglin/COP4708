@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick a Database, Defend Your Choice — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>Pick a Database, Defend Your Choice</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from MO3: By the end of this module, students will be able to compare relational, NoSQL, and hierarchical database types across criteria such as schema flexibility, query capability, scalability, and data integrity.. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a campus food-delivery startup (an invented example for discussion). In week one, the two founders store orders in a relational database with tables for <code>customers</code>, <code>restaurants</code>, <code>orders</code>, and <code>order_items</code>. By month six, they are adding new fields to menu items almost daily — dietary tags, photo galleries, limited-time combos — and every change means another schema migration. An engineer proposes moving the menu catalogue to a document-oriented NoSQL store "because it has no schema." A second engineer objects that payments and refunds must never drift out of balance, so those tables are staying relational. Meanwhile, the university's decades-old student records system, which the startup must integrate with for campus IDs, turns out to be hierarchical — fast and rigid, with data arranged in a parent-child tree. Three models, one application. This is the ordinary condition of modern systems, and it is why "which database is best?" is almost always the wrong question. The useful question is which model buys you what, and at what cost, on the criteria that matter: schema flexibility, query capability, scalability, and data integrity.</p>
+
+<p><strong>Central question:</strong> When a system's needs pull in different directions — flexible, fast-changing data on one side and strict, auditable accuracy on the other — how should a team weigh schema flexibility, query capability, scalability, and data integrity in choosing among relational, NoSQL, and hierarchical database models?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Review the module material on the three models and write a one-sentence definition of each in their own words.</li>
+<li>Build a rough 3×4 comparison table (models × the four criteria) and mark one cell they are least sure about.</li>
+<li>Think of one application they personally use (a messaging app, a learning platform, a bank, a game) and guess which model(s) sit behind it, and why.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>In your own words, how would you describe the shape of the data in each model — tables and rows, documents or key-value pairs, and a parent-child tree? (MO3)</li>
+</ol>
+<p>   <em>Purpose: establishes shared vocabulary so every student can enter · Understand</em></p>
+
+<ol>
+<li>Looking at your comparison table, which single cell were you least confident filling in, and what made it hard? (MO3)</li>
+</ol>
+<p>   <em>Purpose: surfaces uncertainty early and legitimises not-knowing · Understand</em></p>
+<p>   Watch for: students treating "NoSQL" as one product rather than a family (document, key-value, column-family, graph) — follow up with: "Does your answer change depending on which kind of NoSQL store you picture? Give an example of a criterion where two NoSQL types differ from each other."</p>
+
+<ol>
+<li>Name one application you use daily and one criterion — flexibility, query power, scalability, or integrity — you would guess its designers prioritised. (MO3)</li>
+</ol>
+<p>   <em>Purpose: connects abstract criteria to lived experience · Apply</em></p>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>"Schema flexibility" is often sold as pure upside. What does a team give up when the schema moves out of the database and into the application code? (MO3)</li>
+</ol>
+<p>   <em>Purpose: pushes students past the marketing framing to trade-off reasoning · Analyze</em></p>
+<p>   Watch for: "schemaless means no schema" — follow up with: "If three developers write three slightly different shapes of the same menu document, where does the schema actually live, and who enforces it?"</p>
+
+<ol>
+<li>Compare query capability across the three models. What kinds of questions are easy to ask of a relational database that become expensive or awkward in a hierarchical or document model, and why does the data structure cause that? (MO3)</li>
+</ol>
+<p>   <em>Purpose: requires linking structure to capability rather than listing features · Analyze</em></p>
+
+<ol>
+<li>Hierarchical databases are frequently described as legacy, yet they persist in banking, airline, and records systems. What properties of the tree structure explain that persistence, and on which criteria do they lose to the other two? (MO3)</li>
+</ol>
+<p>   <em>Purpose: tests whether students can evaluate a model on evidence rather than reputation · Evaluate</em></p>
+<p>   Watch for: "old therefore inferior" — follow up with: "If access patterns are fixed and known in advance, which criterion does a tree structure optimise for, and what does the organisation gain by not changing?"</p>
+
+<ol>
+<li>Teams often justify NoSQL by pointing to scalability. Distinguish scaling up from scaling out, and explain which model's structure makes which kind of scaling easier — and what that costs on the integrity side. (MO3)</li>
+</ol>
+<p>   <em>Purpose: forces precision about a term students use loosely, and links two criteria · Analyze</em></p>
+<p>   Watch for: equating scalability with raw speed — follow up with: "If your data volume grew tenfold overnight, which parts of your design would break first, and would adding a bigger machine fix it?"</p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>Return to the delivery startup. Make a recommendation for the menu catalogue, the payments ledger, and the campus-ID integration — the same model for all three, or different models for each — and justify each choice against at least two of the four criteria. (MO3)</li>
+</ol>
+<p>   <em>Purpose: applies the comparison to a concrete multi-part design decision · Evaluate/Create</em></p>
+
+<ol>
+<li>Design the one comparison criterion our four do not cover but a real team would care about (for example, cost, staff expertise, vendor lock-in, or audit requirements). Where does each of the three models land on it? (MO3)</li>
+</ol>
+<p>   <em>Purpose: extends the analytic framework rather than merely applying it · Create</em></p>
+
+<ol>
+<li>Take a context different from a startup — a rural clinic's patient records, a national census, or a multiplayer game's live world state. How do the priorities among the four criteria shift, and does the ranking of the three models shift with them? (MO3)</li>
+</ol>
+<p>    <em>Purpose: tests transfer across varied, non-interchangeable contexts · Analyze</em></p>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>Which criterion do you now think is most often underweighted by teams making this choice, and what changed your mind during this discussion? (MO3)</li>
+</ol>
+<p>    <em>Purpose: consolidates learning and makes reasoning visible · Evaluate</em></p>
+
+<ol>
+<li>Write the one sentence you would say to a teammate who insists "we should just use NoSQL for everything." (MO3)</li>
+</ol>
+<p>    <em>Purpose: compresses the comparison into a usable, defensible position · Evaluate</em></p>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Think-pair-share feeding into a three-corner split. Students first reason alone (so no one arrives empty-handed), then compare tables with a partner, then the room divides by recommendation for the startup's menu catalogue — relational corner, NoSQL corner, "it depends / mixed" corner — and each corner defends on the four criteria. The corners make disagreement visible and give quiet students a low-stakes way to participate by standing somewhere; the pair stage guarantees every student has already said their reasoning out loud once.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0:00–0:02</td>
+<td>Instructor reads the startup scenario and the central question; students silently mark their least-confident table cell</td>
+<td>Project the four criteria and the scenario; state ground rules</td>
+</tr>
+<tr>
+<td>0:02–0:05</td>
+<td>Think: each student writes a one-line recommendation for the menu catalogue plus two criteria that justify it</td>
+<td>Circulate silently; note two or three contrasting answers to call on</td>
+</tr>
+<tr>
+<td>0:05–0:09</td>
+<td>Pair: partners compare tables and must identify one point of disagreement</td>
+<td>Listen for misconceptions ("schemaless means no schema"); seed Q4 or Q7 with specific pairs</td>
+</tr>
+<tr>
+<td>0:09–0:15</td>
+<td>Three-corner share: corners state their case; one cross-examination round using Q5 and Q7</td>
+<td>Chair turn-taking; name the criterion each argument rests on; call on pre-noted students</td>
+</tr>
+<tr>
+<td>0:15–0:18</td>
+<td>Complication: add payments ledger and campus-ID integration (Q8); students may move corners</td>
+<td>Ask movers to say what moved them; record shifts on the board</td>
+</tr>
+<tr>
+<td>0:18–0:20</td>
+<td>Wrap-up and exit ticket</td>
+<td>Synthesise on the board; collect exit tickets</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Argue against the claim, never the person who made it.</li>
+<li>Every recommendation must name at least one criterion and one cost it accepts.</li>
+<li>"I'm not sure yet" and "I've changed my mind" are both full contributions.</li>
+<li>Leave a breath of silence after someone speaks before you answer.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><strong>Wait time:</strong> after asking Q5 or Q6, count seven seconds silently before calling on anyone; if the silence feels long, say "take ten seconds to write a phrase first" rather than rescuing with your own answer.</li>
+<li><strong>Drawing in quiet students:</strong> the pair stage means everyone has rehearsed an answer — call on a student by referencing what you overheard ("Priya, you had a sharp line about migrations — say it to the room"). Also invite corner-level reporting so a student speaks for a group rather than alone.</li>
+<li><strong>A dominant voice:</strong> acknowledge and redirect — "That's a strong case for scale; hold it, because I want to hear whether the relational corner concedes it or disputes it." Then impose a one-contribution-each rule before anyone speaks twice.</li>
+<li><strong>A wrong answer:</strong> keep the useful part and reopen the rest — "You're right that writes spread across machines; let's test the next step. If two machines take conflicting orders at the same moment, what happens to the ledger?" Name the correction as the class's work, not the student's error.</li>
+<li><strong>Drift:</strong> when the talk slides into vendor preferences or coding syntax, point at the projected criteria and ask "which of these four are we actually arguing about right now?"</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Put three sentences on the board drawn from the corners: one gain and one cost for each model, phrased in the students' own words. Close by naming the move the discussion made — from "which is best" to "best for which criterion, in which context." <strong>Exit ticket:</strong> <em>Name one criterion on which your preferred model is the weakest of the three, and what you would do to compensate.</em></p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong> Initial post due early in the week, after students have completed their 3×4 comparison table. Two replies to classmates due by the end of the week, with at least one reply going to a post that reaches a different recommendation from your own. Posts stay open for reading and optional response until the module closes.</p>
+
+<p><strong>The instructor's role:</strong></p>
+<p>Post a short welcome and the scenario when the board opens. Then read daily but post selectively — roughly three to five substantive instructor posts across the week, concentrated mid-week once several threads have formed, so students are responding to each other rather than waiting for the instructor. Reserve the final instructor post for the end of the week.</p>
+
+<p>Sample follow-up posts that deepen a thread:</p>
+<ul>
+<li>"Three of you in this thread chose a document store for the menu catalogue because it is 'flexible.' Push one level down for me: if the same menu item appears with three different field names across three documents, which part of the system has to clean that up, and what does that cost on the query side?"</li>
+<li>"Dana's defence of the hierarchical system for campus IDs rests on predictable access patterns. Who can test that claim? Describe a specific new query the registrar might want next year, and say what that query would cost in a tree structure versus a relational one."</li>
+<li>"This thread has settled on 'use both' quite quickly. Make the harder case: what does a team lose by running two database models at once — in consistency, in staff expertise, in integrity across the boundary between them?"</li>
+</ul>
+
+<p>Handling an inaccurate post: reply in the open thread, affirm the defensible part, and correct through a question plus a pointer — "You're right that a document store avoids migration downtime; the phrase 'no schema' is where I'd slow down. The schema still exists, it just moves into the application code. Reread the section on schema-on-read and then tell us who enforces structure in your design." Never correct a student by name in a global announcement. For an off-topic post (for example, a tangent on a specific vendor's pricing), thank the student, note the connection, and redirect — "Interesting, and it belongs in a cost conversation. For this thread, tie it back: does that pricing model push a team toward scaling out or scaling up?" If a thread drifts wholesale, start a clearly labelled side thread for it.</p>
+
+<p>Closing summary post: at the end of the week, post a synthesis naming the two or three strongest competing positions the class produced, the criteria each rested on, the misconception the class collectively corrected, and the question left unresolved — then connect it forward to the next module's work.</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>States a clear recommendation for the named part of the system, rather than surveying all three models neutrally</td>
+</tr>
+<tr>
+<td>Uses criteria and evidence</td>
+<td>Justifies the choice against at least two of the four criteria — schema flexibility, query capability, scalability, data integrity — using specific module terms accurately</td>
+</tr>
+<tr>
+<td>Names the trade-off</td>
+<td>Identifies what the chosen model gives up and how the design compensates, instead of listing only advantages</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Quotes or paraphrases a specific claim from another post and extends, tests, or respectfully disputes it with a reason</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt</strong></p>
+
+<p>A campus food-delivery startup (an example built for this discussion) is making three storage decisions at once. Its <strong>menu catalogue</strong> changes constantly — new dietary tags, photo galleries, limited-time combos — and every change currently requires a schema migration. Its <strong>payments ledger</strong> must never drift out of balance and has to survive an audit. And it must integrate with the university's decades-old <strong>student records system</strong>, which is hierarchical: fast, rigid, arranged as a parent-child tree.</p>
+
+<p>When a system's needs pull in different directions like this, how should a team weigh <strong>schema flexibility, query capability, scalability, and data integrity</strong> in choosing among relational, NoSQL, and hierarchical models?</p>
+
+<p><strong>Your initial post (150–250 words), due early in the week</strong></p>
+
+<p>Pick <strong>one</strong> of the three decisions above and make a recommendation. Then:</p>
+
+<ul>
+<li>Justify your choice against at least <strong>two</strong> of the four criteria, using the module's terms precisely.</li>
+<li>Name one thing your choice <strong>gives up</strong>, and say how you would compensate for it.</li>
+<li>Say what would have to change about the startup's situation to make you choose a different model.</li>
+</ul>
+
+<p>Write it as a position, not a survey — you are advising a team that has to ship something.</p>
+
+<p><strong>Your replies — two, due by the end of the week</strong></p>
+
+<p>At least one reply must go to a classmate who reached a <strong>different</strong> recommendation from yours. A good reply quotes or paraphrases a specific claim from their post, then does one of three things: tests it against a criterion they did not use, offers a case where their reasoning would break down, or extends it with a consequence they have not yet considered. "Great point, I agree" is not a reply; two or three sentences of genuine reasoning is.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on whether they take a clear position, justify it with accurate use of at least two of the four comparison criteria, acknowledge a trade-off, and engage substantively with a classmate's specific reasoning.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<p><strong>MO3 [Analyze] — Compare relational, NoSQL, and hierarchical database types across criteria such as schema flexibility, query capability, scalability, and data integrity.</strong></p>
+
+<ul>
+<li><strong>Foundation (Understand/Apply):</strong> Questions 1, 2, 3 — establish shared vocabulary for the three models and attach the four criteria to familiar applications.</li>
+<li><strong>Core analysis (Analyze):</strong> Questions 4, 5, 7, 10 — require students to trace how each model's data structure produces its strengths and limits on schema flexibility, query capability, and scalability, and to test whether the comparison holds across different contexts.</li>
+<li><strong>Evaluation and extension (Evaluate/Create):</strong> Questions 6, 8, 9, 11, 12 — require students to judge models on evidence rather than reputation, apply the full comparison to a multi-part design decision, and extend the criteria framework.</li>
+<li><strong>Live activity:</strong> the three-corner split and the added payments/campus-ID complication (timing rows 0:09–0:18) enact the comparison as a defended choice; the exit ticket requires students to name a weakness in their own preferred model.</li>
+<li><strong>Online activity:</strong> the initial post requires a justified comparison on at least two criteria plus an acknowledged trade-off; the cross-position reply requirement forces students to test their comparison against a rival one.</li>
+</ul>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

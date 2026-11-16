@@ -25,6 +25,116 @@
     "type": "Assignments"
   },
   {
+    "title": "Naming the Parts: Why Database Vocabulary Is Worth Arguing About",
+    "href": "content/disc_mo1_by-the-end-of-this-module-students.html",
+    "type": "Content"
+  },
+  {
+    "title": "Naming the Parts: Why Database Vocabulary Is Worth Arguing About \u2014 Discussion Guide",
+    "href": "content/disc_mo1_by-the-end-of-this-module-students_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "One Dataset, Three Shapes: Choosing a Database Model",
+    "href": "content/disc_mo2_by-the-end-of-this-module-students.html",
+    "type": "Content"
+  },
+  {
+    "title": "One Dataset, Three Shapes: Choosing a Database Model \u2014 Discussion Guide",
+    "href": "content/disc_mo2_by-the-end-of-this-module-students_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "Pick a Database, Defend Your Choice",
+    "href": "content/disc_mo3_by-the-end-of-this-module-students.html",
+    "type": "Content"
+  },
+  {
+    "title": "Pick a Database, Defend Your Choice \u2014 Discussion Guide",
+    "href": "content/disc_mo3_by-the-end-of-this-module-students_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "Choosing the Right Database: Defending a Decision You Can\u0027t Undo Cheaply",
+    "href": "content/disc_mo4_by-the-end-of-this-module-students.html",
+    "type": "Content"
+  },
+  {
+    "title": "Choosing the Right Database: Defending a Decision You Can\u0027t Undo Cheaply \u2014 Discussion Guide",
+    "href": "content/disc_mo4_by-the-end-of-this-module-students_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "Which Database Would You Build? Matching Data Types to Industry Needs",
+    "href": "content/disc_mo5_by-the-end-of-this-module-students.html",
+    "type": "Content"
+  },
+  {
+    "title": "Which Database Would You Build? Matching Data Types to Industry Needs \u2014 Discussion Guide",
+    "href": "content/disc_mo5_by-the-end-of-this-module-students_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "When Does a Spreadsheet Stop Being Enough?",
+    "href": "content/disc_t1_what-is-a-database.html",
+    "type": "Content"
+  },
+  {
+    "title": "When Does a Spreadsheet Stop Being Enough? \u2014 Discussion Guide",
+    "href": "content/disc_t1_what-is-a-database_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "One Table or Many? The Hidden Cost of Keeping Data Tidy",
+    "href": "content/disc_t2_relational-databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "One Table or Many? The Hidden Cost of Keeping Data Tidy \u2014 Discussion Guide",
+    "href": "content/disc_t2_relational-databases_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "Schema-Free and Fast \u2014 But at What Cost?",
+    "href": "content/disc_t3_nosql-databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "Schema-Free and Fast \u2014 But at What Cost? \u2014 Discussion Guide",
+    "href": "content/disc_t3_nosql-databases_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "Still Climbing the Tree: Do Hierarchical Databases Deserve a Second Look?",
+    "href": "content/disc_t4_hierarchical-databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "Still Climbing the Tree: Do Hierarchical Databases Deserve a Second Look? \u2014 Discussion Guide",
+    "href": "content/disc_t4_hierarchical-databases_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "There Is No \u0022Best\u0022 Database \u2014 Only the Right Trade-Off",
+    "href": "content/disc_t5_comparing-database-types.html",
+    "type": "Content"
+  },
+  {
+    "title": "There Is No \u0022Best\u0022 Database \u2014 Only the Right Trade-Off \u2014 Discussion Guide",
+    "href": "content/disc_t5_comparing-database-types_guide.html",
+    "type": "Content"
+  },
+  {
+    "title": "One Database to Rule Them All? Matching the Model to the Mission",
+    "href": "content/disc_t6_real-world-applications-of-databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "One Database to Rule Them All? Matching the Model to the Mission \u2014 Discussion Guide",
+    "href": "content/disc_t6_real-world-applications-of-databases_guide.html",
+    "type": "Content"
+  },
+  {
     "title": "What is a Database?",
     "href": "content/Introduction_to_Databases_interactive_topics_t1.html",
     "type": "Content"

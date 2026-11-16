@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Which Database Would You Build? Matching Data Types to Industry Needs — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>Which Database Would You Build? Matching Data Types to Industry Needs</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from MO5: By the end of this module, students will be able to identify the database type most likely used in a specified industry context — such as e-commerce, healthcare, banking, or social media — based on that industry's data management requirements.. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a hospital network, a ride-sharing app, a credit union, and a fan-fiction social platform all come to you in the same week asking the same question: "What kind of database should we use?" (illustrative example). Each one has data that looks completely different — patient histories that must never be lost or mis-joined, driver locations that change every second, account balances that must stay consistent to the cent, and a sprawling web of followers, comments, and reactions. The choice among relational, document, key-value, graph, column-family, and time-series designs is rarely about which technology is "best"; it is about which data management requirements the organization cannot afford to compromise: structure, consistency, speed, scale, relationships, or flexibility. This matters because the database decision shapes what an application can do for years, and because you will be asked to justify such choices in internships, interviews, and project teams.</p>
+
+<p><strong>Central question:</strong> For a given industry context, which database type best fits that industry's data management requirements — and which requirement should drive the decision when two types both look reasonable?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Review the module material on database types (relational, document, key-value, graph, column-family, time-series) and the characteristics that distinguish them.</li>
+<li>Pick one industry you know something about (retail, healthcare, banking, social media, gaming, logistics, education) and list three things its data must do well.</li>
+<li>Jot down one question you still have about when a non-relational database is the better choice.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>Think of an app or service you used in the last 24 hours. What kinds of data did it have to store about you, and what did it have to do with that data quickly? <em>(MO5) — Purpose: gives every student a concrete entry point from personal experience · Understand</em></li>
+</ol>
+
+<ol>
+<li>From the module's list of database types, which one's description made the most immediate sense to you, and what about its structure made it click? <em>(MO5) — Purpose: surfaces baseline understanding of type characteristics before application · Understand</em></li>
+</ol>
+
+<ol>
+<li>Name one data management requirement — for example consistency, speed, flexible structure, or handling relationships — and describe a situation where it would matter most. <em>(MO5) — Purpose: builds the shared vocabulary used for the rest of the discussion · Understand</em></li>
+</ol>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>An online store needs product catalogs, shopping carts, order records, and "customers also bought" suggestions. Which database type would you assign to each of those four jobs, and on what requirement did you base each assignment? <em>(MO5) — Purpose: forces students to apply type characteristics to distinct workloads inside one industry · Apply</em></li>
+</ol>
+<p>   Watch for: the assumption that one system must handle an entire company — follow up with: "What would break if you forced the recommendation feature into the same structure as the order ledger?"</p>
+
+<ol>
+<li>A classmate argues that a relational database is the safe default for a hospital's patient records. What evidence from the module's description of relational databases supports that, and what kind of hospital data would strain it? <em>(MO5) — Purpose: asks for evidence on both sides rather than a verdict · Analyze</em></li>
+</ol>
+<p>   Watch for: treating "relational = old/outdated" or "NoSQL = modern/better" — follow up with: "Which specific requirement, not which release date, is doing the work in your argument?"</p>
+
+<ol>
+<li>Banking and social media both involve enormous volumes of transactions. Why might they still land on different database types? Point to the requirement that separates them. <em>(MO5) — Purpose: distinguishes volume from consistency and relationship needs · Analyze</em></li>
+</ol>
+
+<ol>
+<li>Someone proposes a graph database for a social platform. What would you need to know about the platform's actual queries before agreeing or disagreeing? <em>(MO5) — Purpose: pushes students to ask for the evidence a decision requires · Evaluate</em></li>
+</ol>
+<p>   Watch for: choosing graph databases because the domain "sounds social" rather than because queries traverse relationships — follow up with: "Which specific user-facing feature would be slow or awkward without graph traversal?"</p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>A telehealth startup (illustrative example) collects patient records, continuous readings from wearable monitors, and a chat feature. Propose a combination of database types for this startup and defend the trade-offs you are accepting. <em>(MO5) — Purpose: applies type selection to a mixed, realistic workload · Create</em></li>
+</ol>
+
+<ol>
+<li>Take the industry you prepared before class and compare it to a classmate's. Where do the data management requirements overlap, and where do they diverge enough to change the recommendation? <em>(MO5) — Purpose: generalizes the matching skill across contexts · Analyze</em></li>
+</ol>
+
+<ol>
+<li>If a startup's requirements are still unclear because the product keeps changing, how should that uncertainty itself influence the choice of database type? <em>(MO5) — Purpose: applies the criteria to a condition of incomplete information · Evaluate</em></li>
+</ol>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>Which single data management requirement do you now think most often decides the database type, and what changed your mind during this discussion? <em>(MO5) — Purpose: consolidates a decision heuristic and prompts metacognition · Evaluate</em></li>
+</ol>
+
+<ol>
+<li>What is one question you would ask a client in the first five minutes of a meeting to narrow the database choice? <em>(MO5) — Purpose: converts the discussion into a transferable professional move · Apply</em></li>
+</ol>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Think-pair-share feeding into a short "industry panel" report-out. Each pair is assigned one industry context (e-commerce, healthcare, banking, social media, logistics, education), which guarantees every student has something specific to contribute, keeps the cognitive demand at the Apply level of MO5, and produces a cross-industry comparison in the last five minutes without requiring long individual speeches.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0:00–0:03</td>
+<td>Pose the hook and central question; assign each pair an industry context</td>
+<td>State the question on the board; distribute industry assignments so no two neighbouring pairs duplicate</td>
+</tr>
+<tr>
+<td>0:03–0:06</td>
+<td>Think: students individually list three data requirements for their industry and a candidate database type (Q1, Q3)</td>
+<td>Circulate silently; note strong or unusual pairings to call on later</td>
+</tr>
+<tr>
+<td>0:06–0:12</td>
+<td>Pair: partners compare lists and agree on one recommendation plus the requirement that drove it (Q4, Q6)</td>
+<td>Move between pairs; ask one probing question per pair, e.g. "What would break if you chose the other type?"</td>
+</tr>
+<tr>
+<td>0:12–0:18</td>
+<td>Share: each pair gives a 45-second recommendation; instructor builds a requirement-by-industry grid on the board</td>
+<td>Record the deciding requirement, not just the type; ask one follow-up of 2–3 pairs (Q5, Q7)</td>
+</tr>
+<tr>
+<td>0:18–0:20</td>
+<td>Cross-case synthesis and exit ticket (Q11, Q12)</td>
+<td>Name the patterns visible in the grid; collect exit tickets</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Name the requirement, not just the technology — "fast" and "modern" are not reasons.</li>
+<li>Disagree with the choice, not the person; "I'd weigh consistency higher here because…" is the model.</li>
+<li>One voice at a time; if you have already spoken twice, invite someone who hasn't.</li>
+<li>Half-formed ideas are welcome — the room will help you finish them.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><strong>Wait time:</strong> after asking a probing question, count silently to seven before calling on anyone; say "take fifteen seconds to look at your notes" to make the silence purposeful.</li>
+<li><strong>Drawing in quiet students:</strong> use the pair structure — "Priya, what did your partner argue?" lets a student report rather than expose, and ask pairs to designate the reporter before the share round.</li>
+<li><strong>Managing a dominant voice:</strong> acknowledge and redirect — "That's a strong case for consistency; let's hold it and hear which pair weighed a different requirement first," then return to that student for the rebuttal.</li>
+<li><strong>Responding to a wrong answer:</strong> keep the reasoning, repair the fact — "The instinct that this is relationship-heavy is right; let's check what the module says a key-value store is optimized for, and see whether it supports traversing those relationships."</li>
+<li><strong>Bringing a drifting discussion back:</strong> if talk slides into vendor names, pricing, or war stories, redirect with "Translate that back into a requirement — what is it telling us the data must do?" and point at the grid on the board.</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Read the grid aloud across industries and name the pattern — the same type can appear in different industries when the underlying requirement matches, and different types can appear inside a single company. Close by stating the heuristic the class built: identify the dominant requirement first, then the type. <strong>Exit ticket:</strong> "Name one industry other than the one you were assigned, the database type you would recommend, and the single requirement that decided it."</p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong></p>
+<ul>
+<li><strong>Initial post:</strong> early in the week — students post their industry recommendation with reasoning (150–250 words) before reading others' threads closely.</li>
+<li><strong>Replies:</strong> two replies by the end of the week, at least one to a classmate who analyzed a different industry, spaced so threads have time to develop rather than all landing on the last day.</li>
+</ul>
+
+<p><strong>The instructor's role:</strong></p>
+<p>Post three times across the week: once early to model the expected depth and affirm two or three strong initial posts, once mid-week to seed probing questions in under-developed threads, and once at the end with a closing summary. Aim for presence in roughly a third of threads rather than replying to every post, so student-to-student exchange stays primary.</p>
+
+<p>Sample instructor follow-up posts that deepen a thread:</p>
+<ol>
+<li>"You've recommended a document database for this retail catalog because product attributes vary by category — that's a clear requirement-based argument. Now push it one step: what happens at checkout, where totals and inventory must agree exactly? Does the same type still serve, or does the company need a second one?"</li>
+<li>"Two of you reached opposite recommendations for the same banking scenario. Rather than deciding who's right, name the one requirement each of you ranked highest. What would have to be true about this bank's workload for the other ranking to win?"</li>
+<li>"You describe this platform's data as 'highly connected.' Give us one concrete query a user would trigger — something like 'show me posts from people my friends follow' — and then tell us how your chosen type would answer it."</li>
+</ol>
+
+<p><strong>Handling an inaccurate post:</strong> reply publicly but gently, separating the useful instinct from the error, and point to the specific module material: "Your read on the volume here is right. Check the module's description of key-value stores, though — what kinds of lookups are they optimized for, and does that match the multi-field search you described? Revise and repost your reasoning; several people will benefit from seeing the correction." For repeated or personal-data-sensitive errors, follow up by private message.</p>
+
+<p><strong>Handling an off-topic post:</strong> acknowledge the interest, then bridge back — "Cloud pricing is a real constraint and worth a thread of its own; for this discussion, translate the cost concern into a data management requirement and tell us how it changes your type recommendation."</p>
+
+<p><strong>Closing summary post:</strong> at the end of the week, post a short synthesis listing the industries students covered, the requirement each class consensus treated as decisive, and the two or three cases where the class genuinely split — naming (with credit) the students whose posts best articulated each side, and restating the module's takeaway that database type follows from requirements, not from industry labels.</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>Names a specific industry context and one database type, stated as a clear recommendation rather than a survey of options</td>
+</tr>
+<tr>
+<td>Uses evidence from the content</td>
+<td>Cites the characteristics of that type from the module material and links them to at least two named data management requirements of the industry</td>
+</tr>
+<tr>
+<td>Shows applied reasoning</td>
+<td>Describes a concrete operation or query the organization performs and explains how the chosen type handles it, including one trade-off being accepted</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Replies engage a specific claim from another student's post — extending, testing with a counter-case, or asking for the evidence behind a ranking</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt:</strong> Pick one industry context — e-commerce, healthcare, banking, social media, logistics, education, gaming, or another you know well. Based on that industry's data management requirements, which database type would you recommend, and which single requirement drove your decision?</p>
+
+<p><strong>Your initial post (150–250 words), posted early in the week, should include:</strong></p>
+<ul>
+<li>The industry and a one-sentence description of the kind of organization you have in mind (a realistic invented example is fine — just say so).</li>
+<li>Two or three specific data management requirements that organization cannot compromise on (for example: structure, consistency, query speed, flexible schema, relationship traversal, scale).</li>
+<li>The database type you recommend, with its relevant characteristics drawn from this module's material.</li>
+<li>One concrete operation or user action — such as a search, a checkout, a record lookup, or a feed being generated — and how your chosen type handles it.</li>
+<li>One trade-off you are accepting, and the requirement you deliberately ranked lower.</li>
+</ul>
+
+<p><strong>Replies:</strong> Post two replies by the end of the week, at least one to a classmate who wrote about a different industry than yours. A good reply does more than agree: it tests the recommendation against a specific situation ("what happens when this hospital needs to pull five years of monitor readings?"), offers a counter-case with reasoning, or asks the classmate which requirement they would sacrifice first and why. Reference something specific they wrote.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on how clearly you match a database type to the industry's stated data management requirements, the specificity of the evidence and examples you use, and the quality of your engagement with classmates' reasoning.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<p><strong>MO5 [Apply] — Identify the database type most likely used in a specified industry context based on that industry's data management requirements:</strong> developed by all discussion questions, with the opening questions 1–3 building the required vocabulary of types and requirements (Understand), questions 4 and 12 performing the core application task (Apply), questions 5, 6 and 9 analyzing which requirements distinguish contexts (Analyze), questions 7, 10 and 11 evaluating competing recommendations and decision criteria (Evaluate), and question 8 creating a multi-type solution for a mixed workload (Create). The live think-pair-share report-out, the exit ticket, and the online initial post and reply requirements all assess the same matching skill at the Apply level or above.</p>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

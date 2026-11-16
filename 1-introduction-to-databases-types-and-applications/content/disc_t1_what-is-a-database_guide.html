@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>When Does a Spreadsheet Stop Being Enough? — Discussion Guide</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 24px; color: #1a1a1a; line-height: 1.6; }h1 { font-size: 1.8em; border-bottom: 2px solid #0054a6; padding-bottom: 8px; }h2 { font-size: 1.3em; color: #0054a6; margin-top: 28px; }h3 { font-size: 1.1em; }ul, ol { padding-left: 1.6em; }blockquote { border-left: 4px solid #0054a6; margin: 0; padding-left: 16px; color: #444; background: #f0f6ff; }code { background: #f4f4f4; padding: 1px 4px; border-radius: 3px; font-size: .9em; }pre { background: #f4f4f4; padding: 12px; border-radius: 4px; overflow-x: auto; }pre code { background: none; padding: 0; }strong { color: #111; }table { border-collapse: collapse; margin: 16px 0; width: 100%; }th, td { border: 1px solid #cfcfcf; padding: 6px 10px; text-align: left; vertical-align: top; }thead th { background: #f0f6ff; }hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }.meta { color: #666; font-style: italic; font-size: .9em; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 1 - Introduction to Databases, Types, and Applications</a></div>
+<h1>When Does a Spreadsheet Stop Being Enough?</h1>
+
+<blockquote><strong>Discussion guide for the instructor</strong> — 1 - Introduction to Databases, Types, and Applications · Open Discussion · Both — live and online · from Topic 1: What is a Database?. The student post is also a page of its own, for the LMS.</blockquote>
+
+
+<h2>Discussion Topic</h2>
+
+<p>Imagine a small community food co-op (an invented example for discussion). For three years, one volunteer has tracked every member, order, supplier, and payment in a single spreadsheet. It works — until the co-op grows to 900 members, three volunteers start editing at once, a supplier's phone number appears four different ways in four different rows, and nobody can answer "how much did we buy from this farm last quarter?" without an hour of scrolling. The co-op's board insists the spreadsheet is "basically a database." Are they right? This question sits at the heart of this module: a database is an organized collection of structured information stored electronically so it can be accessed, managed, and updated systematically — and a Database Management System (DBMS) is the software layer that makes that controlled access possible. Deciding where the line falls between a file that holds data and a system that manages it forces us to use the module's core vocabulary — data, information, records, fields, tables — with precision, and that precision is what the rest of the module is built on.</p>
+
+<p><strong>Central question:</strong> At what point does a collection of data stop being "just a spreadsheet" and start requiring a database and a DBMS — and what makes that line hard to draw?</p>
+
+<p><strong>Before the discussion, students should:</strong></p>
+<ul>
+<li>Review the module's definitions of <em>database</em>, <em>DBMS</em>, and the vocabulary of <em>records</em>, <em>fields</em>, and <em>tables</em>, and be ready to state each in their own words.</li>
+<li>Think of one real collection of data they personally interact with (a club roster, a work schedule, a game inventory, a course gradebook) and sketch what its fields and records would be.</li>
+<li>Jot down one difference between raw data and meaningful information using an example from their own life.</li>
+</ul>
+
+<h2>Questions to Ask</h2>
+
+<h3>Opening questions</h3>
+
+<ol>
+<li>Using the module's definition, how would you describe a database to someone who has never taken a computing course?</li>
+</ol>
+<p>   <em>Purpose: activates prior reading and establishes shared vocabulary · Understand</em></p>
+
+<ol>
+<li>Think of the data collection you sketched before class — what are its records, and what are its fields?</li>
+</ol>
+<p>   <em>Purpose: gives every student a concrete, personal entry point · Apply</em></p>
+<p>   > Watch for: students treating "record" and "field" as interchangeable, or calling a whole table a record — follow up with: "If you added one more member to your roster, are you adding a row or a column, and what does that tell you about which term applies?"</p>
+
+<ol>
+<li>Take one item of raw data from your example and describe what would have to happen to it before you'd call it information.</li>
+</ol>
+<p>   <em>Purpose: surfaces the data/information distinction in students' own terms · Understand</em></p>
+
+<h3>Probing questions</h3>
+
+<ol>
+<li>The module says a database is <em>organized</em> and <em>structured</em>. What evidence would you point to in a given file to show that it is genuinely structured rather than just tidy-looking?</li>
+</ol>
+<p>   <em>Purpose: pushes students past surface features to defining criteria · Analyze</em></p>
+<p>   > Watch for: equating "structured" with "neatly formatted" or "has headings" — follow up with: "If I renamed a column halfway down the sheet and typed dates three different ways, would it still look tidy? Would it still be structured?"</p>
+
+<ol>
+<li>The module names efficient storage, retrieval, and management of large amounts of data as the primary purpose of a database. Which of those three does a spreadsheet handle least well, and what reasoning supports your choice?</li>
+</ol>
+<p>   <em>Purpose: asks for a defended judgment against stated criteria · Evaluate</em></p>
+
+<ol>
+<li>Someone argues that the real difference is only size — "a database is just a big spreadsheet." What is the strongest case for that position, and what is the strongest case against it?</li>
+</ol>
+<p>   <em>Purpose: requires students to steelman a view before refuting it · Evaluate</em></p>
+<p>   > Watch for: the assumption that row count alone decides the question — follow up with: "If two people need to update the same record at the same moment, does the number of rows change your answer?"</p>
+
+<ol>
+<li>The DBMS is described as a software layer enabling <em>controlled</em> interaction with a database. What would you expect "controlled" to mean in practice, and what goes wrong when that control is absent?</li>
+</ol>
+<p>   <em>Purpose: builds a functional understanding of the DBMS rather than a memorized phrase · Analyze</em></p>
+
+<h3>Connecting and applying questions</h3>
+
+<ol>
+<li>Return to the food co-op example. Describe the point in its growth at which you would say it now needs a database and a DBMS, and name the specific symptom that marks that moment.</li>
+</ol>
+<p>   <em>Purpose: applies criteria to a shared case and demands a defensible threshold · Evaluate</em></p>
+
+<ol>
+<li>Choose a context you care about — a hospital clinic, a campus club, an online shop, a neighbourhood lending library — and design the tables you would need to hold its data. What did you have to decide about fields along the way?</li>
+</ol>
+<p>   <em>Purpose: moves students from describing to designing · Create</em></p>
+
+<ol>
+<li>How does the vocabulary we've used today (records, fields, tables, DBMS) give you a more precise way to talk about data problems than everyday words like "file," "sheet," or "list"?</li>
+</ol>
+<p>    <em>Purpose: makes the value of technical vocabulary explicit · Analyze</em></p>
+
+<h3>Closing and reflection questions</h3>
+
+<ol>
+<li>What is one belief about databases you held before this discussion that you would now state differently, and what changed it?</li>
+</ol>
+<p>    <em>Purpose: prompts metacognition and surfaces residual misconceptions · Reflect/Evaluate</em></p>
+
+<ol>
+<li>If you had to give the co-op board a one-sentence test for "do we need a database?", what would that sentence be?</li>
+</ol>
+<p>    <em>Purpose: consolidates the discussion into a portable criterion · Create</em></p>
+
+<h2>Guiding the Live Discussion</h2>
+
+<p><strong>Format:</strong> Think-pair-share feeding into a whole-group "line-drawing" exercise. The short think-pair stage guarantees that every student has spoken once before the open floor opens, which protects quieter students and gets the vocabulary into active use. The whole-group stage then works well because the central question has a genuine spectrum of defensible answers — students can literally place the threshold at different points and defend it.</p>
+
+<table>
+<thead><tr>
+<th>Time</th>
+<th>What happens</th>
+<th>What the instructor does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>0:00–0:02</td>
+<td>Instructor reads the food co-op scenario and poses the central question; states ground rules.</td>
+<td>Frames the question as genuinely open; writes "records / fields / tables / DBMS" on the board as a vocabulary bank.</td>
+</tr>
+<tr>
+<td>0:02–0:05</td>
+<td><strong>Think:</strong> students individually write where they'd draw the line and one reason.</td>
+<td>Circulates silently; notes two or three contrasting positions to call on later.</td>
+</tr>
+<tr>
+<td>0:05–0:09</td>
+<td><strong>Pair:</strong> partners compare thresholds and try to find the one factor they most disagree about.</td>
+<td>Listens in; drops in one probe per pair ("what evidence would change your partner's mind?").</td>
+</tr>
+<tr>
+<td>0:09–0:16</td>
+<td><strong>Share:</strong> open floor on Questions 4, 5, and 7; instructor maps positions on a visible spectrum from "spreadsheet is fine" to "needs a DBMS now."</td>
+<td>Asks for reasons after every claim; invites named pairs whose positions contrasted; corrects vocabulary slips gently.</td>
+</tr>
+<tr>
+<td>0:16–0:19</td>
+<td>Apply: Question 8 — students name the specific symptom that marks the tipping point.</td>
+<td>Collects three or four symptoms on the board and groups them (volume, concurrency, consistency, retrieval).</td>
+</tr>
+<tr>
+<td>0:19–0:20</td>
+<td>Wrap-up and exit ticket.</td>
+<td>Synthesizes the board; states the exit ticket.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Ground rules to state:</strong></p>
+<ul>
+<li>Challenge the idea, not the person who offered it.</li>
+<li>Every claim comes with a reason or an example.</li>
+<li>"I'm not sure yet, but here's my thinking" is a complete and welcome contribution.</li>
+<li>Use the module's vocabulary where you can; ask for a definition if a term is unclear.</li>
+</ul>
+
+<p><strong>Facilitation moves:</strong></p>
+<ul>
+<li><em>Wait time:</em> after posing a question, count silently to seven before calling on anyone; say "I'm going to leave some quiet so everyone can think" so the pause reads as deliberate rather than awkward.</li>
+<li><em>Drawing in quiet students:</em> use the pair stage as the bridge — "Priya, you and your partner disagreed about something; can you report what the disagreement was?" Reporting a pair's thinking is lower-risk than defending one's own.</li>
+<li><em>Managing a dominant voice:</em> acknowledge and redirect — "That's a strong argument for the concurrency point. Let's hear from someone who'd draw the line in a different place, then we'll come back to you." If needed, ask that student to take on a role: "Would you track the positions on the board for us?"</li>
+<li><em>Responding to a wrong answer:</em> keep the contribution and fix the content — "That's a useful instinct about size; let's test it. If the sheet had only forty rows but four people editing at once, where would your criterion land?" Name what was right before adjusting what wasn't.</li>
+<li><em>Bringing a drifting discussion back:</em> point at the vocabulary bank — "We've drifted into which software brand is best; the question on the table is what makes something a database at all. Which of these four terms is doing the work in your argument?"</li>
+</ul>
+
+<p><strong>Wrap-up:</strong> Read the mapped spectrum back to the class and name the one or two factors that most students converged on, plus the point where real disagreement remained — explicitly say that the remaining disagreement is legitimate and will resurface when the module compares database types. Close by restating the module's definitions of <em>database</em> and <em>DBMS</em> and noting which board items they explain.</p>
+
+<p><strong>Exit ticket:</strong> In one or two sentences: name the single symptom you would treat as the clearest sign that an organization has outgrown its spreadsheet, and say why that symptom and not another.</p>
+
+<h2>Guiding the Online Discussion</h2>
+
+<p><strong>Schedule:</strong> Initial post early in the week, so there is material for others to respond to. Two replies to classmates by the end of the week, with at least one reply going to a post that has fewer than two responses so no one is left unanswered. The instructor's closing summary goes up after the reply deadline.</p>
+
+<p><strong>The instructor's role:</strong></p>
+
+<p>Post a brief welcome and the scenario at the start of the week. Check the board on roughly three occasions: once mid-week to seed depth, once near the reply deadline to catch thin or inaccurate threads, and once at the close to summarize. Reply to a subset of threads rather than every post — aim for coverage of all students across the three visits — so students talk to each other rather than performing for the instructor.</p>
+
+<p><em>Sample instructor follow-up posts:</em></p>
+<ul>
+<li>"You've anchored your threshold on the number of records. Push on that for me: if the collection stayed small but three people had to update the same record simultaneously, would your threshold hold, or would you revise it? What does the module's description of a DBMS as a <em>controlled</em> layer suggest?"</li>
+<li>"You and Dmitri have landed in very different places — you say the co-op needed a database at 200 members, he says the spreadsheet could carry them indefinitely. Can each of you name the one fact about the co-op that would move you toward the other's position?"</li>
+<li>"Nice use of <em>fields</em> and <em>records</em> here. Take the next step: sketch the tables you'd actually need for this case, and tell us what decision you had to make about which fields belong together. What got harder as you did it?"</li>
+</ul>
+
+<p><em>Handling an inaccurate post:</em> Reply publicly, affirm the part that works, and convert the error into a question rather than a correction — "You're right that organization is central to the definition. The post uses 'record' for what looks like a column; check the module's vocabulary and tell us which term fits, and then reconsider your example." For a persistent or substantial error, add a short clarifying note to the whole board without naming the student. For an off-topic post, respond warmly and redirect — "This is an interesting tangent about software costs; bring it back for us — how does cost bear on whether something <em>is</em> a database?" If it is entirely unrelated, message the student privately and ask them to repost on topic.</p>
+
+<p><em>Closing summary post:</em> Name the two or three main positions that emerged on where the line falls, quote (with names) two or three posts that offered especially clear reasoning or useful examples, list the module vocabulary the class used well and any term that caused trouble, and flag the open question that the rest of the module will take up — namely that "which database" is a further decision beyond "whether a database."</p>
+
+<p><strong>What a strong post does:</strong></p>
+
+<table>
+<thead><tr>
+<th>Criterion</th>
+<th>What a strong post does</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Answers the question</td>
+<td>Takes a clear position on where the spreadsheet-to-database line falls and states it in the first few lines, rather than summarizing the reading.</td>
+</tr>
+<tr>
+<td>Uses evidence from the content</td>
+<td>Grounds the position in the module's definitions — organized and structured data, systematic storage and retrieval, the controlled role of the DBMS — and uses <em>records</em>, <em>fields</em>, and <em>tables</em> accurately.</td>
+</tr>
+<tr>
+<td>Grounds the claim in a case</td>
+<td>Supplies a concrete example (personal, workplace, or the co-op scenario) and shows how the criterion applies to it, rather than arguing in the abstract.</td>
+</tr>
+<tr>
+<td>Builds on a classmate</td>
+<td>Replies name the specific claim being engaged, add a reason, counter-example, or question, and move the thread forward instead of agreeing in general terms.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Student Discussion Post</h2>
+
+<p><strong>Prompt:</strong> A small community food co-op has run on one spreadsheet for three years. Now it has 900 members, three volunteers editing at the same time, supplier details entered four different ways, and no quick way to answer "how much did we buy from this farm last quarter?" The board insists the spreadsheet is "basically a database." Where would you draw the line? <strong>At what point does a collection of data stop being "just a spreadsheet" and start requiring a database and a DBMS — and what makes that line genuinely hard to draw?</strong></p>
+
+<p><strong>Your initial post (about 150–250 words), posted early in the week, should:</strong></p>
+<ul>
+<li>State clearly where you would draw the line and name the single factor that matters most to you (for example, volume, simultaneous users, consistency of entries, or ease of retrieval).</li>
+<li>Use the module's definitions of a <em>database</em> and a <em>DBMS</em> to support your position, and use the terms <em>record</em>, <em>field</em>, and <em>table</em> correctly at least once.</li>
+<li>Illustrate your position with one concrete example — the co-op, or a data collection from your own studies, work, or community.</li>
+<li>Name one thing that makes the line hard to draw, or one point on which you could see a reasonable person disagreeing with you.</li>
+</ul>
+
+<p><strong>Replies:</strong> Post two replies by the end of the week, and send at least one of them to a classmate who has not yet received a response. A good reply quotes or names the specific claim you are engaging, then does one of these: offers a counter-example that tests their threshold, supplies evidence or an example that strengthens it, or asks a question that would make them refine it. Replies that only say you agree do not count — add a reason.</p>
+
+<p><strong>Assessment:</strong> Posts are assessed on the clarity of your position, the accuracy of your use of module definitions and vocabulary, the quality of your example, and how substantively your replies advance a classmate's thinking.</p>
+
+<h2>Alignment with Learning Outcomes</h2>
+
+<ul>
+<li><strong>MO1:</strong> Directly supported — students must use <em>record</em>, <em>field</em>, and <em>table</em> accurately in both the live and online formats, and the follow-up prompts correct common vocabulary slips; <em>primary key</em>, <em>foreign key</em>, and <em>schema</em> are not addressed here and are left for later topics in the module.</li>
+<li><strong>MO2:</strong> Not directly supported — this discussion stays at the level of what a database is and what a DBMS does; it does not distinguish relational, NoSQL, and hierarchical models, though it builds the vocabulary that distinction will require.</li>
+<li><strong>MO3:</strong> Indirectly supported — students practise comparing data-storage approaches against criteria (volume, concurrency, consistency, retrieval), which is the same comparative reasoning MO3 later applies across database types.</li>
+<li><strong>MO4:</strong> Indirectly supported — judging when the co-op or a student's own case needs a database, and justifying that judgment against stated criteria, rehearses the justification skill MO4 assesses at the level of database type.</li>
+<li><strong>MO5:</strong> Partially supported — students apply their criteria to industry and community contexts of their choosing, establishing the habit of reading a context's data requirements before naming a solution.</li>
+</ul>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>
