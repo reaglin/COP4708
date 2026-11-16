@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>15 - Database Security Models, Users, and Application Connections</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 15 - Database Security Models, Users, and Application Connections</a></div>
+<h1>15 - Database Security Models, Users, and Application Connections</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Database Security Fundamentals</a>
+<a href="#part2">User Roles and Permissions</a>
+<a href="#part3">Authentication and Authorization</a>
+<a href="#part4">SQL Injection Prevention</a>
+<a href="#part5">Application-to-Database Connections</a>
+<a href="#part6">ORM Frameworks and Database Abstraction</a>
+<a href="#part7">Connection Pooling Best Practices</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Database Security Fundamentals</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>Database security begins long before you type a GRANT statement. It starts with a set of principles that tell you what you are protecting, from whom, and how much access any given person or program should have. In this topic you will meet those principles: the CIA Triad (confidentiality, integrity, availability), the distinction between authentication and authorization, the principle of least privilege, and the layered approach known as defense in depth.</p>
+<p>These ideas matter in COP4708 because every practical task later in the module is an application of them. Creating users and roles is authorization in action; using parameterized queries protects integrity and confidentiality; storing credentials outside your code and encrypting connections are defense-in-depth layers; and choosing a limited service account for an application is least privilege applied to software rather than people. If the principles are clear, the SQL and configuration choices stop feeling arbitrary.</p>
+<p>As you watch, keep a running list of two things. First, which part of the CIA Triad each control protects, since many controls protect only one or two and you need combinations to cover all three. Second, where the database sits relative to other defenses: notice that the database is rarely the first line of defense, but it is often the last, which is why access control inside the database still matters even when a network firewall and an application layer stand in front of it.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: What is Database Security?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/c3YaDqvSDrQ?cc_load_policy=1&amp;rel=0" title="Video: What is Database Security? (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 14:28 · 39,378 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=c3YaDqvSDrQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An IBM Technology overview focused specifically on securing databases rather than systems in general. Based on its title and accompanying database security guide, it is likely to cover what makes database data a high-value target, the categories of threats databases face, and the layers of controls commonly applied, such as access control, encryption, auditing, and monitoring.</p>
+<h4>Why this video</h4>
+<p>This is the most directly on-topic video for the module: it frames security around the database itself, which connects the general principles to the user, role, and connection work you will do later.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: Cybersecurity Architecture: Fundamentals of Confidentiality, Integrity, and Availability</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EqNe55IzjAw?cc_load_policy=1&amp;rel=0" title="Video: Cybersecurity Architecture: Fundamentals of Confidentiality, Integrity, and Availability (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 12:34 · 353,319 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=EqNe55IzjAw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part of IBM's Cybersecurity Architecture series, this video explains the CIA Triad in depth: what confidentiality, integrity, and availability each mean, and the kinds of controls and tradeoffs associated with each. Expect concrete examples of how strengthening one property can weaken another, and discussion of where authentication and access control fit.</p>
+<h4>Why this video</h4>
+<p>It gives you a clear, well-illustrated treatment of the single framework this topic is built around, which you can then map onto database-specific controls yourself.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: Cybersecurity Architecture: Five Principles to Follow (and One to Avoid)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/jq_LZ1RFPfU?cc_load_policy=1&amp;rel=0" title="Video: Cybersecurity Architecture: Five Principles to Follow (and One to Avoid) (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 17:34 · 1,112,775 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=jq_LZ1RFPfU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A widely watched walkthrough of core security design principles, presented as five to follow and one to avoid. Given the series and title, it very likely covers least privilege, defense in depth, and the rejection of security through obscurity, with reasoning about why each principle holds up in practice.</p>
+<h4>Why this video</h4>
+<p>Least privilege and defense in depth are named subtopics here, and this video explains the reasoning behind them rather than just stating them, which helps you justify access control decisions in your own designs.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the conceptual base the rest of the module depends on. The CIA Triad video and the security principles video directly support MO1 by explaining confidentiality, integrity, availability, and least privilege as frameworks rather than slogans. The least privilege and defense-in-depth discussion also sets up MO2, since roles, GRANT, and REVOKE are the mechanisms by which least privilege and separation of duties are enforced inside a database, and MO4, where a limited service account, external credential storage, and encrypted connections each form a separate defensive layer. The database security overview previews the threat categories behind MO3 and MO5, including injection attacks and the risks of shared or improperly isolated connections. None of the videos walk through SQL syntax or connection pool configuration, so expect the readings and lab work in this module to supply those hands-on steps.</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>User Roles and Permissions</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>Every database engine assumes that not everyone who connects should be able to do everything. User accounts identify who is connecting, privileges define what each account is allowed to do, and roles bundle privileges into reusable packages that can be granted and revoked as job responsibilities change. In this topic you will look at how accounts are created with CREATE USER, how access rights are assigned with GRANT and withdrawn with REVOKE, and how a role-based access control (RBAC) model keeps permission management manageable as the number of users grows.</p>
+<p>Two ideas sit underneath the mechanics. The principle of least privilege says each account should hold only the rights it needs for its task and nothing more, so that a compromised or careless account causes limited damage. Separation of duties says that sensitive combinations of power — for example, the ability to both change data and erase the audit trail of that change — should not sit in a single role, and that administrative accounts should be distinct from everyday application accounts.</p>
+<p>The videos below approach this from two directions: one conceptual video on access control models, and two hands-on walkthroughs in MySQL and Oracle. While watching the conceptual video, pay attention to how roles differ from attribute-based rules and when each approach fits. While watching the hands-on videos, note the exact syntax for creating an account, the difference between creating a user and granting that user any privileges, and how the demonstrated grants would change if you deliberately restricted them to the minimum needed.</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: Role-based access control (RBAC) vs. Attribute-based access control (ABAC)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/rvZ35YW4t5k?cc_load_policy=1&amp;rel=0" title="Video: Role-based access control (RBAC) vs. Attribute-based access control (ABAC) (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 7:39 · 176,854 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=rvZ35YW4t5k" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An IBM Technology explainer that contrasts role-based access control with attribute-based access control. Expect a definition of RBAC in terms of roles, permissions assigned to roles, and users assigned to roles, followed by ABAC's use of attributes such as user, resource, and environment characteristics to evaluate access decisions, along with trade-offs between the two models.</p>
+<h4>Why this video</h4>
+<p>It gives you the vocabulary and the mental model behind roles before you start typing GRANT statements, and it comes from a producer with a strong track record for clear, accurate security explainers.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: How to Create a New User in MySQL</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Dz3DIcM19Jk?cc_load_policy=1&amp;rel=0" title="Video: How to Create a New User in MySQL (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 5:04 · 45,521 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=Dz3DIcM19Jk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short Database Star tutorial on creating a new user account in MySQL. It is likely to cover the CREATE USER statement, how MySQL identifies accounts by username and host, setting a password, and then granting privileges to the new account so it can actually do useful work.</p>
+<h4>Why this video</h4>
+<p>It turns the abstract idea of a user account into concrete, runnable syntax in a widely used open-source DBMS, and it highlights the important point that creating a user and granting privileges are two separate steps.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: How to Create a New User in Oracle Database</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zsmMRDdrZRg?cc_load_policy=1&amp;rel=0" title="Video: How to Create a New User in Oracle Database (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 8:48 · 7,010 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=zsmMRDdrZRg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A Database Star walkthrough of creating a user in Oracle Database. Expect coverage of the CREATE USER statement along with Oracle-specific considerations such as pluggable databases and common versus local users, default tablespaces, and the grants (for example CREATE SESSION) a new account needs before it can connect and work.</p>
+<h4>Why this video</h4>
+<p>Seeing the same task in a second engine shows which concepts are universal and which are vendor-specific, which is exactly the judgment you need when applying least privilege in an unfamiliar system.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos support MO1 by framing why access should be constrained at all and giving you the role-centered vocabulary that least privilege is expressed in, and they most directly support MO2 by demonstrating the concrete account-creation and privilege-granting steps in MySQL and Oracle that you will extend into roles, GRANT and REVOKE statements, and separation-of-duties configurations. The least-privilege thinking reinforced here also underpins MO4, since a secure application-to-database connection depends on a service account that holds only the rights the application actually uses; the module's other materials and your lab work will carry the remaining outcomes on parameterized queries (MO3) and connection pooling risks (MO5).</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>Authentication and Authorization</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>Every database interaction begins with two questions: who are you, and what are you allowed to do? Authentication answers the first by verifying identity through credentials such as passwords, keys, certificates, or tokens. Authorization answers the second by deciding which tables, views, and operations that verified identity may touch. Databases implement both as first-class features, which is why you can create users, assign roles, and issue GRANT and REVOKE statements directly in SQL rather than relying on application code to police access.</p>
+<p>In this course the distinction matters because an application is rarely the only path to your data. If authorization rules live only in the application layer, anyone who reaches the database through another client inherits full power. Pushing rules down to the database level, and giving application service accounts only the privileges they actually need, is what makes least privilege real. Password policies and credential management round this out: stored credentials must be hashed properly, rotated sensibly, and never embedded in source code.</p>
+<p>As you watch, keep a running list of vocabulary and map it back to SQL. When a video says "authorization," ask yourself which GRANT statement would express that. When it discusses identity providers, roles, or privilege assignment, think about how a database role groups permissions so they can be given to many users at once. For the password video, focus on why hashing and salting exist and what that implies for any credential store you design.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: Authentication, Authorization, and Accounting - CompTIA Security+ SY0-701 - 1.2</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/AhaZtj5P2a8?cc_load_policy=1&amp;rel=0" title="Video: Authentication, Authorization, and Accounting - CompTIA Security+ SY0-701 - 1.2 (Professor Messer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Professor Messer</strong> · 9:04 · 732,578 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=AhaZtj5P2a8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video introduces the AAA framework — authentication, authorization, and accounting — and explains how each stage fits into a typical access control process. Based on its title and the Security+ objective it maps to, it should cover how identity is proven, how authorization decisions follow from that proven identity, and how activity is logged for later review. Expect concrete examples of credentials and authentication factors.</p>
+<h4>Why this video</h4>
+<p>Professor Messer is a widely used, exam-aligned security instructor, and this video cleanly separates authentication from authorization — the core conceptual split this topic depends on before you write any GRANT statement.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: Identity and Access Management - CompTIA Security+ SY0-701 - 4.6</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/ZoOyyqhptik?cc_load_policy=1&amp;rel=0" title="Video: Identity and Access Management - CompTIA Security+ SY0-701 - 4.6 (Professor Messer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Professor Messer</strong> · 12:46 · 158,786 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=ZoOyyqhptik" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video covers identity and access management concepts, which typically include provisioning and deprovisioning accounts, permission assignment, and access control models. Given the Security+ objective it addresses, it is likely to discuss role-based access control alongside other models and explain how roles simplify managing permissions across many users. It also situates user accounts and service or application accounts within a broader identity lifecycle.</p>
+<h4>Why this video</h4>
+<p>It directly supports the RBAC and application-account subtopics by showing why roles exist as a management abstraction, which is exactly the reasoning behind database roles and privilege grants.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>Video 3: System Design: How to store passwords in the database?</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zt8Cocdy15c?cc_load_policy=1&amp;rel=0" title="Video: System Design: How to store passwords in the database? (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 3:44 · 250,155 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=zt8Cocdy15c" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused explanation of how passwords should be stored in a database: not in plaintext, not simply hashed, but hashed with a salt using an appropriate algorithm. The video walks through the common failure modes, such as rainbow table attacks, and why salting defeats them. It is a system-design style walkthrough with diagrams.</p>
+<h4>Why this video</h4>
+<p>ByteByteGo is a well-regarded system design channel, and this video gives the credential-management subtopic a concrete, implementation-level grounding that pairs well with the more conceptual AAA material.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the vocabulary and reasoning that the module outcomes require. The AAA and identity management videos establish least privilege and the separation between proving identity and granting capability, which underpins MO1 and gives you the conceptual model behind creating users, defining roles, and applying GRANT and REVOKE for separation of duties in MO2. The identity and access management coverage of service accounts and permission assignment feeds directly into MO4's requirement for least-privilege application accounts, while the password storage video supports MO4's emphasis on handling credentials responsibly rather than leaving them exposed. These videos are conceptual groundwork; the hands-on SQL work for MO2, the parameterized query practice for MO3, and the connection pooling analysis for MO5 come from the module's readings and lab exercises.</p>
+</section>
+<section class="item" id="p3-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>SQL Injection Prevention</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>SQL injection is the classic example of what goes wrong when user-supplied text is treated as part of a SQL command instead of as data. An attacker types something like ' OR 1=1 -- into a login box or a URL parameter, the application pastes that string directly into a query, and the database faithfully executes whatever statement results. The consequences range from bypassing authentication to dumping entire tables, modifying records, or in some configurations running operating-system commands.</p>
+<p>In this module, injection prevention sits alongside users, roles, and privileges because the two defenses work together. Parameterized queries and prepared statements are the primary fix: the SQL text and the parameter values travel separately, so input can never change the structure of the statement. Input validation and allowlisting narrow what is accepted in the first place, escaping and encoding handle the cases where parameters are not possible, and least privilege limits the blast radius if something does get through. Testing and code review keep the protection in place as the application changes.</p>
+<p>As you watch, pay attention to three things: how the attacker's input changes the meaning of the query, what the fix actually does at the database driver level, and why filtering bad characters alone is a weaker strategy than parameterization. Try to connect each demonstration back to code you would write for your own application layer.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: SQL Injection - CompTIA Security+ SY0-701 - 2.3</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/qFUOLkEk8AQ?cc_load_policy=1&amp;rel=0" title="Video: SQL Injection - CompTIA Security+ SY0-701 - 2.3 (Professor Messer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Professor Messer</strong> · 5:09 · 248,788 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=qFUOLkEk8AQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A concise certification-style overview of the SQL injection attack vector from Professor Messer's Security+ course. It explains what SQL is, how injected input alters an intended query, and walks through the kind of crafted input an attacker uses against a vulnerable web form. Expect a clear conceptual framing of why the vulnerability exists rather than a coding tutorial.</p>
+<h4>Why this video</h4>
+<p>Professor Messer is a long-trusted source for accurate, exam-aligned security explanations, and this five-minute video gives you the vocabulary and mental model for the attack vector before you look at code-level defenses.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: SQL Injections are scary!! (hacking tutorial for beginners)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/2OPVViV-GQk?cc_load_policy=1&amp;rel=0" title="Video: SQL Injections are scary!! (hacking tutorial for beginners) (NetworkChuck)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>NetworkChuck</strong> · 10:14 · 2,088,324 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=2OPVViV-GQk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>NetworkChuck walks through SQL injection from a hands-on, beginner-friendly hacking perspective, demonstrating how input typed into a vulnerable application reaches the database and what an attacker can extract. The video is likely to show login bypass and data-extraction style examples in a lab setting and discuss why these flaws remain common.</p>
+<h4>Why this video</h4>
+<p>Seeing the attack performed step by step makes the abstract idea concrete, and the attacker's view helps you understand exactly what parameterized queries and least-privilege accounts are stopping.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: Stop hackers from manipulating your database (SQL injection) #SecurityBites</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/VE6c57Tk5gM?cc_load_policy=1&amp;rel=0" title="Video: Stop hackers from manipulating your database (SQL injection) #SecurityBites (GitHub)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>GitHub</strong> · 4:19 · 2,213 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=VE6c57Tk5gM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short Security Bites segment from GitHub focused on the defender's side: how attackers manipulate a database through injection and what developers should do about it. Given the channel and description, expect emphasis on secure coding practice, including separating query structure from user-supplied values and avoiding string concatenation in queries.</p>
+<h4>Why this video</h4>
+<p>It comes from a developer-tooling producer and is framed around prevention in application code, which maps directly to the parameterized query, prepared statement, and validation subtopics of this lesson.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the foundation for MO3 by showing first how injection works and then how query parameterization removes the vulnerability at its root, which is exactly the skill you will demonstrate in your own application code. The attacker-perspective demonstration also reinforces MO1, since watching how much data a single injected string can reach makes the case for least privilege and for protecting confidentiality and integrity, and it supports MO2 and MO4 by showing why a web application should connect using a restricted service account rather than a high-privilege login. Use the videos as conceptual grounding, then apply the techniques in the module's coding and privilege-configuration activities.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>Application-to-Database Connections</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>Every application that reads or writes data has to tell the database who it is, where the server lives, and how to talk to it. That information is bundled into a connection string: a host or server name, a port, a database name, a user account, credentials, and often options such as whether TLS/SSL is required. Getting the connection string right is a functional requirement; getting it stored and scoped correctly is a security requirement.</p>
+<p>The common failure mode in real projects is hard-coding credentials directly in source files that then end up in a Git repository, a container image, or a log file. The alternative is to keep configuration outside the code: environment variables, configuration files excluded from version control, or a dedicated secrets manager or vault that issues and rotates credentials. Alongside this, the account the application uses should follow the principle of least privilege — a service account with only the SELECT, INSERT, UPDATE, or DELETE rights it actually needs, never a superuser — and the connection itself should be encrypted in transit so credentials and query results are not readable on the wire.</p>
+<p>As you watch, keep three questions in mind. Where does the secret physically live at rest, and who or what can read it? How does the same application move between development, test, and production without editing code? And what would an attacker gain if they obtained this one set of credentials — which is really a question about how narrowly the database user was scoped.</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: Secrets Management: Secure Credentials &amp; Avoid Data Leaks</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/BqekRTA6VCs?cc_load_policy=1&amp;rel=0" title="Video: Secrets Management: Secure Credentials &amp; Avoid Data Leaks (IBM Technology)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>IBM Technology</strong> · 9:40 · 15,957 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=BqekRTA6VCs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An IBM Technology explainer on secrets management: what counts as a secret (passwords, API keys, database credentials, certificates), why hard-coding them into source code and configuration files leads to leaks, and how centralized secrets management tools address storage, access control, rotation, and auditing. Expect discussion of the lifecycle of a credential rather than a single product tutorial.</p>
+<h4>Why this video</h4>
+<p>It directly covers the "secure storage of database credentials" subtopic at a conceptual level, and IBM Technology's explainer format is clear and vendor-neutral enough to generalize to whatever stack you use in this course.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: What are Environment variables? [10 of 20] | Bash for Beginners</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/aKghi0hI1OA?cc_load_policy=1&amp;rel=0" title="Video: What are Environment variables? [10 of 20] | Bash for Beginners (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 5:30 · 16,090 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=aKghi0hI1OA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part of Microsoft's Bash for Beginners series, this short video explains what environment variables are, how they differ from regular shell variables, and how to view, set, and use them from the command line. It gives you the concrete mechanics behind the advice to "read configuration from the environment."</p>
+<h4>Why this video</h4>
+<p>Environment variables are the most common practical mechanism for environment-based configuration management, and this video supplies the hands-on foundation you need before wiring a connection string into dev, test, and production environments.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>Video 3: Tutorial: Connect and query from your applications [13 of 16] | Azure Database for MySQL</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/MwxqYHbQxqY?cc_load_policy=1&amp;rel=0" title="Video: Tutorial: Connect and query from your applications [13 of 16] | Azure Database for MySQL (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 12:40 · 3,307 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=MwxqYHbQxqY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A step-by-step Microsoft tutorial showing how application code connects to and queries an Azure Database for MySQL Flexible Server. It walks through the connection parameters an application supplies — server, database, user, password, and SSL settings — and demonstrates running queries from a client application.</p>
+<h4>Why this video</h4>
+<p>It grounds the abstract idea of a connection string in actual code against a managed MySQL service, including the encrypted-connection settings that the "encrypting connections in transit" subtopic addresses.</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos support MO4 most directly: the secrets management video addresses keeping credentials out of the codebase, the environment variables video supplies the configuration mechanism used to inject connection settings per environment, and the Azure MySQL tutorial shows a working application connection including SSL/TLS options for encryption in transit. The discussion of scoping and rotating credentials also reinforces the principle of least privilege from MO1 as it applies to application service accounts, and supplies context for the role and privilege work you do in MO2. Note that these videos do not cover parameterized queries (MO3) or connection pooling risks (MO5) — those outcomes are addressed by other materials in the module.</p>
+</section>
+<section class="item" id="p5-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part6">
+<h2>ORM Frameworks and Database Abstraction</h2>
+<section class="item" id="p6-sec1">
+<h3>Introduction</h3>
+<p>An Object-Relational Mapping (ORM) framework sits between your application code and the database. Instead of writing SQL strings by hand, you define classes that map to tables and manipulate objects; the ORM translates those operations into SQL, sends them over the application's database connection, and maps the results back into objects. Popular examples include Django's built-in ORM and SQLAlchemy in Python, along with Hibernate, Entity Framework, and ActiveRecord in other ecosystems.</p>
+<p>ORMs matter in a security module for three reasons. First, they generate parameterized SQL by default, which is the single most effective defense against SQL injection — the same protection you learn to implement manually with prepared statements. Second, they centralize data access so that every part of the application queries the database the same way, making it easier to audit and to enforce consistent behavior. Third, they do not remove your responsibility: raw-SQL escape hatches, string interpolation inside ORM calls, and overly broad service-account privileges can reintroduce exactly the vulnerabilities the ORM was supposed to prevent.</p>
+<p>As you watch, look for how the ORM defines models and relationships, how it abstracts away vendor-specific SQL so the same code can target different database engines, and — most importantly — what the generated SQL actually looks like. Seeing the real query behind an ORM call is how you verify that values are being bound as parameters rather than concatenated into the statement, and how you connect ORM behavior back to the least-privilege and connection-strategy topics in this module.</p>
+</section>
+<section class="item" id="p6-sec2">
+<h3>Video 1: Django ORM Primer - Introducing Object Relational Mapping and the Django ORM</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Iwcl6K2FJds?cc_load_policy=1&amp;rel=0" title="Video: Django ORM Primer - Introducing Object Relational Mapping and the Django ORM (Very Academy)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Very Academy</strong> · 10:08 · 21,078 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=Iwcl6K2FJds" target="_blank" rel="noopener">Watch on YouTube</a></p>
+</section>
+<section class="item" id="p6-sec3">
+<h3>Video 2: SQLAlchemy: The BEST SQL Database Library in Python</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/aAy-B6KPld8?cc_load_policy=1&amp;rel=0" title="Video: SQLAlchemy: The BEST SQL Database Library in Python (ArjanCodes)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ArjanCodes</strong> · 16:39 · 194,774 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=aAy-B6KPld8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+</section>
+<section class="item" id="p6-sec4">
+<h3>Video 3: View Django Raw SQL queries | Django ORM Course</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/6I8-TA6RcIg?cc_load_policy=1&amp;rel=0" title="Video: View Django Raw SQL queries | Django ORM Course (Very Academy)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Very Academy</strong> · 12:53 · 4,593 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=6I8-TA6RcIg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+</section>
+<section class="item" id="p6-sec5">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part7">
+<h2>Connection Pooling Best Practices</h2>
+<section class="item" id="p7-sec1">
+<h3>Introduction</h3>
+<p>Every time an application opens a database connection, work happens behind the scenes: a network socket is created, credentials are authenticated, and the database server allocates memory and a session context. That setup cost is small for one connection but crushing when an application does it for every web request. Connection pooling solves this by keeping a set of already-authenticated connections open and lending them out to application threads as needed, returning them to the pool instead of closing them.</p>
+<p>In this course, pooling sits at the intersection of performance and security. Pool settings such as minimum and maximum pool size, connection timeout, idle timeout, and maximum connection lifetime determine whether your application scales smoothly or exhausts the database's connection limit. At the same time, a shared pool means many application users may travel over the same physical connection under one service account, which raises questions about session state leakage (temporary tables, session variables, SET ROLE changes), auditing, and applying least privilege when the database only ever sees a single login. Connection leaks — borrowed connections that are never returned because of an unhandled exception or a missing close/dispose — are a classic production failure, and ORM frameworks like Hibernate, Entity Framework, and SQLAlchemy each have their own pooling layer you need to understand rather than accept by default.</p>
+<p>The videos below approach pooling from the systems and operations side. As you watch, look for where pooling appears in the larger list of performance techniques, how it interacts with other scaling strategies, and what connection failures actually look like from the database server's perspective. Then connect those observations back to the course material: which configuration choices would you make for a web application, and what would you still need to do in code to prevent leaks and isolate session state?</p>
+</section>
+<section class="item" id="p7-sec2">
+<h3>Video 1: Top 7 Ways to 10x Your API Performance</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zvWKqUiovAM?cc_load_policy=1&amp;rel=0" title="Video: Top 7 Ways to 10x Your API Performance (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 6:05 · 505,358 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=zvWKqUiovAM" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A fast-paced overview of seven common techniques for improving API throughput and latency, with connection pooling presented as one of the core strategies alongside items such as caching, pagination, asynchronous processing, compression, and avoiding chatty request patterns. The video is likely to explain why reusing established connections avoids repeated handshake and authentication overhead on every request. The animated format gives a clear mental model of where the pool sits between application code and the database.</p>
+<h4>Why this video</h4>
+<p>It places connection pooling in its natural context — as a first-line performance optimization for applications that talk to databases — and ByteByteGo is a widely used, technically careful source for system design explanations, which fits the "What Is Connection Pooling?" and "Why Pooling Is Essential for Performance" subtopics.</p>
+</section>
+<section class="item" id="p7-sec3">
+<h3>Video 2: 7 Must-know Strategies to Scale Your Database</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_1IKwnbscQU?cc_load_policy=1&amp;rel=0" title="Video: 7 Must-know Strategies to Scale Your Database (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 8:42 · 285,678 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=_1IKwnbscQU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video walks through strategies for scaling a database as load grows, typically covering approaches such as indexing, caching, replication, read replicas, partitioning or sharding, and vertical scaling. Connection handling and pooling are discussed as part of the broader toolkit for supporting more concurrent clients without overwhelming the server. Expect diagrams showing how traffic flows and where bottlenecks form.</p>
+<h4>Why this video</h4>
+<p>It helps you see pooling as a scalability lever rather than just a coding convenience, which is essential when reasoning about maximum pool size versus the database's own connection limit — a key configuration parameter in this topic.</p>
+</section>
+<section class="item" id="p7-sec4">
+<h3>Video 3: Understanding Connectivity issues in SQL Database | Data Exposed</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/BkDz9OTdypI?cc_load_policy=1&amp;rel=0" title="Video: Understanding Connectivity issues in SQL Database | Data Exposed (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 13:18 · 3,578 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=BkDz9OTdypI" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A Data Exposed episode in which Microsoft engineers discuss why connections to Azure SQL Database get unexpectedly terminated and how applications should respond. Based on the description, it covers the causes of connection drops, their impact on applications, and the role of retry logic and resilient connection handling. It is a practitioner-oriented conversation rather than a scripted tutorial.</p>
+<h4>Why this video</h4>
+<p>It grounds the abstract idea of a pool in real operational failure modes — dropped, stale, or leaked connections — which directly supports the resource management, leak prevention, and configuration (timeout and lifetime) subtopics from a vendor with authoritative knowledge of its own platform.</p>
+</section>
+<section class="item" id="p7-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>These videos primarily serve MO5: they give you the performance rationale for pooling, the configuration parameters that govern pool behavior, and a realistic look at how connections fail or go stale in production — all prerequisites for evaluating a pool configuration and identifying leak and session-state risks. They also reinforce MO4, since a pooled connection strategy is part of designing a secure application-to-database connection path with a least-privilege service account and properly managed credentials. The videos do not cover the CIA Triad, GRANT/REVOKE role design, or parameterized queries (MO1–MO3); for those outcomes, rely on the module readings, lecture material, and hands-on lab exercises.</p>
+</section>
+<section class="item" id="p7-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

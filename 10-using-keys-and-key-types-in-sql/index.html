@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10 - Using Keys and Key Types in SQL — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">10 - Using Keys and Key Types in SQL</span>
+  </nav>
+      <div class="hero-label">Module 10</div>
+      <h1>Using Keys and Key Types in SQL</h1>
+      <p class="hero-desc">This lesson provides an in-depth look at primary keys, foreign keys, candidate keys, composite keys, and surrogate keys in SQL databases. Students will learn how to define and enforce key constraints to maintain data integrity and support referential integrity.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 7 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Introduction to Keys in SQL</span><span class="topic-meta">5 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">Primary Keys</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Foreign Keys and Referential Integrity</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Candidate Keys</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">Composite Keys</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num"><span class="sr-only">Topic </span>6</span><span class="topic-text"><span class="topic-title">Surrogate Keys</span><span class="topic-meta">6 subtopics · 1 material</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-7"><span class="topic-num"><span class="sr-only">Topic </span>7</span><span class="topic-text"><span class="topic-title">Enforcing Key Constraints for Data Integrity</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">15 items of 2 types: <a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(7)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t1.html">Introduction to Keys in SQL</a></div>
+    <p class="content-desc">A narrative lesson explaining what a key is in a relational database, how keys make every row identifiable and relatable, and why they underpin data organization and integrity; read first to build the conceptual foundation for the module.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t2.html">Primary Keys</a></div>
+    <p class="content-desc">A lesson on primary keys that defines them as the column or column set uniquely identifying each row, explains the no-duplicates and no-NULL rules, and shows how to declare one at table creation.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t3.html">Foreign Keys and Referential Integrity</a></div>
+    <p class="content-desc">A lesson on foreign keys explaining how they formally link data spread across multiple tables and how referential integrity prevents orphaned or mismatched rows.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t4.html">Candidate Keys</a></div>
+    <p class="content-desc">A lesson on candidate keys describing how multiple minimal column sets can each uniquely identify rows, how one is promoted to primary key, and what happens to the remaining candidates in the design.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t5.html">Composite Keys</a></div>
+    <p class="content-desc">A lesson on composite keys showing why some tables — such as junction and line-item tables — need two or more columns combined to uniquely identify a row, with guidance on when to use them.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t6.html">Surrogate Keys</a></div>
+    <p class="content-desc">A lesson on surrogate keys contrasting system-generated identifiers with natural keys and explaining when to introduce an artificial key because no practical natural candidate exists.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive_topics_t7.html">Enforcing Key Constraints for Data Integrity</a></div>
+    <p class="content-desc">A lesson on enforcing key constraints, showing how PRIMARY KEY, FOREIGN KEY, and UNIQUE declarations let the database automatically protect data integrity rather than relying on application code.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(8)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_interactive.html">Enforcing Key Constraints for Data Integrity</a></div>
+    <p class="content-desc">A duplicate copy of the lesson on enforcing key constraints with PRIMARY KEY, FOREIGN KEY, and UNIQUE declarations to automate data integrity protection.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_t1_videos.html">Introduction to Keys in SQL</a></div>
+    <p class="content-desc">A condensed study-guide version of the keys introduction, defining keys and explaining how they prevent duplicates and connect rows across tables; useful for quick review or printing.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_t2_videos.html">Primary Keys</a></div>
+    <p class="content-desc">A study-guide summary of primary keys covering uniqueness, the NOT NULL requirement, and the SQL syntax for declaring the constraint inline or at the table level.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_t3_videos.html">Foreign Keys and Referential Integrity</a></div>
+    <p class="content-desc">A study-guide summary of foreign keys explaining the rule that values must match an existing primary or unique key, illustrated with order-to-customer and enrollment examples.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_t4_videos.html">Candidate Keys</a></div>
+    <p class="content-desc">A study-guide summary of candidate keys focused on the two qualifying properties — uniqueness and irreducibility (minimality) — and how tables can have several candidates.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_t5_videos.html">Composite Keys</a></div>
+    <p class="content-desc">A study-guide summary of composite keys with real-world schema examples such as bridge tables for many-to-many relationships and order-plus-line-number keys.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_t7_videos.html">Enforcing Key Constraints for Data Integrity</a></div>
+    <p class="content-desc">A study-guide summary of key constraint enforcement, explaining how PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints are checked by the DBMS on every insert, update, and delete.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Using_Keys_and_videos_merged.html">10 - Using Keys and Key Types in SQL</a></div>
+    <p class="content-desc">A single consolidated document containing all module topics on keys in one continuous read, suitable for comprehensive review or offline study of the entire module.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../9-sql-data-definition-language-ddl/index.html">← 9 - SQL Data Definition Language (DDL)</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../11-sql-commands-for-complex-queries/index.html">11 - SQL Commands for Complex Queries →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

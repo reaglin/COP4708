@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7 - Designing Relational Databases from ER Diagrams — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">7 - Designing Relational Databases from ER Diagrams</span>
+  </nav>
+      <div class="hero-label">Module 7</div>
+      <h1>Designing Relational Databases from ER Diagrams</h1>
+      <p class="hero-desc">This lesson covers the systematic process of converting ER diagrams into relational database schemas, including handling one-to-many, many-to-many, and weak entity relationships. Students will practice mapping ER constructs to tables, primary keys, and foreign keys.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 6 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Introduction to ER Diagrams and Relational Schemas</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">Mapping Strong Entities and Attributes to Tables</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Handling One-to-Many Relationships</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Handling Many-to-Many Relationships</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">Mapping Weak Entities and Their Relationships</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num"><span class="sr-only">Topic </span>6</span><span class="topic-text"><span class="topic-title">Validating and Refining the Relational Schema</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">16 items of 3 types: <a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-web-pages-and-references">Web Pages and References</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(6)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive_topics_t1.html">Introduction to ER Diagrams and Relational Schemas</a></div>
+    <p class="content-desc">A lesson introducing Entity-Relationship diagrams as a conceptual blueprint for database design, defining entities, attributes, and relationships alongside the relational schema they translate into, and establishing the notation and vocabulary used throughout the module.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive_topics_t2.html">Mapping Strong Entities and Attributes to Tables</a></div>
+    <p class="content-desc">A lesson on converting strong entities into relational tables, covering how to identify an independent entity, turn each simple attribute into a column, and designate the key attribute as the primary key.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive_topics_t3.html">Handling One-to-Many Relationships</a></div>
+    <p class="content-desc">A lesson explaining how one-to-many relationships appear in ER diagrams and how they are implemented by placing a foreign key on the many side that references the primary key of the one side.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive_topics_t4.html">Handling Many-to-Many Relationships</a></div>
+    <p class="content-desc">A lesson on many-to-many relationships, explaining why the relational model cannot represent them directly and how to resolve them with a junction (associative) table holding foreign keys to both parent tables.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive_topics_t5.html">Mapping Weak Entities and Their Relationships</a></div>
+    <p class="content-desc">A lesson on weak entities, explaining how they depend on an owner entity for existence and identity and how to map them using a composite primary key that combines a partial key with the owner&#39;s foreign key.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive_topics_t6.html">Validating and Refining the Relational Schema</a></div>
+    <p class="content-desc">A lesson on reviewing a draft schema for completeness and correctness, checking for missing tables, mislabeled columns, broken foreign keys, and other errors introduced during the ER-to-relational translation.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(9)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_interactive.html">Validating and Refining the Relational Schema</a></div>
+    <p class="content-desc">A duplicate copy of the lesson on validating and refining a relational schema after conversion from an ER diagram, covering common translation errors and how to detect them.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_t1_videos.html">Introduction to ER Diagrams and Relational Schemas</a></div>
+    <p class="content-desc">A condensed reference version of the ER diagram and relational schema introduction, summarizing entities, attributes, relationships, and how a visual model becomes a table-based schema, suitable for quick review.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_t2_videos.html">Mapping Strong Entities and Attributes to Tables</a></div>
+    <p class="content-desc">A condensed reference version of the strong-entity mapping lesson, restating the rules for turning each independent entity into a table with columns for simple attributes and a primary key from the key attribute.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_t3_videos.html">Handling One-to-Many Relationships</a></div>
+    <p class="content-desc">A condensed reference version of the one-to-many lesson, using examples like departments and employees to show where the foreign key belongs and how cardinality is enforced in tables.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_t4_videos.html">Handling Many-to-Many Relationships</a></div>
+    <p class="content-desc">A condensed reference version of the many-to-many lesson, using the students-and-courses example to explain why a bridge table with a composite key is required.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_t5_videos.html">Mapping Weak Entities and Their Relationships</a></div>
+    <p class="content-desc">A condensed reference version of the weak-entity lesson, using examples such as Dependent/Employee and Apartment/Building to illustrate identifying relationships and composite keys.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_t6_videos.html">Validating and Refining the Relational Schema</a></div>
+    <p class="content-desc">A condensed reference version of the schema validation lesson, offering a checklist of review questions about entity coverage, primary keys, and foreign key integrity for a draft schema.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Designing_Relational_Databas_videos_merged.html">7 - Designing Relational Databases from ER Diagrams</a></div>
+    <p class="content-desc">A single combined document stitching together all six topic readings for the module, giving learners one continuous text to read or print covering the full ER-to-relational design process.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/foundation-design-board.html">Foundation Design Board</a></div>
+    <p class="content-desc">An interactive assignment activity in which learners act as a consultant, using an undo/redo design canvas to transform four draft entities, a set of functional dependencies, and a director&#39;s interview into a valid database design that satisfies all stated constraints.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-web-pages-and-references">
+<h3 class="content-group-h"><span aria-hidden="true">🔗 </span>Web Pages and References <span class="content-group-count">(1)</span></h3>
+<p class="content-group-intro">Pages and files the course points to for further reading.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🌐</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reference File</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/ext_00b200b8.html">Foundation Design Board</a></div>
+    <p class="content-desc">An interactive HTML-based design board application that provides a drag-and-drop or selection-based workspace for constructing and evaluating relational database schemas. The tool appears to support placing and organizing table structures, keys, and attributes, with visual feedback indicators (color-coded chips, check panels, and scoring) to guide learners through schema design tasks.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../6-data-modeling-and-entity-relationship-modeling/index.html">← 6 - Data Modeling and Entity-Relationship Modeling</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../8-sql-data-modeling-language/index.html">8 - SQL Data Modeling Language →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normalization in a Practical Context</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 12 - Normalization, Denormalization, and Practical Database Design</a></div>
+<h1>Normalization in a Practical Context</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: How to Design a Database</a>
+<a href="#sec3">Video 2: How to Go From Requirements to a Database Schema</a>
+<a href="#sec4">Video 3: Entity Relationship Diagram (ERD) Tutorial - Part 1</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Normalization is usually introduced as a set of rules: identify functional dependencies, remove partial and transitive dependencies, and work your way up through 1NF, 2NF, 3NF, and BCNF. In practice, you rarely start with a messy table and normalize it in isolation. You start with requirements, draw an entity-relationship model, and then produce a relational schema whose tables are already close to normalized because the entities and relationships were identified well in the first place. This topic connects those two views: the theory you can apply as a check, and the design process that produces well-structured schemas in the first place.</p>
+<p>Real-world data complicates things. Business rules change, source data arrives denormalized from spreadsheets or legacy systems, some dependencies are ambiguous until you talk to a domain expert, and splitting tables for correctness can mean more joins at query time. Design is therefore iterative: you sketch a model, test it against sample data and expected queries, discover a dependency you missed, and revise. This module&#39;s later topics on denormalization build directly on this foundation — you cannot make a sound trade-off decision unless you know what the normalized baseline looks like.</p>
+<p>As you watch the videos below, pay attention to how each presenter moves from a business description to entities, attributes, keys, and relationships. Ask yourself where a functional dependency is being implicitly resolved when an attribute is placed in one table rather than another, how many-to-many relationships become junction tables, and where the presenter makes a judgment call rather than following a mechanical rule. Those judgment calls are exactly what this topic is about.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: How to Design a Database</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5RpUmDEsn1k?cc_load_policy=1&amp;rel=0" title="Video: How to Design a Database (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 10:57 · 232,237 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=5RpUmDEsn1k" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A walkthrough of the overall database design process, from understanding what the system needs to store through to producing a workable table structure. Based on its title and channel, it should cover the stages of design — gathering requirements, identifying entities and attributes, defining relationships and keys — and is likely to touch on normalization as one step within that larger process.</p>
+<h3>Why this video</h3>
+<p>Database Star is a well-known, practitioner-oriented channel focused specifically on relational design and SQL, and this video frames normalization as part of an end-to-end, iterative design workflow rather than an isolated exercise.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: How to Go From Requirements to a Database Schema</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/3a-pNh6ykY4?cc_load_policy=1&amp;rel=0" title="Video: How to Go From Requirements to a Database Schema (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 7:40 · 7,863 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=3a-pNh6ykY4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A focused, shorter video on the specific step of turning written requirements into a concrete database schema. Expect it to demonstrate reading a requirements statement, extracting the nouns and rules that become tables, columns, and relationships, and producing the resulting schema; the description also links to practice exercises on the same skill.</p>
+<h3>Why this video</h3>
+<p>It targets the translation step directly — requirements to normalized schema — which is the hardest part of applying normalization theory in production, and the linked exercises let you practice rather than just watch.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Entity Relationship Diagram (ERD) Tutorial - Part 1</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/xsg9BDiwiJE?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 1 (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 6:10 · 1,093,171 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=xsg9BDiwiJE" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>An introductory tutorial on building an entity-relationship diagram from scratch, covering entities, attributes, and cardinality according to its description. It should establish the vocabulary and notation you need to read and produce ER diagrams before converting them into tables.</p>
+<h3>Why this video</h3>
+<p>Produced by Lucid Software (makers of Lucidchart), it is a clear, widely viewed primer that gives you the ER foundation assumed by the schema-translation subtopic, including the cardinality distinctions that determine how relationships map to keys and junction tables.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos support MO2 most directly: the ERD tutorial gives you the modeling notation and cardinality concepts, while the two Database Star videos show the path from requirements to entities to a concrete table structure that avoids redundancy. They also reinforce MO1 indirectly, since deciding which attributes belong with which key during design is the same reasoning used to spot functional dependency violations when classifying an existing table. Because the design walkthroughs treat schema design as an iterative process with explicit trade-offs, they also set up the baseline you will need for MO3, MO4, and MO5 — you must be able to produce and defend a normalized schema before you can argue for selectively denormalizing it against a specific workload.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

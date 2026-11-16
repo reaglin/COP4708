@@ -1,0 +1,72 @@
+﻿[
+  {
+    "title": "16 - Course Projects (module page)",
+    "href": "index.html",
+    "type": "Module page"
+  },
+  {
+    "title": "16 - Course Projects \u2014 Topics \u0026 Learning Outcomes",
+    "href": "topics-outcomes.html",
+    "type": "Page"
+  },
+  {
+    "title": "16 - Course Projects \u2014 Module Topics",
+    "href": "topics.html",
+    "type": "Page"
+  },
+  {
+    "title": "Assignments \u2014 16 - Course Projects",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Sandpiper Cove Project \u2014 Submission 4: Peer Evaluation",
+    "href": "assignments/sandpiper-cove-project-peer-evaluation.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Sandpiper Cove Project \u2014 Submission 1: Data Dictionary and ERD",
+    "href": "assignments/sandpiper-cove-project-submission-1.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Sandpiper Cove Project \u2014 Submission 2: Database Design",
+    "href": "assignments/sandpiper-cove-project-submission-2.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Sandpiper Cove Project \u2014 Submission 3: Queries and reports",
+    "href": "assignments/sandpiper-cove-project-submission-3.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Sandpiper Cove Project",
+    "href": "content/cproj_sandpiper-cove-project.html",
+    "type": "Content"
+  },
+  {
+    "title": "Sandpiper Cove Shelter Forms (Operational Forms Packet)",
+    "href": "content/ext_4e6713b4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Sandpiper Cove Animal Shelter: Staff Interview Summary",
+    "href": "content/ext_772fabc4.html",
+    "type": "Content"
+  },
+  {
+    "title": "Data for Sandpiper Cove Project",
+    "href": "content/ext_8e5fb25c.html",
+    "type": "Content"
+  },
+  {
+    "title": "Sandpiper Cove Shelter Forms",
+    "href": "content/Sandpiper Cove Shelter Forms.html",
+    "type": "Content"
+  },
+  {
+    "title": "Sandpiper Cove Staff Interviews",
+    "href": "content/Sandpiper Cove Staff Interviews.html",
+    "type": "Content"
+  }
+]

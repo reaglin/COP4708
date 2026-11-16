@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12 - Normalization, Denormalization, and Practical Database Design — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">12 - Normalization, Denormalization, and Practical Database Design</span>
+  </nav>
+      <div class="hero-label">Module 12</div>
+      <h1>Normalization, Denormalization, and Practical Database Design</h1>
+      <p class="hero-desc">This lesson revisits normalization in a practical context and introduces denormalization as a deliberate performance optimization strategy. Students will learn to balance theoretical purity with real-world performance needs when designing production databases.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 6 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Review of Normalization Principles</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">Normalization in a Practical Context</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Introduction to Denormalization</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Denormalization Techniques and Patterns</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">Performance Implications of Normalization vs. Denormalization</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num"><span class="sr-only">Topic </span>6</span><span class="topic-text"><span class="topic-title">Balancing Theoretical Purity with Real-World Needs</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">14 items of 2 types: <a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(6)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive_topics_t1.html">Review of Normalization Principles</a></div>
+    <p class="content-desc">A lesson presentation revisiting why normalization matters, defining it as the systematic organization of a schema to minimize redundancy and reflect real-world relationships, and walking through the normal forms; used as the module&#39;s opening content.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive_topics_t2.html">Normalization in a Practical Context</a></div>
+    <p class="content-desc">A lesson presentation on applying normalization theory to production systems, covering messy data, conflicting business requirements, legacy constraints, and performance pressures that force compromises between theoretical purity and practical design.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive_topics_t3.html">Introduction to Denormalization</a></div>
+    <p class="content-desc">A lesson presentation introducing denormalization through the scenario of a fully normalized schema that cannot meet query and reporting performance demands, explaining when and why designers reintroduce redundancy.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive_topics_t4.html">Denormalization Techniques and Patterns</a></div>
+    <p class="content-desc">A lesson presentation cataloguing specific denormalization patterns — such as duplicated columns, precomputed aggregates, and merged tables — used in high-volume, reporting-heavy, or latency-sensitive systems.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive_topics_t5.html">Performance Implications of Normalization vs. Denormalization</a></div>
+    <p class="content-desc">A lesson presentation examining the performance trade-off between clean, consistent normalized schemas and fast-querying denormalized ones, covering join costs, write overhead, and referential integrity.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive_topics_t6.html">Balancing Theoretical Purity with Real-World Needs</a></div>
+    <p class="content-desc">A lesson presentation framing database design as a continuum between full normalization and full denormalization, and offering guidance on choosing an appropriate point on that spectrum for a given system.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(8)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_interactive.html">Balancing Theoretical Purity with Real-World Needs</a></div>
+    <p class="content-desc">A duplicate copy of the lesson presentation on balancing normalization theory against real-world design pressures, available as an alternate or backup version of the same slides.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_t1_videos.html">Review of Normalization Principles</a></div>
+    <p class="content-desc">A reading on normalization fundamentals that defines functional dependencies and traces the progression from 1NF (atomic values, no repeating groups) through BCNF, serving as reference text for the module&#39;s opening topic.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_t2_videos.html">Normalization in a Practical Context</a></div>
+    <p class="content-desc">A reading that shows how normalization actually unfolds in practice — starting from requirements and an entity-relationship model rather than from a messy table — and how to verify the resulting schema against normal forms.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_t3_videos.html">Introduction to Denormalization</a></div>
+    <p class="content-desc">A reading explaining that denormalization is not an undoing of normalization but a deliberate, documented reintroduction of specific redundancy such as duplicated columns or precomputed totals.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_t4_videos.html">Denormalization Techniques and Patterns</a></div>
+    <p class="content-desc">A reading detailing concrete denormalization techniques and the discipline of applying them only after a normalized design exists and query patterns are known.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_t5_videos.html">Performance Implications of Normalization vs. Denormalization</a></div>
+    <p class="content-desc">A reading analyzing normalization and denormalization as two ends of a trade-off spectrum, contrasting cheap, anomaly-free writes against the cost of scattering related data across many tables for reads.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_t6_videos.html">Balancing Theoretical Purity with Real-World Needs</a></div>
+    <p class="content-desc">A reading on positioning real designs along the normalization spectrum, keeping update-heavy tables in strict 3NF or BCNF while relaxing others for read performance.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normalization_Denormalizatio_videos_merged.html">12 - Normalization, Denormalization, and Practical Database Design</a></div>
+    <p class="content-desc">A consolidated single-page reading combining all five module topics in sequence, usable as a complete study guide or printable reference for the entire module.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../11-sql-commands-for-complex-queries/index.html">← 11 - SQL Commands for Complex Queries</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../13-designing-databases-for-concurrent-use/index.html">13 - Designing Databases for Concurrent Use →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

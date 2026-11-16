@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9 - SQL Data Definition Language (DDL) — Topics &amp; Learning Outcomes</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.25rem;margin-top:30px;color:#1a3c6e;border-bottom:1px solid #ececec;padding-bottom:4px}
+h3{font-size:1.05rem;margin-top:22px;color:#1a3c6e}
+.toc{border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:14px 0 6px;display:flex;gap:18px;flex-wrap:wrap}
+.toc a{color:#1a3c6e;font-weight:600;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.prefix{color:#555;font-style:italic;margin:6px 0 14px}
+.mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
+.mo .statement{font-weight:600;margin:4px 0 8px}
+.meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
+.meta .map{background:#eaf6ec;color:#137333}
+.co{margin:7px 0}
+.co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
+.empty{color:#595959}
+.topic{border:1px solid #e2e2e2;border-radius:8px;padding:4px 18px 10px;margin:16px 0}
+.topic h2{margin-top:12px}
+.topic h3{font-size:1rem;margin:14px 0 4px;color:#333}
+.topic .desc{margin:4px 0 6px}
+ul.tm li{margin:7px 0}
+ul.tm a{color:#1a3c6e;font-weight:600}
+.tm-kind{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin-left:6px;font-size:.82rem}
+.tm-also{color:#555;font-size:.88rem}
+.tm-desc{color:#555;font-size:.92rem;margin-top:2px}
+.tm-back a,.empty a{color:#1a3c6e;font-weight:600}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+<h1>9 - SQL Data Definition Language (DDL) — Topics &amp; Learning Outcomes</h1>
+<div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
+
+<div id="topics">
+<section class="topic" aria-labelledby="topic-1">
+<h2 id="topic-1">1. Introduction to SQL DDL</h2>
+<h3>Description</h3>
+<p class="desc">Overview of Data Definition Language and its role in database management. Students learn how DDL differs from other SQL sublanguages and why it is essential for defining database structures.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What is SQL DDL?</strong> <span class="el-body">— Data Definition Language (DDL) is a subset of SQL used to define, create, and manage the structure of database objects.</span></li>
+<li><strong>DDL vs. Other SQL Sublanguages</strong> <span class="el-body">— SQL is divided into several sublanguages, each serving a distinct purpose in database management.</span></li>
+<li><strong>The Role of DDL in Database Management</strong> <span class="el-body">— DDL is essential for establishing the blueprint of a database before any data can be stored or queried.</span></li>
+<li><strong>Database Objects Defined by DDL</strong> <span class="el-body">— DDL commands can create and manage a variety of database objects beyond just tables.</span></li>
+<li><strong>Why DDL Skills Are Essential for Developers</strong> <span class="el-body">— Proficiency in DDL is a foundational skill for anyone who designs, builds, or maintains relational databases.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t1.html">Introduction to SQL DDL</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A slide-style lesson page introducing DDL as the SQL sublanguage for creating, modifying, and removing database structures, contrasting it with DML/DQL/DCL and explaining its blueprint role in database management.</div></li>
+<li><a href="content/SQL_Data_Definition_t1_videos.html">Introduction to SQL DDL</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article version of the Introduction to SQL DDL topic, explaining SQL&#39;s sublanguages and how CREATE, ALTER, DROP, and TRUNCATE shape tables, columns, types, constraints, indexes, views, and schemas.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-2">
+<h2 id="topic-2">2. The CREATE Command</h2>
+<h3>Description</h3>
+<p class="desc">Covers how to use the CREATE statement to build new databases, schemas, and tables. Students practice defining table structures with appropriate column names and data types.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Introduction to the CREATE Statement</strong> <span class="el-body">— The CREATE statement is a foundational DDL command used to build new database objects such as databases, schemas, and tables.</span></li>
+<li><strong>Creating a New Database</strong> <span class="el-body">— Before creating tables, a database must exist as the top-level container for all related schemas and tables.</span></li>
+<li><strong>Creating a Schema</strong> <span class="el-body">— A schema is a logical namespace within a database that groups related tables and objects together.</span></li>
+<li><strong>Creating a Table with Column Definitions</strong> <span class="el-body">— The CREATE TABLE statement defines a new table by specifying its name, column names, and associated data types.</span></li>
+<li><strong>Choosing Appropriate Data Types</strong> <span class="el-body">— Selecting the correct data type for each column is critical to ensuring data integrity, storage efficiency, and query performance.</span></li>
+<li><strong>Defining a Table Within a Specific Schema</strong> <span class="el-body">— When working with multiple schemas, tables should be created explicitly within the intended schema using dot notation.</span></li>
+<li><strong>Best Practices for Writing CREATE Statements</strong> <span class="el-body">— Following consistent conventions when writing CREATE statements improves readability, maintainability, and collaboration across database projects.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t2.html">The CREATE Command</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A presentation-style lesson on the CREATE statement, walking from CREATE DATABASE to CREATE SCHEMA to CREATE TABLE and positioning CREATE alongside ALTER, DROP, and TRUNCATE in the DDL family.</div></li>
+<li><a href="content/SQL_Data_Definition_t2_videos.html">The CREATE Command</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article version of the CREATE Command topic that works down the hierarchy from database to schema to table, contrasting DDL object creation with SELECT-based querying.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-3">
+<h2 id="topic-3">3. Data Types and Column Definitions</h2>
+<h3>Description</h3>
+<p class="desc">Explores the common SQL data types used when defining table columns, such as integers, strings, dates, and decimals. Students learn how to choose appropriate data types to ensure data integrity and storage efficiency.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Numeric Data Types</strong> <span class="el-body">— SQL provides several numeric data types to store whole numbers and decimal values efficiently depending on the range and precision required.</span></li>
+<li><strong>Character and String Data Types</strong> <span class="el-body">— String data types are used to store text values such as names, descriptions, and codes, and differ primarily in how they handle length.</span></li>
+<li><strong>Date and Time Data Types</strong> <span class="el-body">— Date and time data types allow columns to store temporal information such as birth dates, timestamps, and durations in a structured, queryable format.</span></li>
+<li><strong>Boolean and Binary Data Types</strong> <span class="el-body">— Beyond text and numbers, SQL supports Boolean types for true/false logic and binary types for storing raw data such as images or files.</span></li>
+<li><strong>Choosing Appropriate Data Types for Data Integrity</strong> <span class="el-body">— Selecting the correct data type for each column is a foundational practice that enforces data integrity by restricting the kind of data that can be stored.</span></li>
+<li><strong>Defining Columns in a CREATE TABLE Statement</strong> <span class="el-body">— When creating a table, each column definition specifies the column name, its data type, and any additional constraints or default values.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t3.html">Data Types and Column Definitions</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A presentation-style lesson on column data types — numeric, character/string, date/time, and boolean/binary — explaining how type choice affects storage, valid operations, and data integrity when defining tables.</div></li>
+<li><a href="content/SQL_Data_Definition_t3_videos.html">Data Types and Column Definitions</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article on data types and column definitions, detailing INT, SMALLINT, BIGINT, DECIMAL/NUMERIC, FLOAT, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, and BLOB/BINARY and how to choose among them.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-4">
+<h2 id="topic-4">4. Constraints in SQL</h2>
+<h3>Description</h3>
+<p class="desc">Introduces key constraints including PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, and DEFAULT that enforce rules on table data. Students apply constraints during table creation to maintain data accuracy and relational integrity.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>PRIMARY KEY Constraint</strong> <span class="el-body">— A PRIMARY KEY constraint uniquely identifies each record in a table and ensures no two rows have the same value in the designated column(s).</span></li>
+<li><strong>FOREIGN KEY Constraint</strong> <span class="el-body">— A FOREIGN KEY constraint creates a relational link between two tables by referencing the PRIMARY KEY of another table, enforcing referential integrity.</span></li>
+<li><strong>NOT NULL Constraint</strong> <span class="el-body">— The NOT NULL constraint ensures that a column cannot store a NULL value, requiring every inserted or updated row to provide a value for that column.</span></li>
+<li><strong>UNIQUE Constraint</strong> <span class="el-body">— The UNIQUE constraint ensures that all values in a column or combination of columns are distinct across all rows in the table.</span></li>
+<li><strong>DEFAULT Constraint</strong> <span class="el-body">— The DEFAULT constraint assigns a predefined value to a column automatically when no value is explicitly provided during an INSERT operation.</span></li>
+<li><strong>Applying Constraints During Table Creation</strong> <span class="el-body">— Constraints can be defined inline with column definitions or at the table level within the CREATE TABLE statement, giving developers flexibility in how rules are structured.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t4.html">Constraints in SQL</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A presentation-style lesson on SQL constraints, covering PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, and DEFAULT as database-level rules that reject invalid data without relying on application code.</div></li>
+<li><a href="content/SQL_Data_Definition_t4_videos.html">Constraints in SQL</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article on constraints, explaining PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, and DEFAULT and how each prevents bad data from entering a table.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-5">
+<h2 id="topic-5">5. The ALTER Command</h2>
+<h3>Description</h3>
+<p class="desc">Explains how to modify existing database structures using ALTER TABLE to add, modify, or drop columns and constraints. Students practice evolving table designs without losing existing data.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Introduction to ALTER TABLE</strong> <span class="el-body">— The ALTER TABLE command is used to modify the structure of an existing database table without deleting or recreating it.</span></li>
+<li><strong>Adding Columns with ALTER TABLE</strong> <span class="el-body">— New columns can be added to an existing table using the ADD clause within an ALTER TABLE statement.</span></li>
+<li><strong>Modifying Existing Columns</strong> <span class="el-body">— The MODIFY or ALTER COLUMN clause (syntax varies by database system) allows you to change a column&#39;s data type, size, or default value.</span></li>
+<li><strong>Dropping Columns with ALTER TABLE</strong> <span class="el-body">— The DROP COLUMN clause removes an existing column and all of its data permanently from the table.</span></li>
+<li><strong>Adding Constraints with ALTER TABLE</strong> <span class="el-body">— Constraints such as PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, and CHECK can be added to existing tables using ALTER TABLE.</span></li>
+<li><strong>Dropping Constraints with ALTER TABLE</strong> <span class="el-body">— Existing constraints can be removed from a table using the DROP CONSTRAINT clause within an ALTER TABLE statement.</span></li>
+<li><strong>Evolving Table Designs Without Losing Data</strong> <span class="el-body">— A key advantage of ALTER TABLE is the ability to iteratively refine a table&#39;s structure as application requirements change, while keeping existing data intact.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t5.html">The ALTER Command</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A presentation-style lesson on ALTER TABLE, showing how to add, modify, rename, and drop columns or constraints on an existing populated table as requirements change.</div></li>
+<li><a href="content/SQL_Data_Definition_t5_videos.html">The ALTER Command</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article on ALTER TABLE, covering adding columns, changing data types or sizes, dropping columns, and modifying constraints on live tables as designs evolve.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-6">
+<h2 id="topic-6">6. The DROP and TRUNCATE Commands</h2>
+<h3>Description</h3>
+<p class="desc">Covers the DROP command for permanently removing database objects and TRUNCATE for quickly clearing all rows from a table. Students learn the differences, use cases, and risks associated with each command.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Introduction to the DROP Command</strong> <span class="el-body">— The DROP command is a DDL statement used to permanently remove an entire database object, such as a table, view, index, or database, from the system.</span></li>
+<li><strong>Syntax and Usage of DROP</strong> <span class="el-body">— The DROP command follows a straightforward syntax: DROP OBJECT_TYPE object_name, where OBJECT_TYPE specifies what kind of database object is being removed.</span></li>
+<li><strong>Introduction to the TRUNCATE Command</strong> <span class="el-body">— The TRUNCATE command is a DDL statement used to quickly remove all rows from a table while preserving the table&#39;s structure, columns, and constraints.</span></li>
+<li><strong>Key Differences Between DROP and TRUNCATE</strong> <span class="el-body">— Although both DROP and TRUNCATE remove data, they operate at fundamentally different levels — DROP removes the object entirely while TRUNCATE only clears the rows within it.</span></li>
+<li><strong>TRUNCATE vs. DELETE: Understanding the Distinction</strong> <span class="el-body">— TRUNCATE is often compared to the DELETE command, but there are important differences in how they operate and when each should be used.</span></li>
+<li><strong>Risks and Best Practices for DROP and TRUNCATE</strong> <span class="el-body">— Both DROP and TRUNCATE are powerful and potentially destructive commands that require careful consideration before execution, especially in production environments.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t6.html">The DROP and TRUNCATE Commands</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A presentation-style lesson comparing DROP and TRUNCATE, explaining that one removes the object definition entirely while the other empties data, and when each is appropriate.</div></li>
+<li><a href="content/SQL_Data_Definition_t6_videos.html">The DROP and TRUNCATE Commands</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article on DROP and TRUNCATE, framing them as the removal side of DDL and distinguishing permanent object deletion from fast data clearing.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-7">
+<h2 id="topic-7">7. Working with Schemas</h2>
+<h3>Description</h3>
+<p class="desc">Introduces database schemas as logical containers for organizing related tables and objects. Students learn how to create and manage schemas to structure a database effectively.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Is a Database Schema?</strong> <span class="el-body">— A database schema is a logical container that groups related tables, views, and other database objects together under a single namespace.</span></li>
+<li><strong>Creating a Schema</strong> <span class="el-body">— The CREATE SCHEMA statement is used to define a new schema within a database, establishing the namespace under which objects will be organized.</span></li>
+<li><strong>Using Schema-Qualified Object Names</strong> <span class="el-body">— Objects within a schema are referenced using dot notation, combining the schema name and the object name to form a fully qualified identifier.</span></li>
+<li><strong>Creating Tables Within a Schema</strong> <span class="el-body">— When creating a table, you can assign it to a specific schema by including the schema name as part of the table name in the CREATE TABLE statement.</span></li>
+<li><strong>Dropping a Schema</strong> <span class="el-body">— The DROP SCHEMA statement removes a schema from the database, and its behavior depends on whether the schema still contains objects.</span></li>
+<li><strong>Schema Benefits for Database Organization</strong> <span class="el-body">— Using schemas to structure a database provides significant advantages for maintainability, security, and multi-team development environments.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Data_Definition_interactive_topics_t7.html">Working with Schemas</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A presentation-style lesson on database schemas as named logical containers (likened to filesystem folders) for grouping tables, views, and indexes, including creating and using them.</div></li>
+<li><a href="content/SQL_Data_Definition_t7_videos.html">Working with Schemas</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A readable article on schemas, explaining how named containers group related objects, allow duplicate object names across schemas, and support organization and access control.</div></li>
+</ul>
+</section>
+</div>
+<p class="tm-back"><a href="index.html">← Back to the module page</a></p>
+<h2 id="outcomes">Student Learning Outcomes</h2>
+<p class="prefix">By the end of this module, students will be able to:</p>
+<div class="mo">
+<div class="code">MO1</div>
+<div class="statement">Distinguish DDL from other SQL sublanguages by classifying each sublanguage according to its purpose in database management</div>
+<div class="meta"><span>Level: Understand</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO2</div>
+<div class="statement">Construct CREATE TABLE statements that include appropriate column names, data types, and constraints to define a relational table structure</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO3</div>
+<div class="statement">Apply PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, and DEFAULT constraints to enforce data integrity rules within a database schema</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO4</div>
+<div class="statement">Modify an existing table structure using ALTER TABLE to add, change, or remove columns and constraints without deleting existing data</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Behavioral</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO5</div>
+<div class="statement">Differentiate between the DROP, TRUNCATE, and DELETE commands by comparing their effects on database objects and data to select the appropriate command for a given scenario</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<h3>Course Outcomes (reference)</h3>
+<div class="co"><span class="code">CO1</span>Analyze a problem and identify computing and user requirements to implement the proper solution capturing the impact of the implementation on the local and the global levels.</div>
+<div class="co"><span class="code">CO2</span>Design, normalize, and implement database systems</div>
+<div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
+<div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

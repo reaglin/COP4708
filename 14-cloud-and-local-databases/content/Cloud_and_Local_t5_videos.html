@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scalability and Performance</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+<h1>Scalability and Performance</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: 7 Must-know Strategies to Scale Your Database</a>
+<a href="#sec3">Video 2: Vertical Vs Horizontal Scaling: Key Differences You Should Know</a>
+<a href="#sec4">Video 3: Database performance and scalability with Azure SQL Database Hyperscale elastic pools | Data Exposed</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Scalability is the ability of a database system to keep meeting performance expectations as data volume, user counts, and query complexity grow. Performance is the related but distinct question of how quickly the system responds under a given load. In this topic we look at both through the lens of deployment model: a locally hosted database is bounded by the hardware you bought and the space, power, and procurement cycle around it, while a cloud database service can often add capacity on demand, sometimes automatically, and bill you for what you use.</p>
+<p>This matters in COP4708 because scaling decisions are where the architectural differences between on-premises and cloud deployments become concrete. Vertical scaling (a bigger machine), horizontal scaling (more machines), read replicas, caching, indexing, partitioning, and sharding are techniques available in both worlds, but the cost, speed, and operational burden of applying them differ sharply. Elasticity in the cloud is attractive, yet it is not free: pooled or autoscaling resources introduce their own cost models, limits, and tuning decisions.</p>
+<p>As you watch, keep three questions in mind. First, which scaling techniques require application or schema changes and which are purely infrastructure moves? Second, for each technique, what would it take to implement on a server in your own data center versus on a managed cloud service? Third, where does the money go — what are you paying for when you scale up, scale out, or pool resources, and at what point does the trade-off favor one deployment model over the other?</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: 7 Must-know Strategies to Scale Your Database</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_1IKwnbscQU?cc_load_policy=1&amp;rel=0" title="Video: 7 Must-know Strategies to Scale Your Database (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 8:42 · 285,678 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=_1IKwnbscQU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A survey-style overview of common strategies for scaling a database as load grows. Based on its title and the channel&#39;s system design focus, expect coverage of techniques such as indexing, caching, read replicas, partitioning, sharding, and replication, with animated diagrams explaining when each approach is appropriate. It is framed as a practical checklist rather than a product tutorial.</p>
+<h3>Why this video</h3>
+<p>ByteByteGo is a well-known system design channel whose explanations are concise and vendor-neutral, which makes this a good starting point for the &#39;handling growing data demands&#39; subtopic before you consider how each strategy plays out on-premises versus in the cloud.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Vertical Vs Horizontal Scaling: Key Differences You Should Know</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/dvRFHG2-uYs?cc_load_policy=1&amp;rel=0" title="Video: Vertical Vs Horizontal Scaling: Key Differences You Should Know (ByteByteGo)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>ByteByteGo</strong> · 4:34 · 103,725 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=dvRFHG2-uYs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, focused comparison of vertical scaling (adding CPU, memory, or storage to a single machine) and horizontal scaling (distributing work across multiple machines). The video should explain the key differences, the practical ceiling of scaling up, and the complexity that scaling out introduces.</p>
+<h3>Why this video</h3>
+<p>This distinction is the core vocabulary for the whole topic: local databases are typically constrained to vertical scaling with hardware you own, while cloud services make horizontal and elastic scaling routine, so a clear four-minute treatment is worth watching before the cloud-specific material.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Database performance and scalability with Azure SQL Database Hyperscale elastic pools | Data Exposed</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Zhj_EiUEaFk?cc_load_policy=1&amp;rel=0" title="Video: Database performance and scalability with Azure SQL Database Hyperscale elastic pools | Data Exposed (Microsoft Developer)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Microsoft Developer</strong> · 14:44 · 1,994 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=Zhj_EiUEaFk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A Data Exposed episode on Azure SQL Database Hyperscale elastic pools, covering how a managed cloud service delivers performance and scalability for applications with growing or unpredictable data needs. Expect discussion of the Hyperscale service tier, how elastic pools share resources across multiple databases, and the scenarios these features are designed for.</p>
+<h3>Why this video</h3>
+<p>Produced by Microsoft Developer, this gives you an authoritative, concrete example of elastic scalability in a real cloud database platform, directly supporting the &#39;elastic scalability&#39; and &#39;scalability versus cost&#39; subtopics with a resource-pooling model that has no straightforward on-premises equivalent.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos build from general principles to a specific cloud implementation. The vertical-versus-horizontal comparison and the seven-strategies overview give you the mechanisms you need to contrast cloud and local scaling approaches (MO3) and to recognize how infrastructure ownership shapes what is actually possible in each deployment model (MO1). The Azure Hyperscale elastic pools session shows a managed service handling scaling and resource allocation on the customer&#39;s behalf, which illustrates both the consumption-based cost structure you will weigh against on-premises capital purchases (MO2) and the division of tuning and capacity work between provider and customer under the shared responsibility model (MO5). Taken as a set, they supply the evidence you need to argue for a particular hosting strategy in a given organizational scenario (MO4).</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

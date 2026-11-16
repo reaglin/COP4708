@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4 - Normal Forms: 1NF, 2NF, and 3NF — Topics &amp; Learning Outcomes</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.25rem;margin-top:30px;color:#1a3c6e;border-bottom:1px solid #ececec;padding-bottom:4px}
+h3{font-size:1.05rem;margin-top:22px;color:#1a3c6e}
+.toc{border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:14px 0 6px;display:flex;gap:18px;flex-wrap:wrap}
+.toc a{color:#1a3c6e;font-weight:600;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.prefix{color:#555;font-style:italic;margin:6px 0 14px}
+.mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
+.mo .statement{font-weight:600;margin:4px 0 8px}
+.meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
+.meta .map{background:#eaf6ec;color:#137333}
+.co{margin:7px 0}
+.co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
+.empty{color:#595959}
+.topic{border:1px solid #e2e2e2;border-radius:8px;padding:4px 18px 10px;margin:16px 0}
+.topic h2{margin-top:12px}
+.topic h3{font-size:1rem;margin:14px 0 4px;color:#333}
+.topic .desc{margin:4px 0 6px}
+ul.tm li{margin:7px 0}
+ul.tm a{color:#1a3c6e;font-weight:600}
+.tm-kind{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin-left:6px;font-size:.82rem}
+.tm-also{color:#555;font-size:.88rem}
+.tm-desc{color:#555;font-size:.92rem;margin-top:2px}
+.tm-back a,.empty a{color:#1a3c6e;font-weight:600}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+<h1>4 - Normal Forms: 1NF, 2NF, and 3NF — Topics &amp; Learning Outcomes</h1>
+<div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
+
+<div id="topics">
+<section class="topic" aria-labelledby="topic-1">
+<h2 id="topic-1">1. Introduction to Normalization</h2>
+<h3>Description</h3>
+<p class="desc">Overview of database normalization, its purpose, and why it is essential for reducing redundancy and improving data integrity. Establishes the foundation for understanding the first three normal forms.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Is Database Normalization?</strong> <span class="el-body">— Database normalization is the process of organizing a relational database&#39;s structure to reduce redundancy and improve data integrity.</span></li>
+<li><strong>The Problem: Data Redundancy</strong> <span class="el-body">— Data redundancy occurs when the same piece of information is stored in multiple places within a database, leading to inconsistencies and wasted storage.</span></li>
+<li><strong>The Goal: Data Integrity</strong> <span class="el-body">— Data integrity ensures that the information stored in a database is accurate, consistent, and trustworthy throughout its lifecycle.</span></li>
+<li><strong>Types of Data Anomalies Normalization Prevents</strong> <span class="el-body">— Unnormalized databases are prone to three categories of anomalies: insertion anomalies, update anomalies, and deletion anomalies.</span></li>
+<li><strong>The Concept of Normal Forms</strong> <span class="el-body">— Normal forms are a progressive set of criteria used to evaluate and improve the structure of database tables, numbered from 1NF upward.</span></li>
+<li><strong>Key Dependencies Driving Normalization</strong> <span class="el-body">— Normalization is fundamentally about managing dependencies — specifically partial dependencies and transitive dependencies — between columns in a table.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Normal_Forms_1NF_generated_t1_videos.html">Introduction to Normalization</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading that defines normalization as storing each fact in exactly one place, explains the update anomalies caused by redundancy, and frames data integrity as the goal of the normal forms.</div></li>
+<li><a href="content/Normal_Forms_1NF_interactive_topics_t1.html">Introduction to Normalization</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An interactive, expandable lesson page on normalization that motivates good database design by showing how poor table layouts cause data corruption and maintenance problems.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-2">
+<h2 id="topic-2">2. First Normal Form (1NF)</h2>
+<h3>Description</h3>
+<p class="desc">Defines the rules of 1NF, focusing on atomicity and eliminating repeating groups. Walks through step-by-step examples of transforming unnormalized tables into 1NF-compliant structures.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Is First Normal Form (1NF)?</strong> <span class="el-body">— First Normal Form (1NF) is the foundational level of database normalization that establishes the basic structural rules a table must satisfy.</span></li>
+<li><strong>The Atomicity Requirement</strong> <span class="el-body">— Atomicity means that each cell in a table must hold one and only one value — it cannot be split into smaller, meaningful parts.</span></li>
+<li><strong>Eliminating Repeating Groups</strong> <span class="el-body">— Repeating groups occur when a table contains multiple columns that capture the same type of information, effectively encoding a list horizontally rather than vertically.</span></li>
+<li><strong>Identifying a Primary Key</strong> <span class="el-body">— A valid primary key is required for a table to comply with 1NF, as it uniquely identifies each row in the table.</span></li>
+<li><strong>Transforming an Unnormalized Table into 1NF: Step-by-Step</strong> <span class="el-body">— Converting an unnormalized table to 1NF involves a systematic process of identifying violations and restructuring the data accordingly.</span></li>
+<li><strong>Before and After: A 1NF Example</strong> <span class="el-body">— Examining a concrete before-and-after comparison reinforces how 1NF rules apply in practice and what the transformed table should look like.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Normal_Forms_1NF_generated_t2_videos.html">First Normal Form (1NF)</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading on First Normal Form covering atomic column values, elimination of repeating groups such as Phone1/Phone2/Phone3, and the need for a primary key, with guidance on fixing spreadsheet-style tables.</div></li>
+<li><a href="content/Normal_Forms_1NF_interactive_topics_t2.html">First Normal Form (1NF)</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An interactive, expandable lesson page on 1NF that presents atomicity, repeating groups, and primary keys as both a checklist and a design philosophy underpinning all higher normal forms.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-3">
+<h2 id="topic-3">3. Second Normal Form (2NF)</h2>
+<h3>Description</h3>
+<p class="desc">Introduces the concept of partial dependencies and explains how 2NF builds upon 1NF by requiring full functional dependency on the primary key. Demonstrates how to identify and eliminate partial dependencies through table decomposition.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Prerequisites: 2NF Builds on 1NF</strong> <span class="el-body">— A table must already satisfy First Normal Form before it can be evaluated for Second Normal Form. 2NF adds an additional constraint on top of the atomicity and row uniqueness requirements established by 1NF.</span></li>
+<li><strong>Understanding Functional Dependency</strong> <span class="el-body">— A functional dependency exists when the value of one attribute (or set of attributes) uniquely determines the value of another attribute. Recognizing functional dependencies is the foundation for understanding both partial and full dependencies in 2NF.</span></li>
+<li><strong>Defining Partial Dependency</strong> <span class="el-body">— A partial dependency occurs when a non-key attribute is functionally dependent on only a subset (part) of a composite primary key, rather than on the full composite key. Partial dependencies are the specific problem that 2NF is designed to eliminate.</span></li>
+<li><strong>The 2NF Rule: Full Functional Dependency</strong> <span class="el-body">— Second Normal Form requires that every non-key attribute be fully functionally dependent on the entire primary key, not just a part of it. This means removing all partial dependencies from the relation.</span></li>
+<li><strong>Identifying Partial Dependencies in Practice</strong> <span class="el-body">— To identify partial dependencies, systematically test each non-key attribute against every proper subset of the composite primary key. If any non-key attribute is determined by a subset of the key, a partial dependency exists and must be resolved.</span></li>
+<li><strong>Eliminating Partial Dependencies Through Decomposition</strong> <span class="el-body">— The solution to partial dependencies is table decomposition: splitting the original table into two or more smaller tables so that each table contains only fully dependent attributes. This process preserves all original data while eliminating redundancy.</span></li>
+<li><strong>Benefits of Achieving 2NF</strong> <span class="el-body">— Eliminating partial dependencies through 2NF reduces data redundancy and prevents several common data anomalies that occur in tables with partial dependencies. These improvements make the database easier to maintain and more consistent.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Normal_Forms_1NF_generated_t3_videos.html">Second Normal Form (2NF)</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading on Second Normal Form that explains functional dependency, shows how composite primary keys create partial dependencies, and demonstrates splitting tables so every non-key attribute depends on the whole key.</div></li>
+<li><a href="content/Normal_Forms_1NF_interactive_topics_t3.html">Second Normal Form (2NF)</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An interactive, expandable lesson page on 2NF explaining how a table can satisfy 1NF yet still have non-key columns depending on only part of a composite key.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-4">
+<h2 id="topic-4">4. Third Normal Form (3NF)</h2>
+<h3>Description</h3>
+<p class="desc">Defines transitive dependencies and explains how 3NF extends 2NF by removing them. Provides guided examples of restructuring tables to achieve 3NF compliance.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Is a Transitive Dependency?</strong> <span class="el-body">— A transitive dependency occurs when a non-key column depends on another non-key column rather than directly on the primary key.</span></li>
+<li><strong>The 3NF Rule Defined</strong> <span class="el-body">— Third Normal Form (3NF) requires that a table already be in 2NF and that every non-key attribute depends only on the primary key — not on any other non-key attribute.</span></li>
+<li><strong>Recognizing 3NF Violations in a Table</strong> <span class="el-body">— To spot a 3NF violation, examine each non-key column and ask whether its value is dictated by the primary key or by a different non-key column.</span></li>
+<li><strong>Decomposing Tables to Achieve 3NF</strong> <span class="el-body">— Removing transitive dependencies requires splitting the original table into two or more tables so that each non-key attribute depends directly on a primary key.</span></li>
+<li><strong>Step-by-Step 3NF Transformation Example</strong> <span class="el-body">— Walking through a concrete restructuring example reinforces how to apply the 3NF rules systematically from start to finish.</span></li>
+<li><strong>Benefits of Achieving 3NF</strong> <span class="el-body">— Bringing a database to 3NF eliminates transitive dependencies and produces a cleaner, more maintainable schema with reduced redundancy.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Normal_Forms_1NF_generated_t4_videos.html">Third Normal Form (3NF)</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading on Third Normal Form that defines transitive dependencies — a non-key attribute determining another non-key attribute, as in an Employee table — and shows how to decompose tables to remove them.</div></li>
+<li><a href="content/Normal_Forms_1NF_interactive_topics_t4.html">Third Normal Form (3NF)</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An interactive, expandable lesson page on 3NF that teaches learners to spot non-key columns secretly determined by other non-key columns after a table reaches 2NF.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-5">
+<h2 id="topic-5">5. Applying Normal Forms: End-to-End Practice</h2>
+<h3>Description</h3>
+<p class="desc">Consolidates learning by guiding students through the complete normalization process from an unnormalized table through 1NF, 2NF, and 3NF. Reinforces identification and elimination of both partial and transitive dependencies.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Starting Point: Recognizing an Unnormalized Table</strong> <span class="el-body">— The normalization journey begins by examining a raw, unnormalized table and identifying all the structural problems it contains.</span></li>
+<li><strong>Step 1 — Transforming to First Normal Form (1NF)</strong> <span class="el-body">— The first transformation eliminates repeating groups and multi-valued attributes so that every cell holds exactly one atomic value and every row is uniquely identifiable.</span></li>
+<li><strong>Step 2 — Identifying Partial Dependencies Before 2NF</strong> <span class="el-body">— Before converting to 2NF, students must carefully inspect every non-key column to determine whether it depends on the entire composite primary key or only on part of it.</span></li>
+<li><strong>Step 2 — Transforming to Second Normal Form (2NF)</strong> <span class="el-body">— Achieving 2NF means decomposing the 1NF table into smaller tables so that every non-key attribute is fully functionally dependent on the entire primary key of its table.</span></li>
+<li><strong>Step 3 — Identifying Transitive Dependencies Before 3NF</strong> <span class="el-body">— With 2NF achieved, the next analysis pass looks for transitive dependencies — cases where a non-key attribute determines another non-key attribute rather than being determined solely by the primary key.</span></li>
+<li><strong>Step 3 — Transforming to Third Normal Form (3NF)</strong> <span class="el-body">— Converting to 3NF removes transitive dependencies by extracting the determining non-key attribute and its dependents into a new table, leaving only direct key dependencies behind.</span></li>
+<li><strong>Validating the Final Schema and Reviewing the Full Journey</strong> <span class="el-body">— The final step is a structured review to confirm that the fully normalized schema satisfies all three normal forms and that no data has been lost or incorrectly restructured.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Normal_Forms_1NF_generated_t5_videos.html">Applying Normal Forms: End-to-End Practice</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A capstone reading that combines all three normal forms into one workflow, taking a messy unnormalized table step by step through 1NF, 2NF, and 3NF.</div></li>
+<li><a href="content/Normal_Forms_1NF_interactive_topics_t5.html">Applying Normal Forms: End-to-End Practice</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An interactive, expandable lesson page framing normalization as a cumulative sequence and guiding learners through normalizing a realistic redundant table from start to finish.</div></li>
+</ul>
+</section>
+</div>
+<p class="tm-back"><a href="index.html">← Back to the module page</a></p>
+<h2 id="outcomes">Student Learning Outcomes</h2>
+<p class="prefix">By the end of this module, students will be able to:</p>
+<div class="mo">
+<div class="code">MO1</div>
+<div class="statement">Identify insertion, update, and deletion anomalies present in an unnormalized relational table</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO2</div>
+<div class="statement">Transform an unnormalized table into First Normal Form by eliminating repeating groups, enforcing atomicity, and designating a primary key</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO3</div>
+<div class="statement">Detect partial dependencies among non-key attributes in a composite-key table</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO4</div>
+<div class="statement">Decompose a table containing transitive dependencies into a set of Third Normal Form-compliant tables</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO5</div>
+<div class="statement">Validate a fully normalized schema by confirming compliance with 1NF, 2NF, and 3NF requirements across all resulting tables</div>
+<div class="meta"><span>Level: Evaluate</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<h3>Course Outcomes (reference)</h3>
+<div class="co"><span class="code">CO1</span>Analyze a problem and identify computing and user requirements to implement the proper solution capturing the impact of the implementation on the local and the global levels.</div>
+<div class="co"><span class="code">CO2</span>Design, normalize, and implement database systems</div>
+<div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
+<div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

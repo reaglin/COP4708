@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4 - Normal Forms: 1NF, 2NF, and 3NF — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">4 - Normal Forms: 1NF, 2NF, and 3NF</span>
+  </nav>
+      <div class="hero-label">Module 4</div>
+      <h1>Normal Forms: 1NF, 2NF, and 3NF</h1>
+      <p class="hero-desc">This lesson walks through the first three normal forms in detail, providing step-by-step examples of transforming unnormalized tables into 1NF, 2NF, and 3NF. Students will practice identifying and eliminating partial and transitive dependencies.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 5 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Introduction to Normalization</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">First Normal Form (1NF)</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Second Normal Form (2NF)</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Third Normal Form (3NF)</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">Applying Normal Forms: End-to-End Practice</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">15 items of 4 types: <a href="#kind-presentations">Presentations</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-activities-and-games">Activities and Games</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-presentations">
+<h3 class="content-group-h"><span aria-hidden="true">📊 </span>Presentations <span class="content-group-count">(1)</span></h3>
+<p class="content-group-intro">Slide decks for this module — for the whole module or for one topic — drafted with AI from the module&#39;s topics and learning outcomes. A narrated deck plays spoken narration on each slide, and its transcript gives the same words to read. PowerPoint files download; open them in PowerPoint or a free viewer.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📊</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Presentation</span><span class="pill pill-format"><span aria-hidden="true">📽️ </span>PowerPoint</span></div>
+    <div class="content-title"><a href="presentation/Normal_Forms_1NF_generated.pptx" download>Normal_Forms_1NF_generated.pptx</a></div>
+    <p class="content-desc">A slide deck walking through normalization fundamentals — redundancy and integrity, the 1NF atomicity rule, 2NF partial dependencies, and 3NF transitive dependencies — suitable for lecture delivery or self-paced review.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(5)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_interactive_topics_t1.html">Introduction to Normalization</a></div>
+    <p class="content-desc">An interactive, expandable lesson page on normalization that motivates good database design by showing how poor table layouts cause data corruption and maintenance problems.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_interactive_topics_t2.html">First Normal Form (1NF)</a></div>
+    <p class="content-desc">An interactive, expandable lesson page on 1NF that presents atomicity, repeating groups, and primary keys as both a checklist and a design philosophy underpinning all higher normal forms.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_interactive_topics_t3.html">Second Normal Form (2NF)</a></div>
+    <p class="content-desc">An interactive, expandable lesson page on 2NF explaining how a table can satisfy 1NF yet still have non-key columns depending on only part of a composite key.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_interactive_topics_t4.html">Third Normal Form (3NF)</a></div>
+    <p class="content-desc">An interactive, expandable lesson page on 3NF that teaches learners to spot non-key columns secretly determined by other non-key columns after a table reaches 2NF.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_interactive_topics_t5.html">Applying Normal Forms: End-to-End Practice</a></div>
+    <p class="content-desc">An interactive, expandable lesson page framing normalization as a cumulative sequence and guiding learners through normalizing a realistic redundant table from start to finish.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(7)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_generated_t1_videos.html">Introduction to Normalization</a></div>
+    <p class="content-desc">A reading that defines normalization as storing each fact in exactly one place, explains the update anomalies caused by redundancy, and frames data integrity as the goal of the normal forms.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_generated_t2_videos.html">First Normal Form (1NF)</a></div>
+    <p class="content-desc">A reading on First Normal Form covering atomic column values, elimination of repeating groups such as Phone1/Phone2/Phone3, and the need for a primary key, with guidance on fixing spreadsheet-style tables.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_generated_t3_videos.html">Second Normal Form (2NF)</a></div>
+    <p class="content-desc">A reading on Second Normal Form that explains functional dependency, shows how composite primary keys create partial dependencies, and demonstrates splitting tables so every non-key attribute depends on the whole key.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_generated_t4_videos.html">Third Normal Form (3NF)</a></div>
+    <p class="content-desc">A reading on Third Normal Form that defines transitive dependencies — a non-key attribute determining another non-key attribute, as in an Employee table — and shows how to decompose tables to remove them.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_generated_t5_videos.html">Applying Normal Forms: End-to-End Practice</a></div>
+    <p class="content-desc">A capstone reading that combines all three normal forms into one workflow, taking a messy unnormalized table step by step through 1NF, 2NF, and 3NF.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_generated_videos_merged.html">4 - Normal Forms: 1NF, 2NF, and 3NF</a></div>
+    <p class="content-desc">A single consolidated HTML document containing all module readings in sequence, useful for printing or reviewing the entire normalization unit in one place.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Normal_Forms_1NF_interactive.html">Applying Normal Forms: End-to-End Practice</a></div>
+    <p class="content-desc">A duplicate of the interactive end-to-end practice lesson, presenting the same cumulative 1NF-to-3NF walkthrough of a messy real-world table.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-activities-and-games">
+<h3 class="content-group-h"><span aria-hidden="true">🎮 </span>Activities and Games <span class="content-group-count">(2)</span></h3>
+<p class="content-group-intro">Interactive activities and games that run in the browser — practice by doing. Drafted with AI from the module&#39;s topics.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎮</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Activity</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="interactive/number-line-placement.html">Number Line Placement</a></div>
+    <p class="content-desc">A drag-and-drop number line game with five scored questions in which learners evaluate unnormalized table scenarios and place answer tokens at the position matching the correct 1NF concept.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎮</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Activity</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="interactive/sorting-conveyor.html">Sorting Conveyor</a></div>
+    <p class="content-desc">A click-to-sort conveyor belt game where learners examine attributes from composite-key tables and sort them into bins according to whether they are partially dependent on the key, reinforcing 2NF diagnosis.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../3-relational-databases-and-normalization-concepts/index.html">← 3 - Relational Databases and Normalization Concepts</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../5-advanced-normal-forms-bcnf-4nf-and-5nf/index.html">5 - Advanced Normal Forms: BCNF, 4NF, and 5NF →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

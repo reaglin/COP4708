@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The ALTER Command</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+<h1>The ALTER Command</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: ALTER TABLE in SQL</a>
+<a href="#sec3">Video 2: INSERT UPDATE, DELETE &amp; ALTER Table in SQL With Example | SQL Tutorial in Hindi 4</a>
+<a href="#sec4">Video 3: Add Foreign key constraint to existing column in Mysql tutorial</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Database designs rarely stay the same once an application goes live. Requirements change, new data needs to be captured, and mistakes in the original schema have to be corrected. The ALTER TABLE command is the SQL Data Definition Language tool that lets you change the structure of a table that already exists — adding a column, changing a column&#39;s data type or size, removing a column, and adding or dropping constraints such as PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, and CHECK.</p>
+<p>What makes ALTER TABLE important in this course is that it changes structure without discarding the rows already stored. That is the key difference between altering a table and dropping and recreating it. It also means you have to think about the existing data: adding a NOT NULL column to a populated table, shrinking a column&#39;s size, or adding a foreign key when some rows hold values that do not exist in the parent table can all fail or require extra steps.</p>
+<p>As you watch the videos below, pay attention to the exact clause keywords used (ADD, ALTER COLUMN or MODIFY, DROP COLUMN, ADD CONSTRAINT, DROP CONSTRAINT), to how constraints are given names so they can be dropped later, and to any differences in syntax between SQL Server and MySQL. Try reproducing each statement on a small test table of your own so you can see what happens to the rows that were already there.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: ALTER TABLE in SQL</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/DxLg9ApoiKw?cc_load_policy=1&amp;rel=0" title="Video: ALTER TABLE in SQL (Learn SQL Fast: Dr. Cecelia Allison)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Learn SQL Fast: Dr. Cecelia Allison</strong> · 6:29 · 690 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=DxLg9ApoiKw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, focused demonstration of ALTER TABLE in SQL Server Management Studio, including how constraints are handled when modifying an existing table. Based on the title and description, expect to see the basic ADD, modify, and drop operations carried out live against a table and the results checked afterward.</p>
+<h3>Why this video</h3>
+<p>It is a compact, on-topic walkthrough from an instructor-oriented channel that pairs the ALTER TABLE syntax with constraint work, covering the introduction, column changes, and constraint subtopics in one sitting.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: INSERT UPDATE, DELETE &amp; ALTER Table in SQL With Example | SQL Tutorial in Hindi 4</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/4YAAgrm8_ZI?cc_load_policy=1&amp;rel=0" title="Video: INSERT UPDATE, DELETE &amp; ALTER Table in SQL With Example | SQL Tutorial in Hindi 4 (Rishabh Mishra)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Rishabh Mishra</strong> · 6:16 · 553,132 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=4YAAgrm8_ZI" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Part of a structured SQL tutorial series, this video places ALTER TABLE alongside INSERT, UPDATE, and DELETE with worked examples and timestamps for each command. Expect to see how structural changes with ALTER differ from row-level changes made by the data manipulation statements.</p>
+<h3>Why this video</h3>
+<p>Seeing ALTER next to INSERT, UPDATE, and DELETE reinforces the distinction between changing a table&#39;s design and changing its contents, which is exactly the point of evolving a table without losing data; the series is widely viewed and uses step-by-step examples. Note that the narration is in Hindi with English SQL terms and on-screen code.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Add Foreign key constraint to existing column in Mysql tutorial</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/bStAELOBXH0?cc_load_policy=1&amp;rel=0" title="Video: Add Foreign key constraint to existing column in Mysql tutorial (United Top Tech)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>United Top Tech</strong> · 6:36 · 44,376 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=bStAELOBXH0" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A targeted MySQL tutorial showing how to add a FOREIGN KEY constraint to a column in a table that already exists, rather than declaring it at creation time. Expect the ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY ... REFERENCES pattern demonstrated against sample tables.</p>
+<h3>Why this video</h3>
+<p>It drills into the subtopic students most often struggle with — attaching constraints after the fact — and does so in MySQL, giving you a second dialect to compare against the SQL Server examples.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos center on MO4: each one demonstrates ALTER TABLE operations that add, change, or remove columns and constraints on tables that already contain data. The constraint-focused material also reinforces MO3 by showing PRIMARY KEY, FOREIGN KEY, and related integrity rules being applied and named so they can later be dropped, and it builds directly on the CREATE TABLE work of MO2 by showing how an initial design is corrected or extended. The tutorial that contrasts ALTER with INSERT, UPDATE, and DELETE supports MO1 and MO5 by helping you classify which statements change structure versus which change rows, preparing you to choose correctly among DROP, TRUNCATE, and DELETE.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

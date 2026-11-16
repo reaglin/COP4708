@@ -1,0 +1,937 @@
+{
+  "ModuleFolderName": "Relational_Theory_and",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T14:47:30.7724634-04:00",
+  "ModifiedDate": "2026-06-27T14:49:31.5417995-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+      "Title": "Mathematical Foundations of Relational Theory",
+      "Summary": "Introduces the core mathematical concepts underlying relational theory, including sets, domains, and the formal definition of a relation. Establishes the theoretical basis upon which relational databases are built.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "ModifiedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "Elements": [
+        {
+          "Id": "544baf0f-9a2b-490b-9cf1-990926e9e859",
+          "TopicId": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+          "Title": "Sets as the Building Blocks of Relational Theory",
+          "BodyText": "Relational theory is grounded in set theory, which provides the mathematical language for defining and manipulating data collections.",
+          "Notes": "A set is an unordered collection of distinct elements. This property of uniqueness and lack of ordering is directly inherited by relations in relational databases.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "ModifiedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "Items": [
+            {
+              "Id": "453a8e26-1ecd-406f-a0d7-5eef1ff8e7d3",
+              "Text": "A set contains no duplicate elements, which underpins the requirement that a relation contains no duplicate tuples.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "18612460-eb43-4eb1-9128-c0c5e6141316",
+              "Text": "Set operations such as union, intersection, and difference have direct counterparts in relational algebra.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2eafe7b9-f973-4121-a891-46a82a7919f2",
+              "Text": "The unordered nature of sets means that the order in which tuples appear in a relation carries no inherent meaning.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "84e8d8bf-71f6-40ee-b881-5a1e130cbfda",
+          "TopicId": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+          "Title": "Domains: The Universe of Attribute Values",
+          "BodyText": "A domain is a named, finite or infinite set of atomic values from which the actual values appearing in a column of a relation are drawn.",
+          "Notes": "For example, the domain of a \u0027Month\u0027 attribute might be the integers 1 through 12, while the domain of a \u0027CustomerName\u0027 attribute might be all character strings of a given maximum length.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "ModifiedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "Items": [
+            {
+              "Id": "85bc013a-55c7-40a2-9c4c-a6e3959772fb",
+              "Text": "Each attribute in a relation is associated with exactly one domain, constraining the type of data that attribute may hold.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6572a8a6-d654-4178-9dfa-71391d757dff",
+              "Text": "Domains enforce semantic integrity by ensuring that only meaningful values are assigned to each attribute.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "920f498e-b336-4b4c-a5ec-f5859953bb54",
+              "Text": "Two attributes may share the same underlying domain yet remain semantically distinct, such as \u0027HireDate\u0027 and \u0027BirthDate\u0027 both drawn from a date domain.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "b6df447b-7cdd-462a-a758-a32bd34aa538",
+          "TopicId": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+          "Title": "Tuples: Ordered Lists of Attribute Values",
+          "BodyText": "A tuple is a single, ordered sequence of values, one drawn from each corresponding domain, representing a single entity or relationship instance.",
+          "Notes": "In the formal mathematical sense, a tuple of degree n is an element of the Cartesian product D1 \u00D7 D2 \u00D7 \u2026 \u00D7 Dn, where each Di is a domain.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "ModifiedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "Items": [
+            {
+              "Id": "e716ff5b-84d2-433e-a6e1-3015a1eebff2",
+              "Text": "Each component of a tuple corresponds to a specific attribute and must contain a value from that attribute\u0027s associated domain.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "22d47a4f-c4c0-4f8c-bfed-3eacd077d65d",
+              "Text": "The degree of a tuple refers to the number of attributes it contains, which is fixed and uniform across all tuples in a given relation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "809d9738-d05d-44db-b0dc-afd1be351c9f",
+              "Text": "Tuples are the row-level structures in a relation and encapsulate all known facts about a single entity instance.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "db348473-a9bb-4fef-bedc-81bd891d4f36",
+          "TopicId": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+          "Title": "The Formal Definition of a Relation",
+          "BodyText": "A relation is formally defined as a subset of the Cartesian product of one or more domains, represented as a set of tuples that all conform to the same attribute structure.",
+          "Notes": "This definition means a relation R on domains D1, D2, \u2026, Dn is any subset of D1 \u00D7 D2 \u00D7 \u2026 \u00D7 Dn. The relational model operationalizes this mathematical object as a table.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "ModifiedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "Items": [
+            {
+              "Id": "4c9d93e5-6292-4bf2-a387-5d852b24a700",
+              "Text": "A relation has two parts: a relation schema, which defines the attribute names and their domains, and a relation instance, which is the current set of tuples satisfying that schema.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "bc3be699-d465-4572-887d-ebfa7c6e8b2e",
+              "Text": "Because a relation is a set of tuples, it cannot contain duplicate rows and has no inherent row ordering.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b69d32a9-8122-49d9-b067-511b719873b0",
+              "Text": "The number of tuples in a relation at any given moment is called its cardinality, while the number of attributes is called its degree or arity.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c935968e-f5ea-42ec-b341-d14c9af382f1",
+          "TopicId": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+          "Title": "Attributes: Named Columns with Semantic Meaning",
+          "BodyText": "An attribute is a named column of a relation, pairing a human-readable name with a specific domain to give semantic meaning to each position in a tuple.",
+          "Notes": "Naming attributes allows tuples to be treated as mappings from attribute names to values rather than purely positional sequences, which is the basis for the name-based addressing used in SQL.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "ModifiedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "Items": [
+            {
+              "Id": "d5bd2ea9-e5d6-4e71-90ac-dbbfa72606cd",
+              "Text": "Each attribute name must be unique within a given relation schema, distinguishing it from other attributes even if they share the same domain.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cf5ab957-867f-44ce-a9da-7ee3d4d55ead",
+              "Text": "Attributes provide the semantic layer that transforms raw domain values into interpretable facts about real-world entities.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b63c876e-14fd-4659-ba6b-ad0f07cd3feb",
+              "Text": "The combination of attribute name and domain together constrain both the meaning and the permissible values stored in each column.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "754636fb-f6b1-441d-8f9f-dbe6f54e1e5c",
+          "TopicId": "bfc278dd-052f-404f-8dde-cc5c945b3d88",
+          "Title": "The Relational Model as a Mathematical Framework",
+          "BodyText": "The relational model, introduced by E.F. Codd, applies these mathematical constructs\u2014sets, domains, tuples, and relations\u2014to provide a rigorous, declarative foundation for database design and querying.",
+          "Notes": "Codd\u0027s 1970 paper \u0027A Relational Model of Data for Large Shared Data Banks\u0027 formalized these ideas and separated the logical representation of data from its physical storage, a principle known as data independence.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "ModifiedDate": "2026-06-27T14:47:54.7733556-04:00",
+          "Items": [
+            {
+              "Id": "a9f5bf4c-12c6-4117-ba9d-6564015d439d",
+              "Text": "The mathematical precision of the relational model allows correctness properties such as consistency and integrity to be formally specified and verified.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2abaa3ce-95ff-4470-a0bb-36670570eb81",
+              "Text": "Relational algebra and relational calculus, both rooted in mathematics, serve as the theoretical query languages upon which practical languages like SQL are based.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8fb41e40-d416-45e8-bb46-a7a74fa77f2e",
+              "Text": "By grounding database design in mathematics, the relational model enables reasoning about data structure, redundancy, and dependency in a principled way.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "82bf0806-8c21-420d-a878-36d4dc71d358",
+      "Title": "Relations, Tuples, and Attributes",
+      "Summary": "Examines the fundamental building blocks of the relational model: relations as tables, tuples as rows, and attributes as columns. Explores how these components work together to represent structured data.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "ModifiedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "Elements": [
+        {
+          "Id": "277cae59-4de5-4992-80cc-b043e2142f69",
+          "TopicId": "82bf0806-8c21-420d-a878-36d4dc71d358",
+          "Title": "Relations as Tables",
+          "BodyText": "In the relational model, a relation is a mathematical structure represented as a two-dimensional table containing structured data.",
+          "Notes": "The concept of a relation originates from set theory and predicate logic, giving relational databases their formal mathematical foundation.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "ModifiedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "Items": [
+            {
+              "Id": "ef916760-15e8-443d-8f23-a8092d30a636",
+              "Text": "A relation is a named set of data organized into rows and columns, forming the primary storage structure in a relational database.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0b733437-5228-40b0-9899-7b340a4b9918",
+              "Text": "Each relation has a unique name within a database schema and represents a specific real-world entity or concept.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "59698395-433f-4a9a-a2eb-7354d5efc184",
+              "Text": "Unlike a general table, a relation in the strict mathematical sense has no duplicate rows and no inherent ordering of its rows or columns.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "195e016a-1030-4287-84ad-84597d54172e",
+              "Text": "The structure of a relation is defined by its schema, which specifies the relation\u0027s name and the set of attributes it contains.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "0db52b92-4207-43ef-8dd3-c58898ac4e72",
+          "TopicId": "82bf0806-8c21-420d-a878-36d4dc71d358",
+          "Title": "Tuples as Rows",
+          "BodyText": "A tuple is a single row within a relation, representing one instance or record of the entity that the relation describes.",
+          "Notes": "For example, in a STUDENT relation, a single tuple might represent one student with values for their ID, name, and major.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "ModifiedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "Items": [
+            {
+              "Id": "9b382c31-be7d-467f-99a2-8bbcbb9addac",
+              "Text": "Each tuple contains exactly one value for every attribute defined in the relation\u0027s schema.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6b4cc87b-142d-4219-9c31-2e67e1200fe9",
+              "Text": "All tuples within a relation must be unique; no two tuples can have identical values across all of their attributes simultaneously.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1148aa80-8ca3-4950-b51f-b31c829c547e",
+              "Text": "A tuple can be thought of as an ordered list of values, where each value corresponds to a specific attribute in the relation.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "2fc0f7d4-a8a7-4272-ad73-0d9556f439df",
+              "Text": "The total number of tuples in a relation at any given moment is referred to as the relation\u0027s cardinality.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "16cc4cde-9502-4f8f-96f7-898eed5808a4",
+          "TopicId": "82bf0806-8c21-420d-a878-36d4dc71d358",
+          "Title": "Attributes as Columns",
+          "BodyText": "Attributes are the named columns of a relation, each describing a specific property or characteristic of the entity being modeled.",
+          "Notes": "For instance, a EMPLOYEE relation might have attributes such as EmployeeID, LastName, Department, and Salary.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "ModifiedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "Items": [
+            {
+              "Id": "35ddb77c-c856-4c4f-84fb-72b6cb83d11f",
+              "Text": "Each attribute has a distinct name within its relation and is associated with a domain that defines the set of permissible values.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "909ebe80-66f6-4e40-93e9-0aee595c6f3d",
+              "Text": "The number of attributes in a relation is referred to as the relation\u0027s degree or arity.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a807d75c-31c7-40d6-a8da-f2cdbafb9bf2",
+              "Text": "Attributes are atomic in the first normal form, meaning each attribute value must be indivisible and single-valued.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "85739eca-2f35-4d2b-a485-6bda79f2d5e0",
+              "Text": "Attribute names must be unique within a relation, though the same attribute name may appear in different relations within the same schema.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "95eb76f3-c2e9-40a3-a0d4-ad88a92c25f0",
+          "TopicId": "82bf0806-8c21-420d-a878-36d4dc71d358",
+          "Title": "Domains and Attribute Values",
+          "BodyText": "Every attribute in a relation is associated with a domain, which is the complete set of valid values that the attribute may hold.",
+          "Notes": "Domains enforce data integrity by constraining what values can be stored, such as restricting an Age attribute to positive integers.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "ModifiedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "Items": [
+            {
+              "Id": "cf345e4e-e652-4254-915d-6af0c86ab48f",
+              "Text": "A domain can be a primitive data type such as integer, string, or date, or a more specifically defined constraint such as a range of values.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c95af926-fae8-4b99-a9cd-582455689464",
+              "Text": "All values stored in a given attribute column must belong to that attribute\u0027s defined domain, ensuring consistency across all tuples.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d79bea8c-fb10-4c96-8a78-733e8068f62e",
+              "Text": "Two attributes from different relations may share the same underlying domain even if they have different names, which is the basis for join operations.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "622215ed-447a-47ea-bbbc-fa06223b87be",
+              "Text": "The special null value may be permitted in some domains to represent missing or unknown information, though its use should be carefully controlled.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "608c6136-9072-4e8a-970f-fe4dc6ad8551",
+          "TopicId": "82bf0806-8c21-420d-a878-36d4dc71d358",
+          "Title": "The Relation Schema",
+          "BodyText": "A relation schema formally defines the structure of a relation by specifying its name and the complete list of its attributes along with their domains.",
+          "Notes": "A schema is often written in the form R(A1, A2, ..., An), where R is the relation name and A1 through An are its attributes.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "ModifiedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "Items": [
+            {
+              "Id": "4bee2ce6-8321-4096-acd1-9db32d123976",
+              "Text": "The relation schema is a static definition that describes the logical structure of the relation and changes only when the database design is altered.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c93bf275-9d51-4cff-a347-4b4b4890b761",
+              "Text": "The actual data stored in a relation at any point in time is called the relation instance or relation state, which changes as records are inserted, updated, or deleted.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "026a0426-c600-4213-83ea-3176828d3496",
+              "Text": "A database schema consists of multiple relation schemas together with any constraints defined across them.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "79f5ed3a-f3de-4bf8-a5a3-ba206465acba",
+              "Text": "Clearly defined schemas are essential for ensuring that all data stored in the database conforms to an expected and consistent structure.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "8c4e6b7a-e430-4683-9b7a-63efdc838c61",
+          "TopicId": "82bf0806-8c21-420d-a878-36d4dc71d358",
+          "Title": "How Relations, Tuples, and Attributes Work Together",
+          "BodyText": "Relations, tuples, and attributes form an interconnected hierarchy that provides a complete framework for organizing and representing structured data.",
+          "Notes": "This three-level structure maps intuitively to real-world data: a relation is a category of things, a tuple is one specific thing, and attributes are its properties.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "ModifiedDate": "2026-06-27T14:48:18.7188559-04:00",
+          "Items": [
+            {
+              "Id": "f27ee7c1-c26f-494d-aa33-9b0eb8295ecc",
+              "Text": "A relation provides the overall container and schema, attributes define what properties are tracked, and tuples supply the actual data values for each instance.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "1d98a2b2-d6b3-4bc8-a862-d98c2a0d53a3",
+              "Text": "Querying a relational database involves selecting specific attributes and tuples from one or more relations based on defined conditions.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c9e0cca1-f528-4554-b5ca-9174cce2d230",
+              "Text": "Relationships between different real-world entities are captured by having relations share common attributes, enabling data to be linked and cross-referenced.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "9e7dfd8b-364e-49bc-951c-b93fdd3a82f7",
+              "Text": "The uniformity of this structure \u2014 every tuple conforming to the same set of attributes \u2014 is what makes relational data predictable, queryable, and mathematically tractable.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "83af085b-ca2c-4420-8739-0bba391ebd31",
+      "Title": "Introduction to Functional Dependencies",
+      "Summary": "Defines functional dependencies and explains how they capture constraints between data attributes within a relation. Covers notation, terminology, and basic examples of attribute relationships.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "ModifiedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "Elements": [
+        {
+          "Id": "efffea92-971e-45ee-80e2-5873308de2a4",
+          "TopicId": "83af085b-ca2c-4420-8739-0bba391ebd31",
+          "Title": "What Is a Functional Dependency?",
+          "BodyText": "A functional dependency (FD) is a constraint between two sets of attributes in a relation, expressing that the value of one set of attributes uniquely determines the value of another.",
+          "Notes": "For example, in an Employee relation, knowing an employee\u0027s ID uniquely determines their name and department \u2014 the ID \u0027functionally determines\u0027 those attributes.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "ModifiedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "Items": [
+            {
+              "Id": "96e24cb1-97e3-4aa2-ab79-3b7097a8045e",
+              "Text": "A functional dependency X \u2192 Y means that for any two tuples in the relation, if they agree on the values of X, they must also agree on the values of Y.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2a2c1cff-99e6-4783-953c-678563118ced",
+              "Text": "Functional dependencies capture real-world business rules and constraints that govern how data relates within a database.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "eac26dd8-af9f-4af4-ad55-8ea57a4e9464",
+              "Text": "They are a foundational concept in relational theory, underpinning normalization and schema design.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "445c5bbe-31b5-46b4-b5c9-188ed6aa843f",
+          "TopicId": "83af085b-ca2c-4420-8739-0bba391ebd31",
+          "Title": "Notation and Terminology",
+          "BodyText": "Functional dependencies are expressed using a standard arrow notation, where the left-hand side is called the determinant and the right-hand side is the dependent attribute set.",
+          "Notes": "Written as X \u2192 Y, read as \u0027X functionally determines Y\u0027 or \u0027Y is functionally dependent on X\u0027. X and Y each represent one or more attributes.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "ModifiedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "Items": [
+            {
+              "Id": "e0112be7-8692-4859-a30d-e4812857e5d9",
+              "Text": "The left-hand side (X) of a functional dependency is called the determinant \u2014 it is the attribute or set of attributes that does the determining.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "de0e6328-a1e8-4bdc-9a05-994bb83e1169",
+              "Text": "The right-hand side (Y) is the dependent, meaning its value is determined once the value of X is known.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c46143de-daf4-4249-a82e-6b244dca1680",
+              "Text": "Both X and Y can be single attributes or composite sets of multiple attributes, written using curly braces or comma-separated lists.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "20fa1a4b-5a10-4453-ae03-fe1c5ed71bb9",
+          "TopicId": "83af085b-ca2c-4420-8739-0bba391ebd31",
+          "Title": "Attributes and Relations as the Context for FDs",
+          "BodyText": "Functional dependencies are always defined within the context of a specific relation, operating over its attributes and the tuples that populate it.",
+          "Notes": "A relation can be thought of as a table with rows (tuples) and columns (attributes). FDs describe constraints that hold across all tuples in that relation, not just a specific instance.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "ModifiedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "Items": [
+            {
+              "Id": "6b3e5073-15db-4e3a-9987-67766dc67fe3",
+              "Text": "An attribute is a named column in a relation, representing a specific property of the entities stored in that relation.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f09d6f3b-78e9-43fc-9a81-484b3a3fd440",
+              "Text": "A tuple is a single row in a relation, representing one instance of the entity with specific values for each attribute.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4e83e1f9-5867-4dfa-99d0-21308e6e583e",
+              "Text": "Functional dependencies must hold for every possible tuple in the relation, making them schema-level constraints rather than data-level observations.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4225353b-deee-47a2-94ed-3a00d3d9b5ce",
+          "TopicId": "83af085b-ca2c-4420-8739-0bba391ebd31",
+          "Title": "Basic Examples of Functional Dependencies",
+          "BodyText": "Concrete examples help illustrate how functional dependencies reflect real-world relationships between data attributes in everyday database scenarios.",
+          "Notes": "These examples show that FDs arise naturally from the semantics of data, not arbitrarily \u2014 they reflect how entities relate in the problem domain.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "ModifiedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "Items": [
+            {
+              "Id": "757d3757-c58e-47c4-9312-2e65b29a3e41",
+              "Text": "In a Student relation, StudentID \u2192 {Name, DateOfBirth} expresses that knowing a student\u0027s ID uniquely determines their name and date of birth.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "830781d0-9775-4a3e-be22-c92d1ebb75b7",
+              "Text": "In an Order relation, OrderID \u2192 {CustomerID, OrderDate, TotalAmount} shows that an order number determines all details of that order.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0f713b52-b173-44b4-8aea-bc14c239c8a7",
+              "Text": "In a Course relation, {StudentID, CourseID} \u2192 Grade illustrates a composite determinant, where both attributes together determine the grade a student received.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "45291676-72b7-4f01-a9e7-d989f754cabe",
+          "TopicId": "83af085b-ca2c-4420-8739-0bba391ebd31",
+          "Title": "Trivial vs. Non-Trivial Functional Dependencies",
+          "BodyText": "Not all functional dependencies carry meaningful information \u2014 a distinction is made between trivial dependencies, which are always true by definition, and non-trivial ones, which express real constraints.",
+          "Notes": "Trivial FDs are logically redundant but important to recognize when reasoning formally about dependency sets.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "ModifiedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "Items": [
+            {
+              "Id": "3e92cfd6-29a2-4caa-b81b-a0c1a78071e9",
+              "Text": "A functional dependency X \u2192 Y is trivial if Y is a subset of X, meaning the dependency holds vacuously \u2014 for example, {StudentID, Name} \u2192 StudentID.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b8ed7c09-c8c4-4bdd-9688-b1f7e0d8b956",
+              "Text": "A non-trivial functional dependency is one where Y is not a subset of X, expressing a genuine constraint that carries design-relevant information.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c3b44d9e-22d5-453e-bb65-51f3c40e4520",
+              "Text": "In database design and normalization, non-trivial functional dependencies are the primary focus, as they reveal structural relationships that must be carefully managed.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f45ffa48-f317-40bd-9bd2-261df8414562",
+          "TopicId": "83af085b-ca2c-4420-8739-0bba391ebd31",
+          "Title": "Why Functional Dependencies Matter",
+          "BodyText": "Functional dependencies serve as the mathematical basis for making principled decisions about relational database schema design, particularly in the normalization process.",
+          "Notes": "Without a formal understanding of FDs, database designers would rely on intuition alone, leading to schemas with redundancy and anomalies.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "ModifiedDate": "2026-06-27T14:48:41.3688044-04:00",
+          "Items": [
+            {
+              "Id": "849fe93d-99ee-4297-9ad5-849b56c206d6",
+              "Text": "FDs help identify redundancy in a schema \u2014 when a non-key attribute determines another, data may be repeated unnecessarily across many tuples.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "5f3e64b9-5889-446a-bce1-e9f69f4267fd",
+              "Text": "They provide a rigorous foundation for normalization, which is the process of decomposing relations to eliminate update, insertion, and deletion anomalies.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1652c766-6b60-48fd-81a9-981948fe5ecc",
+              "Text": "Understanding functional dependencies enables database designers to reason precisely about data integrity and schema correctness.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+      "Title": "Types and Properties of Functional Dependencies",
+      "Summary": "Explores the different categories of functional dependencies, including trivial and non-trivial dependencies, as well as key properties such as Armstrong\u0027s Axioms. Demonstrates how these properties are used to reason about data relationships.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "ModifiedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "Elements": [
+        {
+          "Id": "8b6c8f65-e12c-462d-a7cc-f3c70eb4edda",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Trivial Functional Dependencies",
+          "BodyText": "A functional dependency is considered trivial when the dependent attribute is already contained within the determinant set, making it always true by definition.",
+          "Notes": "For example, {A, B} \u2192 A is trivial because A is already part of the left-hand side. Trivial dependencies hold in every relation and provide no new information about the data.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "72b587fd-fecc-4664-9097-12614285a780",
+              "Text": "A dependency X \u2192 Y is trivial if Y is a subset of X.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e60e4418-7bba-4cc2-9c0a-066dccc1889c",
+              "Text": "Trivial dependencies are logically redundant but important to recognize when analyzing a schema.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "318b1303-0b2a-4531-8fca-8119d6d4b178",
+              "Text": "They are universally valid regardless of the data stored in the relation.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "31d6120d-552b-4cbd-91bd-f9d7fc6c7c84",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Non-Trivial Functional Dependencies",
+          "BodyText": "A non-trivial functional dependency exists when the dependent attribute is not contained within the determinant set, revealing a meaningful constraint on the data.",
+          "Notes": "For example, StudentID \u2192 StudentName is non-trivial because StudentName is not part of the left-hand side. These are the dependencies of primary interest in database design and normalization.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "b4371564-a1cc-4dc8-806e-33cbd6e217ad",
+              "Text": "A dependency X \u2192 Y is non-trivial if Y is not a subset of X.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "1ac0a129-270b-4c6f-a91c-938b8e8d5356",
+              "Text": "Non-trivial dependencies capture real-world constraints and data relationships.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1ac485b9-8b14-416c-ae48-ab029323774e",
+              "Text": "They form the basis for identifying keys and guiding normalization decisions.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d4acb31d-172a-4702-ad0e-1e06116c8892",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Armstrong\u0027s Axiom: Reflexivity",
+          "BodyText": "Reflexivity is the first of Armstrong\u0027s Axioms and states that if Y is a subset of X, then X functionally determines Y.",
+          "Notes": "This axiom formalizes trivial dependencies. It guarantees that any attribute set always determines itself or any of its subsets, establishing a baseline for logical inference.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "b9eb942d-d1a1-4241-ac37-cb4b6bb8976e",
+              "Text": "If Y \u2286 X, then X \u2192 Y holds in every valid relation.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "74fab8f4-8cc4-4fc2-9d82-f7039932119c",
+              "Text": "Reflexivity is the axiomatic foundation for recognizing trivial dependencies.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1fe8fb6b-9195-4744-80f0-2f9e35c74d6b",
+              "Text": "This rule requires no additional data evidence \u2014 it is always logically sound.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ee65597e-4777-49ed-9178-1ee5f8acffaf",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Armstrong\u0027s Axiom: Augmentation",
+          "BodyText": "Augmentation states that if X functionally determines Y, then adding the same set of attributes Z to both sides preserves the dependency.",
+          "Notes": "Formally: if X \u2192 Y, then XZ \u2192 YZ. This rule allows us to extend known dependencies by adding attributes to both the determinant and dependent sides without breaking the relationship.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "c9dbdc14-335a-45a8-8add-61fe8382bd8e",
+              "Text": "If X \u2192 Y, then XZ \u2192 YZ for any attribute set Z.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2a28700b-6e5b-4757-bdda-b4311477c2fe",
+              "Text": "Augmentation is used to derive new functional dependencies from existing ones.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "01228368-de94-46d5-b9cf-d7d572dd1924",
+              "Text": "It ensures that adding redundant attributes to both sides does not invalidate a known dependency.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a6a8b22b-a36e-475b-a38f-d5d3cdb7aff1",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Armstrong\u0027s Axiom: Transitivity",
+          "BodyText": "Transitivity states that if X determines Y and Y determines Z, then X must also functionally determine Z.",
+          "Notes": "Formally: if X \u2192 Y and Y \u2192 Z, then X \u2192 Z. This is one of the most powerful inference rules, enabling chains of reasoning across multiple dependencies in a schema.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "b5dfdf37-403c-4022-baa5-09a7d8bc97d1",
+              "Text": "If X \u2192 Y and Y \u2192 Z, then X \u2192 Z is a valid functional dependency.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "10da7f6c-38fd-4da8-80c8-c6c304d22352",
+              "Text": "Transitivity allows multi-step reasoning about attribute relationships.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6cb6a182-bcfa-4942-a0fa-1150723682a6",
+              "Text": "It is commonly used to discover hidden or indirect dependencies in a relation.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "613dd239-6fdf-4275-a4d3-04a45dd39bb0",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Derived Rules from Armstrong\u0027s Axioms",
+          "BodyText": "From the three primary axioms, additional useful inference rules \u2014 such as union, decomposition, and pseudotransitivity \u2014 can be derived to simplify reasoning about functional dependencies.",
+          "Notes": "Union: if X \u2192 Y and X \u2192 Z, then X \u2192 YZ. Decomposition: if X \u2192 YZ, then X \u2192 Y and X \u2192 Z. These derived rules speed up the process of computing attribute closures and verifying schema properties.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "a4c50c55-ba27-44e8-8739-10d4f54187c6",
+              "Text": "The union rule combines two dependencies with the same determinant into one.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7faf4970-6294-4754-8e18-5846f2002192",
+              "Text": "The decomposition rule breaks a multi-attribute dependent side into individual dependencies.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c72a2fc2-740b-4c90-8cfa-195c154f6d5d",
+              "Text": "Pseudotransitivity generalizes transitivity: if X \u2192 Y and WY \u2192 Z, then WX \u2192 Z.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "491cb4a8-2ea9-449f-ac02-98055f3c3877",
+              "Text": "These derived rules are provably sound because they follow from the three axioms alone.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "22e9824a-361b-4fab-804b-7f1311839bd6",
+          "TopicId": "e9bc10f0-9696-4664-aa49-3d98cfdc0592",
+          "Title": "Using Functional Dependency Properties to Reason About Data",
+          "BodyText": "Armstrong\u0027s Axioms and derived rules provide a complete and sound system for inferring all valid functional dependencies that follow from a given set, enabling systematic analysis of database schemas.",
+          "Notes": "Computing the closure of an attribute set (X\u002B) applies these rules iteratively to find all attributes determined by X. This process is central to verifying candidate keys, checking schema validity, and guiding normalization.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "ModifiedDate": "2026-06-27T14:49:04.9281848-04:00",
+          "Items": [
+            {
+              "Id": "e7193923-1fcb-4999-b063-e564424f6e50",
+              "Text": "Attribute closure X\u002B is computed by repeatedly applying Armstrong\u0027s rules to a starting set.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a4a6d1af-2b6b-4781-ab6a-c192dcc4c084",
+              "Text": "A set of attributes X is a superkey if X\u002B includes all attributes in the relation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6c9c544c-b7f4-420a-a1c4-2b59b80a6946",
+              "Text": "Reasoning with these properties ensures that no valid dependency is overlooked during schema design.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "770600bc-d698-4fc6-a52d-bdfe88fae269",
+              "Text": "The axiom system is both sound (derives only true dependencies) and complete (derives all true dependencies).",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+      "Title": "Functional Dependencies and Database Design",
+      "Summary": "Connects functional dependency theory to practical database design decisions, showing how dependencies guide schema construction and refinement. Illustrates the role of functional dependencies as a foundation for normalization.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "ModifiedDate": "2026-06-27T14:47:30.7724634-04:00",
+      "Elements": [
+        {
+          "Id": "44867449-f0e3-4f52-9ede-5c882c3dab6c",
+          "TopicId": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+          "Title": "Functional Dependencies as Design Blueprints",
+          "BodyText": "Functional dependencies (FDs) serve as the primary analytical tool for understanding how attributes relate to one another within a schema, guiding initial design decisions before a single table is created.",
+          "Notes": "For example, knowing that EmployeeID \u2192 {Name, Department, Salary} tells a designer that these attributes naturally belong in an employee-centric table.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "ModifiedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "Items": [
+            {
+              "Id": "0867518b-e620-4ea1-b6ef-42a9114b9980",
+              "Text": "Identifying FDs early in the design process reveals which attributes logically belong together in a relation.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "24128072-c686-471c-ba12-6e2250f90af9",
+              "Text": "FDs expose implicit business rules embedded in data, such as \u0027each order belongs to exactly one customer.\u0027",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8188d09b-ca50-446a-bfaa-f05acb9871aa",
+              "Text": "Using FDs as blueprints reduces the risk of creating arbitrary or poorly justified table structures.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5a1ce347-795a-4b75-8b21-a04e4495a259",
+          "TopicId": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+          "Title": "Inferring Schema Structure from Dependencies",
+          "BodyText": "The set of functional dependencies present in a domain directly suggests how relations should be structured, with each dependency pointing toward a natural grouping of attributes.",
+          "Notes": "A dependency like CourseID \u2192 {CourseName, Credits, InstructorID} implies a Courses relation where CourseID acts as the primary key.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "ModifiedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "Items": [
+            {
+              "Id": "c8b8f354-281d-4494-91f8-c296b4874758",
+              "Text": "Each functional dependency of the form X \u2192 Y suggests a candidate relation with X as the key and Y as dependent attributes.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2c88186d-c2f0-4bb6-b3e6-968a48342987",
+              "Text": "Overlapping dependencies across multiple FDs help identify when attributes should be split across separate relations.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f1776079-48c9-4270-83cc-298d05ef073f",
+              "Text": "Grouping attributes by their determinants produces relations that accurately reflect real-world entity boundaries.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0e5a2487-be69-45e4-b60c-70d61e5178ce",
+          "TopicId": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+          "Title": "Redundancy and Anomalies Caused by Ignored Dependencies",
+          "BodyText": "When functional dependencies are not properly respected in a schema, data redundancy and update, insertion, and deletion anomalies emerge as direct consequences.",
+          "Notes": "Storing a customer\u0027s address alongside every order record violates the FD OrderID \u2192 CustomerAddress only indirectly; the root problem is that CustomerAddress depends on CustomerID, not OrderID.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "ModifiedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "Items": [
+            {
+              "Id": "13119a04-fe2e-474b-836a-b463d1a60dc3",
+              "Text": "Update anomalies occur when the same fact governed by an FD must be changed in multiple rows simultaneously.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d44f3481-8882-4083-9859-acafee6f4b97",
+              "Text": "Insertion anomalies arise when a new fact cannot be recorded without the presence of unrelated data.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4a4cc5bd-e3aa-4da0-a68f-5fb7cc27e058",
+              "Text": "Deletion anomalies cause unintended loss of information when removing a record also destroys the only copy of a dependent fact.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "35a81344-ae82-4a28-9aeb-7aa28da25460",
+          "TopicId": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+          "Title": "Functional Dependencies as the Foundation for Normalization",
+          "BodyText": "Normalization is the systematic process of restructuring relations to eliminate redundancy, and each normal form is defined directly in terms of which functional dependencies are or are not permitted within a relation.",
+          "Notes": "Second Normal Form eliminates partial dependencies, Third Normal Form eliminates transitive dependencies, and BCNF ensures every determinant is a superkey \u2014 all defined through FD analysis.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "ModifiedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "Items": [
+            {
+              "Id": "56919d5c-bc9a-43b9-b4bf-85e6df62b15b",
+              "Text": "Each successive normal form imposes stricter constraints on the types of functional dependencies allowed within a single relation.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "44d1e411-c4ce-45fe-8d5e-876d0efcaae7",
+              "Text": "Decomposing a relation to achieve a higher normal form is guided by identifying which FDs violate the target form\u0027s rules.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "945d1104-d06f-4454-b5e5-92fed850670b",
+              "Text": "Understanding FDs is a prerequisite for normalization because you cannot diagnose or fix anomalies without first cataloging the dependencies present.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d0b6b9a1-29ee-459f-a7fc-13c4f188916d",
+          "TopicId": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+          "Title": "Lossless Decomposition and Dependency Preservation",
+          "BodyText": "When splitting a relation into smaller ones to satisfy normalization goals, designers must ensure the decomposition is lossless and, where possible, preserves all original functional dependencies.",
+          "Notes": "A lossless join guarantees that the original relation can be reconstructed by joining the decomposed relations, preventing spurious tuples from appearing.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "ModifiedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "Items": [
+            {
+              "Id": "44375dca-34c9-464c-bf5f-26f50b1e74a5",
+              "Text": "A decomposition is lossless if the join of the resulting relations produces exactly the original relation with no extra or missing tuples.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "18d32dac-b2ec-4f28-8c82-70e6cd4a5b67",
+              "Text": "Dependency preservation ensures that every original FD can still be enforced within at least one of the decomposed relations without performing joins.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "35b9aa02-7aa0-4f6b-8860-1e3c187414de",
+              "Text": "Some decompositions achieve BCNF but sacrifice dependency preservation, requiring designers to consciously weigh the trade-off.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "413813a0-57ff-4212-89b3-5f290adefdbb",
+          "TopicId": "12619a3f-2afd-4f1a-b83b-60b376da9652",
+          "Title": "Using Closure and Keys to Validate Schema Decisions",
+          "BodyText": "The attribute closure of a set of attributes under a given FD set allows designers to verify candidate keys and assess whether a proposed schema correctly captures all required constraints.",
+          "Notes": "If the closure of attribute set {StudentID} under the known FDs equals the full set of attributes in the relation, then StudentID is confirmed as a superkey.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "ModifiedDate": "2026-06-27T14:49:31.5415624-04:00",
+          "Items": [
+            {
+              "Id": "c18c2de1-0a89-4b44-bec3-8213e30adbfa",
+              "Text": "Computing the closure of a potential key confirms whether it functionally determines all other attributes in the relation.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c8052fd2-8359-4e58-a604-949509070458",
+              "Text": "Identifying all candidate keys through closure analysis prevents accidental omission of alternative minimal keys.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "2228e5bb-6bd8-4107-99e5-52e98fa5aa89",
+              "Text": "Validating schema decisions with closure calculations provides a rigorous, mathematical basis for design choices rather than relying on intuition alone.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 31
+}

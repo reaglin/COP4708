@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Denormalization</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 12 - Normalization, Denormalization, and Practical Database Design</a></div>
+<h1>Introduction to Denormalization</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Learn Database Denormalization</a>
+<a href="#sec3">Video 2: Normalization vs Denormalization</a>
+<a href="#sec4">Video 3: Database Denormalization at Its Finest: Smarter Queries, Better Performance</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Up to this point in the module, the goal has been to remove redundancy: decompose tables, eliminate update anomalies, and push a schema toward 3NF or BCNF. Denormalization appears to reverse that work, but it is not an undoing of normalization. It is a deliberate, documented decision to reintroduce specific redundancy — a duplicated column, a precomputed total, a merged table, a summary table — in order to make certain queries faster or simpler, while accepting the extra work required to keep that redundancy correct.</p>
+<p>The distinction that matters most in this course is between redundancy that happens by accident and redundancy that is chosen on purpose. Accidental redundancy is a design flaw; you cannot explain why it is there and you cannot say which copy is authoritative. Controlled redundancy is a strategy: you know exactly which normalized form the data would take, you know which anomalies you are now exposed to, and you have a plan — triggers, application logic, batch refresh — for keeping the copies in sync. This is why denormalization is taught after normalization and never before it. You cannot responsibly denormalize a schema you could not normalize.</p>
+<p>While watching these videos, keep the core trade-off in view: denormalization usually buys read performance and pays for it with write complexity, storage, and risk of inconsistency. Listen for the conditions the presenters attach to their advice — what the workload looks like, how often the data changes, whether the duplicated value can be recomputed. Note also any alternatives they mention (indexes, materialized views, caching), since a good designer tries those before changing the logical schema.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Learn Database Denormalization</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/4bTq0GdSeQs?cc_load_policy=1&amp;rel=0" title="Video: Learn Database Denormalization (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 19:08 · 78,729 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=4bTq0GdSeQs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A focused treatment of denormalization in relational databases, aimed at helping you recognize the situations where it is actually appropriate rather than treating it as a general-purpose performance fix. Based on the channel&#39;s approach to normalization topics, expect clear worked examples showing a normalized design, the redundancy being introduced, and the consequences for updates and consistency.</p>
+<h3>Why this video</h3>
+<p>Decomplexify is widely used for its careful, example-driven explanations of normal forms, and this video directly addresses the central question of this topic: when denormalization is a justified design strategy rather than a flaw.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Normalization vs Denormalization</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_b3GC61QjJ4?cc_load_policy=1&amp;rel=0" title="Video: Normalization vs Denormalization (Vikas Kerni&#39;s Software Architecture)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Vikas Kerni&#39;s Software Architecture</strong> · 10:40 · 7,134 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=_b3GC61QjJ4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A side-by-side comparison of normalization and denormalization, with timestamps indicating an early segment on the fundamental difference between the two approaches. The framing is architectural, so expect discussion of why a designer would choose one orientation over the other for a given system.</p>
+<h3>Why this video</h3>
+<p>It reinforces that normalization knowledge is the prerequisite for denormalization, and its comparative structure maps directly onto the read-performance-versus-write-complexity trade-off at the heart of this topic.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Database Denormalization at Its Finest: Smarter Queries, Better Performance</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/YssZaIMrtU4?cc_load_policy=1&amp;rel=0" title="Video: Database Denormalization at Its Finest: Smarter Queries, Better Performance (Zoran on C#)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Zoran on C#</strong> · 10:18 · 8,096 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=YssZaIMrtU4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A practitioner-oriented look at how denormalization and what the description calls strategic redundancy can be used to simplify queries and improve performance. Expect concrete database design scenarios illustrating the kinds of techniques covered in this module, such as redundant columns or precomputed values.</p>
+<h3>Why this video</h3>
+<p>The emphasis on strategic redundancy matches the subtopic on controlled, purposeful redundancy, and the applied developer perspective shows what denormalization looks like in a real codebase rather than only in theory.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>These videos sit on the denormalization side of the module&#39;s outcomes. All three depend on the normalization foundations behind MO1 and MO2, since each presenter starts from a normalized design before introducing redundancy. The Decomplexify and Zoran on C# videos illustrate specific techniques — redundant columns, precomputed and duplicated values, merged structures — which supports MO3 as you learn to match a technique to a query performance scenario. The normalization-versus-denormalization comparison supports MO4 by making the read speed, write overhead, and consistency costs explicit. Together they model the kind of conditional, workload-aware reasoning MO5 asks you to produce when you justify a design decision in your own work.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

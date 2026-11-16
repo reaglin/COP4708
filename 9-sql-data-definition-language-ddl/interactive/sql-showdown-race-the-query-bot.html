@@ -1,0 +1,1423 @@
+﻿<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+<div class="pm-injected-nav"><a href="../index.html">← Back to Module</a><span class="sep">|</span><span style="color:#555">SQL Showdown: Race the Query Bot</span></div>
+<div class="pm-injected-spacer"></div>
+<title>SQL Showdown</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#e8eaf2; --surface:#ffffff; --surface-2:#f2f3f9; --line:#d5d9e6; --line-2:#c2c8da;
+  --ink:#171c29; --ink-2:#4d566d; --ink-3:#7b8398;
+  --accent:#3f3aa3; --accent-soft:#e6e5f7; --on-accent:#ffffff;
+  --you:#0c7a73; --you-soft:#dff0ee;
+  --bot:#a4570f; --bot-soft:#f8ebda;
+  --ok:#11794c; --ok-soft:#dff2e8;
+  --bad:#af2318; --bad-soft:#fbe6e3;
+  --warn:#7d5a00; --warn-soft:#fbf0d4;
+  --code-bg:#f6f7fc; --code-ink:#1b2130; --code-line:#e2e5f0;
+  --kw:#3f3aa3; --str:#11794c; --num:#a4570f; --com:#8a90a3;
+  --shadow:0 1px 2px rgba(20,24,40,.06),0 8px 24px -12px rgba(20,24,40,.18);
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1017; --surface:#161a24; --surface-2:#1d2230; --line:#2a3040; --line-2:#3a4257;
+  --ink:#e9ebf3; --ink-2:#a8afc4; --ink-3:#7a8298;
+  --accent:#9a9cf5; --accent-soft:#242647; --on-accent:#10121c;
+  --you:#3fc4b6; --you-soft:#12332f;
+  --bot:#e59a48; --bot-soft:#3a2a14;
+  --ok:#4fca8b; --ok-soft:#12301f;
+  --bad:#ff8d80; --bad-soft:#3a1a16;
+  --warn:#ddb355; --warn-soft:#332a10;
+  --code-bg:#11141d; --code-ink:#dde2f0; --code-line:#232936;
+  --kw:#9a9cf5; --str:#4fca8b; --num:#e59a48; --com:#69718a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);
+}}
+:root[data-theme="dark"]{
+  --bg:#0e1017; --surface:#161a24; --surface-2:#1d2230; --line:#2a3040; --line-2:#3a4257;
+  --ink:#e9ebf3; --ink-2:#a8afc4; --ink-3:#7a8298;
+  --accent:#9a9cf5; --accent-soft:#242647; --on-accent:#10121c;
+  --you:#3fc4b6; --you-soft:#12332f;
+  --bot:#e59a48; --bot-soft:#3a2a14;
+  --ok:#4fca8b; --ok-soft:#12301f;
+  --bad:#ff8d80; --bad-soft:#3a1a16;
+  --warn:#ddb355; --warn-soft:#332a10;
+  --code-bg:#11141d; --code-ink:#dde2f0; --code-line:#232936;
+  --kw:#9a9cf5; --str:#4fca8b; --num:#e59a48; --com:#69718a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:15px; line-height:1.55; -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.display{font-family:Archivo,"IBM Plex Sans",system-ui,sans-serif; text-wrap:balance; margin:0}
+code,kbd,pre,textarea.sqlbox,.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.app{max-width:1180px; margin-inline:auto; padding-inline:18px; padding-block:18px 56px}
+.eyebrow{font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+button{font:inherit; cursor:pointer}
+.btn{
+  border:1px solid var(--line-2); background:var(--surface); color:var(--ink);
+  padding:9px 16px; border-radius:8px; font-weight:600; font-size:14px;
+  transition:background .15s,border-color .15s,transform .06s;
+}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.btn-primary{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent); filter:brightness(1.08)}
+.btn-primary:disabled,.btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
+.btn-lg{padding:12px 26px; font-size:16px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow)}
+
+/* ---------- start screen ---------- */
+.start-wrap{display:grid; gap:20px; grid-template-columns:1.15fr .85fr; align-items:start}
+@media (max-width:820px){.start-wrap{grid-template-columns:1fr}}
+.hero{padding:26px 26px 28px}
+.hero h1{font-size:clamp(34px,6vw,54px); font-weight:800; letter-spacing:-.02em; line-height:1}
+.hero h1 .vs{color:var(--bot)}
+.hero .tag{color:var(--ink-2); margin:10px 0 0; max-width:52ch}
+.field{display:grid; gap:6px; margin-top:18px}
+.field label{font-weight:600; font-size:13px}
+.field input,.field select{
+  font:inherit; padding:10px 12px; border-radius:8px; border:1px solid var(--line-2);
+  background:var(--surface-2); color:var(--ink); width:100%;
+}
+.diffgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.diffgrid label{
+  display:block; border:1px solid var(--line-2); border-radius:8px; padding:9px 10px; cursor:pointer;
+  background:var(--surface-2); text-align:center; font-size:13px; font-weight:600;
+}
+.diffgrid input{position:absolute; opacity:0; width:0; height:0}
+.diffgrid label small{display:block; font-weight:400; font-size:11px; color:var(--ink-3)}
+.diffgrid input:checked + label{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+.rules{padding:20px 22px}
+.rules ol{margin:10px 0 0; padding-left:20px; display:grid; gap:7px; font-size:14px; color:var(--ink-2)}
+.rules li strong{color:var(--ink)}
+
+/* ---------- scoreboard ---------- */
+.board{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:40;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:10px 14px; margin-bottom:16px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.board .who{font-weight:700; font-family:Archivo,sans-serif; font-size:15px}
+.board .who span{color:var(--ink-3); font-weight:500; font-family:"IBM Plex Sans",sans-serif; font-size:13px}
+.score{display:flex; align-items:center; gap:10px; margin-left:auto; font-variant-numeric:tabular-nums}
+.score .pill{
+  display:flex; align-items:baseline; gap:7px; padding:4px 12px; border-radius:999px;
+  font-family:Archivo,sans-serif; font-weight:800; font-size:20px; line-height:1.1;
+}
+.score .pill b{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase}
+.pill.you{background:var(--you-soft); color:var(--you)}
+.pill.bot{background:var(--bot-soft); color:var(--bot)}
+.score .dash{color:var(--ink-3); font-weight:700}
+.progdots{display:flex; gap:4px; flex-wrap:wrap}
+.progdots i{width:9px; height:9px; border-radius:3px; background:var(--line-2); display:block}
+.progdots i.w{background:var(--you)} .progdots i.l{background:var(--bot)} .progdots i.cur{box-shadow:0 0 0 2px var(--accent)}
+
+/* ---------- part strip ---------- */
+.parts{display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap}
+.parts div{
+  flex:1 1 150px; padding:7px 10px; border-radius:8px; background:var(--surface-2);
+  border:1px solid var(--line); font-size:12px; font-weight:600; color:var(--ink-3);
+}
+.parts div.on{background:var(--accent-soft); border-color:var(--accent); color:var(--accent)}
+.parts div.done{color:var(--ok); border-color:var(--ok)}
+.parts div small{display:block; font-weight:400; font-size:11px; opacity:.85}
+
+/* ---------- task card ---------- */
+.task{padding:18px 20px; margin-bottom:14px}
+.task h2{font-size:21px; font-weight:700; letter-spacing:-.01em; margin-bottom:4px}
+.task .req{color:var(--ink-2); font-size:14.5px}
+.task .req p{margin:8px 0 0}
+.task .req ul{margin:9px 0 0; padding-left:20px; display:grid; gap:4px}
+.task .req .sql-inline{background:var(--code-bg); border:1px solid var(--code-line); border-radius:5px; padding:1px 5px; font-size:13px; color:var(--code-ink)}
+.needline{
+  display:flex; align-items:center; gap:8px; margin-top:12px; padding:8px 12px;
+  background:var(--accent-soft); border-radius:8px; font-size:13px; font-weight:600; color:var(--accent);
+}
+.spec-table{width:100%; border-collapse:collapse; margin-top:12px; font-size:13px}
+.spec-table th,.spec-table td{text-align:left; padding:6px 10px; border-bottom:1px solid var(--line)}
+.spec-table th{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); font-weight:600}
+.spec-table td:first-child{font-family:"IBM Plex Mono",monospace; font-weight:500}
+.spec-table .req-yes{color:var(--bad); font-weight:600}
+
+/* ---------- lanes ---------- */
+.lanes{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:880px){.lanes{grid-template-columns:1fr}}
+.lane{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; display:flex; flex-direction:column; box-shadow:var(--shadow)}
+.lane-head{display:flex; align-items:center; gap:8px; padding:9px 13px; border-bottom:1px solid var(--line); background:var(--surface-2)}
+.lane-head .nm{font-family:Archivo,sans-serif; font-weight:700; font-size:13px; letter-spacing:.02em}
+.lane-head .badge{margin-left:auto; font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; background:var(--line); color:var(--ink-2); font-variant-numeric:tabular-nums}
+.lane.you .nm{color:var(--you)} .lane.bot .nm{color:var(--bot)}
+.rail{height:3px; background:var(--line)}
+.rail i{display:block; height:100%; width:0; background:var(--accent); transition:width .1s linear}
+.lane.you .rail i{background:var(--you)} .lane.bot .rail i{background:var(--bot)}
+textarea.sqlbox, pre.sqlbox{
+  margin:0; border:0; width:100%; min-height:250px; resize:vertical;
+  background:var(--code-bg); color:var(--code-ink);
+  font-size:13px; line-height:1.6; padding:12px 14px; tab-size:2;
+  white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere;
+}
+textarea.sqlbox{flex:1}
+textarea.sqlbox:disabled{opacity:.7}
+pre.sqlbox{flex:1; overflow:auto}
+pre.sqlbox .caret{display:inline-block; width:8px; margin-bottom:-2px; border-bottom:2px solid var(--bot); animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){ pre.sqlbox .caret{animation:none} .rail i{transition:none} }
+.lane-foot{display:flex; align-items:center; gap:8px; padding:10px 13px; border-top:1px solid var(--line); flex-wrap:wrap}
+.lane-foot .hintbtn{margin-left:auto}
+.kbd{font-size:11px; color:var(--ink-3)}
+kbd{background:var(--surface-2); border:1px solid var(--line-2); border-bottom-width:2px; border-radius:4px; padding:0 4px; font-size:11px}
+
+.roundstart{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:13px 18px; margin-bottom:14px;
+  border-left:3px solid var(--accent)}
+.roundstart p{margin:0; color:var(--ink-2); font-size:14px}
+.roundstart button{margin-left:auto}
+
+/* ---------- countdown ---------- */
+.countdown{
+  position:fixed; inset:0; z-index:90; display:grid; place-items:center;
+  background:color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter:blur(3px);
+}
+.countdown b{font-family:Archivo,sans-serif; font-size:clamp(64px,18vw,150px); font-weight:800; color:var(--accent); letter-spacing:-.04em}
+
+/* ---------- feedback ---------- */
+.feedback{margin-top:14px; display:grid; gap:8px}
+.msg{display:flex; gap:10px; padding:11px 14px; border-radius:10px; border:1px solid; font-size:14px; align-items:flex-start}
+.msg .ic{font-family:Archivo,sans-serif; font-weight:800; font-size:12px; line-height:1.5; flex:0 0 auto; padding-top:1px}
+.msg.bad{background:var(--bad-soft); border-color:color-mix(in srgb,var(--bad) 35%,transparent); color:var(--bad)}
+.msg.ok{background:var(--ok-soft); border-color:color-mix(in srgb,var(--ok) 35%,transparent); color:var(--ok)}
+.msg.note{background:var(--warn-soft); border-color:color-mix(in srgb,var(--warn) 35%,transparent); color:var(--warn)}
+.msg.info{background:var(--accent-soft); border-color:color-mix(in srgb,var(--accent) 35%,transparent); color:var(--accent)}
+.msg b{font-weight:700}
+.msg code{background:color-mix(in srgb,var(--surface) 55%,transparent); padding:0 4px; border-radius:4px; font-size:12.5px}
+
+/* ---------- choice gate ---------- */
+.choices{display:grid; gap:9px; margin-top:14px}
+.choice{
+  display:flex; gap:11px; align-items:flex-start; text-align:left; width:100%;
+  padding:12px 14px; border:1px solid var(--line-2); border-radius:10px; background:var(--surface-2); color:var(--ink);
+}
+.choice:hover{border-color:var(--accent)}
+.choice .letter{font-family:Archivo,sans-serif; font-weight:800; color:var(--ink-3); flex:0 0 auto}
+.choice.wrong{border-color:var(--bad); background:var(--bad-soft); color:var(--bad)}
+.choice.right{border-color:var(--ok); background:var(--ok-soft); color:var(--ok)}
+.choice:disabled{cursor:default}
+
+/* ---------- db panel ---------- */
+.dbpanel{margin-top:18px}
+.dbpanel > summary{
+  cursor:pointer; list-style:none; padding:12px 16px; font-weight:600; font-size:14px;
+  display:flex; align-items:center; gap:10px;
+}
+.dbpanel > summary::-webkit-details-marker{display:none}
+.dbpanel > summary::before{content:"▸"; color:var(--ink-3); font-size:12px}
+.dbpanel[open] > summary::before{content:"▾"}
+.dbpanel > summary .count{margin-left:auto; font-size:12px; color:var(--ink-3); font-weight:500}
+.dbbody{padding:0 16px 16px; display:grid; gap:16px}
+.tblwrap{overflow-x:auto; border:1px solid var(--line); border-radius:9px}
+.tbl{border-collapse:collapse; width:100%; font-size:12.5px; white-space:nowrap}
+.tbl caption{
+  text-align:left; padding:8px 11px; font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12.5px;
+  background:var(--surface-2); border-bottom:1px solid var(--line); color:var(--ink);
+}
+.tbl caption em{font-style:normal; color:var(--ink-3); font-weight:400; font-family:"IBM Plex Sans",sans-serif; font-size:11.5px; margin-left:8px}
+.tbl th,.tbl td{padding:6px 11px; border-bottom:1px solid var(--line); text-align:left}
+.tbl th{font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--surface)}
+.tbl td{font-family:"IBM Plex Mono",monospace; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td.null{color:var(--ink-3); font-style:italic; opacity:.7}
+.tbl td.fresh{background:var(--ok-soft); color:var(--ok)}
+.empty{padding:11px; color:var(--ink-3); font-size:13px; font-style:italic}
+
+/* ---------- final report ---------- */
+.verdict{padding:30px 26px; text-align:center; margin-bottom:16px}
+.verdict .banner{font-family:Archivo,sans-serif; font-size:clamp(32px,7vw,52px); font-weight:800; letter-spacing:-.02em; line-height:1}
+.verdict.win .banner{color:var(--you)} .verdict.lose .banner{color:var(--bot)} .verdict.tie .banner{color:var(--accent)}
+.verdict .sub{color:var(--ink-2); margin-top:8px}
+.finalscore{display:flex; justify-content:center; align-items:center; gap:18px; margin-top:20px; font-variant-numeric:tabular-nums}
+.finalscore .n{font-family:Archivo,sans-serif; font-size:56px; font-weight:800; line-height:1}
+.finalscore .u{font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--ink-3)}
+.finalscore .you .n{color:var(--you)} .finalscore .bot .n{color:var(--bot)}
+.finalscore .vs{font-family:Archivo,sans-serif; font-size:20px; color:var(--ink-3); font-weight:700}
+.stamp{
+  display:flex; gap:24px; flex-wrap:wrap; padding:16px 20px; margin-bottom:16px;
+  font-size:13.5px;
+}
+.stamp div span{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600}
+.stamp div strong{font-weight:600; font-size:15px}
+.report{padding:18px 20px}
+.report h3{font-size:16px; margin-bottom:10px}
+.rowitem{border-top:1px solid var(--line); padding:13px 0}
+.rowitem:first-of-type{border-top:0}
+.rowitem .top{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.rowitem .num{font-family:Archivo,sans-serif; font-weight:800; color:var(--ink-3); font-size:13px; min-width:22px}
+.rowitem .ttl{font-weight:600; font-size:14px}
+.rowitem .res{margin-left:auto; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:2px 9px; border-radius:999px}
+.rowitem .res.w{background:var(--you-soft); color:var(--you)}
+.rowitem .res.l{background:var(--bot-soft); color:var(--bot)}
+.rowitem .tm{font-size:12px; color:var(--ink-3); font-variant-numeric:tabular-nums}
+.rowitem pre{
+  margin:9px 0 0; background:var(--code-bg); border:1px solid var(--code-line); border-radius:8px;
+  padding:10px 12px; font-size:12px; line-height:1.55; overflow-x:auto; color:var(--code-ink);
+  white-space:pre-wrap; word-break:break-word;
+}
+.actions{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; justify-content:center}
+.tok-kw{color:var(--kw); font-weight:600} .tok-str{color:var(--str)} .tok-num{color:var(--num)} .tok-com{color:var(--com); font-style:italic}
+
+.themebtn{position:fixed; left:14px; bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:60;
+  width:38px; height:38px; border-radius:999px; border:1px solid var(--line-2); background:var(--surface);
+  color:var(--ink-2); display:grid; place-items:center; box-shadow:var(--shadow); font-size:15px}
+
+@media print{
+  body{background:#fff; color:#000}
+  .board,.themebtn,.actions,.parts,#screen-start,#screen-game{display:none !important}
+  .card{box-shadow:none; border:1px solid #bbb; break-inside:avoid}
+  .app{padding:0; max-width:none}
+  .rowitem{break-inside:avoid}
+  .rowitem pre{background:#fafafa; border-color:#ccc}
+}
+</style>
+
+<div class="app">
+
+<!-- ============ START SCREEN ============ -->
+<section id="screen-start">
+  <div class="start-wrap">
+    <div class="card hero">
+      <p class="eyebrow">COP4708 &middot; Database Design &middot; SQL Practicum</p>
+      <h1>SQL Showdown<br><span class="vs">You vs. the Query Bot</span></h1>
+      <p class="tag">Ten SQL statements. The bot types its answer while you type yours. Submit a working statement before the bot finishes and the point is yours &mdash; submit after and the bot takes it. Mistakes cost you nothing but time.</p>
+
+      <div class="field">
+        <label for="playerName">Your full name (this prints on your result sheet)</label>
+        <input id="playerName" type="text" autocomplete="name" placeholder="e.g. Jordan Alvarez" maxlength="60">
+      </div>
+
+      <div class="field">
+        <label for="diff-normal">Bot speed</label>
+        <div class="diffgrid">
+          <input type="radio" name="difficulty" id="diff-easy" value="easy"><label for="diff-easy">Easy<small>10 wpm</small></label>
+          <input type="radio" name="difficulty" id="diff-normal" value="normal" checked><label for="diff-normal">Normal<small>20 wpm</small></label>
+          <input type="radio" name="difficulty" id="diff-hard" value="hard"><label for="diff-hard">Hard<small>30 wpm</small></label>
+        </div>
+      </div>
+
+      <div class="actions" style="justify-content:flex-start">
+        <button id="btnStart" class="btn btn-primary btn-lg">Start the showdown</button>
+      </div>
+      <p id="startErr" class="kbd" style="color:var(--bad); margin:8px 0 0" hidden>Enter your name first &mdash; it has to appear on the sheet you turn in.</p>
+    </div>
+
+    <div class="card rules">
+      <p class="eyebrow">How a round works</p>
+      <ol>
+        <li><strong>Read the requirement</strong>, then write the statement in your editor. One column per line keeps it readable &mdash; and the bot writes it that way too.</li>
+        <li><strong>Submit any time.</strong> If it has errors, you'll get them back line by line. Fix and submit again &mdash; there's no penalty for a retry, only for the clock.</li>
+        <li><strong>The bot's editor is visible.</strong> You can read what it's typing. Copying it is legal and slower than knowing the syntax.</li>
+        <li><strong>Oracle syntax</strong> (<span class="mono">VARCHAR2</span>, <span class="mono">NUMBER</span>, <span class="mono">CHAR</span>) is what the bot writes, but ANSI equivalents like <span class="mono">VARCHAR</span> and <span class="mono">INT</span> are accepted.</li>
+        <li><strong>Your tables stay live.</strong> Everything you create fills in below the editors, so Part 3 and Part 4 run against data you built.</li>
+        <li><strong>At the end</strong> you get a result sheet with your score and every statement you wrote. Print it or screen-capture it for submission.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GAME SCREEN ============ -->
+<section id="screen-game" hidden>
+  <div class="board">
+    <div class="who" id="boardName">&nbsp;<span id="boardRound"></span></div>
+    <div class="progdots" id="progdots"></div>
+    <div class="score">
+      <div class="pill you"><b>You</b><span id="scoreYou">0</span></div>
+      <div class="dash">&ndash;</div>
+      <div class="pill bot"><span id="scoreBot">0</span><b>Bot</b></div>
+    </div>
+  </div>
+
+  <div class="parts" id="parts"></div>
+
+  <div class="card task">
+    <p class="eyebrow" id="taskEyebrow">Item 1</p>
+    <h2 id="taskTitle">&nbsp;</h2>
+    <div class="req" id="taskReq"></div>
+    <div id="taskGate"></div>
+  </div>
+
+  <div id="raceArea">
+    <div class="card roundstart" id="roundStart">
+      <p><strong>Read the requirement first.</strong> Your editor unlocks and the bot starts typing at the same moment &mdash; nothing is running yet.</p>
+      <button id="btnGo" class="btn btn-primary">Start the round</button>
+    </div>
+    <div class="lanes">
+      <div class="lane you">
+        <div class="lane-head"><span class="nm">YOUR EDITOR</span><span class="badge" id="youTimer">0.0s</span></div>
+        <div class="rail"><i id="youRail"></i></div>
+        <textarea id="youBox" class="sqlbox" spellcheck="false" autocapitalize="off" autocorrect="off" aria-label="Your SQL editor" placeholder="-- write your SQL here"></textarea>
+        <div class="lane-foot">
+          <button id="btnSubmit" class="btn btn-primary">Submit</button>
+          <button id="btnClear" class="btn">Clear</button>
+          <span class="kbd"><kbd>Ctrl</kbd>+<kbd>Enter</kbd> submits &middot; <kbd>Tab</kbd> indents</span>
+          <button id="btnHint" class="btn hintbtn">Hint</button>
+        </div>
+      </div>
+      <div class="lane bot">
+        <div class="lane-head"><span class="nm">QUERY BOT</span><span class="badge" id="botStatus">waiting</span></div>
+        <div class="rail"><i id="botRail"></i></div>
+        <pre id="botBox" class="sqlbox" aria-live="off"></pre>
+        <div class="lane-foot"><span class="kbd" id="botFoot">The bot starts typing when the round begins.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feedback" id="feedback"></div>
+
+  <div class="actions" id="advanceArea" hidden>
+    <button id="btnEnterData" class="btn btn-primary" hidden>Enter Data</button>
+    <button id="btnNext" class="btn btn-primary" hidden>Next item</button>
+  </div>
+
+  <details class="card dbpanel" id="dbPanel" open>
+    <summary>Your database<span class="count" id="dbCount">no tables yet</span></summary>
+    <div class="dbbody" id="dbBody"><p class="empty">Nothing created yet. Your first table shows up here.</p></div>
+  </details>
+
+  <details class="card dbpanel" id="refPanel">
+    <summary>Assignment data sheet<span class="count">the rows you have to store</span></summary>
+    <div class="dbbody" id="refBody"></div>
+  </details>
+</section>
+
+<!-- ============ FINAL SCREEN ============ -->
+<section id="screen-final" hidden>
+  <div class="card verdict" id="verdict">
+    <p class="eyebrow">SQL Showdown &middot; Result</p>
+    <div class="banner" id="verdictBanner">&nbsp;</div>
+    <p class="sub" id="verdictSub"></p>
+    <div class="finalscore">
+      <div class="you"><div class="n" id="finalYou">0</div><div class="u">You</div></div>
+      <div class="vs">vs</div>
+      <div class="bot"><div class="n" id="finalBot">0</div><div class="u">Query Bot</div></div>
+    </div>
+  </div>
+
+  <div class="card stamp">
+    <div><span>Student</span><strong id="finalName"></strong></div>
+    <div><span>Completed</span><strong id="finalDate"></strong></div>
+    <div><span>Bot speed</span><strong id="finalDiff"></strong></div>
+    <div><span>Total time</span><strong id="finalTime"></strong></div>
+    <div><span>Verification</span><strong id="finalCode" class="mono"></strong></div>
+  </div>
+
+  <div class="card report">
+    <h3>Statements you submitted</h3>
+    <div id="reportRows"></div>
+  </div>
+
+  <div class="actions">
+    <button id="btnPrint" class="btn btn-primary btn-lg">Print / Save as PDF</button>
+    <button id="btnAgain" class="btn btn-lg">Play again</button>
+  </div>
+</section>
+
+</div>
+<button class="themebtn" id="themeBtn" title="Switch light / dark" aria-label="Switch light or dark theme">◐</button>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   1. SOURCE DATA (the assignment's data sheet)
+   ========================================================= */
+const SRC = {
+  STUDENT:{
+    cols:['StudentID','FirstName','LastName','StreetAddress','City','State','ZipCode','Phone','Email'],
+    rows:[
+      [522413,'John','Doe','541 East Normal Street','Daytona Beach','FL','32114','386-446-8798','J.Doe@gmail.com'],
+      [526497,'Nancy','Smith','Tree Beach Rd','Daytona Beach','FL','32114','386-954-5632','NancyS@yahoo.com'],
+      [842365,'George','McDonald','3rd street','Daytona Beach','FL','32117','321-744-9768','McdonaldG@msn.com']
+    ]
+  },
+  COURSE:{
+    cols:['CourseID','CourseNumber','CourseName','Location','ClassTime','Semester'],
+    rows:[
+      [41211,'COP4410','Networking','B5-Room 124','10:00-11:15','SP2022'],
+      [41212,'COP3535','Data Structure','B3-Room 311','3:30-4:45','FALL2021'],
+      [41213,'COP4889','Programming','B9-Room 215','12:30-1:45','FALL2022']
+    ]
+  },
+  INSTRUCTOR:{
+    cols:['InstructorID','InstructorFN','InstructorLN','Office','PhoneNumber','Email'],
+    rows:[
+      ['RD22241','Richard','Douglas','B3-128','3865062224','RichardD@DSC.edu'],
+      ['RM36652','Roger','Morgan','B8-217','3865061002','RogerM@DSC.edu'],
+      ['RW84331','Rayan','Williams','B4-356','3865062114','RayanW@DSC.edu']
+    ]
+  }
+};
+/* The data sheet lists an instructor per course by short name. It is NOT a column yet. */
+const COURSE_INSTR_LABEL = {41211:'Richard D.',41212:'Roger M.',41213:'Rayan W.'};
+const COURSE_INSTR_ID    = {41211:'RD22241', 41212:'RM36652', 41213:'RW84331'};
+const ZIPS = ['32114','32115','32116','32117'];
+
+/* widest value actually stored in a column -> the smallest size that works */
+function widest(table,col){
+  const i = SRC[table].cols.indexOf(col);
+  let w=0, v='';
+  SRC[table].rows.forEach(r=>{ const s=String(r[i]); if(s.length>w){w=s.length; v=s;} });
+  return {len:w, sample:v};
+}
+
+/* =========================================================
+   2. SQL LEXICAL HELPERS
+   ========================================================= */
+const TYPE_CAT = {
+  VARCHAR2:'strv',VARCHAR:'strv',NVARCHAR2:'strv',NVARCHAR:'strv',TEXT:'strv',STRING:'strv',CLOB:'strv',
+  CHAR:'strf',NCHAR:'strf',CHARACTER:'strf',
+  NUMBER:'num',NUMERIC:'num',DECIMAL:'num',DEC:'num',INT:'num',INTEGER:'num',SMALLINT:'num',
+  BIGINT:'num',TINYINT:'num',FLOAT:'num',REAL:'num',DOUBLE:'num',BINARY_DOUBLE:'num',BINARY_FLOAT:'num',
+  DATE:'date',TIMESTAMP:'date',DATETIME:'date'
+};
+const ORACLE_PREF = {VARCHAR:'VARCHAR2',TEXT:'VARCHAR2',STRING:'VARCHAR2',INT:'NUMBER',INTEGER:'NUMBER',
+  SMALLINT:'NUMBER',BIGINT:'NUMBER',TINYINT:'NUMBER',DECIMAL:'NUMBER',NUMERIC:'NUMBER',DATETIME:'DATE',DEC:'NUMBER'};
+const CATNAME = {strv:'variable-length text',strf:'fixed-length text',num:'numeric',date:'date'};
+const RESERVED = ['TIME','DATE','NUMBER','LEVEL','SIZE','ORDER','GROUP','USER','SESSION','COMMENT',
+  'ROW','ROWID','START','CHECK','MODE','ACCESS','DESC','TABLE','COLUMN','KEY'];
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function key(s){return String(s).replace(/[_\s"'`\[\]]/g,'').toUpperCase();}
+
+/* comment stripper that respects string literals */
+function stripComments(sql){
+  let out='', q=null;
+  for(let i=0;i<sql.length;i++){
+    const c=sql[i];
+    if(q){ out+=c; if(c===q){ if(sql[i+1]===q){out+=sql[++i];} else q=null; } continue; }
+    if(c==="'"||c==='"'){ q=c; out+=c; continue; }
+    if(c==='-'&&sql[i+1]==='-'){ while(i<sql.length&&sql[i]!=='\n')i++; out+='\n'; continue; }
+    if(c==='/'&&sql[i+1]==='*'){ i+=2; while(i<sql.length&&!(sql[i]==='*'&&sql[i+1]==='/'))i++; i++; out+=' '; continue; }
+    out+=c;
+  }
+  return out;
+}
+/* split on a delimiter at paren-depth 0, outside strings */
+function splitDepth(sql,delim){
+  const out=[]; let cur='',q=null,d=0;
+  for(let i=0;i<sql.length;i++){
+    const c=sql[i];
+    if(q){ cur+=c; if(c===q){ if(sql[i+1]===q){cur+=sql[++i];} else q=null; } continue; }
+    if(c==="'"||c==='"'){ q=c; cur+=c; continue; }
+    if(c==='(')d++; else if(c===')')d--;
+    if(c===delim && d<=0){ if(cur.trim())out.push(cur.trim()); cur=''; continue; }
+    cur+=c;
+  }
+  if(cur.trim())out.push(cur.trim());
+  return out;
+}
+const splitStatements = s => splitDepth(s,';').map(x=>x.replace(/^\s*\/\s*$/,'').trim()).filter(Boolean);
+const splitCommas     = s => splitDepth(s,',');
+const flat            = s => s.replace(/\s+/g,' ').trim();
+
+/* ---- CREATE TABLE ---- */
+function parseCreate(stmt){
+  const m=/^CREATE\s+(?:GLOBAL\s+TEMPORARY\s+)?TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?"?([A-Za-z_][\w$#]*)"?\s*\(/i.exec(stmt.trim());
+  if(!m) return null;
+  const t=stmt.trim();
+  const open=t.indexOf('(',m[0].length-1);
+  const close=t.lastIndexOf(')');
+  if(open<0||close<=open) return {name:m[1].toUpperCase(),rawName:m[1],parts:[],broken:true};
+  return {name:m[1].toUpperCase(),rawName:m[1],parts:splitCommas(t.slice(open+1,close)),broken:false};
+}
+const CONSTRAINT_START=/^(CONSTRAINT\b|PRIMARY\s+KEY\b|FOREIGN\s+KEY\b|UNIQUE\s*\(|CHECK\s*\()/i;
+function parseColumn(part){
+  if(CONSTRAINT_START.test(part)) return null;
+  const m=/^"?([A-Za-z_][\w$#]*)"?\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\(\s*(\d+)\s*(?:,\s*(\d+)\s*)?\))?/.exec(part.trim());
+  if(!m) return null;
+  let type=m[2].toUpperCase(), size=m[3]?+m[3]:null;
+  let after=part.trim().slice(m[0].length);
+  if(type==='CHARACTER'&&/^\s*VARYING/i.test(after)){
+    type='VARCHAR'; const s2=/^\s*VARYING\s*\(\s*(\d+)/i.exec(after); if(s2)size=+s2[1];
+  }
+  if(type==='DOUBLE'&&/^\s*PRECISION/i.test(after)) type='DOUBLE';
+  const fk=/\bREFERENCES\s+"?([A-Za-z_][\w$#]*)"?\s*(?:\(\s*"?([A-Za-z_][\w$#]*)"?\s*\))?/i.exec(part);
+  return {
+    name:m[1], k:key(m[1]), type, cat:TYPE_CAT[type]||null, size, scale:m[4]?+m[4]:null,
+    notNull:/\bNOT\s+NULL\b/i.test(part) || /\bPRIMARY\s+KEY\b/i.test(part),
+    explicitNotNull:/\bNOT\s+NULL\b/i.test(part),
+    pk:/\bPRIMARY\s+KEY\b/i.test(part),
+    refTable: fk?fk[1].toUpperCase():null,
+    raw:part.trim()
+  };
+}
+function tableMeta(c){
+  const cols=[], pk=[], fks=[], checks=[];
+  c.parts.forEach(p=>{
+    const col=parseColumn(p);
+    if(col){
+      cols.push(col);
+      if(col.pk) pk.push(col.k);
+      if(col.refTable) fks.push({cols:[col.k],table:col.refTable});
+      return;
+    }
+    const pkm=/PRIMARY\s+KEY\s*\(([^)]*)\)/i.exec(p);
+    if(pkm) pkm[1].split(',').forEach(x=>pk.push(key(x)));
+    const fkm=/FOREIGN\s+KEY\s*\(([^)]*)\)\s*REFERENCES\s+"?([A-Za-z_][\w$#]*)"?/i.exec(p);
+    if(fkm) fks.push({cols:fkm[1].split(',').map(key),table:fkm[2].toUpperCase()});
+    else{
+      const rf=/REFERENCES\s+"?([A-Za-z_][\w$#]*)"?/i.exec(p);
+      if(rf) fks.push({cols:[],table:rf[1].toUpperCase()});
+    }
+    if(/\bCHECK\s*\(/i.test(p)) checks.push(p);
+  });
+  return {cols,pk,fks,checks};
+}
+
+/* =========================================================
+   3. TABLE SPEC + CHECKER
+   ========================================================= */
+function C(table,name,cats,o){
+  const w=widest(table,name);
+  return Object.assign({name,k:key(name),cats,minSize:w.len,sample:w.sample,
+    notNull:false,pk:false,aliases:[],desc:''},o||{});
+}
+function suggestType(sc){
+  const n=sc.cats[0];
+  if(n==='num') return 'NUMBER('+sc.minSize+')';
+  if(n==='strf') return 'CHAR('+sc.minSize+')';
+  return 'VARCHAR2('+Math.max(10,Math.ceil(sc.minSize/10)*10)+')';
+}
+function matchCol(meta,sc){
+  const names=[sc.k].concat(sc.aliases.map(key));
+  return meta.cols.find(c=>names.indexOf(c.k)>=0)||null;
+}
+function checkColumn(col,sc,errs,notes,ansi){
+  if(!col.cat){
+    errs.push('<code>'+esc(col.name)+' '+esc(col.type)+'</code> &mdash; I don\'t recognise <code>'+esc(col.type)+'</code> as a data type. Try <code>'+suggestType(sc)+'</code>.');
+    return;
+  }
+  if(ORACLE_PREF[col.type]) ansi.add(col.type);
+  if(sc.cats.indexOf(col.cat)<0){
+    errs.push(sc.catErr || '<code>'+esc(sc.name)+'</code> is declared <code>'+esc(col.type)+'</code> ('+CATNAME[col.cat]+'). It has to hold '+
+      sc.cats.map(c=>CATNAME[c]).join(' or ')+' &mdash; <code>'+suggestType(sc)+'</code> works.');
+    return;
+  }
+  if((col.cat==='strv'||col.cat==='strf') && col.size===null && col.type!=='CLOB' && col.type!=='TEXT'){
+    errs.push('<code>'+esc(col.name)+' '+esc(col.type)+'</code> has no size. Oracle needs a length &mdash; <code>'+suggestType(sc)+'</code>.');
+  } else if(col.size!==null && col.size<sc.minSize){
+    errs.push('<code>'+esc(col.name)+' '+esc(col.type)+'('+col.size+')</code> is too small. The longest value you have to store is <code>'+
+      esc(sc.sample)+'</code> &mdash; '+sc.minSize+' '+(col.cat==='num'?'digits':'characters')+'. Use at least '+sc.minSize+'.');
+  }
+  if(sc.notNull && !col.notNull)
+    errs.push('<code>'+esc(sc.name)+'</code> is required data for every row &mdash; add <code>NOT NULL</code>'+(sc.pk?' (or <code>PRIMARY KEY</code>, which implies it)':'')+'.');
+  if(RESERVED.indexOf(col.k)>=0)
+    notes.push('<code>'+esc(col.name)+'</code> is a reserved word in one database or another. It will run in Oracle, but a name like <code>'+esc(sc.name)+'</code> travels better.');
+}
+function checkTable(sql,spec){
+  const errs=[],notes=[],ansi=new Set();
+  const stmts=splitStatements(stripComments(sql));
+  const creates=stmts.map(parseCreate).filter(Boolean);
+  if(!creates.length){
+    if(/CREATE\s+TABLE/i.test(sql))
+      errs.push('Your <code>CREATE TABLE</code> never opens its column list. The shape is <code>CREATE TABLE '+spec.table+' ( ... );</code>');
+    else
+      errs.push('No <code>CREATE TABLE</code> statement here. Start with <code>CREATE TABLE '+spec.table+' (</code>');
+    return {ok:false,errs,notes};
+  }
+  let c=creates.find(x=>x.name===spec.table);
+  if(!c && spec.anyName) c=creates[0];
+  if(!c){
+    c=creates[0];
+    errs.push('The table has to be named <code>'+spec.table+'</code>. You named it <code>'+esc(c.rawName)+'</code>.');
+  }
+  if(c.broken){
+    errs.push('The column list never closes &mdash; every <code>(</code> needs a matching <code>)</code>.');
+    return {ok:false,errs,notes};
+  }
+  if(!c.parts.length){ errs.push('The column list is empty.'); return {ok:false,errs,notes}; }
+  const meta=tableMeta(c);
+  meta.cols.forEach(function(col){ if(meta.pk.indexOf(col.k)>=0) col.notNull=true; });
+  if(meta.cols.length===0) errs.push('I can\'t read any column definitions. Each line looks like <code>ColumnName TYPE(size) [NOT NULL],</code>');
+
+  const used=new Set();
+  spec.cols.forEach(sc=>{
+    const col=matchCol(meta,sc);
+    if(!col){
+      errs.push('Missing column <code>'+esc(sc.name)+'</code> &mdash; '+sc.desc.charAt(0).toLowerCase()+sc.desc.slice(1)+'. Suggested: <code>'+
+        sc.name+' '+suggestType(sc)+(sc.notNull?' NOT NULL':'')+'</code>');
+      return;
+    }
+    used.add(col.k);
+    checkColumn(col,sc,errs,notes,ansi);
+    if(sc.pk && meta.pk.indexOf(col.k)<0)
+      errs.push('<code>'+esc(sc.name)+'</code> identifies the row &mdash; make it the <code>PRIMARY KEY</code>.');
+  });
+
+  meta.cols.forEach(col=>{
+    if(used.has(col.k)) return;
+    let stop=false;
+    (spec.forbid||[]).forEach(f=>{ if(f.test.test(col.k)){ errs.push(f.msg); stop=true; } });
+    if(!stop) notes.push('<code>'+esc(col.name)+'</code> isn\'t one of the required columns. Extra columns are fine as long as the required ones are all there.');
+  });
+
+  (spec.fks||[]).forEach(f=>{
+    const hit=meta.fks.find(x=>x.table===f.table && (x.cols.length===0 || x.cols.indexOf(key(f.col))>=0));
+    if(!hit) errs.push('<code>'+esc(f.col)+'</code> has to point at <code>'+f.table+'</code>. Add <code>CONSTRAINT fk_'+
+      f.col.toLowerCase()+' FOREIGN KEY ('+f.col+') REFERENCES '+f.table+'('+f.col+')</code>');
+  });
+  if(spec.compositePK){
+    const need=spec.compositePK.map(key);
+    const missing=need.filter(n=>meta.pk.indexOf(n)<0);
+    if(meta.pk.length===0)
+      errs.push('This table needs a primary key. The pair <code>('+spec.compositePK.join(', ')+')</code> together identifies one enrollment: <code>CONSTRAINT pk_enroll PRIMARY KEY ('+spec.compositePK.join(', ')+')</code>');
+    else if(missing.length)
+      errs.push('The primary key has to be the pair <code>('+spec.compositePK.join(', ')+')</code> &mdash; either column alone repeats across rows.');
+  }
+  if(ansi.size)
+    notes.push('Accepted, but Oracle spells these differently: '+Array.from(ansi).map(t=>'<code>'+t+'</code> &rarr; <code>'+ORACLE_PREF[t]+'</code>').join(', ')+'. Live SQL takes both.');
+  return {ok:errs.length===0,errs,notes,tableName:c.rawName,meta:meta};
+}
+function specTableHTML(spec){
+  let h='<div class="tblwrap" style="margin-top:12px"><table class="spec-table"><thead><tr><th>Column</th><th>What it holds</th><th>Longest value in the data</th><th>Required</th></tr></thead><tbody>';
+  spec.cols.forEach(sc=>{
+    h+='<tr><td>'+esc(sc.name)+'</td><td>'+sc.desc+'</td><td class="mono">'+esc(sc.sample)+' <span style="color:var(--ink-3)">('+sc.minSize+')</span></td><td>'+
+      (sc.pk?'<span class="req-yes">primary key</span>':(sc.notNull?'<span class="req-yes">yes</span>':'optional'))+'</td></tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+
+/* =========================================================
+   4. CHECKERS FOR THE NON-CREATE STATEMENTS
+   ========================================================= */
+function stmtsOf(sql){return splitStatements(stripComments(sql));}
+function noStatement(errs,what){errs.push(what);return {ok:false,errs,notes:[]};}
+
+function checkAlterInstructor(sql){
+  const errs=[],notes=[],S=stmtsOf(sql);
+  if(S.some(s=>/^CREATE\s+TABLE/i.test(s)))
+    return noStatement(errs,'Don\'t rebuild <code>COURSE</code> &mdash; it already holds three rows. Change the existing table with <code>ALTER TABLE COURSE ADD ...</code>');
+  const alters=S.filter(s=>/^ALTER\s+TABLE/i.test(s));
+  if(!alters.length)
+    return noStatement(errs,'This needs <code>ALTER TABLE COURSE ADD ...</code> &mdash; there\'s no <code>ALTER</code> statement here.');
+  const offTable=alters.find(s=>!/^ALTER\s+TABLE\s+"?COURSE\b/i.test(s));
+  if(offTable) errs.push('The foreign key lives on the <em>many</em> side. One instructor teaches many courses, so the column goes on <code>COURSE</code>, not on <code>'+esc((/^ALTER\s+TABLE\s+"?([A-Za-z_][\w$#]*)/i.exec(offTable)||[,'?'])[1])+'</code>.');
+  const all=flat(alters.join(' | '));
+  const addm=/ADD\s*\(?\s*"?INSTRUCTOR_?ID"?\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\(\s*(\d+)\s*\))?/i.exec(all);
+  if(!addm){
+    errs.push('No new <code>InstructorID</code> column. Add it with the same type as <code>INSTRUCTOR.InstructorID</code>: <code>ALTER TABLE COURSE ADD (InstructorID CHAR(7));</code>');
+  } else {
+    const t=addm[1].toUpperCase(), cat=TYPE_CAT[t]||null, sz=addm[2]?+addm[2]:null;
+    if(ORACLE_PREF[t]) notes.push('Accepted, but Oracle spells <code>'+t+'</code> as <code>'+ORACLE_PREF[t]+'</code>.');
+    if(cat==='num') errs.push('<code>InstructorID</code> holds values like <code>RD22241</code> &mdash; letters and digits. A numeric type can\'t store that. Use <code>CHAR(7)</code>.');
+    else if(cat!=='strf'&&cat!=='strv') errs.push('<code>InstructorID</code> should be text the same width as the key it points at: <code>CHAR(7)</code>.');
+    else if(sz!==null&&sz<7) errs.push('<code>InstructorID '+esc(t)+'('+sz+')</code> is too narrow &mdash; <code>RD22241</code> is 7 characters.');
+    else if(sz===null) errs.push('<code>InstructorID</code> needs a length: <code>CHAR(7)</code>.');
+  }
+  const fk=/FOREIGN\s+KEY\s*\(\s*"?INSTRUCTOR_?ID"?\s*\)\s*REFERENCES\s+"?INSTRUCTOR\b/i.test(all)
+        || /INSTRUCTOR_?ID[^|]{0,40}REFERENCES\s+"?INSTRUCTOR\b/i.test(all);
+  if(!fk) errs.push('A column alone isn\'t a relationship. Add the constraint so the database refuses an instructor who doesn\'t exist: <code>ALTER TABLE COURSE ADD CONSTRAINT fk_course_instructor FOREIGN KEY (InstructorID) REFERENCES INSTRUCTOR(InstructorID);</code>');
+  return {ok:errs.length===0,errs,notes};
+}
+
+function checkAssignInstructors(sql){
+  const errs=[],notes=[],S=stmtsOf(sql);
+  if(S.some(s=>/^INSERT\s+INTO\s+"?COURSE\b/i.test(s)))
+    notes.push('<code>COURSE</code> already holds those three rows &mdash; an <code>INSERT</code> would add a fourth. Filling a column on a row that exists is an <code>UPDATE</code>.');
+  const ups=S.filter(s=>/^UPDATE\b/i.test(s));
+  if(!ups.length)
+    return noStatement(errs,'The three courses already exist with an empty <code>InstructorID</code>. Fill it in with <code>UPDATE COURSE SET InstructorID = \'...\' WHERE CourseID = ...;</code>');
+  const offTable=ups.find(s=>!/^UPDATE\s+"?COURSE\b/i.test(s));
+  if(offTable) errs.push('The <code>InstructorID</code> column is on <code>COURSE</code> &mdash; that\'s the table to update.');
+  const tokens={41211:['41211','COP4410','NETWORKING'],41212:['41212','COP3535','DATA STRUCTURE'],41213:['41213','COP4889','PROGRAMMING']};
+  [[41211,'RD22241'],[41212,'RM36652'],[41213,'RW84331']].forEach(function(p){
+    const cid=p[0], iid=p[1];
+    const hit=ups.some(function(s){
+      const f=flat(s).toUpperCase();
+      const setOK=new RegExp("SET\\s+\"?INSTRUCTOR_?ID\"?\\s*=\\s*'?"+iid+"'?","i").test(f);
+      if(!setOK) return false;
+      const w=f.split(/\bWHERE\b/i)[1]||'';
+      return tokens[cid].some(function(t){return w.indexOf(t)>=0;});
+    });
+    if(!hit){
+      const name=SRC.COURSE.rows.filter(function(r){return r[0]===cid;})[0];
+      const ins=SRC.INSTRUCTOR.rows.filter(function(r){return r[0]===iid;})[0];
+      errs.push('<code>'+name[1]+' '+name[2]+'</code> still has no instructor. '+ins[1]+' '+ins[2]+' is <code>'+iid+
+        '</code>: <code>UPDATE COURSE SET InstructorID = \''+iid+'\' WHERE CourseID = '+cid+';</code>');
+    }
+  });
+  return {ok:errs.length===0,errs,notes};
+}
+
+function parseInserts(sql){
+  const out=[];
+  stmtsOf(sql).forEach(function(s){
+    const m=/^INSERT\s+INTO\s+"?([A-Za-z_][\w$#]*)"?\s*(?:\(([^)]*)\))?\s*(?:VALUES)?\s*([\s\S]*)$/i.exec(s.trim());
+    if(!m||!/^INSERT/i.test(s.trim())) return;
+    const cols=m[2]?m[2].split(',').map(key):null;
+    const groups=(m[3]||'').match(/\(([^()]*)\)/g)||[];
+    groups.forEach(function(g){
+      const vals=splitCommas(g.slice(1,-1)).map(function(v){return v.trim().replace(/^'([\s\S]*)'$/,'$1');});
+      out.push({table:key(m[1]),cols:cols,vals:vals});
+    });
+  });
+  return out;
+}
+function checkEnrollInserts(sql,state){
+  const errs=[],notes=[];
+  const rows=parseInserts(sql);
+  const jk=key(state.joinTable);
+  if(!rows.length)
+    return noStatement(errs,'No <code>INSERT</code> statement found. Each enrollment is one row: <code>INSERT INTO '+state.joinTable+' (StudentID, CourseID) VALUES (522413, 41211);</code>');
+  const wrong=rows.find(function(r){return r.table!==jk;});
+  if(wrong) errs.push('Enrollments go in your join table <code>'+esc(state.joinTable)+'</code>, not in <code>'+esc(wrong.table)+'</code>. Neither STUDENT nor COURSE has room for the pairing.');
+  const order=state.joinOrder;
+  function pairOf(r){
+    let si=-1,ci=-1;
+    if(r.cols){ si=r.cols.indexOf('STUDENTID'); ci=r.cols.indexOf('COURSEID'); }
+    else { si=order.indexOf('STUDENTID'); ci=order.indexOf('COURSEID'); }
+    if(si<0||ci<0||si>=r.vals.length||ci>=r.vals.length) return null;
+    return {s:String(r.vals[si]).replace(/['"]/g,''),c:String(r.vals[ci]).replace(/['"]/g,'')};
+  }
+  state.enrollments.forEach(function(e){
+    const hit=rows.some(function(r){
+      if(r.table!==jk) return false;
+      const p=pairOf(r);
+      return p && p.s===String(e.sid) && p.c===String(e.cid);
+    });
+    if(!hit) errs.push('Still missing: <code>'+esc(e.sname)+'</code> in <code>'+esc(e.cname)+'</code> &rarr; <code>INSERT INTO '+
+      state.joinTable+' (StudentID, CourseID) VALUES ('+e.sid+', '+e.cid+');</code>');
+  });
+  rows.forEach(function(r){
+    if(r.table!==jk) return;
+    const p=pairOf(r);
+    if(!p) return;
+    const okS=SRC.STUDENT.rows.some(function(x){return String(x[0])===p.s;});
+    const okC=SRC.COURSE.rows.some(function(x){return String(x[0])===p.c;});
+    if(!okS) errs.push('<code>'+esc(p.s)+'</code> is not a StudentID in <code>STUDENT</code>. The foreign key would reject that row.');
+    else if(!okC) errs.push('<code>'+esc(p.c)+'</code> is not a CourseID in <code>COURSE</code>. The foreign key would reject that row.');
+  });
+  return {ok:errs.length===0,errs,notes};
+}
+
+function checkZipConstraint(sql){
+  const errs=[],notes=[],S=stmtsOf(sql);
+  const alters=S.filter(function(s){return /^ALTER\s+TABLE/i.test(s);});
+  if(!alters.length)
+    return noStatement(errs,'This is a change to an existing table: <code>ALTER TABLE STUDENT ADD CONSTRAINT ... CHECK (...);</code>');
+  const all=flat(alters.join(' | '));
+  if(!/ALTER\s+TABLE\s+"?STUDENT\b/i.test(all)) errs.push('The ZIP codes live in <code>STUDENT</code> &mdash; that\'s the table to alter.');
+  if(!/\bCHECK\s*\(/i.test(all))
+    errs.push('A list of allowed values is enforced with a <code>CHECK</code> constraint: <code>ADD CONSTRAINT chk_student_zip CHECK (ZipCode IN (\'32114\',\'32115\',\'32116\',\'32117\'))</code>');
+  else{
+    if(!/ZIP/i.test(all)) errs.push('The <code>CHECK</code> has to name the <code>ZipCode</code> column.');
+    const between=/BETWEEN\s+'?32114'?\s+AND\s+'?32117'?/i.test(all);
+    const missing=ZIPS.filter(function(z){return all.indexOf(z)<0;});
+    if(between && missing.length) notes.push('<code>BETWEEN 32114 AND 32117</code> accepted &mdash; it covers the same four values here. <code>IN</code> is safer, because it won\'t quietly admit a new ZIP that falls in the range.');
+    else if(missing.length) errs.push('The <code>CHECK</code> is missing '+missing.map(function(z){return '<code>'+z+'</code>';}).join(', ')+'. All four allowed ZIP codes have to be listed.');
+  }
+  if(!/\bCONSTRAINT\s+[A-Za-z_]/i.test(all))
+    notes.push('Accepted, but name the constraint (<code>ADD CONSTRAINT chk_student_zip CHECK ...</code>). An unnamed constraint gets a name like <code>SYS_C0011423</code>, which nobody can drop on purpose.');
+  return {ok:errs.length===0,errs,notes};
+}
+
+function checkView(sql,state){
+  const errs=[],notes=[],S=stmtsOf(sql);
+  const cv=S.find(function(s){return /^CREATE\s+(OR\s+REPLACE\s+)?(FORCE\s+)?VIEW\b/i.test(s);});
+  if(!cv) return noStatement(errs,'No <code>CREATE VIEW</code>. A view is a stored <code>SELECT</code>: <code>CREATE VIEW STUDENT_COURSE_VW AS SELECT ...;</code>');
+  const vn=/^CREATE\s+(?:OR\s+REPLACE\s+)?(?:FORCE\s+)?VIEW\s+"?([A-Za-z_][\w$#]*)"?/i.exec(cv);
+  const viewName=vn?vn[1]:'THE_VIEW';
+  const asIdx=cv.search(/\bAS\b/i);
+  if(asIdx<0) return noStatement(errs,'A view definition needs <code>AS</code> before its <code>SELECT</code>: <code>CREATE VIEW '+viewName+' AS SELECT ...</code>');
+  const body=cv.slice(asIdx+2);
+  const selIdx=body.search(/\bSELECT\b/i);
+  if(selIdx<0) return noStatement(errs,'The view has no <code>SELECT</code> behind it.');
+  const fromIdx=body.search(/\bFROM\b/i);
+  const selectList=fromIdx>selIdx?body.slice(selIdx+6,fromIdx):'';
+  const fromPart=fromIdx>=0?body.slice(fromIdx):'';
+  const items=splitCommas(selectList);
+  const listU=flat(selectList).toUpperCase();
+  const star=/\*/.test(listU);
+  if(star) errs.push('<code>SELECT *</code> hands back every column of every table. The view has to expose exactly six: first name, last name, student email, course name, course number, instructor email.');
+  const need=[['FIRSTNAME','the student\'s first name'],['LASTNAME','the student\'s last name'],
+              ['COURSENAME','the course name'],['COURSENUMBER','the course number']];
+  need.forEach(function(n){ if(!star && listU.replace(/[_\s]/g,'').indexOf(n[0])<0) errs.push('The select list is missing '+n[1]+' (<code>'+n[0].charAt(0)+n[0].slice(1).toLowerCase()+'</code>).'); });
+  const emailItems=items.filter(function(x){return /EMAIL/i.test(x);});
+  if(!star && emailItems.length<2)
+    errs.push('The view needs <em>two</em> emails &mdash; the student\'s and the instructor\'s. Qualify them and alias one: <code>s.Email AS StudentEmail, i.Email AS InstructorEmail</code>');
+  else if(!star && emailItems.length>=2){
+    const aliased=emailItems.filter(function(x){return /\bAS\s+[A-Za-z_]/i.test(x)||/EMAIL\s+[A-Za-z_]\w*\s*$/i.test(flat(x));});
+    if(aliased.length===0) errs.push('Two columns both called <code>Email</code> collide &mdash; Oracle answers <code>ORA-00957: duplicate column name</code>. Alias at least one: <code>i.Email AS InstructorEmail</code>');
+  }
+  const fu=flat(fromPart).toUpperCase();
+  [['STUDENT','STUDENT'],['COURSE','COURSE'],['INSTRUCTOR','INSTRUCTOR'],[key(state.joinTable),state.joinTable]].forEach(function(t){
+    if(fu.indexOf(t[0])<0) errs.push('<code>'+esc(t[1])+'</code> is missing from the <code>FROM</code>. All four tables have to be joined to get from a student to their instructor.');
+  });
+  const joins=(fu.match(/\bJOIN\b/g)||[]).length;
+  const ons=(fu.match(/\bON\b/g)||[]).length;
+  if(joins===0)
+    errs.push('This item asks for explicit <code>JOIN &hellip; ON</code> syntax. Listing the tables in <code>FROM</code> and matching keys in <code>WHERE</code> gives the same rows in Oracle, but write it the modern way here: <code>FROM STUDENT s JOIN '+state.joinTable+' e ON s.StudentID = e.StudentID</code>, and so on.');
+  else if(joins<3)
+    errs.push('Three joins are needed to walk from a student to their instructor &mdash; <code>STUDENT</code> to <code>'+state.joinTable+'</code> to <code>COURSE</code> to <code>INSTRUCTOR</code>. You have '+joins+'.');
+  else if(ons<joins)
+    errs.push('Every <code>JOIN</code> needs its own <code>ON</code> condition. Without one the database returns a cross product.');
+  const usedView=S.some(function(s){return /^SELECT/i.test(s) && new RegExp('FROM\\s+"?'+viewName+'\\b','i').test(s);});
+  if(!usedView) errs.push('Creating the view doesn\'t show anything. Add a second statement: <code>SELECT * FROM '+viewName+';</code>');
+  return {ok:errs.length===0,errs,notes,viewName:viewName};
+}
+
+function checkZipSelect(sql){
+  const errs=[],notes=[],S=stmtsOf(sql);
+  const sel=S.find(function(s){return /^SELECT\b/i.test(s);});
+  if(!sel) return noStatement(errs,'This one is a plain query: <code>SELECT * FROM STUDENT WHERE ZipCode = \'32114\';</code>');
+  const f=flat(sel);
+  if(!/FROM\s+"?STUDENT\b/i.test(f)) errs.push('Addresses are in <code>STUDENT</code> &mdash; query that table.');
+  if(!/\bWHERE\b/i.test(f)) errs.push('Without a <code>WHERE</code> clause this returns every student. Filter on the ZIP code.');
+  else{
+    const w=f.split(/\bWHERE\b/i)[1]||'';
+    if(!/ZIP/i.test(w)){
+      if(/\bCITY\b/i.test(w)) errs.push('Filter on the ZIP code itself, not the city &mdash; 32114 and 32117 are both Daytona Beach. <code>WHERE ZipCode = \'32114\'</code>');
+      else errs.push('The filter has to test <code>ZipCode</code> against <code>32114</code>.');
+    } else if(w.indexOf('32114')<0) errs.push('The ZIP code asked for is <code>32114</code>.');
+  }
+  return {ok:errs.length===0,errs,notes};
+}
+
+/* =========================================================
+   5. THE TEN ITEMS
+   ========================================================= */
+const SPEC_STUDENT={table:'STUDENT',cols:[
+  C('STUDENT','StudentID',['num','strf','strv'],{pk:true,notNull:true,desc:'The number that identifies one student'}),
+  C('STUDENT','FirstName',['strv','strf'],{notNull:true,desc:'Given name'}),
+  C('STUDENT','LastName',['strv','strf'],{notNull:true,desc:'Family name'}),
+  C('STUDENT','StreetAddress',['strv','strf'],{desc:'Street line of the address'}),
+  C('STUDENT','City',['strv','strf'],{desc:'City'}),
+  C('STUDENT','State',['strf','strv'],{desc:'Two-letter state code &mdash; always exactly two'}),
+  C('STUDENT','ZipCode',['strf','strv','num'],{desc:'Five-digit ZIP code'}),
+  C('STUDENT','Phone',['strv','strf'],{desc:'Phone number as written, dashes included',
+    catErr:'<code>Phone</code> has to store <code>386-446-8798</code>. The dashes make it text &mdash; a numeric column would reject it. Use <code>VARCHAR2(15)</code>.'}),
+  C('STUDENT','Email',['strv','strf'],{desc:'Email address'})
+]};
+const SPEC_COURSE={table:'COURSE',cols:[
+  C('COURSE','CourseID',['num','strf','strv'],{pk:true,notNull:true,desc:'The number that identifies one section'}),
+  C('COURSE','CourseNumber',['strv','strf'],{notNull:true,desc:'Catalog code such as COP4410'}),
+  C('COURSE','CourseName',['strv','strf'],{notNull:true,desc:'Title of the course'}),
+  C('COURSE','Location',['strv','strf'],{desc:'Building and room'}),
+  C('COURSE','ClassTime',['strv','strf'],{desc:'Meeting time as the schedule prints it',aliases:['Time','CourseTime','MeetingTime','Times','ClassTimes']}),
+  C('COURSE','Semester',['strv','strf'],{desc:'Term the section runs'})
+],forbid:[{test:/INSTRUCTOR|TEACHER|PROF/,msg:'Leave the instructor out for now. An instructor is a person with an office, a phone and an email &mdash; storing "Richard D." in a text column repeats that person on every course they teach. You\'ll link the two tables properly in Part 2.'}]};
+const SPEC_INSTRUCTOR={table:'INSTRUCTOR',cols:[
+  C('INSTRUCTOR','InstructorID',['strf','strv'],{pk:true,notNull:true,desc:'Code such as RD22241 &mdash; letters and digits',
+    catErr:'<code>InstructorID</code> holds <code>RD22241</code>. Letters rule out a numeric type &mdash; it is a fixed seven-character code: <code>CHAR(7)</code>.'}),
+  C('INSTRUCTOR','InstructorFN',['strv','strf'],{notNull:true,desc:'Given name',aliases:['FirstName','FName','InstructorFirstName']}),
+  C('INSTRUCTOR','InstructorLN',['strv','strf'],{notNull:true,desc:'Family name',aliases:['LastName','LName','InstructorLastName']}),
+  C('INSTRUCTOR','Office',['strv','strf'],{desc:'Building and room'}),
+  C('INSTRUCTOR','PhoneNumber',['strv','strf','num'],{desc:'Ten-digit campus phone',aliases:['Phone']}),
+  C('INSTRUCTOR','Email',['strv','strf'],{desc:'Campus email address'})
+]};
+const SPEC_JOIN={table:'ENROLLMENT',compositePK:['StudentID','CourseID'],
+  fks:[{col:'StudentID',table:'STUDENT'},{col:'CourseID',table:'COURSE'}],
+  cols:[
+    C('STUDENT','StudentID',['num','strf','strv'],{notNull:true,desc:'Points at a row in STUDENT'}),
+    C('COURSE','CourseID',['num','strf','strv'],{notNull:true,desc:'Points at a row in COURSE'})
+  ]};
+
+const ONE_PER_LINE='<div class="needline">One column per line &mdash; the bot writes it that way too.</div>';
+
+const ITEMS=[
+{ id:1, part:1, title:'Create the STUDENT table',
+  req:function(){return '<p>Build the table that holds the three students on the data sheet. Every column needs a <strong>data type</strong>, a <strong>size</strong>, and a decision about whether it can be left empty.</p>'+
+    specTableHTML(SPEC_STUDENT)+ONE_PER_LINE;},
+  hint:'Nine columns. <code>StudentID</code> is the primary key. First and last name are required; the rest can be null. Sizes have to fit the longest value in the data sheet.',
+  bot:"CREATE TABLE STUDENT (\n  StudentID NUMBER(6) PRIMARY KEY,\n  FirstName VARCHAR2(30) NOT NULL,\n  LastName VARCHAR2(30) NOT NULL,\n  StreetAddress VARCHAR2(50),\n  City VARCHAR2(30),\n  State CHAR(2),\n  ZipCode CHAR(5),\n  Phone VARCHAR2(15),\n  Email VARCHAR2(50)\n);",
+  validate:function(sql){return checkTable(sql,SPEC_STUDENT);},
+  createsTable:'STUDENT', dataButton:true },
+
+{ id:2, part:1, title:'Create the COURSE table',
+  req:function(){return '<p>Now the courses. Capture where the section meets, when it meets, and which term it belongs to.</p>'+
+    '<p><strong>Read the data sheet carefully.</strong> It shows an instructor for each course &mdash; that column is not part of this table yet. You\'ll attach instructors properly in Part 2.</p>'+
+    specTableHTML(SPEC_COURSE)+ONE_PER_LINE;},
+  hint:'Six columns, no instructor. <code>Time</code> is a reserved word in several databases, so <code>ClassTime</code> is the safer name &mdash; both are accepted here.',
+  bot:"CREATE TABLE COURSE (\n  CourseID NUMBER(5) PRIMARY KEY,\n  CourseNumber VARCHAR2(10) NOT NULL,\n  CourseName VARCHAR2(40) NOT NULL,\n  Location VARCHAR2(20),\n  ClassTime VARCHAR2(15),\n  Semester VARCHAR2(10)\n);",
+  validate:function(sql){return checkTable(sql,SPEC_COURSE);},
+  createsTable:'COURSE', dataButton:true },
+
+{ id:3, part:1, title:'Create the INSTRUCTOR table',
+  req:function(){return '<p>Three instructors, each with an office, a phone and a campus email. Look at the key values before you pick a type for it.</p>'+
+    specTableHTML(SPEC_INSTRUCTOR)+ONE_PER_LINE;},
+  hint:'<code>InstructorID</code> is always exactly seven characters and contains letters &mdash; <code>CHAR(7)</code>, not a number.',
+  bot:"CREATE TABLE INSTRUCTOR (\n  InstructorID CHAR(7) PRIMARY KEY,\n  InstructorFN VARCHAR2(30) NOT NULL,\n  InstructorLN VARCHAR2(30) NOT NULL,\n  Office VARCHAR2(15),\n  PhoneNumber VARCHAR2(15),\n  Email VARCHAR2(50)\n);",
+  validate:function(sql){return checkTable(sql,SPEC_INSTRUCTOR);},
+  createsTable:'INSTRUCTOR', dataButton:true },
+
+{ id:4, part:2, title:'Assign an instructor to every course',
+  req:function(){return '<p>A course must have an instructor, and one instructor teaches many courses. That is a <strong>one-to-many</strong> relationship, so the foreign key goes on the <em>many</em> side.</p>'+
+    '<p>Alter <span class="sql-inline">COURSE</span> so it carries an <span class="sql-inline">InstructorID</span> that points at <span class="sql-inline">INSTRUCTOR</span>. Give the new column the same type and width as the key it references.</p>'+
+    '<p class="kbd" style="margin-top:10px">Two statements are fine &mdash; one to add the column, one to add the constraint.</p>';},
+  hint:'<code>ALTER TABLE COURSE ADD (InstructorID CHAR(7));</code> then <code>ALTER TABLE COURSE ADD CONSTRAINT fk_course_instructor FOREIGN KEY (InstructorID) REFERENCES INSTRUCTOR(InstructorID);</code>',
+  bot:"ALTER TABLE COURSE ADD (InstructorID CHAR(7));\n\nALTER TABLE COURSE ADD CONSTRAINT fk_course_instructor\n  FOREIGN KEY (InstructorID) REFERENCES INSTRUCTOR(InstructorID);",
+  validate:function(sql){return checkAlterInstructor(sql);},
+  onPass:function(){ addColumn('COURSE','InstructorID'); noteTable('COURSE','FOREIGN KEY (InstructorID) REFERENCES INSTRUCTOR'); } },
+
+{ id:5, part:2, title:'Connect students to courses',
+  gate:{ q:'A student can take many courses, and a course can hold many students. Before you write anything &mdash; what does that relationship require?',
+    opts:[
+      {t:'Add a <code>CourseID</code> column to <code>STUDENT</code>',ok:false,why:'That gives each student exactly one course. George could never take two.'},
+      {t:'Add a <code>StudentID</code> column to <code>COURSE</code>',ok:false,why:'That gives each course exactly one student. Networking could never hold a class.'},
+      {t:'Create a new table that holds <code>StudentID</code> and <code>CourseID</code> together',ok:true,why:'Correct. A many-to-many relationship always resolves into a third table &mdash; an intersection or association table. Each row is one enrollment. <strong>Name yours <code>ENROLLMENT</code>.</strong>'},
+      {t:'Store a comma-separated list of StudentIDs in <code>COURSE</code>',ok:false,why:'That is a repeating group. It breaks first normal form, and you cannot join or constrain on it.'}
+    ],reveal:'Name the table <code>ENROLLMENT</code> &mdash; the rest of the game refers to it by that name.'},
+  req:function(){return '<p>Create the intersection table. Each row is one enrollment: one student in one course.</p>'+
+    '<ul><li>A column pointing at <span class="sql-inline">STUDENT</span> and one pointing at <span class="sql-inline">COURSE</span>, each matching the type of the key it references.</li>'+
+    '<li>A foreign key on each.</li>'+
+    '<li>A primary key made of <strong>both columns together</strong> &mdash; that is what stops the same student being enrolled twice in the same course.</li>'+
+    '<li>Neither column may be empty &mdash; an enrollment with no student, or no course, means nothing.</li></ul>';},
+  hint:'The primary key is composite: <code>CONSTRAINT pk_enrollment PRIMARY KEY (StudentID, CourseID)</code>. Neither column alone is unique.',
+  bot:"CREATE TABLE ENROLLMENT (\n  StudentID NUMBER(6) NOT NULL,\n  CourseID NUMBER(5) NOT NULL,\n  CONSTRAINT pk_enrollment PRIMARY KEY (StudentID, CourseID),\n  CONSTRAINT fk_enroll_student FOREIGN KEY (StudentID) REFERENCES STUDENT(StudentID),\n  CONSTRAINT fk_enroll_course FOREIGN KEY (CourseID) REFERENCES COURSE(CourseID)\n);",
+  validate:function(sql){return checkTable(sql,SPEC_JOIN);},
+  onPass:function(r){
+    state.joinTable=r.tableName||'ENROLLMENT';
+    const order=r.meta.cols.map(function(c){return c.k;}).filter(function(k){return k==='STUDENTID'||k==='COURSEID';});
+    state.joinOrder=order.length===2?order:['STUDENTID','COURSEID'];
+    state.db[key(state.joinTable)]={name:state.joinTable,cols:['StudentID','CourseID'],rows:[],note:'one row = one enrollment'};
+  } },
+
+{ id:6, part:3, title:'Put the right instructor on each course',
+  req:function(){return '<p><span class="sql-inline">COURSE</span> now has an <span class="sql-inline">InstructorID</span> column and it is empty on all three rows. Fill it in.</p>'+
+    '<p>The data sheet names the instructor for each course by short name. Match each one to the right <span class="sql-inline">InstructorID</span> in <span class="sql-inline">INSTRUCTOR</span> &mdash; both tables are open below.</p>'+
+    '<ul>'+SRC.COURSE.rows.map(function(r){return '<li><strong>'+COURSE_INSTR_LABEL[r[0]]+'</strong> teaches <strong>'+r[2]+'</strong> ('+r[1]+')</li>';}).join('')+'</ul>'+
+    '<p class="kbd" style="margin-top:10px">The rows already exist. You are changing them, not adding them.</p>';},
+  hint:'Three statements: <code>UPDATE COURSE SET InstructorID = \'RD22241\' WHERE CourseID = 41211;</code> and two more like it. Richard Douglas teaches Networking, Roger Morgan teaches Data Structure, Rayan Williams teaches Programming.',
+  bot:"UPDATE COURSE SET InstructorID = 'RD22241' WHERE CourseID = 41211;\n\nUPDATE COURSE SET InstructorID = 'RM36652' WHERE CourseID = 41212;\n\nUPDATE COURSE SET InstructorID = 'RW84331' WHERE CourseID = 41213;",
+  validate:function(sql){return checkAssignInstructors(sql);},
+  onPass:function(){
+    const t=state.db.COURSE, ix=t.cols.indexOf('InstructorID');
+    t.rows.forEach(function(r){ r[ix]=COURSE_INSTR_ID[r[0]]; });
+    t.fresh=[ix];
+  } },
+
+{ id:7, part:3, title:'Enroll three students',
+  req:function(){
+    let h='<p>The registrar sends over three enrollments. Write the <span class="sql-inline">INSERT</span> statements that put them in <span class="sql-inline">'+esc(state.joinTable)+'</span>.</p><ul>';
+    state.enrollments.forEach(function(e){
+      h+='<li><strong>'+esc(e.sname)+'</strong> ('+e.sid+') &rarr; <strong>'+esc(e.cname)+'</strong> ('+e.cid+')</li>';
+    });
+    return h+'</ul><p class="kbd" style="margin-top:10px">Same statement three times with different values. The foreign keys will reject an ID that doesn\'t exist.</p>';},
+  hint:'<code>INSERT INTO '+'ENROLLMENT'+' (StudentID, CourseID) VALUES (522413, 41211);</code> &mdash; naming the columns is optional but it is what keeps the statement readable.',
+  bot:function(){
+    return state.enrollments.map(function(e){
+      return 'INSERT INTO '+state.joinTable+' (StudentID, CourseID)\n  VALUES ('+e.sid+', '+e.cid+');';
+    }).join('\n\n');},
+  validate:function(sql){return checkEnrollInserts(sql,state);},
+  onPass:function(){
+    const t=state.db[key(state.joinTable)];
+    state.enrollments.forEach(function(e){ t.rows.push([e.sid,e.cid]); });
+    t.allFresh=true;
+  } },
+
+{ id:8, part:4, title:'Restrict the ZIP codes',
+  req:function(){return '<p>The college only serves four ZIP codes: <span class="sql-inline">32114</span>, <span class="sql-inline">32115</span>, <span class="sql-inline">32116</span> and <span class="sql-inline">32117</span>. Add a constraint to <span class="sql-inline">STUDENT</span> so no other value can ever be stored.</p>'+
+    '<p class="kbd" style="margin-top:10px">The table already exists and already has rows &mdash; this is an alteration, and it will only succeed because the rows already comply.</p>';},
+  hint:'<code>ALTER TABLE STUDENT ADD CONSTRAINT chk_student_zip CHECK (ZipCode IN (\'32114\', \'32115\', \'32116\', \'32117\'));</code>',
+  bot:"ALTER TABLE STUDENT ADD CONSTRAINT chk_student_zip\n  CHECK (ZipCode IN ('32114', '32115', '32116', '32117'));",
+  validate:function(sql){return checkZipConstraint(sql);},
+  onPass:function(){ noteTable('STUDENT','CHECK (ZipCode IN 32114, 32115, 32116, 32117)'); } },
+
+{ id:9, part:4, title:'Create a view across all four tables',
+  req:function(){return '<p>Create a view that shows, for every enrollment:</p>'+
+    '<ul><li>the student\'s <strong>first name</strong>, <strong>last name</strong> and <strong>email</strong></li>'+
+    '<li>the <strong>course number</strong> and <strong>course name</strong></li>'+
+    '<li>the <strong>instructor\'s email</strong></li></ul>'+
+    '<p>Getting from a student to their instructor means joining <span class="sql-inline">STUDENT</span> &rarr; <span class="sql-inline">'+esc(state.joinTable)+'</span> &rarr; <span class="sql-inline">COURSE</span> &rarr; <span class="sql-inline">INSTRUCTOR</span>.</p>'+
+    '<div class="needline">Use explicit <span class="mono">JOIN &hellip; ON</span> syntax &mdash; three joins, not a comma-separated <span class="mono">FROM</span> list with conditions in the <span class="mono">WHERE</span>.</div>'+
+    '<p>Then write a second statement that displays it.</p>';},
+  hint:'Two emails in one view collide unless you alias one: <code>i.Email AS InstructorEmail</code>. Use table aliases (<code>STUDENT s</code>) to keep the three <code>JOIN &hellip; ON</code> clauses short, and finish with <code>SELECT * FROM your_view;</code>',
+  bot:function(){return "CREATE VIEW STUDENT_COURSE_VW AS\nSELECT s.FirstName,\n       s.LastName,\n       s.Email AS StudentEmail,\n       c.CourseNumber,\n       c.CourseName,\n       i.Email AS InstructorEmail\nFROM STUDENT s\nJOIN "+state.joinTable+" e ON s.StudentID = e.StudentID\nJOIN COURSE c ON e.CourseID = c.CourseID\nJOIN INSTRUCTOR i ON c.InstructorID = i.InstructorID;\n\nSELECT * FROM STUDENT_COURSE_VW;";},
+  validate:function(sql){return checkView(sql,state);},
+  onPass:function(r){ state.viewName=r.viewName; showResult(r.viewName,viewCols(),viewRows()); } },
+
+{ id:10, part:4, title:'Query the students in 32114',
+  req:function(){return '<p>Display the records of every student living in ZIP code <span class="sql-inline">32114</span>.</p>'+
+    '<p class="kbd" style="margin-top:10px">Last one. The shortest statement in the game &mdash; the bot will be quick.</p>';},
+  hint:'<code>SELECT * FROM STUDENT WHERE ZipCode = \'32114\';</code>',
+  bot:"SELECT *\nFROM STUDENT\nWHERE ZipCode = '32114';",
+  validate:function(sql){return checkZipSelect(sql);},
+  onPass:function(){
+    const t=state.db.STUDENT;
+    const i=t.cols.indexOf('ZipCode');
+    showResult('Students in 32114',t.cols,t.rows.filter(function(r){return String(r[i])==='32114';}));
+  } }
+];
+const PARTS=[
+  {n:1,name:'Table creation',sub:'Items 1&ndash;3'},
+  {n:2,name:'Foreign keys',sub:'Items 4&ndash;5'},
+  {n:3,name:'Constrained data',sub:'Items 6&ndash;7'},
+  {n:4,name:'Constraints, views, queries',sub:'Items 8&ndash;10'}
+];
+
+/* =========================================================
+   6. STATE + LIVE DATABASE
+   ========================================================= */
+const $=function(id){return document.getElementById(id);};
+const state={name:'',difficulty:'normal',idx:0,you:0,bot:0,results:[],db:{},
+  joinTable:'ENROLLMENT',joinOrder:['STUDENTID','COURSEID'],enrollments:[],viewName:'',t0:0,gateDone:false};
+
+function addColumn(t,c){const T=state.db[key(t)];if(!T)return;T.cols.push(c);T.rows.forEach(function(r){r.push(null);});}
+function noteTable(t,n){const T=state.db[key(t)];if(!T)return;T.constraints=(T.constraints||[]);T.constraints.push(n);}
+function viewCols(){return ['FirstName','LastName','StudentEmail','CourseNumber','CourseName','InstructorEmail'];}
+function viewRows(){
+  const out=[];
+  const J=state.db[key(state.joinTable)];
+  if(!J) return out;
+  J.rows.forEach(function(e){
+    const s=SRC.STUDENT.rows.filter(function(r){return r[0]===e[0];})[0];
+    const c=SRC.COURSE.rows.filter(function(r){return r[0]===e[1];})[0];
+    if(!s||!c) return;
+    const i=SRC.INSTRUCTOR.rows.filter(function(r){return r[0]===COURSE_INSTR_ID[c[0]];})[0];
+    out.push([s[1],s[2],s[8],c[1],c[2],i?i[5]:null]);
+  });
+  return out;
+}
+function tableHTML(t){
+  let h='<div class="tblwrap"><table class="tbl"><caption>'+esc(t.name);
+  if(t.note) h+='<em>'+t.note+'</em>';
+  if(t.constraints&&t.constraints.length) h+='<em>'+t.constraints.map(esc).join(' &middot; ')+'</em>';
+  h+='</caption><thead><tr>'+t.cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+  if(!t.rows.length) h+='<tr><td colspan="'+t.cols.length+'" class="null">0 rows</td></tr>';
+  t.rows.forEach(function(r){
+    h+='<tr>'+r.map(function(v,i){
+      const fresh=(t.allFresh||(t.fresh&&t.fresh.indexOf(i)>=0))?' fresh':'';
+      return (v===null||v===undefined)?'<td class="null">(null)</td>':'<td class="'+fresh.trim()+'">'+esc(v)+'</td>';
+    }).join('')+'</tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+function renderDB(){
+  const names=Object.keys(state.db);
+  $('dbCount').textContent=names.length?names.length+(names.length===1?' table':' tables'):'no tables yet';
+  $('dbBody').innerHTML=names.length?names.map(function(k){return tableHTML(state.db[k]);}).join(''):
+    '<p class="empty">Nothing created yet. Your first table shows up here.</p>';
+}
+function renderRef(){
+  let h='';
+  ['STUDENT','COURSE','INSTRUCTOR'].forEach(function(n){
+    const t={name:n+' data',cols:SRC[n].cols.slice(),rows:SRC[n].rows.map(function(r){return r.slice();}),note:''};
+    if(n==='COURSE'){ t.cols.push('Instructor'); t.rows.forEach(function(r){r.push(COURSE_INSTR_LABEL[r[0]]);});
+      t.note='the Instructor column is on the sheet, not in the table &mdash; you link it in Part 2'; }
+    h+=tableHTML(t);
+  });
+  $('refBody').innerHTML=h;
+}
+let resultBox=null;
+function showResult(title,cols,rows){ resultBox={name:'Result &mdash; '+title,cols:cols,rows:rows,note:rows.length+' row'+(rows.length===1?'':'s')+' returned',allFresh:false}; }
+
+/* =========================================================
+   7. SYNTAX HIGHLIGHT (report only)
+   ========================================================= */
+const KW=new Set(('CREATE TABLE VIEW ALTER ADD DROP CONSTRAINT PRIMARY KEY FOREIGN REFERENCES NOT NULL UNIQUE CHECK IN '+
+ 'INSERT INTO VALUES UPDATE SET WHERE SELECT FROM JOIN INNER LEFT OUTER ON AS AND OR BETWEEN ORDER BY GROUP HAVING '+
+ 'OR REPLACE DISTINCT VARCHAR2 VARCHAR NVARCHAR2 CHAR NCHAR NUMBER NUMERIC DECIMAL INT INTEGER SMALLINT BIGINT FLOAT DATE TIMESTAMP DEFAULT').split(' '));
+function hl(s){
+  return esc(s).replace(/('(?:[^']|'')*')|\b(\d+)\b|([A-Za-z_][A-Za-z0-9_]*)/g,function(m,str,num,word){
+    if(str) return '<span class="tok-str">'+str+'</span>';
+    if(num) return '<span class="tok-num">'+num+'</span>';
+    if(word&&KW.has(word.toUpperCase())) return '<span class="tok-kw">'+word+'</span>';
+    return m;
+  });
+}
+
+/* =========================================================
+   8. RACE ENGINE
+   ========================================================= */
+const CPS={easy:10*5/60,normal:20*5/60,hard:30*5/60}; /* words-per-minute -> chars-per-second */
+const race={txt:'',i:0,done:false,to:null,tick:null,t0:0,open:false};
+function clearRace(){ if(race.to)clearTimeout(race.to); if(race.tick)clearInterval(race.tick); race.to=null; race.tick=null; }
+
+function paintBot(){
+  const done=race.i>=race.txt.length;
+  $('botBox').innerHTML=hl(race.txt.slice(0,race.i))+(done?'':'<span class="caret"></span>');
+  $('botRail').style.width=Math.round(race.i/Math.max(1,race.txt.length)*100)+'%';
+  $('botBox').scrollTop=$('botBox').scrollHeight;
+}
+function botStep(){
+  if(!race.open) return;
+  if(race.i>=race.txt.length){ botFinished(); return; }
+  race.i++;
+  const ch=race.txt[race.i-1];
+  paintBot();
+  let d=1000/CPS[state.difficulty];
+  if(ch==='\n') d+=280;
+  d*=0.75+Math.random()*0.5;
+  race.to=setTimeout(botStep,d);
+}
+function botFinished(){
+  race.done=true;
+  $('botStatus').textContent='finished';
+  $('botStatus').style.background='var(--bot-soft)';
+  $('botStatus').style.color='var(--bot)';
+  $('botFoot').innerHTML='The bot is done. Finish the item anyway &mdash; this point goes to the bot, the next one is still open.';
+  paintBot();
+  addMsg('note','The bot finished first. Keep going &mdash; you still have to get this statement right to move on.');
+}
+function startRound(){
+  const it=ITEMS[state.idx];
+  clearRace(); resultBox=null;
+  state.gateDone=!it.gate;
+  $('screen-game').hidden=false;
+  $('taskEyebrow').innerHTML='Part '+it.part+' &middot; Item '+it.id+' of 10';
+  $('taskTitle').textContent=it.title;
+  $('taskReq').innerHTML=typeof it.req==='function'?it.req():it.req;
+  $('boardRound').textContent=' — item '+it.id+' of 10';
+  $('feedback').innerHTML='';
+  $('advanceArea').hidden=true; $('btnNext').hidden=true; $('btnEnterData').hidden=true;
+  $('youBox').value=''; $('youBox').disabled=true;
+  $('youRail').style.width='0%'; $('botRail').style.width='0%';
+  $('botBox').innerHTML=''; $('botStatus').textContent='waiting';
+  $('botStatus').style.background=''; $('botStatus').style.color='';
+  $('botFoot').textContent='The bot starts typing when the round begins.';
+  $('youTimer').textContent='0.0s';
+  $('btnSubmit').disabled=false; $('btnHint').disabled=false;
+  renderParts(); renderDots(); renderDB();
+  race.txt=typeof it.bot==='function'?it.bot():it.bot;
+  race.i=0; race.done=false; race.open=false;
+  $('roundStart').hidden=false;
+  if(it.gate){ renderGate(it); $('raceArea').hidden=true; }
+  else { $('taskGate').innerHTML=''; $('raceArea').hidden=false; }
+}
+function renderGate(it){
+  $('raceArea').hidden=true;
+  let h='<p style="margin-top:14px;font-weight:600">'+it.gate.q+'</p><div class="choices">';
+  it.gate.opts.forEach(function(o,i){
+    h+='<button class="choice" data-i="'+i+'"><span class="letter">'+'ABCD'[i]+'</span><span>'+o.t+'</span></button>';
+  });
+  $('taskGate').innerHTML=h+'</div><div id="gateMsg"></div>';
+  Array.prototype.forEach.call($('taskGate').querySelectorAll('.choice'),function(b){
+    b.addEventListener('click',function(){
+      const o=it.gate.opts[+b.dataset.i];
+      b.classList.add(o.ok?'right':'wrong');
+      $('gateMsg').innerHTML='<div class="msg '+(o.ok?'ok':'bad')+'"><span class="ic">'+(o.ok?'OK':'NO')+'</span><span>'+o.why+'</span></div>';
+      if(o.ok){
+        Array.prototype.forEach.call($('taskGate').querySelectorAll('.choice'),function(x){x.disabled=true;});
+        if(it.gate.reveal) $('taskReq').insertAdjacentHTML('beforeend','<div class="needline">'+it.gate.reveal+'</div>');
+        setTimeout(function(){ $('raceArea').hidden=false; },700);
+      }
+    });
+  });
+}
+function countdown(after){
+  const el=document.createElement('div');
+  el.className='countdown'; el.innerHTML='<b>3</b>';
+  document.body.appendChild(el);
+  let n=3;
+  const iv=setInterval(function(){
+    n--;
+    if(n>0){ el.firstChild.textContent=String(n); }
+    else if(n===0){ el.firstChild.textContent='GO'; }
+    else { clearInterval(iv); el.remove(); after(); }
+  },700);
+}
+function go(){
+  race.open=true; race.t0=performance.now();
+  $('botStatus').textContent='typing';
+  $('youBox').disabled=false; $('youBox').focus();
+  race.to=setTimeout(botStep,1300);
+  race.tick=setInterval(function(){
+    const s=(performance.now()-race.t0)/1000;
+    $('youTimer').textContent=s.toFixed(1)+'s';
+    const p=Math.min(100,Math.round($('youBox').value.length/Math.max(1,race.txt.length)*100));
+    $('youRail').style.width=p+'%';
+  },100);
+}
+function addMsg(kind,html){
+  const icons={bad:'FIX',ok:'OK',note:'NOTE',info:'i'};
+  const d=document.createElement('div');
+  d.className='msg '+kind;
+  d.innerHTML='<span class="ic">'+icons[kind]+'</span><span>'+html+'</span>';
+  $('feedback').appendChild(d);
+}
+function submit(){
+  if(!race.open) return;
+  const it=ITEMS[state.idx], val=$('youBox').value;
+  $('feedback').innerHTML='';
+  if(!val.trim()){ addMsg('bad','Nothing in your editor yet.'); return; }
+  const r=it.validate(val,state);
+  if(!r.ok){
+    addMsg('bad','<b>'+r.errs.length+' thing'+(r.errs.length===1?'':'s')+' to fix.</b> The clock is still running &mdash; correct them and submit again.');
+    r.errs.forEach(function(e){addMsg('bad',e);});
+    (r.notes||[]).forEach(function(n){addMsg('note',n);});
+    return;
+  }
+  concludeRound(it,val,r);
+}
+function concludeRound(it,val,r){
+  const secs=(performance.now()-race.t0)/1000;
+  race.open=false; clearRace();
+  $('youBox').disabled=true; $('btnSubmit').disabled=true; $('btnHint').disabled=true;
+  $('youRail').style.width='100%';
+  $('botStatus').textContent=race.done?'finished':'beaten';
+  const won=!race.done;
+  if(won) state.you++; else state.bot++;
+  state.results.push({id:it.id,title:it.title,part:it.part,sql:val.trim(),won:won,secs:secs});
+  $('scoreYou').textContent=state.you; $('scoreBot').textContent=state.bot;
+  if(it.onPass) it.onPass(r);
+  if(it.createsTable) state.db[it.createsTable]={name:it.createsTable,cols:SRC[it.createsTable].cols.slice(),rows:[],note:'created, no rows yet'};
+  renderDB(); renderDots(); renderParts();
+  $('feedback').innerHTML='';
+  addMsg('ok','<b>'+(won?'Point to you.':'Correct, but the bot got there first.')+'</b> '+
+    (won?'You submitted a working statement in '+secs.toFixed(1)+'s, before the bot finished typing.':
+         'Your statement is valid &mdash; it just landed after the bot finished. That point goes to the bot.'));
+  (r.notes||[]).forEach(function(n){addMsg('note',n);});
+  if(resultBox) $('feedback').insertAdjacentHTML('beforeend',tableHTML(resultBox));
+  $('advanceArea').hidden=false;
+  if(it.dataButton){ $('btnEnterData').hidden=false; $('btnEnterData').textContent='Enter Data into '+it.createsTable; }
+  else { $('btnNext').hidden=false; $('btnNext').textContent=state.idx===ITEMS.length-1?'See your result sheet':'Next item'; }
+}
+function enterData(){
+  const it=ITEMS[state.idx], t=state.db[it.createsTable];
+  t.rows=SRC[it.createsTable].rows.map(function(r){return r.slice();});
+  t.note=''; t.allFresh=true;
+  renderDB();
+  $('dbPanel').open=true;
+  $('btnEnterData').hidden=true;
+  $('btnNext').hidden=false; $('btnNext').textContent='Next item';
+  addMsg('info','Three rows inserted into <code>'+it.createsTable+'</code>. Scroll down &mdash; the table is live for the rest of the game.');
+  setTimeout(function(){ t.allFresh=false; renderDB(); },2500);
+}
+function next(){
+  const t=state.db[ITEMS[state.idx].createsTable];
+  if(t) t.allFresh=false;
+  Object.keys(state.db).forEach(function(k){state.db[k].allFresh=false; state.db[k].fresh=null;});
+  state.idx++;
+  if(state.idx>=ITEMS.length) showFinal();
+  else { startRound(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function renderDots(){
+  let h='';
+  for(let i=0;i<ITEMS.length;i++){
+    const r=state.results[i];
+    h+='<i class="'+(r?(r.won?'w':'l'):'')+(i===state.idx&&!r?' cur':'')+'" title="Item '+(i+1)+'"></i>';
+  }
+  $('progdots').innerHTML=h;
+}
+function renderParts(){
+  const cur=ITEMS[state.idx]?ITEMS[state.idx].part:5;
+  $('parts').innerHTML=PARTS.map(function(p){
+    const cls=p.n===cur?'on':(p.n<cur?'done':'');
+    return '<div class="'+cls+'">Part '+p.n+' &middot; '+p.name+'<small>'+p.sub+'</small></div>';
+  }).join('');
+}
+
+/* =========================================================
+   9. RESULT SHEET
+   ========================================================= */
+function fmtTime(ms){
+  const s=Math.round(ms/1000), m=Math.floor(s/60);
+  return m+'m '+String(s%60).padStart(2,'0')+'s';
+}
+function verifyCode(){
+  let h=2166136261;
+  const src=state.name+'|'+state.you+'-'+state.bot+'|'+state.difficulty+'|'+Math.round(state.t0)+'|'+
+    state.results.map(function(r){return r.id+':'+r.secs.toFixed(1);}).join(',');
+  for(let i=0;i<src.length;i++){ h^=src.charCodeAt(i); h=Math.imul(h,16777619); }
+  return (h>>>0).toString(36).toUpperCase().padStart(7,'0').slice(0,7);
+}
+function showFinal(){
+  clearRace();
+  $('screen-game').hidden=true;
+  $('screen-final').hidden=false;
+  const v=$('verdict'), win=state.you>state.bot, tie=state.you===state.bot;
+  v.className='card verdict '+(win?'win':(tie?'tie':'lose'));
+  $('verdictBanner').textContent=win?'You beat the bot.':(tie?'Dead heat.':'The bot takes it.');
+  $('verdictSub').textContent=win
+    ? state.you+' of 10 statements landed before the bot finished typing. Print this sheet or screen-capture it for submission.'
+    : (tie? 'Five all. Every statement is correct — the clock just wouldn’t break either way. Print the sheet and submit it.'
+          : 'Every statement here is correct, which is the part that counts. Run it again to take the speed back.');
+  $('finalYou').textContent=state.you;
+  $('finalBot').textContent=state.bot;
+  $('finalName').textContent=state.name;
+  $('finalDate').textContent=new Date().toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'});
+  $('finalDiff').textContent=state.difficulty.charAt(0).toUpperCase()+state.difficulty.slice(1);
+  $('finalTime').textContent=fmtTime(performance.now()-state.t0);
+  $('finalCode').textContent=verifyCode();
+  $('reportRows').innerHTML=state.results.map(function(r){
+    return '<div class="rowitem"><div class="top"><span class="num">'+r.id+'</span>'+
+      '<span class="ttl">'+esc(r.title)+'</span>'+
+      '<span class="tm">'+r.secs.toFixed(1)+'s</span>'+
+      '<span class="res '+(r.won?'w':'l')+'">'+(r.won?'you':'bot')+'</span></div>'+
+      '<pre>'+hl(r.sql)+'</pre></div>';
+  }).join('');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* =========================================================
+   10. WIRING
+   ========================================================= */
+function shuffled(a){ const x=a.slice(); for(let i=x.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=x[i];x[i]=x[j];x[j]=t; } return x; }
+function makeEnrollments(){
+  const S=shuffled(SRC.STUDENT.rows), C=shuffled(SRC.COURSE.rows);
+  state.enrollments=S.map(function(s,i){
+    return {sid:s[0],sname:s[1]+' '+s[2],cid:C[i][0],cname:C[i][2]};
+  });
+}
+function begin(){
+  const n=$('playerName').value.trim();
+  if(!n){ $('startErr').hidden=false; $('playerName').focus(); return; }
+  state.name=n;
+  state.difficulty=(document.querySelector('input[name="difficulty"]:checked')||{value:'normal'}).value;
+  state.t0=performance.now();
+  makeEnrollments();
+  $('boardName').innerHTML=esc(n)+'<span id="boardRound"></span>';
+  $('screen-start').hidden=true;
+  startRound();
+}
+$('btnStart').addEventListener('click',begin);
+$('playerName').addEventListener('keydown',function(e){ if(e.key==='Enter') begin(); });
+$('playerName').addEventListener('input',function(){ $('startErr').hidden=true; });
+$('btnGo').addEventListener('click',function(){ $('roundStart').hidden=true; countdown(go); });
+$('btnSubmit').addEventListener('click',submit);
+$('btnClear').addEventListener('click',function(){ $('youBox').value=''; $('youBox').focus(); });
+$('btnHint').addEventListener('click',function(){ addMsg('info','<b>Hint.</b> '+ITEMS[state.idx].hint); });
+$('btnEnterData').addEventListener('click',enterData);
+$('btnNext').addEventListener('click',next);
+$('btnPrint').addEventListener('click',function(){ window.print(); });
+$('btnAgain').addEventListener('click',function(){ location.reload(); });
+$('youBox').addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){ e.preventDefault(); submit(); return; }
+  if(e.key==='Escape'){ e.currentTarget.blur(); return; }
+  if(e.key==='Tab'){
+    e.preventDefault();
+    const t=e.currentTarget, s=t.selectionStart, en=t.selectionEnd;
+    if(e.shiftKey){
+      const ls=t.value.lastIndexOf('\n',s-1)+1;
+      if(t.value.slice(ls,ls+2)==='  '){ t.value=t.value.slice(0,ls)+t.value.slice(ls+2); t.selectionStart=t.selectionEnd=Math.max(ls,s-2); }
+    } else {
+      t.value=t.value.slice(0,s)+'  '+t.value.slice(en);
+      t.selectionStart=t.selectionEnd=s+2;
+    }
+  }
+});
+(function theme(){
+  const b=$('themeBtn');
+  let mode=null;
+  try{ mode=localStorage.getItem('sqlshowdown-theme'); }catch(e){}
+  if(mode) document.documentElement.setAttribute('data-theme',mode);
+  b.addEventListener('click',function(){
+    const cur=document.documentElement.getAttribute('data-theme');
+    const dark=cur? cur==='dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const nx=dark?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nx);
+    try{ localStorage.setItem('sqlshowdown-theme',nx); }catch(e){}
+  });
+})();
+renderRef();
+renderParts();
+window.SQLSHOWDOWN={ITEMS:ITEMS,state:state,checkTable:checkTable,SPEC:{STUDENT:SPEC_STUDENT,COURSE:SPEC_COURSE,INSTRUCTOR:SPEC_INSTRUCTOR,JOIN:SPEC_JOIN}};
+})();
+</script>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

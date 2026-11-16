@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2 - Relational Theory and Functional Dependencies — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">2 - Relational Theory and Functional Dependencies</span>
+  </nav>
+      <div class="hero-label">Module 2</div>
+      <h1>Relational Theory and Functional Dependencies</h1>
+      <p class="hero-desc">This lesson covers the mathematical foundations of relational theory, including relations, tuples, and attributes. Students will learn how functional dependencies define relationships between data attributes and serve as the basis for database design decisions.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 5 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Mathematical Foundations of Relational Theory</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">Relations, Tuples, and Attributes</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Introduction to Functional Dependencies</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Types and Properties of Functional Dependencies</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">Functional Dependencies and Database Design</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">21 items of 3 types: <a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-web-pages-and-references">Web Pages and References</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(5)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_interactive_topics_t1.html">Mathematical Foundations of Relational Theory</a></div>
+    <p class="content-desc">A narrated/illustrated lesson tracing the relational model back to Codd&#39;s 1970 paper and explaining the set-theoretic underpinnings — domains, tuples, and the formal definition of a relation — that justify how rows are stored and queried.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_interactive_topics_t2.html">Relations, Tuples, and Attributes</a></div>
+    <p class="content-desc">A lesson introducing the three interlocking building blocks of the relational model — relations, tuples, and attributes — and relating them to the tables, rows, and columns seen in systems like PostgreSQL, MySQL, Oracle, and SQL Server.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_interactive_topics_t3.html">Introduction to Functional Dependencies</a></div>
+    <p class="content-desc">An introductory lesson defining a functional dependency as a constraint between attribute sets that encodes a real-world rule, establishing the notation and vocabulary needed before tackling normalization.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_interactive_topics_t4.html">Types and Properties of Functional Dependencies</a></div>
+    <p class="content-desc">A lesson classifying functional dependencies and their properties — trivial versus non-trivial, partial versus full, transitive — so learners can reason about dependencies when designing or evaluating a schema.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_interactive_topics_t5.html">Functional Dependencies and Database Design</a></div>
+    <p class="content-desc">A second presentation-style lesson on using functional dependencies as the blueprint for database design, deriving table structure as a logical consequence of the dependencies that hold over the data.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(13)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/_interactive.html">Functional Dependencies and Database Design</a></div>
+    <p class="content-desc">An illustrated reading arguing that functional dependencies should drive schema design, showing how real-world business rules translate into attribute placement and table structure rather than ad hoc table invention.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/foundation-design-board.html">Foundation Design Board</a></div>
+    <p class="content-desc">An interactive drag-and-drop design board where students act as a consultant, taking four draft entities, a set of functional dependencies, and a director&#39;s interview notes about a fundraising/donations system and reorganizing them into a compliant database design, with undo/redo and reset controls.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Functional Dependency Analysis Exercise University Course Re.html">Functional Dependency Analysis Exercise</a></div>
+    <p class="content-desc">A hands-on exercise presenting sample data from a university course registration system (students, courses, instructors, enrollments) and asking learners to inspect the rows and identify which attribute pairs exhibit true functional dependencies.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/functional_dependency_analysis_dog_regis_20260909_132831.html">Functional Dependency Analysis – Dog Registry</a></div>
+    <p class="content-desc">A self-check activity using a DOG_REGISTRY table of dogs, breeds, owners, and vets, in which learners judge each listed candidate FD as Valid, Invalid, or Partially Valid based on the sample rows, with hints available for support.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/functional_dependency_analysis_universit_20260909_130845.html">Functional Dependency Analysis Exercise</a></div>
+    <p class="content-desc">An interactive version of the university course registration FD exercise where learners classify each proposed functional dependency as Valid, Invalid, or Partially Valid against the sample enrollment data, using built-in hints and feedback.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_example-problems.html">Apply Armstrong&#39;s Axioms — reflexivity, augmentation, and transitivity — to derive additional valid functional dependencies from a given FD set</a></div>
+    <p class="content-desc">A set of worked example problems targeting learning outcome MO3, in which learners apply Armstrong&#39;s axioms of reflexivity, augmentation, and transitivity to derive additional valid functional dependencies from a given FD set.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_t1_videos.html">Mathematical Foundations of Relational Theory</a></div>
+    <p class="content-desc">A text-based reading on the mathematical foundations of relational theory that defines domains, tuples, and relations as set-theoretic objects, giving learners the precise vocabulary needed before studying keys and normalization.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_t2_videos.html">Relations, Tuples, and Attributes</a></div>
+    <p class="content-desc">A text reading that formally defines a relation as a set of tuples over attributes, explaining relation schemas, domains, and the table/row/column analogy used throughout the course.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_t3_videos.html">Introduction to Functional Dependencies</a></div>
+    <p class="content-desc">A text reading defining functional dependency notation (X -&gt; Y), the meaning of a determinant, and how FDs assert that tuples agreeing on X must agree on Y, illustrated with concrete examples.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_t4_videos.html">Types and Properties of Functional Dependencies</a></div>
+    <p class="content-desc">A text reading that distinguishes trivial, non-trivial, partial, full, and transitive dependencies and explains the properties used to classify any given FD.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_t5_videos.html">Functional Dependencies and Database Design</a></div>
+    <p class="content-desc">A text reading explaining how functional dependencies such as StudentID -&gt; Advisor serve as a design blueprint, guiding decisions about how many tables to create and which attributes belong in each.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/Relational_Theory_and_videos_merged.html">2 - Relational Theory and Functional Dependencies</a></div>
+    <p class="content-desc">A consolidated single-page version of the full module text, stitching together all five readings from mathematical foundations through functional dependencies and database design for linear reading or printing.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/split-and-prove.html">Split &amp; Prove</a></div>
+    <p class="content-desc">A normalization lab game in which learners decompose a client&#39;s flat spreadsheet into multiple tables using stated business rules, then verify that the decomposition preserves every fact and survives a lossless join.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-web-pages-and-references">
+<h3 class="content-group-h"><span aria-hidden="true">🔗 </span>Web Pages and References <span class="content-group-count">(3)</span></h3>
+<p class="content-group-intro">Pages and files the course points to for further reading.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🌐</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reference File</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/ext_d80efe93.html">Functional Dependency Analysis Exercise: University Course Registration System</a></div>
+    <p class="content-desc">This assignment presents a realistic university course registration dataset and asks students to classify a set of potential functional dependencies as Valid, Invalid, or Partially Valid, providing reasoned justifications for each decision. Students analyze relationships among attributes such as StudentID, CourseCode, InstructorID, and composite keys like (CourseCode, Semester). The exercise culminates in a formal written report submitted in Word or PDF format.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🌐</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reference File</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/ext_09bbcb5b.html">Split &amp; Prove: Functional Dependency Derivation Practice Tool</a></div>
+    <p class="content-desc">This interactive HTML tool allows students to work through functional dependency problems by splitting FD sets and proving derived dependencies step by step. It provides a structured, rule-checked environment where students can apply derivation rules and receive real-time feedback on whether their steps are valid. The interface includes scenario selection, a live rule checklist, and visual indicators for correct and incorrect reasoning.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🌐</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reference File</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/ext_409b0e8d.html">Foundation Design Board</a></div>
+    <p class="content-desc">An interactive HTML-based design board activity that presents relational schema concepts and functional dependency exercises in a structured, visual interface. The tool appears to include attribute chips, dependency relationship displays, and checklist-style criteria panels for hands-on schema analysis. Students likely drag, select, or organize schema components to complete guided tasks.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../1-introduction-to-databases-types-and-applications/index.html">← 1 - Introduction to Databases, Types, and Applications</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../3-relational-databases-and-normalization-concepts/index.html">3 - Relational Databases and Normalization Concepts →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

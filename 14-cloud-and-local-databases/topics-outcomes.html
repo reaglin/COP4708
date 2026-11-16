@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14 - Cloud and Local Databases — Topics &amp; Learning Outcomes</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.25rem;margin-top:30px;color:#1a3c6e;border-bottom:1px solid #ececec;padding-bottom:4px}
+h3{font-size:1.05rem;margin-top:22px;color:#1a3c6e}
+.toc{border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:14px 0 6px;display:flex;gap:18px;flex-wrap:wrap}
+.toc a{color:#1a3c6e;font-weight:600;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.prefix{color:#555;font-style:italic;margin:6px 0 14px}
+.mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
+.mo .statement{font-weight:600;margin:4px 0 8px}
+.meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
+.meta .map{background:#eaf6ec;color:#137333}
+.co{margin:7px 0}
+.co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
+.empty{color:#595959}
+.topic{border:1px solid #e2e2e2;border-radius:8px;padding:4px 18px 10px;margin:16px 0}
+.topic h2{margin-top:12px}
+.topic h3{font-size:1rem;margin:14px 0 4px;color:#333}
+.topic .desc{margin:4px 0 6px}
+ul.tm li{margin:7px 0}
+ul.tm a{color:#1a3c6e;font-weight:600}
+.tm-kind{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin-left:6px;font-size:.82rem}
+.tm-also{color:#555;font-size:.88rem}
+.tm-desc{color:#555;font-size:.92rem;margin-top:2px}
+.tm-back a,.empty a{color:#1a3c6e;font-weight:600}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+<h1>14 - Cloud and Local Databases — Topics &amp; Learning Outcomes</h1>
+<div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
+
+<div id="topics">
+<section class="topic" aria-labelledby="topic-1">
+<h2 id="topic-1">1. Introduction to Database Deployment Models</h2>
+<h3>Description</h3>
+<p class="desc">Overview of the two primary database deployment approaches: locally hosted systems and cloud-based services. Establishes foundational concepts and context for comparing the two models.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Is a Database Deployment Model?</strong> <span class="el-body">— A database deployment model refers to the environment and infrastructure strategy used to host, manage, and access a database system.</span></li>
+<li><strong>Locally Hosted Database Systems</strong> <span class="el-body">— A locally hosted database, often called an on-premises database, runs on physical hardware owned and managed by the organization itself.</span></li>
+<li><strong>Cloud-Based Database Services</strong> <span class="el-body">— Cloud-based database services deliver database functionality over the internet through third-party providers, eliminating the need for organizations to manage underlying hardware.</span></li>
+<li><strong>Key Dimensions for Comparing the Two Models</strong> <span class="el-body">— When evaluating locally hosted versus cloud-based databases, several core dimensions help frame the comparison objectively.</span></li>
+<li><strong>Why the Choice of Deployment Model Matters</strong> <span class="el-body">— Selecting the right deployment model is a foundational architectural decision that influences an organization&#39;s agility, security posture, and long-term operational costs.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t1.html">Introduction to Database Deployment Models</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An introductory lesson page defining what a database deployment model is and contrasting locally hosted and cloud-based approaches, giving learners the vocabulary and framing needed for the comparisons that follow.</div></li>
+<li><a href="content/Cloud_and_Local_t1_videos.html">Introduction to Database Deployment Models</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed, plain-text reading on database deployment models that summarizes the on-premises versus cloud distinction in terms of ownership, control, and operational responsibility, suitable for quick review.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-2">
+<h2 id="topic-2">2. Locally Hosted Database Systems</h2>
+<h3>Description</h3>
+<p class="desc">Examination of on-premises database infrastructure, including setup, management responsibilities, and common use cases. Covers the characteristics that define local deployment environments.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Definition and Core Characteristics of Local Deployment</strong> <span class="el-body">— A locally hosted database system is one that runs on physical hardware owned and operated by the organization itself, typically within its own data center or server room.</span></li>
+<li><strong>Infrastructure Setup and Configuration</strong> <span class="el-body">— Standing up a locally hosted database requires procuring, assembling, and configuring physical hardware before any database software can be installed.</span></li>
+<li><strong>Management Responsibilities</strong> <span class="el-body">— In a local deployment model, the organization assumes full responsibility for every layer of the database stack, from hardware maintenance to software patching.</span></li>
+<li><strong>Cost Structure of On-Premises Databases</strong> <span class="el-body">— Locally hosted databases involve significant upfront capital expenditure (CapEx) for hardware and licensing, along with ongoing operational costs.</span></li>
+<li><strong>Scalability Considerations</strong> <span class="el-body">— Scaling a locally hosted database is constrained by physical hardware limits and procurement timelines, making it less flexible than cloud alternatives.</span></li>
+<li><strong>Common Use Cases for Local Database Deployment</strong> <span class="el-body">— Despite the rise of cloud services, certain organizational needs and constraints make locally hosted databases the preferred or required choice.</span></li>
+<li><strong>Availability and Disaster Recovery Challenges</strong> <span class="el-body">— Ensuring high availability and disaster recovery for locally hosted databases requires deliberate design and significant additional investment in redundant infrastructure.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t2.html">Locally Hosted Database Systems</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page on on-premises database deployments covering their defining characteristics, hardware and infrastructure setup, and the management responsibilities that fall to the organization&#39;s own staff.</div></li>
+<li><a href="content/Cloud_and_Local_t2_videos.html">Locally Hosted Database Systems</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed reading on locally hosted databases describing the full stack of responsibilities — power, networking, OS, engine, patching, backups, and security — that an organization assumes with on-prem hosting.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-3">
+<h2 id="topic-3">3. Cloud-Based Database Services</h2>
+<h3>Description</h3>
+<p class="desc">Introduction to major cloud database platforms including AWS RDS, Azure SQL, and Google Cloud SQL. Explores how these managed services operate and what features they offer.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Are Managed Cloud Database Services?</strong> <span class="el-body">— Managed cloud database services are fully hosted database solutions provided by cloud vendors, where the provider handles infrastructure, maintenance, and availability.</span></li>
+<li><strong>AWS RDS (Relational Database Service)</strong> <span class="el-body">— Amazon Web Services offers RDS as a managed relational database service supporting multiple database engines in a scalable cloud environment.</span></li>
+<li><strong>Azure SQL Database</strong> <span class="el-body">— Microsoft Azure SQL Database is a fully managed relational database service built on the SQL Server engine and optimized for the Azure cloud platform.</span></li>
+<li><strong>Google Cloud SQL</strong> <span class="el-body">— Google Cloud SQL is a fully managed relational database service on Google Cloud Platform, supporting MySQL, PostgreSQL, and SQL Server.</span></li>
+<li><strong>Core Features Common to Cloud Database Platforms</strong> <span class="el-body">— Despite differences in vendor ecosystems, major cloud database services share a consistent set of features designed to reduce operational burden and ensure reliability.</span></li>
+<li><strong>Connectivity and Access to Cloud Databases</strong> <span class="el-body">— Cloud database services are accessed remotely via secure connection endpoints, requiring configuration of network rules and authentication credentials.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t3.html">Cloud-Based Database Services</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page introducing managed cloud database services such as AWS RDS and Azure SQL Database, explaining what the provider handles versus what the customer still controls.</div></li>
+<li><a href="content/Cloud_and_Local_t3_videos.html">Cloud-Based Database Services</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed reading on managed cloud database services clarifying the division of labor between provider-handled provisioning, patching, and backups and the customer&#39;s schema design, query tuning, and access control.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-4">
+<h2 id="topic-4">4. Cost Comparison: Cloud vs. Local</h2>
+<h3>Description</h3>
+<p class="desc">Analysis of the financial trade-offs between cloud and local database deployments, including capital expenditure versus operational expenditure models. Covers licensing, hardware, and ongoing service costs.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Capital Expenditure vs. Operational Expenditure</strong> <span class="el-body">— Local database deployments typically follow a capital expenditure (CapEx) model, requiring large upfront investments, while cloud deployments shift costs to an operational expenditure (OpEx) model with ongoing subscription or usage-based payments.</span></li>
+<li><strong>Hardware Costs in Local Deployments</strong> <span class="el-body">— Running a local database requires purchasing and maintaining physical hardware, including servers, storage systems, and networking equipment, all of which represent significant upfront and recurring costs.</span></li>
+<li><strong>Licensing Costs: On-Premises vs. Cloud</strong> <span class="el-body">— Database software licensing represents a major cost component that differs significantly between local and cloud deployments, with cloud providers often bundling licensing into service pricing or offering managed alternatives.</span></li>
+<li><strong>Ongoing Operational and Maintenance Costs</strong> <span class="el-body">— Beyond initial setup, both local and cloud database deployments incur ongoing costs, though the nature and visibility of these costs differ substantially between the two models.</span></li>
+<li><strong>Scalability and Cost Efficiency</strong> <span class="el-body">— Cloud databases offer the ability to scale resources up or down based on demand, which can improve cost efficiency compared to local deployments that must provision for peak capacity at all times.</span></li>
+<li><strong>Total Cost of Ownership (TCO) Analysis</strong> <span class="el-body">— A complete financial comparison between cloud and local databases requires a total cost of ownership (TCO) analysis that accounts for all direct and indirect costs over a defined time horizon.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t4.html">Cost Comparison: Cloud vs. Local</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page analyzing the financial side of the cloud-versus-on-premises choice, covering capital versus operating expense, licensing, staffing, and hidden costs beyond the sticker price.</div></li>
+<li><a href="content/Cloud_and_Local_t4_videos.html">Cost Comparison: Cloud vs. Local</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed reading on cost comparison that contrasts upfront hardware and license purchases plus staffing against the cloud&#39;s pay-as-you-go operating-expense model.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-5">
+<h2 id="topic-5">5. Scalability and Performance</h2>
+<h3>Description</h3>
+<p class="desc">Comparison of how cloud and local databases handle growing data demands and performance requirements. Highlights the scalability advantages and limitations of each deployment model.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Elastic Scalability in Cloud Databases</strong> <span class="el-body">— Cloud databases such as AWS RDS, Azure SQL, and Google Cloud SQL offer elastic scalability, allowing resources to be scaled up or down dynamically based on workload demands.</span></li>
+<li><strong>Scalability Constraints of Local Databases</strong> <span class="el-body">— Local or on-premises databases are limited in scalability by the physical hardware available, requiring capital investment and lead time to expand capacity.</span></li>
+<li><strong>Performance Optimization in Cloud Environments</strong> <span class="el-body">— Cloud database services provide built-in performance tools such as managed caching, automated query optimization, and globally distributed nodes to meet demanding performance requirements.</span></li>
+<li><strong>Performance Characteristics of Local Databases</strong> <span class="el-body">— Local databases can deliver predictable, high performance for specific workloads when hardware is properly configured and dedicated exclusively to database operations.</span></li>
+<li><strong>Handling Growing Data Demands</strong> <span class="el-body">— As data volumes grow, the deployment model significantly influences how easily and cost-effectively a database system can accommodate increased storage and throughput needs.</span></li>
+<li><strong>Trade-offs Between Scalability and Cost</strong> <span class="el-body">— While cloud databases offer superior scalability flexibility, the ongoing operational costs of scaling can exceed the capital costs of on-premises infrastructure for certain workloads.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t5.html">Scalability and Performance</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page on how deployment model affects scaling and response time, contrasting the fixed hardware ceiling of local servers with elastic cloud capacity under growing data volumes and fluctuating load.</div></li>
+<li><a href="content/Cloud_and_Local_t5_videos.html">Scalability and Performance</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed reading distinguishing scalability from performance and showing how each deployment model constrains or enables capacity growth as data, users, and query complexity increase.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-6">
+<h2 id="topic-6">6. Maintenance and Administration</h2>
+<h3>Description</h3>
+<p class="desc">Evaluation of the administrative burden associated with each deployment model, including patching, backups, and monitoring responsibilities. Contrasts self-managed maintenance with provider-managed services.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Self-Managed Maintenance in Local Deployments</strong> <span class="el-body">— When hosting a database locally, the organization assumes full responsibility for all maintenance tasks, including software updates, patching, and hardware upkeep.</span></li>
+<li><strong>Provider-Managed Maintenance in Cloud Deployments</strong> <span class="el-body">— Cloud database services such as AWS RDS, Azure SQL, and Google Cloud SQL offload most routine maintenance responsibilities to the cloud provider.</span></li>
+<li><strong>Backup and Recovery Responsibilities</strong> <span class="el-body">— Backup strategies differ significantly between local and cloud deployments, affecting both the administrative effort required and the reliability of recovery options.</span></li>
+<li><strong>Monitoring and Performance Management</strong> <span class="el-body">— Ongoing monitoring of database health, performance, and resource utilization is a critical administrative task that differs in effort and tooling between deployment models.</span></li>
+<li><strong>Administrative Staffing and Expertise Requirements</strong> <span class="el-body">— The choice between local and cloud-managed databases has direct implications for the type and volume of database administration expertise an organization must maintain.</span></li>
+<li><strong>Shared Responsibility Model</strong> <span class="el-body">— Cloud database deployments operate under a shared responsibility model, where the provider and customer each own distinct maintenance and security obligations.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t6.html">Maintenance and Administration</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page on the operational work of running a database — patching, backups, monitoring, and tuning — and how responsibility for that work shifts between self-managed and provider-managed deployments.</div></li>
+<li><a href="content/Cloud_and_Local_t6_videos.html">Maintenance and Administration</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed reading on maintenance and administration emphasizing that patching, backups, restore testing, tuning, and capacity planning always happen — what changes is whether your team or the provider does them.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-7">
+<h2 id="topic-7">7. Availability, Reliability, and Security</h2>
+<h3>Description</h3>
+<p class="desc">Examination of uptime guarantees, disaster recovery options, and security considerations for both deployment models. Discusses how each approach addresses data protection and business continuity.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Uptime Guarantees and SLAs</strong> <span class="el-body">— Cloud database providers typically offer formal Service Level Agreements (SLAs) that guarantee a specific percentage of uptime, often 99.9% or higher.</span></li>
+<li><strong>Disaster Recovery in Cloud Deployments</strong> <span class="el-body">— Cloud database services provide built-in disaster recovery features, including automated backups, geo-redundant storage, and point-in-time restore capabilities.</span></li>
+<li><strong>Disaster Recovery in Local Deployments</strong> <span class="el-body">— Local database deployments require organizations to design and maintain their own disaster recovery strategies, which can be resource-intensive.</span></li>
+<li><strong>Data Security in Cloud Databases</strong> <span class="el-body">— Cloud database providers implement extensive security measures, including encryption at rest and in transit, identity and access management, and compliance certifications.</span></li>
+<li><strong>Data Security in Local Deployments</strong> <span class="el-body">— Local database deployments give organizations full control over their security posture but place the entire responsibility for protection on internal teams.</span></li>
+<li><strong>Business Continuity Considerations</strong> <span class="el-body">— Business continuity planning ensures that database services remain available or can be rapidly restored during disruptions, and each deployment model offers different strengths in this area.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/Cloud_and_Local_interactive_topics_t7.html">Availability, Reliability, and Security</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page examining uptime, failure recovery, and data protection across deployment models, including redundancy, disaster recovery, and who is accountable for security.</div></li>
+<li><a href="content/Cloud_and_Local_t7_videos.html">Availability, Reliability, and Security</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A condensed reading tying together availability, reliability, and security, framed around tolerable downtime, recovery speed, and accountability for data exposure in each deployment model.</div></li>
+</ul>
+</section>
+</div>
+<p class="tm-back"><a href="index.html">← Back to the module page</a></p>
+<h2 id="outcomes">Student Learning Outcomes</h2>
+<p class="prefix">By the end of this module, students will be able to:</p>
+<div class="mo">
+<div class="code">MO1</div>
+<div class="statement">Distinguish between locally hosted and cloud-based database deployment models based on their defining infrastructure characteristics</div>
+<div class="meta"><span>Level: Understand</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO2</div>
+<div class="statement">Compare the capital expenditure and operational expenditure cost structures of on-premises and cloud database deployments using total cost of ownership factors</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO3</div>
+<div class="statement">Contrast the scalability mechanisms of cloud databases such as AWS RDS, Azure SQL, and Google Cloud SQL against those of locally hosted database systems</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO4</div>
+<div class="statement">Evaluate the maintenance, availability, and security trade-offs of each deployment model to recommend an appropriate database hosting strategy for a given organizational scenario</div>
+<div class="meta"><span>Level: Evaluate</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO5</div>
+<div class="statement">Classify administrative responsibilities under the shared responsibility model for cloud-managed database services</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<h3>Course Outcomes (reference)</h3>
+<div class="co"><span class="code">CO1</span>Analyze a problem and identify computing and user requirements to implement the proper solution capturing the impact of the implementation on the local and the global levels.</div>
+<div class="co"><span class="code">CO2</span>Design, normalize, and implement database systems</div>
+<div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
+<div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

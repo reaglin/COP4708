@@ -1,0 +1,964 @@
+{
+  "ModuleFolderName": "Normal_Forms_1NF",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T14:52:13.9807439-04:00",
+  "ModifiedDate": "2026-06-27T14:54:28.9206661-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "49100366-5662-4061-8223-f07ef580f4cc",
+      "Title": "Introduction to Normalization",
+      "Summary": "Overview of database normalization, its purpose, and why it is essential for reducing redundancy and improving data integrity. Establishes the foundation for understanding the first three normal forms.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "ModifiedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "Elements": [
+        {
+          "Id": "12ff3c66-7e33-4c35-9584-d62270e680dc",
+          "TopicId": "49100366-5662-4061-8223-f07ef580f4cc",
+          "Title": "What Is Database Normalization?",
+          "BodyText": "Database normalization is the process of organizing a relational database\u0027s structure to reduce redundancy and improve data integrity.",
+          "Notes": "Think of normalization as a set of rules applied progressively to a database design, each rule building on the previous one to produce a cleaner, more reliable structure.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "ModifiedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "Items": [
+            {
+              "Id": "3560935c-7c57-4c94-b695-6a76cf4d1047",
+              "Text": "Normalization involves decomposing large, complex tables into smaller, well-structured ones without losing data.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e6666608-dcae-49c1-8e26-9cc81b1863a3",
+              "Text": "The process follows a series of defined stages called normal forms, each with specific criteria that must be satisfied.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d5d2b85a-15a9-4b30-9d57-ca33cd33fd54",
+              "Text": "A properly normalized database is easier to maintain, query, and extend over time.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "b0bba9d7-abd2-4c5b-955f-e5c095f4527e",
+          "TopicId": "49100366-5662-4061-8223-f07ef580f4cc",
+          "Title": "The Problem: Data Redundancy",
+          "BodyText": "Data redundancy occurs when the same piece of information is stored in multiple places within a database, leading to inconsistencies and wasted storage.",
+          "Notes": "For example, storing a customer\u0027s address in every order record means that a single address change requires updates across many rows, creating a high risk of inconsistency.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "ModifiedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "Items": [
+            {
+              "Id": "fcd732cd-c765-40b9-b24e-6ed480ed9e4e",
+              "Text": "Redundant data increases storage costs and makes the database harder to maintain.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8cf65f9c-7921-408d-92b5-7c10010098e8",
+              "Text": "When the same data exists in multiple places, updates to one location may not propagate correctly, causing conflicting information.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "101eefc3-e49d-4e6e-bd93-841e39844369",
+              "Text": "Eliminating redundancy is the primary motivation behind applying normal forms.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "6ff1ae9f-f670-4c18-a43d-f9dae38cc16c",
+          "TopicId": "49100366-5662-4061-8223-f07ef580f4cc",
+          "Title": "The Goal: Data Integrity",
+          "BodyText": "Data integrity ensures that the information stored in a database is accurate, consistent, and trustworthy throughout its lifecycle.",
+          "Notes": "Normalization directly supports data integrity by ensuring each piece of information has a single authoritative source, often referred to as a \u0027single source of truth.\u0027",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "ModifiedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "Items": [
+            {
+              "Id": "e5ae5a45-df91-4298-8424-547ad8346e6a",
+              "Text": "Normalization reduces the risk of anomalies that can corrupt or distort stored data.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0434f0d4-42dc-4afc-87b5-cd24b26acc35",
+              "Text": "A normalized database enforces consistent relationships between data entities, preventing contradictory records.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "db48f084-4336-4161-9176-3d12587770dc",
+              "Text": "Improved integrity means application logic and queries can rely on the database to return predictable, correct results.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "1ffea679-3cb2-4e99-9317-8035cb66537c",
+          "TopicId": "49100366-5662-4061-8223-f07ef580f4cc",
+          "Title": "Types of Data Anomalies Normalization Prevents",
+          "BodyText": "Unnormalized databases are prone to three categories of anomalies: insertion anomalies, update anomalies, and deletion anomalies.",
+          "Notes": "An insertion anomaly might prevent you from adding a new supplier until a product is associated with it. A deletion anomaly might cause you to lose a customer\u0027s details simply by deleting their last order.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "ModifiedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "Items": [
+            {
+              "Id": "e106e2fa-71f9-4dea-a5b5-c885798bff27",
+              "Text": "An insertion anomaly occurs when new data cannot be added without also supplying unrelated, unavailable information.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4663d8bd-f675-4695-967d-eae1a84ad738",
+              "Text": "An update anomaly arises when changing one instance of a fact requires the same change to be made in multiple rows.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9bb4206b-385b-4f20-aa3f-77ed8efa4c10",
+              "Text": "A deletion anomaly happens when removing one record unintentionally destroys other important data stored in the same row.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "61d759ed-956b-4aeb-8c05-dc52d908cab1",
+          "TopicId": "49100366-5662-4061-8223-f07ef580f4cc",
+          "Title": "The Concept of Normal Forms",
+          "BodyText": "Normal forms are a progressive set of criteria used to evaluate and improve the structure of database tables, numbered from 1NF upward.",
+          "Notes": "Each higher normal form builds upon the requirements of the previous one, so a table in 3NF also satisfies the rules of 2NF and 1NF.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "ModifiedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "Items": [
+            {
+              "Id": "631b50eb-8d1d-4716-a883-b75127bd3bed",
+              "Text": "The first three normal forms \u2014 1NF, 2NF, and 3NF \u2014 address the most common structural problems found in relational databases.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e8e3efe8-8acc-461a-a06e-9c4fca89b2f6",
+              "Text": "Moving a table from one normal form to the next typically involves identifying a specific type of dependency and restructuring accordingly.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "8f03363f-6f84-473a-9bb3-d8cac4fdae95",
+              "Text": "Understanding each normal form in sequence makes it easier to diagnose design flaws and apply the correct fix.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "ed504ab5-a7cc-49bb-b791-c857d905d896",
+          "TopicId": "49100366-5662-4061-8223-f07ef580f4cc",
+          "Title": "Key Dependencies Driving Normalization",
+          "BodyText": "Normalization is fundamentally about managing dependencies \u2014 specifically partial dependencies and transitive dependencies \u2014 between columns in a table.",
+          "Notes": "Recognizing these dependency types is the core analytical skill needed before applying 2NF and 3NF transformations covered later in this module.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "ModifiedDate": "2026-06-27T14:52:35.2916597-04:00",
+          "Items": [
+            {
+              "Id": "975e4957-abf9-4e25-af30-d0eca7bf3134",
+              "Text": "A partial dependency exists when a non-key column depends on only part of a composite primary key rather than the whole key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a1a3794b-b0c1-4f65-a5c3-5f142ca6374f",
+              "Text": "A transitive dependency occurs when a non-key column depends on another non-key column rather than directly on the primary key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1a15d140-5feb-4ba4-8a32-2d1fdcb69b04",
+              "Text": "Identifying and eliminating these dependencies is the step-by-step work performed when normalizing tables to 2NF and 3NF.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+      "Title": "First Normal Form (1NF)",
+      "Summary": "Defines the rules of 1NF, focusing on atomicity and eliminating repeating groups. Walks through step-by-step examples of transforming unnormalized tables into 1NF-compliant structures.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "ModifiedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "Elements": [
+        {
+          "Id": "892c8f54-4208-414f-ace2-355baea89df0",
+          "TopicId": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+          "Title": "What Is First Normal Form (1NF)?",
+          "BodyText": "First Normal Form (1NF) is the foundational level of database normalization that establishes the basic structural rules a table must satisfy.",
+          "Notes": "1NF is the starting point for all further normalization. A table that violates 1NF cannot be meaningfully evaluated for 2NF or 3NF.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "ModifiedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "Items": [
+            {
+              "Id": "de8a0ca7-03e1-4165-86a4-571ce79f0014",
+              "Text": "A table is in 1NF when every column contains only atomic (indivisible) values \u2014 no lists, sets, or nested data in a single cell.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "295d5d2c-6daf-4d0a-8723-7d41355e2b0d",
+              "Text": "Each column must hold values of a single data type, and every entry in a column must be of the same kind.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f70c2a92-77b4-47d4-9b54-d330095fec6c",
+              "Text": "Every row in the table must be unique, typically enforced by defining a primary key.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "c36ccf62-6ed2-44c7-9685-9bff356dc895",
+              "Text": "There must be no repeating groups \u2014 sets of columns that represent the same attribute occurring multiple times.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "1730d679-dcca-4949-b9ca-5d273ed713e3",
+          "TopicId": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+          "Title": "The Atomicity Requirement",
+          "BodyText": "Atomicity means that each cell in a table must hold one and only one value \u2014 it cannot be split into smaller, meaningful parts.",
+          "Notes": "Example: Storing \u0027Math, Science, English\u0027 in a single Subjects column violates atomicity. Each subject should occupy its own row or be handled through a related table.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "ModifiedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "Items": [
+            {
+              "Id": "ab6e87dd-f16e-41e0-a223-4071bccc8cc5",
+              "Text": "A non-atomic value is one that contains multiple pieces of data packed into a single field, such as a comma-separated list.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4cb830b5-4dd3-4c6d-88ab-bb0b00773b42",
+              "Text": "Non-atomic values make querying, filtering, and indexing difficult because the database cannot easily interpret the internal structure.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "5c990f35-73a8-4f1f-8b67-dd8e8a8e30a4",
+              "Text": "To fix a non-atomic column, each individual value should be placed in its own row, paired with the appropriate key values.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "071935d9-a567-40a9-a8e4-34fb8807e45e",
+          "TopicId": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+          "Title": "Eliminating Repeating Groups",
+          "BodyText": "Repeating groups occur when a table contains multiple columns that capture the same type of information, effectively encoding a list horizontally rather than vertically.",
+          "Notes": "Example: Columns like Phone1, Phone2, Phone3 on a Customers table represent a repeating group. This design limits the number of values and wastes space when fewer values exist.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "ModifiedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "Items": [
+            {
+              "Id": "bc330e42-ea7d-44ec-8a4f-774c9ad2f59f",
+              "Text": "Repeating groups often appear as numbered column variants (e.g., Item1, Item2, Item3) that store multiple instances of the same attribute.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e03af559-f4ba-4f41-bf6f-fa69165350d7",
+              "Text": "This pattern makes it hard to add more instances without altering the table schema and leads to many NULL values in sparse rows.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "fd97e0a4-98f6-4bef-8313-58dbe741a267",
+              "Text": "The solution is to move the repeating attribute into its own table with a foreign key referencing the original table, creating a one-to-many relationship.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "2e65d45a-5e2b-482c-83f9-f24c6863120a",
+          "TopicId": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+          "Title": "Identifying a Primary Key",
+          "BodyText": "A valid primary key is required for a table to comply with 1NF, as it uniquely identifies each row in the table.",
+          "Notes": "In some cases, a single column serves as the primary key. In others, a composite key \u2014 made up of two or more columns \u2014 is needed to guarantee row uniqueness.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "ModifiedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "Items": [
+            {
+              "Id": "a4b7db25-d80f-4c2a-9d4f-e1a6c060dbb1",
+              "Text": "The primary key must have a unique value for every row; no two rows can share the same primary key value.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2f85f85c-2f21-44e5-83b1-76ad735c9aee",
+              "Text": "The primary key cannot contain NULL values, as NULL represents an unknown value and cannot be used to reliably identify a record.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "01c68eac-3369-4952-b59f-ce945ce86416",
+              "Text": "When transforming an unnormalized table into 1NF, selecting or creating an appropriate primary key is a required step before the table is considered compliant.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "3b3025c0-c39c-44dd-a139-94879406b6a5",
+          "TopicId": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+          "Title": "Transforming an Unnormalized Table into 1NF: Step-by-Step",
+          "BodyText": "Converting an unnormalized table to 1NF involves a systematic process of identifying violations and restructuring the data accordingly.",
+          "Notes": "Starting with a clear understanding of what data the table represents helps in deciding how to split rows and assign keys during transformation.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "ModifiedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "Items": [
+            {
+              "Id": "33912ab9-4608-4315-9f23-efa6bc5641a0",
+              "Text": "Step 1 \u2014 Identify non-atomic columns: Scan each column for cells that contain multiple values (lists, arrays, or delimited strings).",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b065ef77-9bb9-40fa-9ec6-8a59306d9d23",
+              "Text": "Step 2 \u2014 Identify repeating groups: Look for sets of similarly named or purposed columns that encode multiple instances of the same attribute.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "bf800275-877c-4203-aefd-9b3f8e02454a",
+              "Text": "Step 3 \u2014 Flatten the data: For each violation, create separate rows for each individual value, duplicating other column values as needed to maintain context.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "70778871-72f0-4ed6-8a24-efb30c245379",
+              "Text": "Step 4 \u2014 Define a primary key: Ensure the resulting table has a column or combination of columns that uniquely identifies every row.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "37b52014-83ad-4ec5-a2d1-c3765126a3b4",
+              "Text": "Step 5 \u2014 Verify compliance: Confirm that every cell holds exactly one atomic value, all rows are unique, and no repeating groups remain.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "7a786be2-365b-4330-a36d-99a8617eebed",
+          "TopicId": "60a8730e-9519-41ea-b6de-f07ce78044f8",
+          "Title": "Before and After: A 1NF Example",
+          "BodyText": "Examining a concrete before-and-after comparison reinforces how 1NF rules apply in practice and what the transformed table should look like.",
+          "Notes": "Before: A StudentCourses table with columns StudentID, StudentName, and Courses (containing \u0027Math, English, Science\u0027 in one cell). After: Separate rows for each course \u2014 (1, Alice, Math), (1, Alice, English), (1, Alice, Science) \u2014 with a composite key of StudentID \u002B Course.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "ModifiedDate": "2026-06-27T14:53:02.3071833-04:00",
+          "Items": [
+            {
+              "Id": "d2454917-ec5f-49eb-bace-025eb38edfcc",
+              "Text": "In the unnormalized version, a single row may represent multiple logical facts, making it impossible to reference one fact without retrieving all others.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6a183f98-60e3-4d78-a176-9f20bba8c7d4",
+              "Text": "After applying 1NF, each row represents exactly one fact \u2014 one student enrolled in one course \u2014 making queries straightforward and precise.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c8e4f171-671e-4863-83e4-7a052ed68d49",
+              "Text": "The transformed table is larger in terms of row count but far easier to query, index, and maintain correctly.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+      "Title": "Second Normal Form (2NF)",
+      "Summary": "Introduces the concept of partial dependencies and explains how 2NF builds upon 1NF by requiring full functional dependency on the primary key. Demonstrates how to identify and eliminate partial dependencies through table decomposition.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "ModifiedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "Elements": [
+        {
+          "Id": "884230a5-5335-42b2-87ef-aa385d898e62",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "Prerequisites: 2NF Builds on 1NF",
+          "BodyText": "A table must already satisfy First Normal Form before it can be evaluated for Second Normal Form. 2NF adds an additional constraint on top of the atomicity and row uniqueness requirements established by 1NF.",
+          "Notes": "Think of the normal forms as a staircase \u2014 you cannot skip a step. If a table violates 1NF, questions about 2NF are irrelevant until 1NF is achieved.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "afe9dbba-09ec-41ef-851b-2b65fbd58389",
+              "Text": "A relation in 2NF must first meet all conditions of 1NF: atomic values, no repeating groups, and a defined primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "975783f5-04c5-4b5e-b392-b07e52e403ae",
+              "Text": "2NF then introduces an additional rule specifically targeting how non-key attributes relate to the primary key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "00ed62af-fd14-481f-a40b-6b4b67afcfa1",
+              "Text": "2NF is only meaningful when the primary key is a composite key (made up of two or more columns); a table with a single-column primary key in 1NF is automatically in 2NF.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "64a8cb40-d744-451a-a36e-41bbabbd9058",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "Understanding Functional Dependency",
+          "BodyText": "A functional dependency exists when the value of one attribute (or set of attributes) uniquely determines the value of another attribute. Recognizing functional dependencies is the foundation for understanding both partial and full dependencies in 2NF.",
+          "Notes": "Notation: A \u2192 B means \u0027A functionally determines B,\u0027 or \u0027knowing A is sufficient to know B.\u0027 For example, StudentID \u2192 StudentName means every StudentID maps to exactly one StudentName.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "d4eedf6e-47b2-4ddd-aa86-2e029e726f57",
+              "Text": "If attribute B is functionally dependent on attribute A, then for every unique value of A there is exactly one associated value of B.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "013d4cf9-6492-4e9d-bc77-cfb0bd7b23c3",
+              "Text": "Functional dependencies are identified by analyzing the real-world meaning of the data, not just the current data values in the table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6cea5a4c-5436-49f5-a7fd-6ce5ddccfc5f",
+              "Text": "In a composite primary key scenario, a non-key attribute can be dependent on the entire key, part of the key, or neither \u2014 and 2NF is concerned with distinguishing these cases.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "c58515e5-f093-4706-84bc-1e4d67413260",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "Defining Partial Dependency",
+          "BodyText": "A partial dependency occurs when a non-key attribute is functionally dependent on only a subset (part) of a composite primary key, rather than on the full composite key. Partial dependencies are the specific problem that 2NF is designed to eliminate.",
+          "Notes": "Example: In a table with composite key (OrderID, ProductID), if ProductName depends only on ProductID and not on the combination of OrderID \u002B ProductID, then ProductName is partially dependent on the key.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "46b9501a-ee11-405c-9de7-87aa77db1b4b",
+              "Text": "Partial dependencies can only exist when the primary key consists of two or more columns; they are impossible with a single-column primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4d91ce8c-9906-40f8-a094-1b838def3e98",
+              "Text": "A non-key attribute that can be determined by just one part of the composite key introduces redundancy and update anomalies into the table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "52fd7267-083a-4ea6-b00d-ec10627486b3",
+              "Text": "Identifying partial dependencies requires checking each non-key attribute against every possible subset of the composite primary key.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "6789d250-1302-4ea3-b647-747ef54961c8",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "The 2NF Rule: Full Functional Dependency",
+          "BodyText": "Second Normal Form requires that every non-key attribute be fully functionally dependent on the entire primary key, not just a part of it. This means removing all partial dependencies from the relation.",
+          "Notes": "Full functional dependency: attribute B is fully functionally dependent on composite key (A1, A2) if B depends on the combination of A1 and A2, and B is NOT dependent on A1 alone or A2 alone.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "a82a03c9-4536-44a2-9bb3-1d889ad95201",
+              "Text": "A table is in 2NF if and only if it is in 1NF and no non-key attribute is partially dependent on the primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "83f3adf0-3ad7-4c1c-9106-2f3b6832c5d6",
+              "Text": "Every non-key column must require the complete composite key to be uniquely identified \u2014 removing any part of the key must make it impossible to determine that attribute\u0027s value.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "5e73d32e-ce57-48c5-9c2e-c38af725e775",
+              "Text": "Attributes that are fully dependent on the whole key remain in the original table, while partially dependent attributes must be moved to separate tables.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "592a9928-544c-42fa-8ea8-bbf17efa2bef",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "Identifying Partial Dependencies in Practice",
+          "BodyText": "To identify partial dependencies, systematically test each non-key attribute against every proper subset of the composite primary key. If any non-key attribute is determined by a subset of the key, a partial dependency exists and must be resolved.",
+          "Notes": "Practical tip: List all non-key attributes, then for each one ask \u0027Do I need the FULL key to look up this value, or can I find it with just part of the key?\u0027 If only part of the key is needed, you have a partial dependency.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "5bae6feb-c463-4327-ac0a-980b3b9f5e64",
+              "Text": "Start by clearly identifying the composite primary key and listing all non-key attributes in the table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6c4f21ba-f044-4f24-81a0-69987e7736e9",
+              "Text": "For each non-key attribute, determine which key columns are actually required to uniquely identify its value.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "dd1033c9-6b22-4211-bc1b-d0af011bbf3e",
+              "Text": "Document each dependency found \u2014 noting whether it is a full dependency on the composite key or a partial dependency on a subset of it \u2014 before making any changes to the table structure.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f6244481-3e22-47c1-a104-8dd2e4b700a0",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "Eliminating Partial Dependencies Through Decomposition",
+          "BodyText": "The solution to partial dependencies is table decomposition: splitting the original table into two or more smaller tables so that each table contains only fully dependent attributes. This process preserves all original data while eliminating redundancy.",
+          "Notes": "Example: An OrderDetails table with key (OrderID, ProductID) and attributes Quantity, ProductName, ProductPrice \u2014 Quantity is fully dependent on (OrderID, ProductID), but ProductName and ProductPrice depend only on ProductID. Decompose into: OrderDetails(OrderID, ProductID, Quantity) and Product(ProductID, ProductName, ProductPrice).",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "f95aeaa5-f277-477d-b7ec-719b0e1785a4",
+              "Text": "Create a new table for each subset of the composite key that has attributes partially dependent on it; the key subset becomes the primary key of the new table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "21da6be0-5513-4e11-85de-02e4f6551bdd",
+              "Text": "Move the partially dependent attributes into their corresponding new table, keeping only fully dependent attributes in the original table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "38795926-1d42-4090-af4b-5eb5077e09fb",
+              "Text": "Retain the original key subset as a foreign key in the original table to maintain referential integrity and allow the tables to be joined when needed.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "2c67fb80-19e5-4b35-8e22-79590821c49a",
+              "Text": "After decomposition, verify that all remaining non-key attributes in every resulting table are fully functionally dependent on that table\u0027s primary key.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "0ff167d3-4247-4b3d-99a9-f4ccc07b5edf",
+          "TopicId": "eb23643d-b0c3-4d4a-abdb-8a72fe8e6c8c",
+          "Title": "Benefits of Achieving 2NF",
+          "BodyText": "Eliminating partial dependencies through 2NF reduces data redundancy and prevents several common data anomalies that occur in tables with partial dependencies. These improvements make the database easier to maintain and more consistent.",
+          "Notes": "Update anomaly example: In a pre-2NF table, changing a product\u0027s name would require updating every row that references that product, risking inconsistency if some rows are missed. After 2NF decomposition, the product name exists in only one place.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "ModifiedDate": "2026-06-27T14:53:34.5669187-04:00",
+          "Items": [
+            {
+              "Id": "4e0198a1-25bd-46c1-b159-71a6e47d5472",
+              "Text": "Redundancy is reduced because attributes dependent on only part of the key no longer need to be repeated for every combination of key values.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2331eff8-8e17-4630-b82f-b849bb9f35b1",
+              "Text": "Update anomalies are eliminated \u2014 changing a partially dependent value requires updating only one row in its dedicated table rather than many rows across the original table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "90a39964-f946-4eb3-98a0-d69fe27dd1fd",
+              "Text": "Insertion and deletion anomalies caused by partial dependencies are resolved, allowing product or entity data to be stored independently of the facts that reference it.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+      "Title": "Third Normal Form (3NF)",
+      "Summary": "Defines transitive dependencies and explains how 3NF extends 2NF by removing them. Provides guided examples of restructuring tables to achieve 3NF compliance.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "ModifiedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "Elements": [
+        {
+          "Id": "4258b015-dd51-4a4f-a3a1-b069e7083913",
+          "TopicId": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+          "Title": "What Is a Transitive Dependency?",
+          "BodyText": "A transitive dependency occurs when a non-key column depends on another non-key column rather than directly on the primary key.",
+          "Notes": "Example: In a table with columns StudentID, AdvisorID, and AdvisorOffice \u2014 AdvisorOffice depends on AdvisorID, not on StudentID. This creates an indirect (transitive) link from StudentID to AdvisorOffice through AdvisorID.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "ModifiedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "Items": [
+            {
+              "Id": "91753630-b301-4a9b-ae94-af5b5ebf3923",
+              "Text": "A transitive dependency follows the pattern: Primary Key \u2192 Column A \u2192 Column B, where Column B should depend only on the Primary Key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8eb9e71e-de76-4f8e-9b51-3e636b6034ea",
+              "Text": "These dependencies cause update anomalies, since changing a non-key value (like an advisor\u0027s office) requires updating multiple rows.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "e63ee05b-675c-4cbf-b324-b605c2f106ed",
+              "Text": "Identifying transitive dependencies is the essential first step before applying 3NF.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "473cbee1-d17f-4f27-9166-fbaf71f47231",
+          "TopicId": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+          "Title": "The 3NF Rule Defined",
+          "BodyText": "Third Normal Form (3NF) requires that a table already be in 2NF and that every non-key attribute depends only on the primary key \u2014 not on any other non-key attribute.",
+          "Notes": "A formal way to state this: for every functional dependency X \u2192 Y in the table, either X is a superkey, or Y is part of a candidate key. In practice, this means removing any column that \u0027travels along\u0027 with another non-key column.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "ModifiedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "Items": [
+            {
+              "Id": "74fea7ad-bbbc-4710-b73a-26efdb5cd3cd",
+              "Text": "3NF builds directly on 2NF; a table violating 2NF cannot be evaluated for 3NF compliance.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "4e55f858-ca7b-4020-9fdf-8118c6bf4a02",
+              "Text": "The test for 3NF is: can every non-key column be determined solely and directly by the primary key?",
+              "SortOrder": 1
+            },
+            {
+              "Id": "0912c4a4-8b64-405c-bd30-a1588cd0b2f7",
+              "Text": "If any non-key column is determined by another non-key column, the table violates 3NF.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "36336358-71f7-41a8-8222-7572b5d6cfc3",
+          "TopicId": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+          "Title": "Recognizing 3NF Violations in a Table",
+          "BodyText": "To spot a 3NF violation, examine each non-key column and ask whether its value is dictated by the primary key or by a different non-key column.",
+          "Notes": "Example violation: An Orders table with columns OrderID (PK), CustomerID, CustomerCity, and OrderTotal. CustomerCity is determined by CustomerID, not by OrderID \u2014 this is a transitive dependency and a 3NF violation.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "ModifiedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "Items": [
+            {
+              "Id": "f9d5686f-6cec-4343-85b0-1e20c28649ca",
+              "Text": "List all non-key columns and trace each one\u0027s functional dependency back to its true determinant.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0157541b-e73b-4146-8e79-7080be707fbb",
+              "Text": "If the determinant of a non-key column is another non-key column, you have identified a transitive dependency.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ee473644-06f1-47ae-9fad-542e0d0528a1",
+              "Text": "Common signs of violation include repeated descriptive data (city names, department names) that changes only when a non-key identifier changes.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d24e643c-3d9d-4549-8ddf-39ca2fda6a97",
+          "TopicId": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+          "Title": "Decomposing Tables to Achieve 3NF",
+          "BodyText": "Removing transitive dependencies requires splitting the original table into two or more tables so that each non-key attribute depends directly on a primary key.",
+          "Notes": "Continuing the Orders example: decompose into Orders (OrderID, CustomerID, OrderTotal) and Customers (CustomerID, CustomerCity). CustomerCity now depends directly on CustomerID, its proper primary key.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "ModifiedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "Items": [
+            {
+              "Id": "73de4c62-85df-4313-891f-152b755d7480",
+              "Text": "Create a new table whose primary key is the non-key column that was acting as a determinant.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "87e1169c-819b-4125-95ea-26e0349b6294",
+              "Text": "Move the transitively dependent columns into the new table alongside that determinant as the primary key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "883e6a3a-a285-4756-b833-eb12e5ef2b1b",
+              "Text": "Retain the determinant column in the original table as a foreign key to preserve the relationship between tables.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "88a3f575-1f17-477c-8c94-dbca8ed399ef",
+              "Text": "Verify that no transitive dependencies remain in either resulting table before declaring 3NF achieved.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "5693b86d-dbcf-4939-b8f4-0215c78cd3f1",
+          "TopicId": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+          "Title": "Step-by-Step 3NF Transformation Example",
+          "BodyText": "Walking through a concrete restructuring example reinforces how to apply the 3NF rules systematically from start to finish.",
+          "Notes": "Starting table: Employee(EmpID, EmpName, DeptID, DeptName, DeptLocation). DeptName and DeptLocation depend on DeptID, not EmpID. Result: Employee(EmpID, EmpName, DeptID) and Department(DeptID, DeptName, DeptLocation).",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "ModifiedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "Items": [
+            {
+              "Id": "af520bea-85b7-4646-92fd-4989fe5af0e3",
+              "Text": "Step 1 \u2014 Confirm the table is already in 2NF before proceeding with 3NF analysis.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "68e14bbd-b216-489f-8db4-d00068fa13ce",
+              "Text": "Step 2 \u2014 List all functional dependencies and flag any where the determinant is a non-key column.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "47eeac5d-70bd-44e2-86cb-dbf46b2aa3c5",
+              "Text": "Step 3 \u2014 Extract the transitively dependent columns and their determinant into a new table with the determinant as its primary key.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "58b9cebf-4d54-435a-9c35-db0d4e1d3c23",
+              "Text": "Step 4 \u2014 Replace the extracted columns in the original table with only the foreign key linking to the new table.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "6902db7d-3a3f-43e3-9f51-f1ea468aa9b0",
+              "Text": "Step 5 \u2014 Validate both tables to confirm all non-key attributes now depend solely on their respective primary keys.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "0a45f673-e5e5-4630-8bc1-b0f57e4ffd7f",
+          "TopicId": "7f2318ec-c1a4-4650-9a99-bdf7ae9753cb",
+          "Title": "Benefits of Achieving 3NF",
+          "BodyText": "Bringing a database to 3NF eliminates transitive dependencies and produces a cleaner, more maintainable schema with reduced redundancy.",
+          "Notes": "3NF is widely regarded as the practical target for most relational database designs, striking a balance between eliminating anomalies and avoiding excessive table fragmentation.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "ModifiedDate": "2026-06-27T14:53:59.2887365-04:00",
+          "Items": [
+            {
+              "Id": "bcdfb2f7-f1fe-4dc7-b2cb-2ca49b40ffef",
+              "Text": "Update anomalies are eliminated: changing a department\u0027s location only requires updating one row in the Department table.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "90104d9a-dc24-4b71-be95-99be38f382f1",
+              "Text": "Data redundancy is reduced because descriptive attributes are stored in exactly one place.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "479acd1a-555b-4541-9fd5-8c51cf3715f0",
+              "Text": "Referential integrity is easier to enforce because each fact lives in one well-defined table with a clear primary key.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+      "Title": "Applying Normal Forms: End-to-End Practice",
+      "Summary": "Consolidates learning by guiding students through the complete normalization process from an unnormalized table through 1NF, 2NF, and 3NF. Reinforces identification and elimination of both partial and transitive dependencies.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "ModifiedDate": "2026-06-27T14:52:13.9807439-04:00",
+      "Elements": [
+        {
+          "Id": "bc0b3f6c-c52d-4110-a3e6-da4cac0d949a",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Starting Point: Recognizing an Unnormalized Table",
+          "BodyText": "The normalization journey begins by examining a raw, unnormalized table and identifying all the structural problems it contains.",
+          "Notes": "Example: A single Orders table containing OrderID, CustomerName, CustomerCity, ProductID, ProductName, Quantity, and SupplierCity \u2014 mixing repeating groups, multi-valued cells, and mixed dependencies all in one place.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "374114bd-c599-4031-a2fb-5f921734ea1a",
+              "Text": "An unnormalized table often contains repeating groups, multi-valued attributes, or columns that store lists of data in a single cell.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "d8d9202e-6d9c-4cf5-ba20-61cf9face55e",
+              "Text": "Document all columns, identify candidate keys, and note every anomaly before making any changes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "666e58e7-7f34-44cc-9fd6-f3ddb630ea77",
+              "Text": "Recording the original structure provides a baseline for comparing each successive normal form transformation.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "21f69d1a-c175-4ea7-84f2-0178fa138499",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Step 1 \u2014 Transforming to First Normal Form (1NF)",
+          "BodyText": "The first transformation eliminates repeating groups and multi-valued attributes so that every cell holds exactly one atomic value and every row is uniquely identifiable.",
+          "Notes": "For example, if an order row stores multiple products as a comma-separated list, each product is broken into its own row, and a composite primary key such as (OrderID, ProductID) is established.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "6e1da0e5-1227-42b9-b0e8-07a4eeda45fa",
+              "Text": "Split any multi-valued or comma-separated cell into separate rows, one value per cell.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "34fb6c93-f82d-408f-8426-78b226f4aaa9",
+              "Text": "Ensure a primary key \u2014 simple or composite \u2014 uniquely identifies every row in the resulting table.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3240cd5a-d38d-4ebf-8182-c0d6fb3e6d7d",
+              "Text": "After this step the table is flat, but it may still contain partial dependencies that must be resolved in the next step.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a8e4c41d-778a-451a-aa51-506eff8b72f2",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Step 2 \u2014 Identifying Partial Dependencies Before 2NF",
+          "BodyText": "Before converting to 2NF, students must carefully inspect every non-key column to determine whether it depends on the entire composite primary key or only on part of it.",
+          "Notes": "In the Orders example with a composite key (OrderID, ProductID): CustomerName depends only on OrderID, and ProductName depends only on ProductID \u2014 both are partial dependencies that must be removed.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "59c40551-93ba-482f-97d1-23145516e181",
+              "Text": "A partial dependency exists when a non-key attribute is functionally determined by a subset of a composite primary key, not the full key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c0a2d8c2-f935-4ff1-8082-2e4efc5a3d4d",
+              "Text": "List each non-key column alongside the portion of the key it depends on to make partial dependencies visible before restructuring.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b78b6b4c-8bca-48ba-b70a-61f15027a61f",
+              "Text": "Columns that depend on the full composite key \u2014 such as Quantity in (OrderID, ProductID) \u2014 remain in the original table.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0f736987-df89-4e38-9872-64624dea0799",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Step 2 \u2014 Transforming to Second Normal Form (2NF)",
+          "BodyText": "Achieving 2NF means decomposing the 1NF table into smaller tables so that every non-key attribute is fully functionally dependent on the entire primary key of its table.",
+          "Notes": "From the Orders example: create a Customers table (OrderID, CustomerName, CustomerCity), a Products table (ProductID, ProductName), and an OrderItems table (OrderID, ProductID, Quantity) \u2014 each non-key attribute now depends on the full key of its respective table.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "2dba882b-fdb4-4885-a425-3a8e6f38f791",
+              "Text": "For each detected partial dependency, create a new table whose primary key is the partial key determinant, and move the dependent attributes into it.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "cea4f3d0-b886-42a3-9fd5-215b22bc3747",
+              "Text": "Retain the original table with only those non-key attributes that depend on the full composite key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ea378c96-81a7-4d33-bbbe-4f7800125e04",
+              "Text": "Foreign keys link the decomposed tables back to one another, preserving all original relationships without data loss.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "f4ce5490-40d8-495a-b6b7-09657b10c143",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Step 3 \u2014 Identifying Transitive Dependencies Before 3NF",
+          "BodyText": "With 2NF achieved, the next analysis pass looks for transitive dependencies \u2014 cases where a non-key attribute determines another non-key attribute rather than being determined solely by the primary key.",
+          "Notes": "Example: In the Customers table, if CustomerCity is determined by CustomerPostalCode, and CustomerPostalCode is determined by OrderID, then CustomerCity is transitively dependent on the primary key through CustomerPostalCode.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "b356e3a7-b7fe-43fd-8a25-bab91e0ce3f5",
+              "Text": "A transitive dependency occurs when non-key column A determines non-key column B, meaning B depends on the key indirectly through A.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e037821a-c497-4792-8e91-e5a1da77b598",
+              "Text": "Map out functional dependencies among all non-key columns within each 2NF table to surface any hidden transitive relationships.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "a0f3a477-858b-47d8-8de9-c237b1b0988f",
+              "Text": "Common signals include lookup-style attributes such as city names, category labels, or status descriptions that repeat identically whenever a code or ID repeats.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "57f323cd-f8c9-44cf-8f13-39170e86e707",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Step 3 \u2014 Transforming to Third Normal Form (3NF)",
+          "BodyText": "Converting to 3NF removes transitive dependencies by extracting the determining non-key attribute and its dependents into a new table, leaving only direct key dependencies behind.",
+          "Notes": "Continuing the example: extract a Locations table (PostalCode, City) and replace the City column in Customers with a PostalCode foreign key \u2014 City is now determined directly by its own table\u0027s primary key.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "c4cb84eb-f85d-4dc1-ba71-cbe2bebdb433",
+              "Text": "Create a new table with the transitive determinant as the primary key and move all transitively dependent attributes into it.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "6bb11cda-4d05-47f3-bf67-e8411193072e",
+              "Text": "Replace the moved columns in the original table with a foreign key referencing the new table\u0027s primary key.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "aa68404b-6ca2-4ff9-8819-2329ff3c00f2",
+              "Text": "After this step, every non-key attribute in every table depends on the key, the whole key, and nothing but the key.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "fdd97c6b-98de-4be0-b8d0-032e0fd0d189",
+          "TopicId": "1eb115c9-a1e0-44d0-9ed4-5be585c76a5a",
+          "Title": "Validating the Final Schema and Reviewing the Full Journey",
+          "BodyText": "The final step is a structured review to confirm that the fully normalized schema satisfies all three normal forms and that no data has been lost or incorrectly restructured.",
+          "Notes": "A useful checklist: (1) No repeating groups or multi-valued cells \u2014 1NF. (2) No partial dependencies \u2014 2NF. (3) No transitive dependencies \u2014 3NF. Reconstruct the original unnormalized data using joins to verify lossless decomposition.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "ModifiedDate": "2026-06-27T14:54:28.9205837-04:00",
+          "Items": [
+            {
+              "Id": "1688a6dd-e7fa-42e8-b9f8-95ad20d148e2",
+              "Text": "Verify 1NF by confirming every column in every table holds atomic values and every table has a defined primary key.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "0ed10805-9852-4b38-b4dc-d8c809eba9a4",
+              "Text": "Verify 2NF by confirming that every non-key attribute in tables with composite keys depends on the entire key, not a subset.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "df276fd7-7381-4af7-9f02-35139c1c4773",
+              "Text": "Verify 3NF by confirming that no non-key attribute determines another non-key attribute within any table.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "7d5be51f-68cd-41e2-b2bc-48248502a153",
+              "Text": "Perform a lossless-join check by mentally or physically rejoining the decomposed tables to ensure the original data is fully recoverable.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 32
+}

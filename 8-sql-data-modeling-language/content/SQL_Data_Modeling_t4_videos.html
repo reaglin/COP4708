@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schema Creation and Definition</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 8 - SQL Data Modeling Language</a></div>
+<h1>Schema Creation and Definition</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Data Types, Primary-Foreign Keys &amp; Constraints in SQL | SQL Tutorial In Hindi 2</a>
+<a href="#sec3">Video 2: How to Create Tables with Foreign Keys in SQL</a>
+<a href="#sec4">Video 3: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>A database schema is the formal blueprint of a database: it names the tables, the columns in each table, the data type each column holds, and the rules that govern what values are allowed and how tables relate to one another. In this topic you move from the logical data model you produced earlier in the course to actual SQL statements — CREATE DATABASE to establish the container, and CREATE TABLE to define each entity as a physical table. This is SQL&#39;s Data Definition Language (DDL) side, distinct from the SELECT-oriented querying work you have done before.</p>
+<p>Much of the care in schema creation goes into the details: choosing a data type that matches the real nature of the data (integers, decimals, fixed- and variable-length text, dates), declaring a PRIMARY KEY so every row is uniquely identifiable, declaring FOREIGN KEY references so related tables stay consistent, and adding column-level constraints such as NOT NULL, UNIQUE, DEFAULT, and CHECK to encode business rules directly in the schema. Constraints matter because they push rule enforcement into the database itself rather than relying on every application that touches the data.</p>
+<p>As you watch the videos below, keep a few questions in mind. Which clause establishes identity (primary key) versus which clause establishes a relationship (foreign key)? What happens when you try to insert or delete a row that would break a reference? And how does the order in which you create tables matter when one table refers to another? Note that SQL syntax varies slightly across database products, so compare what you see on screen with the syntax used in your course environment.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Data Types, Primary-Foreign Keys &amp; Constraints in SQL | SQL Tutorial In Hindi 2</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/HmH-76_2Ak8?cc_load_policy=1&amp;rel=0" title="Video: Data Types, Primary-Foreign Keys &amp; Constraints in SQL | SQL Tutorial In Hindi 2 (Rishabh Mishra)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Rishabh Mishra</strong> · 8:25 · 550,860 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=HmH-76_2Ak8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This tutorial walks through the core building blocks of a table definition: SQL data types, primary keys, foreign keys, and constraints, as the title indicates. Expect an overview of common type categories and how key and constraint clauses are written inside a CREATE TABLE statement. It is part of a larger SQL full-course playlist, so it is pitched at learners building up DDL skills step by step.</p>
+<h3>Why this video</h3>
+<p>It is the closest single match to the breadth of this topic, touching data type selection, primary keys, foreign keys, and column-level constraints in one short session, which helps you see how these pieces fit together in a single table definition.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: How to Create Tables with Foreign Keys in SQL</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/mFQk1VsIkZA?cc_load_policy=1&amp;rel=0" title="Video: How to Create Tables with Foreign Keys in SQL (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:42 · 19,553 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=mFQk1VsIkZA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A short, practical demonstration from CockroachDB on writing CREATE TABLE statements that include foreign key clauses. Based on the title and description, it focuses on the mechanics of declaring a reference from a child table to a parent table and on maintaining referential integrity as tables are created.</p>
+<h3>Why this video</h3>
+<p>It gives you hands-on syntax for the CREATE TABLE and foreign key subtopics, and it comes from a database vendor&#39;s own educational channel, so the SQL shown reflects real product usage.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5kiMg7GXAsY?cc_load_policy=1&amp;rel=0" title="Video: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:53 · 110,538 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=5kiMg7GXAsY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This video explains what a foreign key constraint is, why referential integrity matters, and how foreign keys differ from primary keys. It is conceptual rather than syntax-heavy, aimed at clarifying the role each kind of key plays in linking tables.</p>
+<h3>Why this video</h3>
+<p>It supplies the conceptual grounding behind the syntax in the other two videos, directly supporting the subtopics on defining primary keys and establishing foreign keys and relationships.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos reinforce the DDL half of SQL that MO1 asks you to distinguish from querying, and they supply the concrete syntax you need for MO3 when turning a logical model into CREATE TABLE statements. The CockroachDB pair addresses MO4 most directly by explaining and then demonstrating primary key and foreign key constraints and the referential integrity they enforce, while the Rishabh Mishra tutorial adds data type selection and other column-level constraints. Use them alongside the module readings for MO2 and MO5, which treat the logical model as a blueprint and connect each design phase to its SQL implementation activity; the videos illustrate the implementation step rather than the full design workflow.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

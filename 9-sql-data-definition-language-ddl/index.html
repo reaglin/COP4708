@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9 - SQL Data Definition Language (DDL) — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">9 - SQL Data Definition Language (DDL)</span>
+  </nav>
+      <div class="hero-label">Module 9</div>
+      <h1>SQL Data Definition Language (DDL)</h1>
+      <p class="hero-desc">This lesson covers SQL DDL commands including CREATE, ALTER, DROP, and TRUNCATE, teaching students how to define and modify database structures. Students will build and manage tables, constraints, and schemas using hands-on DDL exercises.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 7 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Introduction to SQL DDL</span><span class="topic-meta">5 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">The CREATE Command</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Data Types and Column Definitions</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Constraints in SQL</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">The ALTER Command</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num"><span class="sr-only">Topic </span>6</span><span class="topic-text"><span class="topic-title">The DROP and TRUNCATE Commands</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-7"><span class="topic-num"><span class="sr-only">Topic </span>7</span><span class="topic-text"><span class="topic-title">Working with Schemas</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">17 items of 3 types: <a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-activities-and-games">Activities and Games</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(7)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t1.html">Introduction to SQL DDL</a></div>
+    <p class="content-desc">A slide-style lesson page introducing DDL as the SQL sublanguage for creating, modifying, and removing database structures, contrasting it with DML/DQL/DCL and explaining its blueprint role in database management.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t2.html">The CREATE Command</a></div>
+    <p class="content-desc">A presentation-style lesson on the CREATE statement, walking from CREATE DATABASE to CREATE SCHEMA to CREATE TABLE and positioning CREATE alongside ALTER, DROP, and TRUNCATE in the DDL family.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t3.html">Data Types and Column Definitions</a></div>
+    <p class="content-desc">A presentation-style lesson on column data types — numeric, character/string, date/time, and boolean/binary — explaining how type choice affects storage, valid operations, and data integrity when defining tables.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t4.html">Constraints in SQL</a></div>
+    <p class="content-desc">A presentation-style lesson on SQL constraints, covering PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, and DEFAULT as database-level rules that reject invalid data without relying on application code.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t5.html">The ALTER Command</a></div>
+    <p class="content-desc">A presentation-style lesson on ALTER TABLE, showing how to add, modify, rename, and drop columns or constraints on an existing populated table as requirements change.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t6.html">The DROP and TRUNCATE Commands</a></div>
+    <p class="content-desc">A presentation-style lesson comparing DROP and TRUNCATE, explaining that one removes the object definition entirely while the other empties data, and when each is appropriate.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive_topics_t7.html">Working with Schemas</a></div>
+    <p class="content-desc">A presentation-style lesson on database schemas as named logical containers (likened to filesystem folders) for grouping tables, views, and indexes, including creating and using them.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(9)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_interactive.html">Working with Schemas</a></div>
+    <p class="content-desc">A duplicate presentation-style lesson on schemas as logical namespaces for organizing database objects, available as an alternate copy of the slide deck.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t1_videos.html">Introduction to SQL DDL</a></div>
+    <p class="content-desc">A readable article version of the Introduction to SQL DDL topic, explaining SQL&#39;s sublanguages and how CREATE, ALTER, DROP, and TRUNCATE shape tables, columns, types, constraints, indexes, views, and schemas.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t2_videos.html">The CREATE Command</a></div>
+    <p class="content-desc">A readable article version of the CREATE Command topic that works down the hierarchy from database to schema to table, contrasting DDL object creation with SELECT-based querying.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t3_videos.html">Data Types and Column Definitions</a></div>
+    <p class="content-desc">A readable article on data types and column definitions, detailing INT, SMALLINT, BIGINT, DECIMAL/NUMERIC, FLOAT, CHAR, VARCHAR, TEXT, DATE, TIME, TIMESTAMP, BOOLEAN, and BLOB/BINARY and how to choose among them.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t4_videos.html">Constraints in SQL</a></div>
+    <p class="content-desc">A readable article on constraints, explaining PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, and DEFAULT and how each prevents bad data from entering a table.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t5_videos.html">The ALTER Command</a></div>
+    <p class="content-desc">A readable article on ALTER TABLE, covering adding columns, changing data types or sizes, dropping columns, and modifying constraints on live tables as designs evolve.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t6_videos.html">The DROP and TRUNCATE Commands</a></div>
+    <p class="content-desc">A readable article on DROP and TRUNCATE, framing them as the removal side of DDL and distinguishing permanent object deletion from fast data clearing.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_t7_videos.html">Working with Schemas</a></div>
+    <p class="content-desc">A readable article on schemas, explaining how named containers group related objects, allow duplicate object names across schemas, and support organization and access control.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Data_Definition_videos_merged.html">9 - SQL Data Definition Language (DDL)</a></div>
+    <p class="content-desc">A single consolidated HTML page combining all seven topic articles for the module, usable as a complete printable or scrollable reading for SQL DDL.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-activities-and-games">
+<h3 class="content-group-h"><span aria-hidden="true">🎮 </span>Activities and Games <span class="content-group-count">(1)</span></h3>
+<p class="content-group-intro">Interactive activities and games that run in the browser — practice by doing. Drafted with AI from the module&#39;s topics.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">🎮</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Activity</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="interactive/sql-showdown-race-the-query-bot.html">SQL Showdown: Race the Query Bot</a></div>
+    <p class="content-desc">A timed interactive game in which students write ten SQL statements racing against a &#39;Query Bot&#39; at selectable speeds (10–30 wpm), with a name field and printable result sheet for graded DDL practice.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../8-sql-data-modeling-language/index.html">← 8 - SQL Data Modeling Language</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../10-using-keys-and-key-types-in-sql/index.html">10 - Using Keys and Key Types in SQL →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

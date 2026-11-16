@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handling One-to-Many Relationships</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 7 - Designing Relational Databases from ER Diagrams</a></div>
+<h1>Handling One-to-Many Relationships</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Database Design One to Many Relationships: 7 Steps to Create Them (With Examples)</a>
+<a href="#sec3">Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</a>
+<a href="#sec4">Video 3: How Add a Foreign Key Constraint (Make Relationships) in MySQL WorkBench</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>One-to-many is the workhorse relationship of relational database design. In an ER diagram it says that one instance of an entity can be associated with many instances of another, but each of those many is associated with at most one of the first — one department has many employees, but each employee belongs to one department. When you convert that diagram into tables, the relationship itself does not usually become its own table; instead it is captured by a foreign key.</p>
+<p>The rule you will practice in this topic is short but easy to misapply: the foreign key goes on the &#39;many&#39; side, referencing the primary key of the &#39;one&#39; side. Putting it the other way around forces you either to repeat rows or to store multiple values in a single column, both of which break the relational model. You will also look at what participation constraints mean for the resulting column: total (mandatory) participation on the many side generally means the foreign key column is NOT NULL, while partial (optional) participation allows nulls.</p>
+<p>As you watch the videos below, keep a pencil handy and sketch the tables yourself before the presenter reveals them. Watch specifically for (1) how each speaker decides which side is &#39;many&#39;, (2) where the foreign key column lands and what it is named, (3) how the primary key of the referenced table is reused as the foreign key&#39;s data type and domain, and (4) any mention of nullability or referential actions. If a video shows a tool or a particular SQL dialect, focus on the design reasoning rather than the exact syntax.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Database Design One to Many Relationships: 7 Steps to Create Them (With Examples)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/-C2olg3SfvU?cc_load_policy=1&amp;rel=0" title="Video: Database Design One to Many Relationships: 7 Steps to Create Them (With Examples) (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 9:28 · 147,449 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=-C2olg3SfvU" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Database Star walks through one-to-many relationships as a step-by-step design procedure, from recognizing the relationship to producing the finished tables, using worked examples. Based on its title and description, it presents a repeatable sequence of steps for creating the relationship rather than a purely theoretical overview, which should include identifying the parent and child tables and adding the foreign key column.</p>
+<h3>Why this video</h3>
+<p>It maps almost directly onto this topic&#39;s core subtopics — translating the &#39;one&#39; side and the &#39;many&#39; side into tables and deciding where the foreign key goes — and its explicit seven-step framing gives you a decision process you can reuse on exam problems.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/hktyW5Lp0Vo?cc_load_policy=1&amp;rel=0" title="Video: Entity Relationship Diagram (ERD) Tutorial - Part 2: Primary keys, foreign keys, and bridge tables (Lucid Software)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Lucid Software</strong> · 14:44 · 383,890 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=hktyW5Lp0Vo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This Lucid Software tutorial is the second part of an ERD series and concentrates on primary keys, foreign keys, and bridge (junction) tables. Expect clear diagram-based explanations of how keys link entities together and how different cardinalities are represented in a schema.</p>
+<h3>Why this video</h3>
+<p>It comes from the makers of a widely used diagramming tool and is strong on the vocabulary and notation side, reinforcing why the foreign key must reference a primary key; the bridge-table material also previews the many-to-many case so you can see clearly what makes one-to-many different.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: How Add a Foreign Key Constraint (Make Relationships) in MySQL WorkBench</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/q5wFWfsS-4I?cc_load_policy=1&amp;rel=0" title="Video: How Add a Foreign Key Constraint (Make Relationships) in MySQL WorkBench (Matt Macarty)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Matt Macarty</strong> · 10:48 · 183,705 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=q5wFWfsS-4I" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Matt Macarty demonstrates adding foreign key constraints in MySQL Workbench, including drawing a one-to-many relationship on an EER diagram and letting the tool generate the constraint. This is the hands-on, implementation-side view: the diagram you design becomes actual tables with enforced referential integrity.</p>
+<h3>Why this video</h3>
+<p>Seeing the one-to-many relationship tool place the foreign key on the child table makes the placement rule concrete, and watching the constraint be enforced shows the practical consequence of getting the placement right or wrong.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos support MO2 most directly: each one shows the foreign key being placed on the &#39;many&#39; side and referencing the primary key of the &#39;one&#39; side, giving you three complementary presentations — a step-by-step design procedure, a diagram-and-key conceptual explanation, and a tool-based implementation. The ERD tutorial&#39;s treatment of primary keys and entity-to-table conversion also reinforces MO1, and its bridge-table segment gives useful background for MO3 even though many-to-many is handled elsewhere in the module. Finally, the MySQL Workbench demonstration of enforced foreign key constraints connects to MO5 by showing what referential integrity actually looks like when a schema is checked against its design.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

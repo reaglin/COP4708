@@ -1,0 +1,427 @@
+﻿<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 16 - Course Projects</a></div>
+<title>Sandpiper Cove Shelter Forms</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a clipboard "records packet" — sticky form index on the left, paper forms stacked on a desk-colored ground; collapses to one column on phones. */
+:root{
+  --desk:#DDE4E1; --paper:#FDFDFB; --ink:#1B2725; --muted:#566864; --rule:#C3CFCB; --line:#8FA19C;
+  --accent:#1F6F5C; --accent-soft:#E2EFEB; --tag:#B8661B; --office:#F1F4F0; --hatch:#E6ECE8;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --desk:#0E1413; --paper:#162019; --ink:#E1EAE7; --muted:#97AAA5; --rule:#2C3B38; --line:#4E625D;
+  --accent:#62C3A5; --accent-soft:#1D332D; --tag:#E8A060; --office:#1B2723; --hatch:#203029; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --desk:#0E1413; --paper:#162019; --ink:#E1EAE7; --muted:#97AAA5; --rule:#2C3B38; --line:#4E625D;
+  --accent:#62C3A5; --accent-soft:#1D332D; --tag:#E8A060; --office:#1B2723; --hatch:#203029; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:28px;align-items:start}
+header.top{max-width:1180px;margin:0 auto 24px;display:flex;flex-wrap:wrap;gap:12px 32px;align-items:end;justify-content:space-between}
+.brand{display:flex;gap:14px;align-items:center}
+.seal{width:52px;height:52px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;color:var(--accent);flex:none}
+h1{font-family:var(--f-display);font-weight:700;font-size:2.1rem;line-height:1;margin:0;letter-spacing:.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;font-size:.9rem}
+.packet-note{max-width:520px;font-size:.85rem;color:var(--muted);margin:0}
+.packet-note b{color:var(--ink);font-weight:600}
+nav.index{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto;padding-right:4px}
+nav.index h2{font-family:var(--f-display);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px;font-weight:600}
+nav.index h2:first-child{margin-top:0}
+nav.index a{display:grid;grid-template-columns:52px 1fr;gap:6px;padding:5px 8px;border-radius:4px;color:var(--ink);text-decoration:none;font-size:.86rem}
+nav.index a:hover,nav.index a:focus-visible{background:var(--paper);outline:none}
+nav.index a span{font-family:var(--f-mono);font-size:.74rem;color:var(--accent);padding-top:2px}
+main{display:grid;gap:36px;min-width:0}
+.form{background:var(--paper);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule),0 10px 24px -18px rgba(0,0,0,.35);min-width:0;scroll-margin-top:16px}
+.fhead{display:grid;grid-template-columns:auto 1fr auto;gap:4px 18px;align-items:end;padding:18px 22px 14px;border-bottom:3px solid var(--ink)}
+.fno{font-family:var(--f-mono);font-size:.78rem;border:1.5px solid var(--ink);padding:3px 7px;align-self:center}
+.fhead h3{font-family:var(--f-display);font-weight:700;font-size:1.7rem;line-height:1.05;margin:0;text-transform:uppercase;letter-spacing:.02em}
+.rev{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);text-align:right}
+.purpose{grid-column:1/-1;color:var(--muted);font-size:.86rem;margin:6px 0 0;max-width:75ch}
+.fbody{padding:6px 22px 22px}
+.sec{padding-top:16px}
+.sec>h4{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px;padding-bottom:4px;border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.sec>h4 small{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted);font-size:.8rem}
+.sec.office{background:repeating-linear-gradient(135deg,var(--office) 0 10px,var(--hatch) 10px 11px);margin:16px -10px 0;padding:12px 10px 12px;border:1px dashed var(--line)}
+.sec.office>h4::after{content:"OFFICE USE ONLY";font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;color:var(--tag);border:1px solid var(--tag);padding:1px 6px;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px 14px}
+.fld{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fld>label,.fld>.lbl{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.req{color:var(--tag)}
+input[type=text],input[type=date],input[type=time],input[type=number],input[type=email],input[type=tel],select,textarea{
+  font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);padding:4px 2px;border-radius:0;width:100%;min-width:0}
+textarea{border:1px solid var(--line);min-height:64px;resize:vertical;padding:6px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+select{background:var(--paper)}
+.opts{display:flex;flex-wrap:wrap;gap:4px 16px;padding-top:3px}
+.opts label{display:flex;gap:6px;align-items:center;font-size:.88rem;cursor:pointer}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent);width:15px;height:15px;margin:0}
+.tblwrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:.84rem}
+th{font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:.8rem;text-align:left;background:var(--accent-soft);padding:6px 8px;border-right:1px solid var(--line);white-space:nowrap;border-bottom:1px solid var(--line)}
+td{border-top:1px solid var(--rule);border-right:1px solid var(--rule);padding:0;min-width:90px}
+td.rowh{padding:5px 8px;font-weight:600;white-space:nowrap;background:var(--office);min-width:0}
+td input,td select{border-bottom:0 !important;padding:6px 8px !important}
+th:last-child,td:last-child{border-right:0}
+ol.terms{margin:0;padding-left:22px;display:grid;gap:6px;max-width:90ch;font-size:.88rem}
+ol.terms li::marker{font-family:var(--f-mono);color:var(--accent)}
+.initial{display:inline-block;width:56px;border-bottom:1px solid var(--line);margin-left:6px;vertical-align:bottom}
+.note{font-size:.86rem;color:var(--muted);margin:0;max-width:90ch}
+.sigs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 24px;padding-top:14px}
+.sig{display:grid;grid-template-columns:1fr 120px;gap:10px}
+.sig div{border-bottom:1.5px solid var(--ink);height:34px}
+.sig span{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;padding-top:3px}
+.ffoot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid var(--rule);margin-top:20px;padding-top:8px;font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+@media (max-width:860px){.wrap{grid-template-columns:1fr}nav.index{position:static;max-height:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0 12px}nav.index h2{grid-column:1/-1}}
+@media (max-width:620px){.grid{grid-template-columns:1fr}.fld{grid-column:1/-1 !important}.fhead{grid-template-columns:1fr}.rev{text-align:left}.fhead h3{font-size:1.4rem}.fbody,.fhead{padding-left:14px;padding-right:14px}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="top">
+  <div class="brand">
+    <div class="seal" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><ellipse cx="6" cy="9" rx="2.1" ry="2.7"/><ellipse cx="10" cy="5.6" rx="2.1" ry="2.7"/><ellipse cx="14.2" cy="5.6" rx="2.1" ry="2.7"/><ellipse cx="18.2" cy="9" rx="2.1" ry="2.7"/><path d="M12 11c-3.3 0-6.2 4.4-6.2 6.6 0 1.7 1.3 2.6 3 2.6 1.3 0 2.1-.7 3.2-.7s1.9.7 3.2.7c1.7 0 3-.9 3-2.6C18.2 15.4 15.3 11 12 11z"/></svg>
+    </div>
+    <div>
+      <h1>Sandpiper Cove Animal Shelter</h1>
+      <p class="sub">Operational Forms Packet · Open-admission municipal shelter &amp; adoption center</p>
+    </div>
+  </div>
+  <p class="packet-note"><b>For COP4708 database design.</b> Sandpiper Cove is a fictional shelter. The forms follow what working U.S. shelters actually collect. Each form is a source of entities, attributes and business rules. The fields are fillable, but nothing is saved or submitted.</p>
+</header>
+
+<div class="wrap">
+  <nav class="index" id="index" aria-label="Form index"></nav>
+  <main id="forms"></main>
+</div>
+
+<script>
+/* Field shorthand: [label, colSpan(1-12), type, options, required]
+   types: text(default) date time num email tel area radio check sel */
+const FORMS = [
+/* ---------------- REFERENCE ---------------- */
+{no:"SC-000",group:"Reference",title:"Shelter Reference Sheet",rev:"Rev. 01/2026",
+ purpose:"Posted at the front desk. Lists kennel locations, the current fee schedule and staff roles that the other forms refer to.",
+ sections:[
+  {h:"Kennel & Housing Locations",table:{cols:["Building / Area","Unit codes","Capacity","Species","Use"],rows:[
+    ["Main Kennel – Adoption Row","A01–A24","24","Dog","Available for adoption"],
+    ["Main Kennel – Stray Hold","S01–S16","16","Dog","Stray hold / not public"],
+    ["Isolation Ward","ISO1–ISO6","6","Dog, Cat","Contagious illness (parvo, URI, ringworm)"],
+    ["Quarantine","Q1–Q4","4","Dog, Cat","10-day rabies bite quarantine"],
+    ["Cat Adoption Rooms","CR1–CR3","8 each","Cat","Free-roam colony rooms"],
+    ["Cat Condos","K01–K30","30","Cat","Stray hold & adoption"],
+    ["Small Animal Room","SA01–SA10","10","Rabbit, Rodent, Bird, Reptile","All small animals"],
+    ["Medical Clinic","MED1–MED4","4","All","Surgery recovery / treatment"],
+    ["Foster Care","FOSTER","—","All","Animal is in a foster home"],
+    ["Offsite Adoption Center","OFF-PC1","12","Dog, Cat","Partner pet store adoption center"]],fixed:true}},
+  {h:"Fee Schedule",note2:"Fees effective January 1, 2026. Promotional discounts are approved by the Shelter Manager.",table:{cols:["Fee code","Description","Amount","Notes"],rows:[
+    ["ADP-DA","Adoption – Dog, adult (6 mo–7 yrs)","$95.00","Includes spay/neuter, vaccines, microchip"],
+    ["ADP-DP","Adoption – Puppy (under 6 mo)","$150.00",""],
+    ["ADP-DS","Adoption – Dog, senior (7+ yrs)","$40.00",""],
+    ["ADP-CA","Adoption – Cat, adult","$60.00","Two-cat bonded pair: $90 total"],
+    ["ADP-CK","Adoption – Kitten (under 6 mo)","$85.00",""],
+    ["ADP-SM","Adoption – Small animal","$15.00 – $35.00","Varies by species"],
+    ["SUR-01","Owner surrender fee","$25.00","Waivable for hardship"],
+    ["IMP-01","Impound – first offense","$40.00","Return-to-owner"],
+    ["IMP-02","Impound – second offense in 12 mo","$80.00",""],
+    ["BRD-01","Boarding, per day","$15.00","Charged from intake date"],
+    ["RAB-01","Rabies vaccination","$15.00","Required for reclaim if not current"],
+    ["LIC-A","County license – altered","$20.00","Annual"],
+    ["LIC-U","County license – unaltered","$45.00","Annual"],
+    ["CHP-01","Microchip implant & registration","$15.00",""]],fixed:true}},
+  {h:"Staff Roles & Signing Authority",table:{cols:["Role","Code","May sign"],rows:[
+    ["Shelter Manager","MGR","All forms, euthanasia authorization, fee waivers"],
+    ["Veterinarian (DVM)","DVM","Medical records, surgery, euthanasia, rabies certificates"],
+    ["Veterinary Technician","RVT","Medical records, vaccines, tests"],
+    ["Animal Care Technician","ACT","Intake, daily care, kennel moves"],
+    ["Adoption Counselor","ADC","Adoption applications & contracts, returns"],
+    ["Animal Control Officer","ACO","Field intake, bite reports, confiscations"],
+    ["Volunteer Coordinator","VOL","Volunteer applications, training records"]],fixed:true}}
+ ]},
+
+/* ---------------- ANIMALS IN ---------------- */
+{no:"SC-100",group:"Animals In",title:"Animal Intake Record",rev:"Rev. 03/2026",
+ purpose:"Completed for every animal that enters the shelter, whatever the reason. The intake creates the Animal ID. One animal can have several intakes over its life, for example a stray who is adopted and later returned.",
+ sections:[
+  {h:"Record",office:true,f:[["Animal ID (A-######)",3,"text",null,1],["Intake #",3],["Intake date",2,"date",null,1],["Intake time",2,"time"],["Intake staff (ID)",2]]},
+  {h:"Intake Type",f:[["Intake type",12,"radio",["Stray","Owner Surrender","Return (adopted animal)","Transfer In","Confiscate / Seized","Born in Care","Return from Foster"],1],
+    ["Intake subtype",6,"radio",["Over the counter","Field pickup (ACO)","Trap / TNR"]],["ACO case # (if field)",3],["Unit / vehicle #",3]]},
+  {h:"Person Bringing Animal",sm:"Finder, owner, officer, or partner organization",f:[["Relationship to animal",12,"radio",["Finder","Owner","Animal Control Officer","Partner organization","Agent of owner"]],
+    ["Last name",4,"text",null,1],["First name",4,"text",null,1],["Person ID (if returning customer)",4],
+    ["Street address",6],["City",3],["State",1],["ZIP",2],["Phone",4,"tel"],["Alt. phone",4,"tel"],["Email",4,"email"],
+    ["Photo ID type",4,"sel",["Driver license","State ID","Passport","Military ID","None provided"]],["ID number",4],["ID state",4],
+    ["Partner organization (transfers)",6],["Partner transfer #",6]]},
+  {h:"Where Found",sm:"Strays and field pickups",f:[["Address or nearest cross streets",6],["City",3],["ZIP",3],["County",4],["Jurisdiction",4,"sel",["Unincorporated county","City of Sandpiper Cove","City of Port Merrow","Out of county (contract)"]],["Date found",4,"date"],["Circumstances",12,"area"]]},
+  {h:"Animal Description",f:[["Animal name (if known)",4],["Species",8,"radio",["Dog","Cat","Rabbit","Bird","Reptile","Small mammal","Livestock","Other"],1],
+    ["Primary breed",4,"text",null,1],["Secondary breed",4],["Mixed breed?",4,"radio",["Yes","No"]],
+    ["Primary color",3],["Secondary color",3],["Pattern / markings",3,"sel",["Solid","Bicolor","Tabby","Tortie","Calico","Brindle","Merle","Tricolor","Point","Spotted","Other"]],["Coat length",3,"sel",["Hairless","Short","Medium","Long","Wire"]],
+    ["Sex",4,"radio",["Male","Female","Unknown"],1],["Spayed / neutered",4,"radio",["Yes","No","Unknown"]],["Size",4,"radio",["Small","Medium","Large","X-Large"]],
+    ["Est. age – years",2,"num"],["Est. age – months",2,"num"],["Date of birth (if known)",3,"date"],["Weight (lb)",2,"num",null,1],["Distinguishing features",3]]},
+  {h:"Identification",f:[["Microchip scanned?",3,"radio",["Yes","No"],1],["Microchip #",4],["Chip manufacturer",3,"sel",["HomeAgain","AKC Reunite","24PetWatch","AVID","Datamars","Other / unknown"]],["Owner located from chip?",2,"radio",["Yes","No"]],
+    ["Collar / harness",4],["County license tag #",4],["Rabies tag # / year",4],["Tattoo",4],["Ear-tipped (cats)",4,"radio",["Yes","No"]],["Intake photo taken",4,"radio",["Yes","No"]]]},
+  {h:"Condition at Intake",f:[["Condition",12,"check",["Normal","Sick","Injured","Pregnant","Nursing","Underage (needs bottle)","Aged","Emaciated","Feral"]],
+    ["Behavior at intake",8,"radio",["Friendly","Shy / fearful","Fractious","Aggressive","Unknown"]],["Bit anyone in last 10 days?",4,"radio",["Yes","No","Unknown"],1],["Intake notes",12,"area"]]},
+  {h:"Holds & Placement",office:true,f:[["Hold type",6,"check",["Stray hold (5 days)","Bite quarantine (10 days)","Court / legal hold","Owner-requested hold","Medical hold"]],["Hold start",2,"date"],["Hold end",2,"date"],["Available date",2,"date"],
+    ["Kennel assigned (SC-000)",4],["Intake fee collected",4,"num"],["Receipt #",4]]}
+ ],sigs:["Person surrendering / finder","Intake staff"]},
+
+{no:"SC-101",group:"Animals In",title:"Owner Surrender Profile",rev:"Rev. 03/2026",
+ purpose:"Completed by the owner when an animal is surrendered. It is attached to the intake record and becomes part of the animal's history that the adoption counselor reads.",
+ sections:[
+  {h:"Record",office:true,f:[["Animal ID",4,"text",null,1],["Intake #",4],["Profile taken by",4]]},
+  {h:"Ownership",f:[["Owner name",6,"text",null,1],["Phone",3,"tel"],["Email",3,"email"],["How long have you owned this animal?",4],["Where did you get the animal?",8,"radio",["Breeder","Pet store","Shelter / rescue","Friend or family","Found as stray","Born in my home","Other"]],["If from a shelter/rescue, which one?",6],["Amount paid",3,"num"],["Name animal answers to",3]]},
+  {h:"Reason for Surrender",f:[["Primary reason",12,"radio",["Moving","Landlord / HOA","Too many animals","Cost of care","Allergies","Behavior problem","No time","Animal health","Owner ill or deceased","New baby","Other"],1],
+    ["Other contributing reasons",12,"check",["Moving","Landlord / HOA","Too many animals","Cost of care","Allergies","Behavior problem","No time","Animal health","Owner ill or deceased","New baby"]],["Please explain",12,"area"]]},
+  {h:"Living History",sm:"Has this animal lived with…",table:{cols:["Lived with","Yes / No","Ages or number","How did they get along?"],rows:["Children under 5","Children 5–12","Teenagers","Other dogs","Cats","Small animals / birds","Livestock"],rowSel:{1:["","Yes","No","Unknown"],3:["","Very well","Well","Tolerates","Poorly","Unknown"]}}},
+  {h:"Behavior",f:[["House-trained",3,"radio",["Yes","Mostly","No"]],["Crate-trained",3,"radio",["Yes","No"]],["Walks on leash",3,"radio",["Yes","Pulls","No"]],["Kept mostly",3,"radio",["Indoors","Outdoors","Both"]],
+    ["Commands known",6],["Fears (storms, men, cars…)",6],
+    ["Has the animal ever bitten or scratched a person or animal?",6,"radio",["Yes","No"],1],["Guards food, toys or space?",6,"radio",["Yes","No"]],["If yes to either, describe what happened",12,"area"],
+    ["Escapes / climbs fences?",4,"radio",["Yes","No"]],["Destructive when alone?",4,"radio",["Yes","No"]],["Hours alone per day",4,"num"]]},
+  {h:"Health",f:[["Veterinary clinic",6],["Clinic phone",3,"tel"],["Last visit",3,"date"],["Vaccines current?",3,"radio",["Yes","No","Unknown"]],["Heartworm / flea preventive",3],["Diet / brand",6],["Known medical conditions",6,"area"],["Current medications & doses",6,"area"]]},
+  {h:"Release of Ownership",terms:["I am the legal owner of this animal, or I am authorized by the owner to surrender it.","I transfer all ownership rights to Sandpiper Cove Animal Shelter. The shelter may place the animal for adoption, transfer it to a partner, or make other outcome decisions, including humane euthanasia.","I understand that surrendered animals are not held for reclaim and I will not be told about the animal's outcome.","I have answered every question honestly, including the animal's bite history."]},
+  {h:"Fees",office:true,f:[["Surrender fee (SUR-01)",3,"num"],["Fee waived?",3,"radio",["Yes","No"]],["Waiver approved by",3],["Receipt #",3]]}
+ ],sigs:["Owner","Staff witness"]},
+
+{no:"SC-600",group:"Animals In",title:"Lost & Found Pet Report",rev:"Rev. 08/2025",
+ purpose:"Filed by members of the public who lost a pet or found one they are keeping at home. Staff compare open reports against new intakes and record any matches.",
+ sections:[
+  {h:"Report",office:true,f:[["Report #",3],["Date filed",3,"date"],["Taken by",3],["Status",3,"sel",["Open","Matched","Reunited","Closed – no match","Closed – expired (60 days)"]]]},
+  {h:"Report Type",f:[["This report is for a",12,"radio",["LOST pet","FOUND pet (held by finder)"],1]]},
+  {h:"Reporter",f:[["Name",6,"text",null,1],["Phone",3,"tel",null,1],["Email",3,"email"],["Street address",6],["City",3],["ZIP",3]]},
+  {h:"Animal",f:[["Pet name",3],["Species",3,"sel",["Dog","Cat","Rabbit","Bird","Other"]],["Breed",3],["Sex",3,"radio",["M","F","?"]],["Colors / markings",6],["Approx. age",2],["Weight (lb)",2,"num"],["Altered?",2,"radio",["Y","N","?"]],["Microchip #",4],["Collar / tags description",4],["Photo provided?",4,"radio",["Yes","No"]]]},
+  {h:"When & Where",f:[["Date lost / found",3,"date",null,1],["Time (approx.)",3,"time"],["Address or cross streets",6,"text",null,1],["City",4],["ZIP",4],["County",4],["Circumstances",12,"area"]]},
+  {h:"Match & Follow-up Log",office:true,table:{cols:["Date","Contact method","Staff","Possible match – Animal ID","Result / notes"],rows:4}}
+ ]},
+
+/* ---------------- CARE & MEDICAL ---------------- */
+{no:"SC-200",group:"Care & Medical",title:"Veterinary Exam & Medical Record",rev:"Rev. 02/2026",
+ purpose:"The animal's running medical record. It opens with the intake exam and grows over the stay: each exam, test, vaccine, treatment and surgery is added as a new line.",
+ sections:[
+  {h:"Patient",f:[["Animal ID",3,"text",null,1],["Name",3],["Species",3],["Sex / altered",3]]},
+  {h:"Exam",f:[["Exam date",3,"date",null,1],["Exam type",3,"sel",["Intake exam","Recheck","Pre-surgical","Sick call","Pre-adoption","Pre-transfer"]],["Examiner",3,"text",null,1],["Credential",3,"radio",["DVM","RVT"]],
+    ["Weight (lb)",2,"num"],["Temp (°F)",2,"num"],["Pulse (bpm)",2,"num"],["Resp (/min)",2,"num"],["Body condition (1–9)",2,"num"],["Pain score (0–4)",2,"num"],["Mucous membranes",4,"sel",["Pink","Pale","Injected","Icteric","Cyanotic"]],["Hydration",4,"sel",["Normal","< 5%","5–8%","> 8%"]],["Dental grade (0–4)",4,"num"]]},
+  {h:"Body Systems",table:{cols:["System","Status","Findings"],rows:["Eyes","Ears","Oral / dental","Skin / coat","Musculoskeletal","Cardiovascular","Respiratory","Gastrointestinal","Urogenital","Neurologic","Lymph nodes"],rowSel:{1:["","Normal","Abnormal","Not examined"]}}},
+  {h:"Diagnostic Tests",table:{cols:["Test","Date","Result","Test kit lot #","Performed by"],rows:["FeLV / FIV combo","Heartworm antigen","Parvo antigen","Fecal flotation","Skin scrape / Wood's lamp","",""],rowSel:{2:["","Negative","Positive","Inconclusive","Not done"]}}},
+  {h:"Vaccinations",table:{cols:["Vaccine","Manufacturer","Lot #","Lot exp.","Date given","Route / site","Next due","Given by","Rabies cert #"],rows:["DHPP (dog)","Bordetella (dog)","Canine influenza (dog)","FVRCP (cat)","Rabies","",""]}},
+  {h:"Parasite Control",table:{cols:["Date","Product","Type","Dose","Given by"],rows:3,colSel:{2:["","Dewormer","Flea / tick","Heartworm preventive"]}}},
+  {h:"Medications & Treatment Plan",table:{cols:["Diagnosis / problem","Drug","Strength","Dose","Route","Frequency","Start","End","Prescribed by"],rows:4,colSel:{4:["","PO","SQ","IM","IV","Topical","Ophthalmic","Otic"],5:["","SID","BID","TID","QID","PRN","Once"]}}},
+  {h:"Spay / Neuter Surgery",f:[["Surgery date",3,"date"],["Procedure",3,"sel",["Ovariohysterectomy (spay)","Castration (neuter)","Cryptorchid neuter","Already altered"]],["Surgeon (DVM)",3],["Surgery log #",3],["Anesthesia protocol",6],["Ear-tip (community cat)",3,"radio",["Yes","No"]],["Pregnant at surgery?",3,"radio",["Yes","No"]],["Complications / notes",12,"area"]]},
+  {h:"Medical Status",office:true,f:[["Asilomar status",6,"radio",["Healthy","Treatable – rehabilitatable","Treatable – manageable","Unhealthy – untreatable"]],["Cleared for adoption?",3,"radio",["Yes","No"]],["Cleared date",3,"date"]]}
+ ],sigs:["Examining veterinarian"]},
+
+{no:"SC-210",group:"Care & Medical",title:"Daily Care & Kennel Log",rev:"Rev. 06/2025",
+ purpose:"One sheet per animal per week, clipped to the kennel. Animal care staff record feeding, waste, medication and enrichment each day. Every move between kennels is logged at the bottom.",
+ sections:[
+  {h:"Animal",f:[["Animal ID",3,"text",null,1],["Name",3],["Current kennel",3],["Week beginning (Mon.)",3,"date",null,1],["Diet & amount",6],["Feeding instructions / restrictions",6]]},
+  {h:"Daily Observations",table:{cols:["Day","Food (AM/PM)","Appetite","Stool","Urine","Vomit","Meds given (initials)","Walk / enrichment","Cleaned by","Notes"],rows:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],colSel:{2:["","All","Some","None"],3:["","Normal","Soft","Diarrhea","Bloody","None"],4:["","Normal","None","Abnormal"],5:["","No","Yes"]}}},
+  {h:"Kennel Moves",table:{cols:["Date","Time","From location","To location","Reason","Moved by"],rows:3,colSel:{4:["","Hold ended → adoption","Medical / isolation","Quarantine","Behavior","Space","To foster","Back from foster","Offsite event"]}}}
+ ]},
+
+{no:"SC-220",group:"Care & Medical",title:"Behavior Assessment",rev:"Rev. 04/2025",
+ purpose:"Done when the stray hold ends and again after any incident. The result sets the animal's behavior color code and placement restrictions, which the adoption counselor uses to match animals to adopters.",
+ sections:[
+  {h:"Assessment",f:[["Animal ID",3,"text",null,1],["Assessment date",3,"date",null,1],["Assessor",3],["Reason",3,"sel",["Routine (post-hold)","Post-incident","Returned animal","Pre-transfer","Re-evaluation"]]]},
+  {h:"Observations",sm:"1 = no concern · 5 = serious concern",table:{cols:["Test","Score (1–5)","Observations"],rows:["Approach at kennel front","Leash on / exit kennel","Handling – collar, paws, ears","Food bowl (resource guarding)","High-value toy","Unfamiliar person – neutral","Dog-to-dog introduction","Cat tolerance (if tested)","Startle recovery"],rowSel:{1:["","1","2","3","4","5","N/A"]}}},
+  {h:"Results",f:[["Behavior color code",6,"radio",["Green – any adopter","Yellow – some experience","Orange – experienced only","Red – not for public adoption"],1],["Playgroup eligible?",3,"radio",["Yes","No"]],["Re-assess by",3,"date"],
+    ["Placement restrictions",12,"check",["Adults only","No children under 12","No cats","No other dogs","Only dog / only pet","Experienced adopter","Secure fence required","Behavior partner only"]],["Summary for adoption counselor",12,"area"]]}
+ ],sigs:["Assessor","Behavior lead review"]},
+
+{no:"SC-230",group:"Care & Medical",title:"Bite & Incident Report",rev:"Rev. 01/2026",
+ purpose:"Required for any bite, scratch that breaks skin, dog fight or escape. Human bites must be reported to the county health department, and the animal goes on a 10-day quarantine hold.",
+ sections:[
+  {h:"Incident",office:true,f:[["Incident #",3],["Date",3,"date",null,1],["Time",3,"time"],["Location in shelter",3]]},
+  {h:"Incident Type",f:[["Type",12,"radio",["Bite – human","Scratch – human","Animal-to-animal","Escape / loose animal","Near miss","Other"],1],["Activity at time",6,"sel",["Kennel cleaning","Feeding","Walking","Medical procedure","Meet & greet","Playgroup","Intake","In foster / adopter home"]],["Severity – Dunbar bite scale (1–6)",6,"radio",["1","2","3","4","5","6"]]]},
+  {h:"Animal(s) Involved",table:{cols:["Animal ID","Name","Role","Rabies current?","Quarantine start","Quarantine end"],rows:2,colSel:{2:["","Aggressor","Victim","Both / unclear"],3:["","Yes","No","Unknown"]}}},
+  {h:"Injured Person",f:[["Name",4],["Role",4,"sel",["Staff","Volunteer","Foster","Adopter / applicant","Visitor","Owner"]],["Phone",4,"tel"],["Body part",4],["Treatment",4,"radio",["None","First aid on site","Urgent care / ER"]],["Workers' comp claim?",4,"radio",["Yes","No","N/A"]],["Description of what happened",12,"area",null,1]]},
+  {h:"Witnesses",table:{cols:["Name","Role","Phone","Statement attached?"],rows:2,colSel:{3:["","Yes","No"]}}},
+  {h:"Follow-up",office:true,f:[["Reported to county health?",4,"radio",["Yes","No","Not required"]],["Date reported",4,"date"],["Health dept. case #",4],["Corrective action",12,"area"]]}
+ ],sigs:["Person reporting","Supervisor"]},
+
+/* ---------------- ADOPTION ---------------- */
+{no:"SC-300",group:"Adoption & Returns",title:"Adoption Application",rev:"Rev. 03/2026",
+ purpose:"Filled out by the person who wants to adopt. One applicant can submit several applications, and one animal can draw several applications. An approved application leads to the adoption contract.",
+ sections:[
+  {h:"Animal of Interest",f:[["Animal ID",4],["Animal name",4],["Application date",4,"date",null,1],["If this animal is not available, consider others?",12,"radio",["Yes","No"]]]},
+  {h:"Applicant",f:[["Last name",4,"text",null,1],["First name",4,"text",null,1],["Date of birth (must be 18+)",4,"date",null,1],["Street address",6,"text",null,1],["City",3],["State",1],["ZIP",2],["County",4],["Mobile phone",4,"tel",null,1],["Email",4,"email"],["Photo ID type",4,"sel",["Driver license","State ID","Passport","Military ID"]],["ID number",4],["ID state",4],["Employer",6],["Work phone",6,"tel"]]},
+  {h:"Co-Applicant / Spouse",sm:"Optional",f:[["Last name",4],["First name",4],["Phone",4,"tel"],["Email",6,"email"],["Relationship to applicant",6]]},
+  {h:"Housing",f:[["Home type",6,"radio",["House","Apartment","Condo / townhome","Mobile home","Other"],1],["Own or rent?",3,"radio",["Own","Rent"],1],["Years at address",3,"num"],
+    ["Landlord / property manager",6],["Landlord phone",6,"tel"],["Pet deposit or breed/weight limits?",12],
+    ["Yard",4,"radio",["Fully fenced","Partly fenced","Not fenced","No yard"]],["Fence type",4,"sel",["Wood privacy","Chain link","Vinyl","Invisible / electric","Other"]],["Fence height (ft)",4,"num"]]},
+  {h:"Household Members",sm:"Everyone who lives in the home",table:{cols:["Name","Relationship","Age","Allergic to animals?","Agrees to adoption?"],rows:5,colSel:{3:["","No","Yes – mild","Yes – severe"],4:["","Yes","No"]}}},
+  {h:"Current Pets",table:{cols:["Name","Species","Breed","Age","Sex","Spayed / neutered","Vaccines current","Years owned"],rows:4,colSel:{5:["","Yes","No"],6:["","Yes","No"]}}},
+  {h:"Pets in the Past 5 Years",sm:"No longer with you",table:{cols:["Name","Species","What happened?","Year"],rows:3,colSel:{2:["","Died – old age","Died – illness/accident","Rehomed","Surrendered to shelter","Lost / ran away","Other"]}}},
+  {h:"Veterinary Reference",f:[["Clinic name",6],["Veterinarian",3],["Clinic phone",3,"tel"],["Name the account is under",6],["May we contact your vet?",6,"radio",["Yes","No"]]]},
+  {h:"Care Plan",f:[["Hours alone on a typical day",4,"num"],["Where kept during the day",4,"sel",["Indoors – free","Indoors – crated","Garage","Yard","Kennel run"]],["Where kept at night",4,"sel",["Indoors","Garage","Outdoors"]],["Primary caregiver",6],["Plan if you move or can't keep the pet",6],["Have you ever surrendered a pet to a shelter?",6,"radio",["Yes","No"]],["Has anyone in the household been convicted of animal cruelty?",6,"radio",["Yes","No"],1]]},
+  {h:"Personal References",table:{cols:["Name","Relationship","Phone","Years known"],rows:2}},
+  {h:"Consent",terms:["I consent to a landlord verification and a call to my veterinarian.","I agree to a home visit if the adoption counselor requests one.","All information on this application is true. False information is grounds for denial or for voiding an adoption."]},
+  {h:"Counselor Review",office:true,f:[["Application #",3],["Reviewed by",3],["Review date",3,"date"],["Decision",3,"sel",["Pending","Approved","Approved – conditions","Denied","Withdrawn"]],["Landlord verified",3,"radio",["Yes","No","N/A"]],["Vet verified",3,"radio",["Yes","No","N/A"]],["Do-not-adopt list checked",3,"radio",["Clear","Match"]],["Meet & greet date",3,"date"],["Reason / conditions / notes",12,"area"]]}
+ ],sigs:["Applicant","Co-applicant"]},
+
+{no:"SC-310",group:"Adoption & Returns",title:"Adoption Contract & Fee Receipt",rev:"Rev. 03/2026",
+ purpose:"Transfers ownership from the shelter to the adopter. It references the approved application, lists the itemized fees and payment, and sets follow-up dates.",
+ sections:[
+  {h:"Adoption",office:true,f:[["Adoption #",3,"text",null,1],["Adoption date",3,"date",null,1],["Application #",3,"text",null,1],["Adoption counselor",3]]},
+  {h:"Animal",f:[["Animal ID",3,"text",null,1],["Name",3],["Species",2],["Breed",2],["Sex",2],["Date of birth / est.",3,"date"],["Microchip #",3],["Rabies tag #",3],["Rabies cert #",3],
+    ["Altered at adoption?",4,"radio",["Yes","No – voucher issued"]],["Spay/neuter due by",4,"date"],["Spay/neuter deposit",4,"num"]]},
+  {h:"Adopter",f:[["Adopter name",6,"text",null,1],["Phone",3,"tel"],["Email",3,"email"],["Address",12]]},
+  {h:"Fees",table:{cols:["Fee code (SC-000)","Description","Amount"],rows:["","","","",""]}},
+  {h:"Payment",f:[["Promotion / discount code",3],["Discount amount",3,"num"],["Total due",3,"num",null,1],["Total paid",3,"num"],["Payment method",6,"radio",["Cash","Credit/debit","Check","Waived"]],["Check # / last 4 of card",3],["Receipt #",3]]},
+  {h:"Terms of Adoption",sm:"Adopter initials each term",terms:["I will give the animal proper food, water, shelter, veterinary care and humane treatment.","I will keep current identification on the animal and update the microchip registration within 10 days.","If the animal was not altered, I will have it spayed or neutered by the date above.","I will not sell, give away or abandon the animal. If I can't keep it, I will return it to Sandpiper Cove.","I agree to follow-up contact from shelter staff.","I understand the shelter does not guarantee the animal's health or behavior. Returns within 14 days receive a store credit as described on SC-320."],initials:true},
+  {h:"Follow-up Contacts",office:true,table:{cols:["Scheduled","Date done","Staff","Method","Notes"],rows:["3-day call","30-day check-in","Spay/neuter verification"]}}
+ ],sigs:["Adopter","Shelter representative"]},
+
+{no:"SC-320",group:"Adoption & Returns",title:"Return to Shelter Form",rev:"Rev. 03/2026",
+ purpose:"Used when an adopted animal is brought back. It closes out the adoption and opens a new intake (SC-100, type \"Return\"). It also records whether a refund, credit or exchange was given.",
+ sections:[
+  {h:"Return",office:true,f:[["Return #",3],["Return date",3,"date",null,1],["Original adoption #",3,"text",null,1],["New intake #",3]]},
+  {h:"Animal & Adopter",f:[["Animal ID",3,"text",null,1],["Animal name",3],["Adoption date",3,"date"],["Days in home",3,"num"],["Returned by (name)",6],["Phone",6,"tel"]]},
+  {h:"Reason",f:[["Primary reason",12,"radio",["Behavior – people","Behavior – other pets","House-soiling","Too active / energy","Health problem","Allergies","Landlord","Moving","Personal / family change","Not a good match","Other"],1],["What happened? Please be specific.",12,"area"],
+    ["Any bites or scratches in your home?",6,"radio",["Yes","No"]],["If yes, date & description",6]]},
+  {h:"Settlement",office:true,f:[["Within 14-day window?",3,"radio",["Yes","No"]],["Settlement",3,"sel",["None","Store credit","Partial refund","Exchange"]],["Amount",3,"num"],["Exchange Animal ID",3],["Adopter eligible to adopt again?",6,"radio",["Yes","Yes – with conditions","No (add to do-not-adopt list)"]],["Counselor notes",6]]}
+ ],sigs:["Person returning animal","Adoption counselor"]},
+
+/* ---------------- FOSTER ---------------- */
+{no:"SC-400",group:"Foster Care",title:"Foster Home Application",rev:"Rev. 09/2025",
+ purpose:"Lets a person apply to care for shelter animals at home. An approved foster becomes a foster parent who can take many placements over time (SC-410).",
+ sections:[
+  {h:"Applicant",f:[["Last name",4,"text",null,1],["First name",4,"text",null,1],["Date of birth",4,"date"],["Address",6],["City",3],["ZIP",3],["Mobile phone",4,"tel"],["Email",4,"email"],["Already a volunteer? Volunteer ID",4]]},
+  {h:"Home",f:[["Home type",4,"radio",["House","Apartment","Condo","Other"]],["Own or rent?",4,"radio",["Own","Rent"]],["Landlord approval for fostering?",4,"radio",["Yes","No","N/A"]],["Separate room for isolation?",6,"radio",["Yes – bathroom","Yes – bedroom","Yes – other","No"]],["Adults / children in home (ages)",6]]},
+  {h:"Current Pets",table:{cols:["Name","Species","Age","Spayed / neutered","Vaccines current","Good with other animals?"],rows:3,colSel:{3:["","Yes","No"],4:["","Yes","No"],5:["","Yes","No","Unknown"]}}},
+  {h:"Foster Preferences",f:[["Species",6,"check",["Dogs","Cats","Rabbits","Other small animals"]],["Max animals at once",3,"num"],["Can transport to vet appts?",3,"radio",["Yes","No"]],
+    ["Types of foster you can take",12,"check",["Bottle babies (0–4 wks)","Kittens / puppies (4–8 wks)","Mom with litter","Medical recovery","Ringworm","Behavior / shy","Adult dogs","Seniors","Hospice","Overnight / weekend only"]],
+    ["Typical length you can foster",6,"sel",["1 week or less","2–4 weeks","1–3 months","As long as needed"]],["Prior foster experience",6]]},
+  {h:"Unavailable Dates",sm:"Travel or other times you can't foster",table:{cols:["From","To","Reason"],rows:2}},
+  {h:"Approval",office:true,f:[["Foster ID",3],["Approved by",3],["Approval date",3,"date"],["Status",3,"sel",["Pending","Approved","On hold","Inactive","Not approved"]],["Home check date",3,"date"],["Foster orientation date",3,"date"],["Approved for (types)",6]]}
+ ],sigs:["Applicant","Foster coordinator"]},
+
+{no:"SC-410",group:"Foster Care",title:"Foster Placement Agreement",rev:"Rev. 09/2025",
+ purpose:"Signed each time animals leave with a foster parent. It records which animals went out, the supplies issued, and when each animal came back and why.",
+ sections:[
+  {h:"Placement",office:true,f:[["Placement #",3],["Foster ID",3,"text",null,1],["Foster name",3],["Foster coordinator",3]]},
+  {h:"Animals Placed",table:{cols:["Animal ID","Name","Species","Date out","Expected return","Actual return","Weight out (lb)","Weight in (lb)","Outcome"],rows:4,colSel:{8:["","Still in foster","Returned to shelter","Adopted from foster","Foster adopted","Died in foster","Transferred"]}}},
+  {h:"Medications Sent Home",table:{cols:["Animal ID","Drug","Dose","Frequency","Until"],rows:2}},
+  {h:"Supplies Issued",table:{cols:["Item","Qty out","Qty returned","Condition"],rows:["Crate / carrier","Food (bag/cans)","Litter / pads","Bowls","Bottles / formula","Bedding",""],colSel:{3:["","Good","Damaged","Not returned"]}}},
+  {h:"Foster Agreement",terms:["Animals in foster remain the property of Sandpiper Cove Animal Shelter.","I will bring each animal to all scheduled medical appointments and give medications as directed.","I will contact the foster coordinator within 24 hours of any illness, injury, bite or escape.","I will not give, sell or adopt out a foster animal. All adoptions go through the shelter.","The shelter may end this placement at any time."]}
+ ],sigs:["Foster parent","Shelter representative"]},
+
+/* ---------------- VOLUNTEERS ---------------- */
+{no:"SC-500",group:"Volunteers",title:"Volunteer Application & Waiver",rev:"Rev. 01/2026",
+ purpose:"Every volunteer completes this once. The office-use section tracks orientation and the training levels that decide which tasks a volunteer may do.",
+ sections:[
+  {h:"Volunteer",f:[["Last name",4,"text",null,1],["First name",4,"text",null,1],["Date of birth",4,"date",null,1],["Address",6],["City",3],["ZIP",3],["Mobile phone",4,"tel"],["Email",4,"email"],["T-shirt size",4,"sel",["XS","S","M","L","XL","2XL","3XL"]]]},
+  {h:"Emergency Contact",f:[["Name",4,"text",null,1],["Relationship",4],["Phone",4,"tel",null,1]]},
+  {h:"Interests",f:[["I'd like to help with",12,"check",["Dog walking","Cat socializing","Small animals","Laundry & dishes","Kennel cleaning","Adoption events","Animal transport","Photography / bios","Front desk","Fundraising","Foster care"]],["Skills, languages, certifications",12]]},
+  {h:"Availability",table:{cols:["Day","Morning (8–12)","Afternoon (12–4)","Evening (4–7)"],rows:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],checks:true}},
+  {h:"Community Service",sm:"Court-ordered or school hours",f:[["Is this for required service hours?",4,"radio",["No","School / scouts","Court-ordered"]],["Hours required",4,"num"],["Case # / organization",4]]},
+  {h:"Release & Waiver",terms:["I understand that working with shelter animals carries a risk of bites, scratches, zoonotic disease and other injury.","I release Sandpiper Cove Animal Shelter and the county from liability for injury arising from my volunteer service, except in cases of gross negligence.","I will follow all safety rules and do only tasks I am trained to do.","Volunteers under 18 must have a parent or guardian sign below. Volunteers under 16 must work alongside that adult."]},
+  {h:"Training Record",office:true,table:{cols:["Training","Date completed","Trainer","Expires"],rows:["General orientation","Dog handling – Level 1 (green)","Dog handling – Level 2 (yellow/orange)","Cat handling","Small animal handling","Front desk / customer service","Transport driver (license & insurance on file)"]}},
+  {h:"Office",office:true,f:[["Volunteer ID",3],["Badge #",3],["Status",3,"sel",["Applicant","Active","Inactive","Dismissed"]],["Background check",3,"sel",["Not required","Pending","Cleared","Not cleared"]]]}
+ ],sigs:["Volunteer","Parent / guardian (if under 18)"]},
+
+{no:"SC-510",group:"Volunteers",title:"Volunteer Shift Sign-In Log",rev:"Rev. 06/2025",
+ purpose:"Kept at the volunteer desk, one sheet per day. Volunteer hours are totaled each month for county reports and for court-ordered service letters.",
+ sections:[
+  {h:"Date",f:[["Shift date",4,"date",null,1],["Location",4,"sel",["Main shelter","Offsite adoption center","Event"]],["Event name (if any)",4]]},
+  {h:"Sign-In",table:{cols:["Volunteer ID","Printed name","Area / task","Time in","Time out","Hours","Animal IDs worked with","Supervisor initials"],rows:8,colSel:{2:["","Dog walking","Cat room","Small animals","Laundry","Kennel","Event","Transport","Front desk"]}}}
+ ]},
+
+/* ---------------- OUTCOMES & MONEY ---------------- */
+{no:"SC-700",group:"Outcomes & Money",title:"Outcome & Disposition Record",rev:"Rev. 03/2026",
+ purpose:"Closes an animal's stay. Every intake has exactly one outcome. Fill in the section that matches the outcome type; reclaims, transfers and euthanasia each need extra documentation.",
+ sections:[
+  {h:"Outcome",f:[["Animal ID",3,"text",null,1],["Intake # being closed",3,"text",null,1],["Outcome date",3,"date",null,1],["Outcome time",3,"time"],
+    ["Outcome type",12,"radio",["Adoption","Return to owner","Transfer out","Return to field (TNR/SNR)","Euthanasia","Died in care","Missing / escaped","Disposal (DOA)"],1],
+    ["Weight at outcome (lb)",3,"num"],["Last kennel location",3],["Days in shelter",3,"num"],["Staff",3]]},
+  {h:"Adoption",sm:"If adopted",f:[["Adoption # (SC-310)",6],["Adopted from",6,"radio",["Shelter","Foster home","Offsite center","Event"]]]},
+  {h:"Return to Owner",sm:"If reclaimed",f:[["Owner name",4],["Owner phone",4,"tel"],["Proof of ownership",4,"sel",["Microchip registration","Vet records","License / rabies tag","Photos","Adoption paperwork"]]]},
+  {h:"Reclaim Fees",table:{cols:["Fee code","Description","Qty","Rate","Amount"],rows:["IMP-01 / IMP-02","BRD-01","RAB-01","LIC-A / LIC-U","CHP-01"]}},
+  {h:"Transfer Out",sm:"If transferred",f:[["Partner organization",6],["Partner contact",3],["Partner transfer #",3]]},
+  {h:"Euthanasia",sm:"Requires DVM and Manager signatures",f:[["Reason",6,"radio",["Medical – untreatable","Behavior – danger","Legal / court order","Owner requested"]],["Authorized by (MGR)",3],["Performed by",3],["Drug",3],["Controlled-substance log #",3],["Quantity (mL)",3,"num"],["Witness",3],["Supporting notes",12,"area"]]},
+  {h:"Remains & Records",office:true,f:[["Remains disposition",6,"sel",["N/A","Cremation – communal","Cremation – private (owner)","Rabies testing (head submitted)","Burial"]],["Record closed by",3],["Closed date",3,"date"]]}
+ ],sigs:["Staff completing outcome","Manager / DVM (if required)"]},
+
+{no:"SC-800",group:"Outcomes & Money",title:"Donation Record & Receipt",rev:"Rev. 01/2026",
+ purpose:"Records every gift of money or goods. Gifts can go to a fund or sponsor a specific animal's adoption fee. The bottom copy is the donor's tax receipt.",
+ sections:[
+  {h:"Donor",f:[["Donor type",12,"radio",["Individual","Business","Foundation / grant","Anonymous"]],["Name / organization",6,"text",null,1],["Contact person",6],["Address",6],["City",3],["ZIP",3],["Phone",4,"tel"],["Email",4,"email"],["Donor ID (returning)",4]]},
+  {h:"Gift",f:[["Date received",3,"date",null,1],["Gift type",9,"radio",["Cash","Check","Credit card","Online","In-kind goods","Pledge"]],["Amount",3,"num"],["Check # / transaction ID",3],["Designation",6,"sel",["General operating","Medical fund","Spay/neuter fund","Sponsor an animal","Building fund","Adoption fee sponsorship"]],["Sponsored Animal ID",4],["Campaign / event",4],["Recurring?",4,"radio",["One-time","Monthly","Annual"]]]},
+  {h:"In-Kind Items",table:{cols:["Category","Item description","Qty","Unit","Condition","Est. value (donor)"],rows:4,colSel:{0:["","Food","Litter","Bedding / towels","Toys","Cleaning","Medical","Equipment","Other"],4:["","New","Used – good","Used – fair"]}}},
+  {h:"Tribute",sm:"Optional",f:[["Gift is",4,"radio",["In honor of","In memory of"]],["Honoree (person or pet)",4],["Send notice to (name & address)",4]]},
+  {h:"Acknowledgment",office:true,f:[["Receipt #",3],["Received by",3],["Thank-you sent",3,"date"],["Entered in donor system",3,"radio",["Yes","No"]]]},
+  {h:"Tax Statement",terms:["Sandpiper Cove Animal Shelter Foundation is a 501(c)(3) organization. No goods or services were provided in exchange for this contribution, except as noted.","For in-kind gifts, the shelter does not assign a value. The donor is responsible for determining fair market value."]}
+ ],sigs:["Received by"]}
+];
+
+/* ---------- renderer ---------- */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let uid=0;
+function field(fid,[label,w=4,type="text",opts,req]){
+  const id=`${fid}-${++uid}`, r=req?' <span class="req" title="Required">*</span>':'';
+  const span=`style="grid-column:span ${w}"`;
+  if(type==="radio"||type==="check"){
+    const t=type==="radio"?"radio":"checkbox";
+    return `<fieldset class="fld" style="grid-column:span ${w};border:0;padding:0;margin:0"><legend class="lbl" style="padding:0;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">${esc(label)}${r}</legend><div class="opts">${opts.map((o,i)=>`<label><input type="${t}" id="${id}-${i}" name="${id}">${esc(o)}</label>`).join("")}</div></fieldset>`;
+  }
+  let ctl;
+  if(type==="area") ctl=`<textarea id="${id}"></textarea>`;
+  else if(type==="sel") ctl=`<select id="${id}"><option></option>${opts.map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;
+  else ctl=`<input id="${id}" type="${type==="num"?"number":type}"${type==="num"?' step="any"':''}>`;
+  return `<div class="fld" ${span}><label for="${id}">${esc(label)}${r}</label>${ctl}</div>`;
+}
+function cell(fid,sel){
+  const id=`${fid}-${++uid}`;
+  return sel?`<td><select id="${id}" aria-label="value"><option></option>${sel.slice(1).map(o=>`<option>${esc(o)}</option>`).join("")}</select></td>`:`<td><input type="text" id="${id}" aria-label="value"></td>`;
+}
+function table(fid,t){
+  const head=`<tr>${t.cols.map(c=>`<th scope="col">${esc(c)}</th>`).join("")}</tr>`;
+  let rows="";
+  const list=typeof t.rows==="number"?Array(t.rows).fill(null):t.rows;
+  list.forEach(r=>{
+    if(t.fixed){rows+=`<tr>${r.map((v,i)=>i===0?`<td class="rowh">${esc(v)}</td>`:`<td style="padding:5px 8px">${esc(v)}</td>`).join("")}</tr>`;return;}
+    let tr="<tr>";
+    t.cols.forEach((c,i)=>{
+      if(i===0&&r!==null&&r!==""){tr+=`<td class="rowh">${esc(r)}</td>`;return;}
+      if(t.checks&&i>0){const id=`${fid}-${++uid}`;tr+=`<td style="text-align:center;padding:6px"><input type="checkbox" id="${id}" aria-label="${esc(r+' '+c)}"></td>`;return;}
+      const sel=(t.rowSel&&t.rowSel[i])||(t.colSel&&t.colSel[i]);
+      tr+=cell(fid,sel);
+    });
+    rows+=tr+"</tr>";
+  });
+  return `<div class="tblwrap"><table><thead>${head}</thead><tbody>${rows}</tbody></table></div>`;
+}
+function render(){
+  const nav=document.getElementById("index"), main=document.getElementById("forms");
+  let navH="",lastG="",html="";
+  FORMS.forEach(F=>{
+    const fid=F.no.toLowerCase();
+    if(F.group!==lastG){navH+=`<h2>${esc(F.group)}</h2>`;lastG=F.group;}
+    navH+=`<a href="#${fid}"><span>${F.no}</span>${esc(F.title)}</a>`;
+    let body="";
+    F.sections.forEach(s=>{
+      let inner="";
+      if(s.note2) inner+=`<p class="note" style="margin-bottom:8px">${esc(s.note2)}</p>`;
+      if(s.f) inner+=`<div class="grid">${s.f.map(x=>field(fid,x)).join("")}</div>`;
+      if(s.table) inner+=table(fid,s.table);
+      if(s.terms) inner+=`<ol class="terms">${s.terms.map(t=>`<li>${esc(t)}${s.initials?' <span class="initial" aria-label="initials"></span>':''}</li>`).join("")}</ol>`;
+      body+=`<section class="sec${s.office?" office":""}"><h4>${esc(s.h)}${s.sm?` <small>${esc(s.sm)}</small>`:""}</h4>${inner}</section>`;
+    });
+    if(F.sigs) body+=`<div class="sigs">${F.sigs.map(s=>`<div class="sig"><div></div><div></div><span>${esc(s)} signature</span><span>Date</span></div>`).join("")}</div>`;
+    html+=`<article class="form" id="${fid}">
+      <header class="fhead"><span class="fno">${F.no}</span><h3>${esc(F.title)}</h3><span class="rev">${F.rev}</span><p class="purpose">${esc(F.purpose)}</p></header>
+      <form class="fbody" onsubmit="event.preventDefault()">${body}
+      <div class="ffoot"><span>Sandpiper Cove Animal Shelter · 4100 Heron Marsh Rd.</span><span>${F.no} · ${F.rev}</span><span><span class="req">*</span> required field</span></div></form></article>`;
+  });
+  nav.innerHTML=navH; main.innerHTML=html;
+  const h=location.hash.slice(1); if(h){const el=document.getElementById(h); if(el) el.scrollIntoView();}
+}
+render();
+</script>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

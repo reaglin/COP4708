@@ -1,0 +1,1236 @@
+{
+  "ModuleFolderName": "Data_Modeling_and",
+  "CourseName": "COP4708",
+  "GeneratedDate": "2026-06-27T14:58:00.9950904-04:00",
+  "ModifiedDate": "2026-06-27T15:00:40.6241574-04:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "5ebdfb50-d731-4e83-8c73-a78a36e5aeef",
+      "Title": "Introduction to Data Modeling",
+      "Summary": "Covers the fundamental purpose and importance of data modeling in database design. Explains how data modeling serves as a blueprint for organizing and structuring data before implementation.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "ModifiedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "Elements": [
+        {
+          "Id": "b7f57eb0-1661-4939-ac97-7bacdc2872a9",
+          "TopicId": "5ebdfb50-d731-4e83-8c73-a78a36e5aeef",
+          "Title": "What is Data Modeling?",
+          "BodyText": "Data modeling is the process of creating a structured representation of data and how it will be organized within a system before any physical database is built.",
+          "Notes": "Think of data modeling as the architectural blueprint for a building \u2014 just as an architect plans a structure before construction begins, a database designer creates a data model before writing any code or creating tables.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "ModifiedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "Items": [
+            {
+              "Id": "21659882-ea6b-406e-b2b4-7a0df98226c9",
+              "Text": "Data modeling defines what data will be stored, how it is organized, and how different pieces of data relate to one another.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "310b193a-3adb-499e-b924-bef2ee38d911",
+              "Text": "It acts as an abstraction layer that allows designers to focus on the logical structure of data without worrying about technical implementation details.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "64d66e04-ffbf-4170-863f-8c0b55cf6d24",
+              "Text": "Data models serve as a communication tool between technical teams and business stakeholders.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "bce36dc5-68d5-4d7a-b63a-af8f72062bf7",
+              "Text": "The outcome of data modeling is a formal specification that guides the actual construction of a database.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "07ae29e9-d2a0-4932-b72f-038f909a152f",
+          "TopicId": "5ebdfb50-d731-4e83-8c73-a78a36e5aeef",
+          "Title": "Purpose and Importance of Data Modeling",
+          "BodyText": "Data modeling serves as a critical planning step in database design, ensuring that data is organized efficiently, consistently, and in alignment with business needs.",
+          "Notes": "Skipping data modeling often leads to poorly structured databases that are difficult to query, maintain, or scale \u2014 resulting in costly redesigns later in the development process.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "ModifiedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "Items": [
+            {
+              "Id": "4e33ab93-13ab-402f-bdff-7a6da3562ab6",
+              "Text": "A well-constructed data model helps prevent data redundancy and inconsistency by establishing clear rules for how data is stored.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "68087de2-e48a-4c55-b1d9-3cdaf66a5a3d",
+              "Text": "It ensures that the database structure supports all the business processes and queries that users will require.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "53314893-c6c4-491f-8fc8-cee45fd6c774",
+              "Text": "Data modeling reduces the risk of errors and misunderstandings early in the design phase, saving time and resources during implementation.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "0c9d3b54-d7de-4ce0-92c2-797bd7c9d625",
+              "Text": "It provides a shared reference point that developers, analysts, and stakeholders can review and validate before development begins.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "e4dea8a9-cc7e-4e9f-9dc4-f5d3cbf086a7",
+          "TopicId": "5ebdfb50-d731-4e83-8c73-a78a36e5aeef",
+          "Title": "Data Modeling as a Blueprint",
+          "BodyText": "A data model functions as a blueprint for a database, defining the entities, attributes, and relationships that the system will manage before any implementation takes place.",
+          "Notes": "Just as a blueprint shows walls, rooms, and connections in a building plan, a data model visually and formally shows data structures and their interconnections.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "ModifiedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "Items": [
+            {
+              "Id": "5f33e1cf-f31e-48da-a4c7-c369b4946eee",
+              "Text": "The blueprint nature of a data model allows designers to experiment with structure and refine decisions without any costly changes to an actual system.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a8d6f84a-dddd-4f3c-ac5e-30122a9a5a98",
+              "Text": "It establishes a plan that developers follow during implementation, ensuring the final database matches the intended design.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "581cddce-cee0-4e10-8da9-bdb0fe92c442",
+              "Text": "Changes and corrections are far easier to make at the modeling stage than after a database has been built and populated with data.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "4b90c52d-2782-487d-b3f1-d16d4c75b051",
+          "TopicId": "5ebdfb50-d731-4e83-8c73-a78a36e5aeef",
+          "Title": "Levels of Data Abstraction in Modeling",
+          "BodyText": "Data modeling typically occurs at multiple levels of abstraction, moving from a high-level conceptual view down to a detailed logical and physical design.",
+          "Notes": "Understanding these levels helps students recognize that data modeling is not a single step but a progression of increasingly detailed design decisions.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "ModifiedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "Items": [
+            {
+              "Id": "05cd085e-6e76-4242-b863-752dcdf67a3e",
+              "Text": "The conceptual level focuses on identifying the major entities and relationships in a problem domain without technical detail.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "50751930-28b3-43f1-b209-75dfb0ce78ce",
+              "Text": "The logical level adds more detail, defining attributes, data types, and precise relationships between entities.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "53a7a62a-3306-4162-9d02-6d20bcc045e9",
+              "Text": "The physical level describes how the logical design will be implemented in a specific database management system.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "5fd6148b-a3ec-4c5c-a102-57d9d2189ac1",
+              "Text": "Moving through these levels allows designers to validate the model at each stage before adding more complexity.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "0bbdf9c9-6fba-4097-b153-c6510349a1db",
+          "TopicId": "5ebdfb50-d731-4e83-8c73-a78a36e5aeef",
+          "Title": "Data Modeling in the Database Design Process",
+          "BodyText": "Data modeling is a foundational step in the overall database design process, occurring before any tables are created or queries are written.",
+          "Notes": "In practice, data modeling bridges the gap between understanding a business problem and translating that understanding into a functional database solution.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "ModifiedDate": "2026-06-27T14:58:19.5679314-04:00",
+          "Items": [
+            {
+              "Id": "8a7c93b0-843e-405d-a1ad-ebf282b0d006",
+              "Text": "The process begins with understanding the problem domain \u2014 identifying what information needs to be captured and how it will be used.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "964b6484-491a-4654-8c3b-79e06375e3fa",
+              "Text": "Designers then create a data model that represents that understanding in a structured, formal way.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "41ff4990-6b9d-4675-af32-2cb8e4548be8",
+              "Text": "The validated data model is then used as the direct input for building the physical database schema.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ab056c80-4af1-40d4-88bb-604b321f4006",
+              "Text": "This sequence ensures that the final database is purposeful, accurate, and aligned with real-world requirements.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+      "Title": "Entities and Attributes",
+      "Summary": "Introduces entities as the core objects or concepts within a problem domain and explores the attributes that describe them. Students learn how to identify and define entities and their properties from real-world scenarios.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "ModifiedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "Elements": [
+        {
+          "Id": "a604e4d7-c3c1-4d26-91bc-e53eab304423",
+          "TopicId": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+          "Title": "What Is an Entity?",
+          "BodyText": "An entity is a distinct object, person, place, concept, or event within a problem domain that we want to store information about in a database.",
+          "Notes": "Examples include a Customer in a retail system, a Book in a library system, or a Course in a university system. Entities are typically represented as nouns found in a problem description.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "ModifiedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "Items": [
+            {
+              "Id": "787ebc40-97e0-4ccf-84be-04b3fb6c2ed5",
+              "Text": "An entity represents something that exists independently and is distinguishable from other things in the real world.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "83879939-b867-4a0b-9f21-7a10f6145097",
+              "Text": "Entities become tables in a relational database during implementation.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b7be11de-097b-41db-aae3-a3a517334f27",
+              "Text": "To identify entities, look for the key \u0027things\u0027 or \u0027objects\u0027 a business or system needs to track.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "299e6571-0683-4447-a74d-ac785f460c1b",
+              "Text": "Each entity should be uniquely identifiable from every other entity of the same type.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "43c4b4c0-2f01-4d16-9ec4-70d3dafdabed",
+          "TopicId": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+          "Title": "Entity Types vs. Entity Instances",
+          "BodyText": "An entity type defines the general category or class of a thing, while an entity instance is a specific, individual occurrence of that entity type.",
+          "Notes": "For example, \u0027Student\u0027 is an entity type, whereas \u0027Maria Lopez, Student ID 1042\u0027 is a specific entity instance. This distinction mirrors the concept of a class and its objects in programming.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "ModifiedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "Items": [
+            {
+              "Id": "3f269931-db9f-435a-b42d-778cae4cf5e5",
+              "Text": "An entity type acts as a template or blueprint describing what data will be captured for all members of that category.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "df66817a-15c1-49c4-be65-72890c401866",
+              "Text": "Each entity instance must be uniquely identifiable, usually through a key attribute.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3318b0c4-56ca-4732-a0d2-dff269ad57f4",
+              "Text": "A single entity type can have many instances \u2014 a university may have thousands of Student instances.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "e14665c2-1e17-4186-9b1a-47bf0df76f6f",
+          "TopicId": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+          "Title": "What Are Attributes?",
+          "BodyText": "Attributes are the properties or characteristics that describe an entity, providing the specific details we want to store about each entity instance.",
+          "Notes": "For a Student entity, attributes might include StudentID, FirstName, LastName, DateOfBirth, and Email. Attributes correspond to the columns of a table in a relational database.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "ModifiedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "Items": [
+            {
+              "Id": "460fbb79-f27b-4868-bacc-eaea5f5a5a2c",
+              "Text": "Each attribute holds a specific piece of data relevant to the entity it belongs to.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e5b13401-e9f4-479c-853d-45dc9b90ff84",
+              "Text": "Attributes are identified by examining what descriptive information is needed about each entity in the problem domain.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9f8c0e97-959c-4484-acd9-798acdbf4928",
+              "Text": "Well-chosen attributes capture all necessary facts about an entity without introducing redundancy.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "405dadd9-643d-43e1-abe5-9d4a7e823a94",
+              "Text": "Attributes are typically named using clear, descriptive labels that reflect their real-world meaning.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "81a90a94-28c2-4b54-8fa5-13b463c6e7fd",
+          "TopicId": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+          "Title": "Types of Attributes",
+          "BodyText": "Attributes can be classified into several types based on their structure and behavior, including simple, composite, derived, and multi-valued attributes.",
+          "Notes": "For example, \u0027FullName\u0027 can be a composite attribute made up of FirstName and LastName. \u0027Age\u0027 is a derived attribute calculated from DateOfBirth. A \u0027PhoneNumber\u0027 field that stores multiple numbers is multi-valued.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "ModifiedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "Items": [
+            {
+              "Id": "14977b10-5288-4ac3-938c-b32f98e57f23",
+              "Text": "A simple (atomic) attribute cannot be broken down further \u2014 for example, StudentID or Email.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "33bc1a10-f5e4-4d1f-8950-3266dd1f64c3",
+              "Text": "A composite attribute is made up of multiple sub-parts \u2014 for example, Address composed of Street, City, State, and ZipCode.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d69fd9bc-ab1e-4198-8506-f4ed65b84cbe",
+              "Text": "A derived attribute is calculated or inferred from another attribute \u2014 for example, Age derived from DateOfBirth.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "c01b405d-140a-4bfb-8d9c-e126a10c2a6b",
+              "Text": "A multi-valued attribute can hold more than one value for a single entity instance \u2014 for example, a list of phone numbers for a contact.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "80378290-fa8d-4c8d-be79-1a80e2f12cb4",
+              "Text": "Recognizing attribute types ensures accurate and efficient data modeling choices.",
+              "SortOrder": 4
+            }
+          ]
+        },
+        {
+          "Id": "5b9fd4d7-122c-4e17-a714-7f2d78e66f6a",
+          "TopicId": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+          "Title": "Key Attributes and Entity Identification",
+          "BodyText": "A key attribute is a special attribute whose value uniquely identifies each instance of an entity, ensuring no two instances are confused with one another.",
+          "Notes": "For example, StudentID uniquely identifies each Student, and ISBN uniquely identifies each Book. Natural keys come from real-world data, while surrogate keys are system-generated identifiers.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "ModifiedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "Items": [
+            {
+              "Id": "e7852ea8-b8a9-454a-8b8e-2fb53f36d50d",
+              "Text": "Every entity must have at least one key attribute to guarantee uniqueness among its instances.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "387d7b20-3e5a-438e-89ad-36d6f7499aa4",
+              "Text": "A key attribute is typically underlined in an ER diagram to distinguish it from other attributes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "941ac740-2221-404e-8981-2bd130e4a370",
+              "Text": "Choosing a reliable key attribute is critical \u2014 it should never be null and should remain stable over time.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "21acee2a-01f9-4fa0-8660-145a79c4bbc3",
+              "Text": "When no natural key exists in the data, a surrogate key (such as an auto-incremented ID) is introduced.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "c7cc030c-d259-45df-8bdf-04a617bb72ed",
+          "TopicId": "586127f4-4fd9-4244-9e6d-cadfd1499cdd",
+          "Title": "Identifying Entities and Attributes from Real-World Scenarios",
+          "BodyText": "Extracting entities and attributes from a real-world problem description is a foundational skill in data modeling, requiring careful analysis of requirements and domain knowledge.",
+          "Notes": "When reading a scenario such as \u0027A library tracks books, members, and loans,\u0027 the nouns suggest entities (Book, Member, Loan) and their descriptive details suggest attributes (Title, MemberName, LoanDate).",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "ModifiedDate": "2026-06-27T14:58:43.9155898-04:00",
+          "Items": [
+            {
+              "Id": "1ef82324-9c79-4064-a37d-54ba8641cae2",
+              "Text": "Start by reading the problem description carefully and highlighting all nouns as candidate entities or attributes.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f129716f-090b-40b1-a74c-c7d9276af0d4",
+              "Text": "Distinguish between entities (things that stand alone and are tracked) and attributes (details that describe those things).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "d0ea1e72-b21d-46ba-bf9d-7f09de5bda2e",
+              "Text": "Ask stakeholders or consult domain requirements to confirm which data elements are truly needed.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "e117e18f-7c40-4430-8463-91fa5f54f1ac",
+              "Text": "Refine the initial list by removing duplicates, merging similar concepts, and verifying each entity has meaningful attributes.",
+              "SortOrder": 3
+            },
+            {
+              "Id": "f9a65db6-33f9-4a2b-895c-7bf2f08c8618",
+              "Text": "Iterative review of the problem domain ensures that no important entities or attributes are overlooked.",
+              "SortOrder": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+      "Title": "Relationships Between Entities",
+      "Summary": "Examines how entities interact and connect with one another within a data model. Covers relationship types, cardinality, and participation constraints that define the nature of these connections.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "ModifiedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "Elements": [
+        {
+          "Id": "ead9fb24-29a6-48c1-b2ed-9c221c19b657",
+          "TopicId": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+          "Title": "What Is a Relationship?",
+          "BodyText": "A relationship in an ER model describes a meaningful association or connection between two or more entities in a problem domain.",
+          "Notes": "For example, a STUDENT entity and a COURSE entity may be connected through an \u0027Enrolls In\u0027 relationship, capturing the fact that students register for courses.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "ModifiedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "Items": [
+            {
+              "Id": "a7661960-1707-4005-bfb4-4a8ce1296501",
+              "Text": "Relationships represent real-world interactions or dependencies between entities.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ff17a56d-0014-41a9-a5fd-671154ee62ed",
+              "Text": "They are typically named using a verb or verb phrase that describes the association.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "108d7a00-912c-4a19-b073-64604ab12c04",
+              "Text": "In an ER diagram, relationships are conventionally depicted as diamond shapes connecting entity rectangles.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "fc79daa2-af94-4be9-a0f4-da04f8268830",
+              "Text": "A relationship can involve two or more entities; a relationship between two entities is called binary, while one involving three is called ternary.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "c43de152-aa85-4d34-b238-b77d28ea8392",
+          "TopicId": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+          "Title": "Cardinality of Relationships",
+          "BodyText": "Cardinality defines the numerical nature of the relationship between entities, specifying how many instances of one entity can be associated with instances of another.",
+          "Notes": "For instance, in a one-to-many relationship, one DEPARTMENT can have many EMPLOYEES, but each EMPLOYEE belongs to only one DEPARTMENT.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "ModifiedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "Items": [
+            {
+              "Id": "0c1c95b0-2af7-452c-959d-c58fb48b1f15",
+              "Text": "One-to-One (1:1): Each instance of Entity A is associated with at most one instance of Entity B, and vice versa.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "82fa7f7d-73e9-418f-b3ba-f3eb94730663",
+              "Text": "One-to-Many (1:N): One instance of Entity A can be associated with many instances of Entity B, but each instance of B relates to only one A.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "16c14936-36ef-4b58-8c91-92f1afcc90f1",
+              "Text": "Many-to-Many (M:N): Multiple instances of Entity A can associate with multiple instances of Entity B.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "8b55a787-2388-46e3-830d-23ed15b49839",
+              "Text": "Cardinality is a critical design decision that directly affects how tables and foreign keys are structured in a relational database.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "89a30a2f-1643-4acc-9be1-833ab70973b5",
+          "TopicId": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+          "Title": "Participation Constraints",
+          "BodyText": "Participation constraints specify whether all or only some entity instances must participate in a given relationship, defining the minimum number of associations required.",
+          "Notes": "Total participation is often shown as a double line in an ER diagram, while partial participation is shown as a single line.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "ModifiedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "Items": [
+            {
+              "Id": "d38624d0-d0e7-4511-a3fd-9a219c3db758",
+              "Text": "Total participation (mandatory) means every instance of an entity must be involved in at least one relationship instance.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "c4023f0a-87d7-4d27-b015-02ab2f028495",
+              "Text": "Partial participation (optional) means some entity instances may exist without being associated with any related entity instance.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "20c0a8e2-11d0-4816-b221-1ef921a478ff",
+              "Text": "For example, every ORDER must be placed by a CUSTOMER (total participation of ORDER), but not every CUSTOMER must have placed an ORDER (partial participation of CUSTOMER).",
+              "SortOrder": 2
+            },
+            {
+              "Id": "5acbb975-2fe0-40bd-b94b-5869bf8522ed",
+              "Text": "Participation constraints combine with cardinality to fully describe the minimum and maximum number of relationship instances for each entity.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "d98e8f94-2b91-40c1-899e-013b30057fb3",
+          "TopicId": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+          "Title": "Degree of a Relationship",
+          "BodyText": "The degree of a relationship refers to the number of entity types that participate in the relationship.",
+          "Notes": "Higher-degree relationships (ternary and above) are less common but necessary when a meaningful association genuinely involves three or more entities simultaneously.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "ModifiedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "Items": [
+            {
+              "Id": "22a861b8-060b-43b0-9ee8-1edbcae01c32",
+              "Text": "Unary (degree 1): An entity is related to itself, also called a recursive relationship \u2014 for example, an EMPLOYEE who manages other EMPLOYEEs.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8ba997f4-8398-47bc-a960-260908dbea1d",
+              "Text": "Binary (degree 2): The most common type, involving exactly two entity types.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "22949371-d925-42b1-8fb9-43b090b2aee4",
+              "Text": "Ternary (degree 3): Three entity types participate simultaneously, such as a SUPPLIER providing a PART to a PROJECT.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "26e4f5fa-d01e-426c-b835-eb30849df86b",
+              "Text": "Understanding relationship degree helps ensure the model accurately captures the complexity of real-world associations.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "4c85c49d-d3e8-4e82-b5a4-e34aaf0e658c",
+          "TopicId": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+          "Title": "Recursive (Self-Referencing) Relationships",
+          "BodyText": "A recursive relationship occurs when an entity type is associated with itself, representing hierarchical or peer connections within the same entity set.",
+          "Notes": "An organizational chart is a classic example: an EMPLOYEE entity has a \u0027manages\u0027 relationship back to EMPLOYEE, reflecting supervisory hierarchies.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "ModifiedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "Items": [
+            {
+              "Id": "c0912f51-136a-4518-8fbc-2db41481eb26",
+              "Text": "Role names are used in recursive relationships to clarify the different roles each participating instance plays.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "70ba5f41-3d86-4fec-8477-0ee8446eeb4b",
+              "Text": "Cardinality still applies \u2014 a manager may supervise many employees (1:N), or employees may collaboratively manage each other (M:N).",
+              "SortOrder": 1
+            },
+            {
+              "Id": "5a03fca5-9df9-4746-8198-cad38959c1c9",
+              "Text": "Recursive relationships are common in representing trees, hierarchies, and networks within a single entity type.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "b4df5ee8-81d2-4441-85f0-7b82bea31503",
+          "TopicId": "42493051-59a4-4a0c-9cfe-f4fbf3b3e5da",
+          "Title": "Representing Relationships in ER Diagrams",
+          "BodyText": "ER diagrams use standardized notation to visually communicate relationship types, cardinality, and participation between entities.",
+          "Notes": "Both Chen notation and Crow\u0027s Foot notation are widely used; Crow\u0027s Foot notation is common in professional database design tools.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "ModifiedDate": "2026-06-27T14:59:08.2288035-04:00",
+          "Items": [
+            {
+              "Id": "cef4ffa2-d92a-4fb6-80b5-d03903c7d0a1",
+              "Text": "In Chen notation, diamonds represent relationships, lines connect them to entities, and labels indicate cardinality ratios such as 1, N, or M.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a8d32a44-00ee-4569-8cc7-899a1202215b",
+              "Text": "Crow\u0027s Foot notation uses symbols at the ends of connecting lines \u2014 a single line for \u0027one\u0027 and a crow\u0027s foot symbol for \u0027many\u0027.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "67107728-3514-4236-9bd3-934260c2a221",
+              "Text": "Participation constraints are shown as double lines (total) or single lines (partial) in Chen notation.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "1a9fe12c-a3c9-4fc9-8dcc-9cb69190455e",
+              "Text": "Clear and consistent notation ensures that ER diagrams are unambiguous and can be reliably translated into a relational database schema.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+      "Title": "The Entity-Relationship (ER) Model",
+      "Summary": "Presents the ER model as a standardized framework for representing data structure conceptually. Explains the components and conventions of the ER model used to describe a problem domain.",
+      "SortOrder": 3,
+      "CreatedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "ModifiedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "Elements": [
+        {
+          "Id": "eb7dbd9a-e753-4ad6-bf80-751d83a7510c",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "What Is the ER Model?",
+          "BodyText": "The Entity-Relationship (ER) model is a standardized, high-level conceptual framework used to describe the structure of data within a problem domain before any physical database is built.",
+          "Notes": "The ER model was introduced by Peter Chen in 1976 and remains one of the most widely used tools for database design. It serves as a communication bridge between database designers and stakeholders.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "821aee1d-88eb-4d8c-b81c-d98afa6c8746",
+              "Text": "The ER model represents data conceptually, independent of any specific database management system or technology.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "afc46bc1-718a-4787-910e-4d19323daf0d",
+              "Text": "It captures the essential structure of a domain by defining what data exists, how it is described, and how different data elements relate to one another.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b23456b7-c0e1-4cbc-8410-7d81d778c99a",
+              "Text": "The model produces an ER diagram (ERD), a visual artifact used to plan and validate the database design before implementation.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "3f098d3f-65b5-47a0-ac8b-23823468f95b",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "Entities: The Core Building Blocks",
+          "BodyText": "An entity is a distinct object or concept in the problem domain that has data worth storing, such as a person, place, event, or thing.",
+          "Notes": "For example, in a university database, \u0027Student\u0027, \u0027Course\u0027, and \u0027Instructor\u0027 would each be entities. Entities are represented as rectangles in a standard ER diagram.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "2a9a3271-7a5f-4ae9-a5d1-1b16c6416966",
+              "Text": "An entity represents a category or type of object, not a single specific instance; individual occurrences are called entity instances.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "7717cd97-3752-412d-9cd8-db4f20a7ac8b",
+              "Text": "Entities are identified by analyzing the problem domain and asking what key objects need to be tracked.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "6db0405f-a171-40f9-847f-143c1e809c4b",
+              "Text": "Entities are depicted as named rectangles in an ER diagram, with the entity name written inside.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "6baa277f-dfef-4c4f-adc1-dd1d852952f2",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "Attributes: Describing Entities",
+          "BodyText": "Attributes are the properties or characteristics that describe an entity, providing the specific data points that will be stored for each entity instance.",
+          "Notes": "For a \u0027Student\u0027 entity, attributes might include StudentID, FirstName, LastName, and DateOfBirth. In standard ER notation, attributes are shown as ovals connected to their entity by a line.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "02b16818-8f29-44b7-8a8f-a13c4ac176d4",
+              "Text": "Each entity typically has multiple attributes that together capture all the relevant descriptive information for that object type.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "63f2115e-0ac6-481e-beda-f0d4dab3eac8",
+              "Text": "A key attribute uniquely identifies each instance of an entity and is usually underlined in an ER diagram.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "3189d90e-f23c-490c-b726-9b40e089804e",
+              "Text": "Attributes can be simple (single value), composite (made up of sub-parts), or multi-valued (holding more than one value per instance).",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "0276193d-6e97-4aa5-bbc0-c2934f37cc9b",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "Relationships: Connecting Entities",
+          "BodyText": "A relationship defines how two or more entities are associated with one another within the problem domain.",
+          "Notes": "For example, a \u0027Student\u0027 entity may be related to a \u0027Course\u0027 entity through an \u0027Enrolls In\u0027 relationship. Relationships are depicted as diamonds in standard ER notation.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "e174991e-47cb-42de-9143-31239d636e7a",
+              "Text": "Relationships are named to clearly express the nature of the association between entities, typically using a verb or verb phrase.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "55faa9fc-ade1-4604-9cd1-c78c70a931ef",
+              "Text": "A relationship can involve two entities (binary), three entities (ternary), or more, though binary relationships are by far the most common.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f440f424-4d16-460b-8531-dfc48546b779",
+              "Text": "Relationships are represented as diamond shapes connected to their participating entities by lines in an ER diagram.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "a07c695e-b69c-4b9d-afaf-3cfdaefc4fb9",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "Cardinality and Participation Constraints",
+          "BodyText": "Cardinality specifies the numerical nature of the relationship between entities, defining how many instances of one entity can be associated with instances of another.",
+          "Notes": "Common cardinality types are one-to-one (1:1), one-to-many (1:N), and many-to-many (M:N). Participation constraints indicate whether every entity instance must participate in a relationship (total participation) or only some may (partial participation).",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "f0105237-f73e-42e7-9a11-ed6b3c2afc9e",
+              "Text": "A one-to-many relationship means one instance of an entity is associated with many instances of another; for example, one instructor teaches many courses.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e143f1b7-6d7f-43e5-bca7-986d18709244",
+              "Text": "A many-to-many relationship means multiple instances on both sides can be associated; for example, many students enroll in many courses.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "1849314e-e59c-48fc-b481-305b7ba8ca7a",
+              "Text": "Cardinality is noted on the lines connecting entities and relationships in an ER diagram, and participation constraints are shown using single or double lines.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "d3ae6551-e29b-45bb-afe6-00de99675b9e",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "ER Diagram Notation and Conventions",
+          "BodyText": "ER diagrams follow standardized graphical conventions to ensure that the conceptual model is consistent, readable, and unambiguous across different designers and tools.",
+          "Notes": "Chen notation is the original standard, using rectangles, ovals, and diamonds. Other popular notations include Crow\u0027s Foot notation and UML class diagrams, each with slightly different visual conventions but representing the same concepts.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "ce5ead67-e81d-4051-ad3e-6d0ca4fd3f30",
+              "Text": "Rectangles represent entities, ovals represent attributes, diamonds represent relationships, and lines connect them to show association.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "8cdd5337-3353-4179-aafd-2c3328c2fce4",
+              "Text": "Key attributes are distinguished by underlining the attribute name within its oval.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "f4b1a58f-9284-4081-abbb-e4a1e8d2e782",
+              "Text": "Consistent naming conventions \u2014 such as singular nouns for entities and active verbs for relationships \u2014 improve clarity and maintainability of the diagram.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "5376def5-3f51-4ff2-af78-351483765a3f",
+          "TopicId": "3a35c647-7594-4939-ad87-0f2bfcc02420",
+          "Title": "The Role of the ER Model in Database Design",
+          "BodyText": "The ER model functions as the conceptual blueprint for a database, translating real-world problem domain requirements into a structured, implementable design.",
+          "Notes": "The ER model is technology-neutral, meaning it can later be mapped to relational, object-oriented, or other database models. It is a critical step in the database design lifecycle that prevents structural errors from being carried into implementation.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T14:59:35.386604-04:00",
+          "ModifiedDate": "2026-06-27T14:59:35.386604-04:00",
+          "Items": [
+            {
+              "Id": "53247a82-2456-4856-8bc7-14ef3f880465",
+              "Text": "Creating an ER model before building a database helps identify data requirements, catch design flaws early, and align stakeholder expectations.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "a767faab-5393-40b9-96c1-433bef6a40a6",
+              "Text": "The ER diagram serves as a communication tool between technical designers and non-technical stakeholders, making the data structure understandable to all parties.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "19930242-50e9-48c4-b822-587057f55372",
+              "Text": "Once validated, the ER model is used as the foundation for translating the design into actual database schemas and tables during implementation.",
+              "SortOrder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+      "Title": "Creating ER Diagrams",
+      "Summary": "Guides students through the process of constructing ER diagrams as visual representations of a database structure. Covers diagramming notation, symbols, and best practices for translating a problem domain into a clear ER diagram.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "ModifiedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "Elements": [
+        {
+          "Id": "6ca5723b-a692-407d-954c-8974d7a98480",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Understanding ER Diagram Notation and Symbols",
+          "BodyText": "ER diagrams use a standardized set of shapes and symbols to represent the components of a database structure visually.",
+          "Notes": "The most common notation is Chen notation, though Crow\u0027s Foot notation is also widely used in industry tools. Familiarity with at least one notation is essential before diagramming.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "e1ec54dc-ef77-4892-827e-636ae962df36",
+              "Text": "Rectangles represent entities, which are the main objects or concepts in the problem domain.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "ba34f1f7-15e4-4ed1-b2fe-d8100df82ec6",
+              "Text": "Ellipses (ovals) represent attributes, which describe properties of an entity.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "add16864-28ad-4d66-81c1-623dd64bc5ce",
+              "Text": "Diamonds represent relationships, showing how two or more entities are associated.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "612b2226-6951-4bd7-85e4-dd332a75a8de",
+              "Text": "Lines connect entities to their attributes and to relationship diamonds, completing the diagram structure.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "c594d950-b9fb-4d4d-81c5-45b51d248173",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Identifying Entities from a Problem Domain",
+          "BodyText": "The first step in creating an ER diagram is reading the problem description carefully and identifying the key objects that need to be tracked.",
+          "Notes": "A common technique is to underline nouns in the problem statement \u2014 these are strong candidates for entities. Not every noun becomes an entity; some may become attributes instead.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "d6046739-5cde-4885-acfa-3dfb56149a2e",
+              "Text": "Entities are typically people, places, things, or concepts about which data must be stored.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b1f38c2a-1ed0-42dc-bdad-f27fb47043e3",
+              "Text": "Each entity should be distinct and have multiple instances, such as Student, Course, or Order.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "06ad7ca7-25db-41d0-9fed-33499f2c2d2f",
+              "Text": "Weak entities depend on a strong entity for their existence and are drawn with a double rectangle.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "7eb77ba6-a76b-476f-a508-4fdde1f540d5",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Defining and Placing Attributes",
+          "BodyText": "Once entities are identified, attributes are assigned to describe the specific data points each entity holds.",
+          "Notes": "Choosing the right level of granularity for attributes is important \u2014 for example, deciding whether to store a single \u0027Address\u0027 attribute or separate \u0027Street\u0027, \u0027City\u0027, and \u0027ZIP\u0027 attributes.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "8b52805d-b040-4921-a2e7-775fcb0c6562",
+              "Text": "A key attribute uniquely identifies each instance of an entity and is shown with an underlined name inside its ellipse.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "50ed2a4c-6c95-4c84-80f1-0dbfc42c2d0f",
+              "Text": "Multivalued attributes, such as a person having multiple phone numbers, are drawn with a double ellipse.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "b147b32b-7e0d-4096-9cca-5e50d18e1884",
+              "Text": "Derived attributes, whose values can be calculated from other data, are shown with a dashed ellipse.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "3c5acbe7-c156-461a-8334-da3cc69a6818",
+              "Text": "Composite attributes can be broken down into smaller sub-attributes and are connected in a tree structure on the diagram.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "dcdc57aa-1c44-4909-9f24-6be237b67e33",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Drawing Relationships Between Entities",
+          "BodyText": "Relationships capture how entities interact or associate with each other and are central to expressing the business rules of the domain.",
+          "Notes": "Verbs in the problem statement often hint at relationships, such as \u0027a Student enrolls in a Course\u0027 suggesting an ENROLLS relationship between Student and Course.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "62cc7c63-fb88-43a4-9091-34507ca67275",
+              "Text": "A relationship diamond is labeled with a descriptive verb or verb phrase that clarifies the association.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "e474e3da-f7dc-4a6e-b30b-a4d52c2eb897",
+              "Text": "Binary relationships involve two entities and are the most common type in ER diagrams.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "5a5f5313-2e9a-4f19-aed7-3e7ea485d6f1",
+              "Text": "Ternary relationships involve three entities simultaneously and require careful modeling to avoid ambiguity.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "7efffe81-c34b-439b-8d11-9049709fa25e",
+              "Text": "Relationship attributes are attributes that belong to the relationship itself rather than to either participating entity.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "0eab170a-7ef4-4d29-835a-1ceffdc387ee",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Expressing Cardinality and Participation Constraints",
+          "BodyText": "Cardinality and participation constraints define the rules governing how many entity instances can be involved in a relationship.",
+          "Notes": "These constraints directly reflect business rules. For example, a rule that \u0027every student must be enrolled in at least one course\u0027 is expressed as total participation on the Student side.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "817a087f-4190-4d56-926e-315aabf38f5a",
+              "Text": "Cardinality ratios \u2014 one-to-one (1:1), one-to-many (1:N), and many-to-many (M:N) \u2014 are marked on the lines connecting entities to relationships.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f6729a4f-19b9-4f95-ae3a-4666eff841f0",
+              "Text": "Total participation means every instance of the entity must appear in the relationship, shown with a double line.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "22f7095c-c1e2-4aa5-a88e-396ff8c6c037",
+              "Text": "Partial participation means some instances may not participate in the relationship, shown with a single line.",
+              "SortOrder": 2
+            }
+          ]
+        },
+        {
+          "Id": "07969ca4-7d74-427f-9cb8-b41a1197f6cc",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Translating a Problem Description into an ER Diagram",
+          "BodyText": "Building an ER diagram from scratch involves a systematic process of moving from a narrative problem description to a complete visual model.",
+          "Notes": "It is good practice to draft the diagram in stages \u2014 first entities, then attributes, then relationships \u2014 and to review it against the original requirements before finalizing.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "80cdeb26-fec8-4fce-a57a-5d135eb8475a",
+              "Text": "Begin by reading the problem statement thoroughly and annotating key nouns and verbs as candidate entities and relationships.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "00b7a217-9b7f-4ea4-831b-e3ad4d40912a",
+              "Text": "Sketch a rough layout placing entities as nodes and connecting them with relationship diamonds before adding attributes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "64d488e0-3a8e-4c2b-b471-fd9c62a04d13",
+              "Text": "Validate the diagram by checking that every business rule stated in the problem description is represented by a constraint or structure in the diagram.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "e8ec4412-a6b5-4648-9cfa-3d37798d5050",
+              "Text": "Revise iteratively, removing redundancies and ensuring each entity and relationship has a clear, unique purpose.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "f55d6991-bdad-4378-9ba2-ff8516f68b1b",
+          "TopicId": "94f981d9-67d7-46d0-a8e8-6a31ebce3db6",
+          "Title": "Best Practices for Clear and Accurate ER Diagrams",
+          "BodyText": "Following best practices ensures that ER diagrams are readable, unambiguous, and useful as blueprints for database implementation.",
+          "Notes": "A well-drawn ER diagram serves as a communication tool between database designers and stakeholders who may not have a technical background.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "ModifiedDate": "2026-06-27T15:00:04.2170497-04:00",
+          "Items": [
+            {
+              "Id": "302e1c6b-fabb-4047-bec0-7cad8dbca0c3",
+              "Text": "Use consistent, descriptive naming conventions \u2014 entity names should be singular nouns and relationship names should be active verbs.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "662bd82e-8778-4324-8710-a89de28d3ed2",
+              "Text": "Avoid crossing lines where possible by arranging entities logically to improve readability.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "ffe1dd78-66ed-48eb-a3ca-31ef4d81c1cc",
+              "Text": "Do not add implementation details such as data types or indexes at the ER diagram stage; these belong in the physical design phase.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "56eee101-cf1b-4b70-9214-560e33b11486",
+              "Text": "Include a legend or key if using non-standard or mixed notation to prevent misinterpretation by other readers.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+      "Title": "Applying ER Modeling to a Problem Domain",
+      "Summary": "Focuses on analyzing real-world scenarios to identify and model entities, attributes, and relationships. Students practice translating business requirements and problem descriptions into complete ER diagrams ready for database implementation.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "ModifiedDate": "2026-06-27T14:58:00.9950904-04:00",
+      "Elements": [
+        {
+          "Id": "d8787853-f1f4-4668-b1ad-a3426aae4db5",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Analyzing Business Requirements",
+          "BodyText": "The first step in ER modeling is carefully reading and interpreting business requirements or problem descriptions to extract the data that needs to be stored.",
+          "Notes": "For example, a requirement stating \u0027each customer places multiple orders\u0027 reveals both entities (Customer, Order) and a relationship (places) with a one-to-many cardinality.",
+          "SortOrder": 0,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "5791e1ee-afc3-43b5-bf9e-9a10f2f390bd",
+              "Text": "Underline or highlight nouns in the requirement description \u2014 they often indicate candidate entities or attributes.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "10a12d2c-6631-4b05-b076-9e31ed3542dc",
+              "Text": "Look for verbs and action phrases to identify potential relationships between entities.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "bec169f1-9276-4c37-bcf3-8fa792952ec1",
+              "Text": "Distinguish between data that describes an object (attributes) and objects themselves (entities).",
+              "SortOrder": 2
+            },
+            {
+              "Id": "bf999651-9c66-484b-91b1-9b1c6aa616cc",
+              "Text": "Re-read requirements multiple times to ensure no data element or business rule is overlooked.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "3a425116-be67-4508-8378-b57884f02e7e",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Identifying Entities from a Problem Domain",
+          "BodyText": "Entities represent the real-world objects or concepts about which data will be stored, and identifying them correctly is critical to an accurate ER diagram.",
+          "Notes": "In a university registration system, typical entities include Student, Course, Instructor, and Department \u2014 each representing a distinct category of information with multiple instances.",
+          "SortOrder": 1,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "a3645f7d-8ee5-4313-9fac-5876101eb210",
+              "Text": "An entity should represent a category of objects, not a single instance; \u0027Student\u0027 is an entity while \u0027John Smith\u0027 is an instance.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "37cb13bc-a91d-4f21-b01d-3b757b4478d6",
+              "Text": "Entities must have attributes that meaningfully describe them and a primary key that uniquely identifies each instance.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "9a343fe7-96ad-4f36-9f6e-55809b25b39b",
+              "Text": "Weak entities depend on a stronger parent entity for their identification and should be recognized when an object cannot exist independently.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "d29d18b2-c987-4e16-af19-61c2cec0cc92",
+              "Text": "Avoid creating an entity for something that is better represented as an attribute of another entity.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "d9d91321-8500-4cde-bbf1-8228183a1799",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Determining Attributes for Each Entity",
+          "BodyText": "Attributes capture the specific data properties of each entity and must be carefully chosen to reflect actual business needs without redundancy.",
+          "Notes": "For a Customer entity, attributes might include CustomerID (primary key), Name, Email, and Phone. Composite attributes like Address may be broken into Street, City, and Zip.",
+          "SortOrder": 2,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "f7df24b5-8652-4713-9290-3b41fc55cb81",
+              "Text": "Select a primary key attribute that is unique, stable, and minimal for each entity.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "b07a43ac-8ac4-4558-9c1b-c10e21d94417",
+              "Text": "Distinguish between simple, composite, multi-valued, and derived attributes to model data accurately.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "fbf2ac13-9f5e-4f49-80fb-a30fb6ebd3fd",
+              "Text": "Avoid storing data that can be calculated from other attributes unless performance requirements justify it.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "db505ec9-19e5-465b-85af-a63b730ba6e5",
+              "Text": "Ensure each attribute belongs to the most appropriate entity to prevent data duplication across the model.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "00b1ca85-5b32-4448-ad26-aa8ac951cb91",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Identifying and Defining Relationships",
+          "BodyText": "Relationships describe how two or more entities are associated with each other within the problem domain and must reflect actual business rules.",
+          "Notes": "In a hospital system, the relationship between Doctor and Patient could be named \u0027treats,\u0027 and relationship attributes such as \u0027DiagnosisDate\u0027 may be added when the relationship itself carries data.",
+          "SortOrder": 3,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "a0ea947c-80a1-44ce-8f79-ef6abf2dca76",
+              "Text": "Name each relationship with a meaningful verb or verb phrase that clearly describes the association.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "fdddbb7b-ab9d-42d4-bfcc-2aefb9276035",
+              "Text": "Determine the degree of each relationship \u2014 binary (two entities), ternary (three entities), or higher \u2014 based on the scenario.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "993f1faa-b927-4685-be99-46934c11d67f",
+              "Text": "Relationship attributes should be attached to the relationship itself when the data only makes sense in the context of both related entities.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "fd466966-9114-49db-b707-dd243ff321e6",
+              "Text": "Check whether a relationship needs to be promoted to an entity (associative entity) when it carries multiple attributes or participates in other relationships.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "fcbea049-f577-4c67-9480-d69aa4c676e2",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Establishing Cardinality and Participation Constraints",
+          "BodyText": "Cardinality defines how many instances of one entity relate to instances of another, while participation constraints specify whether involvement in a relationship is mandatory or optional.",
+          "Notes": "A business rule stating \u0027every order must belong to a customer, but a customer may have zero or more orders\u0027 translates to total participation for Order and partial participation for Customer in a one-to-many relationship.",
+          "SortOrder": 4,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "b98d1ff2-4c3a-4db4-8a8c-538f15d23765",
+              "Text": "Map cardinality ratios as one-to-one (1:1), one-to-many (1:N), or many-to-many (M:N) based on stated business rules.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "f1b7c406-42f4-4a9a-96b2-605166adf3d1",
+              "Text": "Total (mandatory) participation means every instance of an entity must participate in the relationship; partial (optional) means it need not.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "4748a223-7e15-44a8-be58-4bc8ab9842cc",
+              "Text": "Document the source business rule next to each constraint decision to maintain traceability from requirements to diagram.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "a33272de-fa42-44f9-b85d-d67ddb038b2d",
+              "Text": "Many-to-many relationships typically require a bridge or junction table during physical implementation, so flag them early.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "4cdde897-2421-45d0-8909-cea67528a61e",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Drawing the Complete ER Diagram",
+          "BodyText": "Once entities, attributes, and relationships are identified, they are assembled into a complete ER diagram that visually communicates the entire database structure.",
+          "Notes": "Standard Chen notation uses rectangles for entities, ellipses for attributes, and diamonds for relationships, while crow\u0027s foot notation uses line-end symbols to show cardinality \u2014 both are widely accepted in practice.",
+          "SortOrder": 5,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "81421257-6a55-4886-8f9f-73513ad797e6",
+              "Text": "Place entities as the primary nodes of the diagram and connect them with relationship diamonds or lines depending on the notation used.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "2b862d21-b415-437c-99fa-3f4246d76be3",
+              "Text": "Attach all attributes to their respective entities or relationships and underline primary key attributes.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "c9b2bf61-cf59-4016-ba4b-076c99587179",
+              "Text": "Verify cardinality and participation symbols on both ends of every relationship line before finalizing the diagram.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "16388ef2-51e9-4fd8-9cec-60e415710b82",
+              "Text": "Review the completed diagram against the original requirements to confirm every business rule and data element is represented accurately.",
+              "SortOrder": 3
+            }
+          ]
+        },
+        {
+          "Id": "7f48fca1-da08-488f-bf8c-a85d3a7e2440",
+          "TopicId": "0f1c4d04-38c1-4bb4-92bb-db6729204a07",
+          "Title": "Validating and Refining the ER Model",
+          "BodyText": "After drafting the ER diagram, it must be validated against the original problem description and refined to eliminate errors, redundancies, or missing elements.",
+          "Notes": "A common refinement step is discovering a missing entity \u2014 for instance, realizing that \u0027Enrollment\u0027 should be an associative entity between Student and Course because it carries its own attributes like Grade and EnrollmentDate.",
+          "SortOrder": 6,
+          "CreatedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "ModifiedDate": "2026-06-27T15:00:40.6240488-04:00",
+          "Items": [
+            {
+              "Id": "a52de265-e478-4621-bd69-bd9fa0bf1ed2",
+              "Text": "Walk through sample data scenarios to test whether the model can store and retrieve all required information correctly.",
+              "SortOrder": 0
+            },
+            {
+              "Id": "727827e0-5575-478b-af79-4a8728e988b8",
+              "Text": "Check for redundant relationships where the same association is represented more than once in the diagram.",
+              "SortOrder": 1
+            },
+            {
+              "Id": "34451aa7-dff5-48e6-bbda-a5198362e406",
+              "Text": "Confirm that all business rules stated in the requirements are enforced through constraints visible in the diagram.",
+              "SortOrder": 2
+            },
+            {
+              "Id": "ebb006c2-075b-403b-a55d-71faf5e7c859",
+              "Text": "Solicit feedback from stakeholders or instructors to catch misinterpretations of the original problem domain before moving to implementation.",
+              "SortOrder": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "TotalElementCount": 38
+}

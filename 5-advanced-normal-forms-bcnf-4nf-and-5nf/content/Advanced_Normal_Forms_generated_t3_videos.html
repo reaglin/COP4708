@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparing 3NF and BCNF</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div>
+<h1>Comparing 3NF and BCNF</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Lec-31: BCNF Always Ensures Dependency Preserving Decomposition?? Normalization Examples</a>
+<a href="#sec3">Video 2: Learn Boyce-Codd Normal Form (BCNF)</a>
+<a href="#sec4">Video 3: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Third normal form (3NF) and Boyce-Codd normal form (BCNF) are close cousins. Both attack the same problem — update, insertion, and deletion anomalies caused by functional dependencies on something other than a whole key — but they draw the line in slightly different places. 3NF allows a dependency whose left-hand side is not a superkey as long as the attribute on the right is prime (part of some candidate key); BCNF allows no such exception, requiring every non-trivial functional dependency to have a superkey on the left. For the large majority of schemas, these two definitions select the same decompositions, and the distinction never comes up in practice.</p>
+<p>The interesting cases are the ones where they diverge. The classic gap appears when a relation has multiple overlapping candidate keys — the textbook examples usually involve something like a course, an instructor, and a time slot. There, the schema can be in 3NF yet still carry redundancy, and pushing it to BCNF forces you to split a relation in a way that leaves some functional dependency spanning two tables, so it can no longer be checked without a join. That is the trade-off at the heart of this topic: BCNF buys you stronger redundancy elimination, while 3NF guarantees that a dependency-preserving decomposition always exists. Both forms, importantly, can always be achieved with a lossless join.</p>
+<p>As you watch, keep three questions in front of you for every example: what are all the candidate keys, which functional dependencies have a non-superkey on the left, and after a proposed decomposition can each original dependency still be enforced inside a single relation? Note also that normalization is a design judgment, not a rule to apply blindly — be ready to argue when stopping at 3NF is the right engineering choice and when the redundancy BCNF removes is worth the cost of enforcing a dependency across tables.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Lec-31: BCNF Always Ensures Dependency Preserving Decomposition?? Normalization Examples</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/qwI0oe3-g9g?cc_load_policy=1&amp;rel=0" title="Video: Lec-31: BCNF Always Ensures Dependency Preserving Decomposition?? Normalization Examples (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 10:04 · 665,546 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=qwI0oe3-g9g" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This lecture takes up the specific question of whether a BCNF decomposition always preserves functional dependencies, and works through normalization examples to answer it. Expect the instructor to set up a relation with overlapping candidate keys, decompose it to satisfy BCNF, and then show which dependency can no longer be checked in a single resulting relation. The contrast with 3NF, which does guarantee a dependency-preserving decomposition, is the point of the exercise.</p>
+<h3>Why this video</h3>
+<p>This is the single most targeted video for the central trade-off in this topic — it addresses dependency preservation, the classic overlapping-key gap, and 3NF&#39;s advantage directly rather than in passing, and Gate Smashers is a well-established exam-prep channel known for careful, step-by-step DBMS worked examples.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Learn Boyce-Codd Normal Form (BCNF)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/VWnKUKH4tLg?cc_load_policy=1&amp;rel=0" title="Video: Learn Boyce-Codd Normal Form (BCNF) (Decomplexify)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Decomplexify</strong> · 13:37 · 178,464 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=VWnKUKH4tLg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A thorough, example-driven explanation of Boyce-Codd normal form from the Decomplexify channel. It should establish precisely what BCNF requires — every determinant must be a superkey — and walk through relations that satisfy 3NF but still violate BCNF, showing the redundancy that remains and how decomposition removes it.</p>
+<h3>Why this video</h3>
+<p>Decomplexify&#39;s normalization series is widely used for its clear, jargon-light explanations, and this video supports the recap and redundancy subtopics by making the BCNF condition precise enough that you can test any dependency against it yourself.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A single compact pass through all of the normal forms, from 1NF through 2NF, 3NF, BCNF, 4NF, and 5NF, using everyday examples. Because it presents the forms in sequence, it is useful for seeing exactly where the BCNF condition tightens the 3NF condition, and how both sit within the larger normalization ladder covered in this module.</p>
+<h3>Why this video</h3>
+<p>With over two and a half million views, this is a popular and concise review that places 3NF and BCNF side by side in one framework, which is exactly the comparison this topic asks you to make before deciding which form to target.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos build the comparison skills this module expects. The Decomplexify explanation and the all-normal-forms overview sharpen the superkey test you need for identifying BCNF violations (MO1) and show the decomposition steps that produce lossless-join projections (MO2), while placing BCNF in context alongside 4NF and 5NF for the cumulative normalization work in MO5. The Gate Smashers lecture on dependency preservation speaks most directly to MO4, giving you a concrete schema in which BCNF and dependency preservation cannot both be satisfied, so you can reason about the redundancy-versus-enforceability trade-off rather than memorize a rule. MO3 is addressed elsewhere in the module, though the all-in-one video previews multivalued dependencies as part of its 4NF segment.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

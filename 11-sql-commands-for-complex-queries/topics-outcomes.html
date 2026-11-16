@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11 - SQL Commands for Complex Queries — Topics &amp; Learning Outcomes</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:880px;margin:0 auto;padding:32px 24px;color:#222;line-height:1.55}
+h1{font-size:1.6rem;border-bottom:2px solid #dcdcdc;padding-bottom:8px}
+h2{font-size:1.25rem;margin-top:30px;color:#1a3c6e;border-bottom:1px solid #ececec;padding-bottom:4px}
+h3{font-size:1.05rem;margin-top:22px;color:#1a3c6e}
+.toc{border:1px solid #c9d4e3;background:#f5f8fc;border-radius:8px;padding:10px 16px;margin:14px 0 6px;display:flex;gap:18px;flex-wrap:wrap}
+.toc a{color:#1a3c6e;font-weight:600;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.summary{color:#555;font-style:italic;margin:4px 0 10px}
+ul{margin:6px 0 6px 4px}
+li{margin:5px 0}
+.el-body{color:#555}
+.prefix{color:#555;font-style:italic;margin:6px 0 14px}
+.mo{border:1px solid #e2e2e2;border-radius:6px;padding:12px 16px;margin:12px 0}
+.mo .code{font-size:.8rem;color:#595959;text-transform:uppercase;letter-spacing:.04em}
+.mo .statement{font-weight:600;margin:4px 0 8px}
+.meta span{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin:0 6px 0 0;font-size:.85rem}
+.meta .map{background:#eaf6ec;color:#137333}
+.co{margin:7px 0}
+.co .code{font-weight:600;color:#1a3c6e;margin-right:6px}
+.empty{color:#595959}
+.topic{border:1px solid #e2e2e2;border-radius:8px;padding:4px 18px 10px;margin:16px 0}
+.topic h2{margin-top:12px}
+.topic h3{font-size:1rem;margin:14px 0 4px;color:#333}
+.topic .desc{margin:4px 0 6px}
+ul.tm li{margin:7px 0}
+ul.tm a{color:#1a3c6e;font-weight:600}
+.tm-kind{display:inline-block;background:#eef2f8;color:#1a3c6e;border-radius:3px;padding:1px 8px;margin-left:6px;font-size:.82rem}
+.tm-also{color:#555;font-size:.88rem}
+.tm-desc{color:#555;font-size:.92rem;margin-top:2px}
+.tm-back a,.empty a{color:#1a3c6e;font-weight:600}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 11 - SQL Commands for Complex Queries</a></div>
+<h1>11 - SQL Commands for Complex Queries — Topics &amp; Learning Outcomes</h1>
+<div class="toc"><a href="#topics">📋 Module Topics</a><a href="#outcomes">🎯 Student Learning Outcomes</a></div>
+
+<div id="topics">
+<section class="topic" aria-labelledby="topic-1">
+<h2 id="topic-1">1. Introduction to Complex SQL Queries</h2>
+<h3>Description</h3>
+<p class="desc">An overview of advanced SQL querying concepts and why they are essential for working with relational databases. This topic sets the foundation for multi-table data extraction and analysis.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Are Complex SQL Queries?</strong> <span class="el-body">— Complex SQL queries go beyond simple single-table SELECT statements to retrieve, filter, and analyze data across multiple tables and conditions.</span></li>
+<li><strong>Why Complex Queries Are Essential</strong> <span class="el-body">— Relational databases store data across many related tables, making advanced querying skills necessary to extract meaningful insights.</span></li>
+<li><strong>Core Building Blocks of Complex Queries</strong> <span class="el-body">— Several key SQL clauses work together to form complex queries, each serving a distinct role in shaping the final result set.</span></li>
+<li><strong>Understanding Relational Database Structure</strong> <span class="el-body">— To write effective complex queries, it is important to understand how relational databases organize data using tables, primary keys, and foreign keys.</span></li>
+<li><strong>From Simple to Complex: The Query Progression</strong> <span class="el-body">— Complex queries are built incrementally, starting from a basic SELECT and adding clauses to meet increasingly specific data requirements.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Commands_for_interactive_topics_t1.html">Introduction to Complex SQL Queries</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">An interactive lesson page introducing complex SQL queries, explaining why real-world data spread across customer, order, product, and region tables requires multi-table querying beyond simple SELECT statements, and previewing the core clauses learners will combine.</div></li>
+<li><a href="content/SQL_Commands_for_t1_videos.html">Introduction to Complex SQL Queries</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A plain reading-format version of the complex SQL queries introduction, defining complex queries as those spanning multiple tables, filters, groupings, or nesting, with business-question examples for self-study or printing.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-2">
+<h2 id="topic-2">2. JOIN Types and Multi-Table Queries</h2>
+<h3>Description</h3>
+<p class="desc">Exploration of the four primary JOIN types — INNER, LEFT, RIGHT, and FULL — and how they combine data across multiple tables. Students learn when and how to apply each JOIN to retrieve the correct dataset.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Understanding the Purpose of JOINs</strong> <span class="el-body">— JOINs allow SQL queries to combine rows from two or more tables based on a related column, enabling retrieval of meaningful data spread across a relational database.</span></li>
+<li><strong>INNER JOIN: Matching Records Only</strong> <span class="el-body">— An INNER JOIN returns only the rows where there is a matching value in both tables based on the specified join condition.</span></li>
+<li><strong>LEFT JOIN: Preserving All Left-Table Records</strong> <span class="el-body">— A LEFT JOIN (also called LEFT OUTER JOIN) returns all rows from the left table and the matching rows from the right table, filling in NULL for any unmatched right-table columns.</span></li>
+<li><strong>RIGHT JOIN: Preserving All Right-Table Records</strong> <span class="el-body">— A RIGHT JOIN (also called RIGHT OUTER JOIN) returns all rows from the right table and only the matching rows from the left table, with NULLs filling unmatched left-table columns.</span></li>
+<li><strong>FULL JOIN: Combining All Records from Both Tables</strong> <span class="el-body">— A FULL JOIN (also called FULL OUTER JOIN) returns all rows from both tables, placing NULLs wherever there is no matching row on either side.</span></li>
+<li><strong>Choosing the Right JOIN for Your Query</strong> <span class="el-body">— Selecting the appropriate JOIN type depends on which records must be preserved and whether unmatched rows carry meaningful information for the analysis.</span></li>
+<li><strong>Writing Multi-Table Queries with JOINs</strong> <span class="el-body">— Multi-table queries can chain multiple JOIN clauses together, allowing a single SELECT statement to combine data from three or more tables simultaneously.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Commands_for_interactive_topics_t2.html">JOIN Types and Multi-Table Queries</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page on JOIN types that explains why relational data is split across tables and walks through INNER, LEFT, and other JOINs for combining customer, order, and product records into meaningful result sets.</div></li>
+<li><a href="content/SQL_Commands_for_t2_videos.html">JOIN Types and Multi-Table Queries</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading-format handout on JOINs explaining why relational design splits data across tables and how JOIN syntax recombines columns from customers, orders, and products for practical querying.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-3">
+<h2 id="topic-3">3. Filtering Data with WHERE Clauses</h2>
+<h3>Description</h3>
+<p class="desc">A deep dive into using WHERE clauses to filter query results based on specified conditions. This topic covers logical operators, comparison expressions, and combining multiple conditions effectively.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Introduction to the WHERE Clause</strong> <span class="el-body">— The WHERE clause is used in SQL SELECT statements to filter rows returned by a query based on one or more specified conditions.</span></li>
+<li><strong>Comparison Operators in WHERE Conditions</strong> <span class="el-body">— Comparison operators allow you to evaluate relationships between a column value and a specified expression or literal.</span></li>
+<li><strong>Logical Operators: AND, OR, and NOT</strong> <span class="el-body">— Logical operators let you combine multiple conditions within a single WHERE clause to create more precise filters.</span></li>
+<li><strong>Pattern Matching with LIKE and Wildcards</strong> <span class="el-body">— The LIKE operator enables filtering based on partial string matches using wildcard characters, making it useful for searching text data.</span></li>
+<li><strong>Filtering with IN and NOT IN</strong> <span class="el-body">— The IN operator allows you to filter rows where a column value matches any value within a specified list, serving as a concise alternative to multiple OR conditions.</span></li>
+<li><strong>Handling NULL Values with IS NULL and IS NOT NULL</strong> <span class="el-body">— NULL represents missing or unknown data in SQL, and standard comparison operators cannot be used to test for NULL — dedicated IS NULL and IS NOT NULL operators must be used instead.</span></li>
+<li><strong>Combining Multiple Conditions Effectively</strong> <span class="el-body">— Complex queries often require combining several WHERE conditions using logical operators and parentheses to precisely define filtering logic.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Commands_for_interactive_topics_t3.html">Filtering Data with WHERE Clauses</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page covering the WHERE clause, including comparison operators, logical operators, and filtering criteria such as region, dollar thresholds, and hire dates, for learners practicing row-level data restriction.</div></li>
+<li><a href="content/SQL_Commands_for_t3_videos.html">Filtering Data with WHERE Clauses</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading-format handout on the WHERE clause covering declarative row qualification, regional and threshold filters, pattern matching on prefixes, and handling missing or NULL values.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-4">
+<h2 id="topic-4">4. Sorting Results with ORDER BY</h2>
+<h3>Description</h3>
+<p class="desc">An examination of how the ORDER BY clause controls the sequence of query output by one or more columns. Students practice sorting results in ascending and descending order across various data types.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Purpose of the ORDER BY Clause</strong> <span class="el-body">— The ORDER BY clause controls the sequence in which rows are returned by a SELECT query, making results easier to read and analyze.</span></li>
+<li><strong>Ascending Order (ASC)</strong> <span class="el-body">— By default, ORDER BY sorts results in ascending order, meaning lowest to highest for numbers, earliest to latest for dates, and A to Z for text.</span></li>
+<li><strong>Descending Order (DESC)</strong> <span class="el-body">— Adding the DESC keyword after a column name in ORDER BY reverses the sort, returning rows from highest to lowest value.</span></li>
+<li><strong>Sorting by Multiple Columns</strong> <span class="el-body">— ORDER BY can accept a comma-separated list of columns, applying each sort level sequentially to break ties from the previous column.</span></li>
+<li><strong>Sorting by Column Position</strong> <span class="el-body">— Instead of naming a column, you can reference it by its numeric position in the SELECT list within ORDER BY.</span></li>
+<li><strong>Sorting Across Different Data Types</strong> <span class="el-body">— ORDER BY behaves differently depending on the data type of the column being sorted, requiring an understanding of how each type is compared.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Commands_for_interactive_topics_t4.html">Sorting Results with ORDER BY</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page on the ORDER BY clause that explains why result order is unpredictable without it and shows how to sort query output by one or more columns in ascending or descending sequence.</div></li>
+<li><a href="content/SQL_Commands_for_t4_videos.html">Sorting Results with ORDER BY</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading-format handout on ORDER BY describing how to control result sequence by one or more columns in ascending or descending order and noting its position as the last clause evaluated.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-5">
+<h2 id="topic-5">5. Aggregating Data with GROUP BY and HAVING</h2>
+<h3>Description</h3>
+<p class="desc">Coverage of how GROUP BY organizes rows into summary groups and how HAVING filters those groups based on aggregate conditions. Students apply these clauses together to produce meaningful statistical summaries from relational data.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>Purpose of GROUP BY</strong> <span class="el-body">— The GROUP BY clause organizes rows that share the same values in one or more specified columns into summary groups, enabling aggregate calculations to be performed on each group independently.</span></li>
+<li><strong>Common Aggregate Functions Used with GROUP BY</strong> <span class="el-body">— Aggregate functions compute a single summary value from a set of rows within each group, forming the core output of GROUP BY queries.</span></li>
+<li><strong>Filtering Groups with the HAVING Clause</strong> <span class="el-body">— HAVING is used to filter the results of a GROUP BY query based on conditions applied to aggregate values, acting as the group-level counterpart to the row-level WHERE clause.</span></li>
+<li><strong>WHERE vs. HAVING: Knowing When to Use Each</strong> <span class="el-body">— WHERE and HAVING both filter data, but they operate at different stages of query execution and on different targets — individual rows versus aggregated groups.</span></li>
+<li><strong>Query Execution Order with GROUP BY and HAVING</strong> <span class="el-body">— Understanding the logical order in which SQL processes clauses helps explain why certain column references and aggregate functions are valid only in specific clauses.</span></li>
+<li><strong>Writing Combined GROUP BY and HAVING Queries</strong> <span class="el-body">— Combining GROUP BY and HAVING in a single query allows analysts to produce targeted statistical summaries that include only the groups meeting specific aggregate criteria.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Commands_for_interactive_topics_t5.html">Aggregating Data with GROUP BY and HAVING</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page on GROUP BY and HAVING that shows how to collapse rows into summary statistics with aggregate functions and then filter those grouped results to answer category-level business questions.</div></li>
+<li><a href="content/SQL_Commands_for_t5_videos.html">Aggregating Data with GROUP BY and HAVING</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading-format handout on GROUP BY and HAVING that introduces aggregate functions COUNT, SUM, AVG, MIN, and MAX and shows how grouped summary rows answer counting and totaling questions.</div></li>
+</ul>
+</section>
+<section class="topic" aria-labelledby="topic-6">
+<h2 id="topic-6">6. Writing and Using Subqueries</h2>
+<h3>Description</h3>
+<p class="desc">An introduction to subqueries as nested SELECT statements embedded within a larger query. Students learn to use subqueries in WHERE, FROM, and SELECT clauses to solve complex data retrieval problems.</p>
+<h3>Subtopics</h3>
+<ul>
+<li><strong>What Is a Subquery?</strong> <span class="el-body">— A subquery is a SELECT statement nested inside another SQL query, allowing you to use the result of one query as input for another.</span></li>
+<li><strong>Subqueries in the WHERE Clause</strong> <span class="el-body">— Placing a subquery in the WHERE clause lets you filter rows based on values dynamically retrieved from another query.</span></li>
+<li><strong>Subqueries in the FROM Clause (Derived Tables)</strong> <span class="el-body">— A subquery placed in the FROM clause acts as a temporary, inline table — often called a derived table — that the outer query can select from.</span></li>
+<li><strong>Subqueries in the SELECT Clause (Scalar Subqueries)</strong> <span class="el-body">— A subquery in the SELECT clause returns a single value for each row of the outer query, allowing computed or looked-up values to appear as columns in the result set.</span></li>
+<li><strong>Correlated vs. Non-Correlated Subqueries</strong> <span class="el-body">— Subqueries are classified as either non-correlated (independent of the outer query) or correlated (referencing columns from the outer query), each with different execution behavior.</span></li>
+<li><strong>Using EXISTS and NOT EXISTS with Subqueries</strong> <span class="el-body">— The EXISTS operator tests whether a subquery returns any rows at all, enabling efficient conditional filtering based on the presence or absence of related data.</span></li>
+<li><strong>Best Practices for Writing Subqueries</strong> <span class="el-body">— Writing clear, efficient subqueries requires attention to readability, correctness, and query performance.</span></li>
+</ul>
+<h3>Supporting Materials</h3>
+<ul class="tm">
+<li><a href="content/SQL_Commands_for_interactive_topics_t6.html">Writing and Using Subqueries</a> <span class="tm-kind">Topic Detail · Web page</span><div class="tm-desc">A lesson page defining subqueries as nested SELECT statements, distinguishing outer from inner queries, and demonstrating how to decompose complicated retrieval problems into self-contained logical steps.</div></li>
+<li><a href="content/SQL_Commands_for_t6_videos.html">Writing and Using Subqueries</a> <span class="tm-kind">Reading · Web page</span><div class="tm-desc">A reading-format handout on subqueries explaining how a nested SELECT passes its result to the outer query as a single value, a list, or a temporary table, eliminating two-step manual querying.</div></li>
+</ul>
+</section>
+</div>
+<p class="tm-back"><a href="index.html">← Back to the module page</a></p>
+<h2 id="outcomes">Student Learning Outcomes</h2>
+<p class="prefix">By the end of this module, students will be able to:</p>
+<div class="mo">
+<div class="code">MO1</div>
+<div class="statement">Distinguish between INNER, LEFT, RIGHT, and FULL JOIN types and select the appropriate JOIN for a given multi-table data retrieval scenario</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO2</div>
+<div class="statement">Construct WHERE clause conditions using comparison operators, logical operators, LIKE, IN, and IS NULL to precisely filter rows from a relational database query</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO3</div>
+<div class="statement">Differentiate between the WHERE and HAVING clauses by explaining at which stage of query execution each clause filters data and on which target it operates</div>
+<div class="meta"><span>Level: Analyze</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO4</div>
+<div class="statement">Compose GROUP BY queries that incorporate aggregate functions and HAVING conditions to produce filtered statistical summaries from relational data</div>
+<div class="meta"><span>Level: Apply</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<div class="mo">
+<div class="code">MO5</div>
+<div class="statement">Construct subqueries placed in the WHERE, FROM, or SELECT clause to solve multi-step data retrieval problems within a single SQL statement</div>
+<div class="meta"><span>Level: Create</span><span>Type: Cognitive</span><span class="map">Course mapping: —</span></div>
+</div>
+<h3>Course Outcomes (reference)</h3>
+<div class="co"><span class="code">CO1</span>Analyze a problem and identify computing and user requirements to implement the proper solution capturing the impact of the implementation on the local and the global levels.</div>
+<div class="co"><span class="code">CO2</span>Design, normalize, and implement database systems</div>
+<div class="co"><span class="code">CO3</span>Develop the ability to manipulate databases using database management tools, techniques and their computer skills.</div>
+<div class="co"><span class="code">CO4</span>Recognize professional, ethical, and legal issues associated with database and database management.</div>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

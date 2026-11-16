@@ -1,0 +1,289 @@
+﻿<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 16 - Course Projects</a></div>
+<title>Sandpiper Cove Staff Interviews</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: the same clipboard packet as the forms. A sticky staff index on the left; each interview is a paper sheet with a role card, interview notes, business rules, and numbered requests. */
+:root{
+  --desk:#DDE4E1; --paper:#FDFDFB; --ink:#1B2725; --muted:#566864; --rule:#C3CFCB; --line:#8FA19C;
+  --accent:#1F6F5C; --accent-soft:#E2EFEB; --tag:#B8661B; --tag-soft:#F7EADB; --office:#F1F4F0;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --desk:#0E1413; --paper:#162019; --ink:#E1EAE7; --muted:#97AAA5; --rule:#2C3B38; --line:#4E625D;
+  --accent:#62C3A5; --accent-soft:#1D332D; --tag:#E8A060; --tag-soft:#33271B; --office:#1B2723; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --desk:#0E1413; --paper:#162019; --ink:#E1EAE7; --muted:#97AAA5; --rule:#2C3B38; --line:#4E625D;
+  --accent:#62C3A5; --accent-soft:#1D332D; --tag:#E8A060; --tag-soft:#33271B; --office:#1B2723; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+header.top{max-width:1180px;margin:0 auto 24px}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;color:var(--accent);letter-spacing:.04em;margin:0 0 6px}
+h1{font-family:var(--f-display);font-weight:700;font-size:2.4rem;line-height:1;margin:0;text-wrap:balance}
+.lede{max-width:70ch;color:var(--muted);margin:10px 0 0}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:28px;align-items:start}
+nav.index{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:grid;gap:2px}
+nav.index h2{font-family:var(--f-display);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:600}
+nav.index a{display:block;padding:6px 8px;border-radius:4px;color:var(--ink);text-decoration:none;font-size:.88rem;line-height:1.3}
+nav.index a small{display:block;color:var(--muted);font-size:.76rem}
+nav.index a:hover,nav.index a:focus-visible{background:var(--paper);outline:none}
+main{display:grid;gap:32px;min-width:0}
+.sheet{background:var(--paper);border:1px solid var(--rule);box-shadow:0 1px 0 var(--rule),0 10px 24px -18px rgba(0,0,0,.35);padding:22px 26px 26px;min-width:0;scroll-margin-top:16px}
+.sheet>h2{font-family:var(--f-display);font-weight:700;font-size:1.55rem;text-transform:uppercase;letter-spacing:.02em;margin:0 0 12px;padding-bottom:8px;border-bottom:3px solid var(--ink)}
+.brief{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 28px}
+.brief h3{font-family:var(--f-display);font-size:.95rem;text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px;color:var(--muted);font-weight:600}
+.brief p,.brief ul{margin:0}
+.brief ul{padding-left:18px}
+.asof{background:var(--tag-soft);border:1px solid var(--tag);padding:12px 14px;margin-top:18px}
+.asof b{color:var(--tag)}
+.who{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:center;margin-bottom:16px}
+.badge{width:48px;height:48px;border:2px solid var(--accent);border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;color:var(--accent);font-size:1.05rem;grid-row:span 2}
+.who h2{font-family:var(--f-display);font-weight:700;font-size:1.7rem;line-height:1.05;margin:0}
+.who .role{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.context{max-width:72ch;margin:0 0 14px}
+blockquote{margin:14px 0;padding:2px 0 2px 16px;border-left:3px solid var(--line);font-style:italic;max-width:70ch;color:var(--ink)}
+.rules{background:var(--office);border:1px dashed var(--line);padding:12px 16px;margin:16px 0}
+.rules h3,.reqs h3{font-family:var(--f-display);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+.rules ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.92rem}
+.reqs ol{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.reqs li{display:grid;grid-template-columns:58px 1fr auto;gap:4px 14px;padding:11px 0;border-top:1px solid var(--rule);align-items:baseline}
+.reqs li:last-child{border-bottom:1px solid var(--rule)}
+.rid{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:500}
+.rtext{min-width:0}
+.rtext .q{display:block}
+.rtext .why{display:block;color:var(--muted);font-size:.86rem;margin-top:3px}
+.freq{font-family:var(--f-mono);font-size:.7rem;border:1px solid var(--line);color:var(--muted);padding:1px 7px;white-space:nowrap;border-radius:10px}
+.freq.adhoc{border-color:var(--tag);color:var(--tag)}
+.sum{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.05em;font-size:.8rem;text-align:left;background:var(--accent-soft);padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:7px 10px;border-top:1px solid var(--rule);vertical-align:top}
+td.n{font-variant-numeric:tabular-nums;text-align:right}
+.open ul{margin:0;padding-left:18px;display:grid;gap:6px;max-width:80ch}
+@media (max-width:860px){.wrap{grid-template-columns:1fr}nav.index{position:static;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}nav.index h2{grid-column:1/-1}}
+@media (max-width:560px){.reqs li{grid-template-columns:1fr}.freq{justify-self:start}.sheet{padding:18px 16px 20px}h1{font-size:1.9rem}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="top">
+  <p class="eyebrow">COP4708 · Requirements gathering · Interviews held Oct 5–9, 2026</p>
+  <h1>Sandpiper Cove Animal Shelter: Staff Interview Summary</h1>
+  <p class="lede">Notes from interviews with seven staff members about the records they keep and the questions they can't answer today. Each numbered request is something the new database must be able to answer. Requests are written in the staff's own words, not as specifications.</p>
+</header>
+
+<div class="wrap">
+<nav class="index" aria-label="Interviews">
+  <h2>Contents</h2>
+  <a href="#overview">Project overview</a>
+  <a href="#manager">Dana Whitfield<small>Shelter Manager</small></a>
+  <a href="#vet">Dr. Priya Nair<small>Shelter Veterinarian</small></a>
+  <a href="#care">Rosa Salinas<small>Animal Care Lead</small></a>
+  <a href="#adoptions">Tamara Greene<small>Adoption Counselor</small></a>
+  <a href="#aco">Officer Erik Brandt<small>Animal Control</small></a>
+  <a href="#volunteers">Megan Ruiz<small>Volunteer &amp; Foster Coordinator</small></a>
+  <a href="#development">Dana Whitfield (2nd)<small>Donations &amp; fundraising</small></a>
+  <a href="#summary">Request summary</a>
+  <a href="#open">Open questions</a>
+</nav>
+
+<main>
+<!-- ======================= OVERVIEW ======================= -->
+<section class="sheet" id="overview">
+  <h2>Project Overview</h2>
+  <div class="brief">
+    <div><h3>The client</h3><p>Sandpiper Cove Animal Shelter is an open-admission county shelter. It takes in about 15 animals a month, mostly dogs and cats, and runs an adoption floor, a foster program, a small clinic and a volunteer program.</p></div>
+    <div><h3>The problem</h3><p>For nine months a records clerk has typed every paper form into one Excel workbook. Each form went into its own tab, and no one set rules for how to enter IDs, names, dates or codes. Staff can't trust the totals, and most of their questions take hours to answer by hand.</p></div>
+    <div><h3>What you have</h3><ul><li>The shelter's forms packet (SC-000 to SC-800)</li><li>The clerk's workbook, <em>Sandpiper_Cove_Shelter_Records_2026.xlsx</em></li><li>These interview notes</li></ul></div>
+    <div><h3>What you deliver</h3><ul><li>A normalized database design (ERD and table definitions)</li><li>The workbook data cleaned and loaded</li><li>A query for every request R-01 to R-36</li><li>A results report the staff can read</li></ul></div>
+  </div>
+  <div class="asof"><b>Reporting date.</b> The workbook covers January 2 to September 30, 2026. Wherever a staff member says "today", "right now" or "currently", treat <b>September 30, 2026</b> as today. "Last month" means September 2026.</div>
+</section>
+
+<!-- ======================= MANAGER ======================= -->
+<section class="sheet" id="manager">
+  <div class="who"><div class="badge">DW</div><h2>Dana Whitfield</h2><span class="role">Shelter Manager · signs off on outcomes, fees and euthanasia · reports to the county</span></div>
+  <p class="context">Dana runs the shelter and writes the monthly report to the County Commission. She also reports twice a year to a national shelter-data program that compares shelters by their intake and outcome numbers.</p>
+  <blockquote>Every month the county asks how many animals came in and how many went out, and how. It takes me two days, and I'm never sure the numbers match. I count a dog that came back after adoption as two intakes, because it was. Then someone asks how many animals we took in, and I have to explain that's not the same as how many intakes.</blockquote>
+  <blockquote>The question I get most from the commission is "how many are in the building right now?" I should be able to answer that without walking the kennels.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>An animal keeps the same Animal ID for life. Each time it comes in it gets a new Intake #. Every intake ends with exactly one outcome, unless the animal is still in our care.</li>
+    <li>An animal in a foster home is still in our care. It counts in the population, not as an outcome.</li>
+    <li>"Live release" means the animal left alive: adoption, return to owner or transfer to a partner. Euthanasia and died in care are not live releases.</li>
+    <li>Fees come from the fee schedule on SC-000. An adoption can include more than one fee, plus a promotion discount.</li>
+    <li>Only the Manager can authorize euthanasia, and a veterinarian must perform it.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-01</span><span class="rtext"><span class="q">For each month, how many animals came in, broken out by species and by how they came in (stray, owner surrender, transfer, seized, returned adoption)?</span><span class="why">County monthly report.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-02</span><span class="rtext"><span class="q">For each month, how many animals left, broken out by species and outcome type?</span><span class="why">The other half of the county report.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-03</span><span class="rtext"><span class="q">What was our live release rate for the year so far, overall and separately for dogs and cats?</span><span class="why">Live outcomes divided by all outcomes.</span></span><span class="freq">Quarterly</span></li>
+    <li><span class="rid">R-04</span><span class="rtext"><span class="q">How many animals are in our care today, and where is each one? Include the kennel or foster home, and how many days since it came in.</span></span><span class="freq">Daily</span></li>
+    <li><span class="rid">R-05</span><span class="rtext"><span class="q">What is the average length of stay for adopted animals, by species? I'd also like to see it split by how the animal came in.</span><span class="why">Count from the intake date to the outcome date of the same stay.</span></span><span class="freq">Quarterly</span></li>
+    <li><span class="rid">R-06</span><span class="rtext"><span class="q">Which animals have been with us more than 45 days and still have no outcome? Longest first.</span><span class="why">The "long-timer" list for the weekly staff meeting.</span></span><span class="freq">Weekly</span></li>
+    <li><span class="rid">R-07</span><span class="rtext"><span class="q">How much fee money did we take in each month? Show adoption fees, reclaim fees and surrender fees separately.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-08</span><span class="rtext"><span class="q">For each promotion code, how many adoptions used it and how much in fees did we give up?</span><span class="why">Deciding whether to repeat "Clear the Shelters" next year.</span></span><span class="freq">Ad hoc</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= VET ======================= -->
+<section class="sheet" id="vet">
+  <div class="who"><div class="badge">PN</div><h2>Dr. Priya Nair, DVM</h2><span class="role">Shelter Veterinarian · with Dr. Marcus Bell (DVM) and Kelly Ortiz (RVT)</span></div>
+  <p class="context">The clinic examines every animal at intake, vaccinates it and treats it. Dr. Nair also signs rabies certificates and does most spay and neuter surgeries.</p>
+  <blockquote>Last spring a manufacturer recalled a vaccine lot. I spent a whole day going through paper to find which animals got it and where they went. If that happens again, I want the list in minutes, with the adopter's phone number.</blockquote>
+  <blockquote>Kittens and puppies need a booster every three weeks. If nobody catches the due date, they leave without it.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>Every dose is recorded with its vaccine, manufacturer, lot number, date given, who gave it and the next due date.</li>
+    <li>One exam can include several tests. Each test has its own result.</li>
+    <li>A medication order has a start date and a number of days. It is "active" from the start date through the last day.</li>
+    <li>An animal's weight is taken at intake, at every exam, when it goes to foster and when it comes back. Staff want the history, not just the latest weight.</li>
+    <li>Spayed or neutered status can change during a stay. Surgery is done before adoption.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-09</span><span class="rtext"><span class="q">Which animals still in our care have a vaccine due in the next 14 days? Show the vaccine and the due date.</span></span><span class="freq">Weekly</span></li>
+    <li><span class="rid">R-10</span><span class="rtext"><span class="q">If a vaccine lot is recalled, which animals got a dose from that lot, when, and where is each animal now? For adopted animals, include the adopter's name and phone number.</span><span class="why">Try it with any Rabies lot in the data.</span></span><span class="freq adhoc">On demand</span></li>
+    <li><span class="rid">R-11</span><span class="rtext"><span class="q">List every animal that tested positive for heartworm, FeLV or FIV, with its test date and what happened to it.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-12</span><span class="rtext"><span class="q">How many spay and neuter surgeries did each veterinarian do each month?</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-13</span><span class="rtext"><span class="q">Which medications are active today, and for which animals? I want a treatment sheet: animal, kennel, drug, dose, route and how often.</span></span><span class="freq">Daily</span></li>
+    <li><span class="rid">R-14</span><span class="rtext"><span class="q">For each animal that went to foster and came back, what was its weight going out and coming back, and how much did it gain?</span><span class="why">Checking that bottle babies are thriving.</span></span><span class="freq">Monthly</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= CARE ======================= -->
+<section class="sheet" id="care">
+  <div class="who"><div class="badge">RS</div><h2>Rosa Salinas</h2><span class="role">Animal Care Lead · supervises Animal Care Technicians · assigns kennels</span></div>
+  <p class="context">Rosa's team cleans, feeds and moves animals. They are the first to know when the building is full.</p>
+  <blockquote>When the stray hold ends, the dog moves from the stray side to the adoption floor. When it gets sick, it goes to isolation. Then it goes to a foster home and comes back. By the end, nobody can tell you where it has been.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>Kennels and rooms are listed on SC-000. Each has a code, an area and a capacity. Cat colony rooms hold up to 8 cats; most other units hold one animal.</li>
+    <li>An animal's location is the kennel it was given at intake, until the first logged move. After that it is the "To" location of its latest move.</li>
+    <li>Strays are held 5 days for their owner. Animals with a recent bite history are held 10 days in quarantine.</li>
+    <li>Dogs get a behavior assessment when their hold ends. The color code and placement restrictions guide adoptions.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-15</span><span class="rtext"><span class="q">For each housing area, how many units are full and how many are open today?</span><span class="why">"Can we take in the six dogs coming from the seizure tomorrow?"</span></span><span class="freq">Daily</span></li>
+    <li><span class="rid">R-16</span><span class="rtext"><span class="q">Give me the full history of one animal in date order: every intake, kennel move, foster stay, exam, vaccine and outcome. Try it with an animal that was returned after adoption.</span></span><span class="freq adhoc">On demand</span></li>
+    <li><span class="rid">R-17</span><span class="rtext"><span class="q">Which strays had their hold end in the last week of September? Did each one move to the adoption floor, or does it still need a move?</span></span><span class="freq">Daily</span></li>
+    <li><span class="rid">R-18</span><span class="rtext"><span class="q">Which dogs in our care right now are coded Orange or Red, and what restrictions do they have?</span><span class="why">Only experienced staff may handle them.</span></span><span class="freq">Daily</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= ADOPTIONS ======================= -->
+<section class="sheet" id="adoptions">
+  <div class="who"><div class="badge">TG</div><h2>Tamara Greene</h2><span class="role">Adoption Counselor · with Luis Pena · reviews applications, completes adoptions, handles returns</span></div>
+  <p class="context">Tamara matches adopters with animals. She reads the application, calls the landlord and the vet, and signs the contract.</p>
+  <blockquote>People come in asking for "a small dog that's good with kids." I walk the floor and guess. I want to type in what they need and get a list.</blockquote>
+  <blockquote>The same family adopts from us, volunteers on Saturdays and donates at Christmas. Right now they're in three places under three spellings. I'd love to know who our best friends are.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>A person can submit many applications, and an animal can get many. Only one application per animal leads to an adoption.</li>
+    <li>Applications are Pending, Approved, Denied or Withdrawn. Every adoption must point to an approved application.</li>
+    <li>An adopted animal can come back. The return closes that adoption, and the animal gets a new intake. Returns within 14 days get a store credit.</li>
+    <li>Staff call adopters 3 days and 30 days after an adoption. Both calls must be recorded.</li>
+    <li>The same person can be an adopter, finder, owner, volunteer, foster or donor. Staff want each person to be one person.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-19</span><span class="rtext"><span class="q">Show me every dog available for adoption today that weighs under 25 pounds, is coded Green or Yellow, and has no "no children" restriction.</span><span class="why">The search should work for other combinations too.</span></span><span class="freq adhoc">On demand</span></li>
+    <li><span class="rid">R-20</span><span class="rtext"><span class="q">How many applications do we have in each status? List every Pending application that is more than 7 days old.</span></span><span class="freq">Weekly</span></li>
+    <li><span class="rid">R-21</span><span class="rtext"><span class="q">Which animals got the most applications? Show each animal with its number of applications and who finally adopted it.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-22</span><span class="rtext"><span class="q">What share of adoptions came back? Break it down by species and by return reason, and tell me how many came back within 14 days.</span></span><span class="freq">Quarterly</span></li>
+    <li><span class="rid">R-23</span><span class="rtext"><span class="q">Which adoptions are missing a 3-day or 30-day follow-up call, and which counselor did the adoption?</span></span><span class="freq">Weekly</span></li>
+    <li><span class="rid">R-24</span><span class="rtext"><span class="q">Has anyone who was denied an application applied again or adopted later? Show the earlier denial reason.</span></span><span class="freq adhoc">On demand</span></li>
+    <li><span class="rid">R-25</span><span class="rtext"><span class="q">List everyone who has more than one role with us, such as an adopter who also volunteers or donates, and show what each person has done.</span></span><span class="freq adhoc">Annual</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= ACO ======================= -->
+<section class="sheet" id="aco">
+  <div class="who"><div class="badge">EB</div><h2>Officer Erik Brandt</h2><span class="role">Animal Control Officer · with Officer Carla Sims · field pickups, seizures, bite cases</span></div>
+  <p class="context">Animal Control answers calls about loose animals, cruelty and bites. They bring animals in and file the bite reports the county health department needs.</p>
+  <blockquote>I want to know where the strays come from. If one neighborhood keeps sending us litters, that's where we run a spay/neuter event.</blockquote>
+  <blockquote>Microchips are the fastest way home. I'd like numbers I can show the commission.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>Every stray has a found location. Field pickups also have the officer who brought the animal in.</li>
+    <li>One incident can involve more than one animal, for example a dog fight. Each incident is about one injured person at most.</li>
+    <li>A human bite starts a 10-day quarantine and must be reported to the county health department.</li>
+    <li>Lost and found reports from the public are compared with animals in our care. A report can be matched to an animal.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-26</span><span class="rtext"><span class="q">How many strays came from each city, and which cities sent us the most cats?</span></span><span class="freq">Quarterly</span></li>
+    <li><span class="rid">R-27</span><span class="rtext"><span class="q">What percentage of stray dogs went home to their owners? Compare dogs that had a microchip at intake with dogs that didn't.</span></span><span class="freq">Quarterly</span></li>
+    <li><span class="rid">R-28</span><span class="rtext"><span class="q">List every bite and incident: date, animals involved, injured person, severity, whether it was reported to the health department, and the quarantine dates.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-29</span><span class="rtext"><span class="q">For each open "lost" report, which animals in our care are the same species and came in within 7 days of the date the pet was lost?</span><span class="why">The possible-match list for the front desk.</span></span><span class="freq">Daily</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= VOLUNTEERS ======================= -->
+<section class="sheet" id="volunteers">
+  <div class="who"><div class="badge">MR</div><h2>Megan Ruiz</h2><span class="role">Volunteer &amp; Foster Coordinator · runs orientation and training, approves foster homes</span></div>
+  <p class="context">Megan manages about 30 volunteers and 11 foster homes. She signs court-ordered service letters and tracks who is trained for what.</p>
+  <blockquote>A judge's clerk called asking for a volunteer's total hours. I added up sign-in sheets with a calculator. Half the time people forget to sign out.</blockquote>
+  <blockquote>When intake brings in four bottle kittens at 5 pm, I need to know which foster homes have room and are approved for bottle babies.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>Volunteers need orientation before their first shift. Dog Level 2 dogs may only be walked by Level 2 volunteers.</li>
+    <li>A shift's hours are the time between sign-in and sign-out. A shift with no sign-out has no hours until someone fixes it.</li>
+    <li>On a shift, a volunteer can work with several animals.</li>
+    <li>Each foster home has a maximum number of animals and a list of the foster types it is approved for. A placement is open until the animal comes back.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-30</span><span class="rtext"><span class="q">How many hours did each volunteer work each month? Show the top 10 volunteers for the year.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-31</span><span class="rtext"><span class="q">For volunteers doing court-ordered or school hours, how many hours has each one completed, and when was their last shift?</span></span><span class="freq adhoc">On demand</span></li>
+    <li><span class="rid">R-32</span><span class="rtext"><span class="q">Which active volunteers haven't worked a shift in the last 60 days? Include their phone and email so I can reach out.</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-33</span><span class="rtext"><span class="q">Which dogs in our care did no volunteer work with during the last week of September?</span><span class="why">So those dogs get walked first.</span></span><span class="freq">Weekly</span></li>
+    <li><span class="rid">R-34</span><span class="rtext"><span class="q">For each active foster home, how many animals does it have now, how many can it take, and what is it approved for? Only show homes with room.</span></span><span class="freq">Daily</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= DEVELOPMENT ======================= -->
+<section class="sheet" id="development">
+  <div class="who"><div class="badge">DW</div><h2>Dana Whitfield, second interview</h2><span class="role">Donations &amp; fundraising · works with the shelter's nonprofit foundation</span></div>
+  <p class="context">Dana met with us a second time to talk about donations. Gifts of money and goods both come through the front desk. Donors can give to a fund or sponsor a specific animal's adoption fee.</p>
+  <blockquote>Donors who get a thank-you within a week give again. Donors who never hear from us don't. I want to know who we've missed.</blockquote>
+  <div class="rules"><h3>What we learned</h3><ul>
+    <li>A donation comes from a person, a business, or both (a business with a contact person). Some gifts are anonymous.</li>
+    <li>One in-kind donation can include many items, each with a category and quantity. The shelter does not put a value on goods.</li>
+    <li>A sponsorship gift is tied to one animal.</li>
+  </ul></div>
+  <div class="reqs"><h3>Requests</h3><ol>
+    <li><span class="rid">R-35</span><span class="rtext"><span class="q">What is the total cash given by designation and by month? Which donors gave more than once?</span></span><span class="freq">Monthly</span></li>
+    <li><span class="rid">R-36</span><span class="rtext"><span class="q">Which donations still haven't had a thank-you sent? Include the donor's contact information and the gift.</span></span><span class="freq">Weekly</span></li>
+  </ol></div>
+</section>
+
+<!-- ======================= SUMMARY ======================= -->
+<section class="sheet" id="summary">
+  <h2>Request Summary</h2>
+  <div class="sum"><table>
+    <thead><tr><th>Interview</th><th>Requests</th><th>Count</th><th>Main topics</th></tr></thead>
+    <tbody>
+      <tr><td>Shelter Manager</td><td>R-01 – R-08</td><td class="n">8</td><td>Intake and outcome counts, population, length of stay, fees</td></tr>
+      <tr><td>Veterinarian</td><td>R-09 – R-14</td><td class="n">6</td><td>Vaccines and lots, tests, surgery, medications, weights</td></tr>
+      <tr><td>Animal Care Lead</td><td>R-15 – R-18</td><td class="n">4</td><td>Kennel occupancy, animal history, holds, behavior</td></tr>
+      <tr><td>Adoption Counselor</td><td>R-19 – R-25</td><td class="n">7</td><td>Matching, applications, returns, follow-ups, people with several roles</td></tr>
+      <tr><td>Animal Control</td><td>R-26 – R-29</td><td class="n">4</td><td>Stray sources, microchips, incidents, lost reports</td></tr>
+      <tr><td>Volunteer &amp; Foster</td><td>R-30 – R-34</td><td class="n">5</td><td>Hours, service hours, inactive volunteers, foster room</td></tr>
+      <tr><td>Donations</td><td>R-35 – R-36</td><td class="n">2</td><td>Giving totals, thank-yous</td></tr>
+      <tr><td><b>Total</b></td><td></td><td class="n"><b>36</b></td><td></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="sheet open" id="open">
+  <h2>Open Questions</h2>
+  <p class="context">These came up in the interviews and still need a decision. Write down how your design handles each one and why.</p>
+  <ul>
+    <li>Some workbook records point to an Animal ID that doesn't exist, or leave out the Intake # or Application #. Staff want them kept, not deleted. How will you load them?</li>
+    <li>Several dates were typed without a year, for example "Mar 04". What rule will you use to fill in the year?</li>
+    <li>Staff sometimes recorded a vaccine, a test or a medication in a notes column instead of its own column. Should the database have a general notes field, or should these move into their proper tables?</li>
+    <li>The county may change the fee schedule in January. How will last year's adoptions keep the fees that were actually charged?</li>
+    <li>Two records may describe the same person with a different name and the same phone number. Who decides they are one person, and how is that decision recorded?</li>
+  </ul>
+</section>
+</main>
+</div>
+
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

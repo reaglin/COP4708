@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11 - SQL Commands for Complex Queries — COP4708 - Applied Database</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="hero-inner">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">COP4708 - Applied Database</a><span class="sep" aria-hidden="true">›</span><span class="current">11 - SQL Commands for Complex Queries</span>
+  </nav>
+      <div class="hero-label">Module 11</div>
+      <h1>SQL Commands for Complex Queries</h1>
+      <p class="hero-desc">This lesson focuses on advanced SQL querying techniques including JOIN types (INNER, LEFT, RIGHT, FULL), WHERE clauses, ORDER BY, GROUP BY, HAVING, and subqueries. Students will write multi-table queries to extract and analyze data from relational databases.</p>
+      <p class="hero-published">Published <time datetime="2026-11-16">November 16, 2026</time></p>
+    </div>
+  </header>
+  <main class="page-wrap" id="main">
+<section aria-labelledby="topics-h">
+<h2 id="topics-h">Topics</h2>
+<p class="section-intro">This module covers 6 topics. Open a topic to see its subtopics and the materials made for it.</p>
+<ol class="topic-list">
+<li><a class="topic-card" href="topics-outcomes.html#topic-1"><span class="topic-num"><span class="sr-only">Topic </span>1</span><span class="topic-text"><span class="topic-title">Introduction to Complex SQL Queries</span><span class="topic-meta">5 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-2"><span class="topic-num"><span class="sr-only">Topic </span>2</span><span class="topic-text"><span class="topic-title">JOIN Types and Multi-Table Queries</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-3"><span class="topic-num"><span class="sr-only">Topic </span>3</span><span class="topic-text"><span class="topic-title">Filtering Data with WHERE Clauses</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-4"><span class="topic-num"><span class="sr-only">Topic </span>4</span><span class="topic-text"><span class="topic-title">Sorting Results with ORDER BY</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-5"><span class="topic-num"><span class="sr-only">Topic </span>5</span><span class="topic-text"><span class="topic-title">Aggregating Data with GROUP BY and HAVING</span><span class="topic-meta">6 subtopics · 2 materials</span></span></a></li>
+<li><a class="topic-card" href="topics-outcomes.html#topic-6"><span class="topic-num"><span class="sr-only">Topic </span>6</span><span class="topic-text"><span class="topic-title">Writing and Using Subqueries</span><span class="topic-meta">7 subtopics · 2 materials</span></span></a></li>
+</ol>
+<p class="more-links"><a href="topics-outcomes.html#topics">All topics, subtopics and materials</a><a href="topics-outcomes.html#outcomes">Student learning outcomes</a></p>
+</section>
+<section aria-labelledby="content-h">
+<h2 id="content-h">Module Content</h2>
+<p class="section-intro">14 items of 2 types: <a href="#kind-topic-detail">Topic Detail</a><span aria-hidden="true"> · </span><span class="sr-only">, </span><a href="#kind-reading">Reading</a>. Your instructor made most of them with CourseBuilder+, a program that uses AI to draft course material; each type says how its items were made.</p>
+<div class="content-group" id="kind-topic-detail">
+<h3 class="content-group-h"><span aria-hidden="true">📄 </span>Module Content — Topic Detail <span class="content-group-count">(6)</span></h3>
+<p class="content-group-intro">A detailed reading for each topic, covering its subtopics in order with explanations and examples — reading only, no videos (for the reading with videos, see “Topic Detail with Video”). Drafted with AI from the module&#39;s topics, subtopics and learning outcomes.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive_topics_t1.html">Introduction to Complex SQL Queries</a></div>
+    <p class="content-desc">An interactive lesson page introducing complex SQL queries, explaining why real-world data spread across customer, order, product, and region tables requires multi-table querying beyond simple SELECT statements, and previewing the core clauses learners will combine.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive_topics_t2.html">JOIN Types and Multi-Table Queries</a></div>
+    <p class="content-desc">A lesson page on JOIN types that explains why relational data is split across tables and walks through INNER, LEFT, and other JOINs for combining customer, order, and product records into meaningful result sets.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive_topics_t3.html">Filtering Data with WHERE Clauses</a></div>
+    <p class="content-desc">A lesson page covering the WHERE clause, including comparison operators, logical operators, and filtering criteria such as region, dollar thresholds, and hire dates, for learners practicing row-level data restriction.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive_topics_t4.html">Sorting Results with ORDER BY</a></div>
+    <p class="content-desc">A lesson page on the ORDER BY clause that explains why result order is unpredictable without it and shows how to sort query output by one or more columns in ascending or descending sequence.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive_topics_t5.html">Aggregating Data with GROUP BY and HAVING</a></div>
+    <p class="content-desc">A lesson page on GROUP BY and HAVING that shows how to collapse rows into summary statistics with aggregate functions and then filter those grouped results to answer category-level business questions.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Topic Detail</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive_topics_t6.html">Writing and Using Subqueries</a></div>
+    <p class="content-desc">A lesson page defining subqueries as nested SELECT statements, distinguishing outer from inner queries, and demonstrating how to decompose complicated retrieval problems into self-contained logical steps.</p>
+  </div>
+</li>
+</ul>
+</div>
+<div class="content-group" id="kind-reading">
+<h3 class="content-group-h"><span aria-hidden="true">📚 </span>Module Content — Reading <span class="content-group-count">(8)</span></h3>
+<p class="content-group-intro">Reading for this module: drafted with AI from the module&#39;s topics, or brought in from the course&#39;s own files.</p>
+<ul class="content-grid">
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_interactive.html">Writing and Using Subqueries</a></div>
+    <p class="content-desc">A duplicate of the subqueries lesson page covering nested SELECT statements, inner versus outer query terminology, and using subqueries to break down complex retrieval tasks.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_t1_videos.html">Introduction to Complex SQL Queries</a></div>
+    <p class="content-desc">A plain reading-format version of the complex SQL queries introduction, defining complex queries as those spanning multiple tables, filters, groupings, or nesting, with business-question examples for self-study or printing.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_t2_videos.html">JOIN Types and Multi-Table Queries</a></div>
+    <p class="content-desc">A reading-format handout on JOINs explaining why relational design splits data across tables and how JOIN syntax recombines columns from customers, orders, and products for practical querying.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_t3_videos.html">Filtering Data with WHERE Clauses</a></div>
+    <p class="content-desc">A reading-format handout on the WHERE clause covering declarative row qualification, regional and threshold filters, pattern matching on prefixes, and handling missing or NULL values.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_t4_videos.html">Sorting Results with ORDER BY</a></div>
+    <p class="content-desc">A reading-format handout on ORDER BY describing how to control result sequence by one or more columns in ascending or descending order and noting its position as the last clause evaluated.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_t5_videos.html">Aggregating Data with GROUP BY and HAVING</a></div>
+    <p class="content-desc">A reading-format handout on GROUP BY and HAVING that introduces aggregate functions COUNT, SUM, AVG, MIN, and MAX and shows how grouped summary rows answer counting and totaling questions.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_t6_videos.html">Writing and Using Subqueries</a></div>
+    <p class="content-desc">A reading-format handout on subqueries explaining how a nested SELECT passes its result to the outer query as a single value, a list, or a temporary table, eliminating two-step manual querying.</p>
+  </div>
+</li>
+<li class="content-card">
+  <div class="content-icon" aria-hidden="true">📄</div>
+  <div class="content-body">
+    <div class="content-meta"><span class="pill">Reading</span><span class="pill pill-format"><span aria-hidden="true">🌐 </span>Web page</span></div>
+    <div class="content-title"><a href="content/SQL_Commands_for_videos_merged.html">11 - SQL Commands for Complex Queries</a></div>
+    <p class="content-desc">A consolidated single-page compilation of all six module readings — complex query basics, JOINs, WHERE, ORDER BY, GROUP BY/HAVING, and subqueries — serving as a complete module study guide or reference document.</p>
+  </div>
+</li>
+</ul>
+</div>
+</section>
+<nav class="module-nav" aria-label="Modules">
+  <a href="../10-using-keys-and-key-types-in-sql/index.html">← 10 - Using Keys and Key Types in SQL</a>
+  <a class="center-link" href="../index.html">↑ All modules</a>
+  <a href="../12-normalization-denormalization-and-practical-database-design/index.html">12 - Normalization, Denormalization, and Practical Database Design →</a>
+</nav>
+  </main>
+<script src="embed-inject.js" defer></script>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

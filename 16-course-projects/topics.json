@@ -1,0 +1,64 @@
+{
+  "ModuleFolderName": "",
+  "CourseName": "",
+  "GeneratedDate": "2026-11-16T12:40:45.0134669-05:00",
+  "ModifiedDate": "2026-11-16T12:44:39.5714142-05:00",
+  "Outcomes": [],
+  "Topics": [
+    {
+      "Id": "425d7111-3d64-4b4e-bf59-81124f0b64e9",
+      "Title": "Designing the Database",
+      "Summary": "The student applies all elements of design to build a database from a set of specifications.",
+      "SortOrder": 0,
+      "CreatedDate": "2026-11-16T12:41:00.6559661-05:00",
+      "ModifiedDate": "2026-11-16T12:44:37.9135199-05:00",
+      "Elements": []
+    },
+    {
+      "Id": "d1f610c2-33e8-4219-b4f1-b194f1aa9a2b",
+      "Title": "Documenting the Design Process",
+      "Summary": "The student creates the documentation for building a database; data dictionary, ER Diagrams.",
+      "SortOrder": 1,
+      "CreatedDate": "2026-11-16T12:41:39.5078034-05:00",
+      "ModifiedDate": "2026-11-16T12:44:39.5714116-05:00",
+      "Elements": []
+    },
+    {
+      "Id": "eee4d35b-d4c9-462e-9d5a-053fa05c3cfd",
+      "Title": "Collecting User Information",
+      "Summary": "The student users supplied client interviews in the design provess.",
+      "SortOrder": 2,
+      "CreatedDate": "2026-11-16T12:42:29.5859606-05:00",
+      "ModifiedDate": "2026-11-16T12:43:01.3718829-05:00",
+      "Elements": []
+    },
+    {
+      "Id": "59ac40c5-49cb-4713-9c31-d37e1d7e4e98",
+      "Title": "Building the Database",
+      "Summary": "The student build the database in a DBMS",
+      "SortOrder": 3,
+      "CreatedDate": "2026-11-16T12:43:01.3711163-05:00",
+      "ModifiedDate": "2026-11-16T12:43:22.621293-05:00",
+      "Elements": []
+    },
+    {
+      "Id": "adf0b8b2-4ba0-4af0-b717-4f0494e8d013",
+      "Title": "Populating the databae",
+      "Summary": "The students populate the database with supplied data.",
+      "SortOrder": 4,
+      "CreatedDate": "2026-11-16T12:43:22.6198383-05:00",
+      "ModifiedDate": "2026-11-16T12:43:50.9646032-05:00",
+      "Elements": []
+    },
+    {
+      "Id": "625e4e19-c3b3-4304-97fa-3620cf66c355",
+      "Title": "Queries and Reports",
+      "Summary": "The students create queries and reports from the database specifications to meet the requirements of the client.",
+      "SortOrder": 5,
+      "CreatedDate": "2026-11-16T12:43:50.9634025-05:00",
+      "ModifiedDate": "2026-11-16T12:44:33.4739964-05:00",
+      "Elements": []
+    }
+  ],
+  "TotalElementCount": 0
+}

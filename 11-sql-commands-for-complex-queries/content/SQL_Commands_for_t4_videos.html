@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sorting Results with ORDER BY</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 11 - SQL Commands for Complex Queries</a></div>
+<h1>Sorting Results with ORDER BY</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Mastering ORDER BY in SQL | Sort Data Easily (Ascending, Descending &amp; Multiple Columns)</a>
+<a href="#sec3">Video 2: SQL ORDER BY with UNION, LIMIT/TOP &amp; NULL Handling | Advanced Sorting Tutorial</a>
+<a href="#sec4">Video 3: Learn Basic SQL in 15 Minutes | Business Intelligence For Beginners | SQL Tutorial For Beginners 1/3</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>A SELECT statement returns a set of rows, and unless you say otherwise, the database makes no promise about the order in which those rows come back. The ORDER BY clause is how you take control of that sequence, telling the database to present results sorted by one or more columns, ascending or descending. It is the last major clause evaluated in a query, which is why it can reference column aliases and even column positions that earlier clauses cannot.</p>
+<p>In this module you are building complex queries with joins, grouping, and subqueries. Sorting is what makes those results readable and usable: a grouped sales summary is far more informative when ordered from highest total to lowest, and a filtered customer list is easier to scan when ordered by last name then first name. You will also see that sorting behaves differently depending on data type — numbers sort numerically, text sorts by collation rules, and dates sort chronologically — and that NULL values need special attention.</p>
+<p>As you watch, pay attention to the exact syntax (ASC is the default and can be omitted, DESC must be stated explicitly), to how a second or third sort column acts as a tiebreaker, and to how sorting interacts with row limits such as LIMIT or TOP. Also note where sorting by column position is convenient and where it becomes fragile if the SELECT list changes.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Mastering ORDER BY in SQL | Sort Data Easily (Ascending, Descending &amp; Multiple Columns)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/gW44J-vpSAc?cc_load_policy=1&amp;rel=0" title="Video: Mastering ORDER BY in SQL | Sort Data Easily (Ascending, Descending &amp; Multiple Columns) (PythonPythonME)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>PythonPythonME</strong> · 13:42 · 25 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=gW44J-vpSAc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A beginner-oriented walkthrough of the ORDER BY clause that, based on its title and description, steps through sorting in ascending order, descending order, and across multiple columns. Expect demonstrations of the basic syntax and how the sort direction keyword attaches to each column individually.</p>
+<h3>Why this video</h3>
+<p>It maps directly onto the core subtopics here — purpose of ORDER BY, ASC, DESC, and multi-column sorting — and its slow, beginner-friendly pacing makes it a good first watch before the more advanced material.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: SQL ORDER BY with UNION, LIMIT/TOP &amp; NULL Handling | Advanced Sorting Tutorial</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/Zk7Yr_eqbPQ?cc_load_policy=1&amp;rel=0" title="Video: SQL ORDER BY with UNION, LIMIT/TOP &amp; NULL Handling | Advanced Sorting Tutorial (PythonPythonME)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>PythonPythonME</strong> · 17:29 · 26 views · 1y ago · captions — <a href="https://www.youtube.com/watch?v=Zk7Yr_eqbPQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>This follow-up video from the same channel addresses ORDER BY in more complicated situations: how sorting applies to the combined result of a UNION, how it interacts with LIMIT or TOP to produce top-N results, and how NULL values are positioned in a sorted list. These are the scenarios where sorting behavior commonly surprises students.</p>
+<h3>Why this video</h3>
+<p>It extends the basics into the complex-query context of this module and covers the NULL and data-type edge cases that the topic summary calls out, which simple tutorials usually skip.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Learn Basic SQL in 15 Minutes | Business Intelligence For Beginners | SQL Tutorial For Beginners 1/3</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/kbKty5ZVKMY?cc_load_policy=1&amp;rel=0" title="Video: Learn Basic SQL in 15 Minutes | Business Intelligence For Beginners | SQL Tutorial For Beginners 1/3 (Adam Finer - Learn BI)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Adam Finer - Learn BI</strong> · 17:40 · 3,545,042 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=kbKty5ZVKMY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A widely viewed introductory SQL lesson that covers the fundamentals of writing queries against a sample database, including SELECT, filtering, and sorting output. It is the first part of a three-part beginner series using a downloadable SQLite database and query files so you can follow along hands-on.</p>
+<h3>Why this video</h3>
+<p>With millions of views and a well-established business-intelligence instructor, it provides a reliable refresher that places ORDER BY in the context of a full query, which is useful if your SELECT and WHERE skills feel rusty before tackling the sorting specifics.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>These videos reinforce the module outcomes by showing how the final presentation step of a query fits with the clauses you are constructing. Sorted output makes the results of JOIN queries (MO1) and WHERE filters (MO2) readable and verifiable, and ordering an aggregated result set is how GROUP BY and HAVING summaries become meaningful rankings (MO3, MO4). The advanced video&#39;s treatment of ORDER BY with UNION, LIMIT/TOP, and NULLs supports the multi-step query construction expected in MO5, where a correctly ordered and limited result is often the point of the subquery in the first place.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

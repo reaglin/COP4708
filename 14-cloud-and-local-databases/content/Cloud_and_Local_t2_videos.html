@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locally Hosted Database Systems</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 14 - Cloud and Local Databases</a></div>
+<h1>Locally Hosted Database Systems</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: On Prem To The Cloud: Rub Some DevOps On It (episode 3)</a>
+<a href="#sec3">Video 2: On Prem To The Cloud: Migrating to Azure SQL (episode 7)</a>
+<a href="#sec4">Video 3: Your Old PC is Your New Server</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>A locally hosted (on-premises) database system runs on hardware that your organization owns or leases and physically controls — servers in a rack, in a closet, or in a data center you rent space in. Everything from the power supply and network cabling to the operating system, the database engine, patching, backups, and user security sits with your team. That total ownership is the defining characteristic of local deployment, and it is the baseline against which every cloud database service in this module is compared.</p>
+<p>This matters in COP4708 because deployment choice shapes real decisions: how you budget (large up-front capital purchases plus ongoing staffing, versus metered monthly bills), how you scale (buying and installing more hardware, versus resizing an instance in a console), and who is accountable when a disk fails at 2 a.m. Local deployment is still the right answer in many situations — strict data residency rules, low-latency industrial or lab workloads, legacy applications, and environments with poor or no internet connectivity — so understanding it well is not just historical background.</p>
+<p>As you watch the videos below, keep a running list of tasks that a human has to perform on a local system: provisioning hardware, installing and configuring software, monitoring, applying updates, arranging redundancy, and testing recovery. Note where each of those tasks goes when the same workload moves to a managed cloud service. Also pay attention to cost: notice which costs are visible (hardware, licenses) and which are hidden (staff time, downtime, spare capacity bought &quot;just in case&quot;).</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: On Prem To The Cloud: Rub Some DevOps On It (episode 3)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/KEYOsMWA5ak?cc_load_policy=1&amp;rel=0" title="Video: On Prem To The Cloud: Rub Some DevOps On It (episode 3) (DevOps on Azure)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>DevOps on Azure</strong> · 16:17 · 2,335 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=KEYOsMWA5ak" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Episode 3 of Microsoft&#39;s On Prem To The Cloud series, in which Abel Wang and Damian Brady discuss why DevOps practices matter for applications still running on on-premises infrastructure and walk through setting up a pipeline for one. The discussion surfaces the operational burden that local deployments place on a team — builds, deployments, configuration, and consistency — before any cloud migration is considered.</p>
+<h3>Why this video</h3>
+<p>It frames local hosting from a practitioner&#39;s maintenance and operations perspective, which maps onto the management responsibilities subtopic, and it comes from an official Microsoft DevOps channel with credible, current practice.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: On Prem To The Cloud: Migrating to Azure SQL (episode 7)</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/aB64sM5lH38?cc_load_policy=1&amp;rel=0" title="Video: On Prem To The Cloud: Migrating to Azure SQL (episode 7) (DevOps on Azure)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>DevOps on Azure</strong> · 17:24 · 3,077 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=aB64sM5lH38" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Episode 7 of the same series focuses specifically on moving an on-premises application&#39;s database to Azure SQL, aimed at viewers who want getting-started material on migration. Expect discussion of what the existing local database looks like, what changes when the database becomes a managed service, and the practical steps involved in the move.</p>
+<h3>Why this video</h3>
+<p>The side-by-side of a local database and its managed Azure SQL counterpart is exactly the contrast this topic is built around, making it useful for seeing which administrative duties stay with you and which shift to the provider.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Your Old PC is Your New Server</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zPmqbtKwtgw?cc_load_policy=1&amp;rel=0" title="Video: Your Old PC is Your New Server (Linus Tech Tips)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Linus Tech Tips</strong> · 11:07 · 6,864,903 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=zPmqbtKwtgw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A hands-on consumer and enthusiast look at repurposing an older desktop computer as a working server, from the channel&#39;s sponsor-supported remote monitoring and management angle. Expect coverage of selecting and preparing the hardware, installing server software, and the ongoing need to monitor and manage the machine once it is running. It illustrates, at small scale, what it actually means to own and operate your own infrastructure.</p>
+<h3>Why this video</h3>
+<p>It makes the abstract idea of &quot;on-premises&quot; concrete and physical, which directly supports the subtopics on infrastructure setup, configuration, and ongoing management responsibilities. Linus Tech Tips is a well-produced, widely viewed technology channel, and the scaled-down example keeps the focus on the responsibilities rather than enterprise procurement details.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos build the on-premises half of the comparison the module requires. The Linus Tech Tips build grounds MO1 by showing the physical infrastructure characteristics that define local deployment, and it exposes the hardware purchases, spare capacity, and hands-on upkeep that feed the capital-expenditure and total-cost-of-ownership reasoning in MO2 as well as the hardware-bound scaling limits in MO3. The two On Prem To The Cloud episodes supply the operational side: episode 3 catalogs the maintenance, deployment, and reliability work an organization must absorb when it hosts its own systems, supporting the trade-off evaluation in MO4, while episode 7&#39;s Azure SQL migration makes visible which of those duties transfer to a provider and which remain with the customer — the core distinction behind the shared responsibility model in MO5.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

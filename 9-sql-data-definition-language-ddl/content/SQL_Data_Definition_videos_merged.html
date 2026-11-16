@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>9 - SQL Data Definition Language (DDL)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+<style>section.merged-part{border-top:2px solid rgba(128,128,128,.3);margin-top:2rem;padding-top:.5rem}nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}nav.toc a{display:block;text-decoration:none;padding:.12rem 0}</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 9 - SQL Data Definition Language (DDL)</a></div>
+<h1>9 - SQL Data Definition Language (DDL)</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#part1">Introduction to SQL DDL</a>
+<a href="#part2">The CREATE Command</a>
+<a href="#part3">Data Types and Column Definitions</a>
+<a href="#part4">Constraints in SQL</a>
+<a href="#part5">The ALTER Command</a>
+<a href="#part6">The DROP and TRUNCATE Commands</a>
+<a href="#part7">Working with Schemas</a>
+</nav>
+<section class="merged-part" id="part1">
+<h2>Introduction to SQL DDL</h2>
+<section class="item" id="p1-sec1">
+<h3>Introduction</h3>
+<p>SQL is often described as a single language, but in practice it is a family of related sublanguages, each with a different job. Data Definition Language (DDL) is the part of SQL used to create and shape the structures that hold your data: tables, columns, data types, constraints, indexes, views, and schemas. Commands such as CREATE, ALTER, DROP, and TRUNCATE belong to DDL, and together they define what a database can store and what rules the stored data must obey.</p>
+<p>This distinction matters in COP4708 because almost everything else you do depends on it. Queries written with SELECT (DQL) and data changes made with INSERT, UPDATE, and DELETE (DML) can only work within the structure that DDL has already established. Permissions (DCL) and transaction control (TCL) round out the picture. Getting comfortable naming these categories now will make the rest of the module, where you write real CREATE TABLE and ALTER TABLE statements, much easier to follow.</p>
+<p>As you watch the videos below, keep a running list of which commands fall into which sublanguage, and notice how often DDL decisions, such as choosing a data type or adding a constraint, are decisions about data integrity rather than just syntax. Also pay attention to the commands that permanently change or remove structures, since those are the ones with the most serious consequences in a live database.</p>
+</section>
+<section class="item" id="p1-sec2">
+<h3>Video 1: All Types of SQL Commands with Syntax &amp; Example | DDL, DQL, DML, DCL, TCL | Learn SQL Commands Types</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/_nObqYlq_Cs?cc_load_policy=1&amp;rel=0" title="Video: All Types of SQL Commands with Syntax &amp; Example | DDL, DQL, DML, DCL, TCL | Learn SQL Commands Types (PyBrain)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>PyBrain</strong> · 6:49 · 17,919 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=_nObqYlq_Cs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video surveys all five categories of SQL commands: DDL, DQL, DML, DCL, and TCL. Based on its title and description, it presents each category's purpose along with syntax and short examples of the commands that belong to it. Expect a quick, structured tour rather than deep practice on any one command.</p>
+<h4>Why this video</h4>
+<p>It directly addresses the "DDL vs. other SQL sublanguages" subtopic by placing DDL side by side with the other four categories, which is exactly the classification skill this topic asks you to build.</p>
+</section>
+<section class="item" id="p1-sec3">
+<h3>Video 2: SQL DDL(Data Definition Language) Commands: A Practical Approach</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/aXzirVWOvjw?cc_load_policy=1&amp;rel=0" title="Video: SQL DDL(Data Definition Language) Commands: A Practical Approach (KnowHow Academy)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>KnowHow Academy</strong> · 16:47 · 4,935 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=aXzirVWOvjw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A longer, practice-oriented walkthrough of the core DDL commands from KnowHow Academy. The description indicates it explains the essential Data Definition Language commands and how to use them, so expect demonstrations of statements such as CREATE, ALTER, DROP, and TRUNCATE applied to database objects. The extra length allows for more worked examples than a short overview can offer.</p>
+<h4>Why this video</h4>
+<p>It focuses specifically on DDL rather than SQL in general, giving you a concrete look at the database objects DDL defines and previewing the hands-on CREATE and ALTER work later in this module.</p>
+</section>
+<section class="item" id="p1-sec4">
+<h3>Video 3: All SQL Fundamentals Explained in 10 Minutes | Learn SQL Basics for Beginners | SQL Crash Course</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/3s0lFtUrhSQ?cc_load_policy=1&amp;rel=0" title="Video: All SQL Fundamentals Explained in 10 Minutes | Learn SQL Basics for Beginners | SQL Crash Course (Learn with Whiteboard)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Learn with Whiteboard</strong> · 10:55 · 535,050 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=3s0lFtUrhSQ" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A fast-paced beginner crash course covering SQL fundamentals in about ten minutes. Its description promises the essential basics, which typically includes how tables and columns are structured, the common command families, and simple query syntax. It serves as general context rather than a DDL-specific lesson.</p>
+<h4>Why this video</h4>
+<p>With over half a million views it is a well-tested orientation video, useful for situating DDL within SQL as a whole and for reviewing foundational vocabulary before the module's detailed DDL work.</p>
+</section>
+<section class="item" id="p1-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the conceptual foundation the module outcomes rest on. The PyBrain overview supports MO1 most directly by sorting SQL commands into DDL, DQL, DML, DCL, and TCL according to purpose, while the Learn with Whiteboard crash course reinforces the surrounding SQL vocabulary. The KnowHow Academy DDL walkthrough previews the practical skills assessed in MO2 through MO5, showing CREATE, ALTER, and object-removal commands in action so that when you later write CREATE TABLE statements, apply PRIMARY KEY and FOREIGN KEY constraints, alter existing tables, and choose among DROP, TRUNCATE, and DELETE, the syntax and its consequences are already familiar.</p>
+</section>
+<section class="item" id="p1-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part2">
+<h2>The CREATE Command</h2>
+<section class="item" id="p2-sec1">
+<h3>Introduction</h3>
+<p>The CREATE statement is the starting point of SQL's Data Definition Language (DDL). While queries with SELECT read data that already exists, DDL commands build and shape the containers that hold data: databases, schemas, and tables. In this topic you will work through that hierarchy from the outside in — creating a database, organizing objects into a schema, and then defining individual tables with named columns and data types.</p>
+<p>This matters in COP4708 because everything you have designed on paper so far — entities, attributes, relationships — eventually has to be expressed as runnable SQL. A well-written CREATE TABLE statement captures your design decisions: what each column is called, what kind of values it may hold, how wide or precise those values are, and which schema the table belongs to. Poor choices here (a text column for a date, an undersized character field, inconsistent naming) are costly to fix once data is loaded.</p>
+<p>As you watch, pay attention to three things: the exact syntax and punctuation of a CREATE statement, how the presenter chooses a data type for each column and justifies it, and how fully qualified names (schema.table) are used. Also notice that syntax varies a little between database products such as MySQL, Oracle, SQL Server, and PostgreSQL, so confirm the dialect your course environment uses before you run anything.</p>
+</section>
+<section class="item" id="p2-sec2">
+<h3>Video 1: SQL Create Table: How-To with Example</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/T7eg5uS8VZo?cc_load_policy=1&amp;rel=0" title="Video: SQL Create Table: How-To with Example (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 5:41 · 3,264 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=T7eg5uS8VZo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused walkthrough of the CREATE TABLE statement using a worked example. Based on the title and channel, it should show the basic syntax — table name, the list of column definitions, and the data type assigned to each column — and then run the statement to produce a working table.</p>
+<h4>Why this video</h4>
+<p>This is the core subtopic of the lesson delivered concisely, and Database Star is a well-established SQL instruction channel known for accurate, dialect-aware explanations. At under six minutes it gives you a template you can imitate immediately when writing your own column definitions.</p>
+</section>
+<section class="item" id="p2-sec3">
+<h3>Video 2: MySQL Create Database: How-To with Examples</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/log1X_L9IZw?cc_load_policy=1&amp;rel=0" title="Video: MySQL Create Database: How-To with Examples (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 6:28 · 15,041 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=log1X_L9IZw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video covers CREATE DATABASE, the command that establishes the top-level container before any tables exist. Given the title and description, expect to see the basic statement, example variations, and likely supporting details such as listing or selecting a database after creating it, demonstrated in MySQL.</p>
+<h4>Why this video</h4>
+<p>It directly addresses the "Creating a New Database" subtopic and sets up the database-schema-table hierarchy, so you understand what a table is being created inside of rather than treating CREATE TABLE as an isolated command.</p>
+</section>
+<section class="item" id="p2-sec4">
+<h3>Video 3: How to Create SQL Code from a Database Design</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/F7IDTbentDs?cc_load_policy=1&amp;rel=0" title="Video: How to Create SQL Code from a Database Design (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 13:47 · 10,373 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=F7IDTbentDs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A longer, project-style video that moves from a completed database design to the SQL code that implements it. Expect a demonstration of translating entities and attributes into CREATE statements, including decisions about table names, columns, and data types, as part of a broader design-to-implementation workflow.</p>
+<h4>Why this video</h4>
+<p>It connects CREATE statements back to data modeling, which is exactly the skill this course builds, and it reinforces best practices for writing CREATE statements by showing them applied to a full design rather than a single toy table.</p>
+</section>
+<section class="item" id="p2-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos build the practical foundation for the module's outcomes. The CREATE TABLE and design-to-SQL videos directly support MO2 by modeling how to write statements with appropriate column names and data types, and they illustrate DDL's distinct purpose — defining structure rather than retrieving or changing rows — which supports the classification work in MO1. The CREATE DATABASE video establishes the database and schema context in which tables and their constraints live, preparing you for the integrity rules in MO3. Because MO3, MO4, and MO5 extend beyond CREATE into constraints, ALTER TABLE, and DROP/TRUNCATE/DELETE, treat these videos as the base layer and pair them with the module readings and later topics that cover those commands.</p>
+</section>
+<section class="item" id="p2-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part3">
+<h2>Data Types and Column Definitions</h2>
+<section class="item" id="p3-sec1">
+<h3>Introduction</h3>
+<p>Every column in a relational table has a data type, and that type is a promise about what the column may hold. Numeric types (INT, SMALLINT, BIGINT, DECIMAL/NUMERIC, FLOAT), character and string types (CHAR, VARCHAR, TEXT), date and time types (DATE, TIME, TIMESTAMP), and boolean or binary types (BOOLEAN, BLOB/BINARY) each store values differently and allow different operations. Choosing DECIMAL instead of FLOAT for currency, or DATE instead of VARCHAR for a birthdate, is not a stylistic preference — it determines whether the database can validate, sort, compare, and compute on your data correctly.</p>
+<p>In this module you write CREATE TABLE statements, and the column definition is where the data type lives: a column name, a type (often with a length or precision, such as VARCHAR(50) or DECIMAL(10,2)), and any column-level constraints such as NOT NULL or DEFAULT. Data types are the first line of defense for data integrity; constraints build on top of them. Keep in mind that exact type names vary by DBMS (MySQL, SQL Server, Oracle, PostgreSQL, SQLite), so expect small differences between videos and your course environment.</p>
+<p>As you watch, note three things: which type each presenter chooses for a given kind of value and why, how length or precision is specified, and how the data type sits alongside constraints inside the parentheses of a CREATE TABLE statement. Jot down any type names that differ from the ones your course uses so you can map them later.</p>
+</section>
+<section class="item" id="p3-sec2">
+<h3>Video 1: Data Types, Primary-Foreign Keys &amp; Constraints in SQL | SQL Tutorial In Hindi 2</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/HmH-76_2Ak8?cc_load_policy=1&amp;rel=0" title="Video: Data Types, Primary-Foreign Keys &amp; Constraints in SQL | SQL Tutorial In Hindi 2 (Rishabh Mishra)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Rishabh Mishra</strong> · 8:25 · 550,860 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=HmH-76_2Ak8" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A focused tutorial that walks through SQL data types and then connects them to primary keys, foreign keys, and other constraints used when defining a table. Based on its title and description, it covers the main type families you will use in column definitions and shows how constraints are attached to those columns. It is part of a larger SQL full-course playlist, so the examples build on earlier lessons.</p>
+<h4>Why this video</h4>
+<p>This is the most directly on-topic video in the set, pairing data types with the constraint syntax that appears in the same CREATE TABLE statement, which matches the subtopics on choosing types for data integrity and defining columns.</p>
+</section>
+<section class="item" id="p3-sec3">
+<h3>Video 2: Learn Basic SQL in 15 Minutes | Business Intelligence For Beginners | SQL Tutorial For Beginners 1/3</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/kbKty5ZVKMY?cc_load_policy=1&amp;rel=0" title="Video: Learn Basic SQL in 15 Minutes | Business Intelligence For Beginners | SQL Tutorial For Beginners 1/3 (Adam Finer - Learn BI)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Adam Finer - Learn BI</strong> · 17:40 · 3,545,036 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=kbKty5ZVKMY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A fast, beginner-oriented overview of core SQL from a business intelligence instructor, using a downloadable SQLite database so you can follow along. It introduces how data is organized into tables with typed columns and demonstrates basic statements against that data. The resource pack lets you practice rather than just watch.</p>
+<h4>Why this video</h4>
+<p>Its hands-on database setup gives you a concrete place to inspect real column definitions and experiment with how values of different types behave, reinforcing the storage-and-integrity rationale behind type choices.</p>
+</section>
+<section class="item" id="p3-sec4">
+<h3>Video 3: SQL - Introduction - W3Schools.com</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/zpnHsWOy0RY?cc_load_policy=1&amp;rel=0" title="Video: SQL - Introduction - W3Schools.com (w3schools.com)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>w3schools.com</strong> · 3:14 · 730,782 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=zpnHsWOy0RY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short introduction to SQL and relational databases from W3Schools, framing what SQL is used for and how tables, rows, and columns relate. It serves as the opening piece of a beginner tutorial series and links back to a written reference page.</p>
+<h4>Why this video</h4>
+<p>W3Schools is a widely used, accurate reference, and this brief orientation supplies the vocabulary of tables and columns you need before studying types in detail; its companion pages also list data types by DBMS.</p>
+</section>
+<section class="item" id="p3-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos support MO2 most directly: they show column names paired with data types inside table definitions and give you a practice database for building your own. The data-types-and-constraints tutorial also reinforces MO3 by demonstrating PRIMARY KEY, FOREIGN KEY, and NOT NULL style rules attached to typed columns, and the introductory W3Schools video provides the general SQL framing that helps you place DDL among the other SQL sublanguages for MO1. Material on ALTER TABLE (MO4) and the DROP, TRUNCATE, DELETE comparison (MO5) is covered in other resources in this module, so treat these videos as preparation for the column-definition skills those commands later modify.</p>
+</section>
+<section class="item" id="p3-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part4">
+<h2>Constraints in SQL</h2>
+<section class="item" id="p4-sec1">
+<h3>Introduction</h3>
+<p>Constraints are the rules you attach to a table so the database itself refuses to store bad data. A PRIMARY KEY guarantees that every row can be uniquely identified (and that the key column is never empty), a FOREIGN KEY ties a column in one table to the key of another so relationships stay valid, NOT NULL forces a value to be supplied, UNIQUE blocks duplicate values in a column that is not the primary key, and DEFAULT supplies a value automatically when the INSERT statement leaves the column out. Together these are the backbone of relational integrity.</p>
+<p>In this module you are learning Data Definition Language, and constraints are written directly into the CREATE TABLE statement alongside column names and data types. That makes them a design decision, not an afterthought: if you declare them correctly up front, the database enforces your business rules on every insert and update from then on. You will also see that constraints can be added, renamed, or dropped later with ALTER TABLE when requirements change.</p>
+<p>As you watch the videos below, pay attention to the exact syntax and placement of each constraint (column-level versus table-level), to how a foreign key names the parent table and column it references, and to what the database actually does when a statement violates a rule. Note also that the examples come from CockroachDB, a PostgreSQL-compatible SQL database, so the ideas transfer directly but minor syntax details may vary from the DBMS you use in class.</p>
+</section>
+<section class="item" id="p4-sec2">
+<h3>Video 1: How to Create Tables with Foreign Keys in SQL</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/mFQk1VsIkZA?cc_load_policy=1&amp;rel=0" title="Video: How to Create Tables with Foreign Keys in SQL (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:42 · 19,553 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=mFQk1VsIkZA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A hands-on follow-up that walks through creating tables that include foreign key definitions in SQL. Expect to see CREATE TABLE statements in which a parent table is defined first and a child table then declares a column that REFERENCES it, illustrating referential integrity in practice.</p>
+<h4>Why this video</h4>
+<p>It maps directly to the "Applying Constraints During Table Creation" subtopic by showing the constraint written inside a CREATE TABLE statement rather than discussed in the abstract.</p>
+</section>
+<section class="item" id="p4-sec3">
+<h3>Video 2: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5kiMg7GXAsY?cc_load_policy=1&amp;rel=0" title="Video: What is a Foreign Key Constraint? Understanding Primary &amp; Foreign Keys (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:53 · 110,538 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=5kiMg7GXAsY" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short conceptual explainer on what a foreign key constraint is, why it matters, and how it differs from a primary key. Based on its title and description, it covers the role of each key type in identifying rows and in linking a child table to a parent table, and explains the referential integrity the constraint protects.</p>
+<h4>Why this video</h4>
+<p>Start here: it builds the vocabulary and mental model for the PRIMARY KEY and FOREIGN KEY subtopics before you write any syntax, and its large view count reflects a clear, widely used introduction from a SQL database vendor.</p>
+</section>
+<section class="item" id="p4-sec4">
+<h3>Video 3: How to use ADD CONSTRAINT in SQL (with examples)</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/MvogGSS9Stc?cc_load_policy=1&amp;rel=0" title="Video: How to use ADD CONSTRAINT in SQL (with examples) (CockroachDB)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>CockroachDB</strong> · 3:18 · 3,858 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=MvogGSS9Stc" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>This video demonstrates the ADD CONSTRAINT clause, along with dropping and renaming constraints, using worked SQL examples. It shows how a constraint can be attached to a table that already exists instead of only at creation time.</p>
+<h4>Why this video</h4>
+<p>It rounds out the topic by showing that constraints are maintainable objects, connecting constraint rules to the ALTER TABLE work covered elsewhere in this module.</p>
+</section>
+<section class="item" id="p4-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>These videos concentrate on the constraint-focused outcomes of the module. The conceptual foreign key video and the table-creation walkthrough support MO2 and MO3 by showing how PRIMARY KEY and FOREIGN KEY declarations are embedded in a CREATE TABLE statement to enforce integrity, and they model the same column-level syntax pattern you will reuse for NOT NULL, UNIQUE, and DEFAULT. The ADD CONSTRAINT video supports MO4 by demonstrating how constraints are added, renamed, or removed on an existing table without rebuilding it. Because every example is a DDL statement that defines or alters structure rather than querying or changing rows, the set also reinforces MO1; you should supplement them with your course readings for NOT NULL, UNIQUE, and DEFAULT practice and for the DROP, TRUNCATE, and DELETE comparison in MO5.</p>
+</section>
+<section class="item" id="p4-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part5">
+<h2>The ALTER Command</h2>
+<section class="item" id="p5-sec1">
+<h3>Introduction</h3>
+<p>Database designs rarely stay the same once an application goes live. Requirements change, new data needs to be captured, and mistakes in the original schema have to be corrected. The ALTER TABLE command is the SQL Data Definition Language tool that lets you change the structure of a table that already exists — adding a column, changing a column's data type or size, removing a column, and adding or dropping constraints such as PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, and CHECK.</p>
+<p>What makes ALTER TABLE important in this course is that it changes structure without discarding the rows already stored. That is the key difference between altering a table and dropping and recreating it. It also means you have to think about the existing data: adding a NOT NULL column to a populated table, shrinking a column's size, or adding a foreign key when some rows hold values that do not exist in the parent table can all fail or require extra steps.</p>
+<p>As you watch the videos below, pay attention to the exact clause keywords used (ADD, ALTER COLUMN or MODIFY, DROP COLUMN, ADD CONSTRAINT, DROP CONSTRAINT), to how constraints are given names so they can be dropped later, and to any differences in syntax between SQL Server and MySQL. Try reproducing each statement on a small test table of your own so you can see what happens to the rows that were already there.</p>
+</section>
+<section class="item" id="p5-sec2">
+<h3>Video 1: ALTER TABLE in SQL</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/DxLg9ApoiKw?cc_load_policy=1&amp;rel=0" title="Video: ALTER TABLE in SQL (Learn SQL Fast: Dr. Cecelia Allison)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Learn SQL Fast: Dr. Cecelia Allison</strong> · 6:29 · 690 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=DxLg9ApoiKw" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, focused demonstration of ALTER TABLE in SQL Server Management Studio, including how constraints are handled when modifying an existing table. Based on the title and description, expect to see the basic ADD, modify, and drop operations carried out live against a table and the results checked afterward.</p>
+<h4>Why this video</h4>
+<p>It is a compact, on-topic walkthrough from an instructor-oriented channel that pairs the ALTER TABLE syntax with constraint work, covering the introduction, column changes, and constraint subtopics in one sitting.</p>
+</section>
+<section class="item" id="p5-sec3">
+<h3>Video 2: INSERT UPDATE, DELETE &amp; ALTER Table in SQL With Example | SQL Tutorial in Hindi 4</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/4YAAgrm8_ZI?cc_load_policy=1&amp;rel=0" title="Video: INSERT UPDATE, DELETE &amp; ALTER Table in SQL With Example | SQL Tutorial in Hindi 4 (Rishabh Mishra)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Rishabh Mishra</strong> · 6:16 · 553,132 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=4YAAgrm8_ZI" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>Part of a structured SQL tutorial series, this video places ALTER TABLE alongside INSERT, UPDATE, and DELETE with worked examples and timestamps for each command. Expect to see how structural changes with ALTER differ from row-level changes made by the data manipulation statements.</p>
+<h4>Why this video</h4>
+<p>Seeing ALTER next to INSERT, UPDATE, and DELETE reinforces the distinction between changing a table's design and changing its contents, which is exactly the point of evolving a table without losing data; the series is widely viewed and uses step-by-step examples. Note that the narration is in Hindi with English SQL terms and on-screen code.</p>
+</section>
+<section class="item" id="p5-sec4">
+<h3>Video 3: Add Foreign key constraint to existing column in Mysql tutorial</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/bStAELOBXH0?cc_load_policy=1&amp;rel=0" title="Video: Add Foreign key constraint to existing column in Mysql tutorial (United Top Tech)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>United Top Tech</strong> · 6:36 · 44,376 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=bStAELOBXH0" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A targeted MySQL tutorial showing how to add a FOREIGN KEY constraint to a column in a table that already exists, rather than declaring it at creation time. Expect the ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY ... REFERENCES pattern demonstrated against sample tables.</p>
+<h4>Why this video</h4>
+<p>It drills into the subtopic students most often struggle with — attaching constraints after the fact — and does so in MySQL, giving you a second dialect to compare against the SQL Server examples.</p>
+</section>
+<section class="item" id="p5-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos center on MO4: each one demonstrates ALTER TABLE operations that add, change, or remove columns and constraints on tables that already contain data. The constraint-focused material also reinforces MO3 by showing PRIMARY KEY, FOREIGN KEY, and related integrity rules being applied and named so they can later be dropped, and it builds directly on the CREATE TABLE work of MO2 by showing how an initial design is corrected or extended. The tutorial that contrasts ALTER with INSERT, UPDATE, and DELETE supports MO1 and MO5 by helping you classify which statements change structure versus which change rows, preparing you to choose correctly among DROP, TRUNCATE, and DELETE.</p>
+</section>
+<section class="item" id="p5-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part6">
+<h2>The DROP and TRUNCATE Commands</h2>
+<section class="item" id="p6-sec1">
+<h3>Introduction</h3>
+<p>So far in this module you have been building database objects: creating tables, defining data types, applying constraints, and altering structures that already exist. This topic looks at the other side of data definition — removing things. DROP is the DDL command that permanently deletes a database object such as a table, view, schema, or even an entire database, taking its structure and its data with it. TRUNCATE is a related command that keeps the table definition intact but removes every row in one fast operation.</p>
+<p>The reason these two commands get their own topic is that they are easy to confuse with each other and with DELETE, a DML command that removes rows based on a WHERE condition. The three differ in what they affect (object vs. rows), how they are logged, whether they can be rolled back, how they interact with identity/auto-increment counters and foreign key references, and how quickly they run on large tables. Choosing the wrong one in a production database is one of the classic ways to lose data permanently.</p>
+<p>As you watch the videos below, keep a comparison table in front of you and fill in columns for DROP, TRUNCATE, and DELETE: Does the table still exist afterward? Can you filter which rows go? Is it DDL or DML? Can it be undone? What happens to constraints and identity seeds? Also pay attention to the syntax each presenter types — note how short and unforgiving these statements are, which is exactly why best practices like backups, testing on a copy, and double-checking the database context matter.</p>
+</section>
+<section class="item" id="p6-sec2">
+<h3>Video 1: SQL Delete vs Truncate</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/LZKxoWx-rxo?cc_load_policy=1&amp;rel=0" title="Video: SQL Delete vs Truncate (Global Tech Learn)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Global Tech Learn</strong> · 17:31 · 1,230 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=LZKxoWx-rxo" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A detailed walkthrough comparing the SQL DELETE and TRUNCATE commands, including their syntax and the practical differences between them. At roughly seventeen minutes it has room to demonstrate the commands against sample tables and discuss points such as filtering rows with WHERE, speed, and how each command is handled by the database engine.</p>
+<h4>Why this video</h4>
+<p>This is the longest and most thorough of the three videos, and it directly addresses the TRUNCATE vs. DELETE distinction that students most often get wrong on exams and in practice.</p>
+</section>
+<section class="item" id="p6-sec3">
+<h3>Video 2: Most Asked Interview Question For beginner | Truncate Table vs. Drop Table</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/eO-k9AF9QXs?cc_load_policy=1&amp;rel=0" title="Video: Most Asked Interview Question For beginner | Truncate Table vs. Drop Table (Tech And Talk)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Tech And Talk</strong> · 3:21 · 421 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=eO-k9AF9QXs" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A short, interview-style answer to the question of how TRUNCATE TABLE differs from DROP TABLE. In about three minutes it summarizes the core distinction — TRUNCATE empties a table while leaving its structure in place, DROP removes the object entirely — in the concise form an interviewer or exam question would expect.</p>
+<h4>Why this video</h4>
+<p>It is a quick, focused summary of the key differences subtopic, useful as a review or memory aid after you have seen the commands demonstrated at length.</p>
+</section>
+<section class="item" id="p6-sec4">
+<h3>Video 3: SQL Server - Create and drop Database,  Schema, Table</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/4e-22CMsggg?cc_load_policy=1&amp;rel=0" title="Video: SQL Server - Create and drop Database,  Schema, Table (Global Tech Learn)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Global Tech Learn</strong> · 9:59 · 638 views · 3y ago · captions — <a href="https://www.youtube.com/watch?v=4e-22CMsggg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A SQL Server tutorial that walks through the object hierarchy — database, schema, table — and shows how to create and then drop each level of object. Expect to see DROP used in context rather than in isolation, so you can observe what disappears when you drop a table versus a schema or a whole database.</p>
+<h4>Why this video</h4>
+<p>It supplies the DROP syntax and usage in a realistic sequence of statements, and seeing drops alongside creates reinforces how severe and irreversible the command is.</p>
+</section>
+<section class="item" id="p6-sec5">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>Together these videos target MO5 most directly: the DELETE vs. TRUNCATE comparison, the TRUNCATE vs. DROP summary, and the demonstration of DROP across databases, schemas, and tables give you three perspectives on how each command affects objects and data, which is exactly what you need to select the right command for a given scenario. The SQL Server walkthrough also reinforces MO1 and MO2 by placing DROP within the wider set of DDL statements and showing creation and removal as paired operations on the same objects, while the DELETE discussion helps you see where DML ends and DDL begins. Use the videos as demonstrations, then confirm the behavior for the specific DBMS used in this course, since details such as rollback support and identity reseeding vary by platform.</p>
+</section>
+<section class="item" id="p6-sec6">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+<section class="merged-part" id="part7">
+<h2>Working with Schemas</h2>
+<section class="item" id="p7-sec1">
+<h3>Introduction</h3>
+<p>A database schema is a named logical container that groups related tables, views, indexes, and other objects inside a database. Instead of dumping every table into one undifferentiated space, you can create a schema such as sales or hr and place the objects that belong to that area of the business inside it. Because object names only need to be unique within a schema, two different schemas can each hold a table called ORDERS without conflict.</p>
+<p>In this module you will practice the statements that make this work: CREATE SCHEMA to define the container, schema-qualified names such as sales.orders to refer to an object unambiguously, CREATE TABLE statements written inside a chosen schema, and DROP SCHEMA to remove one (with care, since dropping a schema can take its contents with it). Keep in mind that different database systems treat schemas slightly differently — in Oracle a schema is tied to a user account, while in PostgreSQL and SQL Server a schema is a separate namespace you create explicitly — so always check which product you are writing for.</p>
+<p>As you watch the videos below, pay attention to two things. First, notice how objects are named and referenced: when does the writer use a bare table name and when does a prefix appear? Second, notice how design decisions — which tables exist and how they relate — naturally suggest which objects belong together, which is exactly the organizational benefit schemas provide.</p>
+</section>
+<section class="item" id="p7-sec2">
+<h3>Video 1: Oracle Live SQL Tutorial</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/j85zjtXF4to?cc_load_policy=1&amp;rel=0" title="Video: Oracle Live SQL Tutorial (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 12:29 · 19,738 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=j85zjtXF4to" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>A walkthrough of Oracle Live SQL, the free browser-based environment for running SQL statements against an Oracle database without installing anything. The video is likely to show how to sign in, open a SQL worksheet, run CREATE and SELECT statements, and browse the objects that belong to your account. Since an Oracle user account is effectively a schema, the tour of your object list is a practical look at what a schema contains.</p>
+<h4>Why this video</h4>
+<p>Database Star is a well-established SQL and database design channel, and this tutorial gives you a no-setup place to practice the CREATE TABLE and schema-qualified naming exercises from this topic rather than only reading about them.</p>
+</section>
+<section class="item" id="p7-sec3">
+<h3>Video 2: How to Design a Database</h3>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/5RpUmDEsn1k?cc_load_policy=1&amp;rel=0" title="Video: How to Design a Database (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen=""></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 10:57 · 232,237 views · 4y ago · captions — <a href="https://www.youtube.com/watch?v=5RpUmDEsn1k" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h4>About this video</h4>
+<p>An overview of the database design process, from gathering requirements and identifying entities to defining tables, columns, keys, and the relationships between them. Expect coverage of how related tables are grouped and normalized into a coherent structure before any SQL is written. The result of that process is the logical design that a schema is used to hold.</p>
+<h4>Why this video</h4>
+<p>It supplies the reasoning behind the subtopic on schema benefits for database organization: once you can see which tables form a related group, it becomes clear why you would place them in a named schema together.</p>
+</section>
+<section class="item" id="p7-sec4">
+<h3>How These Videos Support the Learning Outcomes</h3>
+<p>These videos support the module outcomes by giving you both a place to practice and a reason to care about structure. The Oracle Live SQL tutorial provides a working environment in which you can type and run the DDL statements the module requires — CREATE TABLE with columns, data types, and constraints (MO2, MO3), ALTER TABLE modifications (MO4), and DROP statements compared against TRUNCATE and DELETE (MO5) — while seeing the resulting objects appear in your own schema. The database design video reinforces MO1 and MO3 by showing how entities, keys, and relationships are decided before DDL is written, which is what the PRIMARY KEY and FOREIGN KEY constraints you code later are actually enforcing. Together they connect the design thinking behind a schema to the DDL commands that build it.</p>
+</section>
+<section class="item" id="p7-sec5">
+<h3>About These Videos</h3>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multivalued Dependencies and Fourth Normal Form (4NF)</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;max-width:820px;margin:2rem auto;padding:0 1.25rem;color:#222;line-height:1.55}
+h1{font-size:1.9rem;border-bottom:2px solid #ddd;padding-bottom:.4rem}
+h2{font-size:1.3rem;color:#1f3864;margin-top:1.6rem}
+body{padding-left:1.1rem;padding-right:1.1rem}
+ul,ol{margin:.4rem 0 1rem 1.4rem}
+li{margin:.25rem 0}
+nav.toc{background:rgba(128,128,128,.08);border:1px solid rgba(128,128,128,.25);border-radius:8px;padding:.6rem 1rem;margin:1.2rem 0}
+nav.toc strong{display:block;margin-bottom:.3rem}
+nav.toc a{display:block;text-decoration:none;padding:.12rem 0}
+section.item{border-top:1px solid rgba(128,128,128,.22);padding-top:.3rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0}
+th,td{border:1px solid rgba(128,128,128,.45);padding:.4rem .6rem;text-align:left;vertical-align:top}
+thead th{background:rgba(128,128,128,.18);font-weight:600}
+tbody tr:nth-child(even){background:rgba(128,128,128,.08)}
+</style>
+</head>
+<body>
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div>
+<h1>Multivalued Dependencies and Fourth Normal Form (4NF)</h1>
+<nav class="toc"><strong>Contents</strong>
+<a href="#sec1">Introduction</a>
+<a href="#sec2">Video 1: Database Normalization:  Fourth Normal Form</a>
+<a href="#sec3">Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</a>
+<a href="#sec4">Video 3: Database Normalization: 1NF to 5NF in Plain English</a>
+<a href="#sec5">How These Videos Support the Learning Outcomes</a>
+<a href="#sec6">About These Videos</a>
+</nav>
+<section class="item" id="sec1">
+<h2>Introduction</h2>
+<p>Functional dependencies drive normalization up through Boyce-Codd Normal Form, but they do not capture every kind of redundancy. A multivalued dependency (MVD) arises when one attribute determines a set of values for another attribute independently of the rest of the relation. The classic symptom is a table that stores two unrelated repeating facts about the same key — for example, an instructor&#39;s courses and the instructor&#39;s assigned textbooks or hobbies — forcing you to store every combination of the two sets. The table can be in BCNF (its only functional dependency may be the trivial one on the full key) and still be full of repeated rows that cause update anomalies.</p>
+<p>Fourth Normal Form addresses exactly this situation. A relation is in 4NF if it is in BCNF and, for every nontrivial multivalued dependency X -&gt;&gt; Y, X is a superkey. The repair is decomposition: split the relation so each independent multivalued fact lives in its own table, which by Fagin&#39;s theorem produces a lossless join. In this course, 4NF sits between BCNF and 5NF in the sequence you will apply to a complete schema design, so you need to recognize when functional dependency analysis alone has stopped being enough.</p>
+<p>As you watch the videos below, focus on three things: how an MVD is stated and how it differs from a functional dependency, what the sample table looks like before and after decomposition, and whether the join of the decomposed tables reproduces the original rows exactly. Also note where presenters disagree about how often 4NF matters in practice — that debate is part of the trade-off discussion for this topic.</p>
+</section>
+<section class="item" id="sec2">
+<h2>Video 1: Database Normalization:  Fourth Normal Form</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/34SSjw7Uuug?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization:  Fourth Normal Form (Kevin Feasel)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Kevin Feasel</strong> · 11:06 · 808 views · 2y ago · captions — <a href="https://www.youtube.com/watch?v=34SSjw7Uuug" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A focused eleven-minute treatment of Fourth Normal Form that defines the normal form and works through why multivalued dependencies create problems a BCNF schema cannot fix. The presenter also offers an opinion on the relative practical importance of 4NF versus 5NF, which frames the trade-off conversation. Expect example relations showing the combinatorial row explosion that MVDs produce.</p>
+<h3>Why this video</h3>
+<p>This is the only video in the set devoted entirely to 4NF, so it gives the deepest coverage of the definition, violation detection, and decomposition steps, plus an explicit take on practical considerations.</p>
+</section>
+<section class="item" id="sec3">
+<h2>Video 2: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/EGEwkad_llA?cc_load_policy=1&amp;rel=0" title="Video: Lec-33: All Normal Forms with Real life examples | 1NF 2NF 3NF BCNF 4NF 5NF | All in One (Gate Smashers)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Gate Smashers</strong> · 11:15 · 2,626,103 views · 5y ago · captions — <a href="https://www.youtube.com/watch?v=EGEwkad_llA" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>A rapid survey of the entire normalization ladder — 1NF, 2NF, 3NF, BCNF, 4NF, and 5NF — illustrated with real-life examples in a single lecture. The 4NF segment shows how a multivalued dependency appears in a sample table and how splitting the relation removes the repeated combinations. The surrounding segments place 4NF in sequence after BCNF.</p>
+<h3>Why this video</h3>
+<p>Gate Smashers is a widely used DBMS lecture channel, and this heavily viewed video is useful for seeing 4NF in context with the forms before and after it, which supports the sequential-normalization work in this module.</p>
+</section>
+<section class="item" id="sec4">
+<h2>Video 3: Database Normalization: 1NF to 5NF in Plain English</h2>
+<div class="video-embed" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:.6rem 0;background:#000"><iframe src="https://www.youtube-nocookie.com/embed/wY1qqBFnKhk?cc_load_policy=1&amp;rel=0" title="Video: Database Normalization: 1NF to 5NF in Plain English (Database Star)" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+<p class="video-meta"><strong>Database Star</strong> · 16:15 · 8,915 views · 10mo ago · captions — <a href="https://www.youtube.com/watch?v=wY1qqBFnKhk" target="_blank" rel="noopener">Watch on YouTube</a></p>
+<h3>About this video</h3>
+<p>Database Star walks through normalization from 1NF to 5NF in plain language, with chapter markers that let you jump straight to the Fourth Normal Form section around the 12:36 mark. The explanation emphasizes everyday wording over formal notation, then applies each rule to a worked example schema. Boyce-Codd Normal Form is covered immediately before 4NF, so the contrast between the two is easy to follow.</p>
+<h3>Why this video</h3>
+<p>The plain-English framing and timestamped chapters make it an efficient review or a gentler second pass, and the back-to-back BCNF and 4NF segments directly reinforce why BCNF alone leaves MVD redundancy in place.</p>
+</section>
+<section class="item" id="sec5">
+<h2>How These Videos Support the Learning Outcomes</h2>
+<p>Together these videos reinforce the module outcomes most tied to multivalued dependencies. The Kevin Feasel video supports MO3 by defining MVDs and contrasting them with functional dependencies, and MO2 by demonstrating lossless decomposition into 4NF projections; its commentary on 4NF versus 5NF importance feeds the trade-off reasoning in MO4. The Gate Smashers and Database Star surveys cover BCNF immediately before 4NF, helping you practice the superkey test central to MO1 and giving you the full ordered pipeline — BCNF, then 4NF, then 5NF — that MO5 asks you to apply to a complete multi-relation schema.</p>
+</section>
+<section class="item" id="sec6">
+<h2>About These Videos</h2>
+<p>These videos were chosen from YouTube on October 2, 2026. Each has captions; the player turns them on. Videos on YouTube can be changed or removed — if one no longer plays, tell your instructor. If a player does not appear, use its Watch on YouTube link.</p>
+</section>
+
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body>
+</html>
