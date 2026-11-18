@@ -15,6 +15,16 @@
     "type": "Page"
   },
   {
+    "title": "Module 9: SQL for Database Construction and Application Processing Part III \u203A Graded Discussion 9",
+    "href": "content/disc_Module_9_SQL_for_Database_Construction_and.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 9-1 - More on SQL (Views, Triggers, Stored Procedures)",
+    "href": "content/Page_Module_9_1_More_on_SQL_Views_Triggers_Stored_Pro.html",
+    "type": "Content"
+  },
+  {
     "title": "Working with Schemas",
     "href": "content/SQL_Data_Definition_interactive.html",
     "type": "Content"
@@ -103,5 +113,20 @@
     "title": "SQL Showdown",
     "href": "interactive/sql-showdown-race-the-query-bot.html",
     "type": "Interactive"
+  },
+  {
+    "title": "Quiz \u2014 9 - SQL Data Definition Language (DDL)",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Module 9: SQL for Database Construction and Application Processing Part III \u203A Graded Discussion 9",
+    "href": "source-materials/disc_Module_9_SQL_for_Database_Construction_and.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 9-1 - More on SQL (Views, Triggers, Stored Procedures)",
+    "href": "source-materials/Page_Module_9_1_More_on_SQL_Views_Triggers_Stored_Pro.html",
+    "type": "Source-materials"
   }
 ]

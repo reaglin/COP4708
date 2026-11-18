@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 4-1 - Functional Dependencies</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 4 - Normal Forms: 1NF, 2NF, and 3NF</a></div><h1>Lecture 4-1 Functional Dependencies</h1>
+<h2>Lecture Video</h2>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/prKrIFu_uk4?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 4 Lecture 1   Functional Dependencies"></iframe></p>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:48">Functional Dependency in Relational Databases</h2>
+<p data-sourcepos="3:1-3:160"><strong>Functional dependency</strong> is a fundamental concept in relational database theory that describes the relationship between attributes in a relation (or table). It states that if we know the value of one attribute (or set of attributes), we can uniquely determine the value of another attribute (or set of attributes).</p>
+<p data-sourcepos="5:1-6:138"><strong>Example:</strong> Consider a relation named <code>Employee</code> with attributes <code>EmployeeID</code>, <code>Name</code>, <code>Department</code>, and <code>Salary</code>. A functional dependency might exist between:</p>
+<ul data-sourcepos="8:1-8:121">
+<li data-sourcepos="8:1-8:121"><strong><code>EmployeeID</code> and <code>Name</code></strong>: This means that if you know the <code>EmployeeID</code>, you can uniquely determine the <code>Name</code> of the employee.</li>
+<li data-sourcepos="9:1-10:0"><strong><code>Department</code> and <code>Salary</code></strong>: This might imply that employees in the same department have the same salary (although this might not be true in real-world scenarios).</li>
+</ul>
+<p data-sourcepos="11:1-12:128"><strong>Notation:</strong> Functional dependencies are often represented using an arrow notation. For instance, the above dependencies would be written as:</p>
+<ul data-sourcepos="14:1-16:0">
+<li data-sourcepos="14:1-14:21"><code>EmployeeID → Name</code></li>
+<li data-sourcepos="15:1-16:0"><code>Department → Salary</code></li>
+</ul>
+<p data-sourcepos="17:1-17:15"><strong>Key Points:</strong></p>
+<ul data-sourcepos="19:1-20:15">
+<li data-sourcepos="19:1-19:170"><strong>Trivial Dependency:</strong> A dependency where the right-hand side is a subset of the left-hand side is called a trivial dependency. For example, <code>EmployeeID → EmployeeID</code>.</li>
+<li data-sourcepos="20:1-20:15"><strong>Non-Trivial Dependency:</strong> A dependency that is not trivial is called a non-trivial dependency.</li>
+<li data-sourcepos="21:1-21:115"><strong>Superkey:</strong> A set of attributes that functionally determines all attributes in a relation is called a superkey.</li>
+<li data-sourcepos="22:1-23:0"><strong>Candidate Key:</strong> A minimal superkey (i.e., a superkey that cannot be reduced further without losing its property) is called a candidate key.</li>
+</ul>
+<p data-sourcepos="24:1-25:40"><strong>Importance of Functional Dependencies:</strong> Functional dependencies are crucial for:</p>
+<ul data-sourcepos="27:1-28:105">
+<li data-sourcepos="27:1-27:133"><strong>Normalization:</strong> Ensuring that the database is in a normalized form, which helps to reduce redundancy and improve data integrity.</li>
+<li data-sourcepos="28:1-28:105"><strong>Query Optimization:</strong> The database system can use functional dependencies to optimize query execution plans.</li>
+<li data-sourcepos="29:1-30:0"><strong>Database Design:</strong> Understanding functional dependencies helps in designing efficient and maintainable database schemas.</li>
+</ul>
+<p data-sourcepos="31:1-31:166">By understanding functional dependencies, database designers can create well-structured and efficient databases that meet the specific requirements of an application.</p>
+</div>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<p data-sourcepos="1:1-1:40"><strong>Example of a non-trivial dependency:</strong></p>
+<p data-sourcepos="3:1-3:63">Consider a table called <code>Orders</code> with the following attributes:</p>
+<ul data-sourcepos="5:1-9:0">
+<li data-sourcepos="5:1-5:25"><code>OrderID</code> (primary key)</li>
+<li data-sourcepos="6:1-6:14"><code>CustomerID</code></li>
+<li data-sourcepos="7:1-7:13"><code>OrderDate</code></li>
+<li data-sourcepos="8:1-9:0"><code>ShippingAddress</code></li>
+</ul>
+<p data-sourcepos="10:1-10:48">A non-trivial dependency in this table might be:</p>
+<ul data-sourcepos="12:1-13:0">
+<li data-sourcepos="12:1-13:0"><strong><code>CustomerID → ShippingAddress</code></strong></li>
+</ul>
+<p data-sourcepos="14:1-14:218">This means that if you know the <code>CustomerID</code>, you can uniquely determine the <code>ShippingAddress</code> associated with that customer. This is a non-trivial dependency because <code>ShippingAddress</code> is not a subset of <code>CustomerID</code>.</p>
+<p data-sourcepos="16:1-16:96">In other words, knowing the customer's ID tells you something new about their shipping address.</p>
+</div>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<p data-sourcepos="1:1-1:26"><strong>Example of a superkey:</strong></p>
+<p data-sourcepos="3:1-3:63">Consider a table called <code>Orders</code> with the following attributes:</p>
+<ul data-sourcepos="5:1-9:0">
+<li data-sourcepos="5:1-5:25"><code>OrderID</code> (primary key)</li>
+<li data-sourcepos="6:1-6:14"><code>CustomerID</code></li>
+<li data-sourcepos="7:1-7:13"><code>OrderDate</code></li>
+<li data-sourcepos="8:1-9:0"><code>ShippingAddress</code></li>
+</ul>
+<p data-sourcepos="10:1-10:35">A superkey for this table could be:</p>
+<ul data-sourcepos="12:1-13:0">
+<li data-sourcepos="12:1-13:0"><strong><code>OrderID, CustomerID, OrderDate</code></strong></li>
+</ul>
+<p data-sourcepos="14:1-14:249">This combination of attributes uniquely identifies each row in the table. Even though <code>OrderID</code> alone is sufficient to uniquely identify a row (as it's the primary key), adding <code>CustomerID</code> and <code>OrderDate</code> to the combination still forms a superkey.</p>
+<p data-sourcepos="16:1-16:263">A superkey doesn't have to be minimal (i.e., it can contain redundant attributes).<inline-footnote ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c743693423=""><!----><!----></inline-footnote> In this case, <code>OrderID</code> is redundant because it's already part of the primary key. However, the combination of all three attributes still uniquely identifies each row.<span _ngcontent-ng-c2416722889=""> &nbsp; <!----></span><recitation-inline ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c3471154382=""><sources-carousel-inline _nghost-ng-c2416722889="" _ngcontent-ng-c3471154382=""><!----></sources-carousel-inline></recitation-inline></p>
+</div>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

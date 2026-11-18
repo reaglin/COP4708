@@ -15,6 +15,31 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 8 - SQL Data Modeling Language",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 8: SQL for Database Construction and Application Processing Part II \u203A Assignment 4 - Creating a Relational Database",
+    "href": "assignments/module-8-sql-for-database-construction-and-appli.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 8: SQL for Database Construction and Application Processing Part II \u203A Participation and Module Review Week 8",
+    "href": "content/disc_Module_8_SQL_for_Database_Construction_and.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 8-1 - SQL Code for Managing Databases",
+    "href": "content/Lecture_8_1_SQL_Code_for_Managing_Databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 8-2 SQL Select and Data Patterns",
+    "href": "content/Lecture_8_2_SQL_Select_and_Data_Patterns.html",
+    "type": "Content"
+  },
+  {
     "title": "SQL in the Database Design Workflow",
     "href": "content/SQL_Data_Modeling_interactive.html",
     "type": "Content"
@@ -73,5 +98,25 @@
     "title": "8 - SQL Data Modeling Language",
     "href": "content/SQL_Data_Modeling_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 8: SQL for Database Construction and Application Processing Part II \u203A Assignment 4 - Creating a Relational Database",
+    "href": "source-materials/A001_Case_Study_Analy_Module_8_SQL_for.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 8: SQL for Database Construction and Application Processing Part II \u203A Participation and Module Review Week 8",
+    "href": "source-materials/disc_Module_8_SQL_for_Database_Construction_and.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 8-1 - SQL Code for Managing Databases",
+    "href": "source-materials/Lecture_8_1_SQL_Code_for_Managing_Databases.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 8-2 SQL Select and Data Patterns",
+    "href": "source-materials/Lecture_8_2_SQL_Select_and_Data_Patterns.html",
+    "type": "Source-materials"
   }
 ]

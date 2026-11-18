@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Weekly Module 2: Introduction to Database › Functional Dependency Key</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div><h1>Weekly Module 2: Introduction to Database › Functional Dependency Key</h1><h2>Answer Key and Explanations</h2>
+<h3>Valid Functional Dependencies:</h3>
+<ul>
+<li><strong>StudentID → StudentName</strong>: ✅ Each student ID maps to exactly one name</li>
+<li><strong>StudentID → Major</strong>: ✅ Each student has one declared major</li>
+<li><strong>CourseCode → CourseName</strong>: ✅ Course codes uniquely identify course names</li>
+<li><strong>CourseCode → Credits</strong>: ✅ Each course has a fixed credit value</li>
+<li><strong>InstructorID → InstructorName</strong>: ✅ Each instructor ID maps to one name</li>
+<li><strong>(StudentID, CourseCode) → Grade</strong>: ✅ A student gets one grade per course (ignoring retakes)</li>
+<li><strong>InstructorName → InstructorID</strong>: ✅ No two instructors share the same name in this dataset</li>
+</ul>
+<h3>Invalid Functional Dependencies:</h3>
+<ul>
+<li><strong>StudentID → GPA</strong>: ❌ Alice's GPA changes from 3.75 to 3.85 (GPAs change over time)</li>
+<li><strong>CourseCode → InstructorID</strong>: ❌ CS101 is taught by both I201 (Dr. Smith) and I307 (Dr. Taylor)</li>
+<li><strong>CourseCode → InstructorName</strong>: ❌ CS101 taught by both Dr. Smith and Dr. Taylor</li>
+<li><strong>RoomNumber → ClassSize</strong>: ❌ Room R205 has classes of size 30, 22, and 35</li>
+<li><strong>InstructorID → RoomNumber</strong>: ❌ I105 (Prof. Wilson) teaches in both R205 and R301</li>
+<li><strong>(CourseCode, Semester) → InstructorID</strong>: ❌ Even with semester, dependencies can fail</li>
+<li><strong>(CourseCode, Semester) → ClassSize</strong>: ❌ MATH201 in Spring2024 has 35 students vs Fall2023 with 30</li>
+<li><strong>Major → GPA</strong>: ❌ Computer Science majors have GPAs of 3.75, 3.85, and 2.85</li>
+</ul>
+<h3>Key Learning Points:</h3>
+<ol>
+<li><strong>Time-dependent attributes</strong> (like GPA) often violate functional dependencies</li>
+<li><strong>Resource assignments</strong> (instructors to courses, rooms to classes) may vary by semester</li>
+<li><strong>Capacity constraints</strong> (room sizes vs class sizes) don't always create dependencies</li>
+<li><strong>Multiple valid assignments</strong> (same course, different instructors) break simple dependencies</li>
+<li><strong>Composite keys</strong> are often needed for time-series or relationship data</li>
+</ol>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 3-2 Determinants and Keys</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 3 - Relational Databases and Normalization Concepts</a></div><h1>Lecture 3-2 Determinants and Keys</h1>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/UqAC-1w-Fv8?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 3 Lecture 2  - Keys"></iframe></p>
+<div dir="ltr" _ngcontent-ng-c3972157843="">
+<h2 data-sourcepos="1:1-1:39">Primary Key in a Relational Database</h2>
+<p data-sourcepos="3:1-3:29"><strong>A primary key</strong> is a unique identifier for each row (record) in a relational database table. It ensures that each row is distinct and can be easily referenced.</p>
+<h3 data-sourcepos="5:1-5:32">Properties of a Primary Key:</h3>
+<ol data-sourcepos="7:1-7:70">
+<li data-sourcepos="7:1-7:70"><strong>Uniqueness:</strong> Every row in a table must have a unique primary key value. This prevents duplicate records.</li>
+<li data-sourcepos="8:1-8:82"><strong>Non-Null:</strong> A primary key cannot be null. It must have a value for every row.</li>
+<li data-sourcepos="9:1-9:5"><strong>Minimality:</strong> The primary key should be minimal, meaning it should contain the fewest possible columns necessary to uniquely identify each row.</li>
+<li data-sourcepos="10:1-10:20"><strong>Immutability:</strong> While not strictly enforced in all database systems, it's generally recommended that primary keys remain unchanged once assigned. This helps maintain data integrity and relationships.</li>
+</ol>
+<h3 data-sourcepos="12:1-12:29">Purpose of a Primary Key:</h3>
+<ul data-sourcepos="14:1-18:0">
+<li data-sourcepos="14:1-14:92"><strong>Unique Identification:</strong> Ensures that each row is distinct and can be easily referenced.</li>
+<li data-sourcepos="15:1-15:85"><strong>Data Integrity:</strong> Helps maintain data consistency and prevents duplicate records.</li>
+<li data-sourcepos="16:1-16:105"><strong>Relationships:</strong> Serves as a foreign key in other tables to establish relationships between entities.</li>
+<li data-sourcepos="17:1-18:0"><strong>Indexing:</strong> Often used for indexing, which can significantly improve query performance.</li>
+</ul>
+<p data-sourcepos="19:1-19:12"><strong>Example:</strong></p>
+<p data-sourcepos="21:1-21:74">In a "Customers" table, the "Customer ID" column might be the primary key. Each customer would have a unique ID, preventing duplicate records. This ID could then be used to reference customer information in other tables, such as "Orders" or "Addresses."</p>
+<p data-sourcepos="23:1-23:156"><strong>In summary, the primary key is a crucial component of a relational database, providing a foundation for data organization, integrity, and relationships.</strong></p>
+<div dir="ltr" _ngcontent-ng-c3972157843="">
+<h2 data-sourcepos="1:1-1:16">Composite Key</h2>
+<p data-sourcepos="3:1-3:53"><strong>A composite key</strong> is a primary key that consists of multiple columns (fields) within a table. When combined, these columns uniquely identify each row. This is often necessary when a single column alone cannot guarantee uniqueness.</p>
+<h3 data-sourcepos="5:1-5:12">Example:</h3>
+<p data-sourcepos="7:1-7:71">Consider a table named "OrderItems" that stores information about items included in customer orders. In this case, a single column might not be sufficient to uniquely identify each order item. For example, if a customer orders the same item multiple times, the item's ID alone wouldn't differentiate between those instances.</p>
+<p data-sourcepos="9:1-9:61">A composite key could be created using the following columns:</p>
+<ul data-sourcepos="11:1-11:14">
+<li data-sourcepos="11:1-11:14"><strong>OrderID:</strong> The unique identifier for the entire order.</li>
+<li data-sourcepos="12:1-13:0"><strong>ItemNumber:</strong> The unique identifier for the specific item.</li>
+</ul>
+<p data-sourcepos="14:1-14:171">By combining these two columns, each order item can be uniquely identified. For instance, "OrderID 100, ItemNumber 3" would refer to a specific item in a particular order.</p>
+<h3 data-sourcepos="16:1-16:32">When to Use a Composite Key:</h3>
+<ul data-sourcepos="18:1-21:0">
+<li data-sourcepos="18:1-18:82"><strong>Multiple Columns Required:</strong> When a single column cannot guarantee uniqueness.</li>
+<li data-sourcepos="19:1-19:109"><strong>Natural Relationships:</strong> When the combination of columns represents a natural relationship or identifier.</li>
+<li data-sourcepos="20:1-21:0"><strong>Performance Optimization:</strong> In some cases, using a composite key can improve query performance, especially when filtering data based on multiple columns.</li>
+</ul>
+<p data-sourcepos="22:1-22:190"><strong>In essence, a composite key is a powerful tool for ensuring data integrity and uniqueness in relational databases, especially when dealing with complex relationships and data structures.</strong></p>
+</div>
+</div>
+<div dir="ltr" _ngcontent-ng-c3972157843="">
+<h2 data-sourcepos="1:1-1:16">Surrogate Key</h2>
+<p data-sourcepos="3:1-3:71"><strong>A surrogate key</strong> is an artificially generated, unique identifier for a row in a relational database table. Unlike natural keys (columns that represent real-world attributes), surrogate keys have no intrinsic meaning within the data itself.</p>
+<h3 data-sourcepos="5:1-5:39">Characteristics of a Surrogate Key:</h3>
+<ul data-sourcepos="7:1-7:55">
+<li data-sourcepos="7:1-7:55"><strong>Artificially Generated:</strong> Typically created using a sequence or counter.</li>
+<li data-sourcepos="8:1-8:69"><strong>Unique:</strong> Each row in the table has a unique surrogate key value.</li>
+<li data-sourcepos="9:1-9:31"><strong>Non-Null:</strong> Cannot be null.</li>
+<li data-sourcepos="10:1-11:0"><strong>Immutable:</strong> Once assigned, it's generally recommended to remain unchanged.</li>
+</ul>
+<h3 data-sourcepos="12:1-12:37">Reasons for Using Surrogate Keys:</h3>
+<ol data-sourcepos="14:1-14:32">
+<li data-sourcepos="14:1-14:32"><strong>Stability:</strong> Surrogate keys are more stable than natural keys, which can change over time (e.g., if a customer's name changes).</li>
+<li data-sourcepos="15:1-15:136"><strong>Performance:</strong> Surrogate keys can often be indexed more efficiently than natural keys, especially when dealing with large datasets.</li>
+<li data-sourcepos="16:1-16:169"><strong>Data Integrity:</strong> Using surrogate keys can help maintain data integrity by preventing accidental updates or deletions based on natural key values that might change.</li>
+<li data-sourcepos="17:1-18:0"><strong>Simplicity:</strong> Surrogate keys are often simpler to manage and understand than natural keys, especially in complex data models.</li>
+</ol>
+<h3 data-sourcepos="19:1-19:12">Example:</h3>
+<p data-sourcepos="21:1-21:103">Consider a "Customers" table. Instead of using the customer's name or email address as the primary key, a surrogate key (e.g., a numeric sequence) could be assigned to each customer. This would ensure a unique identifier for every customer, even if their name or email changes.</p>
+<p data-sourcepos="23:1-23:175"><strong>In summary, surrogate keys provide a reliable and efficient way to identify rows in a relational database, especially when natural keys might not be suitable or efficient.</strong></p>
+<div dir="ltr" _ngcontent-ng-c3972157843="">
+<h2 data-sourcepos="1:1-1:39">Foreign Key: A Bridge Between Tables</h2>
+<p data-sourcepos="3:1-3:20"><strong>A foreign key</strong> is a field in one table that references the primary key in another table. This creates a relationship between the two tables, allowing for data association.</p>
+<h3 data-sourcepos="5:1-5:29">Purpose of a Foreign Key:</h3>
+<ul data-sourcepos="7:1-8:1">
+<li data-sourcepos="7:1-7:74"><strong>Data Association:</strong> Establishes a connection between related entities.</li>
+<li data-sourcepos="8:1-8:1"><strong>Data Integrity:</strong> Helps maintain data consistency by ensuring that values in the foreign key column match existing values in the referenced primary key.</li>
+<li data-sourcepos="9:1-9:28"><strong>Referential Integrity:</strong> Enforces rules to prevent data inconsistencies, such as deleting a parent record that has dependent child records.</li>
+</ul>
+<h3 data-sourcepos="11:1-11:12">Example:</h3>
+<p data-sourcepos="13:1-13:20">Consider two tables:</p>
+<ol data-sourcepos="15:1-15:5">
+<li data-sourcepos="15:1-15:5"><strong>Orders:</strong> Contains information about customer orders.</li>
+<li data-sourcepos="16:1-17:0"><strong>OrderItems:</strong> Contains information about the items included in each order.</li>
+</ol>
+<p data-sourcepos="18:1-18:267">The <strong>Orders</strong> table might have a primary key column called "OrderID." In the <strong>OrderItems</strong> table, the "OrderID" column would be a foreign key, referencing the "OrderID" column in the <strong>Orders</strong> table. This indicates that each order item belongs to a specific order.</p>
+<p data-sourcepos="20:1-20:220"><strong>By using foreign keys, you can easily retrieve related information.</strong> For example, to find all the items included in a particular order, you can query the <strong>OrderItems</strong> table using the corresponding <strong>OrderID</strong> value.</p>
+<p data-sourcepos="22:1-22:26"><strong>In essence, foreign keys act as bridges between tables, allowing you to establish meaningful relationships and maintain data integrity in your relational database.</strong></p>
+</div>
+</div>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

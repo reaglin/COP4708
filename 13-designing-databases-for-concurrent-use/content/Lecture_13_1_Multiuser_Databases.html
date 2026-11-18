@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 13-1 Multiuser Databases</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 13 - Designing Databases for Concurrent Use</a></div><h1>Lecture 13-1 Multiuser Databases</h1><p></p>
+<p></p>
+<p><iframe width="500" height="375" src="https://www.youtube.com/embed/pgS8SybXaFQ?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="Managing Multiuser Databases Part I"></iframe></p>
+<div dir="ltr" id="model-response-message-contentr_19577cfda0e47f7c" _ngcontent-ng-c2526952497="">
+<p data-sourcepos="1:1-1:218">Databases employ several key mechanisms to ensure data integrity in multi-user environments, preventing inconsistencies and maintaining data accuracy even with concurrent access. Here's a breakdown of the core methods:</p>
+<p data-sourcepos="3:1-3:20"><strong>1. Transactions:</strong></p>
+<ul data-sourcepos="5:1-11:0">
+<li data-sourcepos="5:1-9:121"><strong>ACID Properties:</strong> Transactions are the foundation of data integrity. They guarantee Atomicity, Consistency, Isolation, and Durability (ACID):
+<ul data-sourcepos="6:5-9:121">
+<li data-sourcepos="6:5-6:183"><strong>Atomicity:</strong> A transaction is treated as a single, indivisible unit of work. Either all changes within the transaction are made, or none are. Partial updates are prevented.</li>
+<li data-sourcepos="7:5-7:141"><strong>Consistency:</strong> A transaction maintains the database's integrity constraints. It moves the database from one valid state to another.</li>
+<li data-sourcepos="8:5-8:178"><strong>Isolation:</strong> Transactions are isolated from each other. Concurrent transactions appear to execute as if they were serial (one after the other), preventing interference.</li>
+<li data-sourcepos="9:5-9:121"><strong>Durability:</strong> Once a transaction is committed, the changes are permanent, even in the event of system failures.</li>
+</ul>
+</li>
+<li data-sourcepos="10:1-11:0"><strong>How They Work:</strong> Transactions group multiple database operations (inserts, updates, deletes) into a logical unit. If any part of the transaction fails, the entire transaction can be rolled back, restoring the database to its previous consistent state.</li>
+</ul>
+<p data-sourcepos="12:1-12:27"><strong>2. Concurrency Control:</strong></p>
+<ul data-sourcepos="14:1-18:0">
+<li data-sourcepos="14:1-14:131"><strong>Purpose:</strong> Manages simultaneous access to the database by multiple users, preventing conflicts and ensuring data consistency.</li>
+<li data-sourcepos="15:1-15:247"><strong>Locking:</strong> One of the most common concurrency control mechanisms. Locks prevent other transactions from accessing data that is currently being modified. Different types of locks exist (shared locks for reading, exclusive locks for writing).</li>
+<li data-sourcepos="16:1-16:227"><strong>Optimistic Concurrency Control:</strong> Assumes that conflicts are rare. Transactions proceed without acquiring locks, but before committing, they check for conflicts. If a conflict is detected, the transaction is rolled back.</li>
+<li data-sourcepos="17:1-18:0"><strong>Multi-Version Concurrency Control (MVCC):</strong> Maintains multiple versions of data. Each transaction sees a snapshot of the data, preventing read operations from blocking write operations and vice-versa. This improves concurrency and performance.</li>
+</ul>
+<p data-sourcepos="19:1-19:19"><strong>3. Constraints:</strong></p>
+<ul data-sourcepos="21:1-28:0">
+<li data-sourcepos="21:1-21:169"><strong>Data Validation:</strong> Constraints are rules that define what data is allowed in a table. They are enforced by the database to prevent invalid data from being entered.</li>
+<li data-sourcepos="22:1-28:0"><strong>Types of Constraints:</strong>
+<ul data-sourcepos="23:5-28:0">
+<li data-sourcepos="23:5-23:105"><strong>Primary Key:</strong> Uniquely identifies each row in a table. Ensures uniqueness and non-nullability.</li>
+<li data-sourcepos="24:5-24:141"><strong>Foreign Key:</strong> Establishes a link between two tables. Ensures referential integrity (that related data exists in the linked table).</li>
+<li data-sourcepos="25:5-25:118"><strong>Unique Constraint:</strong> Ensures that a column or set of columns has unique values (other than the primary key).</li>
+<li data-sourcepos="26:5-26:89"><strong>Check Constraint:</strong> Defines a condition that must be true for data in a column.</li>
+<li data-sourcepos="27:5-28:0"><strong>Not Null Constraint:</strong> Ensures that a column cannot have null values.</li>
+</ul>
+</li>
+</ul>
+<p data-sourcepos="29:1-29:16"><strong>4. Triggers:</strong></p>
+<ul data-sourcepos="31:1-34:0">
+<li data-sourcepos="31:1-31:162"><strong>Automated Actions:</strong> Triggers are stored procedures that are automatically executed in response to certain events on a table (e.g., insert, update, delete).</li>
+<li data-sourcepos="32:1-32:138"><strong>Enforcing Business Rules:</strong> Triggers can be used to enforce complex business rules that cannot be easily expressed with constraints.</li>
+<li data-sourcepos="33:1-34:0"><strong>Auditing:</strong> Triggers can be used to track changes to data, creating an audit trail.</li>
+</ul>
+<p data-sourcepos="35:1-35:48"><strong>5. Data Validation at the Application Level:</strong></p>
+<ul data-sourcepos="37:1-40:0">
+<li data-sourcepos="37:1-37:155"><strong>Complementary to Database Constraints:</strong> While database constraints are essential, data validation should also be performed at the application level.</li>
+<li data-sourcepos="38:1-38:120"><strong>User-Friendly Feedback:</strong> Application-level validation can provide more specific and user-friendly error messages.</li>
+<li data-sourcepos="39:1-40:0"><strong>Pre-emptive Checks:</strong> Can catch errors before they are sent to the database, reducing the load on the database server.</li>
+</ul>
+<p data-sourcepos="41:1-41:27"><strong>6. Backup and Recovery:</strong></p>
+<ul data-sourcepos="43:1-45:0">
+<li data-sourcepos="43:1-43:160"><strong>Protecting Against Data Loss:</strong> Regular backups are crucial for protecting against data loss due to hardware failures, software errors, or human mistakes.</li>
+<li data-sourcepos="44:1-45:0"><strong>Recovery Procedures:</strong> Databases provide recovery mechanisms to restore the database to a consistent state after a failure.</li>
+</ul>
+<p data-sourcepos="46:1-46:22"><strong>7. Access Control:</strong></p>
+<ul data-sourcepos="48:1-50:0">
+<li data-sourcepos="48:1-48:99"><strong>Restricting Access:</strong> Databases provide mechanisms to control who can access and modify data.</li>
+<li data-sourcepos="49:1-50:0"><strong>Permissions and Roles:</strong> Users are granted specific permissions on database objects (tables, views, etc.). Roles can be used to group permissions together for easier management.</li>
+</ul>
+<p data-sourcepos="51:1-51:63"><strong>Example: A scenario illustrating several of these concepts:</strong></p>
+<p data-sourcepos="53:1-53:121">Imagine two users, Alice and Bob, are simultaneously trying to update the quantity of a product in an inventory database.</p>
+<ol data-sourcepos="55:1-59:0">
+<li data-sourcepos="55:1-55:89"><strong>Transaction:</strong> Both Alice's and Bob's updates are treated as separate transactions.</li>
+<li data-sourcepos="56:1-56:214"><strong>Locking (or MVCC):</strong> The database uses locking (or MVCC) to ensure that Alice's update doesn't interfere with Bob's update, and vice-versa. One user might acquire a lock on the product row while updating it.</li>
+<li data-sourcepos="57:1-57:244"><strong>Constraint:</strong> A check constraint might ensure that the quantity of a product cannot be negative. If either Alice or Bob tries to update the quantity to a negative value, the transaction will be rolled back due to the constraint violation.</li>
+<li data-sourcepos="58:1-59:0"><strong>Trigger:</strong> A trigger might be fired after a successful update to the product quantity, updating a related table that tracks inventory changes.</li>
+</ol>
+<p data-sourcepos="60:1-60:207">By combining these mechanisms, databases ensure that data remains consistent and reliable even in complex multi-user environments, preventing data corruption and maintaining the integrity of the information.</p>
+</div>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

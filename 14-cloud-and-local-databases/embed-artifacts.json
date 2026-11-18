@@ -93,5 +93,30 @@
     "title": "14 - Cloud and Local Databases",
     "href": "content/Cloud_and_Local_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 14: Managing Multi-User Database Part II \u203A Graded Discussion 14",
+    "href": "content/disc_Module_14_Managing_Multi_User_Database_Part.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 14-1 Multiuser Databases Part 2",
+    "href": "content/Lecture_14_1_Multiuser_Databases_Part_2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Quiz \u2014 14 - Cloud and Local Databases",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Module 14: Managing Multi-User Database Part II \u203A Graded Discussion 14",
+    "href": "source-materials/disc_Module_14_Managing_Multi_User_Database_Part.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 14-1 Multiuser Databases Part 2",
+    "href": "source-materials/Lecture_14_1_Multiuser_Databases_Part_2.html",
+    "type": "Source-materials"
   }
 ]

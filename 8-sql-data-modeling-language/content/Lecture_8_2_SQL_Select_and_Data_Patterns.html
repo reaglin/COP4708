@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 8-2 SQL Select and Data Patterns</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 8 - SQL Data Modeling Language</a></div><h1>Lecture 8-2 SQL Select and Data Patterns&nbsp;</h1>
+<h2>Lecture Video</h2>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/ntElHcAggXM?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 8 Lecture 2 - SQL Select and Queries - Data Patterns"></iframe></p>
+<p></p>
+<div dir="ltr" id="model-response-message-contentr_4c2c7273de44c2c4" _ngcontent-ng-c2526952497="">
+<p data-sourcepos="1:1-1:130">Let's dive into the powerful <code>SELECT</code> statement with joins, a cornerstone of SQL for querying data across multiple related tables.</p>
+<p data-sourcepos="3:1-3:34"><strong>Summary of <code>SELECT</code> with Joins</strong></p>
+<p data-sourcepos="5:1-5:314">The <code>SELECT</code> statement, when combined with joins, allows you to retrieve data from multiple tables simultaneously. This is crucial because real-world data is often spread across related tables for normalization and efficiency. Joins define how the rows from different tables are related based on matching columns.</p>
+<p data-sourcepos="7:1-7:20"><strong>Example Scenario</strong></p>
+<p data-sourcepos="9:1-9:53">Imagine we have two tables: <code>Customers</code> and <code>Orders</code>.</p>
+<ul data-sourcepos="11:1-13:0">
+<li data-sourcepos="11:1-11:52"><strong>Customers:</strong> <code>CustomerID (PK)</code>, <code>Name</code>, <code>City</code></li>
+<li data-sourcepos="12:1-13:0"><strong>Orders:</strong> <code>OrderID (PK)</code>, <code>CustomerID (FK)</code>, <code>OrderDate</code>, <code>TotalAmount</code></li>
+</ul>
+<p data-sourcepos="14:1-14:200">The <code>CustomerID</code> in the <code>Orders</code> table is a foreign key (FK) referencing the <code>CustomerID</code> in the <code>Customers</code> table. This establishes a relationship: each order is associated with a specific customer.</p>
+<p data-sourcepos="16:1-16:30"><strong>Example Query (Inner Join)</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762=""><span _ngcontent-ng-c1433176762="">SQL</span>
+<div _ngcontent-ng-c1433176762=""><button jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true" mat-ripple-loader-centered="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-uninitialized="" mattooltip="Copy code" mat-icon-button="" aria-label="Copy code" _ngcontent-ng-c1433176762=""><mat-icon data-mat-icon-name="content_copy" data-mat-icon-type="font" aria-hidden="true" fonticon="content_copy" role="img" _ngcontent-ng-c1433176762=""></mat-icon></button><!----></div>
+<!----></div>
+<!---->
+<div _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762="">
+<pre _ngcontent-ng-c1433176762=""><code data-sourcepos="18:1-22:51" data-test-id="code-content" role="text" _ngcontent-ng-c1433176762="">SELECT c.Name, o.OrderID, o.OrderDate
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID;
+</code></pre>
+<!----><!----><!----></div>
+</div>
+</div>
+<response-element ng-version="0.0.0-PLACEHOLDER"><code-block _nghost-ng-c1433176762=""><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="24:1-24:207">This query retrieves the customer's name, order ID, and order date for all orders. The <code>INNER JOIN</code> ensures that only orders that have a matching customer in the <code>Customers</code> table are included in the result.</p>
+<p data-sourcepos="26:1-26:36"><strong>Types of Joins and Their Results</strong></p>
+<p data-sourcepos="28:1-28:63">SQL offers several types of joins, each with distinct behavior:</p>
+<ol data-sourcepos="30:1-81:0">
+<li data-sourcepos="30:1-33:0">
+<p data-sourcepos="30:5-30:193"><strong>INNER JOIN:</strong> Returns only rows where the join condition is met in <em>both</em> tables. Rows where the condition is not met in either table are excluded. This is the most common type of join.</p>
+<ul data-sourcepos="32:5-33:0">
+<li data-sourcepos="32:5-33:0"><em>Example:</em> The query above demonstrates an inner join. It will only show orders that have a matching customer and customers that have placed an order.</li>
+</ul>
+</li>
+<li data-sourcepos="34:1-45:0">
+<p data-sourcepos="34:5-34:222"><strong>LEFT (OUTER) JOIN:</strong> Returns all rows from the <em>left</em> table and the matching rows from the <em>right</em> table. If there's no match in the right table, the<sup data-turn-source-index="1" _ngcontent-ng-c3163841646="">1</sup> columns from the right table will have <code>NULL</code> values.<sources-carousel-inline _nghost-ng-c2638263894="" ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----></sources-carousel-inline></p>
+<ul data-sourcepos="36:5-37:0">
+<li data-sourcepos="36:5-37:0"><em>Example:</em></li>
+</ul>
+<response-element ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762=""><span _ngcontent-ng-c1433176762="">SQL</span>
+<div _ngcontent-ng-c1433176762=""><button jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true" mat-ripple-loader-centered="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-uninitialized="" mattooltip="Copy code" mat-icon-button="" aria-label="Copy code" _ngcontent-ng-c1433176762=""><mat-icon data-mat-icon-name="content_copy" data-mat-icon-type="font" aria-hidden="true" fonticon="content_copy" role="img" _ngcontent-ng-c1433176762=""></mat-icon></button><!----></div>
+<!----></div>
+<!---->
+<div _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762="">
+<pre _ngcontent-ng-c1433176762=""><code data-sourcepos="38:5-42:54" data-test-id="code-content" role="text" _ngcontent-ng-c1433176762="">SELECT c.Name, o.OrderID
+FROM Customers c
+LEFT JOIN Orders o ON c.CustomerID = o.CustomerID;
+</code></pre>
+<!----><!----><!----></div>
+</div>
+</div>
+<response-element ng-version="0.0.0-PLACEHOLDER"><code-block _nghost-ng-c1433176762=""><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="44:5-44:136">This will return all customers, even those who haven't placed any orders. For customers without orders, <code>o.OrderID</code> will be <code>NULL</code>.</p>
+</li>
+<li data-sourcepos="46:1-57:0">
+<p data-sourcepos="46:5-46:252"><strong>RIGHT (OUTER) JOIN:</strong> The opposite of <code>LEFT JOIN</code>. Returns all rows from the <em>right</em> table and the matching rows from the <em>left</em> table. If there's no match in the left table,<sup data-turn-source-index="2" _ngcontent-ng-c3163841646="">2</sup> the columns from the left table will have <code>NULL</code> values.<sources-carousel-inline _nghost-ng-c2638263894="" ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----></sources-carousel-inline></p>
+<ul data-sourcepos="48:5-49:0">
+<li data-sourcepos="48:5-49:0"><em>Example:</em></li>
+</ul>
+<response-element ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762=""><span _ngcontent-ng-c1433176762="">SQL</span>
+<div _ngcontent-ng-c1433176762=""><button jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true" mat-ripple-loader-centered="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-uninitialized="" mattooltip="Copy code" mat-icon-button="" aria-label="Copy code" _ngcontent-ng-c1433176762=""><mat-icon data-mat-icon-name="content_copy" data-mat-icon-type="font" aria-hidden="true" fonticon="content_copy" role="img" _ngcontent-ng-c1433176762=""></mat-icon></button><!----></div>
+<!----></div>
+<!---->
+<div _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762="">
+<pre _ngcontent-ng-c1433176762=""><code data-sourcepos="50:5-54:55" data-test-id="code-content" role="text" _ngcontent-ng-c1433176762="">SELECT c.Name, o.OrderID
+FROM Customers c
+RIGHT JOIN Orders o ON c.CustomerID = o.CustomerID;
+</code></pre>
+<!----><!----><!----></div>
+</div>
+</div>
+<response-element ng-version="0.0.0-PLACEHOLDER"><code-block _nghost-ng-c1433176762=""><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="56:5-56:174">This would return all orders, even if, hypothetically, an order was somehow entered without a corresponding customer (which would likely indicate a data integrity issue).</p>
+</li>
+<li data-sourcepos="58:1-69:0">
+<p data-sourcepos="58:5-58:160"><strong>FULL (OUTER) JOIN:</strong> Returns all rows from <em>both</em> tables. If there's no match in either table, the columns from the missing table will have <code>NULL</code> values.</p>
+<ul data-sourcepos="60:5-61:0">
+<li data-sourcepos="60:5-61:0"><em>Example:</em></li>
+</ul>
+<response-element ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762=""><span _ngcontent-ng-c1433176762="">SQL</span>
+<div _ngcontent-ng-c1433176762=""><button jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true" mat-ripple-loader-centered="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-uninitialized="" mattooltip="Copy code" mat-icon-button="" aria-label="Copy code" _ngcontent-ng-c1433176762=""><mat-icon data-mat-icon-name="content_copy" data-mat-icon-type="font" aria-hidden="true" fonticon="content_copy" role="img" _ngcontent-ng-c1433176762=""></mat-icon></button><!----></div>
+<!----></div>
+<!---->
+<div _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762="">
+<pre _ngcontent-ng-c1433176762=""><code data-sourcepos="62:5-66:54" data-test-id="code-content" role="text" _ngcontent-ng-c1433176762="">SELECT c.Name, o.OrderID
+FROM Customers c
+FULL JOIN Orders o ON c.CustomerID = o.CustomerID;
+</code></pre>
+<!----><!----><!----></div>
+</div>
+</div>
+<response-element ng-version="0.0.0-PLACEHOLDER"><code-block _nghost-ng-c1433176762=""><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="68:5-68:264">This would show all customers and all orders. Customers without orders and orders without customers would both be included, with <code>NULL</code> values where appropriate. (Note: <code>FULL OUTER JOIN</code> is not supported by MySQL. Some databases use <code>UNION</code> to simulate it.)</p>
+</li>
+<li data-sourcepos="70:1-81:0">
+<p data-sourcepos="70:5-70:289"><strong>CROSS JOIN:</strong> Returns the Cartesian product of the two tables. Every row in the first table is combined with every row in the second table. This usually results in a very large result set and is rarely used except in specific scenarios (e.g., generating all possible combinations).</p>
+<ul data-sourcepos="72:5-73:0">
+<li data-sourcepos="72:5-73:0"><em>Example:</em></li>
+</ul>
+<response-element ng-version="0.0.0-PLACEHOLDER"><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762=""><span _ngcontent-ng-c1433176762="">SQL</span>
+<div _ngcontent-ng-c1433176762=""><button jslog="179062;track:generic_click,impression;BardVeMetadataKey:[[&quot;r_4c2c7273de44c2c4&quot;,&quot;c_7996fc73fad1ba9f&quot;,null,&quot;rc_2b1c00de08e0b4ea&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]];mutable:true" mat-ripple-loader-centered="" mat-ripple-loader-class-name="mat-mdc-button-ripple" mat-ripple-loader-uninitialized="" mattooltip="Copy code" mat-icon-button="" aria-label="Copy code" _ngcontent-ng-c1433176762=""><mat-icon data-mat-icon-name="content_copy" data-mat-icon-type="font" aria-hidden="true" fonticon="content_copy" role="img" _ngcontent-ng-c1433176762=""></mat-icon></button><!----></div>
+<!----></div>
+<!---->
+<div _ngcontent-ng-c1433176762="">
+<div _ngcontent-ng-c1433176762="">
+<pre _ngcontent-ng-c1433176762=""><code data-sourcepos="74:5-78:24" data-test-id="code-content" role="text" _ngcontent-ng-c1433176762="">SELECT c.Name, o.OrderID
+FROM Customers c
+CROSS JOIN Orders o;
+</code></pre>
+<!----><!----><!----></div>
+</div>
+</div>
+<response-element ng-version="0.0.0-PLACEHOLDER"><code-block _nghost-ng-c1433176762=""><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="80:5-80:87">If <code>Customers</code> has 10 rows and <code>Orders</code> has 20 rows, the result will have 200 rows.</p>
+</li>
+</ol>
+<p data-sourcepos="82:1-82:22"><strong>Key Considerations</strong></p>
+<ul data-sourcepos="84:1-87:0">
+<li data-sourcepos="84:1-84:118"><strong>Join Condition:</strong> The <code>ON</code> clause specifies how the tables are related. It's crucial for correct data retrieval.</li>
+<li data-sourcepos="85:1-85:99"><strong>Aliases:</strong> Using aliases (e.g., <code>c</code> for <code>Customers</code>) makes queries more concise and readable.</li>
+<li data-sourcepos="86:1-87:0"><strong>Performance:</strong> Joins can impact query performance, especially with large tables. Proper indexing and query optimization are essential.</li>
+</ul>
+<p data-sourcepos="88:1-88:211">Understanding joins is fundamental to working with relational databases. By choosing the right join type, you can effectively retrieve and combine data from multiple tables to answer complex business questions.</p>
+</div>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

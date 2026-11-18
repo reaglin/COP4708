@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 12-1 - Database Redesign</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 12 - Normalization, Denormalization, and Practical Database Design</a></div><h1>Lecture 12-1 - Database Redesign</h1>
+<h2>Video Lecture</h2>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/cqppTj7Vf0Q?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 12 Lecture 1 Database Redesign"></iframe></p>
+<div dir="ltr" id="model-response-message-contentr_e204e1c671bc2008" _ngcontent-ng-c2526952497="">
+<p data-sourcepos="1:1-1:367">Denormalization is the process of intentionally introducing redundancy into a database design. It's the opposite of normalization, which aims to reduce redundancy. While normalization is generally preferred for data integrity, denormalization can sometimes improve query performance. It's a trade-off: you gain speed but potentially sacrifice some data consistency.</p>
+<p data-sourcepos="3:1-3:64">Here are some examples and the reasoning behind denormalization:</p>
+<p data-sourcepos="5:1-5:33"><strong>1. Storing Calculated Values:</strong></p>
+<ul data-sourcepos="7:1-12:0">
+<li data-sourcepos="7:1-7:152"><strong>Scenario:</strong> You have a table of products with <code>price</code> and <code>quantity</code> columns. You frequently need to calculate the <code>total_price</code> for each product.</li>
+<li data-sourcepos="8:1-8:84"><strong>Normalization:</strong> You would typically calculate <code>total_price</code> in your queries.</li>
+<li data-sourcepos="9:1-9:136"><strong>Denormalization:</strong> You could add a <code>total_price</code> column to the product table and update it whenever <code>price</code> or <code>quantity</code> changes.</li>
+<li data-sourcepos="10:1-10:131"><strong>Reasoning:</strong> This avoids recalculating <code>total_price</code> every time you query the table, significantly speeding up those queries.</li>
+<li data-sourcepos="11:1-12:0"><strong>Trade-off:</strong> You now have redundant data. You must ensure that the <code>total_price</code> column is always consistent with the <code>price</code> and <code>quantity</code>. This adds complexity to updates and inserts.</li>
+</ul>
+<p data-sourcepos="13:1-13:24"><strong>2. Combining Tables:</strong></p>
+<ul data-sourcepos="15:1-20:0">
+<li data-sourcepos="15:1-15:173"><strong>Scenario:</strong> You have <code>Customers</code> and <code>Orders</code> tables (as in the previous example). You frequently need to retrieve customer information along with their order details.</li>
+<li data-sourcepos="16:1-16:84"><strong>Normalization:</strong> You would use a <code>JOIN</code> to combine the tables in your queries.</li>
+<li data-sourcepos="17:1-17:128"><strong>Denormalization:</strong> You could add some customer information (e.g., <code>customer_name</code>, <code>city</code>) directly to the <code>Orders</code> table.</li>
+<li data-sourcepos="18:1-18:178"><strong>Reasoning:</strong> Eliminates the need for joins, which can be expensive, especially with large tables. This speeds up queries that retrieve both customer and order information.</li>
+<li data-sourcepos="19:1-20:0"><strong>Trade-off:</strong> Customer data is now duplicated in the <code>Orders</code> table. If a customer's name or city changes, you need to update it in multiple places.</li>
+</ul>
+<p data-sourcepos="21:1-21:43"><strong>3. Adding Redundant Data for Reporting:</strong></p>
+<ul data-sourcepos="23:1-28:0">
+<li data-sourcepos="23:1-23:97"><strong>Scenario:</strong> You have a sales database and need to generate monthly sales reports by region.</li>
+<li data-sourcepos="24:1-24:111"><strong>Normalization:</strong> You might have separate tables for sales transactions, products, customers, and regions.</li>
+<li data-sourcepos="25:1-25:105"><strong>Denormalization:</strong> You could add the <code>region</code> information directly to the sales transactions table.</li>
+<li data-sourcepos="26:1-26:126"><strong>Reasoning:</strong> Simplifies report generation queries. You no longer need to join multiple tables to group sales by region.</li>
+<li data-sourcepos="27:1-28:0"><strong>Trade-off:</strong> Redundant region data in the sales table.</li>
+</ul>
+<p data-sourcepos="29:1-29:52"><strong>4. Creating Summary Tables (Materialized Views):</strong></p>
+<ul data-sourcepos="31:1-36:0">
+<li data-sourcepos="31:1-31:146"><strong>Scenario:</strong> You have a large fact table in a data warehouse, and you frequently need to perform aggregations (e.g., sums, averages) over it.</li>
+<li data-sourcepos="32:1-32:85"><strong>Normalization:</strong> Aggregations are calculated on the fly during query execution.</li>
+<li data-sourcepos="33:1-33:144"><strong>Denormalization:</strong> You could create a summary table (also known as a materialized view) that pre-calculates and stores these aggregations.</li>
+<li data-sourcepos="34:1-34:76"><strong>Reasoning:</strong> Dramatically speeds up the retrieval of aggregated data.</li>
+<li data-sourcepos="35:1-36:0"><strong>Trade-off:</strong> The summary table needs to be updated whenever the underlying fact table changes. This adds complexity and storage overhead.</li>
+</ul>
+<p data-sourcepos="37:1-37:32"><strong>5. Handling Historical Data:</strong></p>
+<ul data-sourcepos="39:1-44:0">
+<li data-sourcepos="39:1-39:83"><strong>Scenario:</strong> You track customer addresses, and addresses can change over time.</li>
+<li data-sourcepos="40:1-40:80"><strong>Normalization:</strong> You might have a separate table to store address history.</li>
+<li data-sourcepos="41:1-41:203"><strong>Denormalization:</strong> For certain reporting or analytical purposes, you might want to "snapshot" the customer's address at the time of each transaction and store it directly with the transaction data.</li>
+<li data-sourcepos="42:1-42:123"><strong>Reasoning:</strong> Simplifies analysis of historical data ("what was the customer's address when they placed this order?").</li>
+<li data-sourcepos="43:1-44:0"><strong>Trade-off:</strong> More data storage, and the risk of inconsistencies if address changes are not handled carefully.</li>
+</ul>
+<p data-sourcepos="45:1-45:24"><strong>When to Denormalize:</strong></p>
+<p data-sourcepos="47:1-47:161">Denormalization should be considered carefully and only when the performance benefits outweigh the risks to data integrity. It's often used in these situations:</p>
+<ul data-sourcepos="49:1-52:0">
+<li data-sourcepos="49:1-49:108"><strong>Read-heavy workloads:</strong> Where read performance is critical (e.g., data warehouses, reporting systems).</li>
+<li data-sourcepos="50:1-50:83"><strong>Complex queries:</strong> Where joins or aggregations are computationally expensive.</li>
+<li data-sourcepos="51:1-52:0"><strong>Specific performance bottlenecks:</strong> Where profiling has identified specific queries that are slowing down the system.</li>
+</ul>
+<p data-sourcepos="53:1-53:29"><strong>Important Considerations:</strong></p>
+<ul data-sourcepos="55:1-58:0">
+<li data-sourcepos="55:1-55:156"><strong>Data consistency:</strong> You must implement mechanisms to ensure that redundant data is kept consistent. This often involves triggers or application logic.</li>
+<li data-sourcepos="56:1-56:76"><strong>Storage space:</strong> Denormalization increases storage space requirements.</li>
+<li data-sourcepos="57:1-58:0"><strong>Update complexity:</strong> Updates become more complex because you might need to update data in multiple places.</li>
+</ul>
+<p data-sourcepos="59:1-59:297">In summary, denormalization is a technique to improve performance by strategically adding redundancy. It's a trade-off that should be carefully evaluated based on the specific needs of your application. It's generally better to start with a normalized design and only denormalize when necessary.</p>
+</div>
+<p></p>
+<p></p>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

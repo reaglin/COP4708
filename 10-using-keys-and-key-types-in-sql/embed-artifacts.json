@@ -15,6 +15,31 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 10 - Using Keys and Key Types in SQL",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 10: SQL Code For Database Manipulation (DML) \u203A Assignment 5 - JOIN the fun",
+    "href": "assignments/module-10-sql-code-for-database-manipulation-dml.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 10: SQL Code For Database Manipulation (DML) \u203A Graded Discussion 10",
+    "href": "content/disc_Module_10_SQL_Code_For_Database_Manipulatio.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 10-1 - SQL Data Manipulation Language",
+    "href": "content/Lecture_10_1_SQL_Data_Manipulation_Language.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 10: SQL Code For Database Manipulation (DML) \u203A Guide to Querying in SQL",
+    "href": "content/Page_Module_10_SQL_Code_For_Database_Manipulation_DML.html",
+    "type": "Content"
+  },
+  {
     "title": "Enforcing Key Constraints for Data Integrity",
     "href": "content/Using_Keys_and_interactive.html",
     "type": "Content"
@@ -88,5 +113,25 @@
     "title": "10 - Using Keys and Key Types in SQL",
     "href": "content/Using_Keys_and_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 10: SQL Code For Database Manipulation (DML) \u203A Assignment 5 - JOIN the fun",
+    "href": "source-materials/A001_Case_Study_Analy_Module_10_SQL_Code.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 10: SQL Code For Database Manipulation (DML) \u203A Graded Discussion 10",
+    "href": "source-materials/disc_Module_10_SQL_Code_For_Database_Manipulatio.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 10-1 - SQL Data Manipulation Language",
+    "href": "source-materials/Lecture_10_1_SQL_Data_Manipulation_Language.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 10: SQL Code For Database Manipulation (DML) \u203A Guide to Querying in SQL",
+    "href": "source-materials/Page_Module_10_SQL_Code_For_Database_Manipulation_DML.html",
+    "type": "Source-materials"
   }
 ]

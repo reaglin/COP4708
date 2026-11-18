@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 8-1 - SQL Code for Managing Databases</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 8 - SQL Data Modeling Language</a></div><h1>Lecture 8-1 - SQL Code for Managing Databases</h1>
+<h2>Introduction</h2>
+<p>This video demonstrates basic SQL commands to create tables and insert data (in Oracle). You should also review the interactive materials at lecture&nbsp;Lecture 7-1 Getting Started with SQL . It is expected that you know how to use basic SQL commands to manipulate databases and data.&nbsp;</p>
+<h2>Lecture Video</h2>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/Z6rmTYdpL_M?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 8 Lecture 1 Introduction to SQL Part 2"></iframe></p>
+<div dir="ltr" id="model-response-message-contentr_9e8daf8afa10e84b" _ngcontent-ng-c2526952497="">
+<h2 data-sourcepos="1:1-1:82">Major SQL Commands</h2>
+<p data-sourcepos="3:1-3:37"><strong>1. Data Definition Language (DDL)</strong></p>
+<ul data-sourcepos="5:1-17:0">
+<li data-sourcepos="5:1-8:91"><strong>CREATE:</strong> Used to create database objects like tables, indexes, views, and stored procedures.
+<ul data-sourcepos="6:5-8:91">
+<li data-sourcepos="6:5-6:96"><code>CREATE TABLE</code>: Defines the structure of a new table (columns, data types, constraints).</li>
+<li data-sourcepos="7:5-7:79"><code>CREATE INDEX</code>: Creates an index on a table to speed up data retrieval.</li>
+<li data-sourcepos="8:5-8:91"><code>CREATE VIEW</code>: Creates a virtual table based on the result-set of an SQL statement.</li>
+</ul>
+</li>
+<li data-sourcepos="9:1-11:48"><strong>ALTER:</strong> Modifies the structure of existing database objects.
+<ul data-sourcepos="10:5-11:48">
+<li data-sourcepos="10:5-10:65"><code>ALTER TABLE</code>: Add, modify, or delete columns in a table.</li>
+<li data-sourcepos="11:5-11:48"><code>ALTER INDEX</code>: Modify an existing index.</li>
+</ul>
+</li>
+<li data-sourcepos="12:1-15:36"><strong>DROP:</strong> Deletes database objects.
+<ul data-sourcepos="13:5-15:36">
+<li data-sourcepos="13:5-13:59"><code>DROP TABLE</code>: Removes an entire table and its data.</li>
+<li data-sourcepos="14:5-14:39"><code>DROP INDEX</code>: Deletes an index.</li>
+<li data-sourcepos="15:5-15:36"><code>DROP VIEW</code>: Removes a view.</li>
+</ul>
+</li>
+<li data-sourcepos="16:1-17:0"><strong>TRUNCATE:</strong> Removes all data from a table but keeps the table structure intact.</li>
+</ul>
+<p data-sourcepos="18:1-18:39"><strong>2. Data Manipulation Language (DML)</strong></p>
+<ul data-sourcepos="20:1-29:0">
+<li data-sourcepos="20:1-25:54"><strong>SELECT:</strong> Retrieves data from one or more tables based on specified criteria.
+<ul data-sourcepos="21:5-25:54">
+<li data-sourcepos="21:5-21:57"><code>WHERE</code>: Filters the results based on conditions.</li>
+<li data-sourcepos="22:5-22:38"><code>ORDER BY</code>: Sorts the results.</li>
+<li data-sourcepos="23:5-23:71"><code>GROUP BY</code>: Groups rows with the same values into summary rows.</li>
+<li data-sourcepos="24:5-24:53"><code>HAVING</code>: Filters groups based on conditions.</li>
+<li data-sourcepos="25:5-25:54"><code>JOIN</code>: Combines rows from two or more tables.</li>
+</ul>
+</li>
+<li data-sourcepos="26:1-26:43"><strong>INSERT:</strong> Adds new rows into a table.</li>
+<li data-sourcepos="27:1-27:50"><strong>UPDATE:</strong> Modifies existing data in a table.</li>
+<li data-sourcepos="28:1-29:0"><strong>DELETE:</strong> Removes rows from a table based on specified conditions.</li>
+</ul>
+<p data-sourcepos="30:1-30:34"><strong>3. Data Control Language (DCL)</strong></p>
+<ul data-sourcepos="32:1-34:0">
+<li data-sourcepos="32:1-32:68"><strong>GRANT:</strong> Gives users specific permissions on database objects.</li>
+<li data-sourcepos="33:1-34:0"><strong>REVOKE:</strong> Removes previously granted permissions.</li>
+</ul>
+<p data-sourcepos="35:1-35:41"><strong>4. Transaction Control Language (TCL)</strong></p>
+<ul data-sourcepos="37:1-40:0">
+<li data-sourcepos="37:1-37:60"><strong>COMMIT:</strong> Saves all changes made during a transaction.</li>
+<li data-sourcepos="38:1-38:89"><strong>ROLLBACK:</strong> Reverts all changes made during a transaction to the last commit point.</li>
+<li data-sourcepos="39:1-40:0"><strong>SAVEPOINT:</strong> Sets a point within a transaction to which you can later rollback.</li>
+</ul>
+<p data-sourcepos="41:1-41:31"><strong>5. Other Important Commands</strong></p>
+<ul data-sourcepos="43:1-46:0">
+<li data-sourcepos="43:1-43:54"><strong>USE:</strong> Selects a specific database to work with.</li>
+<li data-sourcepos="44:1-44:78"><strong>SHOW:</strong> Displays information about databases, tables, and other objects.</li>
+<li data-sourcepos="45:1-46:0"><strong>EXPLAIN:</strong> Shows how the database will execute a query.</li>
+</ul>
+<p data-sourcepos="47:1-47:11"><strong>Summary</strong></p>
+<p data-sourcepos="49:1-49:289">These SQL commands provide the foundation for managing a database, allowing you to define its structure, manipulate the data within it, control access to it, and manage transactions. Each command has a specific purpose and can be combined with other commands to perform complex operations.</p>
+</div>
+<p></p></body></html>

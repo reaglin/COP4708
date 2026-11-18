@@ -15,6 +15,36 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 4 - Normal Forms: 1NF, 2NF, and 3NF",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 4: Relational Database and Normalization (Cont.) \u203A Assignment 2 - Entities and Relationships",
+    "href": "assignments/module-4-relational-database-and-normalization-c.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 4: Relational Database and Normalization (Cont.) \u203A Graded Discussion 4",
+    "href": "content/disc_Module_4_Relational_Database_and_Normalizat.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 4: Relational Database and Normalization (Cont.) \u203A Normal Forms: 1NF, 2NF, and 3NF",
+    "href": "content/ext_b450b901.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 4-1 - Functional Dependencies",
+    "href": "content/Lecture_4_1_Functional_Dependencies.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 4-2 - Normalization",
+    "href": "content/Lecture_4_2_Normalization.html",
+    "type": "Content"
+  },
+  {
     "title": "Introduction to Normalization",
     "href": "content/Normal_Forms_1NF_generated_t1_videos.html",
     "type": "Content"
@@ -88,5 +118,25 @@
     "title": "Sorting Conveyor: Detecting Partial Dependencies",
     "href": "interactive/sorting-conveyor.html",
     "type": "Interactive"
+  },
+  {
+    "title": "Module 4: Relational Database and Normalization (Cont.) \u203A Assignment 2 - Entities and Relationships",
+    "href": "source-materials/A001_Case_Study_Analy_Module_4_Relational_Database.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 4: Relational Database and Normalization (Cont.) \u203A Graded Discussion 4",
+    "href": "source-materials/disc_Module_4_Relational_Database_and_Normalizat.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 4-1 - Functional Dependencies",
+    "href": "source-materials/Lecture_4_1_Functional_Dependencies.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 4-2 - Normalization",
+    "href": "source-materials/Lecture_4_2_Normalization.html",
+    "type": "Source-materials"
   }
 ]

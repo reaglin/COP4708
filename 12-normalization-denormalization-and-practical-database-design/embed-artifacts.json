@@ -15,6 +15,26 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 12 - Normalization, Denormalization, and Practical Database Design",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 12: Database Redesign \u203A Project Assignment 3",
+    "href": "assignments/module-12-database-redesign-project-assignment-3.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 12: Database Redesign \u203A Participation and Module Review Week 12",
+    "href": "content/disc_Module_12_Database_Redesign_Participation_a.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 12-1 - Database Redesign",
+    "href": "content/Lecture_12_1_Database_Redesign.html",
+    "type": "Content"
+  },
+  {
     "title": "Balancing Theoretical Purity with Real-World Needs",
     "href": "content/Normalization_Denormalizatio_interactive.html",
     "type": "Content"
@@ -83,5 +103,20 @@
     "title": "12 - Normalization, Denormalization, and Practical Database Design",
     "href": "content/Normalization_Denormalizatio_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 12: Database Redesign \u203A Project Assignment 3",
+    "href": "source-materials/A001_Case_Study_Analy_Module_12_Database_Redesign.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 12: Database Redesign \u203A Participation and Module Review Week 12",
+    "href": "source-materials/disc_Module_12_Database_Redesign_Participation_a.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 12-1 - Database Redesign",
+    "href": "source-materials/Lecture_12_1_Database_Redesign.html",
+    "type": "Source-materials"
   }
 ]

@@ -15,6 +15,26 @@
     "type": "Page"
   },
   {
+    "title": "Weekly Module 3: Relational Database and Normalization \u203A Graded Discussion 3",
+    "href": "content/disc_Weekly_Module_3_Relational_Database_and_Nor.html",
+    "type": "Content"
+  },
+  {
+    "title": "Weekly Module 3: Relational Database and Normalization \u203A Relational Databases and Normalization Concepts",
+    "href": "content/ext_c64ae847.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 3-1 -The Relational Database Model",
+    "href": "content/Lecture_3_1_The_Relational_Database_Model.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 3-2 Determinants and Keys",
+    "href": "content/Lecture_3_2_Determinants_and_Keys.html",
+    "type": "Content"
+  },
+  {
     "title": "Introduction to Relational Databases",
     "href": "content/Relational_Databases_and_interactive_topics_t1.html",
     "type": "Content"
@@ -90,6 +110,11 @@
     "type": "Content"
   },
   {
+    "title": "Weekly Module 3: Relational Database and Normalization \u203A Guide to Relational Databases",
+    "href": "content/Weekly_Module_3_Relational_Database_and_Normaliz.html",
+    "type": "Content"
+  },
+  {
     "title": "Introduction to Normalization",
     "href": "content/_interactive.html",
     "type": "Content"
@@ -103,5 +128,30 @@
     "title": "Interactive Activities \u2014 3 - Relational Databases and Normalization Concepts",
     "href": "interactive/index.html",
     "type": "Interactive"
+  },
+  {
+    "title": "Quiz \u2014 3 - Relational Databases and Normalization Concepts",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Weekly Module 3: Relational Database and Normalization \u203A Graded Discussion 3",
+    "href": "source-materials/disc_Weekly_Module_3_Relational_Database_and_Nor.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 3-1 -The Relational Database Model",
+    "href": "source-materials/Lecture_3_1_The_Relational_Database_Model.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 3-2 Determinants and Keys",
+    "href": "source-materials/Lecture_3_2_Determinants_and_Keys.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Weekly Module 3: Relational Database and Normalization \u203A Guide to Relational Databases",
+    "href": "source-materials/Weekly_Module_3_Relational_Database_and_Normaliz.html",
+    "type": "Source-materials"
   }
 ]

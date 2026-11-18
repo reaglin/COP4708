@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 7-1 Getting Started with SQL</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 7 - Designing Relational Databases from ER Diagrams</a></div><h1>Lecture 7-1 Getting Started with SQL</h1>
+<div dir="ltr" _ngcontent-ng-c574928626="">
+<h2 data-sourcepos="1:1-1:20">Introduction</h2>
+<p>You will need to learn basic Structured Query Language in this class. The best learning resource for learning SQL is the live SQL tutorial at <a href="https://www.w3schools.com/sql/default.asp">https://www.w3schools.com/sql/default.asp</a>&nbsp;</p>
+<p>This tutorial goes over a lot of SQL topics, but for this lesson here are the basic SQL commands you need to know for Data Definition Language (DDL);</p>
+<ol>
+<li>CREATE DATABASE - <a href="https://www.w3schools.com/sql/sql_create_db.asp">https://www.w3schools.com/sql/sql_create_db.asp</a></li>
+<li>CREATE TABLE - <a href="https://www.w3schools.com/sql/sql_create_table.asp">https://www.w3schools.com/sql/sql_create_table.asp</a>&nbsp;</li>
+<li>ALTER TABLE - <a href="https://www.w3schools.com/sql/sql_alter.asp">https://www.w3schools.com/sql/sql_alter.asp</a>&nbsp;</li>
+<li>DROP TABLE - <a href="https://www.w3schools.com/sql/sql_drop_table.asp">https://www.w3schools.com/sql/sql_drop_table.asp</a>&nbsp;</li>
+<li>TYPES OF CONSTRAINTS - <a href="https://www.w3schools.com/sql/sql_constraints.asp">https://www.w3schools.com/sql/sql_constraints.asp</a>&nbsp;</li>
+<li>PRIMARY KEY CONSTRAINT-&nbsp;<a href="https://www.w3schools.com/sql/sql_primarykey.asp">https://www.w3schools.com/sql/sql_primarykey.asp</a>&nbsp;</li>
+<li>FOREIGN KEY CONSTRAINT -&nbsp;<a href="https://www.w3schools.com/sql/sql_foreignkey.asp">https://www.w3schools.com/sql/sql_foreignkey.asp</a>&nbsp;</li>
+<li>NOT NULL CONSTRAINT - <a href="https://www.w3schools.com/sql/sql_notnull.asp">https://www.w3schools.com/sql/sql_notnull.asp</a>&nbsp;</li>
+<li>UNIQUE CONSTRAINT -&nbsp;<a href="https://www.w3schools.com/sql/sql_unique.asp">https://www.w3schools.com/sql/sql_unique.asp</a>&nbsp;</li>
+<li>CHECK CONSTRAINT - <a href="https://www.w3schools.com/sql/sql_check.asp">https://www.w3schools.com/sql/sql_check.asp</a>&nbsp;</li>
+</ol>
+<p>As you progress you will learn more SQL command, as you can probably see from the tutorials, this is not terribly difficult. In addition you will need to know some Data Manipulation Language (DML) at this time also. These are the DML commands to learn for this module;</p>
+<ol>
+<li>SELECT - <a href="https://www.w3schools.com/sql/sql_select.asp">https://www.w3schools.com/sql/sql_select.asp</a></li>
+<li>SELECT WHERE - <a href="https://www.w3schools.com/sql/sql_where.asp">https://www.w3schools.com/sql/sql_where.asp</a>&nbsp;</li>
+<li>AND OPERATOR - <a href="https://www.w3schools.com/sql/sql_and.asp">https://www.w3schools.com/sql/sql_and.asp</a>&nbsp;</li>
+<li>OR OPERATOR - <a href="https://www.w3schools.com/sql/sql_or.asp">https://www.w3schools.com/sql/sql_or.asp</a>&nbsp;</li>
+<li>INSERT - <a href="https://www.w3schools.com/sql/sql_insert.asp">https://www.w3schools.com/sql/sql_insert.asp</a>&nbsp;</li>
+<li>UPDATE - <a href="https://www.w3schools.com/sql/sql_update.asp">https://www.w3schools.com/sql/sql_update.asp</a>&nbsp;</li>
+<li>DELETE - <a href="https://www.w3schools.com/sql/sql_delete.asp">https://www.w3schools.com/sql/sql_delete.asp</a>&nbsp;</li>
+</ol>
+<p>By convention, I like to write my SQL commands with the commands in upper case and the data in lower case. This makes it easy for me to read, but you can use any method you desire as SQL is not case sensitive for the commands. An example of this would be&nbsp;</p>
+<p>SELECT * FROM MyTable WHERE field_value = 'A Value'</p>
+<p>You should find learning the basics of SQL relatively easy and somewhat intuitive. You will be learning a lot of other features of SQL during the semester (and we cover a lot of the more advanced SQL in COP4709 Applied Database II)</p>
+<h2 data-sourcepos="1:1-1:20">SQL, DML, and DDL</h2>
+<p data-sourcepos="3:1-3:251"><strong>SQL</strong> (Structured Query Language) is a computer language used to communicate with and manipulate data stored in relational databases. It provides a standard way to interact with databases, allowing users to create, retrieve, update, and delete data.</p>
+<p data-sourcepos="5:1-5:183"><strong>DML</strong> (Data Manipulation Language) is a subset of SQL that is used to manipulate data within a database. It includes commands for inserting, updating, deleting, and retrieving data.</p>
+<ul data-sourcepos="7:1-12:0">
+<li data-sourcepos="7:1-12:0"><strong>Basic DML commands:</strong>
+<ul data-sourcepos="8:3-12:0">
+<li data-sourcepos="8:3-8:41"><strong>INSERT:</strong> Adds new rows to a table.</li>
+<li data-sourcepos="9:3-9:50"><strong>UPDATE:</strong> Modifies existing data in a table.</li>
+<li data-sourcepos="10:3-10:42"><strong>DELETE:</strong> Removes rows from a table.</li>
+<li data-sourcepos="11:3-12:0"><strong>SELECT:</strong> Retrieves data from a table.</li>
+</ul>
+</li>
+</ul>
+<p data-sourcepos="13:1-13:228"><strong>DDL</strong> (Data Definition Language) is another subset of SQL that is used to define and modify the structure of a database. It includes commands for creating, modifying, and dropping tables, databases, and other database objects.</p>
+<ul data-sourcepos="15:1-19:0">
+<li data-sourcepos="15:1-19:0"><strong>Basic DDL commands:</strong>
+<ul data-sourcepos="16:3-19:0">
+<li data-sourcepos="16:3-16:81"><strong>CREATE:</strong> Creates new database objects like tables, databases, and indexes.</li>
+<li data-sourcepos="17:3-17:67"><strong>ALTER:</strong> Modifies the structure of existing database objects.</li>
+<li data-sourcepos="18:3-19:0"><strong>DROP:</strong> Removes database objects.</li>
+</ul>
+</li>
+</ul>
+<p data-sourcepos="20:1-20:12"><strong>Example:</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_c8c5c81f90c03f1c&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_0f53d7e6419e228c&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="22:1-46:24" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">-- Create a table named "customers"
+CREATE TABLE customers (
+  customer_id INT PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  email VARCHAR(100)<inline-footnote ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c2155184022=""><!----><!----></inline-footnote><span _ngcontent-ng-c2834136588=""> &nbsp; <!----></span><recitation-inline ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1008275238=""><sources-carousel-inline _nghost-ng-c2834136588="" _ngcontent-ng-c1008275238=""><!----></sources-carousel-inline></recitation-inline>
+);
+
+-- Insert a new customer
+INSERT INTO customers (customer_id, first_name, last_name, email)
+VALUES (1, 'John', 'Doe', 'johndoe@example.com');
+
+-- Update a customer's email
+UPDATE customers
+SET email = 'new_email@example.com'
+WHERE customer_id = 1;
+
+-- Delete a customer
+DELETE FROM customers
+WHERE customer_id = 2;
+
+-- Retrieve all customers
+SELECT * FROM customers;
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="48:1-48:233">In this example, we first create a table named "customers" using DDL. Then we use DML to insert a new customer, update an existing customer's email, and delete a customer. Finally, we use DML to retrieve all customers from the table.</p>
+<div dir="ltr" _ngcontent-ng-c574928626="">
+<h2 data-sourcepos="1:1-1:31">The SQL CREATE TABLE Command</h2>
+<p data-sourcepos="3:1-3:230">The <code>CREATE TABLE</code> command in SQL is used to define the structure of a new table within a database. It specifies the name of the table and the columns it will contain, along with their data types and any constraints or properties.</p>
+<h3 data-sourcepos="5:1-5:16">Basic Syntax</h3>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_683dc8679f83349e&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_5a48dd5a6536ef0e&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="7:1-13:2" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">CREATE TABLE table_name (
+    column1 data_type [constraints],
+    column2 data_type [constraints],
+    ...
+);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<ul data-sourcepos="15:1-19:0">
+<li data-sourcepos="15:1-15:63"><strong><code>table_name</code>:</strong> The name you want to give to the new table.</li>
+<li data-sourcepos="16:1-16:71"><strong><code>column1</code>, <code>column2</code>, ...:</strong> The names of the columns in the table.</li>
+<li data-sourcepos="17:1-17:90"><strong><code>data_type</code>:</strong> The data type of each column (e.g., <code>INT</code>, <code>VARCHAR</code>, <code>DATE</code>, <code>FLOAT</code>).</li>
+<li data-sourcepos="18:1-19:0"><strong><code>constraints</code>:</strong> Optional constraints that define rules for the data in the column, such as <code>NOT NULL</code>, <code>PRIMARY KEY</code>, <code>UNIQUE</code>, <code>FOREIGN KEY</code>, and more.</li>
+</ul>
+<h3 data-sourcepos="20:1-20:12">Examples</h3>
+<p data-sourcepos="22:1-22:28"><strong>Creating a simple table:</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_683dc8679f83349e&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_5a48dd5a6536ef0e&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="24:1-31:2" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100)
+);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="33:1-33:265">This creates a table<inline-footnote ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c2155184022=""><!----><!----></inline-footnote> named "customers" with four columns: <code>customer_id</code>, <code>first_name</code>, <code>last_name</code>, and <code>email</code>. The <code>customer_id</code> column is declared as the primary key, which means it uniquely identifies each row in the table and cannot contain null values.<span _ngcontent-ng-c2834136588=""> &nbsp; <!----></span><recitation-inline ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1008275238=""><sources-carousel-inline _nghost-ng-c2834136588="" _ngcontent-ng-c1008275238=""><!----></sources-carousel-inline></recitation-inline></p>
+<p data-sourcepos="35:1-35:51"><strong>Creating a table with more complex constraints:</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_683dc8679f83349e&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_5a48dd5a6536ef0e&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="37:1-45:2" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)<inline-footnote ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c2155184022=""><!----><!----></inline-footnote><span _ngcontent-ng-c2834136588=""> &nbsp; <!----></span><recitation-inline ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1008275238=""><sources-carousel-inline _nghost-ng-c2834136588="" _ngcontent-ng-c1008275238=""><!----></sources-carousel-inline></recitation-inline>
+);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="47:1-47:284">This creates a table named "orders" with columns for order ID, customer ID, order date, and total amount. The <code>FOREIGN KEY</code> constraint specifies that the <code>customer_id</code> column in the "orders" table must reference a valid <code>customer_id</code> in the "customers" table, ensuring data integrity.</p>
+<p data-sourcepos="49:1-49:42"><strong>Creating a table with a default value:</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_683dc8679f83349e&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_5a48dd5a6536ef0e&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="51:1-57:2" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    price DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="59:1-59:230">This creates a table named "products" with columns for product ID, product name, and price. The <code>DEFAULT</code> clause specifies that the <code>price</code> column will have a default value of 0.00 if no value is provided when inserting a new row.</p>
+<p data-sourcepos="61:1-61:149">By understanding the <code>CREATE TABLE</code> command and its syntax, you can effectively design and create tables to store your data in a relational database.</p>
+<div dir="ltr" _ngcontent-ng-c574928626="">
+<h2 data-sourcepos="1:1-1:25">Foreign Key Constraint</h2>
+<p data-sourcepos="3:1-3:277">A foreign key constraint in a relational database establishes a link between a column in one table (the child table) and a primary key or unique column in another table (the parent table). It ensures data integrity by maintaining referential consistency between the two tables.</p>
+<h3 data-sourcepos="5:1-5:25">How Foreign Keys Work</h3>
+<ul data-sourcepos="7:1-10:0">
+<li data-sourcepos="7:1-7:249"><strong>Referential Integrity:</strong> A foreign key constraint guarantees that the values in the foreign key column of the child table must match existing values in the referenced column of the parent table. This prevents orphaned records in the child table.</li>
+<li data-sourcepos="8:1-8:171"><strong>Data Consistency:</strong> By enforcing relationships between tables, foreign keys help maintain data consistency and prevent errors caused by inconsistent or incorrect data.</li>
+<li data-sourcepos="9:1-10:0"><strong>Data Validation:</strong> Foreign keys can be used to validate data input, ensuring that only valid values are inserted into the child table.</li>
+</ul>
+<h3 data-sourcepos="11:1-11:11">Example</h3>
+<p data-sourcepos="13:1-13:166">Consider two tables: <code>customers</code> and <code>orders</code>. The <code>orders</code> table might have a <code>customer_id</code> column that references the <code>customer_id</code> column in the <code>customers</code> table.</p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_f054131d8fe64c4f&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_02b2dc1772186678&quot;,null,null,&quot;en&quot;,null,1,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="15:1-28:2" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id)<inline-footnote ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c2155184022=""><!----><!----></inline-footnote><span _ngcontent-ng-c2834136588=""> &nbsp; <!----></span><recitation-inline ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1008275238=""><sources-carousel-inline _nghost-ng-c2834136588="" _ngcontent-ng-c1008275238=""><!----></sources-carousel-inline></recitation-inline> REFERENCES customers(customer_id)
+);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="30:1-30:16">In this example:</p>
+<ul data-sourcepos="31:1-34:0">
+<li data-sourcepos="31:1-31:85">The <code>customer_id</code> column in the <code>orders</code> table is declared<inline-footnote ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c2155184022=""><!----><!----></inline-footnote> as a foreign key.<span _ngcontent-ng-c2834136588=""> &nbsp; <!----></span><recitation-inline ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1008275238=""><sources-carousel-inline _nghost-ng-c2834136588="" _ngcontent-ng-c1008275238=""><!----></sources-carousel-inline></recitation-inline></li>
+<li data-sourcepos="32:1-32:152">The <code>REFERENCES customers(customer_id)</code> clause specifies that the <code>customer_id</code> in <code>orders</code> must match a valid <code>customer_id</code> in the <code>customers</code> table.</li>
+<li data-sourcepos="33:1-34:0">If you try to insert an order with a <code>customer_id</code> that doesn't exist in the <code>customers</code> table, the database will raise an error, preventing data inconsistency.</li>
+</ul>
+<p data-sourcepos="35:1-35:29"><strong>Benefits of Foreign Keys:</strong></p>
+<ul data-sourcepos="37:1-41:0">
+<li data-sourcepos="37:1-37:77"><strong>Data Integrity:</strong> Ensures data consistency and prevents orphaned records.</li>
+<li data-sourcepos="38:1-38:59"><strong>Data Validation:</strong> Helps enforce data validation rules.</li>
+<li data-sourcepos="39:1-39:80"><strong>Relationship Modeling:</strong> Defines relationships between tables in a database.</li>
+<li data-sourcepos="40:1-41:0"><strong>Data Analysis:</strong> Facilitates data analysis by providing links between related data.</li>
+</ul>
+<p data-sourcepos="42:1-42:109">By understanding and using foreign key constraints, you can create more robust and reliable database designs.</p>
+<div dir="ltr" _ngcontent-ng-c574928626="">
+<h2 data-sourcepos="1:1-1:44">Adding a Foreign Key to an Existing Table</h2>
+<p data-sourcepos="3:1-3:31"><strong>Understanding the Scenario:</strong></p>
+<p data-sourcepos="5:1-5:298">Let's assume we have two tables: <code>orders</code> and <code>customers</code>. We want to establish a relationship between the two tables, where each order belongs to a specific customer. To achieve this, we'll add a foreign key constraint to the <code>orders</code> table, referencing the <code>customer_id</code> in the <code>customers</code> table.</p>
+<p data-sourcepos="7:1-7:18"><strong>SQL Statement:</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_fc1a8fffaf59f32f&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_ff35a46ea8f0d866&quot;,null,null,&quot;en&quot;,null,0,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="9:1-13:60" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">ALTER TABLE orders
+ADD CONSTRAINT fk_orders_customers
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="15:1-15:16"><strong>Explanation:</strong></p>
+<ol data-sourcepos="17:1-21:0">
+<li data-sourcepos="17:1-17:103"><strong><code>ALTER TABLE orders</code>:</strong> This specifies that we want to modify the structure of the <code>orders</code> table.</li>
+<li data-sourcepos="18:1-18:178"><strong><code>ADD CONSTRAINT fk_orders_customers</code>:</strong> This indicates that we're adding a new constraint named <code>fk_orders_customers</code>. You can choose any meaningful name for the constraint.</li>
+<li data-sourcepos="19:1-19:156"><strong><code>FOREIGN KEY (customer_id)</code>:</strong> This defines the column in the <code>orders</code> table that will be the foreign key. In this case, it's the <code>customer_id</code> column.</li>
+<li data-sourcepos="20:1-21:0"><strong><code>REFERENCES customers(customer_id)</code>:</strong> This specifies that the <code>customer_id</code> in the <code>orders</code> table must reference the <code>customer_id</code> in the <code>customers</code> table.</li>
+</ol>
+<p data-sourcepos="22:1-22:29"><strong>Important Considerations:</strong></p>
+<ul data-sourcepos="24:1-28:0">
+<li data-sourcepos="24:1-24:106"><strong>Column Existence:</strong> Ensure that the column you're specifying as the foreign key exists in both tables.</li>
+<li data-sourcepos="25:1-25:98"><strong>Data Types:</strong> The data types of the foreign key column and the referenced column should match.</li>
+<li data-sourcepos="26:1-26:167"><strong>Referential Integrity:</strong> The foreign key constraint will enforce referential integrity, preventing you from inserting or updating orders with invalid customer IDs.</li>
+<li data-sourcepos="27:1-28:0"><strong>Index:</strong> For performance reasons, it's often recommended to create an index on the foreign key column.</li>
+</ul>
+<p data-sourcepos="29:1-29:26"><strong>Example with an Index:</strong></p>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<div jslog="223238;track:impression;BardVeMetadataKey:[[&quot;r_fc1a8fffaf59f32f&quot;,&quot;c_2b83681f129e8faa&quot;,null,&quot;rc_ff35a46ea8f0d866&quot;,null,null,&quot;en&quot;,null,0,null,null,1,0]]" _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529=""><span _ngcontent-ng-c3223555529="">SQL</span></div>
+<!---->
+<div _ngcontent-ng-c3223555529="">
+<div _ngcontent-ng-c3223555529="">
+<pre _ngcontent-ng-c3223555529=""><code data-sourcepos="31:1-36:47" data-test-id="code-content" role="text" _ngcontent-ng-c3223555529="">ALTER TABLE orders
+ADD CONSTRAINT fk_orders_customers
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+ADD INDEX idx_orders_customer_id (customer_id);
+</code></pre>
+<!----><!----><!----></div>
+</div>
+<!----></div>
+<response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c1995538804=""><code-block _nghost-ng-c3223555529="" _ngcontent-ng-c1995538804=""></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element>
+<p data-sourcepos="38:1-38:115">This statement adds both the foreign key constraint and an index on the <code>customer_id</code> column in the <code>orders</code> table.</p>
+<p data-sourcepos="40:1-40:165">By following these steps, you can effectively add foreign key constraints to existing tables to establish relationships and maintain data integrity in your database.</p>
+</div>
+</div>
+</div>
+</div>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

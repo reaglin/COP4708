@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 3-1 -The Relational Database Model</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 3 - Relational Databases and Normalization Concepts</a></div><h1>Lecture 3-1 - The Relational Database Model</h1>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/yvt0bgHA7Bg?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 3 Lecture 1 - The Relational Model"></iframe></p>
+<div dir="ltr" _ngcontent-ng-c3972157843="">
+<h2 data-sourcepos="1:1-1:44">Unique Properties of Relational Databases</h2>
+<p data-sourcepos="3:1-3:73">Relational databases are distinguished from other data storage methods by several key properties:</p>
+<ol data-sourcepos="5:1-5:60">
+<li data-sourcepos="5:1-5:60"><strong>Structured Data:</strong> Relational databases store data in a structured format, using tables, rows, and columns. This makes it easier to organize, retrieve, and manipulate data.</li>
+<li data-sourcepos="6:1-6:42"><strong>Normalization:</strong> Relational databases often employ normalization techniques to eliminate redundancy and ensure data integrity. This involves dividing data into multiple tables, reducing data duplication and improving database efficiency.</li>
+<li data-sourcepos="7:1-7:5"><strong>Relationships:</strong> Relational databases establish relationships between tables through common fields (foreign keys). This allows for efficient data retrieval and manipulation based on related information.</li>
+<li data-sourcepos="8:1-8:5"><strong>SQL:</strong> Relational databases are typically accessed and managed using SQL (Structured Query Language). SQL is a powerful and standardized language that provides a flexible way to query, manipulate, and update data.</li>
+<li data-sourcepos="9:1-9:186"><strong>Data Integrity:</strong> Relational databases enforce data integrity through constraints like primary keys, foreign keys, and data types. This helps maintain data accuracy and consistency.</li>
+<li data-sourcepos="10:1-10:291"><strong>Scalability:</strong> Relational databases can often scale to accommodate large datasets and high transaction volumes. While scalability can depend on factors like hardware and database design, relational databases are generally well-suited for handling large-scale data storage and retrieval.</li>
+<li data-sourcepos="11:1-11:64"><strong>Flexibility:</strong> Relational databases are flexible and can be adapted to various data modeling needs. They can represent complex relationships and handle a wide range of data types.</li>
+</ol>
+<p data-sourcepos="13:1-13:187">These properties make relational databases a popular and versatile choice for storing and managing data in many applications, from small-scale databases to large-scale enterprise systems.</p>
+<div dir="ltr" _ngcontent-ng-c3972157843="">
+<h2 data-sourcepos="1:1-1:57">Entities and Attributes in a Relational Database Model</h2>
+<h3 data-sourcepos="3:1-3:12">Entities</h3>
+<p data-sourcepos="5:1-5:24">In a relational database model, an <strong>entity</strong> is a person, place, thing, or event that you want to track or store information about. It is a conceptual representation of a real-world object.</p>
+<p data-sourcepos="7:1-7:25"><strong>Examples of entities:</strong></p>
+<ul data-sourcepos="8:1-9:10">
+<li data-sourcepos="8:1-8:11">Customers</li>
+<li data-sourcepos="9:1-9:10">Products</li>
+<li data-sourcepos="10:1-10:8">Orders</li>
+<li data-sourcepos="11:1-11:11">Employees</li>
+<li data-sourcepos="12:1-13:0">Departments</li>
+</ul>
+<h3 data-sourcepos="14:1-14:14">Attributes</h3>
+<p data-sourcepos="16:1-16:117"><strong>Attributes</strong> are the properties or characteristics of an entity. They describe the specific data points you want to collect about each entity.</p>
+<p data-sourcepos="18:1-18:54"><strong>Examples of attributes for the "Customers" entity:</strong></p>
+<ul data-sourcepos="19:1-22:7">
+<li data-sourcepos="19:1-19:26">CustomerID (primary key)</li>
+<li data-sourcepos="20:1-20:6">Name</li>
+<li data-sourcepos="21:1-21:9">Address</li>
+<li data-sourcepos="22:1-22:7">Email</li>
+<li data-sourcepos="23:1-24:0">Phone Number</li>
+</ul>
+<p data-sourcepos="25:1-25:53"><strong>Examples of attributes for the "Products" entity:</strong></p>
+<ul data-sourcepos="26:1-31:0">
+<li data-sourcepos="26:1-26:25">ProductID (primary key)</li>
+<li data-sourcepos="27:1-27:6">Name</li>
+<li data-sourcepos="28:1-28:13">Description</li>
+<li data-sourcepos="29:1-29:7">Price</li>
+<li data-sourcepos="30:1-31:0">QuantityInStock</li>
+</ul>
+<p data-sourcepos="32:1-32:49"><strong>Relationship between Entities and Attributes:</strong></p>
+<ul data-sourcepos="33:1-36:0">
+<li data-sourcepos="33:1-33:48">Each entity is defined by a set of attributes.</li>
+<li data-sourcepos="34:1-34:88">The attributes determine the specific information you want to store about each entity.</li>
+<li data-sourcepos="35:1-36:0">The combination of entities and their attributes forms the structure of a relational database.</li>
+</ul>
+<p data-sourcepos="37:1-37:211"><strong>In essence, entities and attributes are the fundamental building blocks of a relational database model. They provide a way to define and organize the data that will be stored and managed within the database.</strong></p>
+</div>
+</div>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

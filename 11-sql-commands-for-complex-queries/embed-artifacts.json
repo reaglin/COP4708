@@ -15,6 +15,31 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 11 - SQL Commands for Complex Queries",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 11: Database Design Using Normalization \u203A Project Assignment 1",
+    "href": "assignments/module-11-database-design-using-normalization-pr.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 11: Database Design Using Normalization \u203A Graded Discussion 11",
+    "href": "content/disc_Module_11_Database_Design_Using_Normalizati.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 11-1 - Database Design using Normalization",
+    "href": "content/Lecture_11_1_Database_Design_using_Normalization.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 11: Database Design Using Normalization \u203A Guide to Normalization",
+    "href": "content/Page_Module_11_Database_Design_Using_Normalization_Gu.html",
+    "type": "Content"
+  },
+  {
     "title": "Writing and Using Subqueries",
     "href": "content/SQL_Commands_for_interactive.html",
     "type": "Content"
@@ -83,5 +108,25 @@
     "title": "11 - SQL Commands for Complex Queries",
     "href": "content/SQL_Commands_for_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 11: Database Design Using Normalization \u203A Project Assignment 1",
+    "href": "source-materials/A001_Case_Study_Analy_Module_11_Database_Design.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 11: Database Design Using Normalization \u203A Graded Discussion 11",
+    "href": "source-materials/disc_Module_11_Database_Design_Using_Normalizati.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 11-1 - Database Design using Normalization",
+    "href": "source-materials/Lecture_11_1_Database_Design_using_Normalization.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 11: Database Design Using Normalization \u203A Guide to Normalization",
+    "href": "source-materials/Page_Module_11_Database_Design_Using_Normalization_Gu.html",
+    "type": "Source-materials"
   }
 ]

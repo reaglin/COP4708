@@ -15,6 +15,16 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 15 - Database Security Models, Users, and Application Connections",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 15: Database Security (vulnerabilities, Hashing and Encryption, and Database Controls) \u203A Project Assignment 3",
+    "href": "assignments/module-15-database-security-vulnerabilities-hash.html",
+    "type": "Assignments"
+  },
+  {
     "title": "Connection Pooling Best Practices",
     "href": "content/Database_Security_Models_interactive.html",
     "type": "Content"
@@ -93,5 +103,20 @@
     "title": "15 - Database Security Models, Users, and Application Connections",
     "href": "content/Database_Security_Models_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 15: Database Security (vulnerabilities, Hashing and Encryption, and Database Controls) \u203A Database Security Best Practices",
+    "href": "content/ext_caa2567d.html",
+    "type": "Content"
+  },
+  {
+    "title": "Quiz \u2014 15 - Database Security Models, Users, and Application Connections",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Module 15: Database Security (vulnerabilities, Hashing and Encryption, and Database Controls) \u203A Project Assignment 3",
+    "href": "source-materials/A001_Case_Study_Analy_Module_15_Database_Security.html",
+    "type": "Source-materials"
   }
 ]

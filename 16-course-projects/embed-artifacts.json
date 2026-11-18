@@ -60,6 +60,11 @@
     "type": "Content"
   },
   {
+    "title": "Guide to Writing Good Reports",
+    "href": "content/Guide_to_Writing_Good_Reports.html",
+    "type": "Content"
+  },
+  {
     "title": "Sandpiper Cove Shelter Forms",
     "href": "content/Sandpiper Cove Shelter Forms.html",
     "type": "Content"
@@ -68,5 +73,10 @@
     "title": "Sandpiper Cove Staff Interviews",
     "href": "content/Sandpiper Cove Staff Interviews.html",
     "type": "Content"
+  },
+  {
+    "title": "Guide to Writing Good Reports",
+    "href": "source-materials/Guide_to_Writing_Good_Reports.html",
+    "type": "Source-materials"
   }
 ]

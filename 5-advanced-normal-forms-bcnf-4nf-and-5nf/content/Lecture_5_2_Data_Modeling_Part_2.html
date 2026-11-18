@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html><html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 5-2 - Data Modeling Part 2</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div><h1>Lecture 5-2 - Data Modeling Part 2</h1>
+<h2>Video Lecture</h2>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/zNL20OcdhLg?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 - Module 5 Lecture 2   Data Modeling Part 2"></iframe></p>
+<p></p>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:54">Association Pattern in Entity Relationship Diagrams</h2>
+<p data-sourcepos="3:1-3:139"><strong>Association</strong> is a fundamental concept in Entity Relationship Diagrams (ERDs) that represents a relationship between two or more entities. It indicates a logical connection or association between the entities involved.</p>
+<h3 data-sourcepos="5:1-5:35">Characteristics of Associations</h3>
+<ul data-sourcepos="7:1-7:94">
+<li data-sourcepos="7:1-7:94"><strong>Name:</strong> Associations are typically given a descriptive name that reflects the relationship between the entities. For example, "Takes," "Employed By," or "Owns."</li>
+<li data-sourcepos="8:1-8:56"><strong>Cardinality:</strong> This specifies the possible number of relationships between the entities. It can be one-to-one, one-to-many, or many-to-many.</li>
+<li data-sourcepos="9:1-9:17"><strong>Attributes:</strong> In some cases, associations can have their own attributes to provide additional information about the relationship. For instance, a "Takes" association between "Student" and "Course" might have an attribute "Grade."</li>
+</ul>
+<h3 data-sourcepos="11:1-11:25">Types of Associations</h3>
+<ol data-sourcepos="13:1-16:0">
+<li data-sourcepos="13:1-13:86"><strong>Binary Association:</strong> This involves two entities, such as "Student" and "Course."</li>
+<li data-sourcepos="14:1-14:98"><strong>Ternary Association:</strong> This involves three entities, like "Order," "Customer," and "Product."</li>
+<li data-sourcepos="15:1-16:0"><strong>Unary Association:</strong> This involves a single entity with itself, such as "Employee" and "Manager."</li>
+</ol>
+<h3 data-sourcepos="17:1-17:11">Example</h3>
+<p data-sourcepos="19:1-19:64">Consider a university database. A "Student" entity might have an association with a "Course" entity. This association could be named "Takes" and have a one-to-many cardinality, indicating that a student can take many courses, but a course can have many students.</p>
+<p data-sourcepos="21:1-21:26"><strong>Visual Representation:</strong></p>
+<div><response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c3842210845=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><single-image _nghost-ng-c2152664624="" _ngcontent-ng-c3842210845=""><!----><!----><!----><!----><!----><!----><!----><!----><!----></single-image><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element></div>
+<p><img alt="ERD – Student Score" src="https://circle.visual-paradigm.com/wp-content/uploads/2017/08/ERD-Student-Score.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;"></p>
+<p data-sourcepos="23:1-23:73">In this example, the "Takes" association connects the "Student" and "Course" entities. The cardinality is represented using crows foot notation (1:N).</p>
+<p data-sourcepos="25:1-25:150"><strong>Benefits of Associations:</strong></p>
+<ul data-sourcepos="29:1-29:140">
+<li data-sourcepos="29:1-29:140"><strong>Modeling Complex Relationships:</strong> Associations allow you to capture a variety of relationships between entities, from simple to complex.</li>
+<li data-sourcepos="30:1-30:123"><strong>Data Integrity:</strong> By defining associations and their cardinalities, you can ensure data consistency and prevent errors.</li>
+<li data-sourcepos="31:1-32:0"><strong>Efficient Querying:</strong> Well-designed associations can make it easier to retrieve and analyze data.</li>
+</ul>
+<p data-sourcepos="33:1-33:145">Associations are a fundamental building block in ERDs, providing a powerful way to model the relationships between entities and their attributes.</p>
+</div>
+<p></p>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:37">Archetype/Instance Pattern in ERDs</h2>
+<p data-sourcepos="3:1-3:111"><strong>Archetype/Instance</strong> is a pattern used in Entity Relationship Diagrams (ERDs) to represent entities that have common attributes but may also have specific variations. This pattern is particularly useful when dealing with entities that have a general structure but may need to be customized for different situations.</p>
+<h3 data-sourcepos="5:1-5:48">Components of the Archetype/Instance Pattern</h3>
+<ol data-sourcepos="7:1-7:117">
+<li data-sourcepos="7:1-7:117"><strong>Archetype Entity:</strong> This represents the general or abstract form of the entity, containing the common attributes shared by all instances.</li>
+<li data-sourcepos="8:1-8:147"><strong>Instance Entity:</strong> This represents a specific instance or variation of the archetype entity. It inherits the attributes from the archetype but may have additional or modified attributes.</li>
+</ol>
+<h3 data-sourcepos="10:1-10:43">Example:&nbsp;</h3>
+<p>A Section is an instance of a class, a specific yacht is an instance a yacht design, a specific house is an instance of a house model.&nbsp; &nbsp;</p>
+<p data-sourcepos="19:1-19:91">In the Video - the example used has this ERD</p>
+<p data-sourcepos="19:1-19:91"><img src="https://blog.kakaocdn.net/dn/9xnxe/btq61druL3u/LCHydpROyyS7p6wnV1wI81/img.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;" alt=""></p>
+<h3 data-sourcepos="23:1-23:46">Benefits of the Archetype/Instance Pattern</h3>
+<ul data-sourcepos="25:1-29:0">
+<li data-sourcepos="25:1-25:123"><strong>Flexibility:</strong> This pattern allows for customization and flexibility in representing different variations of an entity.</li>
+<li data-sourcepos="26:1-26:109"><strong>Data Consistency:</strong> By defining a common archetype, you can ensure data consistency across all instances.</li>
+<li data-sourcepos="27:1-27:108"><strong>Efficient Querying:</strong> You can use inheritance to query both the archetype and its instances efficiently.</li>
+<li data-sourcepos="28:1-29:0"><strong>Scalability:</strong> The pattern is scalable as you can add new instance entities as needed.</li>
+</ul>
+<p data-sourcepos="30:1-30:35">The Archetype/Instance pattern is a valuable tool for modeling entities with variations in ERDs. By using this pattern, you can create more flexible, efficient, and maintainable database designs.</p>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:29">For Use By Pattern in ERDs</h2>
+<p data-sourcepos="3:1-3:119"><strong>For Use By</strong> is a pattern used in Entity Relationship Diagrams (ERDs) to represent a relationship where one entity is used or associated with another entity. This pattern is often used to model scenarios where one entity is a component or resource that is used by another entity.</p>
+<h3 data-sourcepos="5:1-5:30">Example: Fishing License (from Video)</h3>
+<p data-sourcepos="7:1-7:121">Consider the fishing license application where the license can be for commercial or sport fishers. Each application needs some data specific to the type of fisher, but some of the data is also common to both.&nbsp;&nbsp;</p>
+<p data-sourcepos="9:1-9:15"><strong><img src="Lecture_5_2_Data_Modeling_Part_2_files/image_20240826185021842.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;" alt="">&nbsp;</strong></p>
+<p data-sourcepos="9:1-9:15"><strong><img src="Lecture_5_2_Data_Modeling_Part_2_files/image_20240826185022091.png" data-d2l-editor-default-img-style="true" style="max-width: 100%;" alt=""></strong></p>
+<div><response-element ng-version="0.0.0-PLACEHOLDER" _nghost-ng-c3842210845=""><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><single-image _nghost-ng-c2152664624="" _ngcontent-ng-c3842210845=""><!----><!----><!----><!----><!----><!----><!----><!----><!----></single-image><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element></div>
+<p></p>
+<p data-sourcepos="11:1-11:74">In this diagram, the "For Use By" relationship connects the "Commercial" and "Sport" fisher entities.&nbsp;</p>
+<h3 data-sourcepos="15:1-15:38">Benefits of the For Use By Pattern</h3>
+<ul data-sourcepos="17:1-19:110">
+<li data-sourcepos="17:1-17:162"><strong>Clear Representation:</strong> This pattern provides a clear and concise way to model the relationship between entities where one is used or associated with another.</li>
+<li data-sourcepos="18:1-18:136"><strong>Data Integrity:</strong> By using this pattern, you can ensure that only valid products are included in orders, preventing inconsistencies.</li>
+<li data-sourcepos="19:1-19:110"><strong>Efficient Querying:</strong> You can use the association to query for products that are frequently used in orders or orders that contain specific products.</li>
+</ul>
+<p data-sourcepos="21:1-21:219">The "For Use By" pattern is a valuable tool for modeling relationships between entities where one is used or associated with another. It can help improve the clarity, consistency, and efficiency of your database design.</p>
+</div>
+</div>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:28">Recursive Pattern in ERDs</h2>
+<p data-sourcepos="3:1-3:126">A <strong>recursive pattern</strong> in an Entity Relationship Diagram (ERD) occurs when an entity has a relationship with itself. This can happen in various scenarios, such as hierarchical structures, network relationships, or cyclic dependencies.</p>
+<h3 data-sourcepos="15:1-15:37">Benefits of the Recursive Pattern</h3>
+<ul data-sourcepos="17:1-20:0">
+<li data-sourcepos="17:1-17:167"><strong>Modeling Hierarchical Structures:</strong> Recursive patterns are ideal for modeling hierarchical structures, such as organizational charts or tree-based data structures.</li>
+<li data-sourcepos="18:1-18:161"><strong>Representing Network Relationships:</strong> They can also be used to represent network relationships, where entities can have multiple connections with each other.</li>
+<li data-sourcepos="19:1-20:0"><strong>Capturing Cyclic Dependencies:</strong> Recursive patterns can capture cyclic dependencies, where entities have circular references.</li>
+</ul>
+<p data-sourcepos="21:1-21:189"><strong>Note:</strong> When using recursive patterns, it's important to consider potential performance implications, especially in large datasets. Techniques like indexing or specialized data structures may be necessary to optimize queries.</p>
+<p data-sourcepos="23:1-23:145">Recursive patterns provide a flexible and powerful way to model complex relationships in ERDs, allowing you to capture a wide range of scenarios.</p>
+</div>
+<p></p>
+<footer class="presemaker-credit" data-credit="2" style="margin-top:2rem;padding:14px 8px;border-top:1px solid #ddd;background:#fff;text-align:center;font:13px/1.5 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#595959;"><svg width="20" height="20" viewBox="0 0 2048 2048" aria-hidden="true" focusable="false" style="vertical-align:-5px;margin-right:7px"><rect width="2048" height="2048" rx="384" fill="#0F6E6E"/><path fill="#0A5050" d="M1024 1000 344 832v816l680 168zm0 0 680-168v816l-680 168z"/><path fill="#fff" d="M1024 944 384 784v808l640 160zm0 0 640-160v808l-640 160z"/><rect x="1002" y="944" width="44" height="808" fill="#0F6E6E"/><rect x="936" y="246" width="176" height="448" rx="44" fill="#fff"/><rect x="800" y="382" width="448" height="176" rx="44" fill="#fff"/></svg>Created with <a href="https://softwareplus.ai/coursebuilder/" target="_blank" rel="noopener" style="color:#2f5d8f;font-weight:600;text-decoration:none;">CourseBuilder+</a><span aria-hidden="true"> · </span><a href="https://softwareplus.ai/" target="_blank" rel="noopener" style="color:#2f5d8f;text-decoration:none;">SoftwarePlus.ai</a></footer>
+</body></html>

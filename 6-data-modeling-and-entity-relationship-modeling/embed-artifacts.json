@@ -15,6 +15,16 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 6 - Data Modeling and Entity-Relationship Modeling",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Assignment 3 - The Database Model",
+    "href": "assignments/module-6-database-design-assignment-3-the-databa.html",
+    "type": "Assignments"
+  },
+  {
     "title": "Applying ER Modeling to a Problem Domain",
     "href": "content/Data_Modeling_and_interactive.html",
     "type": "Content"
@@ -80,6 +90,36 @@
     "type": "Content"
   },
   {
+    "title": "Module 6: Database Design \u203A Graded Discussion 6",
+    "href": "content/disc_Module_6_Database_Design_Graded_Discussion.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 6-1 - Turning an ERD into A DB",
+    "href": "content/Lecture_6_1_Turning_an_ERD_into_A_DB.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 6-2 - Creating a DB Design Using Visio",
+    "href": "content/Lecture_6_2_Creating_a_DB_Design_Using_Visio.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 6-3 Creating an ERD in LucidChart in 5 Minutes",
+    "href": "content/Lecture_6_3_Creating_an_ERD_in_LucidChart_in_5_M.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Guide - Going from ERD to Database Design",
+    "href": "content/Page_Module_6_Database_Design_Guide_Going_from_ERD_to.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Reference for Data Types (Oracle)",
+    "href": "content/Page_Module_6_Database_Design_Reference_for_Data_Type.html",
+    "type": "Content"
+  },
+  {
     "title": "Foundation Design Board",
     "href": "interactive/foundation-design-board-assignment-3.html",
     "type": "Interactive"
@@ -88,5 +128,40 @@
     "title": "Interactive Activities \u2014 6 - Data Modeling and Entity-Relationship Modeling",
     "href": "interactive/index.html",
     "type": "Interactive"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Assignment 3 - The Database Model",
+    "href": "source-materials/A001_Case_Study_Analy_Module_6_Database_Design.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Graded Discussion 6",
+    "href": "source-materials/disc_Module_6_Database_Design_Graded_Discussion.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 6-1 - Turning an ERD into A DB",
+    "href": "source-materials/Lecture_6_1_Turning_an_ERD_into_A_DB.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 6-2 - Creating a DB Design Using Visio",
+    "href": "source-materials/Lecture_6_2_Creating_a_DB_Design_Using_Visio.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 6-3 Creating an ERD in LucidChart in 5 Minutes",
+    "href": "source-materials/Lecture_6_3_Creating_an_ERD_in_LucidChart_in_5_M.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Guide - Going from ERD to Database Design",
+    "href": "source-materials/Page_Module_6_Database_Design_Guide_Going_from_ERD_to.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 6: Database Design \u203A Reference for Data Types (Oracle)",
+    "href": "source-materials/Page_Module_6_Database_Design_Reference_for_Data_Type.html",
+    "type": "Source-materials"
   }
 ]

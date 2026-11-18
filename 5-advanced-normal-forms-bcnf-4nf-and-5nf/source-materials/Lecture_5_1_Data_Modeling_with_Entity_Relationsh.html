@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Lecture 5-1 - Data Modeling with Entity Relationship Model.</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF</a></div><h1>Lecture 5-1 - Data Modeling with Entity Relationship Model.</h1><h2>Lecture 5-1 - Data Modeling with Entity Relationship Model.</h2>
+<h2>Video Lecture</h2>
+<p><iframe width="500" height="281" src="https://www.youtube.com/embed/JvXb0k-Xf5g?feature=oembed&amp;wmode=opaque&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="allowfullscreen" title="COP4708 Module 5 Lecture 1 ERD Part I"></iframe></p>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:82">Entity Relationship Diagrams (ERDs): A Visual Representation of Database Design</h2>
+<p data-sourcepos="3:1-3:104"><strong>Entity Relationship Diagrams (ERDs)</strong> are visual models that depict the relationships between entities and their attributes within a database system. They provide a blueprint for database design, helping to ensure data consistency, integrity, and efficient retrieval.</p>
+<h3 data-sourcepos="5:1-5:26">Key Components of ERDs</h3>
+<ul data-sourcepos="7:1-7:158">
+<li data-sourcepos="7:1-7:158"><strong>Entities:</strong> These are the main objects or concepts within the database. For example, in a university database, entities might include "Student," "Course," and "Professor."</li>
+<li data-sourcepos="8:1-8:145"><strong>Attributes:</strong> These are the properties or characteristics of entities. For instance, a "Student" entity might have attributes like "StudentID," "Name," and "Major."</li>
+<li data-sourcepos="9:1-10:0"><strong>Relationships:</strong> These represent the connections between entities. They can be one-to-one, one-to-many, or many-to-many. For example, a "Student" can have a one-to-many relationship with "Course" (one student can take many courses).</li>
+</ul>
+<h3 data-sourcepos="11:1-11:40">How ERDs are Used in Database Design</h3>
+<ol data-sourcepos="13:1-14:73">
+<li data-sourcepos="13:1-13:213"><strong>Conceptual Modeling:</strong> ERDs are created based on a detailed analysis of the real-world system or organization. This involves identifying the key entities, their attributes, and the relationships between them.</li>
+<li data-sourcepos="14:1-14:73"><strong>Logical Design:</strong> The conceptual model is transformed into a logical design, which specifies the data types, constraints, and keys for each attribute. This involves making decisions about how data will be stored and organized within the database.</li>
+<li data-sourcepos="15:1-16:0"><strong>Physical Design:</strong> The logical design is translated into a physical design, which specifies the physical storage structures (e.g., tables, indexes) and the database management system (DBMS) that will be used.</li>
+</ol>
+<h3 data-sourcepos="17:1-17:26">Benefits of Using ERDs</h3>
+<ul data-sourcepos="19:1-20:91">
+<li data-sourcepos="19:1-19:140"><strong>Clear Communication:</strong> ERDs provide a visual representation that is easy to understand by both technical and non-technical stakeholders.</li>
+<li data-sourcepos="20:1-20:91"><strong>Data Consistency:</strong> By defining relationships and constraints, ERDs help to ensure data consistency and prevent errors.</li>
+<li data-sourcepos="21:1-21:143"><strong>Efficient Database Design:</strong> ERDs help to identify redundancies and inefficiencies in the data model, leading to a more optimized database.</li>
+<li data-sourcepos="22:1-23:0"><strong>Maintenance:</strong> ERDs serve as documentation for the database, making it easier to understand and maintain over time.</li>
+</ul>
+<p data-sourcepos="24:1-24:262"><strong>In summary,</strong> ERDs are essential tools for database design, providing a clear and concise representation of the relationships between entities and their attributes. By using ERDs, database designers can create efficient, consistent, and maintainable databases.</p>
+<div dir="ltr" _ngcontent-ng-c2289752131="">
+<h2 data-sourcepos="1:1-1:46">Cardinality in Entity Relationship Diagrams</h2>
+<p data-sourcepos="3:1-3:125"><strong>Cardinality</strong> in an Entity Relationship Diagram (ERD) defines the possible number of relationships between two entities. It specifies the maximum and minimum number of instances of one entity that can be related to a single instance of another entity.</p>
+<h3 data-sourcepos="5:1-5:24">Types of Cardinality</h3>
+<ol data-sourcepos="7:1-7:5">
+<li data-sourcepos="7:1-7:5">
+<p data-sourcepos="7:4-7:24"><strong>One-to-One (1:1):</strong></p>
+<ul data-sourcepos="8:4-8:106">
+<li data-sourcepos="8:4-8:106"><strong>Description:</strong> Each instance of one entity can be related to at most one instance of another entity, and vice versa.</li>
+<li data-sourcepos="9:4-10:0"><strong>Example:</strong> A person can have only one passport, and a passport can belong to only one person.</li>
+</ul>
+</li>
+<li data-sourcepos="11:1-11:9">
+<p data-sourcepos="11:4-11:9"><strong>One-to-Many (1:N):</strong></p>
+<ul data-sourcepos="12:4-14:0">
+<li data-sourcepos="12:4-12:192"><strong>Description:</strong> One instance of one entity can be related to many instances of another entity, but each instance of the second entity can be related to at most one instance of the first.</li>
+<li data-sourcepos="13:4-14:0"><strong>Example:</strong> A department can have many employees, but an employee can work for only one department.</li>
+</ul>
+</li>
+<li data-sourcepos="15:1-18:0">
+<p data-sourcepos="15:4-15:26"><strong>Many-to-Many (M:N):</strong></p>
+<ul data-sourcepos="16:4-18:0">
+<li data-sourcepos="16:4-16:102"><strong>Description:</strong> Many instances of one entity can be related to many instances of another entity.</li>
+<li data-sourcepos="17:4-18:0"><strong>Example:</strong> A student can take many courses, and a course can have many students.</li>
+</ul>
+</li>
+</ol>
+<h3 data-sourcepos="19:1-19:24">Cardinality Notation</h3>
+<p data-sourcepos="21:1-21:60">ERDs often use a specific notation to represent cardinality:</p>
+<ul data-sourcepos="23:1-25:0">
+<li data-sourcepos="23:1-23:125"><strong>Crow's Foot Notation:</strong> This is the most common notation, using a crow's foot shape to indicate a many-side relationship.</li>
+<li data-sourcepos="24:1-25:0"><strong>UML Notation:</strong> This notation uses diamonds to represent relationships, with the cardinality specified within the diamond.</li>
+</ul>
+<h3 data-sourcepos="26:1-26:15">Example ERD</h3>
+<div><response-element></response-element></div>
+<p data-sourcepos="28:1-28:58">In this example:</p>
+<ul data-sourcepos="32:1-34:0">
+<li data-sourcepos="32:1-32:70"><strong>Department</strong> and <strong>Employee</strong> have a <strong>one-to-many</strong> relationship.</li>
+<li data-sourcepos="33:1-34:0"><strong>Course</strong> and <strong>Student</strong> have a <strong>many-to-many</strong> relationship.</li>
+</ul>
+<p data-sourcepos="35:1-35:36">Understanding cardinality is crucial for designing accurate and efficient database models. It helps ensure that data is stored and retrieved correctly, preventing inconsistencies and data loss.</p>
+</div>
+</div>
+<p><img alt="Crow's Feet Are Best – TDAN.com" src="Lecture_5_1_Data_Modeling_with_Entity_Relationsh_files/image_44136614421724696499790_20240826182740510.png" width="401" height="238" style="display: block; margin-left: auto; margin-right: auto;"></p>
+<p style="text-align: center;"><strong>Crows Foot Notation (Cardinality)</strong></p>
+<p></p>
+<p>&nbsp; <img alt="UML Notation | Vertabelo Database Modeler" src="https://vertabelo.com/blog/uml-notation/uml_relationship.png" width="240" height="228" style="display: block; margin-left: auto; margin-right: auto;"></p>
+<p style="text-align: center;"><strong>UML Notation (Cardinality)</strong></p>
+<p style="text-align: center;"><strong></strong></p>
+<p style="text-align: center;"><strong></strong></p></body></html>

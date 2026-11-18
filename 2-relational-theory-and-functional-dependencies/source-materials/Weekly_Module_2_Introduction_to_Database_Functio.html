@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html><head><link rel="stylesheet" href="https://templates.lcs.brightspace.com/lib/assets/css/styles.min.css"><title>Weekly Module 2: Introduction to Database › Functional Dependencies</title></head><body style="color: rgb(32, 33, 34); font-family: undefined;">
+<div class="pm-backlink" style="font-family:'Segoe UI',Arial,sans-serif;padding:8px 16px;background:#f5f8fc;border-bottom:1px solid #dce3ec"><a href="../index.html" style="color:#1a3c6e;font-weight:600;text-decoration:none">↑ 2 - Relational Theory and Functional Dependencies</a></div><h1>Weekly Module 2: Introduction to Database › Functional Dependencies</h1><h2>Functional Dependency Definition</h2>
+<p>A <strong>functional dependency</strong> is a relationship between attributes in a database table where the value of one attribute (or set of attributes) uniquely determines the value of another attribute.</p>
+<p><strong>Formal Definition:</strong> Given attributes X and Y in a relation R, we say "X functionally determines Y" (written as X → Y) if for every valid instance of R, whenever two tuples have the same value for X, they must also have the same value for Y.</p>
+<p>In simpler terms: if you know the value of X, you can always determine exactly what the value of Y will be.</p>
+<h2>Key Characteristics</h2>
+<ul>
+<li><strong>Determinant:</strong> The attribute(s) on the left side (X) that determines other attributes</li>
+<li><strong>Dependent:</strong> The attribute(s) on the right side (Y) that are determined</li>
+<li><strong>One-to-One or One-to-Many:</strong> One value of X maps to exactly one value of Y, but multiple X values can map to the same Y value</li>
+</ul>
+<h2>Common Examples of Functional Dependencies</h2>
+<h3>1. Student Database</h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>StudentID → StudentName, DateOfBirth, Major</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>Explanation:</strong> A student ID uniquely identifies one student, so it determines their name, birth date, and major</li>
+<li><strong>Why it works:</strong> No two students can have the same ID</li>
+</ul>
+<h3>2. Employee Database</h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>EmployeeSSN → EmployeeName, Salary, Department
+EmployeeID → EmployeeName, Salary, Department
+Department → DepartmentManager</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>Explanation:</strong> Social Security Number or Employee ID uniquely identifies an employee and their details</li>
+<li><strong>Department dependency:</strong> Each department has exactly one manager</li>
+</ul>
+<h3>3. Course Registration</h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>CourseCode → CourseName, Credits, Department
+(StudentID, CourseCode) → Grade, Semester
+Professor → Office, Phone</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>Course dependency:</strong> Course code determines course details</li>
+<li><strong>Composite dependency:</strong> Student + Course together determine the grade</li>
+<li><strong>Professor dependency:</strong> Each professor has one office and phone</li>
+</ul>
+<h3>4. Library System</h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>ISBN → BookTitle, Author, Publisher, PublicationYear
+LibraryCardNumber → PatientName, Address, Phone
+(ISBN, LibraryCardNumber) → CheckoutDate, DueDate</code></pre>
+</div>
+</div>
+<h3>5. Product Inventory</h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>ProductCode → ProductName, Category, UnitPrice
+SupplierID → SupplierName, Address, ContactPerson
+(ProductCode, SupplierID) → SupplierPrice, LeadTime</code></pre>
+</div>
+</div>
+<h3>6. Medical Records</h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>PatientID → PatientName, DateOfBirth, InsuranceProvider
+DoctorLicense → DoctorName, Specialty, HospitalAffiliation
+(PatientID, VisitDate) → DiagnosisCode, PrescribedMedication</code></pre>
+</div>
+</div>
+<h2>Types of Functional Dependencies</h2>
+<h3><strong>Trivial Functional Dependencies</strong></h3>
+<p>Where Y is a subset of X:</p>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>(StudentID, StudentName) → StudentID
+(CourseCode, Credits) → CourseCode</code></pre>
+</div>
+</div>
+<p>These are always true but not useful for database design.</p>
+<h3><strong>Non-Trivial Functional Dependencies</strong></h3>
+<p>Where Y is not a subset of X:</p>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>StudentID → StudentName
+CourseCode → Credits</code></pre>
+</div>
+</div>
+<p>These are meaningful for database normalization.</p>
+<h3><strong>Partial Functional Dependencies</strong></h3>
+<p>Where a non-key attribute depends on part of a composite primary key:</p>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>Primary Key: (StudentID, CourseCode)
+StudentID → StudentName  // Partial dependency
+CourseCode → CourseName  // Partial dependency</code></pre>
+</div>
+</div>
+<h3><strong>Transitive Functional Dependencies</strong></h3>
+<p>Where A → B and B → C, therefore A → C:</p>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>StudentID → Major
+Major → DepartmentHead
+Therefore: StudentID → DepartmentHead</code></pre>
+</div>
+</div>
+<h2>Real-World Business Examples</h2>
+<h3><strong>E-commerce System</strong></h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>CustomerEmail → CustomerName, ShippingAddress
+OrderNumber → OrderDate, CustomerEmail, TotalAmount
+ProductSKU → ProductName, Category, Price</code></pre>
+</div>
+</div>
+<h3><strong>Banking System</strong></h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>AccountNumber → AccountHolderName, AccountType, Balance
+TransactionID → Amount, Timestamp, AccountNumber
+BranchCode → BranchManager, BranchAddress</code></pre>
+</div>
+</div>
+<h3><strong>Hospital Management</strong></h3>
+<div>
+<div>
+<div>
+<div>
+<div></div>
+<div></div>
+</div>
+</div>
+</div>
+<div>
+<pre><code>PatientID → PatientName, Insurance, EmergencyContact
+AppointmentID → PatientID, DoctorID, DateTime
+DoctorID → DoctorName, Specialty, Department</code></pre>
+</div>
+</div>
+<h2>Importance in Database Design</h2>
+<p>Functional dependencies are crucial for:</p>
+<ol>
+<li><strong>Database Normalization:</strong> Identifying and eliminating redundancy</li>
+<li><strong>Key Identification:</strong> Determining primary and candidate keys</li>
+<li><strong>Integrity Constraints:</strong> Ensuring data consistency</li>
+<li><strong>Query Optimization:</strong> Understanding data relationships for efficient queries</li>
+</ol>
+<p>Understanding functional dependencies helps database designers create efficient, normalized schemas that minimize redundancy while maintaining data integrity and supporting business requirements effectively.</p></body></html>

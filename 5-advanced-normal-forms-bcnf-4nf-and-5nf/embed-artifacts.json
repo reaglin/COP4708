@@ -85,6 +85,36 @@
     "type": "Content"
   },
   {
+    "title": "Module 5: Data Modeling with the Entity-Relationship Model \u203A Graded Discussion 5",
+    "href": "content/disc_Module_5_Data_Modeling_with_the_Entity_Rela.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 5: Data Modeling with the Entity-Relationship Model \u203A Advanced Normal Forms: BCNF, 4NF, and 5NF",
+    "href": "content/ext_9600bd3c.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 5: Data Modeling with the Entity-Relationship Model \u203A Creating a Data Model Using MS Visio",
+    "href": "content/ext_b0404bca.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 5-1 - Data Modeling with Entity Relationship Model.",
+    "href": "content/Lecture_5_1_Data_Modeling_with_Entity_Relationsh.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 5-2 - Data Modeling Part 2",
+    "href": "content/Lecture_5_2_Data_Modeling_Part_2.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 5: Data Modeling with the Entity-Relationship Model \u203A Guide to ER Design",
+    "href": "content/Page_Module_5_Data_Modeling_with_the_Entity_Relations.html",
+    "type": "Content"
+  },
+  {
     "title": "Interactive Activities \u2014 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF",
     "href": "interactive/index.html",
     "type": "Interactive"
@@ -93,5 +123,30 @@
     "title": "Split \u0026 Prove",
     "href": "interactive/split-prove-bcnf-decomposition-lab.html",
     "type": "Interactive"
+  },
+  {
+    "title": "Quiz \u2014 5 - Advanced Normal Forms: BCNF, 4NF, and 5NF",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Module 5: Data Modeling with the Entity-Relationship Model \u203A Graded Discussion 5",
+    "href": "source-materials/disc_Module_5_Data_Modeling_with_the_Entity_Rela.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 5-1 - Data Modeling with Entity Relationship Model.",
+    "href": "source-materials/Lecture_5_1_Data_Modeling_with_Entity_Relationsh.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 5-2 - Data Modeling Part 2",
+    "href": "source-materials/Lecture_5_2_Data_Modeling_Part_2.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 5: Data Modeling with the Entity-Relationship Model \u203A Guide to ER Design",
+    "href": "source-materials/Page_Module_5_Data_Modeling_with_the_Entity_Relations.html",
+    "type": "Source-materials"
   }
 ]

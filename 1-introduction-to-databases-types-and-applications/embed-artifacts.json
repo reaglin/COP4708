@@ -135,6 +135,16 @@
     "type": "Content"
   },
   {
+    "title": "Weekly Module 1: Course Information \u203A Graded Discussion 1",
+    "href": "content/disc_Weekly_Module_1_Course_Information_Graded_D.html",
+    "type": "Content"
+  },
+  {
+    "title": "Weekly Module 1: Course Information \u203A Introduction to Databases, Types, and Applications",
+    "href": "content/ext_4d97b880.html",
+    "type": "Content"
+  },
+  {
     "title": "What is a Database?",
     "href": "content/Introduction_to_Databases_interactive_topics_t1.html",
     "type": "Content"
@@ -200,8 +210,38 @@
     "type": "Content"
   },
   {
+    "title": "Lecture 1 - Introduction to Databases",
+    "href": "content/Lecture_1_Introduction_to_Databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "Weekly Module 1: Course Information \u203A Guide - Roadmap of Database Learning and Careers",
+    "href": "content/Weekly_Module_1_Course_Information_Guide_Roadmap.html",
+    "type": "Content"
+  },
+  {
     "title": "Real-World Applications of Databases",
     "href": "content/_interactive.html",
     "type": "Content"
+  },
+  {
+    "title": "Quiz \u2014 1 - Introduction to Databases, Types, and Applications",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Weekly Module 1: Course Information \u203A Graded Discussion 1",
+    "href": "source-materials/disc_Weekly_Module_1_Course_Information_Graded_D.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 1 - Introduction to Databases",
+    "href": "source-materials/Lecture_1_Introduction_to_Databases.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Weekly Module 1: Course Information \u203A Guide - Roadmap of Database Learning and Careers",
+    "href": "source-materials/Weekly_Module_1_Course_Information_Guide_Roadmap.html",
+    "type": "Source-materials"
   }
 ]

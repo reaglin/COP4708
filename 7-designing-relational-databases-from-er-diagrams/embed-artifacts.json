@@ -85,6 +85,11 @@
     "type": "Content"
   },
   {
+    "title": "Module 7: SQL for Database Construction and Application Processing Part I \u203A Graded Discussion 7",
+    "href": "content/disc_Module_7_SQL_for_Database_Construction_and.html",
+    "type": "Content"
+  },
+  {
     "title": "Foundation Design Board",
     "href": "content/ext_00b200b8.html",
     "type": "Content"
@@ -93,5 +98,35 @@
     "title": "Foundation Design Board",
     "href": "content/foundation-design-board.html",
     "type": "Content"
+  },
+  {
+    "title": "Lecture 7-1 Getting Started with SQL",
+    "href": "content/Lecture_7_1_Getting_Started_with_SQL.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 7: SQL for Database Construction and Application Processing Part I \u203A Guide to DDL in SQL",
+    "href": "content/Page_Module_7_SQL_for_Database_Construction_and_Appli.html",
+    "type": "Content"
+  },
+  {
+    "title": "Quiz \u2014 7 - Designing Relational Databases from ER Diagrams",
+    "href": "quiz/index.html",
+    "type": "Quiz"
+  },
+  {
+    "title": "Module 7: SQL for Database Construction and Application Processing Part I \u203A Graded Discussion 7",
+    "href": "source-materials/disc_Module_7_SQL_for_Database_Construction_and.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 7-1 Getting Started with SQL",
+    "href": "source-materials/Lecture_7_1_Getting_Started_with_SQL.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 7: SQL for Database Construction and Application Processing Part I \u203A Guide to DDL in SQL",
+    "href": "source-materials/Page_Module_7_SQL_for_Database_Construction_and_Appli.html",
+    "type": "Source-materials"
   }
 ]

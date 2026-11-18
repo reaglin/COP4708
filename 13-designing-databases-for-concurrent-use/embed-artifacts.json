@@ -15,6 +15,16 @@
     "type": "Page"
   },
   {
+    "title": "Assignments \u2014 13 - Designing Databases for Concurrent Use",
+    "href": "assignments/index.html",
+    "type": "Assignments"
+  },
+  {
+    "title": "Module 13: Managing Multi-User Databases Part I \u203A Project Assignment 2",
+    "href": "assignments/module-13-managing-multi-user-databases-part-i-p.html",
+    "type": "Assignments"
+  },
+  {
     "title": "Concurrency Control Strategies and Best Practices",
     "href": "content/Designing_Databases_for_interactive.html",
     "type": "Content"
@@ -93,5 +103,30 @@
     "title": "13 - Designing Databases for Concurrent Use",
     "href": "content/Designing_Databases_for_videos_merged.html",
     "type": "Content"
+  },
+  {
+    "title": "Module 13: Managing Multi-User Databases Part I \u203A Graded Discussion 13",
+    "href": "content/disc_Module_13_Managing_Multi_User_Databases_Par.html",
+    "type": "Content"
+  },
+  {
+    "title": "Lecture 13-1 Multiuser Databases",
+    "href": "content/Lecture_13_1_Multiuser_Databases.html",
+    "type": "Content"
+  },
+  {
+    "title": "Module 13: Managing Multi-User Databases Part I \u203A Project Assignment 2",
+    "href": "source-materials/A001_Case_Study_Analy_Module_13_Managing_Multi.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Module 13: Managing Multi-User Databases Part I \u203A Graded Discussion 13",
+    "href": "source-materials/disc_Module_13_Managing_Multi_User_Databases_Par.html",
+    "type": "Source-materials"
+  },
+  {
+    "title": "Lecture 13-1 Multiuser Databases",
+    "href": "source-materials/Lecture_13_1_Multiuser_Databases.html",
+    "type": "Source-materials"
   }
 ]
